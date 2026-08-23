@@ -18,8 +18,8 @@ from typing import Dict
 
 ##### LocalImports
 from ..core import ModTypeId, ModTypeIdTools
+from ..core import VGRemap
 from .BaseDataBuilder import BaseDataBuilder
-from ..model.VGRemap import VGRemap
 ##### EndLocalImports
 
 

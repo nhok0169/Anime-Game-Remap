@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_remap" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGRemap</compoundname>
+    <includes refid="_v_g_remap_8h" local="no">VGRemap.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_1ae7c7af4c2c7e27026b11d087fac5dae3" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; long long, long long &gt;</type>
+        <definition>std::unordered_map&lt;long long, long long&gt; AGRemapCore::VGRemap::remap_</definition>
+        <argsstring></argsstring>
+        <name>remap_</name>
+        <qualifiedname>AGRemapCore::VGRemap::remap_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="44" column="32" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_1a511d3cc4fe3f5ea7324f7b8915f732d5" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; long long &gt;</type>
+        <definition>std::optional&lt;long long&gt; AGRemapCore::VGRemap::maxIndex_</definition>
+        <argsstring></argsstring>
+        <name>maxIndex_</name>
+        <qualifiedname>AGRemapCore::VGRemap::maxIndex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="45" column="27" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1a15366b58146edd0ea3a1bc575947ac35" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGRemap::VGRemap</definition>
+        <argsstring>(std::unordered_map&lt; long long, long long &gt; remap={})</argsstring>
+        <name>VGRemap</name>
+        <qualifiedname>AGRemapCore::VGRemap::VGRemap</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; long long, long long &gt;</type>
+          <declname>remap</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new vertex group remap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap from one type of mod to another </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="24" column="22" bodyfile="src/model/VGRemap.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1a9cd68da10e9625f3e153e5a4dfad52ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; long long, long long &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; long long, long long &gt; &amp; AGRemapCore::VGRemap::getRemap</definition>
+        <argsstring>() const</argsstring>
+        <name>getRemap</name>
+        <qualifiedname>AGRemapCore::VGRemap::getRemap</qualifiedname>
+        <briefdescription>
+<para>The vertex group remap. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="29" column="38" bodyfile="src/model/VGRemap.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1a9c8db195541164937992fba1631ea38b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VGRemap::setRemap</definition>
+        <argsstring>(std::unordered_map&lt; long long, long long &gt; remap)</argsstring>
+        <name>setRemap</name>
+        <qualifiedname>AGRemapCore::VGRemap::setRemap</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; long long, long long &gt;</type>
+          <declname>remap</declname>
+        </param>
+        <briefdescription>
+<para>Sets the vertex group remap (recomputes <ref refid="class_a_g_remap_core_1_1_v_g_remap_1ae28e0e506a2d3ed77ed62b83677b6cff" kindref="member">getMaxIndex</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>remap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new remap </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="36" column="18" bodyfile="src/model/VGRemap.cpp" bodystart="16" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1ae28e0e506a2d3ed77ed62b83677b6cff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; long long &gt;</type>
+        <definition>std::optional&lt; long long &gt; AGRemapCore::VGRemap::getMaxIndex</definition>
+        <argsstring>() const</argsstring>
+        <name>getMaxIndex</name>
+        <qualifiedname>AGRemapCore::VGRemap::getMaxIndex</qualifiedname>
+        <briefdescription>
+<para>The maximum index in the vertex group remap, or <computeroutput>std::nullopt</computeroutput> if <ref refid="class_a_g_remap_core_1_1_v_g_remap_1a9cd68da10e9625f3e153e5a4dfad52ca" kindref="member">getRemap</ref> is empty. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="41" column="27" bodyfile="src/model/VGRemap.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class for handling the vertex group remaps for mods
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/VGRemap.h" line="16" column="5" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="16" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1ae28e0e506a2d3ed77ed62b83677b6cff" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>getMaxIndex</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1a9cd68da10e9625f3e153e5a4dfad52ca" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>getRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1a511d3cc4fe3f5ea7324f7b8915f732d5" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>maxIndex_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1ae7c7af4c2c7e27026b11d087fac5dae3" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>remap_</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1a9c8db195541164937992fba1631ea38b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>setRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remap_1a15366b58146edd0ea3a1bc575947ac35" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>VGRemap</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

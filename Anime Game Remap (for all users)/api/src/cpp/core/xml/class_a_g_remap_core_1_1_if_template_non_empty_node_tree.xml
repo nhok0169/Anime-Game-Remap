@@ -59,7 +59,7 @@ synthetic #ContentPart elements into it. Owned by the caller (typically the owni
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="165" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="301" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -73,7 +73,93 @@ A variation of :cpp:class:`IfTemplateTree` such that leaf nodes that do not have
 ``IfTemplateTree.py``&apos;s ``IfTemplateNonEmptyNodeTree`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. tip::
-   See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree
+   See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
+
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+So conditions with forms of:
+
+.. code-block:: ini
+
+   if
+   endif
+
+that have the following parse subtree:
+
+.. code-block::
+
+   [B]
+    |
+    X
+
+will now become:
+
+.. code-block:: ini
+
+   if
+       ...(does nothing)...
+   endif
+
+with the following parse subtree:
+
+.. code-block::
+
+   [B]
+    |
+   [C]
+
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   eg. Suppose we have this branching structure (same structure from the example at :cpp:class:`IfTemplateTree`)
+
+   .. code-block:: ini
+       :linenos:
+
+       ...(does stuff)...
+       if ...(bool)...
+           if ...(bool)...
+               ...(does stuff)...
+           else if ...(bool)...
+               ...(does stuff)...
+           endif
+       else ...(bool)...
+           ...(does stuff)...
+           if ...(bool)...
+               if ...(bool)...
+                   ...(does stuff)...
+               endif
+               ...(does stuff)...
+           endif
+           ...(does stuff)...
+           if
+           endif
+       endif
+       ...(does stuff)...
+
+   :raw-html:`&lt;br /&gt;`
+
+   Let ``C`` be some :cpp:class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+
+   Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+
+   Let ``[...]`` be some node
+
+   Let ``X`` be a node without any parts
+
+   The parse tree generated for the above code would be:
+
+   .. code-block::
+
+              [C B B C]
+                 | |
+            +----+ +----+
+            |           |
+          [B B]     [C B C B]
+           | |         |   |
+        +--+ +--+    [B C] |
+        |       |     |    |
+       [C]     [C]   [C]  [C]
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
@@ -153,7 +239,7 @@ A variation of :cpp:class:`IfTemplateTree` such that leaf nodes that do not have
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="146" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="146" bodyend="167"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="282" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="282" bodyend="303"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree_1a71f6b8d0f202dc73e9d06055c96795ad" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>construct</name></member>

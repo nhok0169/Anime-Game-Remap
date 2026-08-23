@@ -3,6 +3,8 @@
   <compounddef id="dir_e253fc737fd26520fa518b4295da2866" kind="dir">
     <compoundname>include/AGRemapCore/model</compoundname>
     <innerdir refid="dir_147ab8b96109c463509b80f2a1eb6230">include/AGRemapCore/model/assets</innerdir>
+    <innerdir refid="dir_85b85b17f51e6d5285aad9be19d4c1a3">include/AGRemapCore/model/buffers</innerdir>
+    <innerdir refid="dir_7e0ceb73212f5a8dd53535fa714ca378">include/AGRemapCore/model/files</innerdir>
     <innerdir refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab">include/AGRemapCore/model/iftemplate</innerdir>
     <innerdir refid="dir_262090020142afce8472a874afdbb94c">include/AGRemapCore/model/strategies</innerdir>
     <innerfile refid="_call_graph_8h">CallGraph.h</innerfile>
@@ -10,6 +12,7 @@
     <innerfile refid="_section_iter_data_8h">SectionIterData.h</innerfile>
     <innerfile refid="_version_8h">Version.h</innerfile>
     <innerfile refid="_version_set_8h">VersionSet.h</innerfile>
+    <innerfile refid="_v_g_remap_8h">VGRemap.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

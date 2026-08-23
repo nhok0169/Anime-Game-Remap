@@ -920,6 +920,30 @@ file that no longer exists) once the file is gone — reword rather than leave i
 confirm the failure/error *count* is unchanged from immediately before the deletion (only the
 tests belonging to the deleted `...Old` file(s) should disappear from the total).
 
+**Before deleting an `...Old` test file specifically, check whether it's the *only* place testing
+some other, genuinely unrelated module that just happened to live inside it** — an unchanged
+failure/error count (per the checklist above) does *not* catch this, since a module going from
+"tested" to "completely untested" produces zero new failures, only a silent coverage gap. Confirmed
+missing after `test_IniSectionGraphOld.py` was deleted: `tools/GraphTools.py` (a generic,
+`IniSectionGraph`-agnostic dataflow-fixpoint engine, unrelated to and untouched by this exact port
+— see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)) had its *entire* test suite living as a
+handful of methods inside that one file, with no dedicated `test_GraphTools.py` of its own. Deleting
+the file dropped that coverage to zero without a single test turning red anywhere. Before deleting
+any `...Old` test file, skim its test method names for ones that don't actually mention the class
+being deleted (a `test_graphTools_...`-prefixed method sitting inside `test_IniSectionGraphOld.py`
+was the tell here) — if a chunk of it is really testing something else, split those out into their
+own dedicated test file for that other module first, using plain, self-contained inputs (a
+dict-graph literal for `GraphTools`, not a whole `IniSectionGraph` built just to reach it) rather
+than porting the test through whatever class happened to be convenient to construct at the time.
+
+**If asked to restore something from a `...Old` file after it's already been deleted** (production
+code, tests, or a docstring example — happens more often than expected, since "delete the old
+implementation" and "keep its test coverage/docs" are two independent decisions the user can revisit
+separately), the content is very likely still recoverable from git history even with no distinct
+commit of its own — see [Documentation](../Documentation/CLAUDE.md)'s dedicated bullet on the
+`git show <deletion-commit>^:<path>` technique for exactly this case, including why it still works
+after a rename-then-delete that only ever landed as one big squashed commit.
+
 ## A third outcome: full replacement whose associated literal *data* also moves into C++
 
 Extends the "Two different outcomes" section above for a class that owns a big, hand-authored
@@ -1062,3 +1086,56 @@ a git diff spot-check on a couple of the files before trusting it, then actually
 test modules (not just a syntax/`py_compile` check) — `Testing/CLAUDE.md`'s "known-broken module"
 list exists precisely so you can tell a genuinely new regression (a test module *not* on that list
 starting to fail) apart from pre-existing, unrelated noise.
+
+## A pybind11 constructor taking `vector<unique_ptr<T>>` must pick disown-and-transfer vs. clone-and-copy deliberately — don't default to `IfTemplate`'s pattern
+
+`IfTemplate`'s own constructor takes ownership of its `IfTemplatePart` children by disowning the
+Python-side objects passed in (`cast<unique_ptr<T>>()`-style extraction), which is correct *because*
+each `IfTemplatePart` is a unique, identity-bearing node — nothing else in the codebase holds onto
+that same Python object afterward, so nothing observes it becoming a husk. That pattern is not the
+default answer for every `vector<unique_ptr<T>>`-typed constructor parameter; it's specifically
+right for unique/identity-bearing children and specifically wrong for shareable *value* types.
+
+This bit `BufElementType`'s constructor, which takes a `vector<unique_ptr<BufDataType>>` for its
+component types. Copying `IfTemplate`'s disown-on-construction pattern here broke the moment the
+same Python `BufDataType` instance got reused across more than one `BufElementType` — which is
+exactly what real call sites do: `constants/BufElementTypes.py` builds entries like
+`[BufDataTypes.Float32.value] * 3`, and `BufDataTypes.Float32` is a `DeferredEnum` member whose
+`.value` is lazily constructed *once* and cached forever — every subsequent `.value` access (and
+every `* 3` repetition in that same list literal) hands back the *same* Python object. The first
+`BufElementType` built from it disowned that shared instance; the next attempt to reuse it raised
+`ValueError: ... Python instance was disowned`. This is easy to miss because per-class unit tests
+that each construct their own fresh `BufDataType` never reuse an instance, so the bug only surfaces
+once something exercises the *real* shared-instance call sites end-to-end (see
+[Testing](../Testing/CLAUDE.md) for the corresponding test-coverage gotcha).
+
+**The fix**: give the value type a real polymorphic `clone()` (pure virtual on the abstract base,
+`return std::make_unique<ClassName>(*this);` on every concrete leaf) and a real copy
+constructor/assignment operator on the owning class (via a small `cloneAll()`-style static helper
+that clones each element of an existing `vector<unique_ptr<T>>`), then change the pybind11
+constructor binding to **clone rather than disown** each incoming element —
+`arg.cast<const BufDataType&>().clone()` (or the owning class's copy constructor over a
+`cast<const BufElementType&>()` reference), not `arg.cast<unique_ptr<BufDataType>>()`.
+
+Note there's a separate, real MSVC gotcha in this area: MSVC can try to instantiate a class's
+implicit copy constructor's body from deep inside pybind11's `smart_holder` unique_ptr caster and
+fail with a `C2672`/deleted-function error, for a class that's never actually copied at runtime.
+For a genuinely identity-bearing, disown-on-construction type (`IfTemplatePart`-style), the correct
+fix is an explicit `=delete` on the copy ctor/assignment — that's the right design regardless of
+the MSVC symptom, not a workaround for it. But don't generalize that fix into a blanket default of
+`=delete` for *every* `vector<unique_ptr<...>>`-owning class — `BufElementType` hit the identical
+MSVC symptom initially, and the correct fix there was the opposite: give it a real copy
+constructor (via `clone()`), not delete it, because real callers do reuse instances. Decide
+disown-vs-clone per class first, based on whether real callers ever reuse/share the same instance,
+then let that decision drive whether the copy ctor is deleted or implemented — don't let an MSVC
+error message alone decide it:
+
+**Before choosing, grep the class's real call sites for reuse, not just construction** — a plain
+`grep "ClassName("` only finds *construction*, and misses every place a single already-constructed
+instance gets handed to more than one parent. Specifically check: (1) list/tuple literals
+repeating the same variable or cached constant (`[x] * n`, `[a, a, b]`); (2) any `DeferredEnum`
+(or similar lazy-cached-singleton) member whose `.value` your class's constructor might receive,
+since every access after the first returns the identical cached object — grep the enum's own
+`_generate`/definition for where that value flows, not just the enum's call sites; (3) any
+module-level constant list built once and referenced from multiple places. If none of that turns
+up, unique-ownership/disown is still fine (and cheaper); if it does, clone-and-copy is required.

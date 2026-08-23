@@ -1,0 +1,146 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_un_signed_int" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufUnSignedInt</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_base_int" prot="public" virt="non-virtual">AGRemapCore::BufBaseInt</basecompoundref>
+    <includes refid="_buf_int_8h" local="no">BufInt.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufUnSignedInt::BufUnSignedInt</definition>
+        <argsstring>(std::string name=&quot;UnsignedInt32&quot;, std::size_t size=4, bool isBigEndian=false)</argsstring>
+        <name>BufUnSignedInt</name>
+        <qualifiedname>AGRemapCore::BufUnSignedInt::BufUnSignedInt</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+          <defval>&quot;UnsignedInt32&quot;</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+          <defval>4</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new unsigned integer type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The byte size for the data type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isBigEndian</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the type is in big endian mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="116" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="95" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufBaseInt` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The type definition for some unsigned integer type within a ``.buf`` file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BufBaseInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_int"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufUnSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_un_signed_int"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BufBaseInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_int"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufUnSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_un_signed_int"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="106" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="106" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufBaseInt</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufUnSignedInt</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" prot="public" virt="virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>decode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" prot="public" virt="virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>encode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>getIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>getIsSigned</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>getSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>isBigEndian_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" prot="private" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>isSigned_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>setIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>setName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>setSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" prot="private" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>size_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" prot="private" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>validateSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a43e5663e62116be581aa0a8673af834d" prot="public" virt="virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>~BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" virt="virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>~BufType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

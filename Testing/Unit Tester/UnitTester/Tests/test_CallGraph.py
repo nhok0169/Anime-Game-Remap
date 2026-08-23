@@ -77,6 +77,22 @@ class CallGraphTest(BaseUnitTest):
         callGraph = graph.buildCallGraph()
         self.assertEqual(callGraph.exitNodeOf(id(childPart)), id(childPart))
 
+    def test_buildCallGraph_selfReferencingRunCall_ownNodeAndExitNodeAreSeparateSelfLoops(self):
+        # a section whose only 'run =' target is itself -- the part's own node calls into itself
+        # (parent -> child, both the same part here), and its own exit node's "control returns to
+        # the caller's continuation" edge also loops back to itself, since the caller *is* the
+        # callee -- two distinct self-loops (the node and its exit are different graph nodes), not
+        # one part pointing at itself directly.
+        sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "run": [(1, "a")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["a"])
+        part = sections["a"].parts[0]
+
+        callGraph = graph.buildCallGraph()
+
+        self.assertEqual(callGraph.forwardEdges[id(part)], [id(part)])
+        self.assertEqual(callGraph.forwardEdges[("exit", id(part))], [("exit", id(part))])
+        self.assertEqual(callGraph.rootNodeIds, {id(part)})
+
     # See the port's own plan on why this correlation is load-bearing (RegSurroundedAdd.py/
     # RegFillMissing.py key their own dataflow facts off id(part) directly against a CallGraph's
     # returned dicts) -- assert it holds, don't just trust it by design.

@@ -21,10 +21,60 @@ namespace AGRemapCore {
      ``IfTemplateTree`` class :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
-        The parse tree is structured such that a node is composed of
-        :cpp:class:`IfContentPart`\\<K, V, KeyHash, KeyEqual\\> or other nodes, and children occur
-        when the node enters a specific branching condition -- see the pure-Python original's own
-        class docstring (still the fuller, diagrammed reference) for a worked example.
+        The parse tree for the `IfTemplate` is structured such that:
+
+        * A node is composed of :cpp:class:`IfContentPart`\\<K, V, KeyHash, KeyEqual\\> or other nodes
+        * The children to the node occur when the node enters a specific branching condition :raw-html:`<br />` :raw-html:`<br />`
+
+        eg. Suppose we have this branching structure
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+
+        :raw-html:`<br />`
+
+        Let ``C`` be some :cpp:class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+
+        Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+
+        Let ``[...]`` be some node
+
+        Let ``X`` be a node without any parts
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                   [C B B C]
+                      | |
+                 +----+ +----+
+                 |           |
+               [B B]     [C B C B]
+                | |         |   |
+             +--+ +--+    [B C] X
+             |       |     |
+            [C]     [C]   [C]
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -134,7 +184,93 @@ namespace AGRemapCore {
      ``IfTemplateTree.py``'s ``IfTemplateNonEmptyNodeTree`` class :raw-html:`<br />` :raw-html:`<br />`
 
      .. tip::
-        See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree
+        See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
+
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     So conditions with forms of:
+
+     .. code-block:: ini
+
+        if
+        endif
+
+     that have the following parse subtree:
+
+     .. code-block::
+
+        [B]
+         |
+         X
+
+     will now become:
+
+     .. code-block:: ini
+
+        if
+            ...(does nothing)...
+        endif
+
+     with the following parse subtree:
+
+     .. code-block::
+
+        [B]
+         |
+        [C]
+
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        eg. Suppose we have this branching structure (same structure from the example at :cpp:class:`IfTemplateTree`)
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+
+        :raw-html:`<br />`
+
+        Let ``C`` be some :cpp:class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+
+        Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+
+        Let ``[...]`` be some node
+
+        Let ``X`` be a node without any parts
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                   [C B B C]
+                      | |
+                 +----+ +----+
+                 |           |
+               [B B]     [C B C B]
+                | |         |   |
+             +--+ +--+    [B C] |
+             |       |     |    |
+            [C]     [C]   [C]  [C]
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
@@ -176,7 +312,143 @@ namespace AGRemapCore {
      ``IfTemplateTree.py``'s ``IfTemplateNormTree`` class :raw-html:`<br />` :raw-html:`<br />`
 
      .. tip::
-        See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree
+        See :cpp:class:`IfTemplateTree` on the basic structure of the parse tree for an `IfTemplate`
+
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     So conditions with forms of:
+
+     .. code-block:: ini
+
+        if
+            ...(does stuff)...
+        else if
+            ...(does stuff)...
+        endif
+
+     that have the following parse subtree:
+
+     .. code-block::
+
+           [B B]
+            | |
+          +-+ +-+
+          |     |
+         [C]   [C]
+
+     will now become:
+
+     .. code-block:: ini
+
+        if
+            ...(does stuff)...
+        else if
+            ...(does stuff)...
+        else
+            ...(does nothing)...
+        endif
+
+     with the following parse subtree:
+
+     .. code-block::
+
+         [B B B]
+          | | |
+        +-+ | +-+
+        |  [C]  |
+       [C]     [C]
+
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        eg. Suppose we have this branching structure (same structure from the example at :cpp:class:`IfTemplateTree`)
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+
+        :raw-html:`<br />`
+
+        This class will turn this branching structure into:
+
+        .. code-block:: ini
+            :linenos:
+
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                else
+                    ...(does nothing)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    else
+                        ...(does nothing)...
+                    endif
+                    ...(does stuff)...
+                else
+                    ...(does nothing)...
+                endif
+                ...(does stuff)...
+                if
+                    ...(does nothing)...
+                else
+                    ...(does nothing)...
+                endif
+            endif
+            ...(does stuff)...
+
+        Let ``C`` be some :cpp:class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+
+        Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+
+        Let ``[...]`` be some node
+
+        Let ``X`` be a node without any parts
+
+        The parse tree generated for the above code would be:
+
+        .. code-block::
+
+                     [C B B C]
+                        | |
+                    +----+ +-------+
+                    |              |
+               [B B B]         [C B B C B B]
+                | | |             | |   | |
+             +--+ | +-+         +-+ +-+ | +--+
+             |    |   |         |     | |    |
+            [C]  [C] [C]     [B B C]  | +-+  |
+                              | |     |   | [C]
+                            +-+ |    [C]  |
+                            |   |        [C]
+                           [C] [C]
      @endrst
      *
      * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`

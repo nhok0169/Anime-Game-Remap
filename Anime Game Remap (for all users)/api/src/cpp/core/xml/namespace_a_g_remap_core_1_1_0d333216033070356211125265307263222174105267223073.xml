@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d333216033070356211125265307263222174105267223073" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@333216033070356211125265307263222174105267223073</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/buffers/BufFloat.cpp" line="11" column="5"/>
+  </compounddef>
+</doxygen>

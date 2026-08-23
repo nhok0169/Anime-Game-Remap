@@ -49,6 +49,17 @@
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
+#include "model/buffers/PyBufType.h"
+#include "model/buffers/PyBufDataType.h"
+#include "model/buffers/PyBufInt.h"
+#include "model/buffers/PyBufFloat.h"
+#include "model/buffers/PyBufUnorm.h"
+#include "model/buffers/PyBufElementType.h"
+#include "model/files/PyBinaryFile.h"
+#include "model/files/PyBufFile.h"
+#include "model/PyVGRemap.h"
+#include "model/files/PyBlendFile.h"
+#include "model/files/PyPositionFile.h"
 
 namespace py = pybind11;
 
@@ -106,4 +117,15 @@ PYBIND11_MODULE(core, m) {
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);
+    initCppBufType(m);
+    initCppBufDataType(m); // must come after initCppBufType (registers its base)
+    initCppBufInt(m); // must come after initCppBufDataType (registers its base)
+    initCppBufFloat(m); // must come after initCppBufDataType (registers its base)
+    initCppBufUnorm(m); // must come after initCppBufInt (registers its base, CppBufBaseInt)
+    initCppBufElementType(m); // must come after initCppBufType and initCppBufDataType (constructor takes CppBufDataType instances)
+    initCppBinaryFile(m);
+    initCppBufFile(m); // must come after initCppBinaryFile/initCppBufElementType (registers its base / constructor arg type)
+    initCppVGRemap(m);
+    initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
+    initCppPositionFile(m); // must come after initCppBufFile
 }

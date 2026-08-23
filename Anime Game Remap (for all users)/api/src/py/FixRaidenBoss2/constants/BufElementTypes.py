@@ -11,11 +11,14 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import BufElementType
+##### EndCppLocalImports
+
 ##### LocalImports
 from .BufTypeNames import BufElementNames
 from .BufFormatNames import BufFormatNames
 from .BufDataTypes import BufDataTypes
-from ..model.buffers.BufElementType import BufElementType
 from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 

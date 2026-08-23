@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d170200111361320331256211126065160135067077255272" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@170200111361320331256211126065160135067077255272</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/files/BlendFile.cpp" line="12" column="5"/>
+  </compounddef>
+</doxygen>

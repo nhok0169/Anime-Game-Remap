@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_7e0ceb73212f5a8dd53535fa714ca378" kind="dir">
+    <compoundname>include/AGRemapCore/model/files</compoundname>
+    <innerfile refid="_binary_file_8h">BinaryFile.h</innerfile>
+    <innerfile refid="_blend_file_8h">BlendFile.h</innerfile>
+    <innerfile refid="_buf_file_8h">BufFile.h</innerfile>
+    <innerfile refid="_buf_file_errors_8h">BufFileErrors.h</innerfile>
+    <innerfile refid="_position_file_8h">PositionFile.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/"/>
+  </compounddef>
+</doxygen>

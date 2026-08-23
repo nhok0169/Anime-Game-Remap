@@ -3,6 +3,7 @@
   <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
     <compoundname>AGRemapCore</compoundname>
     <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_bad_buf_data" prot="public">AGRemapCore::BadBufData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public">AGRemapCore::BaseAhoCorasickDFA</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_d_f_a" prot="public">AGRemapCore::BaseDFA</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
@@ -12,6 +13,20 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_binary_file" prot="public">AGRemapCore::BinaryFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_blend_file" prot="public">AGRemapCore::BlendFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_base_float" prot="public">AGRemapCore::BufBaseFloat</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_base_int" prot="public">AGRemapCore::BufBaseInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_data_type" prot="public">AGRemapCore::BufDataType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_element_type" prot="public">AGRemapCore::BufElementType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_file" prot="public">AGRemapCore::BufFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_file_not_recognized" prot="public">AGRemapCore::BufFileNotRecognized</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_float" prot="public">AGRemapCore::BufFloat</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_float16" prot="public">AGRemapCore::BufFloat16</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_signed_int" prot="public">AGRemapCore::BufSignedInt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_type" prot="public">AGRemapCore::BufType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_unorm" prot="public">AGRemapCore::BufUnorm</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_un_signed_int" prot="public">AGRemapCore::BufUnSignedInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
@@ -60,6 +75,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_parse_context" prot="public">AGRemapCore::ParseContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_parse_node" prot="public">AGRemapCore::ParseNode</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_parse_tree" prot="public">AGRemapCore::ParseTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
@@ -74,6 +90,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_predicate" prot="public">AGRemapCore::Z3Predicate</innerclass>
@@ -537,6 +554,86 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" prot="public" static="no">
+        <type>std::variant&lt; long long, unsigned long long, double &gt;</type>
+        <definition>using AGRemapCore::BufValue = std::variant&lt;long long, unsigned long long, double&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufValue</name>
+        <qualifiedname>AGRemapCore::BufValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A single decoded value for one elementary data type within a ``.buf`` file
+(:cpp:class:`BufDataType`) -- either a signed integer, an unsigned integer, or a
+`floating point`_ number :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original (``BufDataType.decode``) returns a plain ``Any``, since Python&apos;s
+   ``int`` is arbitrary-precision and duck typing needs no closed set of alternatives. This
+   C++ port instead caps integer decoding at 64 bits (``long long``/``unsigned long long``) --
+   every ``.buf`` format actually defined in this codebase (``BufDataTypes``: ``Float32``,
+   ``Int32``, ``UInt32``, ``UNorm8``) uses at most 4 bytes, so 64 bits leaves ample headroom
+   without needing an arbitrary-width big-integer representation
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="29" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::BufLineData = std::unordered_map&lt;std::string, std::vector&lt;BufValue&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>BufLineData</name>
+        <qualifiedname>AGRemapCore::BufLineData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The decoded data for one line (one vertex) of a ``.buf`` file -- the keys are the element
+keys computed by :cpp:func:`BufFile::setElements` (an element&apos;s :cpp:func:`BufType::getName`,
+suffixed with an occurrence count if the same name repeats) and the values are the decoded
+:cpp:type:`BufValue`\\s for that element, one per :cpp:class:`BufDataType` composing it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="40" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" prot="public" static="no">
+        <type>std::vector&lt; std::uint8_t &gt;</type>
+        <definition>using AGRemapCore::ByteVec = std::vector&lt;std::uint8_t&gt;</definition>
+        <argsstring></argsstring>
+        <name>ByteVec</name>
+        <qualifiedname>AGRemapCore::ByteVec</qualifiedname>
+        <briefdescription>
+<para>A raw sequence of bytes <ndash/> used throughout the <computeroutput>.buf</computeroutput> file model instead of Python&apos;s <computeroutput>bytes</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="46" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" prot="public" static="no">
+        <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
+        <definition>using AGRemapCore::BinarySrc = std::variant&lt;std::string, ByteVec&gt;</definition>
+        <argsstring></argsstring>
+        <name>BinarySrc</name>
+        <qualifiedname>AGRemapCore::BinarySrc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Either a file path (``std::string``) or a raw, already-in-memory sequence of bytes -- the C++
+analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="19" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="19" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" prot="public" static="no">
         <templateparamlist>
           <param>

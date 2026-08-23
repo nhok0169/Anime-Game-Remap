@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_float" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufFloat</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_base_float" prot="public" virt="non-virtual">AGRemapCore::BufBaseFloat</basecompoundref>
+    <includes refid="_buf_float_8h" local="no">BufFloat.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_float_1af7aa5eb57619684d8dd7957c1fec3cfc" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufFloat::BufFloat</definition>
+        <argsstring>(bool isBigEndian=false)</argsstring>
+        <name>BufFloat</name>
+        <qualifiedname>AGRemapCore::BufFloat::BufFloat</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new 32-bit floating-point type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>isBigEndian</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the type is in big endian mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="81" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="139" bodyend="139"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufBaseFloat` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The type definition for a 32-bit `floating point`_ number within a ``.buf`` file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BufBaseFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_float"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BufBaseFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_float"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="73" column="5" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="73" bodyend="82"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_base_float_1a47f4edad94eeb07c934f25ec725b3e9b" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufBaseFloat</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_float_1af7aa5eb57619684d8dd7957c1fec3cfc" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufFloat</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f" prot="public" virt="virtual"><scope>AGRemapCore::BufFloat</scope><name>decode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6" prot="public" virt="virtual"><scope>AGRemapCore::BufFloat</scope><name>encode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>getIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>getSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>isBigEndian_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>setIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>setName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>setSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>size_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>validateSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a43e5663e62116be581aa0a8673af834d" prot="public" virt="virtual"><scope>AGRemapCore::BufFloat</scope><name>~BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" virt="virtual"><scope>AGRemapCore::BufFloat</scope><name>~BufType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

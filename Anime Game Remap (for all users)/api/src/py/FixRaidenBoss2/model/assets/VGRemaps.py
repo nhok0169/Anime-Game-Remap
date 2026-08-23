@@ -16,11 +16,14 @@
 from typing import Dict, Optional, Union, Hashable, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import VGRemap
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GenericTypes import PdDataFrame
 from ...data.VGRemapData import vgRemapDataBuilder
 from .ModAssets import ModAssets
-from ..VGRemap import VGRemap
 ##### EndLocalImports
 
 

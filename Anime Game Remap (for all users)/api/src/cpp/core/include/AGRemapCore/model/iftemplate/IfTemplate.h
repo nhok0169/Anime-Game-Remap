@@ -67,6 +67,46 @@ namespace AGRemapCore {
      ``IfTemplate.py`` :raw-html:`<br />` :raw-html:`<br />`
 
      .. note::
+        Assuming every ``if``/``else`` clause must be on its own line, we have that an
+        :cpp:class:`IfTemplate` has a form looking similar to this:
+
+        .. code-block:: ini
+            :linenos:
+            :emphasize-lines: 1,2,5,7,12,16,17
+
+            ...(does stuff)...
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                endif
+            endif
+            ...(does stuff)...
+            ...(does stuff)...
+
+        We split the above structure into parts (:cpp:class:`IfTemplatePart`) where each part is either:
+
+        #. **An If Predicate Part** (:cpp:class:`IfPredPart`): a single line containing the keywords ``if``, ``else`` or ``endif`` :raw-html:`<br />` **OR** :raw-html:`<br />`
+        #. **A Content Part** (:cpp:class:`IfContentPart`): a group of lines that *"does stuff"*
+
+        **Note that:** an :cpp:class:`IfTemplate` does not need to contain any parts containing the
+        keywords ``if``, ``else`` or ``endif``. This case covers the scenario when the user does
+        not use if/else statements for a particular `section`_.
+
+        Based on the above assumptions, we can assume that every ``[section]`` in a ``.ini`` file
+        contains this :cpp:class:`IfTemplate`.
+
+     :raw-html:`<br />`
+
+     .. note::
         This class owns every :cpp:class:`IfTemplatePart` reachable from #parts, and owns its own
         #tree (whose nodes hold non-owning references back into #parts -- see
         :cpp:class:`IfTemplateNode`'s own top-level note).

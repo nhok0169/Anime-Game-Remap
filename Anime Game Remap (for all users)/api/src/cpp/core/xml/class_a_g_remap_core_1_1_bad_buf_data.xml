@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_bad_buf_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BadBufData</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_buf_file_errors_8h" local="no">BufFileErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_bad_buf_data_1a2b121b24b59ef6cfb26d7e8c88a2a698" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BadBufData::fileType_</definition>
+        <argsstring></argsstring>
+        <name>fileType_</name>
+        <qualifiedname>AGRemapCore::BadBufData::fileType_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="40" column="25" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bad_buf_data_1a5dbdbcd3e128a874a3d7e71208cc24dd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BadBufData::BadBufData</definition>
+        <argsstring>(std::string fileType=&quot;Buffer&quot;)</argsstring>
+        <name>BadBufData</name>
+        <qualifiedname>AGRemapCore::BadBufData::BadBufData</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>fileType</declname>
+          <defval>&quot;Buffer&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fileType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of <computeroutput>.buf</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="32" column="22" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="11" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bad_buf_data_1a37559ca92860a303f5867ebbb161d282" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BadBufData::fileType</definition>
+        <argsstring>() const</argsstring>
+        <name>fileType</name>
+        <qualifiedname>AGRemapCore::BadBufData::fileType</qualifiedname>
+        <briefdescription>
+<para>The name for the type of <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="37" column="31" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_bad_buf_data_1af4b014b8bb036b590906295663b25132" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BadBufData::buildMessage</definition>
+        <argsstring>(const std::string &amp;fileType)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::BadBufData::buildMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="42" column="32" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when certain bytes do not correspond to the format defined for a ``.buf`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A minimal, Python-free data carrier for the ``fileType`` that caused the error -- the
+`pybind11`_ binding that catches this constructs the real
+``FixRaidenBoss2.exceptions.BadBufData.BadBufData`` Python object instead, so that exception&apos;s
+own message formatting stays living in exactly one place (see
+:cpp:class:`AGRemapCore::SyntaxErr`&apos;s own doc comment for the same pattern applied to a
+different exception)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BadBufData</label>
+        <link refid="class_a_g_remap_core_1_1_bad_buf_data"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BadBufData</label>
+        <link refid="class_a_g_remap_core_1_1_bad_buf_data"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="24" column="5" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="24" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_bad_buf_data_1a5dbdbcd3e128a874a3d7e71208cc24dd" prot="public" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>BadBufData</name></member>
+      <member refid="class_a_g_remap_core_1_1_bad_buf_data_1af4b014b8bb036b590906295663b25132" prot="private" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_bad_buf_data_1a37559ca92860a303f5867ebbb161d282" prot="public" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>fileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_bad_buf_data_1a2b121b24b59ef6cfb26d7e8c88a2a698" prot="private" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>fileType_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_element_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufElementType</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_type" prot="public" virt="non-virtual">AGRemapCore::BufType</basecompoundref>
+    <includes refid="_buf_element_type_8h" local="no">BufElementType.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_element_type_1afb9ea330119500d7048dc393c05160b3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufElementType::formatName_</definition>
+        <argsstring></argsstring>
+        <name>formatName_</name>
+        <qualifiedname>AGRemapCore::BufElementType::formatName_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="102" column="25" bodyfile="include/AGRemapCore/model/buffers/BufElementType.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_element_type_1a17568e74b35da3215c250684c4c613db" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;BufDataType&gt; &gt; AGRemapCore::BufElementType::dataTypes_</definition>
+        <argsstring></argsstring>
+        <name>dataTypes_</name>
+        <qualifiedname>AGRemapCore::BufElementType::dataTypes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="103" column="25" bodyfile="include/AGRemapCore/model/buffers/BufElementType.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_element_type_1a938bfdad488bd267d7597a526f453a04" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufElementType::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>AGRemapCore::BufElementType::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="104" column="25" bodyfile="include/AGRemapCore/model/buffers/BufElementType.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufElementType::BufElementType</definition>
+        <argsstring>(std::string name, std::string formatName, std::vector&lt; std::unique_ptr&lt; BufDataType &gt; &gt; dataTypes)</argsstring>
+        <name>BufElementType</name>
+        <qualifiedname>AGRemapCore::BufElementType::BufElementType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>formatName</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt;</type>
+          <declname>dataTypes</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new element type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the element </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>formatName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type format according to 3dmigoto </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dataTypes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data types composed within the element, in byte order. Ownership of each data type is transferred into this element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="37" column="13" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="16" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1ae6af06e812799d00b5ee6c4d62f4a04c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufElementType::BufElementType</definition>
+        <argsstring>(const BufElementType &amp;)=delete</argsstring>
+        <name>BufElementType</name>
+        <qualifiedname>AGRemapCore::BufElementType::BufElementType</qualifiedname>
+        <param>
+          <type>const BufElementType &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="45" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a8de816c393eced023f5a36fd8832931d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" kindref="member">BufElementType</ref> &amp;</type>
+        <definition>BufElementType &amp; AGRemapCore::BufElementType::operator=</definition>
+        <argsstring>(const BufElementType &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::BufElementType::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" kindref="member">BufElementType</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="46" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a3d568a6eae5e1b166641ce63f34e855d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufElementType::BufElementType</definition>
+        <argsstring>(BufElementType &amp;&amp;)=default</argsstring>
+        <name>BufElementType</name>
+        <qualifiedname>AGRemapCore::BufElementType::BufElementType</qualifiedname>
+        <param>
+          <type>BufElementType &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="47" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1ac94ef44c954ccac8634d76225e20fcef" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" kindref="member">BufElementType</ref> &amp;</type>
+        <definition>BufElementType &amp; AGRemapCore::BufElementType::operator=</definition>
+        <argsstring>(BufElementType &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::BufElementType::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" kindref="member">BufElementType</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="48" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a4a019d97cfdcb35234f7ca76a572df30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufElementType::getFormatName</definition>
+        <argsstring>() const</argsstring>
+        <name>getFormatName</name>
+        <qualifiedname>AGRemapCore::BufElementType::getFormatName</qualifiedname>
+        <briefdescription>
+<para>The name of the type format according to 3dmigoto. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="53" column="31" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1ac37b0bac3731043401c1561def5cff3e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufElementType::setFormatName</definition>
+        <argsstring>(std::string formatName)</argsstring>
+        <name>setFormatName</name>
+        <qualifiedname>AGRemapCore::BufElementType::setFormatName</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>formatName</declname>
+        </param>
+        <briefdescription>
+<para>Sets the name of the type format according to 3dmigoto. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>formatName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new format name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="60" column="18" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a1aee8efee0176d0e456ec35109766e61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::unique_ptr&lt; BufDataType &gt; &gt; &amp; AGRemapCore::BufElementType::getDataTypes</definition>
+        <argsstring>() const</argsstring>
+        <name>getDataTypes</name>
+        <qualifiedname>AGRemapCore::BufElementType::getDataTypes</qualifiedname>
+        <briefdescription>
+<para>The data types composed within the element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="65" column="31" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a0a0437d00eb9f6d5ee99b89df5c8b494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufElementType::setDataTypes</definition>
+        <argsstring>(std::vector&lt; std::unique_ptr&lt; BufDataType &gt; &gt; dataTypes)</argsstring>
+        <name>setDataTypes</name>
+        <qualifiedname>AGRemapCore::BufElementType::setDataTypes</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt;</type>
+          <declname>dataTypes</declname>
+        </param>
+        <briefdescription>
+<para>Sets the data types composed within the element (recomputes <ref refid="class_a_g_remap_core_1_1_buf_element_type_1ad9a2ac0352d92ae1920a66fd1ea489cb" kindref="member">getSize</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dataTypes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new data types. Ownership of each data type is transferred into this element </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="73" column="18" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1ad9a2ac0352d92ae1920a66fd1ea489cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufElementType::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>AGRemapCore::BufElementType::getSize</qualifiedname>
+        <briefdescription>
+<para>The byte size for the element (the sum of every composing data type&apos;s size). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="78" column="25" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a6381e7769fec58c3a43dc7cef4375233" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &gt;</type>
+        <definition>std::vector&lt; BufValue &gt; AGRemapCore::BufElementType::decode</definition>
+        <argsstring>(const ByteVec &amp;src) const</argsstring>
+        <name>decode</name>
+        <qualifiedname>AGRemapCore::BufElementType::decode</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Decodes a raw sequence of bytes into one decoded value per data type composing this element. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw bytes to decode (its length should match <ref refid="class_a_g_remap_core_1_1_buf_element_type_1ad9a2ac0352d92ae1920a66fd1ea489cb" kindref="member">getSize</ref>)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The decoded values, one per entry of <ref refid="class_a_g_remap_core_1_1_buf_element_type_1a1aee8efee0176d0e456ec35109766e61" kindref="member">getDataTypes</ref>, in the same order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="88" column="25" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="40" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a37c7e34524bde8dfc952821c1f07581f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>ByteVec AGRemapCore::BufElementType::encode</definition>
+        <argsstring>(const std::vector&lt; BufValue &gt; &amp;src) const</argsstring>
+        <name>encode</name>
+        <qualifiedname>AGRemapCore::BufElementType::encode</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &gt; &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+<para>Encodes the decoded values for this element back to raw bytes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decoded values to encode, one per entry of <ref refid="class_a_g_remap_core_1_1_buf_element_type_1a1aee8efee0176d0e456ec35109766e61" kindref="member">getDataTypes</ref> <ndash/> if fewer values than data types are given, only the leading data types are encoded (mirroring the pure-Python original&apos;s <computeroutput>min(len(dataTypes), len(src))</computeroutput> guard)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The encoded raw bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="99" column="21" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="63" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_element_type_1a3dd92f910521e154a2ac6f7d7ef04907" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufElementType::computeSize</definition>
+        <argsstring>(const std::vector&lt; std::unique_ptr&lt; BufDataType &gt; &gt; &amp;dataTypes)</argsstring>
+        <name>computeSize</name>
+        <qualifiedname>AGRemapCore::BufElementType::computeSize</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt; &amp;</type>
+          <declname>dataTypes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="106" column="32" bodyfile="src/model/buffers/BufElementType.cpp" bodystart="8" bodyend="14"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufType` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The type definition for an element within a ``.buf`` file -- a single named field (eg. a
+vertex&apos;s position, or its blend weights) composed of one or more :cpp:class:`BufDataType`\\s
+laid out back-to-back
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BufElementType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_element_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BufElementType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_element_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/BufElementType.h" line="26" column="5" bodyfile="include/AGRemapCore/model/buffers/BufElementType.h" bodystart="26" bodyend="107"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>BufElementType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1ae6af06e812799d00b5ee6c4d62f4a04c" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>BufElementType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a3d568a6eae5e1b166641ce63f34e855d" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>BufElementType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a3dd92f910521e154a2ac6f7d7ef04907" prot="private" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>computeSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a17568e74b35da3215c250684c4c613db" prot="private" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>dataTypes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a6381e7769fec58c3a43dc7cef4375233" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>decode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a37c7e34524bde8dfc952821c1f07581f" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>encode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1afb9ea330119500d7048dc393c05160b3" prot="private" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>formatName_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a1aee8efee0176d0e456ec35109766e61" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>getDataTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a4a019d97cfdcb35234f7ca76a572df30" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>getFormatName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1ad9a2ac0352d92ae1920a66fd1ea489cb" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>getSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a8de816c393eced023f5a36fd8832931d" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1ac94ef44c954ccac8634d76225e20fcef" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a0a0437d00eb9f6d5ee99b89df5c8b494" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>setDataTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1ac37b0bac3731043401c1561def5cff3e" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>setFormatName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>setName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_element_type_1a938bfdad488bd267d7597a526f453a04" prot="private" virt="non-virtual"><scope>AGRemapCore::BufElementType</scope><name>size_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" virt="virtual"><scope>AGRemapCore::BufElementType</scope><name>~BufType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

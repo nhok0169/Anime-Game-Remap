@@ -41,12 +41,213 @@ BaseRegEdit
 
 :raw-html:`<br />`
 
+BinaryFile
+==========
+
+.. attributetable:: FixRaidenBoss2.BinaryFile
+
+.. autoclass:: FixRaidenBoss2.BinaryFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BlendFile
+=========
+
+.. attributetable:: FixRaidenBoss2.BlendFile
+
+.. autoclass:: FixRaidenBoss2.BlendFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufBaseFloat
+============
+
+.. attributetable:: FixRaidenBoss2.BufBaseFloat
+
+.. autoclass:: FixRaidenBoss2.BufBaseFloat
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufBaseInt
+==========
+
+.. attributetable:: FixRaidenBoss2.BufBaseInt
+
+.. autoclass:: FixRaidenBoss2.BufBaseInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufDataType
+===========
+
+.. attributetable:: FixRaidenBoss2.BufDataType
+
+.. autoclass:: FixRaidenBoss2.BufDataType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufElementType
+==============
+
+.. attributetable:: FixRaidenBoss2.BufElementType
+
+.. autoclass:: FixRaidenBoss2.BufElementType
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFile
+=======
+
+.. attributetable:: FixRaidenBoss2.BufFile
+
+.. autoclass:: FixRaidenBoss2.BufFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFloat
+========
+
+.. attributetable:: FixRaidenBoss2.BufFloat
+
+.. autoclass:: FixRaidenBoss2.BufFloat
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufFloat16
+==========
+
+.. attributetable:: FixRaidenBoss2.BufFloat16
+
+.. autoclass:: FixRaidenBoss2.BufFloat16
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufSignedInt
+============
+
+.. attributetable:: FixRaidenBoss2.BufSignedInt
+
+.. autoclass:: FixRaidenBoss2.BufSignedInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufTools
+========
+
+.. attributetable:: FixRaidenBoss2.BufTools
+
+.. autoclass:: FixRaidenBoss2.BufTools
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufType
+=======
+
+.. attributetable:: FixRaidenBoss2.BufType
+
+.. autoclass:: FixRaidenBoss2.BufType
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufUnorm
+========
+
+.. attributetable:: FixRaidenBoss2.BufUnorm
+
+.. autoclass:: FixRaidenBoss2.BufUnorm
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BufUnSignedInt
+==============
+
+.. attributetable:: FixRaidenBoss2.BufUnSignedInt
+
+.. autoclass:: FixRaidenBoss2.BufUnSignedInt
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CallGraph
 =========
 
 .. attributetable:: FixRaidenBoss2.CallGraph
 
 .. autoclass:: FixRaidenBoss2.CallGraph
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBlendFile
+============
+
+.. attributetable:: FixRaidenBoss2.CppBlendFile
+
+.. autoclass:: FixRaidenBoss2.CppBlendFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBufFile
+==========
+
+.. attributetable:: FixRaidenBoss2.CppBufFile
+
+.. autoclass:: FixRaidenBoss2.CppBufFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppPositionFile
+===============
+
+.. attributetable:: FixRaidenBoss2.CppPositionFile
+
+.. autoclass:: FixRaidenBoss2.CppPositionFile
+    :inherited-members:
     :members:
     :private-members:
 
@@ -262,6 +463,18 @@ ModMappedAssets
 
 :raw-html:`<br />`
 
+PositionFile
+============
+
+.. attributetable:: FixRaidenBoss2.PositionFile
+
+.. autoclass:: FixRaidenBoss2.PositionFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegAdd
 ======
 
@@ -337,6 +550,17 @@ SympyTokenizer
 .. attributetable:: FixRaidenBoss2.SympyTokenizer
 
 .. autoclass:: FixRaidenBoss2.SympyTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VGRemap
+=======
+
+.. attributetable:: FixRaidenBoss2.VGRemap
+
+.. autoclass:: FixRaidenBoss2.VGRemap
     :members:
     :private-members:
 

@@ -49,6 +49,18 @@ pybind11_add_module(core
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp
+    src/model/buffers/PyBufBytes.cpp
+    src/model/buffers/PyBufType.cpp
+    src/model/buffers/PyBufDataType.cpp
+    src/model/buffers/PyBufInt.cpp
+    src/model/buffers/PyBufFloat.cpp
+    src/model/buffers/PyBufUnorm.cpp
+    src/model/buffers/PyBufElementType.cpp
+    src/model/files/PyBinaryFile.cpp
+    src/model/files/PyBufFile.cpp
+    src/model/PyVGRemap.cpp
+    src/model/files/PyBlendFile.cpp
+    src/model/files/PyPositionFile.cpp
 )
 
 # Forces the linker to use response files (.rsp) to bypass Windows command limits

@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBinaryFile', 'CppBlendFile', 'CppBufBaseFloat', 'CppBufBaseInt', 'CppBufDataType', 'CppBufElementType', 'CppBufFile', 'CppBufFloat', 'CppBufFloat16', 'CppBufSignedInt', 'CppBufType', 'CppBufUnSignedInt', 'CppBufUnorm', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppPositionFile', 'CppTrie', 'CppVGRemap', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
 class BaseSLR1Parser:
@@ -902,6 +902,617 @@ class CppBaseIniClassifier:
         """
         Clears the state of the classifier
         """
+class CppBinaryFile:
+    """
+    
+    A class to handle binary files
+        
+    """
+    def __init__(self, src: typing.Any) -> None:
+        """
+        Constructs a new binary file
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the file
+        """
+    def read(self) -> bytes:
+        """
+        Reads the data within a file
+        
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        """
+    @property
+    def data(self) -> bytes:
+        """
+        :class:`bytes`: The bytes read in from the source
+        """
+    @property
+    def src(self) -> typing.Any:
+        """
+        Union[:class:`str`, :class:`bytes`]: The source file or bytes for the file
+        """
+    @src.setter
+    def src(self, arg1: typing.Any) -> None:
+        ...
+class CppBlendFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``Blend.buf`` files
+    
+    .. note::
+        We observe that a ``Blend.buf`` file is a binary file defined as:
+    
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 32 bytes (256 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
+        * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
+        * the blend weights are floating points while the blend indices are unsigned integers
+        
+    """
+    @staticmethod
+    def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: CppVGRemap) -> dict[int, int]:
+        """
+        Retrieves the temporary remap for any missing blend indices not included in 'vgRemap'
+        
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The data for the blend weights and the blend indices for a particular vertex
+        
+        vgRemap: :class:`CppVGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        Returns
+        -------
+        Dict[:class:`int`, :class:`int`]
+            The temporary remap for the missing indices. The keys are the missing indices found and the
+            values are the temporary remapped values for these missing indices
+        """
+    @staticmethod
+    def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: CppVGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
+        """
+        Remaps the vertex group indices for a particular line (vertex)
+        
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The data for the blend weights and the blend indices for a particular vertex
+        
+        vgRemap: :class:`CppVGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The new data for the blend weights/blend indices, with the blend indices remapped
+        """
+    def __init__(self, src: typing.Any, elements: typing.Any = None) -> None:
+        """
+        Constructs a new blend file and immediately reads it
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the blend file
+        
+        elements: Optional[List[:class:`CppBufElementType`]]
+            The sequence of elements within the ``.buf`` file. If this argument is ``None`` or empty, will
+            use the elements specified for some GIMI character. **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If 'src' holds a file path that cannot be read as a valid blend file
+        
+        :class:`BadBufData`
+            If 'src' holds raw bytes that are not valid for a blend file
+        """
+    def remap(self, vgRemap: CppVGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
+        """
+        Remaps the blend indices in a ``Blend.buf`` file
+        
+        Parameters
+        ----------
+        vgRemap: :class:`CppVGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        fixedBlendFile: Optional[:class:`str`]
+            The file path for the fixed ``Blend.buf`` file. **Default**: ``None``
+        
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
+        
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If ``fixedBlendFile`` is ``None`` and no correction was needed, returns ``None``. If
+            ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
+            returns ``fixedBlendFile`` itself
+        """
+class CppBufBaseFloat(CppBufDataType):
+    """
+    
+    This class inherits from :class:`CppBufDataType`
+    
+    The type definition for a generic 32-bit IEEE 754 `floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new `floating point`_ type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class CppBufBaseInt(CppBufDataType):
+    """
+    
+    This class inherits from :class:`CppBufDataType`
+    
+    The type definition for some generic integer type within a ``.buf`` file, at most 8 bytes wide
+    (see :class:`CppBufDataType`'s class-level warning)
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False, isSigned: bool = True) -> None:
+        """
+        Constructs a new integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        
+        isSigned: :class:`bool`
+            Whether the type is signed. **Default**: ``True``
+        """
+    @property
+    def isSigned(self) -> bool:
+        """
+        :class:`bool`: Whether the data type is signed
+        """
+class CppBufDataType(CppBufType):
+    """
+    
+    This class inherits from :class:`CppBufType`
+    
+    The abstract base for an elementary data type within a ``.buf`` file (eg. a single integer or
+    `floating point`_ number) -- a real format is one of :class:`CppBufBaseInt`'s or
+    :class:`CppBufBaseFloat`'s concrete subclasses, or :class:`CppBufUnorm`
+    
+    .. warning::
+        Unlike the pure-Python original (where any subclass can be defined in plain Python and used
+        immediately), a brand-new elementary data type not already covered by one of this class's
+        existing subclasses needs a real C++ subclass and a rebuild of this extension -- ``decode``/
+        ``encode`` are not overridable from pure Python here
+        
+    """
+    def decode(self, src: bytes) -> int | int | float:
+        """
+        Decode the raw bytes to the required format for the type
+        
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches :attr:`size`
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+        
+        Returns
+        -------
+        Union[:class:`int`, :class:`float`]
+            The decoded value for the type
+        """
+    def encode(self, src: typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex) -> bytes:
+        """
+        Encodes the format of the type back to raw bytes
+        
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+        
+        Parameters
+        ----------
+        src: Union[:class:`int`, :class:`float`]
+            The decoded value to encode
+        
+        Returns
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+    @property
+    def isBigEndian(self) -> bool:
+        """
+        :class:`bool`: The `endianness`_ for the data type
+        """
+    @isBigEndian.setter
+    def isBigEndian(self, arg1: bool) -> None:
+        ...
+    @property
+    def size(self) -> int:
+        """
+        :class:`int`: The byte size for the data type (at most 8 bytes)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If set to ``0`` or a value greater than ``8``
+        """
+    @size.setter
+    def size(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class CppBufElementType(CppBufType):
+    """
+    
+    This class inherits from :class:`CppBufType`
+    
+    The type definition for an element within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, formatName: str, dataTypes: typing.Any) -> None:
+        """
+        Constructs a new element type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the element
+        
+        formatName: :class:`str`
+            The name of the type format according to 3dmigoto
+        
+        dataTypes: List[:class:`CppBufDataType`]
+            The data types composed within the element, in byte order -- ownership of each is taken from
+            the passed-in Python objects (the same contract as :class:`IfTemplate`'s own ``parts`` parameter)
+        """
+    def decode(self, src: bytes) -> list[int | int | float]:
+        """
+        Decodes a raw sequence of bytes into one decoded value per data type composing this element
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The source bytes to decode
+        
+        Returns
+        -------
+        List[Union[:class:`int`, :class:`float`]]
+            The decoded values, one per entry of :attr:`dataTypes`, in the same order
+        """
+    def encode(self, src: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]) -> bytes:
+        """
+        Encodes the decoded values for this element back to raw bytes
+        
+        Parameters
+        ----------
+        src: List[Union[:class:`int`, :class:`float`]]
+            The decoded values to encode, one per entry of :attr:`dataTypes`
+        
+        Returns
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+    @property
+    def dataTypes(self) -> list[CppBufDataType]:
+        """
+        List[:class:`CppBufDataType`]: The data types composed within the element
+        
+        Assigning a new list takes ownership of each new data type the same way the constructor's own
+        ``dataTypes`` parameter does
+        """
+    @dataTypes.setter
+    def dataTypes(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def formatName(self) -> str:
+        """
+        :class:`str`: The name of the type format according to 3dmigoto
+        """
+    @formatName.setter
+    def formatName(self, arg1: str) -> None:
+        ...
+    @property
+    def size(self) -> int:
+        """
+        :class:`int`: The byte size for the element
+        """
+class CppBufFile(CppBinaryFile):
+    """
+    
+    This class inherits from :class:`CppBinaryFile`
+    
+    A class to handle ``.buf`` files
+    
+    A ``.buf`` file is a binary file made up of a sequence of same-sized "lines" (one line per vertex),
+    each one composed of the same sequence of :class:`CppBufElementType`\\s -- there is no header or
+    footer, just the lines themselves back-to-back
+        
+    """
+    def __init__(self, src: typing.Any, elements: typing.Any, fileType: str = 'Buffer') -> None:
+        """
+        Constructs a new ``.buf`` file and immediately reads it
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the ``.buf`` file
+        
+        elements: List[:class:`CppBufElementType`]
+            The sequence of elements within the ``.buf`` file -- ownership of each is taken from the
+            passed-in Python objects (the same contract as :class:`IfTemplate`'s own ``parts`` parameter)
+        
+        fileType: :class:`str`
+            The name for the type of ``.buf`` file. **Default**: ``"Buffer"``
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If 'src' holds a file path that cannot be read as a valid ``.buf`` file of this format
+        
+        :class:`BadBufData`
+            If 'src' holds raw bytes that are not valid for this format
+        """
+    def decodeLine(self, src: bytes) -> dict[str, list[int | int | float]]:
+        """
+        Decodes a line (a vertex) within the ``.buf`` file
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The source bytes to decode
+        
+        Returns
+        -------
+        Dict[:class:`str`, List[Any]]
+            The decoded values for the line
+        
+            The keys are the names to the elements and the values are what is decoded
+        """
+    def encodeLine(self, src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]]) -> bytes:
+        """
+        Encodes the data about a vertex to their corresponding bytes for the line
+        
+        Parameters
+        ----------
+        src: Dict[:class:`str`, List[Any]]
+            The corresponding data for the vertex
+        
+            The keys are the names for the elements and the values are the data for the elements
+        
+        Returns
+        -------
+        :class:`bytes`
+            The encoded bytes for the line
+        """
+    def fix(self, fixedFile: typing.Any = None, filters: typing.Any = None) -> typing.Any:
+        """
+        Fixes the ``.buf`` file
+        
+        Parameters
+        ----------
+        fixedFile: Optional[:class:`str`]
+            The file path for the fixed ``.buf`` file. **Default**: ``None``
+        
+        filters: Optional[List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :class:`int`, :class:`int`], Dict[:class:`str`, List[Any]]]]]
+            The filters to process each element, applied in order to each line
+        
+            The filters take in the following arguments:
+        
+            #. The data for a particular line
+            #. The starting byte index of the line that is read
+            #. The line index being processed (``i / bytesPerLine`` -- a `floating point`_ value, matching
+               this codebase's pure-Python original exactly)
+            #. The size of each line
+        
+            The output of the filters is the resultant data that consists where the keys are the names of
+            the elements within a line in the ``.buf`` file and the values are the resultant data for each
+            element in the line. **Default**: ``None``
+        
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If the argument ``fixedFile`` is ``None``, then will return an array of bytes for the fixed
+            ``.buf`` file. Otherwise will return the filename to the fixed ``.buf`` file
+        """
+    def isValid(self) -> bool:
+        """
+        Whether the size of the data is divisible by the # of bytes per line
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the provided data for the ``.buf`` file is valid
+        """
+    def read(self) -> bytes:
+        """
+        Reads the bytes in the ``.buf`` file
+        
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If :attr:`src` holds a file path that cannot be read as a valid ``.buf`` file of this format
+        
+        :class:`BadBufData`
+            If :attr:`src` holds raw bytes that are not valid for this format
+        """
+    @property
+    def bytesPerLine(self) -> int:
+        """
+        :class:`int`: The number of bytes per line (per vertex)
+        """
+    @property
+    def elements(self) -> list[CppBufElementType]:
+        """
+        List[:class:`CppBufElementType`]: The sequence of elements within the ``.buf`` file
+        
+        Assigning a new list takes ownership of each new element the same way the constructor's own
+        ``elements`` parameter does
+        """
+    @elements.setter
+    def elements(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fileType(self) -> str:
+        """
+        :class:`str`: The name for the type of ``.buf`` file
+        """
+    @fileType.setter
+    def fileType(self, arg1: str) -> None:
+        ...
+class CppBufFloat(CppBufBaseFloat):
+    """
+    
+    This class inherits from :class:`CppBufBaseFloat`
+    
+    The type definition for a 32-bit `floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new 32-bit `floating point`_ type
+        
+        Parameters
+        ----------
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class CppBufFloat16(CppBufBaseFloat):
+    """
+    
+    This class inherits from :class:`CppBufBaseFloat`
+    
+    The type definition for a 16-bit `half precision floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new 16-bit `half precision floating point`_ type
+        
+        Parameters
+        ----------
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class CppBufSignedInt(CppBufBaseInt):
+    """
+    
+    This class inherits from :class:`CppBufBaseInt`
+    
+    The type definition for some signed integer type within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str = 'SignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new signed integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type. **Default**: ``"SignedInt32"``
+        
+        size: :class:`int`
+            The byte size for the data type. **Default**: ``4``
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class CppBufType:
+    """
+    
+    The common base for any type used to describe the structure of a ``.buf`` file
+    
+    .. note::
+        Unlike the pure-Python original, this class has no ``decode``/``encode`` methods of its own --
+        see :class:`CppBufDataType`/:class:`CppBufElementType` (whose Python originals both override
+        ``decode``/``encode`` with genuinely incompatible signatures -- a single value vs. a list of
+        values -- that only Python's duck typing lets share one base method name)
+        
+    """
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name of the type
+        """
+    @name.setter
+    def name(self, arg1: str) -> None:
+        ...
+class CppBufUnSignedInt(CppBufBaseInt):
+    """
+    
+    This class inherits from :class:`CppBufBaseInt`
+    
+    The type definition for some unsigned integer type within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str = 'UnsignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new unsigned integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type. **Default**: ``"UnsignedInt32"``
+        
+        size: :class:`int`
+            The byte size for the data type. **Default**: ``4``
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class CppBufUnorm(CppBufBaseInt):
+    """
+    
+    This class inherits from :class:`CppBufBaseInt`
+    
+    The type definition for an `unsigned normalized integer`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new `unsigned normalized integer`_ type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
 class CppHashTools:
     """
     C++ tools for deterministically hashing data
@@ -1338,6 +1949,42 @@ class CppModAssets:
         """
         :class:`int`: The number of version columns
         """
+class CppPositionFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``Position.buf`` files
+    
+    .. note::
+        We observe that a ``Position.buf`` file is a binary file defined as:
+    
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 40 bytes (320 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 12 bytes of a line are the coordinate position of a vertex in an R3 vector space, each scalar value in the coordinate is 4 bytes or 32 bits (3 scalar values/line)
+        * the next 12 bytes of a line corresponds to the normal vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (3 scalar values/line)
+        * the last 16 bytes of a line corresponds to the tangent vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (4 scalar values/line)
+        * all scalar values in the file are `floating point`_ values
+        
+    """
+    def __init__(self, src: typing.Any) -> None:
+        """
+        Constructs a new position file and immediately reads it
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the ``.buf`` file
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If 'src' holds a file path that cannot be read as a valid position file
+        
+        :class:`BadBufData`
+            If 'src' holds raw bytes that are not valid for a position file
+        """
 class CppTrie:
     """
     
@@ -1483,6 +2130,34 @@ class CppTrie:
         """
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
+        ...
+class CppVGRemap:
+    """
+    
+    Class for handling the vertex group remaps for mods
+        
+    """
+    def __init__(self, vgRemap: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
+        """
+        Constructs a new vertex group remap
+        
+        Parameters
+        ----------
+        vgRemap: Dict[:class:`int`, :class:`int`]
+            The vertex group remap from one type of mod to another. **Default**: ``{}``
+        """
+    @property
+    def maxIndex(self) -> int | None:
+        """
+        Optional[:class:`int`]: The maximum index in the vertex group remap, or ``None`` if :attr:`remap` is empty
+        """
+    @property
+    def remap(self) -> dict[int, int]:
+        """
+        Dict[:class:`int`, :class:`int`]: The vertex group remap
+        """
+    @remap.setter
+    def remap(self, arg1: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
 class CppVersion:
     """
@@ -3738,6 +4413,46 @@ class IfTemplate:
     
     Data for storing information about a `section`_ in a .ini file
     
+    .. note::
+        Assuming every ``if``/``else`` clause must be on its own line, we have that an
+        :class:`IfTemplate` has a form looking similar to this:
+    
+        .. code-block:: ini
+            :linenos:
+            :emphasize-lines: 1,2,5,7,12,16,17
+    
+            ...(does stuff)...
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                endif
+            endif
+            ...(does stuff)...
+            ...(does stuff)...
+    
+        We split the above structure into parts (:class:`IfTemplatePart`) where each part is either:
+    
+        #. **An If Predicate Part** (:class:`IfPredPart`): a single line containing the keywords ``if``, ``else`` or ``endif`` :raw-html:`<br />` **OR** :raw-html:`<br />`
+        #. **A Content Part** (:class:`IfContentPart`): a group of lines that *"does stuff"*
+    
+        **Note that:** an :class:`IfTemplate` does not need to contain any parts containing the
+        keywords ``if``, ``else`` or ``endif``. This case covers the scenario when the user does not
+        use if/else statements for a particular `section`_.
+    
+        Based on the above assumptions, we can assume that every ``[section]`` in a .ini file contains
+        this :class:`IfTemplate`.
+    
+    :raw-html:`<br />`
+    
     .. container:: operations
     
         **Supported Operations:**
@@ -4141,6 +4856,119 @@ class IfTemplateTree:
     
     The parse tree for some :class:`IfTemplate`, reached via :attr:`IfTemplate.tree` -- never
     constructed directly.
+    
+    .. note::
+        The parse tree is structured such that:
+    
+        * A node is composed of :class:`IfContentPart`\\s or other nodes
+        * The children to the node occur when the node enters a specific branching condition :raw-html:`<br />` :raw-html:`<br />`
+    
+        eg. Suppose we have this branching structure
+    
+        .. code-block:: ini
+            :linenos:
+    
+            ...(does stuff)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                else if ...(bool)...
+                    ...(does stuff)...
+                endif
+            else ...(bool)...
+                ...(does stuff)...
+                if ...(bool)...
+                    if ...(bool)...
+                        ...(does stuff)...
+                    endif
+                    ...(does stuff)...
+                endif
+                ...(does stuff)...
+                if
+                endif
+            endif
+            ...(does stuff)...
+    
+        :raw-html:`<br />`
+    
+        Let ``C`` be some :class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+    
+        Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+    
+        Let ``[...]`` be some node
+    
+        Let ``X`` be a node without any parts
+    
+        The parse tree generated for the above code would be:
+    
+        .. code-block::
+    
+                   [C B B C]
+                      | |
+                 +----+ +----+
+                 |           |
+               [B B]     [C B C B]
+                | |         |   |
+             +--+ +--+    [B C] X
+             |       |     |
+            [C]     [C]   [C]
+    
+    .. note::
+        A leaf node with no parts at all (the ``X`` above -- an empty condition, eg. a bare
+        ``if``/``endif`` with nothing between them) only ever shows up in a tree built for
+        :meth:`IfTemplate.add`'s own bookkeeping. Every :attr:`IfTemplate.tree` a real caller sees is
+        always built one of two other ways instead, and the difference matters if you're inspecting
+        :attr:`root`/:attr:`IfTemplateNode.parts` directly:
+    
+        * **By default** (how :attr:`IfTemplate.tree` is built by the constructor): an otherwise-empty
+          leaf node gets one synthetic, empty :class:`IfContentPart` placeholder instead of staying
+          empty -- so
+    
+          .. code-block:: ini
+    
+              if
+              endif
+    
+          (parse subtree ``[B]`` -> ``X``) becomes, for tree-building purposes, equivalent to
+    
+          .. code-block:: ini
+    
+              if
+                  ...(does nothing)...
+              endif
+    
+          (parse subtree ``[B]`` -> ``[C]``) -- every leaf in the worked example above that would
+          otherwise be an empty ``X`` node picks up this placeholder instead, eg. the ``if`` with
+          nothing in it right before the final ``endif``.
+        * **After calling** :meth:`IfTemplate.normalize` **specifically**: on top of the placeholder
+          behavior above, an empty ``else`` clause is also synthesized for any conditional that
+          doesn't already end with a single ``else`` -- so
+    
+          .. code-block:: ini
+    
+              if
+                  ...(does stuff)...
+              else if
+                  ...(does stuff)...
+              endif
+    
+          (parse subtree ``[B B]`` with two leaf children) becomes
+    
+          .. code-block:: ini
+    
+              if
+                  ...(does stuff)...
+              else if
+                  ...(does stuff)...
+              else
+                  ...(does nothing)...
+              endif
+    
+          (parse subtree ``[B B B]`` with three leaf children -- the new ``else`` picking up the same
+          empty-placeholder treatment as above). Applied to the whole worked example above, every
+          ``if``/``elif`` chain that doesn't already end with a plain ``else`` gains one, including
+          the already-empty ``if``/``endif`` at the bottom (which ends up with *two* leaf children --
+          one placeholder for the original empty ``if`` branch, one for its synthesized ``else``).
     
     .. note::
         The nodes are the `IfContentPart`\\s of the `IfTemplate`, wrapped in :class:`IfTemplateNode`\\s

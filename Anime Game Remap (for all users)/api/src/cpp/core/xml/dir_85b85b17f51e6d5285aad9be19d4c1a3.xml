@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_85b85b17f51e6d5285aad9be19d4c1a3" kind="dir">
+    <compoundname>include/AGRemapCore/model/buffers</compoundname>
+    <innerfile refid="_buf_data_type_8h">BufDataType.h</innerfile>
+    <innerfile refid="_buf_element_type_8h">BufElementType.h</innerfile>
+    <innerfile refid="_buf_float_8h">BufFloat.h</innerfile>
+    <innerfile refid="_buf_int_8h">BufInt.h</innerfile>
+    <innerfile refid="_buf_type_8h">BufType.h</innerfile>
+    <innerfile refid="_buf_unorm_8h">BufUnorm.h</innerfile>
+    <innerfile refid="_buf_value_8h">BufValue.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/buffers/"/>
+  </compounddef>
+</doxygen>

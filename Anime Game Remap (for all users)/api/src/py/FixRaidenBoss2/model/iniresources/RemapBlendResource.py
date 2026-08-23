@@ -17,12 +17,15 @@ import os
 from typing import Optional, Callable, List
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import BufElementType
+from ...core import VGRemap
+##### EndCppLocalImports
+
 ##### LocalImports
 from .RemapIniResource import RemapIniFixResource
 from ..stats.RemapStats import RemapStats
 from ..files.BlendFile import BlendFile
-from ..buffers.BufElementType import BufElementType
-from ..VGRemap import VGRemap
 ##### EndLocalImports
 
 

@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_9da8a69756c8d6e8bdd968d668b94d0c" kind="dir">
+    <compoundname>src/model/buffers</compoundname>
+    <innerfile refid="_buf_data_type_8cpp">BufDataType.cpp</innerfile>
+    <innerfile refid="_buf_element_type_8cpp">BufElementType.cpp</innerfile>
+    <innerfile refid="_buf_float_8cpp">BufFloat.cpp</innerfile>
+    <innerfile refid="_buf_int_8cpp">BufInt.cpp</innerfile>
+    <innerfile refid="_buf_type_8cpp">BufType.cpp</innerfile>
+    <innerfile refid="_buf_unorm_8cpp">BufUnorm.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/buffers/"/>
+  </compounddef>
+</doxygen>

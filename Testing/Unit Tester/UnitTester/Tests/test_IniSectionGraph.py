@@ -319,6 +319,66 @@ class IniSectionGraphTest(BaseUnitTest):
         self.assertEqual(result[id(ifBranchPart)], [id(headPart)])
         self.assertEqual(result[id(elseBranchPart)], [id(headPart)])
 
+    def test_computeSectionPredecessors_afterEndIfWithElse_dependsOnEveryBranchOnly(self):
+        # a part right after "endIf" depends on *every* branch's own ending part -- and, since this
+        # if/else has an "else" covering the "no branch taken" case, NOT on whatever preceded the
+        # "if" (that path is unreachable without going through one of the branches first)
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"pre": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"ifb": [(0, "1")]}, 1),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, z3Ctx),
+            FRB.IfContentPart({"elseb": [(0, "1")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfContentPart({"post": [(0, "1")]}, 0),
+        ])
+        prePart, ifPart, elsePart, postPart = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(set(result[id(postPart)]), {id(ifPart), id(elsePart)})
+        self.assertNotIn(id(prePart), result[id(postPart)])
+
+    def test_computeSectionPredecessors_afterEndIfWithoutElse_alsoDependsOnWhatPrecededTheIf(self):
+        # mirror of the above, but with no "else" -- the "if" might not have been taken at all, so
+        # a part right after "endIf" must ALSO depend on whatever preceded the "if"
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"pre": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"ifb": [(0, "1")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfContentPart({"post": [(0, "1")]}, 0),
+        ])
+        prePart, ifPart, postPart = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(set(result[id(postPart)]), {id(ifPart), id(prePart)})
+
+    def test_computeSectionPredecessors_elif_eachBranchStillOnlyDependsOnWhatPrecededTheIf(self):
+        # if/elif/else -- every branch (not just the first "if") only depends on whatever preceded
+        # the whole if/elif/else chain, never on a sibling branch
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"pre": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"ifb": [(0, "1")]}, 1),
+            FRB.IfPredPart("elif $i == 1", FRB.IfPredPartType.Elif, z3Ctx),
+            FRB.IfContentPart({"elifb": [(0, "1")]}, 1),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, z3Ctx),
+            FRB.IfContentPart({"elseb": [(0, "1")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+        ])
+        prePart, ifPart, elifPart, elsePart = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(result[id(ifPart)], [id(prePart)])
+        self.assertEqual(result[id(elifPart)], [id(prePart)])
+        self.assertEqual(result[id(elsePart)], [id(prePart)])
+
     # ========================================================
     # ========= buildPartPredecessorGraph ====================
 
@@ -332,3 +392,31 @@ class IniSectionGraphTest(BaseUnitTest):
 
         self.assertEqual(predecessors[id(parentPart)], [])
         self.assertEqual(predecessors[id(childPart)], [id(parentPart)])
+
+    def test_buildPartPredecessorGraph_selfReferencingRunCall_doesNotHang(self):
+        # a section whose only 'run =' target is itself -- this must terminate (not infinite-loop)
+        # and the part ends up listed as its own predecessor, which is harmless for the dedup
+        # purposes this graph exists for (see IniGraphEditing/CLAUDE.md's own note on this)
+        sections = {"a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "run": [(1, "a")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["a"])
+        part = sections["a"].parts[0]
+
+        predecessors = graph.buildPartPredecessorGraph()
+
+        self.assertEqual(predecessors[id(part)], [id(part)])
+
+    def test_buildPartPredecessorGraph_mutualRunCalls_bothDirectionsRecorded(self):
+        # "a" calls "b" and "b" calls "a" -- both directions must be recorded independently, not
+        # just one side winning
+        sections = {
+            "a": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "run": [(1, "b")]}, 0)]),
+            "b": FRB.IfTemplate([FRB.IfContentPart({"y": [(0, "2")], "run": [(1, "a")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["a"])
+        partA = sections["a"].parts[0]
+        partB = sections["b"].parts[0]
+
+        predecessors = graph.buildPartPredecessorGraph()
+
+        self.assertEqual(predecessors[id(partA)], [id(partB)])
+        self.assertEqual(predecessors[id(partB)], [id(partA)])

@@ -11,10 +11,181 @@ C++ Core API Reference
 Model
 *****
 
-Classes that represent the actual mod-fixing domain -- currently just the ``.ini`` "if template"
-structure below. Contrast with `Tools`_ further down, which has no notion of what a "mod" or a
-``.ini`` file even is.
+Classes that represent the actual mod-fixing domain -- the ``.ini`` "if template" structure and the
+``.buf`` binary vertex file format, below. Contrast with `Tools`_ further down, which has no notion
+of what a "mod" or a ``.ini``/``.buf`` file even is.
 
+:raw-html:`<br />`
+
+Buf Files
+=========
+
+:raw-html:`<br />`
+
+BinaryFile
+----------
+
+.. cppattributetable:: AGRemapCore::BinaryFile
+
+.. doxygenclass:: AGRemapCore::BinaryFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BlendFile
+---------
+
+.. cppattributetable:: AGRemapCore::BlendFile
+
+.. doxygenclass:: AGRemapCore::BlendFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufBaseFloat
+------------
+
+.. cppattributetable:: AGRemapCore::BufBaseFloat
+
+.. doxygenclass:: AGRemapCore::BufBaseFloat
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufBaseInt
+----------
+
+.. cppattributetable:: AGRemapCore::BufBaseInt
+
+.. doxygenclass:: AGRemapCore::BufBaseInt
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufDataType
+-----------
+
+.. cppattributetable:: AGRemapCore::BufDataType
+
+.. doxygenclass:: AGRemapCore::BufDataType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufElementType
+--------------
+
+.. cppattributetable:: AGRemapCore::BufElementType
+
+.. doxygenclass:: AGRemapCore::BufElementType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufFile
+-------
+
+.. cppattributetable:: AGRemapCore::BufFile
+
+.. doxygenclass:: AGRemapCore::BufFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufFloat
+--------
+
+.. cppattributetable:: AGRemapCore::BufFloat
+
+.. doxygenclass:: AGRemapCore::BufFloat
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufFloat16
+----------
+
+.. cppattributetable:: AGRemapCore::BufFloat16
+
+.. doxygenclass:: AGRemapCore::BufFloat16
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufSignedInt
+------------
+
+.. cppattributetable:: AGRemapCore::BufSignedInt
+
+.. doxygenclass:: AGRemapCore::BufSignedInt
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufType
+-------
+
+.. cppattributetable:: AGRemapCore::BufType
+
+.. doxygenclass:: AGRemapCore::BufType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufUnorm
+--------
+
+.. cppattributetable:: AGRemapCore::BufUnorm
+
+.. doxygenclass:: AGRemapCore::BufUnorm
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufUnSignedInt
+--------------
+
+.. cppattributetable:: AGRemapCore::BufUnSignedInt
+
+.. doxygenclass:: AGRemapCore::BufUnSignedInt
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+PositionFile
+------------
+
+.. cppattributetable:: AGRemapCore::PositionFile
+
+.. doxygenclass:: AGRemapCore::PositionFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGRemap
+-------
+
+.. cppattributetable:: AGRemapCore::VGRemap
+
+.. doxygenclass:: AGRemapCore::VGRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 If Templates
@@ -94,6 +265,28 @@ IfTemplateNode
 .. cppattributetable:: AGRemapCore::IfTemplateNode
 
 .. doxygenclass:: AGRemapCore::IfTemplateNode
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplateNonEmptyNodeTree
+--------------------------
+
+.. cppattributetable:: AGRemapCore::IfTemplateNonEmptyNodeTree
+
+.. doxygenclass:: AGRemapCore::IfTemplateNonEmptyNodeTree
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IfTemplateNormTree
+------------------
+
+.. cppattributetable:: AGRemapCore::IfTemplateNormTree
+
+.. doxygenclass:: AGRemapCore::IfTemplateNormTree
     :members:
     :protected-members:
 
@@ -705,3 +898,8 @@ Z3Predicate
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
 .. _Z3: https://github.com/Z3Prover/z3
 .. _sympy: https://www.sympy.org/en/index.html
+.. _floating point: https://en.wikipedia.org/wiki/C_data_types
+.. _half precision floating point: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
+.. _unsigned normalized integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _true division: https://peps.python.org/pep-0238/
+.. _endianness: https://en.wikipedia.org/wiki/Endianness

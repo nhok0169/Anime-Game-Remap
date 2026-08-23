@@ -1,0 +1,199 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufType</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_buf_data_type" prot="public" virt="non-virtual">AGRemapCore::BufDataType</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_buf_element_type" prot="public" virt="non-virtual">AGRemapCore::BufElementType</derivedcompoundref>
+    <includes refid="_buf_type_8h" local="no">BufType.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufType::name_</definition>
+        <argsstring></argsstring>
+        <name>name_</name>
+        <qualifiedname>AGRemapCore::BufType::name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="50" column="25" bodyfile="include/AGRemapCore/model/buffers/BufType.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufType::BufType</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>BufType</name>
+        <qualifiedname>AGRemapCore::BufType::BufType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new type descriptor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="33" column="22" bodyfile="src/model/buffers/BufType.cpp" bodystart="7" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BufType::~BufType</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BufType</name>
+        <qualifiedname>AGRemapCore::BufType::~BufType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="35" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufType::getName</definition>
+        <argsstring>() const</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::BufType::getName</qualifiedname>
+        <briefdescription>
+<para>The name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="40" column="31" bodyfile="src/model/buffers/BufType.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufType::setName</definition>
+        <argsstring>(std::string name)</argsstring>
+        <name>setName</name>
+        <qualifiedname>AGRemapCore::BufType::setName</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Sets the name of the type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new name </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufType.h" line="47" column="18" bodyfile="src/model/buffers/BufType.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The common base for any type used to describe the structure of a ``.buf`` file -- either an
+elementary data type (:cpp:class:`BufDataType`) or the composite element built out of a
+sequence of them (:cpp:class:`BufElementType`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original also declares ``decode``/``encode`` on this base class, but
+   :cpp:class:`BufDataType`&apos;s decode/encode work on a single :cpp:type:`BufValue` while
+   :cpp:class:`BufElementType`&apos;s work on a ``std::vector&lt;BufValue&gt;`` -- two genuinely
+   incompatible signatures that Python&apos;s duck typing lets slide, but a statically-typed
+   virtual interface cannot. This base only formalizes what both branches actually share (a
+   ``name``); each branch declares its own decode/encode shape at the point the two diverge
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BufBaseFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_float"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::BufBaseInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_int"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore::BufElementType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_element_type"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::BufFloat16</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float16"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::BufSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_signed_int"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+      <node id="8">
+        <label>AGRemapCore::BufUnSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_un_signed_int"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore::BufUnorm</label>
+        <link refid="class_a_g_remap_core_1_1_buf_unorm"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/buffers/BufType.h" line="25" column="5" bodyfile="include/AGRemapCore/model/buffers/BufType.h" bodystart="25" bodyend="51"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufType</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" virt="non-virtual"><scope>AGRemapCore::BufType</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" virt="non-virtual"><scope>AGRemapCore::BufType</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" virt="non-virtual"><scope>AGRemapCore::BufType</scope><name>setName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" virt="virtual"><scope>AGRemapCore::BufType</scope><name>~BufType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

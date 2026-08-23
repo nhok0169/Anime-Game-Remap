@@ -2,16 +2,26 @@ from .test_AhoCorasickDFA import AhoCorasickDFATest
 from .test_Algo import AlgoTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_BaseTokenizer import BaseTokenizerTest
+from .test_BinaryFile import BinaryFileTest
+from .test_BlendFile import BlendFileTest
+from .test_BufDataType import BufDataTypeTest
+from .test_BufElementType import BufElementTypeTest
+from .test_BufFile import BufFileTest
+from .test_BufTools import BufToolsTest
 from .test_CallGraph import CallGraphTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
+from .test_CppBlendFile import CppBlendFileTest
+from .test_CppBufFile import CppBufFileTest
 from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
+from .test_CppPositionFile import CppPositionFileTest
 from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
 from .test_FileService import FileServiceTest
 from .test_FilteredTokenizer import FilteredTokenizerTest
+from .test_GraphTools import GraphToolsTest
 from .test_Hash64 import Hash64Test
 from .test_Hash128 import Hash128Test
 from .test_HashTools import HashToolsTest
@@ -56,6 +66,7 @@ from .test_OrderedMultiMap import OrderedMultiMapTest
 from .test_OrderedMultiMapSqrt import OrderedMultiMapSqrtTest
 from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
 from .test_ParseContext import ParseContextTest
+from .test_PositionFile import PositionFileTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
 from .test_RegAdd import RegAddTest
 from .test_RegRemap import RegRemapTest
@@ -71,6 +82,7 @@ from .test_SympyTokenizer import SympyTokenizerTest
 from .test_Token import TokenTest
 from .test_Trie import TrieTest
 from .test_Version import VersionTest
+from .test_VGRemap import VGRemapTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
@@ -84,4 +96,6 @@ __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
 __all__ += ["RegAddTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
-__all__ += ["CallGraphTest", "SectionIterDataTest"]
+__all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
+__all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "CppBlendFileTest", "CppPositionFileTest", "BufToolsTest"]
+__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest"]

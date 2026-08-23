@@ -204,6 +204,19 @@ reopened) survives untouched.
   encode. Real inheritance gets you `isinstance()` and attribute inheritance for free; a
   docstring-only claim doesn't. See [Architecture](../Architecture/CLAUDE.md) for the pybind11
   mechanics behind this.
+- **A pure-Python function's type hint referencing a pybind11-bound class needs a real import
+  backing it, not just a bare quoted forward-reference string** — `bufFile: "CppBufFile"` with no
+  `CppBufFile` import anywhere in the file type-checks/imports/runs fine (Python never evaluates a
+  string annotation unless something explicitly calls it), and a `` :class:`CppBufFile` `` role in
+  the same docstring renders and cross-references fine independently (Sphinx resolves that from
+  its own `.rst`/docstring text, not from the live Python annotation) — so nothing in the normal
+  build-and-render verification loop catches the gap. It only shows up if something actually
+  resolves the annotation, e.g. `typing.get_type_hints()` (raises `NameError: name 'CppBufFile' is
+  not defined`) or a static type checker. Fix by adding a real import for the referenced class
+  (under a `##### CppLocalImports` block if it comes from `.core`, per
+  [Architecture](../Architecture/CLAUDE.md)) and using the unquoted annotation once it's importable
+  in the module — then confirm with `typing.get_type_hints()` on the function, since a clean Sphinx
+  build alone doesn't prove the annotation itself is valid.
 - **Naming pitfall that silently breaks doc rendering**: Sphinx's `autodoc` collapses a Python
   class to a bare `alias of X` stub — dropping the docstring, member list, and any
   "inherits from" line entirely, with **no warning** — whenever the name it's documented under
@@ -334,6 +347,14 @@ reopened) survives untouched.
     project's own "remap a mod" domain, but they're actually generic support types for
     `OrderedMultiMap`'s own internal key-remap/replace operations (confirmed by their C++
     definitions living under `tools/orderedMultiMap/`, not anywhere mod-specific) — `Tools`.
+  - `BufTools` runs the other direction: it *sounds* like a generic, `DictTools`/`HashTools`-style
+    utility class (a `Xxx` + `XxxTools` naming pattern this codebase uses a lot for genuinely
+    generic helpers), but it exists specifically to turn a `.buf` file's decoded frame data into a
+    `pandas.DataFrame` — fully `.buf`-file-domain-coupled — so it's `Model`, not `Tools`. Caught
+    only after initially filing it under `Tools` by name-pattern alone; knowing this rule doesn't
+    make the mistake harder to make when a real sibling name (`DictTools`) suggests the wrong
+    section, so still check the implementation, every time, even when the classification "feels"
+    obvious from the name.
   When genuinely unsure, grep for the class's actual definition and judge from there, rather than
   guessing from the name or copying a neighboring entry's placement.
 - Beyond the live `Model`/`Tools` split, everything else is a much larger, **non-alphabetical**,
@@ -368,6 +389,43 @@ reopened) survives untouched.
   keep even after the file is gone — that's still true and useful; it's specifically the "this is
   the counterpart to (`path/to/File.py`)" *file-existence* claim that becomes actively wrong and
   should go.
+- **A dangling "see the pure-Python original's own docstring for a worked example" pointer is not
+  a substitute for the worked example** — it was a shortcut taken during the initial port (skip
+  reproducing a diagrammed example, just point at the file that still had it), and it silently
+  breaks the moment that file is deleted (see the bullet above), leaving real documentation value
+  lost, not just a stale reference. Confirmed missing and restored for `IfTemplate`/`IfTemplateTree`/
+  `IfTemplateNonEmptyNodeTree`/`IfTemplateNormTree`: the old pure-Python docstrings had genuinely
+  useful `.ini`-code-block examples and hand-drawn ASCII tree diagrams (parse-tree shape,
+  before/after transformations) that never got ported at all, not even summarized. If a class's
+  own doc comment still says "see the old file for an example" (or said so before being cleaned up
+  per the bullet above), don't just delete the sentence — **go get the actual example**:
+  - If the pure-Python original still exists (renamed to `...Old` or otherwise), copy the example
+    straight from its docstring, translating `:class:`/`` `Term`_ `` references as needed.
+  - **If it's already been deleted outright, it's still recoverable from git history** as long as
+    it was tracked at some point — find a commit where `git show --stat <commit>` (or
+    `git log --diff-filter=D -- <path>`) shows the file being deleted, then
+    `git show <that-commit>^:<path>` prints the file's content from immediately before that
+    commit. This works even when the whole port (rename to `...Old`, then later delete) happened
+    across many uncommitted working-tree edits inside one long agent session and only ever landed
+    as a single squashed commit — the *original*, pre-rename file path still shows up as a clean
+    deletion in that commit's diff, since git's own rename-detection doesn't survive content
+    changing as much as a Python-to-C++ port does.
+  - **When one old Python file documented several classes that only one new C++ binding now
+    covers** (eg. `IfTemplateTree`/`IfTemplateNonEmptyNodeTree`/`IfTemplateNormTree` were three
+    separate Python-bound classes, each with its own "how I differ from my parent" example, but
+    only the base `IfTemplateTree` is Python-bound after the port — see
+    [Architecture](../Architecture/CLAUDE.md)'s note on why), there's nowhere left to hang the
+    subclasses' own examples in the *Python-facing* docs specifically. Fold them into the one
+    remaining class's docstring instead, reframed around whatever real, present-tense distinction
+    replaced the old class hierarchy (here: "by default" vs "after calling `.normalize()`", since
+    that's what actually determines the behavior a Python caller sees now) — don't just drop the
+    subclasses' examples because their own class no longer exists. The **C++ core** side is
+    different: the core classes (`AGRemapCore::IfTemplateNonEmptyNodeTree`/`IfTemplateNormTree`)
+    still exist even though they're not Python-bound, so `coreAPI.rst`/their own header doc
+    comments can (and should) keep one dedicated entry each, same as before the port — restore the
+    example there per-class, unfolded, and add a `.. doxygenclass::`/`.. cppattributetable::` entry
+    for each in `coreAPI.rst` if one doesn't already exist for a class that's newly gained real
+    documentation worth surfacing.
 - **Every `` `Term`_ `` link-style reference in a docstring needs a matching `.. _Term: URL`
   definition**, or the build reports `ERROR: Unknown target name: "term"` (a hard error, not just
   a warning — `--keep-going` lets the build finish anyway, but don't mistake that for success).

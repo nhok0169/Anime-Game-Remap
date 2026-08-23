@@ -65,6 +65,46 @@ void initCppIfTemplate(pybind11::module_ &m) {
     py::class_<PyIfTemplate>(m, "IfTemplate", R"doc(
 Data for storing information about a `section`_ in a .ini file
 
+.. note::
+    Assuming every ``if``/``else`` clause must be on its own line, we have that an
+    :class:`IfTemplate` has a form looking similar to this:
+
+    .. code-block:: ini
+        :linenos:
+        :emphasize-lines: 1,2,5,7,12,16,17
+
+        ...(does stuff)...
+        ...(does stuff)...
+        if ...(bool)...
+            if ...(bool)...
+                ...(does stuff)...
+            else if ...(bool)...
+                ...(does stuff)...
+            endif
+        else ...(bool)...
+            if ...(bool)...
+                if ...(bool)...
+                    ...(does stuff)...
+                endif
+            endif
+        endif
+        ...(does stuff)...
+        ...(does stuff)...
+
+    We split the above structure into parts (:class:`IfTemplatePart`) where each part is either:
+
+    #. **An If Predicate Part** (:class:`IfPredPart`): a single line containing the keywords ``if``, ``else`` or ``endif`` :raw-html:`<br />` **OR** :raw-html:`<br />`
+    #. **A Content Part** (:class:`IfContentPart`): a group of lines that *"does stuff"*
+
+    **Note that:** an :class:`IfTemplate` does not need to contain any parts containing the
+    keywords ``if``, ``else`` or ``endif``. This case covers the scenario when the user does not
+    use if/else statements for a particular `section`_.
+
+    Based on the above assumptions, we can assume that every ``[section]`` in a .ini file contains
+    this :class:`IfTemplate`.
+
+:raw-html:`<br />`
+
 .. container:: operations
 
     **Supported Operations:**

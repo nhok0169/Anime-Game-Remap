@@ -81,6 +81,22 @@ test module needs an entry there to be picked up by name. Conventions:
   the C++ vtable at all, so it can't catch an arity mismatch). Construct a C++ consumer backed
   by the Python implementation instead, e.g. `FRB.IfContentPart(content=somePyListOMM)`, then
   call the method through *that* object.
+- **Per-class unit tests that each construct their own fresh instance can pass while the real
+  shared-instance case is still broken.** A `vector<unique_ptr<T>>`-owning pybind11 class needs a
+  test that reuses the *exact same* Python object across more than one construction (or one
+  construction with the same value repeated, e.g. `[x] * 3`) if its disown-vs-clone semantics
+  matter (see [Architecture](../Architecture/CLAUDE.md)'s section on this). This is exactly how
+  the `BufElementType`/`BufDataType` disown bug slipped past an otherwise-thorough
+  `test_BufDataType.py`/`test_BufElementType.py`: every test built its own throwaway `BufDataType`,
+  so nothing ever reused one — the bug only surfaced through a real end-to-end script exercising
+  `constants/BufElementTypes.py`'s actual `[BufDataTypes.Float32.value] * 3`-style literals, which
+  route through a cached `DeferredEnum` value. Before finalizing tests for a class in this
+  situation, grep its real (non-test) call sites for reuse the same way described in
+  [Architecture](../Architecture/CLAUDE.md), and if you find any, add a dedicated
+  shared-instance-reuse test rather than trusting per-class isolation tests alone — and still run
+  an end-to-end script/the full suite against the real call sites before calling the port done,
+  since a `DeferredEnum`-cached value is invisible to a plain `grep "ClassName("` over the
+  constants module that actually triggers it.
 - **A new test module needs registering in `Tests/__init__.py` in two separate places, not one.**
   There's an import line (`from .test_Xxx import XxxTest`) *and* a hand-maintained `__all__` list
   further down the same file that the import lines don't feed into automatically. `main.py`
@@ -198,9 +214,11 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 `test_IfTemplateNormTree`, `test_IfTemplateTree`, and the old pre-C++-port `test_IfContentPart` —
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction. Confirmed
-still erroring/failing on a clean run as of this writing (**1059 tests, 0 failures, 37 errors** —
+still erroring/failing on a clean run as of this writing (**1075 tests, 0 failures, 37 errors** —
 `IfTemplate`/`IfTemplateNode`/`IfTemplateTree`/`CallGraph`/`SectionIterData`/`IniSectionGraph` are
-now fully C++-backed with fresh, fully-passing black-box test files of their own — see [Ini Graph
+now fully C++-backed with fresh, fully-passing black-box test files of their own (plus a dedicated
+`test_GraphTools.py`, split out after the `GraphTools` coverage gap described in
+[Architecture](../Architecture/CLAUDE.md)'s deletion-checklist section) — see [Ini Graph
 Editing](../IniGraphEditing/CLAUDE.md) — and their deprecated pure-Python `...Old` originals have
 been deleted outright, not just renamed, so don't go looking for `test_IfTemplateOld.py`/
 `IfTemplateOld.py`/etc.; they no longer exist anywhere in this repo):

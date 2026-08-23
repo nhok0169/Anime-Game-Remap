@@ -7,6 +7,7 @@ from ...core import Ranges
 from ...core import IfContentPartColouring
 from ...core import Hashes
 from ...core import Indices
+from ...core import VGRemap
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -15,7 +16,6 @@ from ...constants.GenericTypes import VersionType
 from ...constants.IniConsts import IniKeywords
 from ..assets.VertexCounts import VertexCounts
 from ..assets.VGRemaps import VGRemaps
-from ..VGRemap import VGRemap
 from ...tools.ListTools import ListTools
 from ...tools.DictTools import UnHashableNone
 from ...tools.Heading import Heading

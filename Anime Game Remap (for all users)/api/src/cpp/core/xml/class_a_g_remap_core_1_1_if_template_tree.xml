@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="41" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="91" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="91" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -56,7 +56,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="119" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="119" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="169" column="25" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="169" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_if_template_tree_1a3e81bddbe6f6684fc6b0d9b10436eca4" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
@@ -72,7 +72,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="124" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="124" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="174" column="22" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="174" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -88,7 +88,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="43" column="13"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="93" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1ab7e57cb5718c29e1652e2d84793eab15" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -102,7 +102,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="44" column="21"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="94" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1ab6dc5575c6c4d49605e6d3e3c90b7f15" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -119,7 +119,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="55" column="13"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="105" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1aa9bd885d8c8226494e0ff1a81592043c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ac851602a613d7430532233458b96df45" kindref="member">IfTemplateTree</ref> &amp;</type>
@@ -136,7 +136,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="56" column="28"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="106" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a04946e3a9bc84fe3548c902562e0ca81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -153,7 +153,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="57" column="13"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="107" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a3c27bbabae3a59c5f51aa25e0bf66839" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ac851602a613d7430532233458b96df45" kindref="member">IfTemplateTree</ref> &amp;</type>
@@ -170,7 +170,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="58" column="28"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="108" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1af45607c427b2f5db448eefcccbfe420e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
@@ -185,7 +185,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="63" column="22"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="113" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -200,7 +200,7 @@ whole pool is destroyed together when this tree is.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="68" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="118" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1a92071bc40f137dbc376548cd6982b946" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_if_template_tree_1ad41bafe984219a84002ada28aa67d7d7" kindref="member">NodeType</ref> *</type>
@@ -236,7 +236,7 @@ in place (eg. ensuring a root exists)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="102" column="22"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="152" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_tree_1aeccaf7aabf87c5938363e0a553322db5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -255,7 +255,7 @@ in place (eg. ensuring a root exists)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="107" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="157" column="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -296,7 +296,7 @@ this same vector&apos;s elements, which must outlive the returned tree
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="87" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="137" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -307,10 +307,60 @@ The parse tree for some `IfTemplate` -- the C++ port of ``IfTemplateTree.py``&ap
 ``IfTemplateTree`` class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
-   The parse tree is structured such that a node is composed of
-   :cpp:class:`IfContentPart`\\&lt;K, V, KeyHash, KeyEqual\\&gt; or other nodes, and children occur
-   when the node enters a specific branching condition -- see the pure-Python original&apos;s own
-   class docstring (still the fuller, diagrammed reference) for a worked example.
+   The parse tree for the `IfTemplate` is structured such that:
+
+   * A node is composed of :cpp:class:`IfContentPart`\\&lt;K, V, KeyHash, KeyEqual\\&gt; or other nodes
+   * The children to the node occur when the node enters a specific branching condition :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   eg. Suppose we have this branching structure
+
+   .. code-block:: ini
+       :linenos:
+
+       ...(does stuff)...
+       if ...(bool)...
+           if ...(bool)...
+               ...(does stuff)...
+           else if ...(bool)...
+               ...(does stuff)...
+           endif
+       else ...(bool)...
+           ...(does stuff)...
+           if ...(bool)...
+               if ...(bool)...
+                   ...(does stuff)...
+               endif
+               ...(does stuff)...
+           endif
+           ...(does stuff)...
+           if
+           endif
+       endif
+       ...(does stuff)...
+
+   :raw-html:`&lt;br /&gt;`
+
+   Let ``C`` be some :cpp:class:`IfContentPart` (the parts that say ``...(does stuff)...``)
+
+   Let ``B`` be some branching point (the parts that say ``if`` or ``else``)
+
+   Let ``[...]`` be some node
+
+   Let ``X`` be a node without any parts
+
+   The parse tree generated for the above code would be:
+
+   .. code-block::
+
+              [C B B C]
+                 | |
+            +----+ +----+
+            |           |
+          [B B]     [C B C B]
+           | |         |   |
+        +--+ +--+    [B C] X
+        |       |     |
+       [C]     [C]   [C]
 </verbatim></para>
 <para><parameterlist kind="templateparam"><parameteritem>
 <parameternamelist>
@@ -384,7 +434,7 @@ The parse tree for some `IfTemplate` -- the C++ port of ``IfTemplateTree.py``&ap
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="36" bodyend="125"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="86" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="86" bodyend="175"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a6d7e8956dc8e4b62c053de8b308b86c6" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateTree</scope><name>construct</name></member>

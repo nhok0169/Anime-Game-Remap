@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_blend_file" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BlendFile</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_file" prot="public" virt="non-virtual">AGRemapCore::BufFile</basecompoundref>
+    <includes refid="_blend_file_8h" local="no">BlendFile.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BlendFile::BlendFile</definition>
+        <argsstring>(BinarySrc src, std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; elements={})</argsstring>
+        <name>BlendFile</name>
+        <qualifiedname>AGRemapCore::BlendFile::BlendFile</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+          <declname>elements</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new blend file and immediately reads it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source file or bytes for the blend file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence of elements within the <computeroutput>.buf</computeroutput> file. If this is empty, uses the elements specified for some GIMI character: the blend weights (as 4 32-bit floating-point numbers) followed by the blend indices (as 4 32-bit signed integers) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="50" column="22" bodyfile="src/model/files/BlendFile.cpp" bodystart="43" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1acc431d4f104395810f7c19d6e175af6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::variant&lt; std::monostate, std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
+        <definition>std::variant&lt; std::monostate, std::string, ByteVec &gt; AGRemapCore::BlendFile::remap</definition>
+        <argsstring>(const VGRemap &amp;vgRemap, const std::optional&lt; std::string &gt; &amp;fixedBlendFile=std::nullopt, bool remapMissingIndices=true)</argsstring>
+        <name>remap</name>
+        <qualifiedname>AGRemapCore::BlendFile::remap</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>vgRemap</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fixedBlendFile</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>remapMissingIndices</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Remaps the blend indices in a <computeroutput>Blend.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vgRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap for correcting the Blend.buf file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedBlendFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path for the fixed <computeroutput>Blend.buf</computeroutput> file. If this is <computeroutput>std::nullopt</computeroutput>, the fixed bytes are returned directly instead of being written to a file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remapMissingIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to deactivate any missing blend indices that cannot be identified</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>std::monostate</computeroutput> if no correction was needed and <ref refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" kindref="member">getSrc</ref> is a file path (nothing was written); a raw copy of <ref refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" kindref="member">getData</ref> if no correction was needed and <ref refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" kindref="member">getSrc</ref> is already raw bytes; otherwise the same result shape as <ref refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" kindref="member">fix</ref> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="87" column="26" bodyfile="src/model/files/BlendFile.cpp" bodystart="98" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a5a76688879af6ae15031261337b6426f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_map&lt; long long, long long &gt;</type>
+        <definition>std::unordered_map&lt; long long, long long &gt; AGRemapCore::BlendFile::getMissingIndicesRemap</definition>
+        <argsstring>(const BufLineData &amp;src, const VGRemap &amp;vgRemap)</argsstring>
+        <name>getMissingIndicesRemap</name>
+        <qualifiedname>AGRemapCore::BlendFile::getMissingIndicesRemap</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>vgRemap</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the temporary remap for any missing blend indices not included in &apos;vgRemap&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data for the blend weights and the blend indices for a particular vertex </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vgRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap for correcting the Blend.buf file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The temporary remap for the missing indices. The keys are the missing indices found and the values are the temporary remapped values for these missing indices </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="61" column="39" bodyfile="src/model/files/BlendFile.cpp" bodystart="46" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1a0db36a8cbf7275a04037add89ab350a4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref></type>
+        <definition>BufLineData AGRemapCore::BlendFile::remapIndices</definition>
+        <argsstring>(BufLineData src, const VGRemap &amp;vgRemap, bool remapMissingIndices=true)</argsstring>
+        <name>remapIndices</name>
+        <qualifiedname>AGRemapCore::BlendFile::remapIndices</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &amp;</type>
+          <declname>vgRemap</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>remapMissingIndices</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Remaps the vertex group indices for a particular line (vertex). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The data for the blend weights and the blend indices for a particular vertex </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vgRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap for correcting the Blend.buf file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remapMissingIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to deactivate any missing blend indices that cannot be identified</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new data for the blend weights/blend indices, with the blend indices remapped </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="72" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="64" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::BlendFile::defaultElements</definition>
+        <argsstring>()</argsstring>
+        <name>defaultElements</name>
+        <qualifiedname>AGRemapCore::BlendFile::defaultElements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BlendFile.h" line="90" column="32" bodyfile="src/model/files/BlendFile.cpp" bodystart="25" bodyend="41"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufFile` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   We observe that a ``Blend.buf`` file is a binary file defined as:
+
+   * a line corresponds to the data for a particular vertex in the mod
+   * each line contains 32 bytes (256 bits)
+   * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+   * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
+   * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
+   * the blend weights are floating points while the blend indices are unsigned integers
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BinaryFile</label>
+        <link refid="class_a_g_remap_core_1_1_binary_file"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BlendFile</label>
+        <link refid="class_a_g_remap_core_1_1_blend_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufFile</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BinaryFile</label>
+        <link refid="class_a_g_remap_core_1_1_binary_file"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BlendFile</label>
+        <link refid="class_a_g_remap_core_1_1_blend_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufFile</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/files/BlendFile.h" line="38" column="5" bodyfile="include/AGRemapCore/model/files/BlendFile.h" bodystart="38" bodyend="91"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BinaryFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BlendFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>bytesPerLine_</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>data_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>decodeLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>defaultElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elementKeys_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elements_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>encodeLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>fileType_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>Filter</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>FixResult</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getBytesPerLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getData</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getFileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1a5a76688879af6ae15031261337b6426f" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getMissingIndicesRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getSrc</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>isValid</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" virt="virtual"><scope>AGRemapCore::BlendFile</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1acc431d4f104395810f7c19d6e175af6a" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>remap</name></member>
+      <member refid="class_a_g_remap_core_1_1_blend_file_1a0db36a8cbf7275a04037add89ab350a4" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>remapIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>setElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>setFileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>setSrc</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>src_</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a403d1d7ed483dd886a78b36ee109dd6d" prot="public" virt="virtual"><scope>AGRemapCore::BlendFile</scope><name>~BinaryFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" prot="public" virt="virtual"><scope>AGRemapCore::BlendFile</scope><name>~BufFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

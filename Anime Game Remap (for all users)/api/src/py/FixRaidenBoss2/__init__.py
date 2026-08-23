@@ -67,6 +67,21 @@ from .core import ModMappedAssets
 from .core import CppModAssets
 from .core import Hashes
 from .core import Indices
+from .core import BufType
+from .core import BufDataType
+from .core import BufBaseInt
+from .core import BufSignedInt
+from .core import BufUnSignedInt
+from .core import BufBaseFloat
+from .core import BufFloat
+from .core import BufFloat16
+from .core import BufUnorm
+from .core import BufElementType
+from .core import BinaryFile
+from .core import CppBufFile
+from .core import VGRemap
+from .core import CppBlendFile
+from .core import CppPositionFile
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -141,17 +156,11 @@ from .model.assets.ModDictAssetsOld import ModDictAssetsOld
 from .model.assets.ModMappedAssetsOld import ModMappedAssetsOld
 from .model.assets.VGRemaps import VGRemaps
 
-from .model.buffers.BufDataType import BufDataType
-from .model.buffers.BufElementType import BufElementType
-from .model.buffers.BufFloat import BufBaseFloat, BufFloat, BufFloat16
-from .model.buffers.BufInt import BufBaseInt, BufSignedInt, BufUnSignedInt
-from .model.buffers.BufType import BufType
-from .model.buffers.BufUnorm import BufUnorm
-
 from .model.files.BlendFile import BlendFile
 from .model.files.BufFile import BufFile
 from .model.files.File import File
 from .model.files.IniFile import IniFile
+from .model.files.PositionFile import PositionFile
 from .model.files.TextureFile import TextureFile
 
 from .model.iniparserdicts import KeepFirstDict
@@ -279,7 +288,6 @@ from .model.IniNamingTools import IniNamingTools
 from .model.Mod import Mod
 from .model.Model import Model
 from .model.Version import Version
-from .model.VGRemap import VGRemap
 
 from .tools.caches.Cache import Cache
 from .tools.caches.LRUCache import LruCache
@@ -305,6 +313,7 @@ from .tools.tries.PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFA
 from .tools.tries.Trie import Trie
 
 from .tools.Algo import Algo
+from .tools.BufTools import BufTools
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
@@ -327,6 +336,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "CppBufFile", "CppBlendFile", "CppPositionFile",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
@@ -338,7 +348,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "SyntaxErr",
            "BaseModAssets", "VertexCounts", "PositionEditors", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssetsOld", "ModMappedAssetsOld", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
-           "BlendFile", "BufFile", "File", "IniFile", "TextureFile",
+           "BlendFile", "BufFile", "File", "IniFile", "PositionFile", "TextureFile",
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",
@@ -367,7 +377,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Node", "ParseNode",
            "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
-           "Algo", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
+           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

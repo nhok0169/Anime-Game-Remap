@@ -1,0 +1,178 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_file_not_recognized" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufFileNotRecognized</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_buf_file_errors_8h" local="no">BufFileErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1a0f48561c446bc5d34234f6f623f5b2bd" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFileNotRecognized::filePath_</definition>
+        <argsstring></argsstring>
+        <name>filePath_</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::filePath_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="77" column="25" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1a35b783ace91ad5b12d3a4f80d2d6e5d9" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFileNotRecognized::fileType_</definition>
+        <argsstring></argsstring>
+        <name>fileType_</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::fileType_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="78" column="25" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1a7d321370c1e1e16bd5eaf0c5f64aad5f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufFileNotRecognized::BufFileNotRecognized</definition>
+        <argsstring>(std::string filePath, std::string fileType=&quot;Buffer&quot;)</argsstring>
+        <name>BufFileNotRecognized</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::BufFileNotRecognized</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>filePath</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>fileType</declname>
+          <defval>&quot;Buffer&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the <computeroutput>.buf</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fileType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of <computeroutput>.buf</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="64" column="22" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="26" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1aa7ab83deb6d0dfc428f2ff2c834efa8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufFileNotRecognized::filePath</definition>
+        <argsstring>() const</argsstring>
+        <name>filePath</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::filePath</qualifiedname>
+        <briefdescription>
+<para>The file path to the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="69" column="31" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1a9cc451162b1109ee8fb66a08f0273255" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BufFileNotRecognized::fileType</definition>
+        <argsstring>() const</argsstring>
+        <name>fileType</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::fileType</qualifiedname>
+        <briefdescription>
+<para>The name for the type of <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="74" column="31" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_not_recognized_1ac5d3bf32eb45c8f65be256aee09380d8" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFileNotRecognized::buildMessage</definition>
+        <argsstring>(const std::string &amp;filePath, const std::string &amp;fileType)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::BufFileNotRecognized::buildMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="80" column="32" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="18" bodyend="24"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when a ``.buf`` file cannot be read :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A minimal, Python-free data carrier for the ``filePath``/``fileType`` that caused the error --
+see :cpp:class:`BadBufData`&apos;s doc comment for why the message formatting itself is not
+reimplemented here
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BufFileNotRecognized</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file_not_recognized"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BufFileNotRecognized</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file_not_recognized"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="55" column="5" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="55" bodyend="81"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1a7d321370c1e1e16bd5eaf0c5f64aad5f" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>BufFileNotRecognized</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1ac5d3bf32eb45c8f65be256aee09380d8" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1aa7ab83deb6d0dfc428f2ff2c834efa8d" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>filePath</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1a0f48561c446bc5d34234f6f623f5b2bd" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>filePath_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1a9cc451162b1109ee8fb66a08f0273255" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>fileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_not_recognized_1a35b783ace91ad5b12d3a4f80d2d6e5d9" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFileNotRecognized</scope><name>fileType_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

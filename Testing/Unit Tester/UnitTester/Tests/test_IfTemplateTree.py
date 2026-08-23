@@ -128,6 +128,27 @@ class IfTemplateTreeTest(BaseUnitTest):
         ifTemplate.normalize()
         self.assertEqual(len(ifTemplate), 6)
 
+    def test_normalize_elifChainWithNoElse_syntheticEmptyElseInsertedAfterLastBranch(self):
+        parts = [FRB.IfContentPart({"pre": [(0, "1")]}, 0),
+                 FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, _Z3CTX),
+                 FRB.IfContentPart({"a": [(0, "1")]}, 1),
+                 FRB.IfPredPart("elif $i == 1", FRB.IfPredPartType.Elif, _Z3CTX),
+                 FRB.IfContentPart({"b": [(0, "1")]}, 1),
+                 FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX)]
+        ifTemplate = FRB.IfTemplate(parts)
+
+        ifTemplate.normalize()
+
+        # the synthetic "else"/empty-content pair lands right after the last real branch (the
+        # elif), still before "endIf" -- not after the "if" branch
+        self.assertEqual(len(ifTemplate), 8)
+        self.assertIsInstance(ifTemplate[5], FRB.IfPredPart)
+        self.assertEqual(ifTemplate[5].type, FRB.IfPredPartType.Else)
+        self.assertIsInstance(ifTemplate[6], FRB.IfContentPart)
+        self.assertEqual(ifTemplate[6].entries(), [])
+        self.assertIsInstance(ifTemplate[7], FRB.IfPredPart)
+        self.assertEqual(ifTemplate[7].type, FRB.IfPredPartType.EndIf)
+
     # ========================================================
     # ========= clear() ========================================
 

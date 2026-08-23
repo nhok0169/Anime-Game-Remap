@@ -11,12 +11,15 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import BufSignedInt, BufUnSignedInt
+from ..core import BufFloat
+from ..core import BufUnorm
+##### EndCppLocalImports
+
 ##### LocalImports
 from .ByteSize import ByteSize
 from .BufTypeNames import BufDataTypeNames
-from ..model.buffers.BufInt import BufSignedInt, BufUnSignedInt
-from ..model.buffers.BufFloat import BufFloat
-from ..model.buffers.BufUnorm import BufUnorm
 from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 

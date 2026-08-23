@@ -1,0 +1,423 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_data_type" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::BufDataType</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_type" prot="public" virt="non-virtual">AGRemapCore::BufType</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_buf_base_float" prot="public" virt="non-virtual">AGRemapCore::BufBaseFloat</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_buf_base_int" prot="public" virt="non-virtual">AGRemapCore::BufBaseInt</derivedcompoundref>
+    <includes refid="_buf_data_type_8h" local="no">BufDataType.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufDataType::size_</definition>
+        <argsstring></argsstring>
+        <name>size_</name>
+        <qualifiedname>AGRemapCore::BufDataType::size_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="109" column="25" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BufDataType::isBigEndian_</definition>
+        <argsstring></argsstring>
+        <name>isBigEndian_</name>
+        <qualifiedname>AGRemapCore::BufDataType::isBigEndian_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="110" column="18" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufDataType::BufDataType</definition>
+        <argsstring>(std::string name, std::size_t size, bool isBigEndian=false)</argsstring>
+        <name>BufDataType</name>
+        <qualifiedname>AGRemapCore::BufDataType::BufDataType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new elementary data type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The byte size for the data type (at most 8 bytes <ndash/> see the class-level warning on this codebase&apos;s 64-bit integer cap) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isBigEndian</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the type is in big endian mode</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if &apos;size&apos; is 0 or greater than 8 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="42" column="13" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a43e5663e62116be581aa0a8673af834d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BufDataType::~BufDataType</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BufDataType</name>
+        <qualifiedname>AGRemapCore::BufDataType::~BufDataType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="44" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufDataType::getSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::getSize</qualifiedname>
+        <briefdescription>
+<para>The byte size for the data type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="49" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::setSize</definition>
+        <argsstring>(std::size_t size)</argsstring>
+        <name>setSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::setSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+<para>Sets the byte size for the data type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new byte size</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if &apos;size&apos; is 0 or greater than 8 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="58" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="24" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BufDataType::getIsBigEndian</definition>
+        <argsstring>() const</argsstring>
+        <name>getIsBigEndian</name>
+        <qualifiedname>AGRemapCore::BufDataType::getIsBigEndian</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `endianness`_ for the data type
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="66" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::setIsBigEndian</definition>
+        <argsstring>(bool isBigEndian)</argsstring>
+        <name>setIsBigEndian</name>
+        <qualifiedname>AGRemapCore::BufDataType::setIsBigEndian</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>isBigEndian</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the `endianness`_ for the data type
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>isBigEndian</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new endianness (see <ref refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" kindref="member">getIsBigEndian</ref>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="76" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a47933d4fe189a82bde713caeedef8a5a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
+        <definition>virtual BufValue AGRemapCore::BufDataType::decode</definition>
+        <argsstring>(const ByteVec &amp;src) const =0</argsstring>
+        <name>decode</name>
+        <qualifiedname>AGRemapCore::BufDataType::decode</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f">decode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e">decode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float16_1a24d5c1b791ab9bab96dbd08692a8e33c">decode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_unorm_1a5c3aeafc777571de83cef572d67db1b8">decode</reimplementedby>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Decode the raw bytes to the required format for the type
+
+.. warning::
+   Please make sure the number of bytes passed into &apos;src&apos; matches :cpp:func:`getSize`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw bytes to decode</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The decoded value for the type </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="91" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a89a0f54b611c49c7f4a12e037377c743" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
+        <definition>virtual ByteVec AGRemapCore::BufDataType::encode</definition>
+        <argsstring>(const BufValue &amp;src) const =0</argsstring>
+        <name>encode</name>
+        <qualifiedname>AGRemapCore::BufDataType::encode</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6">encode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6">encode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float16_1a9b719d493d28f6bd5c84cbca2d17298b">encode</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_unorm_1adb388dcf976a6c98c2c34d12007ab5a4">encode</reimplementedby>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Encodes the format of the type back to raw bytes
+
+.. warning::
+   Please make sure &apos;src&apos; is within the acceptable range for the type
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The decoded value to encode</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The encoded raw bytes </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="106" column="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BufDataType::validateSize</definition>
+        <argsstring>(std::size_t size)</argsstring>
+        <name>validateSize</name>
+        <qualifiedname>AGRemapCore::BufDataType::validateSize</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>size</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="112" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="8" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufType` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The abstract base for an elementary data type within a ``.buf`` file (eg. a single integer or
+`floating point`_ number) -- a real format is one of :cpp:class:`BufBaseInt`&apos;s or
+:cpp:class:`BufBaseFloat`&apos;s concrete subclasses, or :cpp:class:`BufUnorm`
+
+.. warning::
+   Unlike the pure-Python original (where any subclass can be defined in plain Python and used
+   immediately -- ``BufDataType.decode``/``encode`` dispatch dynamically on whatever object is
+   passed in), a brand-new elementary data type not already covered by one of this class&apos;s
+   existing C++ subclasses needs a real C++ subclass and a rebuild -- this port does not expose
+   a Python-overridable virtual dispatch point for :cpp:func:`decode`/:cpp:func:`encode`
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BufBaseFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_float"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::BufBaseInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_base_int"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BufFloat</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::BufFloat16</label>
+        <link refid="class_a_g_remap_core_1_1_buf_float16"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::BufSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_signed_int"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+      <node id="8">
+        <label>AGRemapCore::BufUnSignedInt</label>
+        <link refid="class_a_g_remap_core_1_1_buf_un_signed_int"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore::BufUnorm</label>
+        <link refid="class_a_g_remap_core_1_1_buf_unorm"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BufDataType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_data_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufType</label>
+        <link refid="class_a_g_remap_core_1_1_buf_type"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="29" column="5" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="29" bodyend="113"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a47933d4fe189a82bde713caeedef8a5a" prot="public" virt="pure-virtual"><scope>AGRemapCore::BufDataType</scope><name>decode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a89a0f54b611c49c7f4a12e037377c743" prot="public" virt="pure-virtual"><scope>AGRemapCore::BufDataType</scope><name>encode</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>getIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a1b3f45d6bd90ac20bafe709b91f68f13" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>getSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>isBigEndian_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" prot="private" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>name_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>setIsBigEndian</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a5845cc2358124350d6300dbaeb4eff62" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>setName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>setSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" prot="private" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>size_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" prot="private" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>validateSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a43e5663e62116be581aa0a8673af834d" prot="public" virt="virtual"><scope>AGRemapCore::BufDataType</scope><name>~BufDataType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_type_1a0281d01ccc35a2bb3feb593f68828972" prot="public" virt="virtual"><scope>AGRemapCore::BufDataType</scope><name>~BufType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

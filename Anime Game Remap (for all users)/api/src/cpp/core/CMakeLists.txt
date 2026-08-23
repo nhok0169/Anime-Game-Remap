@@ -52,6 +52,18 @@ add_library(AGRemapCore STATIC
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
     src/model/strategies/iniClassifiers/IniClassifier.cpp
+    src/model/buffers/BufType.cpp
+    src/model/buffers/BufDataType.cpp
+    src/model/buffers/BufInt.cpp
+    src/model/buffers/BufFloat.cpp
+    src/model/buffers/BufUnorm.cpp
+    src/model/buffers/BufElementType.cpp
+    src/model/files/BufFileErrors.cpp
+    src/model/files/BinaryFile.cpp
+    src/model/files/BufFile.cpp
+    src/model/VGRemap.cpp
+    src/model/files/BlendFile.cpp
+    src/model/files/PositionFile.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )

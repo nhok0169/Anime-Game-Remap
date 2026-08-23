@@ -414,7 +414,22 @@ namespace AGRemapCore {
             virtual std::pair<K, V> getByInd(long long index) const = 0;
 
             /**
-             * @copydoc BaseOrderedMultiMap::getByInd(long long, bool) const
+             * @copybrief BaseOrderedMultiMap::getByInd(long long) const
+             @rst
+             This overload additionally pairs the entry's value with its occurrence index
+             (how many times this same key already appeared earlier in the sequence,
+             0-based) instead of its key
+             @endrst
+             *
+             * @param index
+             @rst
+             The position to retrieve. Python-style negative indices are supported: valid
+             range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
+             @endrst
+             *
+             * @return The (occurrence index, value) pair at that position
+             *
+             * @throw std::out_of_range Thrown when ``index`` is out of range
              */
             virtual std::pair<long long, V> getByIndWithOccurrence(long long index) const = 0;
 

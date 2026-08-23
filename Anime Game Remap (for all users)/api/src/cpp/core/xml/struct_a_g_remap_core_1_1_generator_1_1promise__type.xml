@@ -73,7 +73,7 @@
         <name>final_suspend</name>
         <qualifiedname>AGRemapCore::Generator::promise_type::final_suspend</qualifiedname>
         <briefdescription>
-<para>Always suspends after the coroutine body finishes, so #Handle::done() can still be observed. </para>
+<para>Always suspends after the coroutine body finishes, so <computeroutput>Handle::done()</computeroutput> can still be observed. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

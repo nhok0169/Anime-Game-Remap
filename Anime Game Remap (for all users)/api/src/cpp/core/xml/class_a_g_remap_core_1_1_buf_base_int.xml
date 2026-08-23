@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="74" column="18" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="77" column="18" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="77" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="33" column="13" bodyfile="src/model/buffers/BufInt.cpp" bodystart="61" bodyend="62"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="34" column="13" bodyfile="src/model/buffers/BufInt.cpp" bodystart="62" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="38" column="18" bodyfile="src/model/buffers/BufInt.cpp" bodystart="64" bodyend="66"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="39" column="18" bodyfile="src/model/buffers/BufInt.cpp" bodystart="65" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -142,7 +142,7 @@ Decode the raw bytes to an integer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="54" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="68" bodyend="75"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="55" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="69" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -180,7 +180,37 @@ Encodes an integer back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="71" column="21" bodyfile="src/model/buffers/BufInt.cpp" bodystart="77" bodyend="90"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="72" column="21" bodyfile="src/model/buffers/BufInt.cpp" bodystart="78" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; BufDataType &gt; AGRemapCore::BufBaseInt::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::BufBaseInt::clone</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_buf_data_type_1a91983ca718d956f52f9b849fbfce7cc4">clone</reimplements>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_signed_int_1a1bb5c8ec78bb0cce0f8b298e89e88c1d">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_un_signed_int_1af9c981d7225c26a1e171a5dd0eb577ab">clone</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes an owned copy of this data type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``BufDataType`` is a small, shareable *value* -- a type descriptor, not a unique
+identity-bearing node -- and this codebase&apos;s own real usage relies on that: the
+`pybind11`_ binding for :cpp:class:`BufElementType` clones each incoming data type
+through this method rather than taking ownership of the exact Python object passed
+in, specifically so the same cached ``BufDataType`` instance (eg.
+``BufDataTypes.Float32.value`` in the Python-side ``constants/BufDataTypes.py``,
+reused across many different ``.buf`` element definitions) can be passed into more
+than one :cpp:class:`BufElementType` without being consumed by the first use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="74" column="29" bodyfile="src/model/buffers/BufInt.cpp" bodystart="93" bodyend="95"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -247,11 +277,12 @@ The type definition for some generic integer type within a ``.buf`` file, at mos
         <link refid="class_a_g_remap_core_1_1_buf_type"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="22" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="22" bodyend="75"/>
+    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="23" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="23" bodyend="78"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>BufBaseInt</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>BufDataType</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseInt</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseInt</scope><name>decode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseInt</scope><name>encode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>getIsBigEndian</name></member>

@@ -151,7 +151,7 @@ class-level note
 <parametername>versionIndexPos</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The position (0-based) of the version index within a row&apos;s #Row::indexVals </para>
+<para>The position (0-based) of the version index within a row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -219,7 +219,7 @@ replaces old data&quot; for an identical full key path :raw-html:`&lt;br /&gt;` 
 <parametername>std::invalid_argument</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>If any row&apos;s #Row::indexVals size doesn&apos;t match the table&apos;s <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref>, or if a row&apos;s version index value fails to parse (see <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" kindref="member">VersionParser</ref>) </para>
+<para>If any row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref> size doesn&apos;t match the table&apos;s <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" kindref="member">getTotalIndices</ref>, or if a row&apos;s version index value fails to parse (see <ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" kindref="member">VersionParser</ref>) </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -331,7 +331,7 @@ the class-level note on this being the corrected, inclusive-floor version resolu
         <name>getVersionIndexPos</name>
         <qualifiedname>AGRemapCore::ModDictAssets::getVersionIndexPos</qualifiedname>
         <briefdescription>
-<para>The position (0-based) of the version index within a row&apos;s #Row::indexVals. </para>
+<para>The position (0-based) of the version index within a row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref>. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

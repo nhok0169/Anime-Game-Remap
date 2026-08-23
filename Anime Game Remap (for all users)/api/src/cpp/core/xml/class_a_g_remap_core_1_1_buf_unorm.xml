@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="64" column="32" bodyfile="include/AGRemapCore/model/buffers/BufUnorm.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="67" column="32" bodyfile="include/AGRemapCore/model/buffers/BufUnorm.h" bodystart="67" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="31" column="13" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="24" bodyend="25"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="32" column="13" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="25" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1a5c3aeafc777571de83cef572d67db1b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -110,7 +110,7 @@ Decode the raw bytes to the `floating point`_ value for the `unsigned normalized
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="46" column="22" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="47" column="22" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="28" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1adb388dcf976a6c98c2c34d12007ab5a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -147,7 +147,34 @@ Encodes the `floating point`_ back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="61" column="21" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="32" bodyend="36"/>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="62" column="21" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="33" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; BufDataType &gt; AGRemapCore::BufUnorm::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::BufUnorm::clone</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa">clone</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes an owned copy of this data type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``BufDataType`` is a small, shareable *value* -- a type descriptor, not a unique
+identity-bearing node -- and this codebase&apos;s own real usage relies on that: the
+`pybind11`_ binding for :cpp:class:`BufElementType` clones each incoming data type
+through this method rather than taking ownership of the exact Python object passed
+in, specifically so the same cached ``BufDataType`` instance (eg.
+``BufDataTypes.Float32.value`` in the Python-side ``constants/BufDataTypes.py``,
+reused across many different ``.buf`` element definitions) can be passed into more
+than one :cpp:class:`BufElementType` without being consumed by the first use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="64" column="29" bodyfile="src/model/buffers/BufUnorm.cpp" bodystart="39" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -207,12 +234,13 @@ The type definition for an `unsigned normalized integer`_ number within a ``.buf
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="21" column="5" bodyfile="include/AGRemapCore/model/buffers/BufUnorm.h" bodystart="21" bodyend="65"/>
+    <location file="include/AGRemapCore/model/buffers/BufUnorm.h" line="22" column="5" bodyfile="include/AGRemapCore/model/buffers/BufUnorm.h" bodystart="22" bodyend="68"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnorm</scope><name>BufBaseInt</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnorm</scope><name>BufDataType</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnorm</scope><name>BufType</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_unorm_1a5492175d42d8de36843122422d66c5a8" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnorm</scope><name>BufUnorm</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad" prot="public" virt="virtual"><scope>AGRemapCore::BufUnorm</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_unorm_1a5c3aeafc777571de83cef572d67db1b8" prot="public" virt="virtual"><scope>AGRemapCore::BufUnorm</scope><name>decode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_unorm_1adb388dcf976a6c98c2c34d12007ab5a4" prot="public" virt="virtual"><scope>AGRemapCore::BufUnorm</scope><name>encode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnorm</scope><name>getIsBigEndian</name></member>

@@ -556,7 +556,6 @@ EXTRACT_ALL            = YES
 # The default value is: NO.
 
 EXTRACT_PRIVATE        = YES
-EXTRACT_PROTECTED      = YES
 
 # If the EXTRACT_PRIV_VIRTUAL tag is set to YES, documented private virtual
 # methods of a class will be included in the documentation.

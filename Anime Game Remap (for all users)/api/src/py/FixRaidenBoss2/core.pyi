@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBinaryFile', 'CppBlendFile', 'CppBufBaseFloat', 'CppBufBaseInt', 'CppBufDataType', 'CppBufElementType', 'CppBufFile', 'CppBufFloat', 'CppBufFloat16', 'CppBufSignedInt', 'CppBufType', 'CppBufUnSignedInt', 'CppBufUnorm', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppPositionFile', 'CppTrie', 'CppVGRemap', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBlendFile', 'CppBufFile', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppPositionFile', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
 class BaseSLR1Parser:
@@ -365,6 +365,368 @@ class BiMap:
         ...
     def insert(self, key: typing.Any, val: typing.Any) -> None:
         ...
+class BinaryFile:
+    """
+    
+    A class to handle binary files
+        
+    """
+    def __init__(self, src: typing.Any) -> None:
+        """
+        Constructs a new binary file
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the file
+        """
+    def read(self) -> bytes:
+        """
+        Reads the data within a file
+        
+        Returns
+        -------
+        :class:`bytes`
+            The read bytes
+        """
+    @property
+    def data(self) -> bytes:
+        """
+        :class:`bytes`: The bytes read in from the source
+        """
+    @property
+    def src(self) -> typing.Any:
+        """
+        Union[:class:`str`, :class:`bytes`]: The source file or bytes for the file
+        """
+    @src.setter
+    def src(self, arg1: typing.Any) -> None:
+        ...
+class BufBaseFloat(BufDataType):
+    """
+    
+    This class inherits from :class:`BufDataType`
+    
+    The type definition for a generic 32-bit IEEE 754 `floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new `floating point`_ type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class BufBaseInt(BufDataType):
+    """
+    
+    This class inherits from :class:`BufDataType`
+    
+    The type definition for some generic integer type within a ``.buf`` file, at most 8 bytes wide
+    (see :class:`BufDataType`'s class-level warning)
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False, isSigned: bool = True) -> None:
+        """
+        Constructs a new integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        
+        isSigned: :class:`bool`
+            Whether the type is signed. **Default**: ``True``
+        """
+    @property
+    def isSigned(self) -> bool:
+        """
+        :class:`bool`: Whether the data type is signed
+        """
+class BufDataType(BufType):
+    """
+    
+    This class inherits from :class:`BufType`
+    
+    The abstract base for an elementary data type within a ``.buf`` file (eg. a single integer or
+    `floating point`_ number) -- a real format is one of :class:`BufBaseInt`'s or
+    :class:`BufBaseFloat`'s concrete subclasses, or :class:`BufUnorm`
+    
+    .. warning::
+        Unlike the pure-Python original this replaces (where any subclass could be defined in plain
+        Python and used immediately), a brand-new elementary data type not already covered by one of
+        this class's existing subclasses needs a real C++ subclass and a rebuild of this extension --
+        ``decode``/``encode`` are not overridable from pure Python here
+        
+    """
+    def decode(self, src: bytes) -> int | int | float:
+        """
+        Decode the raw bytes to the required format for the type
+        
+        .. warning::
+            Please make sure the number of bytes passed into 'src' matches :attr:`size`
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The raw bytes to decode
+        
+        Returns
+        -------
+        Union[:class:`int`, :class:`float`]
+            The decoded value for the type
+        """
+    def encode(self, src: typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex) -> bytes:
+        """
+        Encodes the format of the type back to raw bytes
+        
+        .. warning::
+            Please make sure 'src' is within the acceptable range for the type
+        
+        Parameters
+        ----------
+        src: Union[:class:`int`, :class:`float`]
+            The decoded value to encode
+        
+        Returns
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+    @property
+    def isBigEndian(self) -> bool:
+        """
+        :class:`bool`: The `endianness`_ for the data type
+        """
+    @isBigEndian.setter
+    def isBigEndian(self, arg1: bool) -> None:
+        ...
+    @property
+    def size(self) -> int:
+        """
+        :class:`int`: The byte size for the data type (at most 8 bytes)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If set to ``0`` or a value greater than ``8``
+        """
+    @size.setter
+    def size(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class BufElementType(BufType):
+    """
+    
+    This class inherits from :class:`BufType`
+    
+    The type definition for an element within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, formatName: str, dataTypes: typing.Any) -> None:
+        """
+        Constructs a new element type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the element
+        
+        formatName: :class:`str`
+            The name of the type format according to 3dmigoto
+        
+        dataTypes: List[:class:`BufDataType`]
+            The data types composed within the element, in byte order -- each is cloned, so the same
+            passed-in instance can safely be reused for other elements afterward
+        """
+    def decode(self, src: bytes) -> list[int | int | float]:
+        """
+        Decodes a raw sequence of bytes into one decoded value per data type composing this element
+        
+        Parameters
+        ----------
+        src: :class:`bytes`
+            The source bytes to decode
+        
+        Returns
+        -------
+        List[Union[:class:`int`, :class:`float`]]
+            The decoded values, one per entry of :attr:`dataTypes`, in the same order
+        """
+    def encode(self, src: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]) -> bytes:
+        """
+        Encodes the decoded values for this element back to raw bytes
+        
+        Parameters
+        ----------
+        src: List[Union[:class:`int`, :class:`float`]]
+            The decoded values to encode, one per entry of :attr:`dataTypes`
+        
+        Returns
+        -------
+        :class:`bytes`
+            The encoded raw bytes
+        """
+    @property
+    def dataTypes(self) -> list[BufDataType]:
+        """
+        List[:class:`BufDataType`]: The data types composed within the element
+        
+        Assigning a new list clones each new data type the same way the constructor's own ``dataTypes``
+        parameter does
+        """
+    @dataTypes.setter
+    def dataTypes(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def formatName(self) -> str:
+        """
+        :class:`str`: The name of the type format according to 3dmigoto
+        """
+    @formatName.setter
+    def formatName(self, arg1: str) -> None:
+        ...
+    @property
+    def size(self) -> int:
+        """
+        :class:`int`: The byte size for the element
+        """
+class BufFloat(BufBaseFloat):
+    """
+    
+    This class inherits from :class:`BufBaseFloat`
+    
+    The type definition for a 32-bit `floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new 32-bit `floating point`_ type
+        
+        Parameters
+        ----------
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class BufFloat16(BufBaseFloat):
+    """
+    
+    This class inherits from :class:`BufBaseFloat`
+    
+    The type definition for a 16-bit `half precision floating point`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new 16-bit `half precision floating point`_ type
+        
+        Parameters
+        ----------
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class BufSignedInt(BufBaseInt):
+    """
+    
+    This class inherits from :class:`BufBaseInt`
+    
+    The type definition for some signed integer type within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str = 'SignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new signed integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type. **Default**: ``"SignedInt32"``
+        
+        size: :class:`int`
+            The byte size for the data type. **Default**: ``4``
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class BufType:
+    """
+    
+    The common base for any type used to describe the structure of a ``.buf`` file
+    
+    .. note::
+        Unlike the pure-Python original this replaces, this class has no ``decode``/``encode`` methods
+        of its own -- see :class:`BufDataType`/:class:`BufElementType` (whose Python originals both
+        overrode ``decode``/``encode`` with genuinely incompatible signatures -- a single value vs. a
+        list of values -- that only Python's duck typing let share one base method name)
+        
+    """
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The name of the type
+        """
+    @name.setter
+    def name(self, arg1: str) -> None:
+        ...
+class BufUnSignedInt(BufBaseInt):
+    """
+    
+    This class inherits from :class:`BufBaseInt`
+    
+    The type definition for some unsigned integer type within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str = 'UnsignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new unsigned integer type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type. **Default**: ``"UnsignedInt32"``
+        
+        size: :class:`int`
+            The byte size for the data type. **Default**: ``4``
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
+class BufUnorm(BufBaseInt):
+    """
+    
+    This class inherits from :class:`BufBaseInt`
+    
+    The type definition for an `unsigned normalized integer`_ number within a ``.buf`` file
+        
+    """
+    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
+        """
+        Constructs a new `unsigned normalized integer`_ type
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the type
+        
+        size: :class:`int`
+            The byte size for the data type
+        
+        isBigEndian: :class:`bool`
+            Whether the type is in big endian mode. **Default**: ``False``
+        """
 class CallGraph:
     """
     
@@ -902,43 +1264,6 @@ class CppBaseIniClassifier:
         """
         Clears the state of the classifier
         """
-class CppBinaryFile:
-    """
-    
-    A class to handle binary files
-        
-    """
-    def __init__(self, src: typing.Any) -> None:
-        """
-        Constructs a new binary file
-        
-        Parameters
-        ----------
-        src: Union[:class:`str`, :class:`bytes`]
-            The source file or bytes for the file
-        """
-    def read(self) -> bytes:
-        """
-        Reads the data within a file
-        
-        Returns
-        -------
-        :class:`bytes`
-            The read bytes
-        """
-    @property
-    def data(self) -> bytes:
-        """
-        :class:`bytes`: The bytes read in from the source
-        """
-    @property
-    def src(self) -> typing.Any:
-        """
-        Union[:class:`str`, :class:`bytes`]: The source file or bytes for the file
-        """
-    @src.setter
-    def src(self, arg1: typing.Any) -> None:
-        ...
 class CppBlendFile(CppBufFile):
     """
     
@@ -958,7 +1283,7 @@ class CppBlendFile(CppBufFile):
         
     """
     @staticmethod
-    def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: CppVGRemap) -> dict[int, int]:
+    def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap) -> dict[int, int]:
         """
         Retrieves the temporary remap for any missing blend indices not included in 'vgRemap'
         
@@ -967,7 +1292,7 @@ class CppBlendFile(CppBufFile):
         src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
             The data for the blend weights and the blend indices for a particular vertex
         
-        vgRemap: :class:`CppVGRemap`
+        vgRemap: :class:`VGRemap`
             The vertex group remap for correcting the Blend.buf file
         
         Returns
@@ -977,7 +1302,7 @@ class CppBlendFile(CppBufFile):
             values are the temporary remapped values for these missing indices
         """
     @staticmethod
-    def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: CppVGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
+    def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
         """
         Remaps the vertex group indices for a particular line (vertex)
         
@@ -986,7 +1311,7 @@ class CppBlendFile(CppBufFile):
         src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
             The data for the blend weights and the blend indices for a particular vertex
         
-        vgRemap: :class:`CppVGRemap`
+        vgRemap: :class:`VGRemap`
             The vertex group remap for correcting the Blend.buf file
         
         remapMissingIndices: :class:`bool`
@@ -1006,7 +1331,7 @@ class CppBlendFile(CppBufFile):
         src: Union[:class:`str`, :class:`bytes`]
             The source file or bytes for the blend file
         
-        elements: Optional[List[:class:`CppBufElementType`]]
+        elements: Optional[List[:class:`BufElementType`]]
             The sequence of elements within the ``.buf`` file. If this argument is ``None`` or empty, will
             use the elements specified for some GIMI character. **Default**: ``None``
         
@@ -1018,13 +1343,13 @@ class CppBlendFile(CppBufFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for a blend file
         """
-    def remap(self, vgRemap: CppVGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
+    def remap(self, vgRemap: VGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
         """
         Remaps the blend indices in a ``Blend.buf`` file
         
         Parameters
         ----------
-        vgRemap: :class:`CppVGRemap`
+        vgRemap: :class:`VGRemap`
             The vertex group remap for correcting the Blend.buf file
         
         fixedBlendFile: Optional[:class:`str`]
@@ -1040,217 +1365,15 @@ class CppBlendFile(CppBufFile):
             ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
             returns ``fixedBlendFile`` itself
         """
-class CppBufBaseFloat(CppBufDataType):
+class CppBufFile(BinaryFile):
     """
     
-    This class inherits from :class:`CppBufDataType`
-    
-    The type definition for a generic 32-bit IEEE 754 `floating point`_ number within a ``.buf`` file
-        
-    """
-    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new `floating point`_ type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the type
-        
-        size: :class:`int`
-            The byte size for the data type
-        
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
-class CppBufBaseInt(CppBufDataType):
-    """
-    
-    This class inherits from :class:`CppBufDataType`
-    
-    The type definition for some generic integer type within a ``.buf`` file, at most 8 bytes wide
-    (see :class:`CppBufDataType`'s class-level warning)
-        
-    """
-    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False, isSigned: bool = True) -> None:
-        """
-        Constructs a new integer type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the type
-        
-        size: :class:`int`
-            The byte size for the data type
-        
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        
-        isSigned: :class:`bool`
-            Whether the type is signed. **Default**: ``True``
-        """
-    @property
-    def isSigned(self) -> bool:
-        """
-        :class:`bool`: Whether the data type is signed
-        """
-class CppBufDataType(CppBufType):
-    """
-    
-    This class inherits from :class:`CppBufType`
-    
-    The abstract base for an elementary data type within a ``.buf`` file (eg. a single integer or
-    `floating point`_ number) -- a real format is one of :class:`CppBufBaseInt`'s or
-    :class:`CppBufBaseFloat`'s concrete subclasses, or :class:`CppBufUnorm`
-    
-    .. warning::
-        Unlike the pure-Python original (where any subclass can be defined in plain Python and used
-        immediately), a brand-new elementary data type not already covered by one of this class's
-        existing subclasses needs a real C++ subclass and a rebuild of this extension -- ``decode``/
-        ``encode`` are not overridable from pure Python here
-        
-    """
-    def decode(self, src: bytes) -> int | int | float:
-        """
-        Decode the raw bytes to the required format for the type
-        
-        .. warning::
-            Please make sure the number of bytes passed into 'src' matches :attr:`size`
-        
-        Parameters
-        ----------
-        src: :class:`bytes`
-            The raw bytes to decode
-        
-        Returns
-        -------
-        Union[:class:`int`, :class:`float`]
-            The decoded value for the type
-        """
-    def encode(self, src: typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex) -> bytes:
-        """
-        Encodes the format of the type back to raw bytes
-        
-        .. warning::
-            Please make sure 'src' is within the acceptable range for the type
-        
-        Parameters
-        ----------
-        src: Union[:class:`int`, :class:`float`]
-            The decoded value to encode
-        
-        Returns
-        -------
-        :class:`bytes`
-            The encoded raw bytes
-        """
-    @property
-    def isBigEndian(self) -> bool:
-        """
-        :class:`bool`: The `endianness`_ for the data type
-        """
-    @isBigEndian.setter
-    def isBigEndian(self, arg1: bool) -> None:
-        ...
-    @property
-    def size(self) -> int:
-        """
-        :class:`int`: The byte size for the data type (at most 8 bytes)
-        
-        Raises
-        ------
-        :class:`ValueError`
-            If set to ``0`` or a value greater than ``8``
-        """
-    @size.setter
-    def size(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-class CppBufElementType(CppBufType):
-    """
-    
-    This class inherits from :class:`CppBufType`
-    
-    The type definition for an element within a ``.buf`` file
-        
-    """
-    def __init__(self, name: str, formatName: str, dataTypes: typing.Any) -> None:
-        """
-        Constructs a new element type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the element
-        
-        formatName: :class:`str`
-            The name of the type format according to 3dmigoto
-        
-        dataTypes: List[:class:`CppBufDataType`]
-            The data types composed within the element, in byte order -- ownership of each is taken from
-            the passed-in Python objects (the same contract as :class:`IfTemplate`'s own ``parts`` parameter)
-        """
-    def decode(self, src: bytes) -> list[int | int | float]:
-        """
-        Decodes a raw sequence of bytes into one decoded value per data type composing this element
-        
-        Parameters
-        ----------
-        src: :class:`bytes`
-            The source bytes to decode
-        
-        Returns
-        -------
-        List[Union[:class:`int`, :class:`float`]]
-            The decoded values, one per entry of :attr:`dataTypes`, in the same order
-        """
-    def encode(self, src: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]) -> bytes:
-        """
-        Encodes the decoded values for this element back to raw bytes
-        
-        Parameters
-        ----------
-        src: List[Union[:class:`int`, :class:`float`]]
-            The decoded values to encode, one per entry of :attr:`dataTypes`
-        
-        Returns
-        -------
-        :class:`bytes`
-            The encoded raw bytes
-        """
-    @property
-    def dataTypes(self) -> list[CppBufDataType]:
-        """
-        List[:class:`CppBufDataType`]: The data types composed within the element
-        
-        Assigning a new list takes ownership of each new data type the same way the constructor's own
-        ``dataTypes`` parameter does
-        """
-    @dataTypes.setter
-    def dataTypes(self, arg1: typing.Any) -> None:
-        ...
-    @property
-    def formatName(self) -> str:
-        """
-        :class:`str`: The name of the type format according to 3dmigoto
-        """
-    @formatName.setter
-    def formatName(self, arg1: str) -> None:
-        ...
-    @property
-    def size(self) -> int:
-        """
-        :class:`int`: The byte size for the element
-        """
-class CppBufFile(CppBinaryFile):
-    """
-    
-    This class inherits from :class:`CppBinaryFile`
+    This class inherits from :class:`BinaryFile`
     
     A class to handle ``.buf`` files
     
     A ``.buf`` file is a binary file made up of a sequence of same-sized "lines" (one line per vertex),
-    each one composed of the same sequence of :class:`CppBufElementType`\\s -- there is no header or
+    each one composed of the same sequence of :class:`BufElementType`\\s -- there is no header or
     footer, just the lines themselves back-to-back
         
     """
@@ -1263,9 +1386,9 @@ class CppBufFile(CppBinaryFile):
         src: Union[:class:`str`, :class:`bytes`]
             The source file or bytes for the ``.buf`` file
         
-        elements: List[:class:`CppBufElementType`]
-            The sequence of elements within the ``.buf`` file -- ownership of each is taken from the
-            passed-in Python objects (the same contract as :class:`IfTemplate`'s own ``parts`` parameter)
+        elements: List[:class:`BufElementType`]
+            The sequence of elements within the ``.buf`` file -- each is cloned, so the same passed-in
+            instance can safely be reused for other ``.buf`` files afterward
         
         fileType: :class:`str`
             The name for the type of ``.buf`` file. **Default**: ``"Buffer"``
@@ -1372,12 +1495,12 @@ class CppBufFile(CppBinaryFile):
         :class:`int`: The number of bytes per line (per vertex)
         """
     @property
-    def elements(self) -> list[CppBufElementType]:
+    def elements(self) -> list[BufElementType]:
         """
-        List[:class:`CppBufElementType`]: The sequence of elements within the ``.buf`` file
+        List[:class:`BufElementType`]: The sequence of elements within the ``.buf`` file
         
-        Assigning a new list takes ownership of each new element the same way the constructor's own
-        ``elements`` parameter does
+        Assigning a new list clones each new element the same way the constructor's own ``elements``
+        parameter does
         """
     @elements.setter
     def elements(self, arg1: typing.Any) -> None:
@@ -1390,129 +1513,6 @@ class CppBufFile(CppBinaryFile):
     @fileType.setter
     def fileType(self, arg1: str) -> None:
         ...
-class CppBufFloat(CppBufBaseFloat):
-    """
-    
-    This class inherits from :class:`CppBufBaseFloat`
-    
-    The type definition for a 32-bit `floating point`_ number within a ``.buf`` file
-        
-    """
-    def __init__(self, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new 32-bit `floating point`_ type
-        
-        Parameters
-        ----------
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
-class CppBufFloat16(CppBufBaseFloat):
-    """
-    
-    This class inherits from :class:`CppBufBaseFloat`
-    
-    The type definition for a 16-bit `half precision floating point`_ number within a ``.buf`` file
-        
-    """
-    def __init__(self, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new 16-bit `half precision floating point`_ type
-        
-        Parameters
-        ----------
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
-class CppBufSignedInt(CppBufBaseInt):
-    """
-    
-    This class inherits from :class:`CppBufBaseInt`
-    
-    The type definition for some signed integer type within a ``.buf`` file
-        
-    """
-    def __init__(self, name: str = 'SignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new signed integer type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the type. **Default**: ``"SignedInt32"``
-        
-        size: :class:`int`
-            The byte size for the data type. **Default**: ``4``
-        
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
-class CppBufType:
-    """
-    
-    The common base for any type used to describe the structure of a ``.buf`` file
-    
-    .. note::
-        Unlike the pure-Python original, this class has no ``decode``/``encode`` methods of its own --
-        see :class:`CppBufDataType`/:class:`CppBufElementType` (whose Python originals both override
-        ``decode``/``encode`` with genuinely incompatible signatures -- a single value vs. a list of
-        values -- that only Python's duck typing lets share one base method name)
-        
-    """
-    @property
-    def name(self) -> str:
-        """
-        :class:`str`: The name of the type
-        """
-    @name.setter
-    def name(self, arg1: str) -> None:
-        ...
-class CppBufUnSignedInt(CppBufBaseInt):
-    """
-    
-    This class inherits from :class:`CppBufBaseInt`
-    
-    The type definition for some unsigned integer type within a ``.buf`` file
-        
-    """
-    def __init__(self, name: str = 'UnsignedInt32', size: typing.SupportsInt | typing.SupportsIndex = 4, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new unsigned integer type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the type. **Default**: ``"UnsignedInt32"``
-        
-        size: :class:`int`
-            The byte size for the data type. **Default**: ``4``
-        
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
-class CppBufUnorm(CppBufBaseInt):
-    """
-    
-    This class inherits from :class:`CppBufBaseInt`
-    
-    The type definition for an `unsigned normalized integer`_ number within a ``.buf`` file
-        
-    """
-    def __init__(self, name: str, size: typing.SupportsInt | typing.SupportsIndex, isBigEndian: bool = False) -> None:
-        """
-        Constructs a new `unsigned normalized integer`_ type
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name of the type
-        
-        size: :class:`int`
-            The byte size for the data type
-        
-        isBigEndian: :class:`bool`
-            Whether the type is in big endian mode. **Default**: ``False``
-        """
 class CppHashTools:
     """
     C++ tools for deterministically hashing data
@@ -2130,34 +2130,6 @@ class CppTrie:
         """
     @handleDuplicate.setter
     def handleDuplicate(self, arg1: collections.abc.Callable[[str, typing.Any, typing.Any], typing.Any]) -> None:
-        ...
-class CppVGRemap:
-    """
-    
-    Class for handling the vertex group remaps for mods
-        
-    """
-    def __init__(self, vgRemap: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
-        """
-        Constructs a new vertex group remap
-        
-        Parameters
-        ----------
-        vgRemap: Dict[:class:`int`, :class:`int`]
-            The vertex group remap from one type of mod to another. **Default**: ``{}``
-        """
-    @property
-    def maxIndex(self) -> int | None:
-        """
-        Optional[:class:`int`]: The maximum index in the vertex group remap, or ``None`` if :attr:`remap` is empty
-        """
-    @property
-    def remap(self) -> dict[int, int]:
-        """
-        Dict[:class:`int`, :class:`int`]: The vertex group remap
-        """
-    @remap.setter
-    def remap(self, arg1: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
 class CppVersion:
     """
@@ -8433,6 +8405,34 @@ class Token:
         """
     @val.setter
     def val(self, arg0: str) -> None:
+        ...
+class VGRemap:
+    """
+    
+    Class for handling the vertex group remaps for mods
+        
+    """
+    def __init__(self, vgRemap: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex] = {}) -> None:
+        """
+        Constructs a new vertex group remap
+        
+        Parameters
+        ----------
+        vgRemap: Dict[:class:`int`, :class:`int`]
+            The vertex group remap from one type of mod to another. **Default**: ``{}``
+        """
+    @property
+    def maxIndex(self) -> int | None:
+        """
+        Optional[:class:`int`]: The maximum index in the vertex group remap, or ``None`` if :attr:`remap` is empty
+        """
+    @property
+    def remap(self) -> dict[int, int]:
+        """
+        Dict[:class:`int`, :class:`int`]: The vertex group remap
+        """
+    @remap.setter
+    def remap(self, arg1: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
 class Z3Context:
     """

@@ -80,7 +80,7 @@ namespace AGRemapCore {
              *
              * @param totalIndices The total number of index columns (including the version index)
              * @param versionIndexPos The position (0-based) of the version index within a row's
-             *      #Row::indexVals
+             *      \ref Row::indexVals
              * @param parseVersion See #VersionParser
              * @param rows The initial rows to populate the table with -- see \ref addRows
              *
@@ -101,7 +101,7 @@ namespace AGRemapCore {
              *
              * @param newRows The rows to add
              *
-             * @throws std::invalid_argument If any row's #Row::indexVals size doesn't match the
+             * @throws std::invalid_argument If any row's \ref Row::indexVals size doesn't match the
              *      table's #getTotalIndices, or if a row's version index value fails to parse
              *      (see #VersionParser)
              */
@@ -139,7 +139,7 @@ namespace AGRemapCore {
             std::size_t getTotalIndices() const;
 
             /**
-             * @brief The position (0-based) of the version index within a row's #Row::indexVals
+             * @brief The position (0-based) of the version index within a row's \ref Row::indexVals
              */
             std::size_t getVersionIndexPos() const;
 

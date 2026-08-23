@@ -456,6 +456,54 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The candidate token text accumulated so far </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the <computeroutput>DFA</computeroutput>_ state currently reached after consuming <computeroutput>token</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether <computeroutput>stateId</computeroutput> is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector to append the accepted :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></computeroutput> to, if accepted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lineNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line number <computeroutput>token</computeroutput> belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>charNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character number <computeroutput>token</computeroutput> belongs to within its line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
 <parametername>includeFiltered</parametername>
 </parameternamelist>
 <parameterdescription>
@@ -469,7 +517,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="164" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="74" bodyend="89"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="170" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="74" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -510,7 +558,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="171" column="19" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="91" bodyend="103"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="177" column="19" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="91" bodyend="103"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -562,7 +610,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="21" bodyend="172"/>
+    <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="21" bodyend="178"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTokenizer</scope><name>acceptToken</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::BaseTokenizer</scope><name>addASCIIRangeTransitions</name></member>

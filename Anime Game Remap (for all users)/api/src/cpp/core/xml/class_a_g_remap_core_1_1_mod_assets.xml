@@ -215,7 +215,7 @@ invalid -- there must be at least one index column, version or not)
 <parametername>std::invalid_argument</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>If any row&apos;s #Row::indexVals size doesn&apos;t match <ref refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" kindref="member">getTotalIndices</ref>, or if a version column&apos;s raw value fails to parse </para>
+<para>If any row&apos;s <ref refid="struct_a_g_remap_core_1_1_row_1a195e1d2b65eacade48da297d24d49a78" kindref="member">Row::indexVals</ref> size doesn&apos;t match <ref refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" kindref="member">getTotalIndices</ref>, or if a version column&apos;s raw value fails to parse </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>

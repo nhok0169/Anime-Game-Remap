@@ -3,6 +3,7 @@
 #include <string>
 #include <z3++.h>
 #include <tsl/ordered_map.h>
+#include <DirectXTex.h>
 #include <xxhash.h>
 #include <iostream>
 #include "AGRemapCore/tools/grapheme/GraphemeRange.h"
@@ -161,11 +162,38 @@ namespace AGRemapCore {
             << "low:  " << hash.low64 << '\n';
     }
 
+    static void testFunc5() {
+        DirectX::ScratchImage image;
+
+        HRESULT hr = image.Initialize2D(
+            DXGI_FORMAT_R8G8B8A8_UNORM,
+            4,  // width
+            4,  // height
+            1,  // array size
+            1   // mip levels
+        );
+
+        if (FAILED(hr))
+        {
+            std::cout << "DirectXTex FAILED: 0x"
+                    << std::hex << hr << std::dec << "\n";
+            return;
+        }
+
+        const DirectX::TexMetadata& metadata = image.GetMetadata();
+
+        std::cout << "DirectXTex is working!\n";
+        std::cout << "Width:  " << metadata.width << "\n";
+        std::cout << "Height: " << metadata.height << "\n";
+        std::cout << "Format: " << metadata.format << "\n";
+    }
+
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
         // testFunc();
         // testFunc2();
         // testFunc3();
         // testFunc4();
+        // testFunc5();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

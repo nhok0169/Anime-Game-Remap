@@ -3,35 +3,40 @@
   <compounddef id="_buf_unorm_8cpp" kind="file" language="C++">
     <compoundname>BufUnorm.cpp</compoundname>
     <includes refid="_buf_unorm_8h" local="yes">AGRemapCore/model/buffers/BufUnorm.h</includes>
+    <includes local="no">memory</includes>
     <includes local="no">utility</includes>
     <includes local="no">variant</includes>
     <incdepgraph>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore/model/buffers/BufDataType.h</label>
         <link refid="_buf_data_type_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore/model/buffers/BufInt.h</label>
         <link refid="_buf_int_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore/model/buffers/BufType.h</label>
         <link refid="_buf_type_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -43,21 +48,23 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
-      </node>
-      <node id="8">
-        <label>AGRemapCore/model/buffers/BufValue.h</label>
-        <link refid="_buf_value_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/buffers/BufValue.h</label>
+        <link refid="_buf_value_8h"/>
         <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -65,30 +72,35 @@
         <link refid="_buf_unorm_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
         <label>cstddef</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>cstdint</label>
       </node>
       <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="5">
         <label>string</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>unordered_map</label>
       </node>
-      <node id="13">
+      <node id="14">
         <label>utility</label>
       </node>
-      <node id="11">
+      <node id="12">
         <label>variant</label>
       </node>
-      <node id="12">
+      <node id="13">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -100,41 +112,46 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_unorm_8h" kindref="compound">AGRemapCore/model/buffers/BufUnorm.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>computeMaxValue(std::size_t<sp/>size)<sp/>{</highlight></codeline>
-<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pow(2,<sp/>size<sp/>*<sp/>8)<sp/>-<sp/>1,<sp/>computed<sp/>exactly<sp/>for<sp/>size<sp/>&lt;=<sp/>8<sp/>(BufDataType&apos;s<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>rejects<sp/>size<sp/>&gt;<sp/>8)<sp/>instead<sp/>of<sp/>via<sp/>floating<sp/>point<sp/>pow().</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(size<sp/>&gt;=<sp/>8)<sp/>{</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>~0ULL;</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(1ULL<sp/>&lt;&lt;<sp/>(size<sp/>*<sp/>8))<sp/>-<sp/>1;</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>toDouble(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref>&amp;<sp/>src)<sp/>{</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::visit([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;&amp;<sp/>value)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value);<sp/>},<sp/>src);</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_unorm_1a5492175d42d8de36843122422d66c5a8" kindref="member">BufUnorm::BufUnorm</ref>(std::string<sp/>name,<sp/>std::size_t<sp/>size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian):</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int" kindref="compound">BufBaseInt</ref>(std::move(name),<sp/>size,<sp/>isBigEndian,<sp/>false),<sp/>maxValue_(computeMaxValue(size))<sp/>{}</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/>BufUnorm::decode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ByteVec&amp;<sp/>src)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/>numerator<sp/>=<sp/>BufBaseInt::decode(src);</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::get&lt;unsigned<sp/>long<sp/>long&gt;(numerator))<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(maxValue_);</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/>BufUnorm::encode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BufValue&amp;<sp/>src)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>toDouble(src);</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>result<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(maxValue_));</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>BufBaseInt::encode(result);</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="37"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>computeMaxValue(std::size_t<sp/>size)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pow(2,<sp/>size<sp/>*<sp/>8)<sp/>-<sp/>1,<sp/>computed<sp/>exactly<sp/>for<sp/>size<sp/>&lt;=<sp/>8<sp/>(BufDataType&apos;s<sp/>constructor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>already<sp/>rejects<sp/>size<sp/>&gt;<sp/>8)<sp/>instead<sp/>of<sp/>via<sp/>floating<sp/>point<sp/>pow().</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(size<sp/>&gt;=<sp/>8)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>~0ULL;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>(1ULL<sp/>&lt;&lt;<sp/>(size<sp/>*<sp/>8))<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>toDouble(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref>&amp;<sp/>src)<sp/>{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::visit([](</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;&amp;<sp/>value)<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value);<sp/>},<sp/>src);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_unorm_1a5492175d42d8de36843122422d66c5a8" kindref="member">BufUnorm::BufUnorm</ref>(std::string<sp/>name,<sp/>std::size_t<sp/>size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian):</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int" kindref="compound">BufBaseInt</ref>(std::move(name),<sp/>size,<sp/>isBigEndian,<sp/>false),<sp/>maxValue_(computeMaxValue(size))<sp/>{}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/>BufUnorm::decode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ByteVec&amp;<sp/>src)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/>numerator<sp/>=<sp/>BufBaseInt::decode(src);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::get&lt;unsigned<sp/>long<sp/>long&gt;(numerator))<sp/>/<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(maxValue_);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/>BufUnorm::encode(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BufValue&amp;<sp/>src)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>toDouble(src);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>result<sp/>=<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(value<sp/>*<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(maxValue_));</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>BufBaseInt::encode(result);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BufDataType&gt;<sp/>BufUnorm::clone()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_unique&lt;BufUnorm&gt;(*</highlight><highlight class="keyword">this</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/buffers/BufUnorm.cpp"/>
   </compounddef>

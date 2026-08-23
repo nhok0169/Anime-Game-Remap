@@ -255,7 +255,7 @@ namespace AGRemapCore {
 
             /**
              * @brief The real implementation behind #getKey -- also used internally by
-             *      \ref replace/\ref replaceAll, which need the resolved version too (to avoid
+             *      \ref replace "replace" / \ref replaceAll "replaceAll", which need the resolved version too (to avoid
              *      re-resolving it a second time) even though #getKey itself doesn't expose it
              */
             std::optional<InternalKeyResult> getKeyInternal(const T& asset, const std::optional<Version>& fromVersion, const std::vector<std::optional<K>>& fromNonVersionVals, bool errorOnNotFound) const;

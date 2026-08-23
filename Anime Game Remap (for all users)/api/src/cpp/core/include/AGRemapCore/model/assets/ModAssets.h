@@ -77,7 +77,7 @@ namespace AGRemapCore {
              *
              * @param newRows The rows to add
              *
-             * @throws std::invalid_argument If any row's #Row::indexVals size doesn't match
+             * @throws std::invalid_argument If any row's \ref Row::indexVals size doesn't match
              *      #getTotalIndices, or if a version column's raw value fails to parse
              */
             void addRows(std::vector<Row<K, T>> newRows);

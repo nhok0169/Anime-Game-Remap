@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="32" column="13" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="122" bodyend="123"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="33" column="13" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="123" bodyend="124"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -97,7 +97,7 @@ Decode the raw bytes to a 32-bit `floating point`_ number
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="47" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="125" bodyend="130"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="48" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="126" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -135,7 +135,36 @@ Encodes the `floating point`_ back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="62" column="21" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="132" bodyend="137"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="63" column="21" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="133" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_float_1ac59d2c14e47e96a470d70ca5a183d2fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; BufDataType &gt; AGRemapCore::BufBaseFloat::clone</definition>
+        <argsstring>() const override</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::BufBaseFloat::clone</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_buf_data_type_1a91983ca718d956f52f9b849fbfce7cc4">clone</reimplements>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float16_1aaa6ad6ce6918a66640f11f0ca25d822c">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float_1a4f6f3423f21a3ee5540c1281527b1c26">clone</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes an owned copy of this data type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``BufDataType`` is a small, shareable *value* -- a type descriptor, not a unique
+identity-bearing node -- and this codebase&apos;s own real usage relies on that: the
+`pybind11`_ binding for :cpp:class:`BufElementType` clones each incoming data type
+through this method rather than taking ownership of the exact Python object passed
+in, specifically so the same cached ``BufDataType`` instance (eg.
+``BufDataTypes.Float32.value`` in the Python-side ``constants/BufDataTypes.py``,
+reused across many different ``.buf`` element definitions) can be passed into more
+than one :cpp:class:`BufElementType` without being consumed by the first use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="65" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="140" bodyend="142"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -196,11 +225,12 @@ file
         <link refid="class_a_g_remap_core_1_1_buf_type"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="22" column="5" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="22" bodyend="63"/>
+    <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="23" column="5" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="23" bodyend="66"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_float_1a47f4edad94eeb07c934f25ec725b3e9b" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>BufBaseFloat</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>BufDataType</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_base_float_1ac59d2c14e47e96a470d70ca5a183d2fc" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>decode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6" prot="public" virt="virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>encode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseFloat</scope><name>getIsBigEndian</name></member>

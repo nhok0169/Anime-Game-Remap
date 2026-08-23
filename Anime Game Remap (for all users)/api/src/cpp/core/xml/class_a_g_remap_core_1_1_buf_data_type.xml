@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="109" column="25" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="109" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="127" column="25" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_data_type_1a48aace9a99d5a848fe447eb4bc4b3592" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="110" column="18" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="110" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="128" column="18" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="128" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="42" column="13" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="14" bodyend="18"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="43" column="13" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="14" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a43e5663e62116be581aa0a8673af834d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -112,7 +112,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="44" column="21"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="45" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a9890141068c4e1cc1fa2513bab1d57d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -127,7 +127,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="49" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="20" bodyend="22"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="50" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a90ef03218363d8271153e95d0eb485e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="58" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="24" bodyend="27"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="59" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="24" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -182,7 +182,7 @@ The `endianness`_ for the data type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="66" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="29" bodyend="31"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="67" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="29" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -213,7 +213,7 @@ Sets the `endianness`_ for the data type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="76" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="77" column="18" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a47933d4fe189a82bde713caeedef8a5a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -253,7 +253,7 @@ Decode the raw bytes to the required format for the type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="91" column="30"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="92" column="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a89a0f54b611c49c7f4a12e037377c743" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -293,7 +293,40 @@ Encodes the format of the type back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="106" column="29"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="107" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_data_type_1a91983ca718d956f52f9b849fbfce7cc4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; BufDataType &gt; AGRemapCore::BufDataType::clone</definition>
+        <argsstring>() const =0</argsstring>
+        <name>clone</name>
+        <qualifiedname>AGRemapCore::BufDataType::clone</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_float_1ac59d2c14e47e96a470d70ca5a183d2fc">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float16_1aaa6ad6ce6918a66640f11f0ca25d822c">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_float_1a4f6f3423f21a3ee5540c1281527b1c26">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_signed_int_1a1bb5c8ec78bb0cce0f8b298e89e88c1d">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad">clone</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_un_signed_int_1af9c981d7225c26a1e171a5dd0eb577ab">clone</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes an owned copy of this data type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``BufDataType`` is a small, shareable *value* -- a type descriptor, not a unique
+identity-bearing node -- and this codebase&apos;s own real usage relies on that: the
+`pybind11`_ binding for :cpp:class:`BufElementType` clones each incoming data type
+through this method rather than taking ownership of the exact Python object passed
+in, specifically so the same cached ``BufDataType`` instance (eg.
+``BufDataTypes.Float32.value`` in the Python-side ``constants/BufDataTypes.py``,
+reused across many different ``.buf`` element definitions) can be passed into more
+than one :cpp:class:`BufElementType` without being consumed by the first use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="124" column="37"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -313,7 +346,7 @@ Encodes the format of the type back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="112" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="8" bodyend="12"/>
+        <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="130" column="25" bodyfile="src/model/buffers/BufDataType.cpp" bodystart="8" bodyend="12"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -400,10 +433,11 @@ The abstract base for an elementary data type within a ``.buf`` file (eg. a sing
         <link refid="class_a_g_remap_core_1_1_buf_type"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="29" column="5" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="29" bodyend="113"/>
+    <location file="include/AGRemapCore/model/buffers/BufDataType.h" line="30" column="5" bodyfile="include/AGRemapCore/model/buffers/BufDataType.h" bodystart="30" bodyend="131"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>BufDataType</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_type_1aa27481e09643f770395e997595e9d395" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>BufType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_data_type_1a91983ca718d956f52f9b849fbfce7cc4" prot="public" virt="pure-virtual"><scope>AGRemapCore::BufDataType</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a47933d4fe189a82bde713caeedef8a5a" prot="public" virt="pure-virtual"><scope>AGRemapCore::BufDataType</scope><name>decode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a89a0f54b611c49c7f4a12e037377c743" prot="public" virt="pure-virtual"><scope>AGRemapCore::BufDataType</scope><name>encode</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1a812492f4d00d80640cd548e78b8554af" prot="public" virt="non-virtual"><scope>AGRemapCore::BufDataType</scope><name>getIsBigEndian</name></member>

@@ -463,14 +463,20 @@ namespace AGRemapCore {
                                 const std::optional<Ranges<long long>>& ranges = std::nullopt);
 
             /**
-             * @copydoc insertAllAt(const tsl::ordered_map<long long, std::pair<K, V>>&, bool, const std::optional<Ranges<long long>>&)
-             *
+             * @brief
              @rst
-             This overload's iteration order (and therefore tie-breaking between conflicting
-             target indices) is unspecified, since ``std::unordered_map``'s own iteration
-             order is unspecified. There is no ``sortIndices`` flag here: skipping the sort
-             would depend on knowing that iteration order, which isn't available.
+             Same as the ``tsl::ordered_map``-keyed overload above, for callers with a plain
+             ``std::unordered_map`` instead. This overload's iteration order (and therefore
+             tie-breaking between conflicting target indices) is unspecified, since
+             ``std::unordered_map``'s own iteration order is unspecified. There is no
+             ``sortIndices`` flag here: skipping the sort would depend on knowing that
+             iteration order, which isn't available.
              @endrst
+             *
+             * @param items Same shape/semantics as the ``tsl::ordered_map``-keyed overload's ``items``
+             * @param ranges Same meaning/default as the ``tsl::ordered_map``-keyed overload's ``ranges``
+             *
+             * @return How many entries were actually inserted
              */
             size_t insertAllAt(const std::unordered_map<long long, std::pair<K, V>>& items,
                                 const std::optional<Ranges<long long>>& ranges = std::nullopt);
@@ -656,7 +662,7 @@ namespace AGRemapCore {
                               const std::optional<Ranges<long long>>& ranges = std::nullopt);
 
             /**
-             * @copydoc replaceVals(const tsl::ordered_map<K, ReplaceSpec, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
+             * @copydoc replaceVals(const tsl::ordered_map<K, std::variant<V, std::vector<V>, std::pair<V, std::function<bool(const V&)>>>, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
              */
             void replaceVals(const std::unordered_map<K, ReplaceSpec, KeyHash, KeyEqual>& newVals, bool addNew = true,
                               const std::optional<Ranges<long long>>& ranges = std::nullopt);
@@ -958,12 +964,19 @@ namespace AGRemapCore {
              end, or two split points adjacent enough that nothing falls between them) are
              included in the result or silently dropped. Defaults to ``false``.
              @endrst
+             * @param sortIndices
+             @rst
+             If ``true`` (the default), ``inds`` is normalized, deduplicated, and sorted
+             ascending first. If you already know ``inds`` iterates in that exact order, pass
+             ``false`` to skip that pass -- **this precondition is unchecked**, and violating
+             it produces a silently wrong (not crashing) result.
+             @endrst
              *
              * @return Each computed handle group, ready for a derived class to turn into actual new instances of itself
              *
              * @throw std::out_of_range Thrown when an index in ``inds`` is out of range
              */
-            std::vector<std::vector<Handle>> computeSplitGroups(const std::vector<long long>& raw,
+            std::vector<std::vector<Handle>> computeSplitGroups(const std::vector<long long>& inds,
                                                                   bool includeSplitKVP,
                                                                   bool includeEmptyParts,
                                                                   bool sortIndices) const;
@@ -983,14 +996,26 @@ namespace AGRemapCore {
             const K& iterKey(Handle h) const;
 
             /**
-             * @copydoc iterKey(Handle) const
+             * @brief
+             @rst
+             Lets an :cpp:class:`Iterator` reach ``Derived::rawKey`` despite friendship not
+             extending to a friend's nested classes
+             @endrst
+             *
+             * @param h The handle to look up
              *
              * @return The value at that handle
              */
             const V& iterValue(Handle h) const;
 
             /**
-             * @copydoc iterKey(Handle) const
+             * @brief
+             @rst
+             Lets an :cpp:class:`Iterator` reach ``Derived::rawKey`` despite friendship not
+             extending to a friend's nested classes
+             @endrst
+             *
+             * @param h The handle to look up
              *
              * @return The handle immediately after ``h``
              */
@@ -1120,8 +1145,8 @@ namespace AGRemapCore {
              natural iteration order (this is what determines the append order for keys that
              don't exist yet)
              @endrst
-             * @param addNew @copybrief replaceVals(const tsl::ordered_map<K, ReplaceSpec, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
-             * @param ranges @copybrief replaceVals(const tsl::ordered_map<K, ReplaceSpec, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
+             * @param addNew @copybrief replaceVals(const tsl::ordered_map<K, std::variant<V, std::vector<V>, std::pair<V, std::function<bool(const V&)>>>, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
+             * @param ranges @copybrief replaceVals(const tsl::ordered_map<K, std::variant<V, std::vector<V>, std::pair<V, std::function<bool(const V&)>>>, KeyHash, KeyEqual>&, bool, const std::optional<Ranges<long long>>&)
              */
             void replaceValsImpl(const std::vector<std::pair<K, ReplaceSpec>>& raw, bool addNew,
                                   const std::optional<Ranges<long long>>& ranges);

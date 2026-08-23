@@ -478,10 +478,50 @@ it produces a silently wrong (not crashing) result.
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>embed:rst 
+Same as the ``tsl::ordered_set``-keyed overload above, for callers with a plain
+``std::set`` instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices at which to split </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeSplitKVP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeEmptyParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sortIndices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Same meaning/default as the <computeroutput>tsl::ordered_set</computeroutput>-keyed overload&apos;s <computeroutput>sortIndices</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resulting parts, left to right </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="203" column="25"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="214" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a126d598d4f780289f8ee6c868ff187dd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1ad4021d21d8e705dc140192101e2e081e" kindref="member">OrderedMultiMap</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
@@ -507,15 +547,45 @@ it produces a silently wrong (not crashing) result.
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-This overload&apos;s iteration order is unspecified, since ``std::unordered_set``&apos;s
-own iteration order is unspecified. There is no ``sortIndices`` flag here:
-skipping the sort would depend on knowing that iteration order, which isn&apos;t
-available.
-</verbatim> </para>
+Same as the ``tsl::ordered_set``-keyed overload above, for callers with a plain
+``std::unordered_set`` instead. This overload&apos;s iteration order is unspecified,
+since ``std::unordered_set``&apos;s own iteration order is unspecified. There is no
+``sortIndices`` flag here: skipping the sort would depend on knowing that
+iteration order, which isn&apos;t available.
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>inds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The indices at which to split </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeSplitKVP</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>includeEmptyParts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+<para><simplesect kind="return"><para>The resulting parts, left to right </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="219" column="25"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="236" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -535,7 +605,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="230" column="25"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="247" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1ace266443cc3f31cd85f5286f8067a58c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -549,7 +619,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="234" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="251" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a16503e684c9a8a857fd0887d8d8323d0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -563,7 +633,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="235" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="252" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1af1726ec11134467e80431570cad20bba" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -577,7 +647,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="236" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="253" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a1affaef0e236045873323e05381036ec" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -595,7 +665,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="237" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="254" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a5bc0e4b593b2e6aa92dde87451f281c5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -613,7 +683,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="238" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="255" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1ab6019556e03105fc623e08a520cfddb6" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -631,7 +701,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="241" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="258" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a1a03927308cf36e32ab9d535aa440ae2" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref></type>
@@ -657,7 +727,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="243" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="260" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1ab07f5d255f69bc0b82396a8001ef58d7" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -675,7 +745,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="244" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="261" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a72d49983960515ba0289d71b7a39ec4c" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const K &amp;</type>
@@ -693,7 +763,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="246" column="21"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="263" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1ada82d6e608f3d32a1009bcde1805d9d0" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const V &amp;</type>
@@ -711,7 +781,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="247" column="21"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="264" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a63855d85c3e6200bafb15aafda254524" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -733,7 +803,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="248" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="265" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a2194c2393d8c0434f901b7c05fb062f4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>double</type>
@@ -751,7 +821,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="249" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="266" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a372f5a61aba49a08105ebfcff75bc23d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -773,7 +843,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="250" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="267" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a6527b6cd515beebcedb2fe0e23d26723" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_ordered_multi_map_1a56bb175fcbd629cdac7f35016d8267ee" kindref="member">Handle</ref> &gt;::iterator</type>
@@ -791,7 +861,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="251" column="43"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="268" column="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1af177f0805616fb02ddaee70183824fdc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -813,7 +883,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="252" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="269" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a99a81936709ec7b7e5eef1172b624439" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -827,7 +897,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="255" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="272" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ordered_multi_map_1a83886a49525d6aea1eb37d6a044667ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -845,7 +915,7 @@ available.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="262" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="279" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -919,7 +989,7 @@ rather than always walking from the front.
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="75" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="78" bodyend="263"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="75" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="78" bodyend="280"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1aac6efc5c4f67fe60efc0e69c64be8d26" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_ordered_multi_map_1abadf660bd7a4dbff39a7609255e99885" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>Base</name></member>
@@ -927,7 +997,7 @@ rather than always walking from the front.
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a688e114510edfa0d4136ad9d852490f4" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>buildFromIndexed</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab25b0d738ce50fcd702bdb888199636d" prot="protected" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>buildIndexMap</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeea00e40f9c77e4b051a99b43a2b2d3f" prot="private" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>computeLabel</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab1ffe74eb11c6317a1be60c6745647a9" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>computeSplitGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abef8b88ca45e762daade3753a8e4c9a1" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>computeSplitGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a84f4f1eff372a03c8a9114d9213580e1" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>contains</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ae9718a802cd1bd92b3e566ba830bb96e" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>containsKey</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a025044c8c24c8477dec72d1d2bc8dfac" prot="public" virt="non-virtual"><scope>AGRemapCore::OrderedMultiMap</scope><name>count</name></member>

@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="30" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="23" bodyend="55"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="30" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="24" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="45" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="57" bodyend="83"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="45" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="58" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -226,7 +226,7 @@ This is the same digit representation as the `standard base 64`_ except that the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="67" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="164" bodyend="170"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="67" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="191" bodyend="198"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

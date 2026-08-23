@@ -11,6 +11,8 @@
         <link refid="_buf_data_type_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
@@ -38,6 +40,8 @@
         <label>AGRemapCore/model/buffers/BufFloat.h</label>
         <link refid="_buf_float_8h"/>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>

@@ -463,7 +463,7 @@ namespace AGRemapCore {
 
     template <typename Derived, typename K, typename V, typename Handle, typename HandleHash, typename KeyHash, typename KeyEqual>
     std::vector<std::vector<Handle>> BaseOrderedMultiMap<Derived, K, V, Handle, HandleHash, KeyHash, KeyEqual>::computeSplitGroups(
-        const std::vector<long long>& raw,
+        const std::vector<long long>& inds,
         bool includeSplitKVP,
         bool includeEmptyParts,
         bool sortIndices) const {
@@ -471,7 +471,7 @@ namespace AGRemapCore {
         const long long nn = static_cast<long long>(n);
 
         std::vector<long long> splitPoints;
-        splitPoints.reserve(raw.size());
+        splitPoints.reserve(inds.size());
 
         auto normalize = [&](long long r) -> long long {
             long long idx = r;
@@ -485,10 +485,10 @@ namespace AGRemapCore {
 
         if (sortIndices) {
             std::set<long long> dedupSorted;
-            for (long long r : raw) dedupSorted.insert(normalize(r));
+            for (long long r : inds) dedupSorted.insert(normalize(r));
             splitPoints.assign(dedupSorted.begin(), dedupSorted.end());
         } else {
-            for (long long r : raw) splitPoints.push_back(normalize(r));
+            for (long long r : inds) splitPoints.push_back(normalize(r));
         }
 
         std::vector<std::vector<Handle>> groups;

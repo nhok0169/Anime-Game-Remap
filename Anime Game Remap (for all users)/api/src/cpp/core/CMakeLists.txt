@@ -97,8 +97,9 @@ set(BUILD_DX12 OFF CACHE BOOL "" FORCE)
 set(BC_USE_OPENMP ON CACHE BOOL "" FORCE)
 
 add_subdirectory(
-    ${CMAKE_CURRENT_LIST_DIR}/../../../../extern/DirectXTex
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/DirectXTex
     ${CMAKE_BINARY_DIR}/DirectXTex
+    EXCLUDE_FROM_ALL
 )
 
 # -----------------------------------

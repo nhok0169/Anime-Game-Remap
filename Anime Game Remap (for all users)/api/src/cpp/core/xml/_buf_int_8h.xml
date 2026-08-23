@@ -3,6 +3,7 @@
   <compounddef id="_buf_int_8h" kind="file" language="C++">
     <compoundname>BufInt.h</compoundname>
     <includes local="no">cstddef</includes>
+    <includes local="no">memory</includes>
     <includes local="no">string</includes>
     <includes refid="_buf_data_type_8h" local="yes">AGRemapCore/model/buffers/BufDataType.h</includes>
     <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
@@ -10,14 +11,16 @@
     <includedby refid="_buf_int_8cpp" local="yes">src/model/buffers/BufInt.cpp</includedby>
     <includedby refid="_blend_file_8cpp" local="yes">src/model/files/BlendFile.cpp</includedby>
     <incdepgraph>
-      <node id="4">
+      <node id="5">
         <label>AGRemapCore/model/buffers/BufDataType.h</label>
         <link refid="_buf_data_type_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -29,45 +32,50 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-      </node>
-      <node id="5">
-        <label>AGRemapCore/model/buffers/BufType.h</label>
-        <link refid="_buf_type_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="6">
+        <label>AGRemapCore/model/buffers/BufType.h</label>
+        <link refid="_buf_type_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
         <label>AGRemapCore/model/buffers/BufValue.h</label>
         <link refid="_buf_value_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>cstddef</label>
       </node>
-      <node id="7">
+      <node id="8">
         <label>cstdint</label>
       </node>
       <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="4">
         <label>string</label>
       </node>
-      <node id="8">
+      <node id="9">
         <label>unordered_map</label>
       </node>
-      <node id="9">
+      <node id="10">
         <label>variant</label>
       </node>
-      <node id="10">
+      <node id="11">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -114,43 +122,50 @@
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BufInt_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_data_type_8h" kindref="compound">AGRemapCore/model/buffers/BufDataType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_value_8h" kindref="compound">AGRemapCore/model/buffers/BufValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_data_type_8h" kindref="compound">AGRemapCore/model/buffers/BufDataType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_buf_value_8h" kindref="compound">AGRemapCore/model/buffers/BufValue.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22" refid="class_a_g_remap_core_1_1_buf_base_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref><sp/>{</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref>(std::string<sp/>name,<sp/>std::size_t<sp/>size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSigned<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" kindref="member">getIsSigned</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="74" refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" kindref="member">isSigned_</ref>;</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85" refid="class_a_g_remap_core_1_1_buf_signed_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_signed_int_1a67416c149987b4fb1cf06bfb69924238" kindref="member">BufSignedInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref><sp/>{</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="87"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_signed_int_1a67416c149987b4fb1cf06bfb69924238" kindref="member">BufSignedInt</ref>(std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SignedInt32&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/>size<sp/>=<sp/>4,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"></highlight></codeline>
-<codeline lineno="106" refid="class_a_g_remap_core_1_1_buf_un_signed_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" kindref="member">BufUnSignedInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref><sp/>{</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" kindref="member">BufUnSignedInt</ref>(std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UnsignedInt32&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/>size<sp/>=<sp/>4,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_a_g_remap_core_1_1_buf_base_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref>(std::string<sp/>name,<sp/>std::size_t<sp/>size,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isSigned<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" kindref="member">getIsSigned</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" kindref="member">decode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" kindref="member">encode</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BufDataType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="77" refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" kindref="member">isSigned_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_buf_signed_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_signed_int_1a67416c149987b4fb1cf06bfb69924238" kindref="member">BufSignedInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_signed_int_1a67416c149987b4fb1cf06bfb69924238" kindref="member">BufSignedInt</ref>(std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SignedInt32&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/>size<sp/>=<sp/>4,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BufDataType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_signed_int_1a1bb5c8ec78bb0cce0f8b298e89e88c1d" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="class_a_g_remap_core_1_1_buf_un_signed_int" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" kindref="member">BufUnSignedInt</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" kindref="member">BufBaseInt</ref><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" kindref="member">BufUnSignedInt</ref>(std::string<sp/>name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;UnsignedInt32&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/>size<sp/>=<sp/>4,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBigEndian<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;BufDataType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_un_signed_int_1af9c981d7225c26a1e171a5dd0eb577ab" kindref="member">clone</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/buffers/BufInt.h"/>
   </compounddef>

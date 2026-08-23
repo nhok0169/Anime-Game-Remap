@@ -143,7 +143,7 @@
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a8c64a00db750299733884aaa0f8526a8" kind="function"><name>setValByInd</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a78f6d8331fcf14face0f2646f97eba1d" kind="function"><name>begin</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a3168d867c34a1bebb47caa80e22003e6" kind="function"><name>end</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1ab1ffe74eb11c6317a1be60c6745647a9" kind="function"><name>computeSplitGroups</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abef8b88ca45e762daade3753a8e4c9a1" kind="function"><name>computeSplitGroups</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a6eb1f64a4274ed4d0e24e7945c486687" kind="function"><name>normalizeIndex</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1aeea00e40f9c77e4b051a99b43a2b2d3f" kind="function"><name>computeLabel</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a46f96d5c12e4940dd6916595a51b3537" kind="function"><name>renumberAll</name></member>
@@ -318,6 +318,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_base_float_1a47f4edad94eeb07c934f25ec725b3e9b" kind="function"><name>BufBaseFloat</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_base_float_1a9d2cc2ecb0018efb2e4f30448394a30f" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_base_float_1a04fdd1b708ac77f730deef3d8d70fcc6" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_base_float_1ac59d2c14e47e96a470d70ca5a183d2fc" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_base_int" kind="class"><name>AGRemapCore::BufBaseInt</name>
     <member refid="class_a_g_remap_core_1_1_buf_base_int_1a563277e350f714fc67735dedb700a3c3" kind="variable"><name>isSigned_</name></member>
@@ -325,6 +326,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" kind="function"><name>getIsSigned</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_data_type" kind="class"><name>AGRemapCore::BufDataType</name>
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a77e83df5b196e7fc2a2a4a4400401183" kind="variable"><name>size_</name></member>
@@ -337,6 +339,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8cde7ae70f69822260e7b0f5fed39403" kind="function"><name>setIsBigEndian</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a47933d4fe189a82bde713caeedef8a5a" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a89a0f54b611c49c7f4a12e037377c743" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_data_type_1a91983ca718d956f52f9b849fbfce7cc4" kind="function"><name>clone</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_data_type_1a8618956f9aee55b7d7151305a4442bcd" kind="function"><name>validateSize</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_element_type" kind="class"><name>AGRemapCore::BufElementType</name>
@@ -344,8 +347,8 @@
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a17568e74b35da3215c250684c4c613db" kind="variable"><name>dataTypes_</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a938bfdad488bd267d7597a526f453a04" kind="variable"><name>size_</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1ac1a466e16da6982262f89387cb6f19ff" kind="function"><name>BufElementType</name></member>
-    <member refid="class_a_g_remap_core_1_1_buf_element_type_1ae6af06e812799d00b5ee6c4d62f4a04c" kind="function"><name>BufElementType</name></member>
-    <member refid="class_a_g_remap_core_1_1_buf_element_type_1a8de816c393eced023f5a36fd8832931d" kind="function"><name>operator=</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_element_type_1adf92c9f26c780d89e4b8cd6c1b5dfe54" kind="function"><name>BufElementType</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_element_type_1a4467fff46f69bba26b85dd5818c5c970" kind="function"><name>operator=</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a3d568a6eae5e1b166641ce63f34e855d" kind="function"><name>BufElementType</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1ac94ef44c954ccac8634d76225e20fcef" kind="function"><name>operator=</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a4a019d97cfdcb35234f7ca76a572df30" kind="function"><name>getFormatName</name></member>
@@ -356,6 +359,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a6381e7769fec58c3a43dc7cef4375233" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a37c7e34524bde8dfc952821c1f07581f" kind="function"><name>encode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_element_type_1a3dd92f910521e154a2ac6f7d7ef04907" kind="function"><name>computeSize</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_element_type_1af732ab61ff93b0e8e1f653822640964f" kind="function"><name>cloneAll</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_file" kind="class"><name>AGRemapCore::BufFile</name>
     <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kind="typedef"><name>Filter</name></member>
@@ -391,14 +395,17 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_float" kind="class"><name>AGRemapCore::BufFloat</name>
     <member refid="class_a_g_remap_core_1_1_buf_float_1af7aa5eb57619684d8dd7957c1fec3cfc" kind="function"><name>BufFloat</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_float_1a4f6f3423f21a3ee5540c1281527b1c26" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_float16" kind="class"><name>AGRemapCore::BufFloat16</name>
     <member refid="class_a_g_remap_core_1_1_buf_float16_1ac2b5256b43a3d01bbdc56c60b4a2fa5f" kind="function"><name>BufFloat16</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_float16_1a24d5c1b791ab9bab96dbd08692a8e33c" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_float16_1a9b719d493d28f6bd5c84cbca2d17298b" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_float16_1aaa6ad6ce6918a66640f11f0ca25d822c" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_signed_int" kind="class"><name>AGRemapCore::BufSignedInt</name>
     <member refid="class_a_g_remap_core_1_1_buf_signed_int_1a67416c149987b4fb1cf06bfb69924238" kind="function"><name>BufSignedInt</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_signed_int_1a1bb5c8ec78bb0cce0f8b298e89e88c1d" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_type" kind="class"><name>AGRemapCore::BufType</name>
     <member refid="class_a_g_remap_core_1_1_buf_type_1aeaf0eb57e6397136854766f30eb19cba" kind="variable"><name>name_</name></member>
@@ -412,9 +419,11 @@
     <member refid="class_a_g_remap_core_1_1_buf_unorm_1a5492175d42d8de36843122422d66c5a8" kind="function"><name>BufUnorm</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_unorm_1a5c3aeafc777571de83cef572d67db1b8" kind="function"><name>decode</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_unorm_1adb388dcf976a6c98c2c34d12007ab5a4" kind="function"><name>encode</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_unorm_1ae0a02aba8423b8d2395b91a2224812ad" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_un_signed_int" kind="class"><name>AGRemapCore::BufUnSignedInt</name>
     <member refid="class_a_g_remap_core_1_1_buf_un_signed_int_1a1fbe210c2ccbd91cb8e515f08cebef16" kind="function"><name>BufUnSignedInt</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_un_signed_int_1af9c981d7225c26a1e171a5dd0eb577ab" kind="function"><name>clone</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_cache" kind="class"><name>AGRemapCore::Cache</name>
     <member refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" kind="typedef"><name>Entry</name></member>
@@ -1557,6 +1566,7 @@
     <member refid="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" kind="function"><name>testFunc2</name></member>
     <member refid="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" kind="function"><name>testFunc3</name></member>
     <member refid="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" kind="function"><name>testFunc4</name></member>
+    <member refid="namespace_a_g_remap_core_1a9c49c2f7a2d0719c52059d3730f2177a" kind="function"><name>testFunc5</name></member>
     <member refid="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" kind="function"><name>makeZ3PredicateForTesting</name></member>
     <member refid="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" kind="function"><name>getZ3ContextImplForTesting</name></member>
     <member refid="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" kind="function"><name>getZ3PredicateImplForTesting</name></member>

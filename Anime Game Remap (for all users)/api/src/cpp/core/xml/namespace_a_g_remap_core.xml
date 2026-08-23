@@ -851,7 +851,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="492" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="492" bodyend="496"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="507" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="507" bodyend="511"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -865,7 +865,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="85" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="85" bodyend="119"/>
+        <location file="src/tools/IntTools.cpp" line="86" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="86" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -879,7 +879,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="121" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="121" bodyend="135"/>
+        <location file="src/tools/IntTools.cpp" line="122" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="122" bodyend="136"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -893,7 +893,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="137" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="137" bodyend="151"/>
+        <location file="src/tools/IntTools.cpp" line="138" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="138" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -907,7 +907,21 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="153" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="153" bodyend="162"/>
+        <location file="src/tools/IntTools.cpp" line="154" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="154" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a9c49c2f7a2d0719c52059d3730f2177a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc5</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc5</name>
+        <qualifiedname>AGRemapCore::testFunc5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="165" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="165" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>

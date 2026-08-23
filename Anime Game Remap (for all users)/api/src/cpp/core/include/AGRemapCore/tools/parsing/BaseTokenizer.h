@@ -157,6 +157,12 @@ namespace AGRemapCore {
              If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and resets the `DFA`_
              @endrst
              *
+             * @param token The candidate token text accumulated so far
+             * @param stateId The id of the `DFA`_ state currently reached after consuming ``token``
+             * @param isAccept Whether ``stateId`` is an accepting state
+             * @param result The vector to append the accepted :cpp:class:`Token` to, if accepted
+             * @param lineNo The line number ``token`` belongs to
+             * @param charNo The character number ``token`` belongs to within its line
              * @param includeFiltered Ignored by this base class's own implementation (see :cpp:func:`simplifiedMaximalMunch`)
              *
              * @return Whether ``token`` was accepted

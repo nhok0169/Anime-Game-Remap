@@ -226,7 +226,18 @@ namespace AGRemapCore {
                 bool sortIndices = true) const;
 
             /**
-             * @copydoc splitByInds(const tsl::ordered_set<long long>&, bool, bool, bool)
+             * @brief
+             @rst
+             Same as the ``tsl::ordered_set``-keyed overload above, for callers with a plain
+             ``std::set`` instead
+             @endrst
+             *
+             * @param inds The indices at which to split
+             * @param includeSplitKVP @copybrief BaseOrderedMultiMap::computeSplitGroups
+             * @param includeEmptyParts @copybrief BaseOrderedMultiMap::computeSplitGroups
+             * @param sortIndices Same meaning/default as the ``tsl::ordered_set``-keyed overload's ``sortIndices``
+             *
+             * @return The resulting parts, left to right
              */
             std::vector<OrderedMultiMapSqrt<K, V, KeyHash, KeyEqual>> splitByInds(
                 const std::set<long long>& inds,
@@ -235,14 +246,20 @@ namespace AGRemapCore {
                 bool sortIndices = true) const;
 
             /**
-             * @copydoc splitByInds(const tsl::ordered_set<long long>&, bool, bool, bool)
-             *
+             * @brief
              @rst
-             This overload's iteration order is unspecified, since ``std::unordered_set``'s
-             own iteration order is unspecified. There is no ``sortIndices`` flag here:
-             skipping the sort would depend on knowing that iteration order, which isn't
-             available.
+             Same as the ``tsl::ordered_set``-keyed overload above, for callers with a plain
+             ``std::unordered_set`` instead. This overload's iteration order is unspecified,
+             since ``std::unordered_set``'s own iteration order is unspecified. There is no
+             ``sortIndices`` flag here: skipping the sort would depend on knowing that
+             iteration order, which isn't available.
              @endrst
+             *
+             * @param inds The indices at which to split
+             * @param includeSplitKVP @copybrief BaseOrderedMultiMap::computeSplitGroups
+             * @param includeEmptyParts @copybrief BaseOrderedMultiMap::computeSplitGroups
+             *
+             * @return The resulting parts, left to right
              */
             std::vector<OrderedMultiMapSqrt<K, V, KeyHash, KeyEqual>> splitByInds(
                 const std::unordered_set<long long>& inds,

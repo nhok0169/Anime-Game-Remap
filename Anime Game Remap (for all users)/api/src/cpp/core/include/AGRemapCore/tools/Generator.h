@@ -60,7 +60,7 @@ namespace AGRemapCore {
                 std::suspend_always initial_suspend() noexcept;
 
                 /**
-                 * @brief Always suspends after the coroutine body finishes, so #Handle::done() can still be observed
+                 * @brief Always suspends after the coroutine body finishes, so ``Handle::done()`` can still be observed
                  */
                 std::suspend_always final_suspend() noexcept;
 

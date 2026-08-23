@@ -41,13 +41,51 @@ instead of stopping at the first). Remember: rerun Doxygen first (see
 [Building](../Building/CLAUDE.md#fast-iteration-on-c-core-only-changes)) if you changed a C++
 header comment — Sphinx reads the cached `core/xml/`, not the headers.
 
-There's an established warning baseline from pre-existing, out-of-scope issues elsewhere in the
-docs (stale `@copydoc` targets, a couple of `@param` name mismatches, some toctree/inventory
-warnings) — compare the **count and content** of warnings before/after your change rather than
-assuming zero is achievable; don't fix unrelated pre-existing warnings inside a feature PR unless
-asked. Grep the rendered HTML for your own new content (class name, doc text) to confirm it
-actually rendered — silence in the warning log is necessary but not sufficient; some failure
-modes below produce no warning at all.
+There's an established warning baseline from pre-existing, out-of-scope issues in a handful of
+hand-written `.rst` files not covered by this session's cleanup — `tutorial.rst`, `apiExamples.rst`,
+`commandOpts.rst`, `findVertexGroupRemap.rst` (undefined/duplicate labels, a couple of malformed
+enumerated lists; see the `-E` paragraph below for the current count) — compare the **count and
+content** of warnings before/after your change rather than assuming zero is achievable; don't fix
+unrelated pre-existing warnings inside a feature PR unless asked. Grep the rendered HTML for your
+own new content (class name, doc text) to confirm it actually rendered — silence in the warning
+log is necessary but not sufficient; some failure modes below produce no warning at all.
+**`api.rst`/`coreAPI.rst` themselves are *not* part of this baseline** — a full sweep (see the
+Doxygen-warnings note below) fixed every stale `@copydoc` target, `@param` mismatch, and broken
+cross-reference reachable from those two pages' live sections, plus a broken `index.rst` toctree
+that had silently orphaned `api`/`apiExamples`/`coreAPI` from site navigation (an unindented `..`
+comment line ended the `.. toctree::` directive's content block early — anything after it, even
+lines that still look like list entries, silently falls outside the directive and never gets
+registered; watch for this specifically when hand-editing a toctree list). If a fresh `-W
+--keep-going` build reports a *new* warning on `api.rst`/`coreAPI.rst` (or `index.rst`'s toctree
+warnings reappear), treat it as a real regression to fix, not baseline noise to ignore.
+
+**Doxygen's own warnings are a separate surface from Sphinx's, and "0 Sphinx warnings" does not
+mean "0 Doxygen warnings."** Sphinx/Breathe renders whatever XML Doxygen already produced; it
+never re-validates a `@param`/`@copydoc` mismatch inside a C++ header comment, so a broken
+Doxygen-level cross-reference can sit for a long time as a warning nobody's looking at (`doxygen
+Doxyfile`'s own stdout, not the Sphinx build log) while every Sphinx build stays clean. Check for
+this class of issue by rerunning Doxygen standalone and grepping its output —
+```bash
+cd "Anime Game Remap (for all users)/api/src/cpp/core"
+doxygen Doxyfile
+```
+(much faster than a full `Tools/APIBuilder` `-d` build, and doesn't need the MSVC dev environment
+at all — see [Building](../Building/CLAUDE.md#fast-iteration-on-c-core-only-changes)) — for
+`warning:`/`error:` lines, filtering out the progress lines that legitimately contain the word
+(e.g. `Parsing file .../BufFileErrors.h...` matches a plain case-insensitive `error` grep). The
+current baseline here is 0; if you see any, they're real and worth fixing, not pre-existing noise
+— see the gotchas below for the actual root causes found the last time this was swept (macro-alias
+`@copydoc` targets, `@copydetails` used as an inline `@param` value, cross-class `#member` links,
+and a `\ref`-swallows-punctuation case), each with its established fix.
+
+**`EXTRACT_PROTECTED` is not a real Doxygen configuration tag** — it doesn't exist in any Doxygen
+version this project has used, so setting it in `Doxyfile` is a silent no-op that Doxygen reports
+as `warning: ignoring unsupported tag 'EXTRACT_PROTECTED'` on every single build. Protected members
+are already extracted by default (that's what `:protected-members:` in a `.. doxygenclass::`/
+`.. cppattributetable::` directive controls at the Breathe/Sphinx layer); don't re-add this tag if
+you see the warning return or are tempted to reach for it to influence protected-member visibility
+— `EXTRACT_PRIVATE` is the real, analogous tag for *private* members, and there's no `PROTECTED`
+counterpart because none is needed.
 
 **A plain incremental build only shows warnings for files Sphinx actually reprocessed** (`0
 added, 0 changed, 0 removed` means it reused the cached result and reported nothing new) — a
@@ -155,6 +193,57 @@ reopened) survives untouched.
   prose produces no warning at all, which can make the bug look inconsistent until you notice the
   block boundary). Fix: reference a template parameter by name in plain code formatting
   (```` ``Id`` ````), not `#Id` — reserve `#member` linking for actual members.
+- **The `#member`-style limitation above isn't only about template parameters — plain `#Class::member`
+  (qualified, referencing a real member of a *different*, unrelated class) reliably fails to
+  resolve too**, producing `warning: explicit link request to 'Class::member' could not be
+  resolved` even though `member` is a perfectly real, documented member of `Class`. Found with
+  `#Row::indexVals` referenced from `ModAssets`'/`ModDictAssets`' own doc comments (`Row` is a
+  real sibling `struct`, `indexVals` a real member) — the shorthand only reliably resolves within
+  the comment's own enclosing scope, cross-class or not. **Fix: use the explicit `\ref
+  Class::member` command instead of the `#` shorthand for any cross-class reference** — `\ref` is
+  not scope-limited the way `#` is; this codebase already relies on plain `\ref addRows` (a
+  same-class reference) working fine, so don't assume `\ref`'s general reliability means `#` is
+  interchangeable with it for a *cross*-class target.
+- **Two `\ref` commands placed back-to-back with a delimiter but no whitespace between them
+  (`` \ref foo/\ref bar ``) — the first `\ref`'s target swallows everything up to the next real
+  whitespace, including the delimiter and the second command's literal `\ref bar` text**, same
+  "reads the target until whitespace" mechanism as the `@copybrief`/`@copydoc` punctuation-eating
+  bug above, just for `\ref`. Produces two warnings at once (`unable to resolve reference to
+  'foo/\ref bar'` and `expected whitespace after '\ref' command`) that don't obviously point back
+  at a spacing typo. Fix: give each `\ref` explicit link text and real separating text —
+  `` \ref foo "foo" / \ref bar "bar" `` — rather than relying on bare adjacent `\ref`s.
+- **A `@copydoc`/`@copydetails` target that spells out an `AGREMAPCORE_DOCS_PARSE`-macro-aliased
+  type by its alias name (e.g. `KeywordPredicate`, `ReplaceSpec` — see the macro-expansion pattern
+  documented above) will never resolve, even though the alias is a real, correctly-defined type
+  and the target function genuinely exists.** `PREDEFINED = AGREMAPCORE_DOCS_PARSE` makes Doxygen
+  parse the *expanded* signature (e.g. `std::optional<std::function<bool(const std::string&)>>&`)
+  for the actual function it indexes, but macro expansion is not applied to `@copydoc` target text
+  inside a comment — so a target still spelled with the alias (`std::optional<KeywordPredicate>&`)
+  is textually comparing against a signature that no longer exists post-expansion, and silently
+  fails with `@copybrief or @copydoc target '...' not found`. This hit every `KeywordPredicate`-
+  disambiguated overload in `BaseAhoCorasickDFA.h` and every `ReplaceSpec`-disambiguated one in
+  `BaseOrderedMultiMap.h` at once, since they all share the same macro. **Fix: spell out the
+  macro's *expanded* form in the `@copydoc`/`@copydetails` target, never the alias** — matching the
+  precedent already used correctly for `DupHandler`/`DupHandler2` in the same
+  `BaseAhoCorasickDFA.h` (see its `BaseTrie::BaseTrie(...)` `@copydoc` near the top of the class).
+  If you add a new `AGREMAPCORE_DOCS_PARSE` alias, grep for every `@copydoc`/`@copydetails` that
+  might disambiguate an overload using it before assuming the alias name is copy-paste-safe there.
+- **`@copydetails`/`@copydoc` used as the *entire* value of one `@param` line (e.g. `@param pred
+  @copydetails otherFunc(...)`) copies that *other function's whole detailed description* —
+  including all of *its* `@param` entries — onto the current function, not just a description for
+  the one param it's attached to.** This is the same root mechanism as the already-documented
+  `@copybrief`-as-`@param`-value bug above, but worse for `@copydetails`/`@copydoc`: it doesn't
+  just paste the wrong (function-level) text, it can literally inject extra `@param` tags that
+  don't exist on the current function's signature, producing `too many @param commands` /
+  `argument 'X' ... is not found in the argument list` — and since Doxygen resolves the target
+  first, these warnings land on the current (wrong) function, not the one actually documented
+  incorrectly, so they're easy to misattribute. Worse still, this cascades: if a sibling overload
+  then does a plain `@copydoc` of the already-broken function, it inherits the same injected
+  `@param` too. Found in `BaseAhoCorasickDFA.h`'s `findMaximal`/`getMaximal`/`getMaximalPtr`
+  count-based overloads, all pulling in a `resultInd` param via `@param pred @copydetails
+  findMaximalPtr(...)` that those overloads don't have. **Fix: hand-write the one param's
+  description directly** rather than reaching for `@copydetails`/`@copydoc` to fill in a single
+  `@param`'s text.
 - **A bare `` :class:`Foo` `` cross-domain reference from a C++ header's `@rst` block (rendered
   into `coreAPI.rst`) into a Python-side name documented in `api.rst` does not resolve** — Sphinx's
   Python domain needs the fully-qualified dotted name to look it up from a different document with

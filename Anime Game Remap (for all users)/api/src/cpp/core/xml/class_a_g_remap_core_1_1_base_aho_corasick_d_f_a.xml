@@ -27,7 +27,7 @@ The keys are the ids to the sources node of the edges and the values are the ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="311" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="311" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="332" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="332" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -693,8 +693,43 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -720,9 +755,43 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="exception"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
 <parameternamelist>
 <parametername>std::runtime_error</parametername>
 </parameternamelist>
@@ -757,8 +826,52 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Finds the first largest keyword within &apos;txt&apos;.       </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resultInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pointer to store the starting index of where the keyword was found </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
@@ -809,6 +922,13 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 <parametername>pred</parametername>
 </parameternamelist>
 <parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -818,7 +938,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="175" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="182" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt;</type>
@@ -841,12 +961,47 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Finds the first few largest keywords within &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The found keyword    </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="180" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="187" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -877,7 +1032,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="189" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="196" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -908,7 +1063,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="194" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="201" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -948,7 +1103,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="201" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="208" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -988,7 +1143,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="206" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="213" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
@@ -1023,7 +1178,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="220" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="227" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
@@ -1058,7 +1213,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="225" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="232" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1092,6 +1247,13 @@ The keys are the keywords found and the values are the values to the keywords
 <parametername>pred</parametername>
 </parameternamelist>
 <parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -1101,7 +1263,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="235" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="249" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1119,12 +1281,39 @@ The keys are the keywords found and the values are the values to the keywords
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value    </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="240" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="254" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1142,9 +1331,35 @@ The keys are the keywords found and the values are the values to the keywords
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
-<para><parameterlist kind="exception"><parameteritem>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
 <parameternamelist>
 <parametername>std::runtime_error</parametername>
 </parameternamelist>
@@ -1157,7 +1372,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="247" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="261" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1175,12 +1390,48 @@ The keys are the keywords found and the values are the values to the keywords
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Retrieves the corresponding value from the first largest keyword fround in &apos;txt&apos;.       </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>A tuple containing the keyword found and its corresopnding value   </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Thrown when no keywords are found in the text    </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="252" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="266" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
@@ -1226,6 +1477,13 @@ The keys are the keywords found and the values are the values to the keywords
 <parametername>pred</parametername>
 </parameternamelist>
 <parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -1240,7 +1498,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="269" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="290" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
@@ -1262,12 +1520,52 @@ A tuple containing:
           <defval>std::nullopt</defval>
         </param>
         <briefdescription>
+<para>Retrieves the corresponding value from the first few largest keywords fround in &apos;txt&apos;.    </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to search for keywords </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The count of how many keywords to find in the search string </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>pred</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only a keyword satisfying this predicate can be picked -- among the
+keywords ending at a given position, the largest one satisfying ``pred`` is picked,
+not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+A tuple containing:
+
+#. The list of keywords found
+#. The corresponding found values to the keywords
+</verbatim>    </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="274" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="295" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -1298,7 +1596,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="283" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="304" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -1329,7 +1627,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="288" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="309" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -1369,7 +1667,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="295" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="316" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -1409,7 +1707,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="300" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="321" column="40"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -1468,7 +1766,7 @@ Retrieves the next state for travel to in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="325" column="27"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="346" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string *</type>
@@ -1519,7 +1817,7 @@ skipping over any larger keyword(s) that don&apos;t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="344" column="31"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="365" column="31"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1572,7 +1870,7 @@ The types for the values to store in the `DFA`_
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="23" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="23" bodyend="345"/>
+    <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="23" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="23" bodyend="366"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>acceptNodeIds</name></member>
       <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>add</name></member>

@@ -1096,48 +1096,22 @@ concrete type.
           <declname>index</declname>
         </param>
         <briefdescription>
-<para>Retrieves the entry at a true positional index.          </para>
+<para>Retrieves the entry at a true positional index.    </para>
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Returned by value rather than by reference (unlike the `CRTP`_ version) -- a
-virtual interface can&apos;t safely hand back a reference into storage of unknown
-concrete type.
+This overload additionally pairs the entry&apos;s value with its occurrence index
+(how many times this same key already appeared earlier in the sequence,
+0-based) instead of its key
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>index</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Retrieves the entry at a true positional index.   </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<simplesect kind="return"><para>The (key, value) pair at that position</para>
-</simplesect>
-<parameterlist kind="exception"><parameteritem>
-<parameternamelist>
-<parametername>std::out_of_range</parametername>
-</parameternamelist>
-<parameterdescription>
-<para>Thrown when <computeroutput>index</computeroutput> is out of range   </para>
-</parameterdescription>
-</parameteritem>
-</parameterlist>
-<verbatim>embed:rst 
-This overload additionally pairs the entry&apos;s value with its occurrence index
-(how many times this same key already appeared earlier in the sequence,
-0-based) instead of its key. A separate overload rather than a 2nd default
-parameter on the one above, for the same reason as :cpp:func:`getAll`&apos;s
-``withInds`` overload.
-</verbatim></para>
-<para><parameterlist kind="param"><parameteritem>
-<parameternamelist>
-<parametername>withInds</parametername>
-</parameternamelist>
-<parameterdescription>
 <para><verbatim>embed:rst 
-Selects this overload; its actual runtime value does not change the behavior.
+The position to retrieve. Python-style negative indices are supported: valid
+range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
 </verbatim></para>
 </parameterdescription>
 </parameteritem>
@@ -1149,7 +1123,7 @@ Selects this overload; its actual runtime value does not change the behavior.
 <parametername>std::out_of_range</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Thrown when <computeroutput>index</computeroutput> is out of range    </para>
+<para>Thrown when <computeroutput>index</computeroutput> is out of range </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -1157,7 +1131,7 @@ Selects this overload; its actual runtime value does not change the behavior.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="419" column="31"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="434" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9eae7740812c7eb42339e5f26358e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1214,7 +1188,7 @@ convention as :cpp:func:`getByInd`.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="424" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="439" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a689329efc3ff1909fedffd86e462438c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -1235,7 +1209,7 @@ convention as :cpp:func:`getByInd`.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="431" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="446" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1af396e3a026127518a588f6444bc4acd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kindref="compound">Item</ref> &gt;</type>
@@ -1260,7 +1234,7 @@ instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="443" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="458" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6d8f713ffd8d96c9f8ced6b7205c169f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt; &gt;</type>
@@ -1342,7 +1316,7 @@ instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="457" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="472" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
@@ -1367,7 +1341,7 @@ the ordinary way (the pointed-to type is abstract)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="473" column="37"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="488" column="37"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1451,7 +1425,7 @@ hierarchy. Implementing the small ``rawXxx`` primitive set instead (see
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="60" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="60" bodyend="474"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="60" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="60" bodyend="489"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" prot="public" virt="pure-virtual"><scope>AGRemapCore::IOrderedMultiMap</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ada2e5b87f082623584caa09c0df839b0" prot="public" virt="pure-virtual"><scope>AGRemapCore::IOrderedMultiMap</scope><name>contains</name></member>

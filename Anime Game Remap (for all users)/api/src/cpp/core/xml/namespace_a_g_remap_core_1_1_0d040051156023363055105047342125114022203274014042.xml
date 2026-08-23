@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/model/buffers/BufInt.cpp" line="9" column="5"/>
+    <location file="src/model/buffers/BufInt.cpp" line="10" column="5"/>
   </compounddef>
 </doxygen>

@@ -717,7 +717,7 @@ names have data at the queried version
           <declname>errorOnNotFound</declname>
         </param>
         <briefdescription>
-<para>The real implementation behind <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> <ndash/> also used internally by replace/ replaceAll, which need the resolved version too (to avoid re-resolving it a second time) even though <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> itself doesn&apos;t expose it. </para>
+<para>The real implementation behind <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> <ndash/> also used internally by <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" kindref="member">replace</ref> / <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" kindref="member">replaceAll</ref>, which need the resolved version too (to avoid re-resolving it a second time) even though <ref refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" kindref="member">getKey</ref> itself doesn&apos;t expose it. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

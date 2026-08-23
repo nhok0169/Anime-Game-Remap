@@ -308,17 +308,27 @@ namespace AGRemapCore {
             void addKVPAt(long long index, const K& key, const V& value);
 
             /**
-             * @copydoc BaseOrderedMultiMap::insertAllEnd
+             * @copybrief BaseOrderedMultiMap::insertAllEnd
+             *
+             * @param kvps The key-value pairs to append, in order
              */
             void addKVPs(const std::vector<std::pair<K, V>>& kvps);
 
             /**
-             * @copydoc BaseOrderedMultiMap::insertAllStart
+             * @copybrief BaseOrderedMultiMap::insertAllStart
+             *
+             * @param kvps The key-value pairs to insert, in order
              */
             void addKVPsToFront(const std::vector<std::pair<K, V>>& kvps);
 
             /**
-             * @copydoc IOrderedMultiMap::insertAllAt
+             * @copybrief IOrderedMultiMap::insertAllAt
+             *
+             * @param kvps Same shape/semantics as :cpp:func:`IOrderedMultiMap::insertAllAt`'s ``items``
+             * @param sortIndices Same meaning/default as :cpp:func:`IOrderedMultiMap::insertAllAt`'s ``sortIndices``
+             * @param ranges Same meaning/default as :cpp:func:`IOrderedMultiMap::insertAllAt`'s ``ranges``
+             *
+             * @return How many entries were actually inserted
              */
             size_t addKVPsByInds(const std::vector<std::pair<long long, std::pair<K, V>>>& kvps,
                                   bool sortIndices = true,
@@ -491,7 +501,22 @@ namespace AGRemapCore {
             std::pair<K, V> getByInd(long long index) const;
 
             /**
-             * @copydoc BaseOrderedMultiMap::getByInd(long long, bool) const
+             * @copybrief BaseOrderedMultiMap::getByInd(long long) const
+             @rst
+             This overload additionally pairs the entry's value with its occurrence index
+             (how many times this same key already appeared earlier in the sequence,
+             0-based) instead of its key
+             @endrst
+             *
+             * @param index
+             @rst
+             The position to retrieve. Python-style negative indices are supported: valid
+             range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
+             @endrst
+             *
+             * @return The (occurrence index, value) pair at that position
+             *
+             * @throw std::out_of_range Thrown when ``index`` is out of range
              */
             std::pair<long long, V> getByIndWithOccurrence(long long index) const;
 

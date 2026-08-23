@@ -205,6 +205,54 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
+<parametername>token</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The candidate token text accumulated so far </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>stateId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the <computeroutput>DFA</computeroutput>_ state currently reached after consuming <computeroutput>token</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isAccept</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether <computeroutput>stateId</computeroutput> is an accepting state </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>result</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vector to append the accepted :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></computeroutput> to, if accepted </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>lineNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line number <computeroutput>token</computeroutput> belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>charNo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character number <computeroutput>token</computeroutput> belongs to within its line </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
 <parametername>includeFiltered</parametername>
 </parameternamelist>
 <parameterdescription>

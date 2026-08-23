@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.21)
 project(AGRemapCore VERSION 1.0.0 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 23)
 
@@ -70,6 +70,41 @@ add_library(AGRemapCore STATIC
 
 add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
 
+# -----------------------------------
+# UTF8Proc
+# -----------------------------------
+
+set(UTF8PROC_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
+set(UTF8PROC_INSTALL OFF CACHE BOOL "" FORCE)
+
+set(UTF8PROC_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/utf8proc)
+set(UTF8PROC_BIN ${CMAKE_BINARY_DIR}/utf8proc)
+
+add_subdirectory(${UTF8PROC_SRC} ${UTF8PROC_BIN})
+
+# -----------------------------------
+# DirectXTex
+# -----------------------------------
+
+# disable command-line tools or sample application
+set(BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+set(BUILD_SAMPLE OFF CACHE BOOL "" FORCE)
+
+# disable runtime components
+set(BUILD_DX11 OFF CACHE BOOL "" FORCE)
+set(BUILD_DX12 OFF CACHE BOOL "" FORCE)
+
+set(BC_USE_OPENMP ON CACHE BOOL "" FORCE)
+
+add_subdirectory(
+    ${CMAKE_CURRENT_LIST_DIR}/../../../../extern/DirectXTex
+    ${CMAKE_BINARY_DIR}/DirectXTex
+)
+
+# -----------------------------------
+# Link Libraries
+# -----------------------------------
+
 target_include_directories(AGRemapCore
     PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
@@ -91,22 +126,11 @@ target_include_directories(AGRemapCore
         ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
-# -----------------------------------
-# UTF8Proc
-# -----------------------------------
-
-set(UTF8PROC_ENABLE_TESTS OFF CACHE BOOL "" FORCE)
-set(UTF8PROC_INSTALL OFF CACHE BOOL "" FORCE)
-
-set(UTF8PROC_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/utf8proc)
-set(UTF8PROC_BIN ${CMAKE_BINARY_DIR}/utf8proc)
-
-add_subdirectory(${UTF8PROC_SRC} ${UTF8PROC_BIN})
-
 target_link_libraries(AGRemapCore
     PRIVATE
         z3::libz3
         utf8proc
+        DirectXTex
 )
 
 set_target_properties(AGRemapCore PROPERTIES

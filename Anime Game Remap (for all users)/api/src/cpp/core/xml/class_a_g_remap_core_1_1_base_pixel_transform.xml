@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_pixel_transform" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BasePixelTransform</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_colour_replace" prot="public" virt="non-virtual">AGRemapCore::ColourReplace</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_correct_gamma" prot="public" virt="non-virtual">AGRemapCore::CorrectGamma</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public" virt="non-virtual">AGRemapCore::HighlightShadow</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_invert_alpha" prot="public" virt="non-virtual">AGRemapCore::InvertAlpha</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_temp_control" prot="public" virt="non-virtual">AGRemapCore::TempControl</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_tint_transform" prot="public" virt="non-virtual">AGRemapCore::TintTransform</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_transparency" prot="public" virt="non-virtual">AGRemapCore::Transparency</derivedcompoundref>
+    <includes refid="_base_pixel_transform_8h" local="no">BasePixelTransform.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BasePixelTransform::~BasePixelTransform</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BasePixelTransform</name>
+        <qualifiedname>AGRemapCore::BasePixelTransform::~BasePixelTransform</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="16" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BasePixelTransform::operator()</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BasePixelTransform::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Calls <ref refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" kindref="member">transform</ref> for this pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="25" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BasePixelTransform::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y)</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::BasePixelTransform::transform</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_colour_replace_1a55e59d40ab00a5f8a6a1930eb0d3f9fb">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_correct_gamma_1a2f974182b2a826e0e8b0a9ee569dfd68">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_highlight_shadow_1ae1bcf6291156bd9c6b3bb73deb9d9c49">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_invert_alpha_1aa2c3b66186a8a076883736f31ab732f1">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tint_transform_1aa55c4dab829e81b8748e5cdd4264b1e5">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_transparency_1a12d24018bc75fa041ee25e0312b882d5">transform</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="34" column="26" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for transforming a pixel in a texture file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ColourReplace</label>
+        <link refid="class_a_g_remap_core_1_1_colour_replace"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::CorrectGamma</label>
+        <link refid="class_a_g_remap_core_1_1_correct_gamma"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::HighlightShadow</label>
+        <link refid="class_a_g_remap_core_1_1_highlight_shadow"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::InvertAlpha</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::TempControl</label>
+        <link refid="class_a_g_remap_core_1_1_temp_control"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::TintTransform</label>
+        <link refid="class_a_g_remap_core_1_1_tint_transform"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>AGRemapCore::Transparency</label>
+        <link refid="class_a_g_remap_core_1_1_transparency"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="14" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" bodystart="14" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::BasePixelTransform</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" prot="public" virt="virtual"><scope>AGRemapCore::BasePixelTransform</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::BasePixelTransform</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_tex_editor" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseTexEditor</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_tex_creator" prot="public" virt="non-virtual">AGRemapCore::TexCreator</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_tex_editor" prot="public" virt="non-virtual">AGRemapCore::TexEditor</derivedcompoundref>
+    <includes refid="_base_tex_editor_8h" local="no">BaseTexEditor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_editor_1aacc8b86353427bd8ef23074a4745ba9f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseTexEditor::~BaseTexEditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseTexEditor</name>
+        <qualifiedname>AGRemapCore::BaseTexEditor::~BaseTexEditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="18" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTexEditor::fix</definition>
+        <argsstring>(TextureFile &amp;texFile, const std::string &amp;fixedTexFile)</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::BaseTexEditor::fix</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0">fix</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_editor_1a8a8e497c09c7c04aa779b01613d5909e">fix</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedTexFile</declname>
+        </param>
+        <briefdescription>
+<para>Edits the texture file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture <computeroutput>.dds</computeroutput> file to be modified </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedTexFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the fixed texture file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="26" column="26" bodyfile="src/model/strategies/texEditors/BaseTexEditor.cpp" bodystart="5" bodyend="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class to edit some ``.dds`` file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseTexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::TexCreator</label>
+        <link refid="class_a_g_remap_core_1_1_tex_creator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::TexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_tex_editor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" bodystart="16" bodyend="27"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexEditor</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_editor_1aacc8b86353427bd8ef23074a4745ba9f" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexEditor</scope><name>~BaseTexEditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

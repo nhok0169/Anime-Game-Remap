@@ -336,7 +336,7 @@ class IniParseBuilderFuncs():
     def jean5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser, 
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}},
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5], readPillowImg = True)}}},
                  "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.Jean)][IniKeywords.Blend.value],
                                   IniKeywords.Position.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.Jean)][IniKeywords.Position.value],
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.Jean)][IniKeywords.Texcoord.value]},
@@ -347,7 +347,7 @@ class IniParseBuilderFuncs():
     def jeanCN5_5(cls) -> Tuple[BaseIniParser, List[Any], Dict[str, Any]]:
         return (GIMIObjParser,
                 [{"head", "body"}], 
-                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5])}}},
+                {"texEdits": {"body": {"ps-t1": {"ShadeLightMap": TexEditor(filters = [cls._jeanEditBodyLightMap5_5], readPillowImg = True)}}},
                  "bufDownloads": {IniKeywords.Blend.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.JeanCN)][IniKeywords.Blend.value],
                                   IniKeywords.Position.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.JeanCN)][IniKeywords.Position.value],
                                   IniKeywords.Texcoord.value: FileDownloadData[4.0][ModTypeIdTools.getName(ModTypeId.JeanCN)][IniKeywords.Texcoord.value]},

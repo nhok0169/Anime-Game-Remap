@@ -11,25 +11,19 @@
 
 ##### EndCredits
 
-##### ExtImports
-from typing import Optional, Union, Set
-##### EndExtImports
-
-##### LocalImports
-from ....textures.Colour import Colour
-from ....textures.ColourRange import ColourRange
-from .BasePixelTransform import BasePixelTransform
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppColourReplace
+##### EndCppLocalImports
 
 
 ##### Script
-class ColourReplace(BasePixelTransform):
+class ColourReplace(CppColourReplace):
     """
-    This class inherits from :class:`BasePixelTransform`
+    This class inherits from :class:`CppColourReplace`
 
     Replaces a coloured pixel
 
-    Paramaters
+    Parameters
     ----------
     replaceColour: :class:`Colour`
         The colour to fill in
@@ -43,31 +37,7 @@ class ColourReplace(BasePixelTransform):
         Whether to also replace the alpha channel of the original colour :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``True``
-
-    Attributes
-    ----------
-    replaceColour: :class:`Colour`
-        The colour to fill in
-
-    coloursToReplace: Optional[Set[Union[:class:`Colour`, :class:`ColourRange`]]]
-        The colour to find to be replaced. If this value is ``None``, then will always replace the colour of the pixel
-
-    replaceAlpha: :class:`bool`
-        Whether to also replace the alpha channel of the original colour
     """
 
-    def __init__(self, replaceColour: Colour, coloursToReplace: Optional[Set[Union[Colour, ColourRange]]] = None, replaceAlpha: bool = True):
-        self.coloursToReplace = coloursToReplace
-        self.replaceColour = replaceColour
-        self.replaceAlpha = replaceAlpha
-
-    def transform(self, pixel: Colour, x: int, y: int):
-        if (self.coloursToReplace is None):
-            pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
-            return
-        
-        for colour in self.coloursToReplace:
-            if (colour.match(pixel)):
-                pixel.copy(self.replaceColour, withAlpha = self.replaceAlpha)
-                return
+    pass
 ##### EndScript

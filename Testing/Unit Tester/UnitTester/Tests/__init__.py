@@ -84,6 +84,33 @@ from .test_Trie import TrieTest
 from .test_Version import VersionTest
 from .test_VGRemap import VGRemapTest
 
+from .test_TexEngine import TexEngineTest
+from .test_CppColour import CppColourTest
+from .test_CppTextureFile import CppTextureFileTest
+from .test_TextureFile import TextureFileTest
+from .test_CppBaseTexEditor import CppBaseTexEditorTest
+from .test_BaseTexEditor import BaseTexEditorTest
+from .test_CppBaseTexFilter import CppBaseTexFilterTest
+from .test_CppGammaFilter import CppGammaFilterTest
+from .test_CppBasePixelTransform import CppBasePixelTransformTest
+from .test_CppCorrectGamma import CppCorrectGammaTest
+from .test_CppColourReplace import CppColourReplaceTest
+from .test_CppHighlightShadow import CppHighlightShadowTest
+from .test_CppInvertAlpha import CppInvertAlphaTest
+from .test_CppTempControl import CppTempControlTest
+from .test_CppTintTransform import CppTintTransformTest
+from .test_CppTransparency import CppTransparencyTest
+from .test_CppColourReplaceFilter import CppColourReplaceFilterTest
+from .test_CppTransparencyAdjustFilter import CppTransparencyAdjustFilterTest
+from .test_CppInvertAlphaFilter import CppInvertAlphaFilterTest
+from .test_CppHueAdjust import CppHueAdjustTest
+from .test_CppPixelFilter import CppPixelFilterTest
+from .test_PixelFilter import PixelFilterTest
+from .test_CppTexEditor import CppTexEditorTest
+from .test_TexEditor import TexEditorTest
+from .test_CppTexCreator import CppTexCreatorTest
+from .test_TexCreator import TexCreatorTest
+
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
@@ -99,3 +126,8 @@ __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredToken
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "CppBlendFileTest", "CppPositionFileTest", "BufToolsTest"]
 __all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest"]
+__all__ += ["TexEngineTest", "CppColourTest", "CppTextureFileTest", "TextureFileTest"]
+__all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]
+__all__ += ["CppBasePixelTransformTest", "CppCorrectGammaTest", "CppColourReplaceTest", "CppHighlightShadowTest", "CppInvertAlphaTest", "CppTempControlTest", "CppTintTransformTest", "CppTransparencyTest"]
+__all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "CppInvertAlphaFilterTest", "CppHueAdjustTest", "CppPixelFilterTest", "PixelFilterTest"]
+__all__ += ["CppTexEditorTest", "TexEditorTest", "CppTexCreatorTest", "TexCreatorTest"]

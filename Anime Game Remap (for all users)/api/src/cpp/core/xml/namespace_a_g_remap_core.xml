@@ -9,7 +9,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public">AGRemapCore::BaseIniClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public">AGRemapCore::BaseSLR1Parser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public">AGRemapCore::BaseTexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tokenizer" prot="public">AGRemapCore::BaseTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_trie" prot="public">AGRemapCore::BaseTrie</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_bi_map" prot="public">AGRemapCore::BiMap</innerclass>
@@ -29,9 +32,15 @@
     <innerclass refid="class_a_g_remap_core_1_1_buf_un_signed_int" prot="public">AGRemapCore::BufUnSignedInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
@@ -39,6 +48,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_hash64" prot="public">AGRemapCore::Hash64</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_tools" prot="public">AGRemapCore::HashTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public">AGRemapCore::HighlightShadow</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hue_adjust" prot="public">AGRemapCore::HueAdjust</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colour_change" prot="public">AGRemapCore::IfContentPartColourChange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colouring" prot="public">AGRemapCore::IfContentPartColouring</innerclass>
@@ -59,6 +70,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
@@ -75,6 +88,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_parse_context" prot="public">AGRemapCore::ParseContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_parse_node" prot="public">AGRemapCore::ParseNode</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_parse_tree" prot="public">AGRemapCore::ParseTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_pixel_filter" prot="public">AGRemapCore::PixelFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
@@ -86,7 +100,14 @@
     <innerclass refid="class_a_g_remap_core_1_1_sympy_parser" prot="public">AGRemapCore::SympyParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_transparency_adjust_filter" prot="public">AGRemapCore::TransparencyAdjustFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
@@ -634,6 +655,36 @@ analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt
         </inbodydescription>
         <location file="include/AGRemapCore/model/files/BinaryFile.h" line="19" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="19" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" prot="public" static="no">
+        <type>std::variant&lt; <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>, <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref> &gt;</type>
+        <definition>using AGRemapCore::ColourOrRange = std::variant&lt;Colour, ColourRange&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColourOrRange</name>
+        <qualifiedname>AGRemapCore::ColourOrRange</qualifiedname>
+        <briefdescription>
+<para>A single colour, or a range of colours. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="67" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" prot="public" static="no">
+        <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kindref="member">ColourOrRange</ref> &gt;</type>
+        <definition>using AGRemapCore::ColourOrRangeSet = std::vector&lt;ColourOrRange&gt;</definition>
+        <argsstring></argsstring>
+        <name>ColourOrRangeSet</name>
+        <qualifiedname>AGRemapCore::ColourOrRangeSet</qualifiedname>
+        <briefdescription>
+<para>A collection of colours/colour ranges, used by filters to match against a pixel. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="72" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" prot="public" static="no">
         <templateparamlist>
           <param>
@@ -782,6 +833,47 @@ in an :cpp:class:`OrderedMultiMapAdapter`
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::matchesColourOrRange</definition>
+        <argsstring>(const ColourOrRange &amp;colourOrRange, const Colour &amp;colour)</argsstring>
+        <name>matchesColourOrRange</name>
+        <qualifiedname>AGRemapCore::matchesColourOrRange</qualifiedname>
+        <param>
+          <type>const <ref refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kindref="member">ColourOrRange</ref> &amp;</type>
+          <declname>colourOrRange</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>colour</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;colour&apos; matches &apos;colourOrRange&apos; (a single colour needs an exact match; a colour range needs the colour to fall within it). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colourOrRange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The single colour or colour range to check against </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colour to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/textures/ColourRange.cpp" line="22" column="10" bodyfile="src/model/textures/ColourRange.cpp" bodystart="22" bodyend="27" declfile="include/AGRemapCore/model/textures/ColourRange.h" declline="81" declcolumn="10"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
           <param>
@@ -865,7 +957,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="86" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="86" bodyend="120"/>
+        <location file="src/tools/IntTools.cpp" line="87" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="87" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -879,7 +971,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="122" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="122" bodyend="136"/>
+        <location file="src/tools/IntTools.cpp" line="123" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="123" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -893,7 +985,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="138" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="138" bodyend="152"/>
+        <location file="src/tools/IntTools.cpp" line="139" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="139" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -907,7 +999,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="154" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="154" bodyend="163"/>
+        <location file="src/tools/IntTools.cpp" line="155" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="155" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a9c49c2f7a2d0719c52059d3730f2177a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -921,7 +1013,21 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="165" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="165" bodyend="189"/>
+        <location file="src/tools/IntTools.cpp" line="166" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="166" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc6</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc6</name>
+        <qualifiedname>AGRemapCore::testFunc6</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="192" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="192" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>

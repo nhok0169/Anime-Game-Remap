@@ -6,6 +6,7 @@
     <innerdir refid="dir_89356c07892b6ff3ab361b2626767945">src/model/files</innerdir>
     <innerdir refid="dir_941b5cb2d2010f0c64ef256f59e27c9d">src/model/iftemplate</innerdir>
     <innerdir refid="dir_fc20fd78122f92b232bb430db3d0fb49">src/model/strategies</innerdir>
+    <innerdir refid="dir_ce9990a9ef7edc5fd8dda418ad63991a">src/model/textures</innerdir>
     <innerfile refid="_version_8cpp">Version.cpp</innerfile>
     <innerfile refid="_version_set_8cpp">VersionSet.cpp</innerfile>
     <innerfile refid="_v_g_remap_8cpp">VGRemap.cpp</innerfile>

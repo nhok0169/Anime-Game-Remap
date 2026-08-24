@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_base_pixel_transform_8h" kind="file" language="C++">
+    <compoundname>BasePixelTransform.h</compoundname>
+    <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
+    <includedby refid="_colour_replace_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/ColourReplace.h</includedby>
+    <includedby refid="_correct_gamma_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h</includedby>
+    <includedby refid="_highlight_shadow_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h</includedby>
+    <includedby refid="_invert_alpha_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h</includedby>
+    <includedby refid="_temp_control_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h</includedby>
+    <includedby refid="_tint_transform_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h</includedby>
+    <includedby refid="_transparency_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h</includedby>
+    <includedby refid="_base_pixel_transform_8cpp" local="yes">src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</label>
+        <link refid="_base_pixel_transform_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>tuple</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</label>
+        <link refid="_base_pixel_transform_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/ColourReplace.h</label>
+        <link refid="_colour_replace_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h</label>
+        <link refid="_correct_gamma_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h</label>
+        <link refid="_highlight_shadow_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h</label>
+        <link refid="_invert_alpha_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h</label>
+        <link refid="_temp_control_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h</label>
+        <link refid="_tint_transform_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h</label>
+        <link refid="_transparency_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp</label>
+        <link refid="_base_pixel_transform_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp</label>
+        <link refid="_colour_replace_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp</label>
+        <link refid="_correct_gamma_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp</label>
+        <link refid="_highlight_shadow_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp</label>
+        <link refid="_invert_alpha_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/model/strategies/texEditors/pixelTransforms/TempControl.cpp</label>
+        <link refid="_temp_control_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp</label>
+        <link refid="_tint_transform_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/model/strategies/texEditors/pixelTransforms/Transparency.cpp</label>
+        <link refid="_transparency_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
+        <link refid="_colour_replace_filter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
+        <link refid="_gamma_filter_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
+        <link refid="_transparency_adjust_filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BasePixelTransform_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BasePixelTransform_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_colour_8h" kindref="compound">AGRemapCore/model/textures/Colour.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_a_g_remap_core_1_1_base_pixel_transform" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_pixel_transform" kindref="compound">BasePixelTransform</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16" refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" kindref="member">~BasePixelTransform</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" kindref="member">operator()</ref>(<ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/>&amp;pixel,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y);</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" kindref="member">transform</ref>(<ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/>&amp;pixel,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>x,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>y);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h"/>
+  </compounddef>
+</doxygen>

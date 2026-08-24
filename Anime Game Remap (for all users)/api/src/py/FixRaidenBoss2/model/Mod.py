@@ -876,7 +876,10 @@ class Mod(Model):
         tex = TextureFile(texFile)
         texEditor.fix(tex, fixedTexFile)
 
-        if (tex.img is None):
+        # not '.img is None': texEditor may be running with readPillowImg == False, in which case
+        # .img is never populated even on success -- .hasImage falls back to the native
+        # Compressonator buffer state for exactly this case (see TextureFile's own notes on it)
+        if (not tex.hasImage):
             return None
         return fixedTexFile
 

@@ -11,16 +11,15 @@
 
 ##### EndCredits
 
-##### LocalImports
-from ....textures.Colour import Colour
-from .BasePixelTransform import BasePixelTransform
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppTransparency
+##### EndCppLocalImports
 
 
 ##### Script
-class Transparency(BasePixelTransform):
+class Transparency(CppTransparency):
     """
-    This class inherits from :class:`BasePixelTransform`
+    This class inherits from :class:`CppTransparency`
 
     Adjust the trasparency (alpha channel) for an image
 
@@ -31,15 +30,7 @@ class Transparency(BasePixelTransform):
 
         .. note::
             The alpha channel for an image is inclusively bounded from 0 to 255
-
-    Attributes
-    ----------
-    alphaChange: :class:`int`
-        How much to adjust the alpha channel of each pixel. Range from -255 to 255
     """
-    def __init__(self, alphaChange: int):
-        self.alphaChange = alphaChange
 
-    def transform(self, pixel: Colour, x: int, y: int):
-        pixel.alpha = pixel.boundColourChannel(pixel.alpha + self.alphaChange)
+    pass
 ##### EndScript

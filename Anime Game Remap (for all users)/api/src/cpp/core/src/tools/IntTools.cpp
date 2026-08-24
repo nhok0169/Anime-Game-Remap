@@ -5,6 +5,7 @@
 #include <tsl/ordered_map.h>
 #include <DirectXTex.h>
 #include <xxhash.h>
+#include "compressonator.h"
 #include <iostream>
 #include "AGRemapCore/tools/grapheme/GraphemeRange.h"
 #include <string>
@@ -188,12 +189,21 @@ namespace AGRemapCore {
         std::cout << "Format: " << metadata.format << "\n";
     }
 
+    static void testFunc6() {
+        std::cout << "Compressonator sanity test\n";
+
+        CMP_InitFramework();
+
+        std::cout << "Compressonator initialized successfully!\n";
+    }
+
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
         // testFunc();
         // testFunc2();
         // testFunc3();
         // testFunc4();
         // testFunc5();
+        // testFunc6();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBlendFile', 'CppBufFile', 'CppHashTools', 'CppIniClassifyStats', 'CppIntTools', 'CppListTools', 'CppModAssets', 'CppPositionFile', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
 class BaseSLR1Parser:
@@ -1264,6 +1264,90 @@ class CppBaseIniClassifier:
         """
         Clears the state of the classifier
         """
+class CppBasePixelTransform:
+    """
+    
+    Base class for transforming a pixel in a texture file
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x(pixel, xCoord, yCoord)
+    
+            Calls :meth:`transform` for the pixel transform, ``x``
+        
+    """
+    def __call__(self, pixel: CppColour, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Calls :meth:`transform` for the pixel transform
+        """
+    def __init__(self) -> None:
+        ...
+    def transform(self, pixel: CppColour, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Applies a transformation to 'pixel'. No-op by default
+        
+        Parameters
+        ----------
+        pixel: :class:`CppColour`
+            The pixel to be edited
+        
+        x: :class:`int`
+            x-coordinate of the pixel
+        
+        y: :class:`int`
+            y-coordinate of the pixel
+        """
+class CppBaseTexEditor:
+    """
+    
+    Base class to edit some ``.dds`` file
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def fix(self, texFile: CppTextureFile, fixedTexFile: str) -> None:
+        """
+        Edits the texture file. No-op by default
+        
+        Parameters
+        ----------
+        texFile: :class:`CppTextureFile`
+            The texture ``.dds`` file to be modified
+        
+        fixedTexFile: :class:`str`
+            The name of the fixed texture file
+        """
+class CppBaseTexFilter:
+    """
+    
+    Base class for transforming a texture file
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x(texFile)
+    
+            Calls :meth:`transform` for the filter, ``x``
+        
+    """
+    def __call__(self, texFile: CppTextureFile) -> None:
+        """
+        Calls :meth:`transform` for the filter
+        """
+    def __init__(self) -> None:
+        ...
+    def transform(self, texFile: CppTextureFile) -> None:
+        """
+        Applies a transformation to 'texFile'. No-op by default
+        
+        Parameters
+        ----------
+        texFile: :class:`CppTextureFile`
+            The texture to be edited
+        """
 class CppBlendFile(CppBufFile):
     """
     
@@ -1513,6 +1597,447 @@ class CppBufFile(BinaryFile):
     @fileType.setter
     def fileType(self, arg1: str) -> None:
         ...
+class CppColour:
+    """
+    
+    Class to store data for a colour
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: hash(x)
+    
+            Retrieves the hash id for the colour based off :meth:`getId`
+        
+    """
+    @staticmethod
+    def boolToColourChannel(val: bool, min: typing.SupportsInt | typing.SupportsIndex = 0, max: typing.SupportsInt | typing.SupportsIndex = 255) -> int:
+        """
+        Converts a boolean value to a value for a colour channel
+        
+        Parameters
+        ----------
+        val: :class:`bool`
+            The boolean value to convert
+        
+        min: :class:`int`
+            The minimum bound for the colour channel. **Default**: ``0``
+        
+        max: :class:`int`
+            The maximum bound for the colour channel. **Default**: ``255``
+        
+        Returns
+        -------
+        :class:`int`
+            The corresponding value for the colour channel based off the boolean
+        """
+    @staticmethod
+    def boundColourChannel(val: typing.SupportsInt | typing.SupportsIndex, min: typing.SupportsInt | typing.SupportsIndex = 0, max: typing.SupportsInt | typing.SupportsIndex = 255) -> int:
+        """
+        Makes a colour channel value be in between the minimum and maximum value
+        
+        Parameters
+        ----------
+        val: :class:`int`
+            The value of the channel
+        
+        min: :class:`int`
+            The minimum bound for the colour channel. **Default**: ``0``
+        
+        max: :class:`int`
+            The maximum bound for the colour channel. **Default**: ``255``
+        
+        Returns
+        -------
+        :class:`int`
+            The bounded value
+        """
+    def __hash__(self) -> int:
+        ...
+    def __init__(self, red: typing.SupportsInt | typing.SupportsIndex = 255, green: typing.SupportsInt | typing.SupportsIndex = 255, blue: typing.SupportsInt | typing.SupportsIndex = 255, alpha: typing.SupportsInt | typing.SupportsIndex = 255) -> None:
+        """
+        Constructs a new colour
+        
+        Parameters
+        ----------
+        red: :class:`int`
+            The red channel for the colour. **Default**: ``255``
+        
+        green: :class:`int`
+            The green channel for the colour. **Default**: ``255``
+        
+        blue: :class:`int`
+            The blue channel for the colour. **Default**: ``255``
+        
+        alpha: :class:`int`
+            The transparency (alpha) channel for the colour, with a range from 0-255. 0 = transparent,
+            255 = opaque. **Default**: ``255``
+        """
+    def copy(self, colour: CppColour, withAlpha: bool = True) -> None:
+        """
+        Copies the colour value from 'colour'
+        
+        Parameters
+        ----------
+        colour: :class:`CppColour`
+            The colour to copy from
+        
+        withAlpha: :class:`bool`
+            Whether to also copy the alpha channel. **Default**: ``True``
+        """
+    def fromTuple(self, colourTuple: tuple[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
+        """
+        Updates the colour based off 'colourTuple'
+        
+        Parameters
+        ----------
+        colourTuple: Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
+            The raw values for the colour in RGBA format
+        """
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour
+        
+        .. note::
+            The id generated will not correspond to any id generated from a colour range
+        
+        Returns
+        -------
+        :class:`str`
+            The id for the colour
+        """
+    def getTuple(self) -> tuple[int, int, int, int]:
+        """
+        Retrieves the tuple representation of the colour in RGBA format
+        
+        Returns
+        -------
+        Tuple[:class:`int`, :class:`int`, :class:`int`, :class:`int`]
+            The colour tuple containing the following colour channel values, in order:
+        
+            #. Red
+            #. Green
+            #. Blue
+            #. Alpha
+        """
+    def match(self, colour: CppColour) -> bool:
+        """
+        Whether 'colour' matches this colour
+        
+        Parameters
+        ----------
+        colour: :class:`CppColour`
+            The colour to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour matches this colour
+        """
+    @property
+    def alpha(self) -> int:
+        """
+        :class:`int`: The transparency (alpha) channel for the colour, with a range from 0-255. 0 =
+        transparent, 255 = opaque
+        """
+    @alpha.setter
+    def alpha(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def blue(self) -> int:
+        """
+        :class:`int`: The blue channel for the colour
+        """
+    @blue.setter
+    def blue(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def green(self) -> int:
+        """
+        :class:`int`: The green channel for the colour
+        """
+    @green.setter
+    def green(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def red(self) -> int:
+        """
+        :class:`int`: The red channel for the colour
+        """
+    @red.setter
+    def red(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class CppColourRange:
+    """
+    
+    Class to store a range for a colour
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: hash(x)
+    
+            Retrieves the hash id for the colour range based off :meth:`getId`
+        
+    """
+    def __hash__(self) -> int:
+        ...
+    def __init__(self, min: CppColour, max: CppColour) -> None:
+        """
+        Constructs a new colour range
+        
+        Parameters
+        ----------
+        min: :class:`CppColour`
+            The minimum range for the RGBA values
+        
+        max: :class:`CppColour`
+            The maximum range for the RGBA values
+        """
+    def getId(self) -> str:
+        """
+        Retrieves a unique id for the colour range
+        
+        .. note::
+            The id generated will not correspond to any id generated for a single colour
+        
+        Returns
+        -------
+        :class:`str`
+            The id for the colour range
+        """
+    def match(self, colour: CppColour) -> bool:
+        """
+        Whether 'colour' is within the colour range
+        
+        Parameters
+        ----------
+        colour: :class:`CppColour`
+            The colour to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the colour is within the colour range
+        """
+    @property
+    def max(self) -> CppColour:
+        """
+        :class:`CppColour`: The maximum range for the RGBA values
+        """
+    @max.setter
+    def max(self, arg0: CppColour) -> None:
+        ...
+    @property
+    def min(self) -> CppColour:
+        """
+        :class:`CppColour`: The minimum range for the RGBA values
+        """
+    @min.setter
+    def min(self, arg0: CppColour) -> None:
+        ...
+class CppColourReplace(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Replaces a coloured pixel
+        
+    """
+    def __init__(self, replaceColour: CppColour, coloursToReplace: typing.Any = None, replaceAlpha: bool = True) -> None:
+        """
+        Constructs a new colour-replace pixel transform
+        
+        Parameters
+        ----------
+        replaceColour: :class:`CppColour`
+            The colour to fill in
+        
+        coloursToReplace: Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]
+            The colours to find to be replaced. If this value is ``None``, then will always replace the
+            colour of the pixel. **Default**: ``None``
+        
+        replaceAlpha: :class:`bool`
+            Whether to also replace the alpha channel of the original colour. **Default**: ``True``
+        """
+    @property
+    def coloursToReplace(self) -> typing.Any:
+        """
+        Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]: The colours to find to be
+        replaced. If this value is ``None``, then will always replace the colour of the pixel
+        """
+    @coloursToReplace.setter
+    def coloursToReplace(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def replaceAlpha(self) -> bool:
+        """
+        :class:`bool`: Whether to also replace the alpha channel of the original colour
+        """
+    @replaceAlpha.setter
+    def replaceAlpha(self, arg0: bool) -> None:
+        ...
+    @property
+    def replaceColour(self) -> CppColour:
+        """
+        :class:`CppColour`: The colour to fill in
+        """
+    @replaceColour.setter
+    def replaceColour(self, arg0: CppColour) -> None:
+        ...
+class CppColourReplaceFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Replaces specific colours in the image
+        
+    """
+    def __init__(self, replaceColour: CppColour, coloursToReplace: typing.Any = None, replaceAlpha: bool = True) -> None:
+        """
+        Constructs a new colour-replace filter
+        
+        Parameters
+        ----------
+        replaceColour: :class:`CppColour`
+            The colour to fill in
+        
+        coloursToReplace: Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]
+            The colours to find to be replaced. If this value is ``None``, then will always replace the
+            colour of the pixel. **Default**: ``None``
+        
+        replaceAlpha: :class:`bool`
+            Whether to also replace the alpha channel of the original colour. **Default**: ``True``
+        """
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Replaces the matching colours across the entire image
+        
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be edited
+        """
+    @property
+    def coloursToReplace(self) -> typing.Any:
+        """
+        Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]: The colours to find to be
+        replaced. If this value is ``None``, then will always replace the colour of the pixel
+        """
+    @coloursToReplace.setter
+    def coloursToReplace(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def replaceAlpha(self) -> bool:
+        """
+        :class:`bool`: Whether to also replace the alpha channel of the original colour
+        """
+    @replaceAlpha.setter
+    def replaceAlpha(self, arg0: bool) -> None:
+        ...
+    @property
+    def replaceColour(self) -> CppColour:
+        """
+        :class:`CppColour`: The colour to fill in
+        """
+    @replaceColour.setter
+    def replaceColour(self, arg0: CppColour) -> None:
+        ...
+class CppCorrectGamma(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Performs a `Gamma Correction`_ on an individual pixel using the following simple power-law
+    relationship:
+    
+    .. code-block::
+    
+        V_out = V_in ^ (1 / gamma)
+    
+    Where ``V_out`` is the perceived brightness by human eyes while ``V_in`` is the actual brightness
+    of the image.
+    
+    .. note::
+        Higher :attr:`gamma` values make the image look brighter and less saturated; lower
+        :attr:`gamma` values make the image look darker and more saturated
+        
+    """
+    @staticmethod
+    def correctGamma(pixelValue: typing.SupportsInt | typing.SupportsIndex, gamma: typing.SupportsFloat | typing.SupportsIndex) -> int:
+        """
+        The equation for the gamma correction done at every colour channel pixel
+        
+        Parameters
+        ----------
+        pixelValue: :class:`int`
+            The value of the pixel for some colour channel, in [0, 255]
+        
+        gamma: :class:`float`
+            The luminance parameter for how bright humans perceive the image
+        
+        Returns
+        -------
+        :class:`int`
+            The gamma corrected pixel value
+        """
+    def __init__(self, gamma: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Constructs a new gamma-correction pixel transform
+        
+        Parameters
+        ----------
+        gamma: :class:`float`
+            The luminance parameter for how bright humans perceive the image
+        """
+    @property
+    def gamma(self) -> float:
+        """
+        :class:`float`: The luminance parameter for how bright humans perceive the image
+        """
+    @gamma.setter
+    def gamma(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+class CppGammaFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Performs a `Gamma Correction`_ on the texture file, using the following simple power-law
+    relationship, applied independently to every pixel's R/G/B channels (the alpha channel is left
+    untouched):
+    
+    .. code-block::
+    
+        V_out = V_in ^ (1 / gamma)
+    
+    Where ``V_out`` is the perceived brightness by human eyes while ``V_in`` is the actual brightness
+    of the image.
+    
+    .. note::
+        Higher :attr:`gamma` values make the image look brighter and less saturated; lower
+        :attr:`gamma` values make the image look darker and more saturated
+        
+    """
+    def __init__(self, gamma: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        """
+        Constructs a new gamma filter
+        
+        Parameters
+        ----------
+        gamma: :class:`float`
+            The luminance parameter for how bright humans perceive the image
+        """
+    @property
+    def gamma(self) -> float:
+        """
+        :class:`float`: The luminance parameter for how bright humans perceive the image
+        """
+    @gamma.setter
+    def gamma(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
 class CppHashTools:
     """
     C++ tools for deterministically hashing data
@@ -1628,6 +2153,81 @@ class CppHashTools:
         :class:`str`
             The resultant short, possibly-colliding hash, as a base64 string
         """
+class CppHighlightShadow(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    A filter that approximates the adjustment of the shadow/highlight of an image
+    
+    .. note::
+        Reference: `Highlight Shadow Approximation Reference`_
+        
+    """
+    def __init__(self, highlight: typing.SupportsFloat | typing.SupportsIndex = 0, shadow: typing.SupportsFloat | typing.SupportsIndex = 0) -> None:
+        """
+        Constructs a new highlight/shadow pixel transform
+        
+        Parameters
+        ----------
+        highlight: :class:`float`
+            The amount of highlight to apply to the pixel. Range from -1 to 1, and 0 = no change.
+            **Default**: ``0``
+        
+        shadow: :class:`float`
+            The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change.
+            **Default**: ``0``
+        """
+    @property
+    def highlight(self) -> float:
+        """
+        :class:`float`: The amount of highlight to apply to the pixel. Range from -1 to 1, and 0 = no change
+        """
+    @highlight.setter
+    def highlight(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def shadow(self) -> float:
+        """
+        :class:`float`: The amount of shadow to apply to the pixel. Range from -1 to 1, and 0 = no change
+        """
+    @shadow.setter
+    def shadow(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+class CppHueAdjust(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Adjusts the hue of a texture file
+        
+    """
+    def __init__(self, hue: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Constructs a new hue-adjust filter
+        
+        Parameters
+        ----------
+        hue: :class:`int`
+            The hue to adjust the image. Value is from -180 to 180
+        """
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Adjusts the hue across the image
+        
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be edited
+        """
+    @property
+    def hue(self) -> int:
+        """
+        :class:`int`: The hue to adjust the image. Value is from -180 to 180
+        """
+    @hue.setter
+    def hue(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
 class CppIniClassifyStats:
     """
     
@@ -1764,6 +2364,35 @@ class CppIntTools:
         -------
         :class:`str`
             The converted string representation of the arbitrary base number
+        """
+class CppInvertAlpha(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Inverts the alpha channel of a pixel
+        
+    """
+    def __init__(self) -> None:
+        ...
+class CppInvertAlphaFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Inverts the alpha channel of an image
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Inverts the alpha channel across the image
+        
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be edited
         """
 class CppListTools:
     """
@@ -1949,6 +2578,31 @@ class CppModAssets:
         """
         :class:`int`: The number of version columns
         """
+class CppPixelFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Manipulates each pixel within an image
+    
+    .. warning::
+        This filter iterates through every pixel of the image. Where possible, prefer a filter that
+        can transform the whole image at once (eg. :class:`ColourReplaceFilter`) instead -- a
+        :class:`CppBasePixelTransform` placed in :attr:`transforms` still runs at full C++ speed with
+        no per-pixel Python overhead, but a plain Python callable does not
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Changes each individual pixel in the image
+        
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be edited
+        """
 class CppPositionFile(CppBufFile):
     """
     
@@ -1985,6 +2639,298 @@ class CppPositionFile(CppBufFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for a position file
         """
+class CppTempControl(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Controls the temperature of a texture file using a modified version of the
+    `Simple Image Temperature/Tint Adjust Algorithm`_ such that the colour channels increase/decrease
+    linearly with respect to their corresponding pixel value and the user selected temperature
+        
+    """
+    def __init__(self, temp: typing.SupportsFloat | typing.SupportsIndex = 0) -> None:
+        """
+        Constructs a new temperature-control pixel transform
+        
+        Parameters
+        ----------
+        temp: :class:`float`
+            The temperature to set the image. Range from -1 to 1. **Default**: ``0``
+        """
+    @property
+    def temp(self) -> float:
+        """
+        :class:`float`: The temperature to set the image. Range from -1 to 1
+        """
+    @temp.setter
+    def temp(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
+        ...
+class CppTexCreator(CppBaseTexEditor):
+    """
+    
+    This class inherits from :class:`CppBaseTexEditor`
+    
+    Creates a brand new ``.dds`` file if the file does not already exist
+        
+    """
+    def __init__(self, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, colour: CppColour = ...) -> None:
+        """
+        Constructs a new texture creator
+        
+        Parameters
+        ----------
+        width: :class:`int`
+            The width, in pixels, of the texture to create
+        
+        height: :class:`int`
+            The height, in pixels, of the texture to create
+        
+        colour: :class:`CppColour`
+            The fill colour of the texture to create. **Default**: opaque white
+        """
+    @property
+    def colour(self) -> CppColour:
+        """
+        :class:`CppColour`: The fill colour of the texture to create
+        """
+    @colour.setter
+    def colour(self, arg0: CppColour) -> None:
+        ...
+    @property
+    def height(self) -> int:
+        """
+        :class:`int`: The height, in pixels, of the texture to create
+        """
+    @height.setter
+    def height(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def width(self) -> int:
+        """
+        :class:`int`: The width, in pixels, of the texture to create
+        """
+    @width.setter
+    def width(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class CppTexEditor(CppBaseTexEditor):
+    """
+    
+    This class inherits from :class:`CppBaseTexEditor`
+    
+    The pure-C++-SDK-facing engine behind :class:`TexEditor` -- runs a fixed sequence of
+    :class:`CppBaseTexFilter`\\s over a texture file. :meth:`~CppBaseTexEditor.fix` is a no-op unless a
+    filter list was passed to the constructor.
+    
+    .. note::
+        The Python-facing :class:`TexEditor` overrides :meth:`~CppBaseTexEditor.fix` itself instead of
+        using this class's filter list, so that its own ``filters`` attribute can hold arbitrary Python
+        callables (not just objects this constructor can accept) -- see that class for the
+        Python-visible behavior
+        
+    """
+    def __init__(self) -> None:
+        ...
+class CppTextureFile:
+    """
+    
+    The `Compressonator`_-backed engine behind :class:`TextureFile` -- decodes/encodes a ``.dds``
+    texture file to/from a flat, uncompressed RGBA8 pixel buffer (see :meth:`getPixels`/
+    :meth:`setPixels`), remembering the original compressed format so :meth:`save` can re-encode back
+    to it.
+    
+    .. note::
+        This class is Pillow-free -- :class:`TextureFile` itself layers a real `Pillow`_ ``Image`` (at
+        its ``img`` attribute) on top of this class's raw pixel buffer, for the sake of the other
+        texture filters in this codebase that still work directly against a real Pillow image
+        
+    """
+    def __init__(self, src: str) -> None:
+        """
+        Constructs a new texture file. Does not read anything from disk yet -- see :meth:`open`
+        
+        Parameters
+        ----------
+        src: :class:`str`
+            The source file path for the texture file
+        """
+    def getPixels(self) -> bytes:
+        """
+        The current pixel buffer, as flat RGBA8 bytes (4 bytes per pixel, row-major)
+        
+        Returns
+        -------
+        :class:`bytes`
+            The current pixel buffer
+        """
+    def open(self) -> None:
+        """
+        Opens the texture file at :attr:`src`, decoding it into :meth:`getPixels`
+        
+        If the file does not exist, :attr:`hasImage` becomes ``False`` and :meth:`getPixels` is cleared
+        """
+    def save(self) -> None:
+        """
+        Saves :meth:`getPixels` to the texture file at :attr:`src`
+        
+        If :attr:`gamma` is set, the R/G/B channels of :meth:`getPixels` are gamma-corrected first (see
+        :class:`CppGammaFilter`), in place. The file is re-encoded to whatever compressed format it was
+        originally :meth:`open`-ed with -- or, for a texture file that was never successfully opened (eg. a
+        brand new file), BC7
+        """
+    def setPixels(self, pixels: bytes, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Replaces the current pixel buffer, eg. with pixels edited outside of this class
+        
+        Parameters
+        ----------
+        pixels: :class:`bytes`
+            The new flat RGBA8 pixel buffer (4 bytes per pixel, row-major)
+        
+        width: :class:`int`
+            The width, in pixels, of 'pixels'
+        
+        height: :class:`int`
+            The height, in pixels, of 'pixels'
+        """
+    @property
+    def gamma(self) -> float | None:
+        """
+        Optional[:class:`float`]: The luminance parameter used to gamma-correct the R/G/B channels on the
+        next :meth:`save`, or ``None`` to skip gamma correction entirely
+        """
+    @gamma.setter
+    def gamma(self, arg1: typing.SupportsFloat | typing.SupportsIndex | None) -> None:
+        ...
+    @property
+    def hasImage(self) -> bool:
+        """
+        :class:`bool`: Whether a texture is currently loaded (:meth:`open` succeeded and found a real file)
+        """
+    @property
+    def height(self) -> int:
+        """
+        :class:`int`: The height, in pixels, of the currently loaded texture (0 if :attr:`hasImage` is
+        ``False``)
+        """
+    @property
+    def src(self) -> str:
+        """
+        :class:`str`: The source file path for the texture file
+        """
+    @src.setter
+    def src(self, arg1: str) -> None:
+        ...
+    @property
+    def width(self) -> int:
+        """
+        :class:`int`: The width, in pixels, of the currently loaded texture (0 if :attr:`hasImage` is
+        ``False``)
+        """
+class CppTintTransform(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Controls the tint of a texture file using the `Simple Image Temperature/Tint Adjust Algorithm`_
+        
+    """
+    def __init__(self, tint: typing.SupportsInt | typing.SupportsIndex = 0) -> None:
+        """
+        Constructs a new tint pixel transform
+        
+        Parameters
+        ----------
+        tint: :class:`int`
+            The tint to set the image. Range from -100 to 100. **Default**: ``0``
+        """
+    @property
+    def tint(self) -> int:
+        """
+        :class:`int`: The tint to set the image. Range from -100 to 100
+        """
+    @tint.setter
+    def tint(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class CppTransparency(CppBasePixelTransform):
+    """
+    
+    This class inherits from :class:`CppBasePixelTransform`
+    
+    Adjusts the transparency (alpha channel) of a pixel
+        
+    """
+    def __init__(self, alphaChange: typing.SupportsInt | typing.SupportsIndex) -> None:
+        """
+        Constructs a new transparency pixel transform
+        
+        Parameters
+        ----------
+        alphaChange: :class:`int`
+            How much to adjust the alpha channel of the pixel. Range from -255 to 255
+        
+            .. note::
+                The alpha channel for an image is inclusively bounded from 0 to 255
+        """
+    @property
+    def alphaChange(self) -> int:
+        """
+        :class:`int`: How much to adjust the alpha channel of the pixel. Range from -255 to 255
+        """
+    @alphaChange.setter
+    def alphaChange(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class CppTransparencyAdjustFilter(CppBaseTexFilter):
+    """
+    
+    This class inherits from :class:`CppBaseTexFilter`
+    
+    Adjust the transparency (alpha channel) for an image
+        
+    """
+    def __init__(self, alphaChange: typing.SupportsInt | typing.SupportsIndex, coloursToFilter: typing.Any = None) -> None:
+        """
+        Constructs a new transparency-adjust filter
+        
+        Parameters
+        ----------
+        alphaChange: :class:`int`
+            How much to adjust the alpha channel of each pixel. Range from -255 to 255
+        
+            .. note::
+                The alpha channel for an image is inclusively bounded from 0 to 255
+        
+        coloursToFilter: Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]
+            The specific colours to have their transparency adjusted. If this value is ``None``, then will
+            adjust the transparency for the entire image. **Default**: ``None``
+        """
+    def transform(self, texFile: typing.Any) -> None:
+        """
+        Adjusts the transparency across the image
+        
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture to be edited
+        """
+    @property
+    def alphaChange(self) -> int:
+        """
+        :class:`int`: How much to adjust the alpha channel of each pixel. Range from -255 to 255
+        """
+    @alphaChange.setter
+    def alphaChange(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def coloursToFilter(self) -> typing.Any:
+        """
+        Optional[Set[Union[:class:`CppColour`, :class:`CppColourRange`]]]: The specific colours to have
+        their transparency adjusted. If this value is ``None``, then will adjust the transparency for the
+        entire image
+        """
+    @coloursToFilter.setter
+    def coloursToFilter(self, arg1: typing.Any) -> None:
+        ...
 class CppTrie:
     """
     

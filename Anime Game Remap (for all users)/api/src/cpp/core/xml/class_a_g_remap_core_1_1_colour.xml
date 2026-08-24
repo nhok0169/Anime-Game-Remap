@@ -1,0 +1,432 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_colour" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Colour</compoundname>
+    <includes refid="_colour_8h" local="no">Colour.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::red</definition>
+        <argsstring></argsstring>
+        <name>red</name>
+        <qualifiedname>AGRemapCore::Colour::red</qualifiedname>
+        <briefdescription>
+<para>The red channel for the colour, bounded to [0, 255]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="22" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::green</definition>
+        <argsstring></argsstring>
+        <name>green</name>
+        <qualifiedname>AGRemapCore::Colour::green</qualifiedname>
+        <briefdescription>
+<para>The green channel for the colour, bounded to [0, 255]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="27" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::blue</definition>
+        <argsstring></argsstring>
+        <name>blue</name>
+        <qualifiedname>AGRemapCore::Colour::blue</qualifiedname>
+        <briefdescription>
+<para>The blue channel for the colour, bounded to [0, 255]. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="32" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>AGRemapCore::Colour::alpha</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = transparent,
+255 = opaque
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="41" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Colour::Colour</definition>
+        <argsstring>(int red=255, int green=255, int blue=255, int alpha=255)</argsstring>
+        <name>Colour</name>
+        <qualifiedname>AGRemapCore::Colour::Colour</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>red</declname>
+          <defval>255</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>green</declname>
+          <defval>255</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>blue</declname>
+          <defval>255</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>alpha</declname>
+          <defval>255</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new colour, defaulting to opaque white. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>red</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The red channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>green</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The green channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The blue channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>alpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The alpha (transparency) channel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="51" column="22" bodyfile="src/model/textures/Colour.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1af41e9bca032a826613c49aa930e43a32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Colour::hash</definition>
+        <argsstring>() const</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::Colour::hash</qualifiedname>
+        <briefdescription>
+<para>A hash for the colour, based off <ref refid="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" kindref="member">getId</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="78" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="22" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1ac0fc62f947c10febde3c08878c456bde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Colour::fromTuple</definition>
+        <argsstring>(const std::tuple&lt; int, int, int, int &gt; &amp;colourTuple)</argsstring>
+        <name>fromTuple</name>
+        <qualifiedname>AGRemapCore::Colour::fromTuple</qualifiedname>
+        <param>
+          <type>const std::tuple&lt; int, int, int, int &gt; &amp;</type>
+          <declname>colourTuple</declname>
+        </param>
+        <briefdescription>
+<para>Updates the colour based off &apos;colourTuple&apos; (red, green, blue, alpha). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colourTuple</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw values for the colour, in RGBA order </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="85" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="26" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a74b90f9ae3d65eb5eba8014985f0b19b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::tuple&lt; int, int, int, int &gt;</type>
+        <definition>std::tuple&lt; int, int, int, int &gt; AGRemapCore::Colour::getTuple</definition>
+        <argsstring>() const</argsstring>
+        <name>getTuple</name>
+        <qualifiedname>AGRemapCore::Colour::getTuple</qualifiedname>
+        <briefdescription>
+<para>The tuple representation of the colour, in RGBA order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="90" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Colour::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::Colour::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The id generated will not correspond to any id generated for a colour range
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="101" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1af33d932db9088867093ee3bd660ee7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Colour::copy</definition>
+        <argsstring>(const Colour &amp;colour, bool withAlpha=true)</argsstring>
+        <name>copy</name>
+        <qualifiedname>AGRemapCore::Colour::copy</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref> &amp;</type>
+          <declname>colour</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>withAlpha</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Copies the colour value from &apos;colour&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colour to copy from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>withAlpha</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to also copy the alpha channel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="109" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1ac9dc396d958450aadf7d9c0054e52dfc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::Colour::match</definition>
+        <argsstring>(const Colour &amp;colour) const</argsstring>
+        <name>match</name>
+        <qualifiedname>AGRemapCore::Colour::match</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref> &amp;</type>
+          <declname>colour</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;colour&apos; matches this colour. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colour to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="116" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a192982be2d2ed5f841dfa5899ccbc37f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::boundColourChannel</definition>
+        <argsstring>(int val, int min=0, int max=255)</argsstring>
+        <name>boundColourChannel</name>
+        <qualifiedname>AGRemapCore::Colour::boundColourChannel</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max</declname>
+          <defval>255</defval>
+        </param>
+        <briefdescription>
+<para>Makes a colour channel value be in between &apos;min&apos; and &apos;max&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum bound for the colour channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum bound for the colour channel</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The bounded value </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="62" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="9" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a9dff8963775fab97bf25060e9bf99240" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::Colour::boolToColourChannel</definition>
+        <argsstring>(bool val, int min=0, int max=255)</argsstring>
+        <name>boolToColourChannel</name>
+        <qualifiedname>AGRemapCore::Colour::boolToColourChannel</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>val</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>min</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>max</declname>
+          <defval>255</defval>
+        </param>
+        <briefdescription>
+<para>Converts a boolean value to a value for a colour channel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The boolean value to convert </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum bound for the colour channel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum bound for the colour channel</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&apos;max&apos; if &apos;val&apos; is true, otherwise &apos;min&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="73" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class to store data for a colour
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/textures/Colour.h" line="16" column="5" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="16" bodyend="117"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>alpha</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>blue</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a9dff8963775fab97bf25060e9bf99240" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>boolToColourChannel</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a192982be2d2ed5f841dfa5899ccbc37f" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>boundColourChannel</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>Colour</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1af33d932db9088867093ee3bd660ee7b4" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>copy</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1ac0fc62f947c10febde3c08878c456bde" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>fromTuple</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a74b90f9ae3d65eb5eba8014985f0b19b" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>getTuple</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>green</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1af41e9bca032a826613c49aa930e43a32" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1ac9dc396d958450aadf7d9c0054e52dfc" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>match</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>red</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

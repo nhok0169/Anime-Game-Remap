@@ -150,6 +150,11 @@
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1abe2512c344995e94f74969dc78f831b7" kind="function"><name>handleAtInsertionSlot</name></member>
     <member refid="class_a_g_remap_core_1_1_base_ordered_multi_map_1a7340810fbf7733717d814d08a8dc1c15" kind="function"><name>handleAtQueryIndex</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_pixel_transform" kind="class"><name>AGRemapCore::BasePixelTransform</name>
+    <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" kind="function"><name>~BasePixelTransform</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" kind="function"><name>operator()</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" kind="function"><name>transform</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" kind="class"><name>AGRemapCore::BaseSLR1Parser</name>
     <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kind="typedef"><name>Production</name></member>
     <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kind="typedef"><name>Productions</name></member>
@@ -203,6 +208,15 @@
     <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a37e8ef99d6eb45e593b9639c405c98fd" kind="function"><name>makeDefaultIdGenerator</name></member>
     <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" kind="function"><name>hasReduction</name></member>
     <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" kind="function"><name>resolveProdInd</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_tex_editor" kind="class"><name>AGRemapCore::BaseTexEditor</name>
+    <member refid="class_a_g_remap_core_1_1_base_tex_editor_1aacc8b86353427bd8ef23074a4745ba9f" kind="function"><name>~BaseTexEditor</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e" kind="function"><name>fix</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_base_tex_filter" kind="class"><name>AGRemapCore::BaseTexFilter</name>
+    <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" kind="function"><name>~BaseTexFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" kind="function"><name>operator()</name></member>
+    <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" kind="function"><name>transform</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_base_tokenizer" kind="class"><name>AGRemapCore::BaseTokenizer</name>
     <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a3972bb3ad7691f9060df340ad66b2b72" kind="variable"><name>tokens_</name></member>
@@ -456,6 +470,49 @@
     <member refid="class_a_g_remap_core_1_1_call_graph_1afac9340fe42a5635e89959ecadeb5b97" kind="function"><name>rootNodes</name></member>
     <member refid="class_a_g_remap_core_1_1_call_graph_1af2e011ac9dc642227e8fd244cbb8c3b8" kind="function"><name>exitNodeOf</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_colour" kind="class"><name>AGRemapCore::Colour</name>
+    <member refid="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" kind="variable"><name>red</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" kind="variable"><name>green</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" kind="variable"><name>blue</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" kind="variable"><name>alpha</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kind="function"><name>Colour</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1af41e9bca032a826613c49aa930e43a32" kind="function"><name>hash</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1ac0fc62f947c10febde3c08878c456bde" kind="function"><name>fromTuple</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a74b90f9ae3d65eb5eba8014985f0b19b" kind="function"><name>getTuple</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" kind="function"><name>getId</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1af33d932db9088867093ee3bd660ee7b4" kind="function"><name>copy</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1ac9dc396d958450aadf7d9c0054e52dfc" kind="function"><name>match</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a192982be2d2ed5f841dfa5899ccbc37f" kind="function"><name>boundColourChannel</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_1a9dff8963775fab97bf25060e9bf99240" kind="function"><name>boolToColourChannel</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_colour_range" kind="class"><name>AGRemapCore::ColourRange</name>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1a6e9941d8f463791c8bdb7a4c90a26416" kind="variable"><name>min</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1ac84b800c4f978c9eefbc24cf66fcefad" kind="variable"><name>max</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1a4c75a515ee722e031bf76a5f4124e128" kind="function"><name>ColourRange</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1aa4941ddd74b8920aa6d08c18c0d5dabb" kind="function"><name>hash</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" kind="function"><name>getId</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_range_1a7c8a7a680cb181cb7004cdd31545b0f6" kind="function"><name>match</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_colour_replace" kind="class"><name>AGRemapCore::ColourReplace</name>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_1aecf8f2ceed918eb17560dc7573fea9d0" kind="variable"><name>replaceColour</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_1ab8fee99c16efb51cd405d483d48a41d2" kind="variable"><name>coloursToReplace</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_1a2c786227eccbcd7d026224763e93d76b" kind="variable"><name>replaceAlpha</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_1afa1119597822d08627688b9188e9c2c2" kind="function"><name>ColourReplace</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_1a55e59d40ab00a5f8a6a1930eb0d3f9fb" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_colour_replace_filter" kind="class"><name>AGRemapCore::ColourReplaceFilter</name>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_filter_1a8dd2099e29203e759a471bb13aeae2fe" kind="variable"><name>replaceColour</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_filter_1a01fe9d441924e365fab38fd94aec339e" kind="variable"><name>coloursToReplace</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_filter_1a30bf10f4cc1fda7da4fa9ebdf8c7a39d" kind="variable"><name>replaceAlpha</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_filter_1a4fcc7532c9c00bd8ceccd245ed47eb2f" kind="function"><name>ColourReplaceFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_colour_replace_filter_1a16e7822e2b2537ffd5326c479caecab6" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_correct_gamma" kind="class"><name>AGRemapCore::CorrectGamma</name>
+    <member refid="class_a_g_remap_core_1_1_correct_gamma_1a098aabe5bc587b0328c3bbcd2c911a21" kind="variable"><name>gamma</name></member>
+    <member refid="class_a_g_remap_core_1_1_correct_gamma_1aacb789a7f0708bb6e3ccddc1d8ae3980" kind="function"><name>CorrectGamma</name></member>
+    <member refid="class_a_g_remap_core_1_1_correct_gamma_1a2f974182b2a826e0e8b0a9ee569dfd68" kind="function"><name>transform</name></member>
+    <member refid="class_a_g_remap_core_1_1_correct_gamma_1a9b259591408dab5c3b16e3aa211cb45a" kind="function"><name>correctGamma</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_filtered_tokenizer" kind="class"><name>AGRemapCore::FilteredTokenizer</name>
     <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a4675d6012178d1314aeaced3d93d4396" kind="variable"><name>keywordTokenIds_</name></member>
     <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" kind="variable"><name>filteredTokenIds_</name></member>
@@ -473,6 +530,11 @@
   <compound refid="class_a_g_remap_core_1_1_game_type_id_tools" kind="class"><name>AGRemapCore::GameTypeIdTools</name>
     <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a27719733fbdb23ae4e6f380fec7e9e8a" kind="function"><name>getEnum</name></member>
     <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" kind="function"><name>getName</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_gamma_filter" kind="class"><name>AGRemapCore::GammaFilter</name>
+    <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8b9aefd7d99155e46122962010258adc" kind="variable"><name>gamma</name></member>
+    <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8c8812ae3bce474b9d635462bb3218e6" kind="function"><name>GammaFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" kind="function"><name>transform</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_generator" kind="class"><name>AGRemapCore::Generator</name>
     <member refid="class_a_g_remap_core_1_1_generator_1afb109ee50717cece6cafc64518479fe8" kind="typedef"><name>Handle</name></member>
@@ -548,6 +610,18 @@
     <member refid="class_a_g_remap_core_1_1_hash_tools_1a32fdeac52d2ff4b6dcbdf50895951cdc" kind="function"><name>getShortDeterministicHashStr</name></member>
     <member refid="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" kind="function"><name>clear</name></member>
     <member refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" kind="function"><name>disambiguateShortHash</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_highlight_shadow" kind="class"><name>AGRemapCore::HighlightShadow</name>
+    <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" kind="variable"><name>highlight</name></member>
+    <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a95564abc3f8ba28ad40ae71986d45d24" kind="variable"><name>shadow</name></member>
+    <member refid="class_a_g_remap_core_1_1_highlight_shadow_1af5dd9c5407e37d3b022a5c65fd5f3260" kind="function"><name>HighlightShadow</name></member>
+    <member refid="class_a_g_remap_core_1_1_highlight_shadow_1ae1bcf6291156bd9c6b3bb73deb9d9c49" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_hue_adjust" kind="class"><name>AGRemapCore::HueAdjust</name>
+    <member refid="class_a_g_remap_core_1_1_hue_adjust_1aa71e4aa874471d5437c806c63f5d5009" kind="variable"><name>hue</name></member>
+    <member refid="class_a_g_remap_core_1_1_hue_adjust_1a5cab7e42213ce7324597e848ee98b9ce" kind="function"><name>HueAdjust</name></member>
+    <member refid="class_a_g_remap_core_1_1_hue_adjust_1a04440289d5ad98b7490ef2efdfc1ce64" kind="function"><name>adjustedHue</name></member>
+    <member refid="class_a_g_remap_core_1_1_hue_adjust_1a48311d89b828991fc3740f448c555d91" kind="function"><name>transform</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_if_content_part" kind="class"><name>AGRemapCore::IfContentPart</name>
     <member refid="class_a_g_remap_core_1_1_if_content_part_1ac1277e9cc71f6fbd8501f71b0cf4f8a7" kind="variable"><name>hasDefaultHashableContent</name></member>
@@ -875,6 +949,12 @@
     <member refid="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" kind="function"><name>toStrBase</name></member>
     <member refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" kind="function"><name>toBase64</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_invert_alpha" kind="class"><name>AGRemapCore::InvertAlpha</name>
+    <member refid="class_a_g_remap_core_1_1_invert_alpha_1aa2c3b66186a8a076883736f31ab732f1" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_invert_alpha_filter" kind="class"><name>AGRemapCore::InvertAlphaFilter</name>
+    <member refid="class_a_g_remap_core_1_1_invert_alpha_filter_1ad2d5ccc17bdd3ebb56d3f3d44eda79ef" kind="function"><name>transform</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kind="class"><name>AGRemapCore::IOrderedMultiMap</name>
     <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab95f5afd971379b49e3b558add392d72" kind="function"><name>~IOrderedMultiMap</name></member>
     <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1aefa8d4b5b0bed1dab8c913aed88691f2" kind="function"><name>insert</name></member>
@@ -1200,6 +1280,14 @@
     <member refid="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" kind="function"><name>isChild</name></member>
     <member refid="class_a_g_remap_core_1_1_parse_tree_1ae307b844dafd1f2f6ed5f94614df05db" kind="function"><name>validateRootId</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_pixel_filter" kind="class"><name>AGRemapCore::PixelFilter</name>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kind="typedef"><name>Filter</name></member>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1acdbbf4467a20cf8f1a9f5dd47e54bd6d" kind="variable"><name>transforms_</name></member>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1a78c6ffaebaa6461d3b9213142fe220db" kind="function"><name>PixelFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" kind="function"><name>getTransforms</name></member>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1a08c3414e673d90e04863d19cefb59d6c" kind="function"><name>setTransforms</name></member>
+    <member refid="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a" kind="function"><name>transform</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_position_file" kind="class"><name>AGRemapCore::PositionFile</name>
     <member refid="class_a_g_remap_core_1_1_position_file_1a4ad5705763fef1866b88af37c9c63b24" kind="function"><name>PositionFile</name></member>
     <member refid="class_a_g_remap_core_1_1_position_file_1af8ba4597040885e91780364b3b9a7582" kind="function"><name>defaultElements</name></member>
@@ -1368,12 +1456,75 @@
     <member refid="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" kind="function"><name>process</name></member>
     <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" kind="function"><name>buildMessage</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_temp_control" kind="class"><name>AGRemapCore::TempControl</name>
+    <member refid="class_a_g_remap_core_1_1_temp_control_1a7c030829dc7836ceb4ebc2c26f0e0ceb" kind="variable"><name>temp</name></member>
+    <member refid="class_a_g_remap_core_1_1_temp_control_1a8e43207d24a123b06cd40aa1b7d3b855" kind="variable"><name>redFactor_</name></member>
+    <member refid="class_a_g_remap_core_1_1_temp_control_1a831231b2998f443c02f25942dac37765" kind="variable"><name>blueFactor_</name></member>
+    <member refid="class_a_g_remap_core_1_1_temp_control_1aed559623cd08a424f8ee328aebcb2321" kind="function"><name>TempControl</name></member>
+    <member refid="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_tex_creator" kind="class"><name>AGRemapCore::TexCreator</name>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" kind="variable"><name>width</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" kind="variable"><name>height</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" kind="variable"><name>colour</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_1a1d86f354e1800b4532365cab665b57d6" kind="function"><name>TexCreator</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" kind="function"><name>fix</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_tex_editor" kind="class"><name>AGRemapCore::TexEditor</name>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kind="typedef"><name>Filter</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1a922ab8f610dd86826b2925756f65ab17" kind="variable"><name>filters_</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1a2cd022e8d507fbce8f45bc940393953d" kind="function"><name>TexEditor</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1ad93ce33164e951e75618af33e66b44a4" kind="function"><name>getFilters</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1a92667b0ea7046dd8a709c776f21c5f2c" kind="function"><name>setFilters</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_editor_1a8a8e497c09c7c04aa779b01613d5909e" kind="function"><name>fix</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_texture_file" kind="class"><name>AGRemapCore::TextureFile</name>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" kind="variable"><name>DefaultFormat</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a3459e9910660fcd2649d0972e126a431" kind="variable"><name>src_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" kind="variable"><name>pixels_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" kind="variable"><name>width_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" kind="variable"><name>height_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" kind="variable"><name>hasImage_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" kind="variable"><name>format_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" kind="variable"><name>gamma_</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a469b9562b577521c86e849817146273e" kind="function"><name>TextureFile</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1ae7b51f107fa5f0c6119ce67c4e69d6e6" kind="function"><name>getSrc</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a6cb8bae651573f5a3508f940a841456f" kind="function"><name>setSrc</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1aeae7efd77576220a7c67d82326684572" kind="function"><name>hasImage</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a88e8bcfc7181369575f0fcef0a2f8c46" kind="function"><name>getWidth</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a1378bf922aa218260eecd6e516f352bf" kind="function"><name>getHeight</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a39508e6c51347eefbf690181bd178079" kind="function"><name>getGamma</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1ad07873565678e6f96d7fd7dbdbdebcd8" kind="function"><name>setGamma</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a236878438a59be2848050296790b1926" kind="function"><name>getPixels</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1aed4d4a9f5aa6a9ae6ac72244c635d7d2" kind="function"><name>setPixels</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a3bdd3031b4efb8ce13e508664ba74429" kind="function"><name>getPixel</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1ace7a7c132728c22d2fb8ddc91e9bb287" kind="function"><name>setPixel</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a75cd5f48ec490257298f826a3133f1b8" kind="function"><name>open</name></member>
+    <member refid="class_a_g_remap_core_1_1_texture_file_1a9331cadd7bb21874dde9552f92e39639" kind="function"><name>save</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_tint_transform" kind="class"><name>AGRemapCore::TintTransform</name>
+    <member refid="class_a_g_remap_core_1_1_tint_transform_1a4df7139d5bf771cb9d2a6d95e026c040" kind="variable"><name>tint</name></member>
+    <member refid="class_a_g_remap_core_1_1_tint_transform_1a8ddce98b08f3b666114e48deb633a37f" kind="function"><name>TintTransform</name></member>
+    <member refid="class_a_g_remap_core_1_1_tint_transform_1aa55c4dab829e81b8748e5cdd4264b1e5" kind="function"><name>transform</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_token" kind="class"><name>AGRemapCore::Token</name>
     <member refid="class_a_g_remap_core_1_1_token_1aabcc1074f3218e09818d03e43482c53a" kind="variable"><name>type</name></member>
     <member refid="class_a_g_remap_core_1_1_token_1a7469f21f345d63945793b90e738bfcb6" kind="variable"><name>val</name></member>
     <member refid="class_a_g_remap_core_1_1_token_1a0b258e1f4b9e9f208aa12e563d13193f" kind="variable"><name>lineNo</name></member>
     <member refid="class_a_g_remap_core_1_1_token_1ad43d40fecbb645004f97f1142fd4781b" kind="variable"><name>charNo</name></member>
     <member refid="class_a_g_remap_core_1_1_token_1ae838a20fd3224470923a270cf742b477" kind="function"><name>Token</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_transparency" kind="class"><name>AGRemapCore::Transparency</name>
+    <member refid="class_a_g_remap_core_1_1_transparency_1ac558acb2f0897e6ee46c9eefe463fbd0" kind="variable"><name>alphaChange</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_1aaf9b9d9d7a58a16f1389278727e9e283" kind="function"><name>Transparency</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_1a12d24018bc75fa041ee25e0312b882d5" kind="function"><name>transform</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_transparency_adjust_filter" kind="class"><name>AGRemapCore::TransparencyAdjustFilter</name>
+    <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1ab5fe73c35842cc8247b39fce60867e36" kind="variable"><name>alphaChange</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1aba849ff045519728c1a552ce7d36a819" kind="variable"><name>coloursToFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a608ed002691e773ce134720fca5a06dd" kind="function"><name>TransparencyAdjustFilter</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a0d602b9d34a3fc1cd90cc4ffb073d618" kind="function"><name>adjustTransparency</name></member>
+    <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a011e8521f6eccc5952f26fe5a9bbc636" kind="function"><name>transform</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_uuid_id_generator" kind="class"><name>AGRemapCore::UuidIdGenerator</name>
     <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a6af4ef7f5f4249ce94ae2a81edfaa305" kind="variable"><name>engine_</name></member>
@@ -1556,17 +1707,21 @@
     <member refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kind="typedef"><name>BufLineData</name></member>
     <member refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kind="typedef"><name>ByteVec</name></member>
     <member refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kind="typedef"><name>BinarySrc</name></member>
+    <member refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kind="typedef"><name>ColourOrRange</name></member>
+    <member refid="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" kind="typedef"><name>ColourOrRangeSet</name></member>
     <member refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kind="typedef"><name>RemapList</name></member>
     <member refid="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" kind="typedef"><name>OrderedMultiMapListAdapter</name></member>
     <member refid="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" kind="typedef"><name>OrderedMultiMapSqrtAdapter</name></member>
     <member refid="namespace_a_g_remap_core_1ae342200be5432178d9b17ba9be0979ce" kind="variable"><name>GITransition</name></member>
     <member refid="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" kind="variable"><name>WuWaTransition</name></member>
+    <member refid="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" kind="function"><name>matchesColourOrRange</name></member>
     <member refid="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" kind="function"><name>appendAll</name></member>
     <member refid="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" kind="function"><name>testFunc</name></member>
     <member refid="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" kind="function"><name>testFunc2</name></member>
     <member refid="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" kind="function"><name>testFunc3</name></member>
     <member refid="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" kind="function"><name>testFunc4</name></member>
     <member refid="namespace_a_g_remap_core_1a9c49c2f7a2d0719c52059d3730f2177a" kind="function"><name>testFunc5</name></member>
+    <member refid="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" kind="function"><name>testFunc6</name></member>
     <member refid="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" kind="function"><name>makeZ3PredicateForTesting</name></member>
     <member refid="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" kind="function"><name>getZ3ContextImplForTesting</name></member>
     <member refid="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" kind="function"><name>getZ3PredicateImplForTesting</name></member>
@@ -1576,6 +1731,10 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d034000110150134134163300106251150075222316055371" kind="namespace"><name>AGRemapCore::@034000110150134134163300106251150075222316055371</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d040051156023363055105047342125114022203274014042" kind="namespace"><name>AGRemapCore::@040051156023363055105047342125114022203274014042</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d054314262006061252364304232006312032371053314301" kind="namespace"><name>AGRemapCore::@054314262006061252364304232006312032371053314301</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d100353337346301101304354020363171275214276102263" kind="namespace"><name>AGRemapCore::@100353337346301101304354020363171275214276102263</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d113172064314307233013164312257100125277274160071" kind="namespace"><name>AGRemapCore::@113172064314307233013164312257100125277274160071</name>
   </compound>
@@ -1593,6 +1752,8 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d213320375045131337025247006335160241010341265177" kind="namespace"><name>AGRemapCore::@213320375045131337025247006335160241010341265177</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d227236363111120206063057077334076065310326030070" kind="namespace"><name>AGRemapCore::@227236363111120206063057077334076065310326030070</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d232230113354037327260325051225212160213055010051" kind="namespace"><name>AGRemapCore::@232230113354037327260325051225212160213055010051</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d255265142066246244160174167115355260250012162077" kind="namespace"><name>AGRemapCore::@255265142066246244160174167115355260250012162077</name>
   </compound>
@@ -1669,6 +1830,8 @@
   </compound>
   <compound refid="_position_file_8h" kind="file"><name>PositionFile.h</name>
   </compound>
+  <compound refid="_texture_file_8h" kind="file"><name>TextureFile.h</name>
+  </compound>
   <compound refid="_if_content_part_8h" kind="file"><name>IfContentPart.h</name>
     <member refid="_if_content_part_8h_1abe734236c41b844c230d9d9509a8b120" kind="define"><name>RemoveKeyCheck</name></member>
     <member refid="_if_content_part_8h_1ad6a1482d904a3eccfb780b67ebab6e6a" kind="define"><name>Predicate</name></member>
@@ -1709,6 +1872,46 @@
   <compound refid="_ini_classify_stats_8h" kind="file"><name>IniClassifyStats.h</name>
   </compound>
   <compound refid="_mod_type_id_data_8h" kind="file"><name>ModTypeIdData.h</name>
+  </compound>
+  <compound refid="_base_tex_editor_8h" kind="file"><name>BaseTexEditor.h</name>
+  </compound>
+  <compound refid="_base_pixel_transform_8h" kind="file"><name>BasePixelTransform.h</name>
+  </compound>
+  <compound refid="_colour_replace_8h" kind="file"><name>ColourReplace.h</name>
+  </compound>
+  <compound refid="_correct_gamma_8h" kind="file"><name>CorrectGamma.h</name>
+  </compound>
+  <compound refid="_highlight_shadow_8h" kind="file"><name>HighlightShadow.h</name>
+  </compound>
+  <compound refid="_invert_alpha_8h" kind="file"><name>InvertAlpha.h</name>
+  </compound>
+  <compound refid="_temp_control_8h" kind="file"><name>TempControl.h</name>
+  </compound>
+  <compound refid="_tint_transform_8h" kind="file"><name>TintTransform.h</name>
+  </compound>
+  <compound refid="_transparency_8h" kind="file"><name>Transparency.h</name>
+  </compound>
+  <compound refid="_tex_creator_8h" kind="file"><name>TexCreator.h</name>
+  </compound>
+  <compound refid="_tex_editor_8h" kind="file"><name>TexEditor.h</name>
+  </compound>
+  <compound refid="_base_tex_filter_8h" kind="file"><name>BaseTexFilter.h</name>
+  </compound>
+  <compound refid="_colour_replace_filter_8h" kind="file"><name>ColourReplaceFilter.h</name>
+  </compound>
+  <compound refid="_gamma_filter_8h" kind="file"><name>GammaFilter.h</name>
+  </compound>
+  <compound refid="_hue_adjust_8h" kind="file"><name>HueAdjust.h</name>
+  </compound>
+  <compound refid="_invert_alpha_filter_8h" kind="file"><name>InvertAlphaFilter.h</name>
+  </compound>
+  <compound refid="_pixel_filter_8h" kind="file"><name>PixelFilter.h</name>
+  </compound>
+  <compound refid="_transparency_adjust_filter_8h" kind="file"><name>TransparencyAdjustFilter.h</name>
+  </compound>
+  <compound refid="_colour_8h" kind="file"><name>Colour.h</name>
+  </compound>
+  <compound refid="_colour_range_8h" kind="file"><name>ColourRange.h</name>
   </compound>
   <compound refid="_version_8h" kind="file"><name>Version.h</name>
   </compound>
@@ -1854,6 +2057,8 @@
   </compound>
   <compound refid="_position_file_8cpp" kind="file"><name>PositionFile.cpp</name>
   </compound>
+  <compound refid="_texture_file_8cpp" kind="file"><name>TextureFile.cpp</name>
+  </compound>
   <compound refid="_if_pred_parser_8cpp" kind="file"><name>IfPredParser.cpp</name>
   </compound>
   <compound refid="_if_pred_part_8cpp" kind="file"><name>IfPredPart.cpp</name>
@@ -1873,6 +2078,46 @@
   <compound refid="_ini_classify_stats_8cpp" kind="file"><name>IniClassifyStats.cpp</name>
   </compound>
   <compound refid="_mod_type_id_data_8cpp" kind="file"><name>ModTypeIdData.cpp</name>
+  </compound>
+  <compound refid="_base_tex_editor_8cpp" kind="file"><name>BaseTexEditor.cpp</name>
+  </compound>
+  <compound refid="_base_pixel_transform_8cpp" kind="file"><name>BasePixelTransform.cpp</name>
+  </compound>
+  <compound refid="_colour_replace_8cpp" kind="file"><name>ColourReplace.cpp</name>
+  </compound>
+  <compound refid="_correct_gamma_8cpp" kind="file"><name>CorrectGamma.cpp</name>
+  </compound>
+  <compound refid="_highlight_shadow_8cpp" kind="file"><name>HighlightShadow.cpp</name>
+  </compound>
+  <compound refid="_invert_alpha_8cpp" kind="file"><name>InvertAlpha.cpp</name>
+  </compound>
+  <compound refid="_temp_control_8cpp" kind="file"><name>TempControl.cpp</name>
+  </compound>
+  <compound refid="_tint_transform_8cpp" kind="file"><name>TintTransform.cpp</name>
+  </compound>
+  <compound refid="_transparency_8cpp" kind="file"><name>Transparency.cpp</name>
+  </compound>
+  <compound refid="_tex_creator_8cpp" kind="file"><name>TexCreator.cpp</name>
+  </compound>
+  <compound refid="_tex_editor_8cpp" kind="file"><name>TexEditor.cpp</name>
+  </compound>
+  <compound refid="_base_tex_filter_8cpp" kind="file"><name>BaseTexFilter.cpp</name>
+  </compound>
+  <compound refid="_colour_replace_filter_8cpp" kind="file"><name>ColourReplaceFilter.cpp</name>
+  </compound>
+  <compound refid="_gamma_filter_8cpp" kind="file"><name>GammaFilter.cpp</name>
+  </compound>
+  <compound refid="_hue_adjust_8cpp" kind="file"><name>HueAdjust.cpp</name>
+  </compound>
+  <compound refid="_invert_alpha_filter_8cpp" kind="file"><name>InvertAlphaFilter.cpp</name>
+  </compound>
+  <compound refid="_pixel_filter_8cpp" kind="file"><name>PixelFilter.cpp</name>
+  </compound>
+  <compound refid="_transparency_adjust_filter_8cpp" kind="file"><name>TransparencyAdjustFilter.cpp</name>
+  </compound>
+  <compound refid="_colour_8cpp" kind="file"><name>Colour.cpp</name>
+  </compound>
+  <compound refid="_colour_range_8cpp" kind="file"><name>ColourRange.cpp</name>
   </compound>
   <compound refid="_version_8cpp" kind="file"><name>Version.cpp</name>
   </compound>
@@ -1978,11 +2223,27 @@
   </compound>
   <compound refid="dir_b05e9721a00d9f57c80ee10b47312fa4" kind="dir"><name>src/tools/parsing</name>
   </compound>
+  <compound refid="dir_1b5bd3c237e58cb0a8249ddbcdf3a979" kind="dir"><name>include/AGRemapCore/model/strategies/texEditors/pixelTransforms</name>
+  </compound>
+  <compound refid="dir_9f6208872ef97980cb12938261c6ca02" kind="dir"><name>src/model/strategies/texEditors/pixelTransforms</name>
+  </compound>
   <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
   </compound>
   <compound refid="dir_262090020142afce8472a874afdbb94c" kind="dir"><name>include/AGRemapCore/model/strategies</name>
   </compound>
   <compound refid="dir_fc20fd78122f92b232bb430db3d0fb49" kind="dir"><name>src/model/strategies</name>
+  </compound>
+  <compound refid="dir_6dacdda535e02a8003b9ede585fc89cd" kind="dir"><name>include/AGRemapCore/model/strategies/texEditors</name>
+  </compound>
+  <compound refid="dir_cf83367b8ec7e929b9de96eff9f8402f" kind="dir"><name>src/model/strategies/texEditors</name>
+  </compound>
+  <compound refid="dir_78e3a4cd3927c0938466d29079858313" kind="dir"><name>include/AGRemapCore/model/strategies/texEditors/texFilters</name>
+  </compound>
+  <compound refid="dir_d24cb22d0d11575c92c849683a42f274" kind="dir"><name>src/model/strategies/texEditors/texFilters</name>
+  </compound>
+  <compound refid="dir_cb1871b90e5ecfacbdda10a9b11e3c31" kind="dir"><name>include/AGRemapCore/model/textures</name>
+  </compound>
+  <compound refid="dir_ce9990a9ef7edc5fd8dda418ad63991a" kind="dir"><name>src/model/textures</name>
   </compound>
   <compound refid="dir_067fdac686df85c6c242b72face67be5" kind="dir"><name>include/AGRemapCore/tools</name>
   </compound>

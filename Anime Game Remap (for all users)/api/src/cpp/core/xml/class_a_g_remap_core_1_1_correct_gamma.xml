@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_correct_gamma" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CorrectGamma</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public" virt="non-virtual">AGRemapCore::BasePixelTransform</basecompoundref>
+    <includes refid="_correct_gamma_8h" local="no">CorrectGamma.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_correct_gamma_1a098aabe5bc587b0328c3bbcd2c911a21" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::CorrectGamma::gamma</definition>
+        <argsstring></argsstring>
+        <name>gamma</name>
+        <qualifiedname>AGRemapCore::CorrectGamma::gamma</qualifiedname>
+        <briefdescription>
+<para>The luminance parameter for how bright humans perceive the image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="32" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_correct_gamma_1aacb789a7f0708bb6e3ccddc1d8ae3980" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::CorrectGamma::CorrectGamma</definition>
+        <argsstring>(double gamma)</argsstring>
+        <name>CorrectGamma</name>
+        <qualifiedname>AGRemapCore::CorrectGamma::CorrectGamma</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new gamma-correction pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The luminance parameter for how bright humans perceive the image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="39" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_correct_gamma_1a2f974182b2a826e0e8b0a9ee569dfd68" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CorrectGamma::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::CorrectGamma::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="51" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="17" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_correct_gamma_1a9b259591408dab5c3b16e3aa211cb45a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::CorrectGamma::correctGamma</definition>
+        <argsstring>(int pixelValue, double gamma)</argsstring>
+        <name>correctGamma</name>
+        <qualifiedname>AGRemapCore::CorrectGamma::correctGamma</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>pixelValue</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <briefdescription>
+<para>The equation for the gamma correction done at every colour channel pixel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixelValue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value of the pixel for some colour channel, in [0, 255] </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The luminance parameter for how bright humans perceive the image</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The gamma-corrected pixel value, bounded to [0, 255] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="49" column="24" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="11" bodyend="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BasePixelTransform`
+
+Performs a `Gamma Correction`_ on an individual pixel using the following simple power-law
+relationship:
+
+.. code-block::
+
+   V_out = V_in ^ (1 / gamma)
+
+Where ``V_out`` is the perceived brightness by human eyes while ``V_in`` is the actual
+brightness of the image. Higher #gamma values make the image look brighter and less
+saturated; lower #gamma values make the image look darker and more saturated. The alpha
+channel is left untouched
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::CorrectGamma</label>
+        <link refid="class_a_g_remap_core_1_1_correct_gamma"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::CorrectGamma</label>
+        <link refid="class_a_g_remap_core_1_1_correct_gamma"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="26" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="26" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_correct_gamma_1aacb789a7f0708bb6e3ccddc1d8ae3980" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>CorrectGamma</name></member>
+      <member refid="class_a_g_remap_core_1_1_correct_gamma_1a9b259591408dab5c3b16e3aa211cb45a" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>correctGamma</name></member>
+      <member refid="class_a_g_remap_core_1_1_correct_gamma_1a098aabe5bc587b0328c3bbcd2c911a21" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>gamma</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_correct_gamma_1a2f974182b2a826e0e8b0a9ee569dfd68" prot="public" virt="virtual"><scope>AGRemapCore::CorrectGamma</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::CorrectGamma</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

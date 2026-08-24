@@ -82,6 +82,27 @@ from .core import CppBufFile
 from .core import VGRemap
 from .core import CppBlendFile
 from .core import CppPositionFile
+from .core import CppColour
+from .core import CppColourRange
+from .core import CppTextureFile
+from .core import CppBasePixelTransform
+from .core import CppCorrectGamma
+from .core import CppColourReplace
+from .core import CppHighlightShadow
+from .core import CppInvertAlpha
+from .core import CppTempControl
+from .core import CppTintTransform
+from .core import CppTransparency
+from .core import CppBaseTexFilter
+from .core import CppGammaFilter
+from .core import CppColourReplaceFilter
+from .core import CppTransparencyAdjustFilter
+from .core import CppInvertAlphaFilter
+from .core import CppHueAdjust
+from .core import CppPixelFilter
+from .core import CppBaseTexEditor
+from .core import CppTexEditor
+from .core import CppTexCreator
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -121,6 +142,7 @@ from .constants.ModTypeNames import ModTypeNames
 from .constants.ModTypes import ModTypes, ModTypeBuilder
 from .constants.RegFillMissingMode import RegFillMissingMode
 from .constants.TexConsts import TexMetadataNames
+from .constants.TexEngine import TexEngine
 
 from .controller.enums.ShortCommandOpts import ShortCommandOpts
 from .controller.enums.CommandOpts import CommandOpts
@@ -337,11 +359,15 @@ from .main import remapMain
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
            "CppBufFile", "CppBlendFile", "CppPositionFile",
+           "CppColour", "CppColourRange", "CppTextureFile",
+           "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
+           "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppHueAdjust", "CppPixelFilter",
+           "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
-           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "RegFillMissingMode", 
+           "BufDataTypes", "BufElementTypes", "BufFormatNames", "BufDataTypeNames", "BufElementNames", "ByteSize", "Colours", "DownloadMode", "ColourConsts", "ColourRanges",  "FileExt", "FileTypes", "FileEncodings", "FilePrefixes", "FileSuffixes", "FilePathConsts", "ImgFormats", "IniGraphModObjKeywords", "IniKeywords", "IniBoilerPlate", "IniGraphReplaceMode", "GameTypeNames", "GIBuilder", "GlobalClassifiers", "GlobalCompilerParts", "GlobalIniClassifiers", "GlobalIniRemoveBuilders", "GlobalPackageManager", "IfPredPartType", "BaseModTypeBuilder", "ModTypeNames", "ModTypes", "ModTypeBuilder", "TexMetadataNames", "TexEngine", "RegFillMissingMode", 
            "ShortCommandOpts", "CommandOpts",
            "HashData", "IndexData", "IniFixBuilderData", "IniParseBuilderData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",

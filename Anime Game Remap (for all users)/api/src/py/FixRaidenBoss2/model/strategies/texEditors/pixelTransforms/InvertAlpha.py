@@ -11,21 +11,18 @@
 
 ##### EndCredits
 
-##### LocalImports
-from .....constants.ColourConsts import ColourConsts
-from ....textures.Colour import Colour
-from .BasePixelTransform import BasePixelTransform
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppInvertAlpha
+##### EndCppLocalImports
 
 
 ##### Script
-class InvertAlpha(BasePixelTransform):
+class InvertAlpha(CppInvertAlpha):
     """
-    This class inherits from :class:`BasePixelTransform`
+    This class inherits from :class:`CppInvertAlpha`
 
     Inverts the alpha channel of a pixel
     """
 
-    def transform(self, pixel: Colour, x: int, y: int):
-        pixel.alpha = ColourConsts.MinColourValue.value - pixel.alpha
+    pass
 ##### EndScript

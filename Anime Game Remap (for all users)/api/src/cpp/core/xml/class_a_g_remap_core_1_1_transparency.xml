@@ -1,0 +1,158 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_transparency" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Transparency</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public" virt="non-virtual">AGRemapCore::BasePixelTransform</basecompoundref>
+    <includes refid="_transparency_8h" local="no">Transparency.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_transparency_1ac558acb2f0897e6ee46c9eefe463fbd0" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::Transparency::alphaChange</definition>
+        <argsstring></argsstring>
+        <name>alphaChange</name>
+        <qualifiedname>AGRemapCore::Transparency::alphaChange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How much to adjust the alpha channel of the pixel. Range from -255 to 255 :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The alpha channel for an image is inclusively bounded from 0 to 255
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="29" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_1aaf9b9d9d7a58a16f1389278727e9e283" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Transparency::Transparency</definition>
+        <argsstring>(int alphaChange)</argsstring>
+        <name>Transparency</name>
+        <qualifiedname>AGRemapCore::Transparency::Transparency</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>alphaChange</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new transparency pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alphaChange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How much to adjust the alpha channel of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="36" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="5" bodyend="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_1a12d24018bc75fa041ee25e0312b882d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Transparency::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::Transparency::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="38" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BasePixelTransform`
+
+Adjusts the transparency (alpha channel) of a pixel
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::Transparency</label>
+        <link refid="class_a_g_remap_core_1_1_transparency"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::Transparency</label>
+        <link refid="class_a_g_remap_core_1_1_transparency"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="16" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_transparency_1ac558acb2f0897e6ee46c9eefe463fbd0" prot="public" virt="non-virtual"><scope>AGRemapCore::Transparency</scope><name>alphaChange</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::Transparency</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_1a12d24018bc75fa041ee25e0312b882d5" prot="public" virt="virtual"><scope>AGRemapCore::Transparency</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_1aaf9b9d9d7a58a16f1389278727e9e283" prot="public" virt="non-virtual"><scope>AGRemapCore::Transparency</scope><name>Transparency</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::Transparency</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

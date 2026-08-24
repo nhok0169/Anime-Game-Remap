@@ -31,12 +31,23 @@ native-code change.
 
 ## `api/extern/*` are git submodules — empty in a fresh `git worktree`
 
-`z3`, `ordered-map`, `utf8proc`, `xxHash` under `api/extern/` (referenced by `.gitmodules`, needed
-by `api/CMakeLists.txt`/`core/CMakeLists.txt`) are git submodules. `git worktree add` does **not**
-run `git submodule update --init` for you — a fresh worktree's `api/extern/*` directories exist
-but are empty, even though the submodules' git data already lives in the repo's shared
-`.git/modules/...` (populated by whichever checkout, usually the user's main one, did the original
-`git submodule update --init --recursive`).
+`z3`, `ordered-map`, `utf8proc`, `xxHash`, `Compressonator` under `api/extern/` (referenced by
+`.gitmodules`, needed by `api/CMakeLists.txt`/`core/CMakeLists.txt`) are git submodules. `git
+worktree add` does **not** run `git submodule update --init` for you — a fresh worktree's
+`api/extern/*` directories exist but are empty, even though the submodules' git data already lives
+in the repo's shared `.git/modules/...` (populated by whichever checkout, usually the user's main
+one, did the original `git submodule update --init --recursive`).
+
+`Compressonator` (~53MB, AMD's GPUOpen texture-compression library, backing `TextureFile`'s
+default `TexEngine.Compressonator` engine — see [Texture Editing](../TextureEditing/CLAUDE.md))
+is the newest of these and, unlike the other four (header/source-only, folded straight into
+`AGRemapCore`'s own sources), is itself a real nested CMake subproject (`core/CMakeLists.txt`
+`add_subdirectory`s into it and consumes `CMP_Compressonator`/`cmp_core`/`cmp_framework` as
+separate build targets) — so a first build after populating it takes noticeably longer than the
+other submodules, and its own `CMakeLists.txt` inside `extern/Compressonator` occasionally needs a
+platform-variable workaround from the parent `core/CMakeLists.txt` (see that file's comments
+immediately around its `add_subdirectory` call before assuming a Compressonator-side CMake error
+is this project's own bug).
 
 **Don't run `git submodule update --init` to fix this in a worktree** — confirmed it does not reuse
 the shared `.git/modules` data automatically; it attempts a fresh network clone from each
@@ -46,10 +57,11 @@ HTTPS goes through a TLS-inspecting proxy, e.g. Norton AV, whose CA isn't in git
 store; `curl -v https://github.com` showing "unknown CA" right after the server's TLS certificate
 is the tell). **Instead, just copy the already-populated directories from the main checkout**
 (fast, no network, no cert wrangling — confirmed working via `robocopy <main-checkout>/api/extern/X
-<worktree>/api/extern/X /E /XD .git` for all four, ~40MB total):
+<worktree>/api/extern/X /E /XD .git` for the original four, ~40MB total; the same approach applies
+to `Compressonator`, just a bigger copy at ~53MB):
 ```bash
 robocopy "<main-checkout-path>/Anime Game Remap (for all users)/api/extern/z3" "<worktree-path>/Anime Game Remap (for all users)/api/extern/z3" /E /XD .git
-# repeat for ordered-map, utf8proc, xxHash
+# repeat for ordered-map, utf8proc, xxHash, Compressonator
 ```
 (If you do need a real fetch — e.g. no populated main checkout exists to copy from — point git at
 the interception CA first: `GIT_SSL_CAINFO=<path-to-CA> git submodule update --init --recursive`;

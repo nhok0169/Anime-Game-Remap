@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_gamma_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GammaFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_gamma_filter_8h" local="no">GammaFilter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_gamma_filter_1a8b9aefd7d99155e46122962010258adc" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::GammaFilter::gamma</definition>
+        <argsstring></argsstring>
+        <name>gamma</name>
+        <qualifiedname>AGRemapCore::GammaFilter::gamma</qualifiedname>
+        <briefdescription>
+<para>The luminance parameter for how bright humans perceive the image. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="32" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_gamma_filter_1a8c8812ae3bce474b9d635462bb3218e6" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GammaFilter::GammaFilter</definition>
+        <argsstring>(double gamma)</argsstring>
+        <name>GammaFilter</name>
+        <qualifiedname>AGRemapCore::GammaFilter::GammaFilter</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>gamma</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new gamma filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gamma</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The luminance parameter for how bright humans perceive the image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="39" column="22" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="11" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GammaFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::GammaFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="41" column="18" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="13" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Performs a `Gamma Correction`_ on the texture file, using the following simple power-law
+relationship, applied independently to every pixel&apos;s R/G/B channels (the alpha channel is left
+untouched):
+
+.. code-block::
+
+   V_out = V_in ^ (1 / gamma)
+
+Where ``V_out`` is the perceived brightness by human eyes while ``V_in`` is the actual
+brightness of the image. Higher #gamma values make the image look brighter and less saturated;
+lower #gamma values make the image look darker and more saturated
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GammaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_gamma_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GammaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_gamma_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="26" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="26" bodyend="42"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8b9aefd7d99155e46122962010258adc" prot="public" virt="non-virtual"><scope>AGRemapCore::GammaFilter</scope><name>gamma</name></member>
+      <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8c8812ae3bce474b9d635462bb3218e6" prot="public" virt="non-virtual"><scope>AGRemapCore::GammaFilter</scope><name>GammaFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::GammaFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" prot="public" virt="virtual"><scope>AGRemapCore::GammaFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::GammaFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

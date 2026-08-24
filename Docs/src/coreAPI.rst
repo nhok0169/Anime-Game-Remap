@@ -404,6 +404,243 @@ SympyTokenizer
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Textures
+========
+
+:raw-html:`<br />`
+
+BasePixelTransform
+------------------
+
+.. cppattributetable:: AGRemapCore::BasePixelTransform
+
+.. doxygenclass:: AGRemapCore::BasePixelTransform
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BaseTexEditor
+-------------
+
+.. cppattributetable:: AGRemapCore::BaseTexEditor
+
+.. doxygenclass:: AGRemapCore::BaseTexEditor
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BaseTexFilter
+-------------
+
+.. cppattributetable:: AGRemapCore::BaseTexFilter
+
+.. doxygenclass:: AGRemapCore::BaseTexFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Colour
+------
+
+.. cppattributetable:: AGRemapCore::Colour
+
+.. doxygenclass:: AGRemapCore::Colour
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ColourRange
+-----------
+
+.. cppattributetable:: AGRemapCore::ColourRange
+
+.. doxygenclass:: AGRemapCore::ColourRange
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ColourReplace
+-------------
+
+.. cppattributetable:: AGRemapCore::ColourReplace
+
+.. doxygenclass:: AGRemapCore::ColourReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ColourReplaceFilter
+-------------------
+
+.. cppattributetable:: AGRemapCore::ColourReplaceFilter
+
+.. doxygenclass:: AGRemapCore::ColourReplaceFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+CorrectGamma
+------------
+
+.. cppattributetable:: AGRemapCore::CorrectGamma
+
+.. doxygenclass:: AGRemapCore::CorrectGamma
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GammaFilter
+-----------
+
+.. cppattributetable:: AGRemapCore::GammaFilter
+
+.. doxygenclass:: AGRemapCore::GammaFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+HighlightShadow
+---------------
+
+.. cppattributetable:: AGRemapCore::HighlightShadow
+
+.. doxygenclass:: AGRemapCore::HighlightShadow
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+HueAdjust
+---------
+
+.. cppattributetable:: AGRemapCore::HueAdjust
+
+.. doxygenclass:: AGRemapCore::HueAdjust
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+InvertAlpha
+-----------
+
+.. cppattributetable:: AGRemapCore::InvertAlpha
+
+.. doxygenclass:: AGRemapCore::InvertAlpha
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+InvertAlphaFilter
+-----------------
+
+.. cppattributetable:: AGRemapCore::InvertAlphaFilter
+
+.. doxygenclass:: AGRemapCore::InvertAlphaFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+PixelFilter
+-----------
+
+.. cppattributetable:: AGRemapCore::PixelFilter
+
+.. doxygenclass:: AGRemapCore::PixelFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TempControl
+-----------
+
+.. cppattributetable:: AGRemapCore::TempControl
+
+.. doxygenclass:: AGRemapCore::TempControl
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexCreator
+----------
+
+.. cppattributetable:: AGRemapCore::TexCreator
+
+.. doxygenclass:: AGRemapCore::TexCreator
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexEditor
+---------
+
+.. cppattributetable:: AGRemapCore::TexEditor
+
+.. doxygenclass:: AGRemapCore::TexEditor
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TextureFile
+-----------
+
+.. cppattributetable:: AGRemapCore::TextureFile
+
+.. doxygenclass:: AGRemapCore::TextureFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TintTransform
+-------------
+
+.. cppattributetable:: AGRemapCore::TintTransform
+
+.. doxygenclass:: AGRemapCore::TintTransform
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Transparency
+------------
+
+.. cppattributetable:: AGRemapCore::Transparency
+
+.. doxygenclass:: AGRemapCore::Transparency
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TransparencyAdjustFilter
+-------------------------
+
+.. cppattributetable:: AGRemapCore::TransparencyAdjustFilter
+
+.. doxygenclass:: AGRemapCore::TransparencyAdjustFilter
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Tools
 *****
 
@@ -902,4 +1139,10 @@ Z3Predicate
 .. _half precision floating point: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 .. _unsigned normalized integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
 .. _true division: https://peps.python.org/pep-0238/
+.. _Compressonator: https://github.com/GPUOpen-Tools/compressonator
+.. _Pillow: https://pillow.readthedocs.io/en/stable/index.html
+.. _DirectXTex: https://github.com/microsoft/DirectXTex
+.. _Gamma Correction: https://www.cambridgeincolour.com/tutorials/gamma-correction.htm
+.. _Simple Image Temperature/Tint Adjust Algorithm: https://tannerhelland.com/2014/07/01/simple-algorithms-adjusting-image-temperature-tint.html
+.. _Highlight Shadow Approximation Reference: https://stackoverflow.com/questions/51591445/what-is-the-algorithm-behind-photoshops-highlight-or-shadow-alteration
 .. _endianness: https://en.wikipedia.org/wiki/Endianness

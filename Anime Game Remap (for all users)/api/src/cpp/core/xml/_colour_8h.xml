@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_colour_8h" kind="file" language="C++">
+    <compoundname>Colour.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">string</includes>
+    <includes local="no">tuple</includes>
+    <includedby refid="_texture_file_8h" local="yes">include/AGRemapCore/model/files/TextureFile.h</includedby>
+    <includedby refid="_tex_creator_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/TexCreator.h</includedby>
+    <includedby refid="_base_pixel_transform_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</includedby>
+    <includedby refid="_pixel_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</includedby>
+    <includedby refid="_colour_range_8h" local="yes">include/AGRemapCore/model/textures/ColourRange.h</includedby>
+    <includedby refid="_correct_gamma_8cpp" local="yes">src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp</includedby>
+    <includedby refid="_gamma_filter_8cpp" local="yes">src/model/strategies/texEditors/texFilters/GammaFilter.cpp</includedby>
+    <includedby refid="_hue_adjust_8cpp" local="yes">src/model/strategies/texEditors/texFilters/HueAdjust.cpp</includedby>
+    <includedby refid="_invert_alpha_filter_8cpp" local="yes">src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</includedby>
+    <includedby refid="_colour_8cpp" local="yes">src/model/textures/Colour.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>tuple</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/files/TextureFile.h</label>
+        <link refid="_texture_file_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</label>
+        <link refid="_base_pixel_transform_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/ColourReplace.h</label>
+        <link refid="_colour_replace_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h</label>
+        <link refid="_correct_gamma_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h</label>
+        <link refid="_highlight_shadow_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h</label>
+        <link refid="_invert_alpha_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h</label>
+        <link refid="_temp_control_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h</label>
+        <link refid="_tint_transform_8h"/>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h</label>
+        <link refid="_transparency_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</label>
+        <link refid="_colour_replace_filter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</label>
+        <link refid="_pixel_filter_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h</label>
+        <link refid="_transparency_adjust_filter_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>include/AGRemapCore/model/textures/ColourRange.h</label>
+        <link refid="_colour_range_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/strategies/texEditors/TexCreator.cpp</label>
+        <link refid="_tex_creator_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/strategies/texEditors/TexEditor.cpp</label>
+        <link refid="_tex_editor_8cpp"/>
+      </node>
+      <node id="28">
+        <label>src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp</label>
+        <link refid="_base_pixel_transform_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp</label>
+        <link refid="_colour_replace_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp</label>
+        <link refid="_correct_gamma_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp</label>
+        <link refid="_highlight_shadow_8cpp"/>
+      </node>
+      <node id="21">
+        <label>src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp</label>
+        <link refid="_invert_alpha_8cpp"/>
+      </node>
+      <node id="23">
+        <label>src/model/strategies/texEditors/pixelTransforms/TempControl.cpp</label>
+        <link refid="_temp_control_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp</label>
+        <link refid="_tint_transform_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/model/strategies/texEditors/pixelTransforms/Transparency.cpp</label>
+        <link refid="_transparency_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
+        <link refid="_colour_replace_filter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
+        <link refid="_gamma_filter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
+        <link refid="_hue_adjust_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
+        <link refid="_invert_alpha_filter_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
+        <link refid="_pixel_filter_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
+        <link refid="_transparency_adjust_filter_8cpp"/>
+      </node>
+      <node id="34">
+        <label>src/model/textures/Colour.cpp</label>
+        <link refid="_colour_8cpp"/>
+      </node>
+      <node id="33">
+        <label>src/model/textures/ColourRange.cpp</label>
+        <link refid="_colour_range_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_Colour_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_Colour_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tuple&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_a_g_remap_core_1_1_colour" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref><sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22" refid="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" kindref="member">red</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" kindref="member">green</ref>;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32" refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" kindref="member">blue</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" kindref="member">alpha</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1accbbe90f46ed1562a64e0eab44fb69c8" kindref="member">red</ref><sp/>=<sp/>255,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" kindref="member">green</ref><sp/>=<sp/>255,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" kindref="member">blue</ref><sp/>=<sp/>255,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" kindref="member">alpha</ref><sp/>=<sp/>255);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a192982be2d2ed5f841dfa5899ccbc37f" kindref="member">boundColourChannel</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>val,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min<sp/>=<sp/>0,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max<sp/>=<sp/>255);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a9dff8963775fab97bf25060e9bf99240" kindref="member">boolToColourChannel</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>val,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>min<sp/>=<sp/>0,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>max<sp/>=<sp/>255);</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_colour_1af41e9bca032a826613c49aa930e43a32" kindref="member">hash</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1ac0fc62f947c10febde3c08878c456bde" kindref="member">fromTuple</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::tuple&lt;int,<sp/>int,<sp/>int,<sp/>int&gt;<sp/>&amp;colourTuple);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::tuple&lt;int,<sp/>int,<sp/>int,<sp/>int&gt;<sp/><ref refid="class_a_g_remap_core_1_1_colour_1a74b90f9ae3d65eb5eba8014985f0b19b" kindref="member">getTuple</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" kindref="member">getId</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1af33d932db9088867093ee3bd660ee7b4" kindref="member">copy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref><sp/>&amp;colour,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>withAlpha<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1ac9dc396d958450aadf7d9c0054e52dfc" kindref="member">match</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_colour_1a446b075aa3c6cb66c554705071f9e7d0" kindref="member">Colour</ref><sp/>&amp;colour)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/textures/Colour.h"/>
+  </compounddef>
+</doxygen>

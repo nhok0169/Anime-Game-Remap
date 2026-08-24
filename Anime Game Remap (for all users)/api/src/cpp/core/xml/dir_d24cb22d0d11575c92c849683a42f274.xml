@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d24cb22d0d11575c92c849683a42f274" kind="dir">
+    <compoundname>src/model/strategies/texEditors/texFilters</compoundname>
+    <innerfile refid="_base_tex_filter_8cpp">BaseTexFilter.cpp</innerfile>
+    <innerfile refid="_colour_replace_filter_8cpp">ColourReplaceFilter.cpp</innerfile>
+    <innerfile refid="_gamma_filter_8cpp">GammaFilter.cpp</innerfile>
+    <innerfile refid="_hue_adjust_8cpp">HueAdjust.cpp</innerfile>
+    <innerfile refid="_invert_alpha_filter_8cpp">InvertAlphaFilter.cpp</innerfile>
+    <innerfile refid="_pixel_filter_8cpp">PixelFilter.cpp</innerfile>
+    <innerfile refid="_transparency_adjust_filter_8cpp">TransparencyAdjustFilter.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/texEditors/texFilters/"/>
+  </compounddef>
+</doxygen>

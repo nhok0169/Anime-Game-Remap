@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d054314262006061252364304232006312032371053314301" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@054314262006061252364304232006312032371053314301</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" line="11" column="5"/>
+  </compounddef>
+</doxygen>

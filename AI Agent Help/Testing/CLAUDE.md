@@ -113,6 +113,16 @@ test module needs an entry there to be picked up by name. Conventions:
   or two keys sharing the same raw index (a tie, broken by `src` dict order) will NOT round-trip
   their raw indices — recompute the actual expected positions by hand (or print and inspect) when
   asserting `getValsWithInds`-shaped results in a test, rather than assuming the `src` literal.
+- **A bare pybind11-bound class (constructed directly, not through its pure-Python wrapper
+  subclass) has no `__dict__` and can't have arbitrary attributes set on it** — e.g.
+  `FRB.CppPixelFilter()` raises trying to set `.transforms = [...]`, since only the Python
+  `PixelFilter` subclass (`class PixelFilter(CppPixelFilter): ...`) gets a `__dict__`, for free,
+  as an ordinary consequence of being a plain Python class (see
+  [Architecture](../Architecture/CLAUDE.md)'s note on this — no `py::dynamic_attr()` involved).
+  When a test for a "Wrapper" outcome class (see Architecture's "Two different outcomes" section)
+  needs to set a Python-only attribute the C++ core doesn't know about, construct the bare `Cpp`
+  name only when deliberately testing the underlying C++ class itself; construct the bare-named
+  Python wrapper for everything else. Found this exact way writing `test_CppPixelFilter.py`.
 - A method that internally iterates a `std::unordered_set`/`unordered_map` (e.g. anything built
   from `IOrderedMultiMap::getKeys()`, or an `IfContentPartColouring::updateColouring()`-style
   `targetKeys` param) has **non-deterministic iteration order** — any test asserting the resulting

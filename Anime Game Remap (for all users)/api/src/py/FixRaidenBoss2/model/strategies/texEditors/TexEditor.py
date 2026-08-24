@@ -15,21 +15,32 @@
 from typing import List, Union, Callable, Any, Optional
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import CppTexEditor
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.Packages import PackageModules
 from ....constants.GlobalPackageManager import GlobalPackageManager
+from ....constants.TexEngine import TexEngine
 from ...files.TextureFile import TextureFile
 from .BaseTexEditor import BaseTexEditor
 from .texFilters.BaseTexFilter import BaseTexFilter
-##### EndLocalImportss
+##### EndLocalImports
 
 
 ##### Script
-class TexEditor(BaseTexEditor):
+class TexEditor(CppTexEditor):
     """
-    This class inherits from :class:`BaseTexEditor`
+    This class inherits from :class:`CppTexEditor`
 
     Class for editing a texture file
+
+    .. note::
+        :meth:`fix` is entirely reimplemented in Python here (rather than using
+        :class:`CppTexEditor`'s own C++ filter list) so that :attr:`filters` can hold arbitrary
+        Python callables -- a plain function, a bound classmethod, or a :class:`BaseTexFilter`
+        instance -- exactly like the original pure-Python implementation
 
     Parameters
     ----------
@@ -38,26 +49,51 @@ class TexEditor(BaseTexEditor):
 
         **Default**: ``None``
 
+    engine: :class:`TexEngine`
+        Which engine to use to read/write the texture file being edited -- overrides whatever
+        engine the ``texFile`` passed into :meth:`fix` was itself constructed with, for the
+        duration of that :meth:`fix` call :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: :attr:`TexEngine.Compressonator`
+
+    readPillowImg: :class:`bool`
+        Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
+        :attr:`TexEngine.Compressonator` -- also overrides ``texFile``'s own value for the
+        duration of :meth:`fix`. See :class:`TextureFile`'s own notes on this flag :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``False``
+
     Attributes
     ----------
     filters: List[Union[:class:`BaseTexFilter`, Callable[[:class:`TextureFile`], Any]]]
         The filters for editting the image :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
+
+    engine: :class:`TexEngine`
+        Which engine to use to read/write the texture file being edited
+
+    readPillowImg: :class:`bool`
+        Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
+        :attr:`TexEngine.Compressonator`
     """
 
-    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None):
+    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False):
         super().__init__()
         self.filters = [] if (filters is None) else filters
+        self.engine = engine
+        self.readPillowImg = readPillowImg
 
     def fix(self, texFile: TextureFile, fixedTexFile: str):
         if (not self.filters):
             return
 
+        texFile.engine = self.engine
+        texFile.readPillowImg = self.readPillowImg
         texFile.open()
-        if (texFile.img is None):
+        if (not texFile.hasImage):
             return
-        
+
         for filter in self.filters:
             filter(texFile)
 
@@ -65,7 +101,7 @@ class TexEditor(BaseTexEditor):
         texFile.save()
 
     @classmethod
-    def adjustBrightness(self, texFile: TextureFile, brightness: float):
+    def adjustBrightness(cls, texFile: TextureFile, brightness: float):
         """
         Adjust the brightness of the texture
 
@@ -83,12 +119,12 @@ class TexEditor(BaseTexEditor):
         """
 
         ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
-        
+
         enhancer = ImageEnhance.Brightness(texFile.img)
         texFile.img = enhancer.enhance(brightness)
 
     @classmethod
-    def setTransparency(self, texFile: TextureFile, alpha: int):
+    def setTransparency(cls, texFile: TextureFile, alpha: int):
         """
         Sets the transparency of the texture
 
@@ -107,7 +143,7 @@ class TexEditor(BaseTexEditor):
         texFile.img.putalpha(alpha)
 
     @classmethod
-    def adjustSaturation(self, texFile: TextureFile, saturation: float):
+    def adjustSaturation(cls, texFile: TextureFile, saturation: float):
         """
         Adjust the saturation of the texture
 

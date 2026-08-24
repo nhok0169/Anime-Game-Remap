@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_tex_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseTexFilter</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public" virt="non-virtual">AGRemapCore::ColourReplaceFilter</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_gamma_filter" prot="public" virt="non-virtual">AGRemapCore::GammaFilter</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_hue_adjust" prot="public" virt="non-virtual">AGRemapCore::HueAdjust</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public" virt="non-virtual">AGRemapCore::InvertAlphaFilter</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_pixel_filter" prot="public" virt="non-virtual">AGRemapCore::PixelFilter</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_transparency_adjust_filter" prot="public" virt="non-virtual">AGRemapCore::TransparencyAdjustFilter</derivedcompoundref>
+    <includes refid="_base_tex_filter_8h" local="no">BaseTexFilter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseTexFilter::~BaseTexFilter</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseTexFilter</name>
+        <qualifiedname>AGRemapCore::BaseTexFilter::~BaseTexFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="16" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTexFilter::operator()</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::BaseTexFilter::operator()</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Calls <ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" kindref="member">transform</ref> for this filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="23" column="18" bodyfile="src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseTexFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::BaseTexFilter::transform</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_colour_replace_filter_1a16e7822e2b2537ffd5326c479caecab6">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_hue_adjust_1a48311d89b828991fc3740f448c555d91">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_invert_alpha_filter_1ad2d5ccc17bdd3ebb56d3f3d44eda79ef">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a">transform</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a011e8521f6eccc5952f26fe5a9bbc636">transform</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="30" column="26" bodyfile="src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for transforming a texture file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ColourReplaceFilter</label>
+        <link refid="class_a_g_remap_core_1_1_colour_replace_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::GammaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_gamma_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::HueAdjust</label>
+        <link refid="class_a_g_remap_core_1_1_hue_adjust"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::InvertAlphaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::PixelFilter</label>
+        <link refid="class_a_g_remap_core_1_1_pixel_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::TransparencyAdjustFilter</label>
+        <link refid="class_a_g_remap_core_1_1_transparency_adjust_filter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" line="14" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h" bodystart="14" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseTexFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

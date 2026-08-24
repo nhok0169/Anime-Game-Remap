@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_base_tex_filter_8h" kind="file" language="C++">
+    <compoundname>BaseTexFilter.h</compoundname>
+    <includedby refid="_colour_replace_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</includedby>
+    <includedby refid="_gamma_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h</includedby>
+    <includedby refid="_hue_adjust_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h</includedby>
+    <includedby refid="_invert_alpha_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h</includedby>
+    <includedby refid="_pixel_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</includedby>
+    <includedby refid="_transparency_adjust_filter_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h</includedby>
+    <includedby refid="_base_tex_filter_8cpp" local="yes">src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp</includedby>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h</label>
+        <link refid="_base_tex_filter_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</label>
+        <link refid="_colour_replace_filter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h</label>
+        <link refid="_gamma_filter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h</label>
+        <link refid="_hue_adjust_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h</label>
+        <link refid="_invert_alpha_filter_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</label>
+        <link refid="_pixel_filter_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h</label>
+        <link refid="_transparency_adjust_filter_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>src/model/files/TextureFile.cpp</label>
+        <link refid="_texture_file_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp</label>
+        <link refid="_base_tex_filter_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
+        <link refid="_colour_replace_filter_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
+        <link refid="_gamma_filter_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
+        <link refid="_hue_adjust_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
+        <link refid="_invert_alpha_filter_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
+        <link refid="_pixel_filter_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
+        <link refid="_transparency_adjust_filter_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_BaseTexFilter_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_BaseTexFilter_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref>;</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14" refid="class_a_g_remap_core_1_1_base_tex_filter" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_base_tex_filter" kindref="compound">BaseTexFilter</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="16" refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" kindref="member">~BaseTexFilter</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" kindref="member">operator()</ref>(<ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref><sp/>&amp;texFile);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad" kindref="member">transform</ref>(<ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref><sp/>&amp;texFile);</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/BaseTexFilter.h"/>
+  </compounddef>
+</doxygen>

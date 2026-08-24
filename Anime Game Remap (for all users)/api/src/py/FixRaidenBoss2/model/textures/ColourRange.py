@@ -11,14 +11,16 @@
 
 ##### EndCredits
 
-##### LocalImports
-from .Colour import Colour
-##### EndLocalImports
+##### CppLocalImports
+from ...core import CppColourRange
+##### EndCppLocalImports
 
 
 ##### Script
-class ColourRange():
+class ColourRange(CppColourRange):
     """
+    This class inherits from :class:`CppColourRange`
+
     Class to store data for a colour
 
     :raw-html:`<br />`
@@ -29,7 +31,7 @@ class ColourRange():
 
         .. describe:: hash(x)
 
-            Retrieves the hash id for the colour range based off :meth:`ColourRange.getId`
+            Retrieves the hash id for the colour range based off :meth:`CppColourRange.getId`
 
     :raw-html:`<br />`
 
@@ -42,45 +44,5 @@ class ColourRange():
         The maximum range for the RGBA values
     """
 
-    def __init__(self, min: Colour, max: Colour):
-        self.min = min
-        self.max = max
-
-    def __hash__(self) -> int:
-        return hash(self.getId())
-
-    def getId(self) -> str:
-        """
-        Retrieves a unique id for the colour range
-
-        .. note::
-            The id generated will not correspond to any id generated from :meth:`Colour.getId`
-
-        Returns
-        -------
-        :class:`str`
-            The id for the colour range
-        """
-
-        return f"{self.min.getId()}{self.max.getId()}"
-    
-    def match(self, colour: Colour) -> bool:
-        """
-        Whether 'colour' is within the colour range
-
-        Parameters
-        ----------
-        colour: :class:`Colour`
-            The colour to check
-
-        Returns
-        -------
-        :class:`bool`
-            Whether the colour is within the colour range
-        """
-        
-        return (self.min.red <= colour.red and colour.red <= self.max.red and
-                self.min.green <= colour.green and colour.green <= self.max.green and
-                self.min.blue <= colour.blue and colour.blue <= self.max.blue and
-                self.min.alpha <= colour.alpha and colour.alpha <= self.max.alpha)
+    pass
 ##### EndScript

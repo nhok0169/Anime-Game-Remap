@@ -11,23 +11,15 @@
 
 ##### EndCredits
 
-##### ExtImports
-from typing import TYPE_CHECKING
-##### EndExtImports
-
-##### LocalImports
-from .....constants.ColourConsts import ColourConsts
-from .BaseTexFilter import BaseTexFilter
-
-if (TYPE_CHECKING):
-    from ....files.TextureFile import TextureFile
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppInvertAlphaFilter
+##### EndCppLocalImports
 
 
 ##### Script
-class InvertAlphaFilter(BaseTexFilter):
+class InvertAlphaFilter(CppInvertAlphaFilter):
     """
-    This class inherits from :class:`BaseTexFilter`
+    This class inherits from :class:`CppInvertAlphaFilter`
 
     Inverts the alpha channel of an image.
 
@@ -39,11 +31,8 @@ class InvertAlphaFilter(BaseTexFilter):
 
         .. describe:: x(texFile)
 
-            Calls :meth:`transform` for the filter, ``x``
+            Calls :meth:`CppBaseTexFilter.transform` for the filter, ``x``
     """
 
-    def transform(self, texFile: "TextureFile"):
-        alphaImg = texFile.img.getchannel('A')
-        alphaImg = alphaImg.point(lambda pixel: ColourConsts.MaxColourValue.value - pixel)
-        texFile.img.putalpha(alphaImg)
+    pass
 ##### EndScript

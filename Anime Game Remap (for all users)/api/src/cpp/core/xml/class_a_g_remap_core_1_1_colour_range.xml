@@ -1,0 +1,176 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_colour_range" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ColourRange</compoundname>
+    <includes refid="_colour_range_8h" local="no">ColourRange.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_range_1a6e9941d8f463791c8bdb7a4c90a26416" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+        <definition>Colour AGRemapCore::ColourRange::min</definition>
+        <argsstring></argsstring>
+        <name>min</name>
+        <qualifiedname>AGRemapCore::ColourRange::min</qualifiedname>
+        <briefdescription>
+<para>The minimum range for the RGBA values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="25" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_range_1ac84b800c4f978c9eefbc24cf66fcefad" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+        <definition>Colour AGRemapCore::ColourRange::max</definition>
+        <argsstring></argsstring>
+        <name>max</name>
+        <qualifiedname>AGRemapCore::ColourRange::max</qualifiedname>
+        <briefdescription>
+<para>The maximum range for the RGBA values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="30" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1a4c75a515ee722e031bf76a5f4124e128" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ColourRange::ColourRange</definition>
+        <argsstring>(Colour min, Colour max)</argsstring>
+        <name>ColourRange</name>
+        <qualifiedname>AGRemapCore::ColourRange::ColourRange</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+          <declname>min</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
+          <declname>max</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new colour range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>min</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The minimum range for the RGBA values </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>max</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The maximum range for the RGBA values </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="38" column="13" bodyfile="src/model/textures/ColourRange.cpp" bodystart="5" bodyend="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1aa4941ddd74b8920aa6d08c18c0d5dabb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ColourRange::hash</definition>
+        <argsstring>() const</argsstring>
+        <name>hash</name>
+        <qualifiedname>AGRemapCore::ColourRange::hash</qualifiedname>
+        <briefdescription>
+<para>A hash for the colour range, based off <ref refid="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" kindref="member">getId</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="43" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ColourRange::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::ColourRange::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A unique id for the colour range :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The id generated will not correspond to any id generated for a single colour
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="54" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1a7c8a7a680cb181cb7004cdd31545b0f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ColourRange::match</definition>
+        <argsstring>(const Colour &amp;colour) const</argsstring>
+        <name>match</name>
+        <qualifiedname>AGRemapCore::ColourRange::match</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>colour</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;colour&apos; is within the colour range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>colour</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The colour to check </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="61" column="18" bodyfile="src/model/textures/ColourRange.cpp" bodystart="15" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Class to store a range for a colour
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::Colour</label>
+        <link refid="class_a_g_remap_core_1_1_colour"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ColourRange</label>
+        <link refid="class_a_g_remap_core_1_1_colour_range"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>max</edgelabel>
+          <edgelabel>min</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/textures/ColourRange.h" line="19" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="19" bodyend="62"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1a4c75a515ee722e031bf76a5f4124e128" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>ColourRange</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1aa4941ddd74b8920aa6d08c18c0d5dabb" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>hash</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1a7c8a7a680cb181cb7004cdd31545b0f6" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>match</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1ac84b800c4f978c9eefbc24cf66fcefad" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>max</name></member>
+      <member refid="class_a_g_remap_core_1_1_colour_range_1a6e9941d8f463791c8bdb7a4c90a26416" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>min</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

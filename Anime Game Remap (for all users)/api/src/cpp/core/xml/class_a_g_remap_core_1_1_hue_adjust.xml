@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_hue_adjust" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::HueAdjust</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_hue_adjust_8h" local="no">HueAdjust.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_hue_adjust_1aa71e4aa874471d5437c806c63f5d5009" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::HueAdjust::hue</definition>
+        <argsstring></argsstring>
+        <name>hue</name>
+        <qualifiedname>AGRemapCore::HueAdjust::hue</qualifiedname>
+        <briefdescription>
+<para>The hue to adjust the image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Value is from -180 to 180 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="33" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hue_adjust_1a5cab7e42213ce7324597e848ee98b9ce" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::HueAdjust::HueAdjust</definition>
+        <argsstring>(int hue)</argsstring>
+        <name>HueAdjust</name>
+        <qualifiedname>AGRemapCore::HueAdjust::HueAdjust</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>hue</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new hue-adjust filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The hue to adjust the image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="40" column="22" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hue_adjust_1a04440289d5ad98b7490ef2efdfc1ce64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int AGRemapCore::HueAdjust::adjustedHue</definition>
+        <argsstring>(int hue) const</argsstring>
+        <name>adjustedHue</name>
+        <qualifiedname>AGRemapCore::HueAdjust::adjustedHue</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>hue</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adjusts a single H byte (0-255) -- see the class doc comment for why this reproduces
+the original&apos;s own byte/degree-scale mismatch rather than a &quot;correct&quot; hue wraparound
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hue</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current H byte value that has not been adjusted yet</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The adjusted H byte value, bounded to [0, 255] </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="53" column="17" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="75" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_hue_adjust_1a48311d89b828991fc3740f448c555d91" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::HueAdjust::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::HueAdjust::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="55" column="18" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="85" bodyend="107"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Adjusts the hue of a texture file, by converting to HSV (H/S/V each encoded as a single byte,
+0-255, matching `Pillow`_&apos;s own ``&quot;HSV&quot;`` image mode convention), adjusting the H channel, and
+converting back to RGBA :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   Ported byte-for-byte from the pure-Python original&apos;s own #adjustedHue, which mixes
+   byte-scaled (0-255) and degree-scaled (0-360) arithmetic on the same value -- eg. adding a
+   [-180, 180]-ranged #hue directly onto a 0-255-ranged H byte, and wrapping an overflow past
+   360 with ``360 - result`` (which produces a *negative* result, not a wrapped-around one).
+   This looks like a pre-existing bug in the original, not intentional, but it&apos;s preserved here
+   (bounded to [0, 255] before being used as an H byte, since a raw negative/out-of-range value
+   has no well-defined meaning as one) rather than silently corrected
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::HueAdjust</label>
+        <link refid="class_a_g_remap_core_1_1_hue_adjust"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::HueAdjust</label>
+        <link refid="class_a_g_remap_core_1_1_hue_adjust"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="27" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="27" bodyend="56"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_hue_adjust_1a04440289d5ad98b7490ef2efdfc1ce64" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>adjustedHue</name></member>
+      <member refid="class_a_g_remap_core_1_1_hue_adjust_1aa71e4aa874471d5437c806c63f5d5009" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>hue</name></member>
+      <member refid="class_a_g_remap_core_1_1_hue_adjust_1a5cab7e42213ce7324597e848ee98b9ce" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>HueAdjust</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_hue_adjust_1a48311d89b828991fc3740f448c555d91" prot="public" virt="virtual"><scope>AGRemapCore::HueAdjust</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::HueAdjust</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

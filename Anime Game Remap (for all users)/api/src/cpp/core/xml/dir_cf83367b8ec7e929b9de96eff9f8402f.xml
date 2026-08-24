@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_cf83367b8ec7e929b9de96eff9f8402f" kind="dir">
+    <compoundname>src/model/strategies/texEditors</compoundname>
+    <innerdir refid="dir_9f6208872ef97980cb12938261c6ca02">src/model/strategies/texEditors/pixelTransforms</innerdir>
+    <innerdir refid="dir_d24cb22d0d11575c92c849683a42f274">src/model/strategies/texEditors/texFilters</innerdir>
+    <innerfile refid="_base_tex_editor_8cpp">BaseTexEditor.cpp</innerfile>
+    <innerfile refid="_tex_creator_8cpp">TexCreator.cpp</innerfile>
+    <innerfile refid="_tex_editor_8cpp">TexEditor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/texEditors/"/>
+  </compounddef>
+</doxygen>

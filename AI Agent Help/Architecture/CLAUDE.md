@@ -410,6 +410,49 @@ This project pins **pybind11 3.0.4**.
   once across that call's arguments, and reserve `std::move` for a value used exactly once,
   in that call, guaranteed.
 
+- **A pure-Python subclass of a pybind11-bound class gets its own `__dict__` for free — no
+  `py::dynamic_attr()` needed on the C++-registered base.** `py::dynamic_attr()` is only required
+  to set arbitrary attributes directly on instances of the *bare* pybind11 type itself (confirmed:
+  `CppPixelFilter()` has no `__dict__` and raises on `.transforms = [...]`, see
+  [Testing](../Testing/CLAUDE.md)'s note on this). The moment you subclass it from ordinary Python
+  (`class PixelFilter(CppPixelFilter): ...`, `class TextureFile(CppTextureFile): ...`), standard
+  CPython heap-type rules kick in and the subclass gets a real `__dict__` automatically — this is
+  exactly what every "Wrapper" outcome class (see "Two different outcomes" above) relies on to hold
+  genuine Python-only state the C++ core never sees at all (`TextureFile.img`/`.info`/`.engine`/
+  `.readPillowImg`, `TexEditor.filters`, `PixelFilter.transforms`, ...). Don't reach for
+  `py::dynamic_attr()` (or any other ceremony) to support this — it isn't needed, and this codebase
+  doesn't use it anywhere.
+- **A binding for a "run this" dispatch/entry-point method (`__call__` on a filter, or any similar
+  driver that's supposed to invoke another one of the class's own methods) must call that inner
+  method through genuine Python attribute lookup (`self.attr("innerMethod")(...)`), never by
+  binding straight to the C++ member (`&Base::innerMethod`) or calling it directly in C++.** The
+  latter silently skips any override a pure-Python subclass provides for just the inner method —
+  e.g. `class Foo(BaseTexFilter): def transform(self, texFile): ...` (no `__call__` override at
+  all) still needs `filterInstance(texFile)` to run `Foo`'s `transform`, not `BaseTexFilter`'s
+  no-op. See `PyBaseTexFilter.cpp`'s `__call__` binding for the reference shape — its own comment
+  spells out exactly why `self.attr("transform")(texFile)` is required instead of the more obvious
+  `&AGRC::BaseTexFilter::transform`. This is a distinct, more actionable case of the "no trampoline
+  needed when the call originates from Python" rule above — it's specifically about how to *write*
+  that Python-originating call correctly, not just whether a trampoline is needed at all. Hit twice
+  in the texture-editing port (`BaseTexFilter::__call__`, then again for `PixelFilter`'s per-pixel
+  native-fast-path classification below) — check for this shape whenever a new dispatch method is
+  added to a bindable base class.
+- **Classifying whether a Python object carries a *genuine* C++-level override of a virtual method
+  (to decide whether a fast native path is safe) can't rely on `py::isinstance<Base>(obj)` alone**
+  — a pure-Python subclass that only overrides the inner method (not the dispatch entry point, see
+  above) still passes `isinstance`, since it's a real bound C++ subobject; calling straight into
+  its C++ method would silently run the no-op base implementation instead of the Python override.
+  The reliable discriminator: ordinary Python attribute lookup on a *class* returns the exact same
+  descriptor object for every class in the MRO that doesn't itself define the attribute, so
+  `type(obj).method is Base.method` (via `py::type::of<Base>().attr("method")`, compared with
+  `.is()`) is true for every native C++ leaf subclass and false for any genuine Python override.
+  See `PyPixelFilter.cpp`'s `classifyTransforms`/`TransformEntry` for the reference implementation
+  (used to pick between calling a `CppBasePixelTransform*` directly per-pixel vs. falling back to a
+  real Python call). **Gotcha**: `.is()` fails to compile (`C2664`, template deduction failure) when
+  called directly on a chained `.attr(...)` accessor — materialize the result as a `py::object`
+  local first (`py::object x = obj.attr("__class__").attr("method"); x.is(other)`), don't chain
+  `.is()` straight onto the accessor expression.
+
 ## Raising a Python-specific exception from `AGRemapCore` code, without giving the core a Python dependency
 
 `AGRemapCore` has zero Python/pybind11 dependency (see above) — but a core algorithm can still

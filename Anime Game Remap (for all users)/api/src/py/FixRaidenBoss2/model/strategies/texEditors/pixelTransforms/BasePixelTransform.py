@@ -11,14 +11,16 @@
 
 ##### EndCredits
 
-##### LocalImports
-from ....textures.Colour import Colour
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppBasePixelTransform
+##### EndCppLocalImports
 
 
 ##### Script
-class BasePixelTransform():
+class BasePixelTransform(CppBasePixelTransform):
     """
+    This class inherits from :class:`CppBasePixelTransform`
+
     Base class for transforming a pixel in a texture file
 
     :raw-html:`<br />`
@@ -29,27 +31,8 @@ class BasePixelTransform():
 
         .. describe:: x(pixel, xCoord, yCoord)
 
-            Calls :meth:`BasePixelTransform.transform` for the :class:`BasePixelTransform`, ``x``
+            Calls :meth:`CppBasePixelTransform.transform` for the :class:`BasePixelTransform`, ``x``
     """
 
-    def __call__(self, pixel: Colour, x: int, y: int):
-        self.transform(pixel, x, y)
-
-    def transform(self, pixel: Colour, x: int, y: int):
-        """
-        Applies a Transformation to 'pixel'
-
-        Parameters
-        ----------
-        pixel: :class:`Colour`
-            The pixel to be editted
-
-        x: :class:`int`
-            x-coordinate of the pixel
-
-        y: :class:`int`
-            y-coordinate of the pixel
-        """
-
-        pass
+    pass
 ##### EndScript

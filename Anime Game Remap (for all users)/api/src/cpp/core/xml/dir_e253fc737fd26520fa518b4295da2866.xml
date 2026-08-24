@@ -7,6 +7,7 @@
     <innerdir refid="dir_7e0ceb73212f5a8dd53535fa714ca378">include/AGRemapCore/model/files</innerdir>
     <innerdir refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab">include/AGRemapCore/model/iftemplate</innerdir>
     <innerdir refid="dir_262090020142afce8472a874afdbb94c">include/AGRemapCore/model/strategies</innerdir>
+    <innerdir refid="dir_cb1871b90e5ecfacbdda10a9b11e3c31">include/AGRemapCore/model/textures</innerdir>
     <innerfile refid="_call_graph_8h">CallGraph.h</innerfile>
     <innerfile refid="_ini_section_graph_8h">IniSectionGraph.h</innerfile>
     <innerfile refid="_section_iter_data_8h">SectionIterData.h</innerfile>

@@ -11,26 +11,17 @@
 
 ##### EndCredits
 
-##### ExtImports
-from typing import TYPE_CHECKING
-##### EndExtImports
-
-##### LocalImports
-from .....constants.ImgFormats import ImgFormats
-from ..pixelTransforms.CorrectGamma import CorrectGamma
-from .BaseTexFilter import BaseTexFilter
-
-if (TYPE_CHECKING):
-    from ....files.TextureFile import TextureFile
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppGammaFilter
+##### EndCppLocalImports
 
 
 ##### Script
-class GammaFilter(BaseTexFilter):
+class GammaFilter(CppGammaFilter):
     """
-    This class inherits from :class:`BaseTexFilter`
+    This class inherits from :class:`CppGammaFilter`
 
-    Performs a `Gamma Correction`_ on the texture file. See :class:`CorrectGamma` for more details
+    Performs a `Gamma Correction`_ on the texture file. See :class:`CppGammaFilter` for more details
 
     :raw-html:`<br />`
 
@@ -40,28 +31,16 @@ class GammaFilter(BaseTexFilter):
 
         .. describe:: x(texFile)
 
-            Calls :meth:`transform` for the filter, ``x``
+            Calls :meth:`CppBaseTexFilter.transform` for the filter, ``x``
 
     Parameters
     ----------
     gamma: :class:`float`
         The luminance parameter for how bright humans perceive the image.
 
-    Attributes
-    ----------
-    gamma: :class:`float`
-        The luminance parameter for how bright humans perceive the image.
+    .. note::
+        See :attr:`CppGammaFilter.gamma` for the corresponding attribute
     """
 
-    def __init__(self, gamma: float):
-        self.gamma = gamma
-
-    def transform(self, texFile: "TextureFile"):
-        alphaImg = texFile.img.getchannel('A')
-
-        texFile.img = texFile.img.convert(ImgFormats.RGB.value)
-        texFile.img = texFile.img.point(lambda pixel: CorrectGamma.correctGamma(pixel, self.gamma))
-
-        texFile.img = texFile.img.convert(ImgFormats.RGBA.value)
-        texFile.img.putalpha(alphaImg)
+    pass
 ##### EndScript

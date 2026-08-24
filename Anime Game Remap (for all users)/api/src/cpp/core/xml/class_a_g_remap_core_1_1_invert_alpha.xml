@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invert_alpha" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvertAlpha</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public" virt="non-virtual">AGRemapCore::BasePixelTransform</basecompoundref>
+    <includes refid="_invert_alpha_8h" local="no">InvertAlpha.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invert_alpha_1aa2c3b66186a8a076883736f31ab732f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::InvertAlpha::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::InvertAlpha::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="26" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp" bodystart="5" bodyend="8"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BasePixelTransform`
+
+Inverts the alpha channel of a pixel
+
+.. warning::
+   Ported byte-for-byte from the pure-Python original, which computes the new alpha as
+   ``0 - alpha`` (the *minimum* colour value minus the pixel&apos;s alpha) rather than
+   ``255 - alpha`` (the *maximum* minus the pixel&apos;s alpha) that a &quot;true&quot; alpha invert would
+   use -- unlike :cpp:class:`AGRemapCore::TexEditor`&apos;s sibling whole-image
+   ``InvertAlphaFilter``, which does use ``255 - alpha``. This looks like a pre-existing bug in
+   the original, not intentional, but it&apos;s preserved here rather than silently corrected
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::InvertAlpha</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::InvertAlpha</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="24" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" bodystart="24" bodyend="27"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::InvertAlpha</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_invert_alpha_1aa2c3b66186a8a076883736f31ab732f1" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlpha</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlpha</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -74,6 +74,7 @@ class TexMetadataFilter(BaseTexFilter):
     """
 
     def __init__(self, edits: Optional[Dict[str, Any]] = None, removes: Optional[Set[str]] = None):
+        super().__init__()
         self.removes = set() if (removes is None) else removes
         self.edits = {} if (edits is None) else edits
 
@@ -88,8 +89,8 @@ class TexMetadataFilter(BaseTexFilter):
         """
 
         for remove in self.removes:
-            texFile.img.info.pop(remove, None)
+            texFile.info.pop(remove, None)
 
         for editKey in self.edits:
-            texFile.img.info[editKey] = self.edits[editKey]
+            texFile.info[editKey] = self.edits[editKey]
 ##### EndScript

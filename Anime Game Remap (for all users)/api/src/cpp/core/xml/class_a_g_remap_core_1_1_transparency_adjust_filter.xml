@@ -1,0 +1,197 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_transparency_adjust_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TransparencyAdjustFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_transparency_adjust_filter_8h" local="no">TransparencyAdjustFilter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1ab5fe73c35842cc8247b39fce60867e36" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int AGRemapCore::TransparencyAdjustFilter::alphaChange</definition>
+        <argsstring></argsstring>
+        <name>alphaChange</name>
+        <qualifiedname>AGRemapCore::TransparencyAdjustFilter::alphaChange</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How much to adjust the alpha channel of each pixel. Range from -255 to 255 :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The alpha channel for an image is inclusively bounded from 0 to 255
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="33" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1aba849ff045519728c1a552ce7d36a819" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" kindref="member">ColourOrRangeSet</ref> &gt;</type>
+        <definition>std::optional&lt;ColourOrRangeSet&gt; AGRemapCore::TransparencyAdjustFilter::coloursToFilter</definition>
+        <argsstring></argsstring>
+        <name>coloursToFilter</name>
+        <qualifiedname>AGRemapCore::TransparencyAdjustFilter::coloursToFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The specific colours to have their transparency adjusted. If this is
+``std::nullopt``, will adjust the transparency for the entire image
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="42" column="27" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1a608ed002691e773ce134720fca5a06dd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TransparencyAdjustFilter::TransparencyAdjustFilter</definition>
+        <argsstring>(int alphaChange, std::optional&lt; ColourOrRangeSet &gt; coloursToFilter=std::nullopt)</argsstring>
+        <name>TransparencyAdjustFilter</name>
+        <qualifiedname>AGRemapCore::TransparencyAdjustFilter::TransparencyAdjustFilter</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>alphaChange</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" kindref="member">ColourOrRangeSet</ref> &gt;</type>
+          <declname>coloursToFilter</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new transparency-adjust filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>alphaChange</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How much to adjust the alpha channel of each pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>coloursToFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The specific colours to have their transparency adjusted. If this is <computeroutput>std::nullopt</computeroutput>, will adjust the transparency for the entire image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="51" column="22" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="10" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1a0d602b9d34a3fc1cd90cc4ffb073d618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TransparencyAdjustFilter::adjustTransparency</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>adjustTransparency</name>
+        <qualifiedname>AGRemapCore::TransparencyAdjustFilter::adjustTransparency</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Adjusts the transparency for the entire image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="58" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="13" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1a011e8521f6eccc5952f26fe5a9bbc636" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TransparencyAdjustFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::TransparencyAdjustFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="60" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="27" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Adjusts the transparency (alpha channel) for an image, using :cpp:class:`Transparency` for the
+underlying per-pixel adjustment
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TransparencyAdjustFilter</label>
+        <link refid="class_a_g_remap_core_1_1_transparency_adjust_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TransparencyAdjustFilter</label>
+        <link refid="class_a_g_remap_core_1_1_transparency_adjust_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="20" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="20" bodyend="61"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a0d602b9d34a3fc1cd90cc4ffb073d618" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>adjustTransparency</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1ab5fe73c35842cc8247b39fce60867e36" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>alphaChange</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1aba849ff045519728c1a552ce7d36a819" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>coloursToFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a011e8521f6eccc5952f26fe5a9bbc636" prot="public" virt="virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a608ed002691e773ce134720fca5a06dd" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>TransparencyAdjustFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

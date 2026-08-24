@@ -64,6 +64,27 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/textures/Colour.cpp
+    src/model/textures/ColourRange.cpp
+    src/model/files/TextureFile.cpp
+    src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp
+    src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp
+    src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp
+    src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp
+    src/model/strategies/texEditors/pixelTransforms/TempControl.cpp
+    src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/Transparency.cpp
+    src/model/strategies/texEditors/texFilters/BaseTexFilter.cpp
+    src/model/strategies/texEditors/texFilters/GammaFilter.cpp
+    src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp
+    src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp
+    src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp
+    src/model/strategies/texEditors/texFilters/HueAdjust.cpp
+    src/model/strategies/texEditors/texFilters/PixelFilter.cpp
+    src/model/strategies/texEditors/BaseTexEditor.cpp
+    src/model/strategies/texEditors/TexEditor.cpp
+    src/model/strategies/texEditors/TexCreator.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )
@@ -103,6 +124,61 @@ add_subdirectory(
 )
 
 # -----------------------------------
+# Compressonator
+# -----------------------------------
+
+set(COMPRESSONATOR_SRC
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/Compressonator
+)
+
+# Compressonator's child CMakeLists expect these platform variables.
+if(WIN32)
+    set(CMP_HOST_WINDOWS ON)
+elseif(UNIX)
+    set(CMP_HOST_LINUX ON)
+endif()
+
+# Disable optional components that would pull in additional dependencies.
+set(OPTION_BUILD_ASTC OFF)
+set(OPTION_BUILD_BROTLIG OFF)
+set(OPTION_CMP_GTC OFF)
+set(OPTION_CMP_APC OFF)
+
+message(STATUS "BEFORE Compressonator:")
+message(STATUS "  PROJECT_SOURCE_DIR=${PROJECT_SOURCE_DIR}")
+message(STATUS "  CMAKE_CURRENT_SOURCE_DIR=${CMAKE_CURRENT_SOURCE_DIR}")
+
+# Compressonator's child CMakeLists use PROJECT_SOURCE_DIR
+# assuming it points to the Compressonator source root.
+set(AGREMAP_PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
+set(PROJECT_SOURCE_DIR ${COMPRESSONATOR_SRC})
+
+if(MSVC)
+    add_compile_options(/Zc:strictStrings-)
+endif()
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_core
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_core
+    EXCLUDE_FROM_ALL
+)
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_framework
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_framework
+    EXCLUDE_FROM_ALL
+)
+
+add_subdirectory(
+    ${COMPRESSONATOR_SRC}/cmp_compressonatorlib
+    ${CMAKE_BINARY_DIR}/Compressonator/cmp_compressonatorlib
+    EXCLUDE_FROM_ALL
+)
+
+# Restore our project's PROJECT_SOURCE_DIR.
+set(PROJECT_SOURCE_DIR ${AGREMAP_PROJECT_SOURCE_DIR})
+
+# -----------------------------------
 # Link Libraries
 # -----------------------------------
 
@@ -115,6 +191,12 @@ target_include_directories(AGRemapCore
         # PRIVATE) so it actually propagates; BUILD_INTERFACE-only since this vendored path
         # isn't itself installed as part of the SDK.
         $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/../../../extern/ordered-map/include>
+        # TextureFile.h (a public AGRemapCore header) includes compressonator.h directly (it's a
+        # lightweight, plain-C-enum-and-struct header, unlike z3++.h -- see Z3Internal.h's own
+        # comment for why *that* one stays PRIVATE behind a pimpl instead), so any consumer
+        # building against AGRemapCore needs this on its include path too. Same PUBLIC +
+        # BUILD_INTERFACE-only treatment as ordered-map's include dir above, for the same reason.
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/../../../extern/Compressonator/cmp_compressonatorlib>
         $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 
     PRIVATE
@@ -132,6 +214,8 @@ target_link_libraries(AGRemapCore
         z3::libz3
         utf8proc
         DirectXTex
+        CMP_Compressonator
+        CMP_Framework
 )
 
 set_target_properties(AGRemapCore PROPERTIES

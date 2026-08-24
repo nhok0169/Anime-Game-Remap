@@ -60,6 +60,27 @@
 #include "model/PyVGRemap.h"
 #include "model/files/PyBlendFile.h"
 #include "model/files/PyPositionFile.h"
+#include "model/textures/PyColour.h"
+#include "model/textures/PyColourRange.h"
+#include "model/files/PyTextureFile.h"
+#include "model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.h"
+#include "model/strategies/texEditors/pixelTransforms/PyCorrectGamma.h"
+#include "model/strategies/texEditors/pixelTransforms/PyColourReplace.h"
+#include "model/strategies/texEditors/pixelTransforms/PyHighlightShadow.h"
+#include "model/strategies/texEditors/pixelTransforms/PyInvertAlpha.h"
+#include "model/strategies/texEditors/pixelTransforms/PyTempControl.h"
+#include "model/strategies/texEditors/pixelTransforms/PyTintTransform.h"
+#include "model/strategies/texEditors/pixelTransforms/PyTransparency.h"
+#include "model/strategies/texEditors/texFilters/PyBaseTexFilter.h"
+#include "model/strategies/texEditors/texFilters/PyGammaFilter.h"
+#include "model/strategies/texEditors/texFilters/PyColourReplaceFilter.h"
+#include "model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.h"
+#include "model/strategies/texEditors/texFilters/PyInvertAlphaFilter.h"
+#include "model/strategies/texEditors/texFilters/PyHueAdjust.h"
+#include "model/strategies/texEditors/texFilters/PyPixelFilter.h"
+#include "model/strategies/texEditors/PyBaseTexEditor.h"
+#include "model/strategies/texEditors/PyTexEditor.h"
+#include "model/strategies/texEditors/PyTexCreator.h"
 
 namespace py = pybind11;
 
@@ -128,4 +149,25 @@ PYBIND11_MODULE(core, m) {
     initCppVGRemap(m);
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
+    initCppColour(m);
+    initCppColourRange(m); // must come after initCppColour (constructor arg type)
+    initCppTextureFile(m);
+    initCppBasePixelTransform(m);
+    initCppCorrectGamma(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppColourReplace(m); // must come after initCppBasePixelTransform/initCppColourRange
+    initCppHighlightShadow(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppInvertAlpha(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppTempControl(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppTintTransform(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppTransparency(m); // must come after initCppBasePixelTransform (registers its base)
+    initCppBaseTexFilter(m); // must come after initCppTextureFile (its 'transform' method signature references it)
+    initCppGammaFilter(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppColourReplaceFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
+    initCppTransparencyAdjustFilter(m); // must come after initCppBaseTexFilter/initCppColourRange
+    initCppInvertAlphaFilter(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppHueAdjust(m); // must come after initCppBaseTexFilter (registers its base)
+    initCppPixelFilter(m); // must come after initCppBaseTexFilter/initCppBasePixelTransform
+    initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)
+    initCppTexEditor(m); // must come after initCppBaseTexEditor (registers its base)
+    initCppTexCreator(m); // must come after initCppBaseTexEditor (registers its base) and initCppColour (constructor arg type)
 }

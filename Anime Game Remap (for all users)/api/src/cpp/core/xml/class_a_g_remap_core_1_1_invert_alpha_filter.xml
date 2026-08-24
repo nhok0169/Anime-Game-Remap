@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invert_alpha_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvertAlphaFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_invert_alpha_filter_8h" local="no">InvertAlphaFilter.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invert_alpha_filter_1ad2d5ccc17bdd3ebb56d3f3d44eda79ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::InvertAlphaFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::InvertAlphaFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="23" column="18" bodyfile="src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp" bodystart="8" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Inverts the alpha channel of an image (``255 - alpha`` for every pixel) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike its sibling per-pixel :cpp:class:`InvertAlpha`, this class uses ``255 - alpha`` (a
+   &quot;true&quot; invert) -- see that class&apos;s own doc comment for the discrepancy
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::InvertAlphaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::InvertAlphaFilter</label>
+        <link refid="class_a_g_remap_core_1_1_invert_alpha_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="21" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" bodystart="21" bodyend="24"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::InvertAlphaFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_invert_alpha_filter_1ad2d5ccc17bdd3ebb56d3f3d44eda79ef" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlphaFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlphaFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

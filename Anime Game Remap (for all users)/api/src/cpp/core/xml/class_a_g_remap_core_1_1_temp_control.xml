@@ -1,0 +1,189 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_temp_control" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TempControl</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public" virt="non-virtual">AGRemapCore::BasePixelTransform</basecompoundref>
+    <includes refid="_temp_control_8h" local="no">TempControl.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_temp_control_1a7c030829dc7836ceb4ebc2c26f0e0ceb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::TempControl::temp</definition>
+        <argsstring></argsstring>
+        <name>temp</name>
+        <qualifiedname>AGRemapCore::TempControl::temp</qualifiedname>
+        <briefdescription>
+<para>The temperature to set the image. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Range from -1 to 1 </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="25" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_temp_control_1a8e43207d24a123b06cd40aa1b7d3b855" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::TempControl::redFactor_</definition>
+        <argsstring></argsstring>
+        <name>redFactor_</name>
+        <qualifiedname>AGRemapCore::TempControl::redFactor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="37" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_temp_control_1a831231b2998f443c02f25942dac37765" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::TempControl::blueFactor_</definition>
+        <argsstring></argsstring>
+        <name>blueFactor_</name>
+        <qualifiedname>AGRemapCore::TempControl::blueFactor_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="38" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_temp_control_1aed559623cd08a424f8ee328aebcb2321" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TempControl::TempControl</definition>
+        <argsstring>(double temp=0)</argsstring>
+        <name>TempControl</name>
+        <qualifiedname>AGRemapCore::TempControl::TempControl</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>temp</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new temperature-control pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>temp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The temperature to set the image </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="32" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/TempControl.cpp" bodystart="14" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::TempControl::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::TempControl::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="34" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/TempControl.cpp" bodystart="19" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BasePixelTransform`
+
+Controls the temperature of a texture file using a modified version of the
+`Simple Image Temperature/Tint Adjust Algorithm`_ such that the colour channels
+increase/decrease linearly with respect to their corresponding pixel value and the user
+selected temperature
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TempControl</label>
+        <link refid="class_a_g_remap_core_1_1_temp_control"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TempControl</label>
+        <link refid="class_a_g_remap_core_1_1_temp_control"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" line="19" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h" bodystart="19" bodyend="39"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_temp_control_1a831231b2998f443c02f25942dac37765" prot="private" virt="non-virtual"><scope>AGRemapCore::TempControl</scope><name>blueFactor_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::TempControl</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_temp_control_1a8e43207d24a123b06cd40aa1b7d3b855" prot="private" virt="non-virtual"><scope>AGRemapCore::TempControl</scope><name>redFactor_</name></member>
+      <member refid="class_a_g_remap_core_1_1_temp_control_1a7c030829dc7836ceb4ebc2c26f0e0ceb" prot="public" virt="non-virtual"><scope>AGRemapCore::TempControl</scope><name>temp</name></member>
+      <member refid="class_a_g_remap_core_1_1_temp_control_1aed559623cd08a424f8ee328aebcb2321" prot="public" virt="non-virtual"><scope>AGRemapCore::TempControl</scope><name>TempControl</name></member>
+      <member refid="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96" prot="public" virt="virtual"><scope>AGRemapCore::TempControl</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::TempControl</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

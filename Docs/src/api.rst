@@ -29,12 +29,48 @@ BaseIniGraphPartEdit
 
 :raw-html:`<br />`
 
+BasePixelTransform
+==================
+
+.. attributetable:: FixRaidenBoss2.BasePixelTransform
+
+.. autoclass:: FixRaidenBoss2.BasePixelTransform
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BaseRegEdit
 ===========
 
 .. attributetable:: FixRaidenBoss2.BaseRegEdit
 
 .. autoclass:: FixRaidenBoss2.BaseRegEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseTexEditor
+=============
+
+.. attributetable:: FixRaidenBoss2.BaseTexEditor
+
+.. autoclass:: FixRaidenBoss2.BaseTexEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseTexFilter
+=============
+
+.. attributetable:: FixRaidenBoss2.BaseTexFilter
+
+.. autoclass:: FixRaidenBoss2.BaseTexFilter
     :inherited-members:
     :members:
     :private-members:
@@ -217,6 +253,99 @@ CallGraph
 
 :raw-html:`<br />`
 
+Colour
+======
+
+.. attributetable:: FixRaidenBoss2.Colour
+
+.. autoclass:: FixRaidenBoss2.Colour
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ColourRange
+===========
+
+.. attributetable:: FixRaidenBoss2.ColourRange
+
+.. autoclass:: FixRaidenBoss2.ColourRange
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ColourReplace
+=============
+
+.. attributetable:: FixRaidenBoss2.ColourReplace
+
+.. autoclass:: FixRaidenBoss2.ColourReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ColourReplaceFilter
+===================
+
+.. attributetable:: FixRaidenBoss2.ColourReplaceFilter
+
+.. autoclass:: FixRaidenBoss2.ColourReplaceFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CorrectGamma
+============
+
+.. attributetable:: FixRaidenBoss2.CorrectGamma
+
+.. autoclass:: FixRaidenBoss2.CorrectGamma
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBasePixelTransform
+=====================
+
+.. attributetable:: FixRaidenBoss2.CppBasePixelTransform
+
+.. autoclass:: FixRaidenBoss2.CppBasePixelTransform
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseTexEditor
+================
+
+.. attributetable:: FixRaidenBoss2.CppBaseTexEditor
+
+.. autoclass:: FixRaidenBoss2.CppBaseTexEditor
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseTexFilter
+================
+
+.. attributetable:: FixRaidenBoss2.CppBaseTexFilter
+
+.. autoclass:: FixRaidenBoss2.CppBaseTexFilter
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppBlendFile
 ============
 
@@ -241,12 +370,237 @@ CppBufFile
 
 :raw-html:`<br />`
 
+CppColour
+=========
+
+.. attributetable:: FixRaidenBoss2.CppColour
+
+.. autoclass:: FixRaidenBoss2.CppColour
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourRange
+==============
+
+.. attributetable:: FixRaidenBoss2.CppColourRange
+
+.. autoclass:: FixRaidenBoss2.CppColourRange
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourReplace
+================
+
+.. attributetable:: FixRaidenBoss2.CppColourReplace
+
+.. autoclass:: FixRaidenBoss2.CppColourReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppColourReplaceFilter
+======================
+
+.. attributetable:: FixRaidenBoss2.CppColourReplaceFilter
+
+.. autoclass:: FixRaidenBoss2.CppColourReplaceFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppCorrectGamma
+===============
+
+.. attributetable:: FixRaidenBoss2.CppCorrectGamma
+
+.. autoclass:: FixRaidenBoss2.CppCorrectGamma
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppGammaFilter
+==============
+
+.. attributetable:: FixRaidenBoss2.CppGammaFilter
+
+.. autoclass:: FixRaidenBoss2.CppGammaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppHighlightShadow
+==================
+
+.. attributetable:: FixRaidenBoss2.CppHighlightShadow
+
+.. autoclass:: FixRaidenBoss2.CppHighlightShadow
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppHueAdjust
+============
+
+.. attributetable:: FixRaidenBoss2.CppHueAdjust
+
+.. autoclass:: FixRaidenBoss2.CppHueAdjust
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppInvertAlpha
+==============
+
+.. attributetable:: FixRaidenBoss2.CppInvertAlpha
+
+.. autoclass:: FixRaidenBoss2.CppInvertAlpha
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppInvertAlphaFilter
+====================
+
+.. attributetable:: FixRaidenBoss2.CppInvertAlphaFilter
+
+.. autoclass:: FixRaidenBoss2.CppInvertAlphaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppPixelFilter
+==============
+
+.. attributetable:: FixRaidenBoss2.CppPixelFilter
+
+.. autoclass:: FixRaidenBoss2.CppPixelFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppPositionFile
 ===============
 
 .. attributetable:: FixRaidenBoss2.CppPositionFile
 
 .. autoclass:: FixRaidenBoss2.CppPositionFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTempControl
+==============
+
+.. attributetable:: FixRaidenBoss2.CppTempControl
+
+.. autoclass:: FixRaidenBoss2.CppTempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTexCreator
+=============
+
+.. attributetable:: FixRaidenBoss2.CppTexCreator
+
+.. autoclass:: FixRaidenBoss2.CppTexCreator
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTexEditor
+============
+
+.. attributetable:: FixRaidenBoss2.CppTexEditor
+
+.. autoclass:: FixRaidenBoss2.CppTexEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTextureFile
+==============
+
+.. attributetable:: FixRaidenBoss2.CppTextureFile
+
+.. autoclass:: FixRaidenBoss2.CppTextureFile
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTintTransform
+================
+
+.. attributetable:: FixRaidenBoss2.CppTintTransform
+
+.. autoclass:: FixRaidenBoss2.CppTintTransform
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTransparency
+===============
+
+.. attributetable:: FixRaidenBoss2.CppTransparency
+
+.. autoclass:: FixRaidenBoss2.CppTransparency
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppTransparencyAdjustFilter
+===========================
+
+.. attributetable:: FixRaidenBoss2.CppTransparencyAdjustFilter
+
+.. autoclass:: FixRaidenBoss2.CppTransparencyAdjustFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GammaFilter
+===========
+
+.. attributetable:: FixRaidenBoss2.GammaFilter
+
+.. autoclass:: FixRaidenBoss2.GammaFilter
     :inherited-members:
     :members:
     :private-members:
@@ -295,6 +649,30 @@ Hashes
 .. attributetable:: FixRaidenBoss2.Hashes
 
 .. autoclass:: FixRaidenBoss2.Hashes
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+HighlightShadow
+===============
+
+.. attributetable:: FixRaidenBoss2.HighlightShadow
+
+.. autoclass:: FixRaidenBoss2.HighlightShadow
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+HueAdjust
+=========
+
+.. attributetable:: FixRaidenBoss2.HueAdjust
+
+.. autoclass:: FixRaidenBoss2.HueAdjust
     :inherited-members:
     :members:
     :private-members:
@@ -439,6 +817,30 @@ IniSectionGraph
 
 :raw-html:`<br />`
 
+InvertAlpha
+===========
+
+.. attributetable:: FixRaidenBoss2.InvertAlpha
+
+.. autoclass:: FixRaidenBoss2.InvertAlpha
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+InvertAlphaFilter
+=================
+
+.. attributetable:: FixRaidenBoss2.InvertAlphaFilter
+
+.. autoclass:: FixRaidenBoss2.InvertAlphaFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ModDictAssets
 =============
 
@@ -457,6 +859,18 @@ ModMappedAssets
 .. attributetable:: FixRaidenBoss2.ModMappedAssets
 
 .. autoclass:: FixRaidenBoss2.ModMappedAssets
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+PixelFilter
+===========
+
+.. attributetable:: FixRaidenBoss2.PixelFilter
+
+.. autoclass:: FixRaidenBoss2.PixelFilter
     :inherited-members:
     :members:
     :private-members:
@@ -550,6 +964,90 @@ SympyTokenizer
 .. attributetable:: FixRaidenBoss2.SympyTokenizer
 
 .. autoclass:: FixRaidenBoss2.SympyTokenizer
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TempControl
+===========
+
+.. attributetable:: FixRaidenBoss2.TempControl
+
+.. autoclass:: FixRaidenBoss2.TempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexCreator
+==========
+
+.. attributetable:: FixRaidenBoss2.TexCreator
+
+.. autoclass:: FixRaidenBoss2.TexCreator
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexEditor
+=========
+
+.. attributetable:: FixRaidenBoss2.TexEditor
+
+.. autoclass:: FixRaidenBoss2.TexEditor
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TextureFile
+===========
+
+.. attributetable:: FixRaidenBoss2.TextureFile
+
+.. autoclass:: FixRaidenBoss2.TextureFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TintTransform
+=============
+
+.. attributetable:: FixRaidenBoss2.TintTransform
+
+.. autoclass:: FixRaidenBoss2.TintTransform
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+Transparency
+============
+
+.. attributetable:: FixRaidenBoss2.Transparency
+
+.. autoclass:: FixRaidenBoss2.Transparency
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TransparencyAdjustFilter
+========================
+
+.. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
+
+.. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
+    :inherited-members:
     :members:
     :private-members:
 
@@ -3125,6 +3623,7 @@ Z3Predicate
 .. _DFA (Deterministic Finite Automaton): https://en.wikipedia.org/wiki/Deterministic_finite_automaton
 .. _graph: https://en.wikipedia.org/wiki/Graph_theory
 .. _trie: https://en.wikipedia.org/wiki/Trie
+.. _Compressonator: https://github.com/GPUOpen-Tools/compressonator
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
 .. _pyahocorasick: https://github.com/WojciechMula/pyahocorasick
 .. _pyahocorasick.Automaton: https://pyahocorasick.readthedocs.io/en/latest/#api-reference

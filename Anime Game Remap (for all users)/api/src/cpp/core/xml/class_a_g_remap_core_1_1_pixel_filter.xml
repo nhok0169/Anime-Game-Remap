@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_pixel_filter" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::PixelFilter</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public" virt="non-virtual">AGRemapCore::BaseTexFilter</basecompoundref>
+    <includes refid="_pixel_filter_8h" local="no">PixelFilter.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;, int, int)&gt;</type>
+        <definition>using AGRemapCore::PixelFilter::Filter = std::function&lt;void(Colour&amp;, int, int)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Filter</name>
+        <qualifiedname>AGRemapCore::PixelFilter::Filter</qualifiedname>
+        <briefdescription>
+<para>A single per-pixel transform applied by <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a" kindref="member">transform</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="35" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_pixel_filter_1acdbbf4467a20cf8f1a9f5dd47e54bd6d" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kindref="member">Filter</ref> &gt;</type>
+        <definition>std::vector&lt;Filter&gt; AGRemapCore::PixelFilter::transforms_</definition>
+        <argsstring></argsstring>
+        <name>transforms_</name>
+        <qualifiedname>AGRemapCore::PixelFilter::transforms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="58" column="25" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1a78c6ffaebaa6461d3b9213142fe220db" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::PixelFilter::PixelFilter</definition>
+        <argsstring>(std::vector&lt; Filter &gt; transforms={})</argsstring>
+        <name>PixelFilter</name>
+        <qualifiedname>AGRemapCore::PixelFilter::PixelFilter</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kindref="member">Filter</ref> &gt;</type>
+          <declname>transforms</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new pixel filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>transforms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The functions to edit a single pixel in the texture file, applied in order to every pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="43" column="22" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="9" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kindref="member">Filter</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; PixelFilter::Filter &gt; &amp; AGRemapCore::PixelFilter::getTransforms</definition>
+        <argsstring>() const</argsstring>
+        <name>getTransforms</name>
+        <qualifiedname>AGRemapCore::PixelFilter::getTransforms</qualifiedname>
+        <briefdescription>
+<para>The functions to edit a single pixel in the texture file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="48" column="31" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1a08c3414e673d90e04863d19cefb59d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::PixelFilter::setTransforms</definition>
+        <argsstring>(std::vector&lt; Filter &gt; transforms)</argsstring>
+        <name>setTransforms</name>
+        <qualifiedname>AGRemapCore::PixelFilter::setTransforms</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kindref="member">Filter</ref> &gt;</type>
+          <declname>transforms</declname>
+        </param>
+        <briefdescription>
+<para>Sets <ref refid="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" kindref="member">getTransforms</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="53" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::PixelFilter::transform</definition>
+        <argsstring>(TextureFile &amp;texFile) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::PixelFilter::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_tex_filter_1a93d99b0e0a407d94d8b77dd7f4400cad">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;texFile&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to be edited </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="55" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="19" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseTexFilter`
+
+Manipulates each pixel within an image, by running a fixed sequence of per-pixel transforms
+over every pixel of the texture :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Every whole-image :cpp:class:`BaseTexFilter` in this codebase (eg.
+   :cpp:class:`ColourReplaceFilter`) is, at this level, also just a C++ loop over every pixel
+   -- `Compressonator`_ has no vectorized whole-image pixel-remap API the way `Pillow`_ did for
+   the pure-Python original, so there&apos;s no longer a real &quot;whole image at once&quot; fast path to
+   prefer instead. A #Filter is called directly, in C++, for every pixel -- no different in
+   cost from a dedicated filter&apos;s own inlined loop body
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::PixelFilter</label>
+        <link refid="class_a_g_remap_core_1_1_pixel_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseTexFilter</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_filter"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::PixelFilter</label>
+        <link refid="class_a_g_remap_core_1_1_pixel_filter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="29" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>Filter</name></member>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>getTransforms</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1a78c6ffaebaa6461d3b9213142fe220db" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>PixelFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1a08c3414e673d90e04863d19cefb59d6c" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>setTransforms</name></member>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a" prot="public" virt="virtual"><scope>AGRemapCore::PixelFilter</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_pixel_filter_1acdbbf4467a20cf8f1a9f5dd47e54bd6d" prot="private" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>transforms_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a3c6cf0921cb9288dbffedfd8239187bf" prot="public" virt="virtual"><scope>AGRemapCore::PixelFilter</scope><name>~BaseTexFilter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

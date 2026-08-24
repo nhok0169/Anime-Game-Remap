@@ -12,13 +12,16 @@
 ##### EndCredits
 
 ##### ExtImports
-from typing import TYPE_CHECKING, Callable, Union, List, Optional
+from typing import TYPE_CHECKING, Callable, Union, List, Optional, Any
 ##### EndExtImports
+
+##### CppLocalImports
+from .....core import CppPixelFilter
+##### EndCppLocalImports
 
 ##### LocalImports
 from ..pixelTransforms.BasePixelTransform import BasePixelTransform
 from ....textures.Colour import Colour
-from .BaseTexFilter import BaseTexFilter
 
 if (TYPE_CHECKING):
     from ....files.TextureFile import TextureFile
@@ -26,17 +29,16 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class PixelFilter(BaseTexFilter):
+class PixelFilter(CppPixelFilter):
     """
-    This class inherits from :class:`BaseTexFilter`
+    This class inherits from :class:`CppPixelFilter`
 
     Manipulates each pixel within an image :raw-html:`<br />` :raw-html:`<br />`
 
-    .. warning::
-        This filter iterates through every pixel of the image using Python's for loops. It is recommended to try to use
-        the different filters inherited from the :class:`BaseTexFilter` class since those filters have more capability to
-        interact with `Pillow`_ API or the `Numpy`_ API, where their implementation are written at the C level,
-        allowing images to be editted A LOT faster.
+    .. note::
+        A :class:`BasePixelTransform` placed in :attr:`transforms` runs at full C++ speed with no
+        per-pixel Python overhead; a plain Python callable does not, since it needs to be called
+        from Python once per pixel
 
     :raw-html:`<br />`
 
@@ -46,7 +48,7 @@ class PixelFilter(BaseTexFilter):
 
         .. describe:: x(texFile)
 
-            Calls :meth:`transform` for the filter, ``x``
+            Calls :meth:`CppBaseTexFilter.transform` for the filter, ``x``
 
     Parameters
     ----------
@@ -65,34 +67,11 @@ class PixelFilter(BaseTexFilter):
 
     Attributes
     ----------
-    transforms: List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`], :class:`Colour`]]]
+    transforms: List[Union[:class:`BasePixelTransform`, Callable[[:class:`Colour`, :class:`int`, :class:`int`], Any]]]
         The transformation functions to edit a single pixel in the texture file
     """
 
-    def __init__(self, transforms: Optional[List[Union[BasePixelTransform, Callable[[Colour, int, int], Colour]]]] = None):
+    def __init__(self, transforms: Optional[List[Union[BasePixelTransform, Callable[[Colour, int, int], Any]]]] = None):
+        super().__init__()
         self.transforms = [] if (transforms is None) else transforms
-
-    def transform(self, texFile: "TextureFile"):
-        """
-        Changes each individual pixel in the image
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture to be editteds
-        """
-
-        if (self.transforms):
-            pixels = texFile.read()
-            pixelColour = Colour()
-            
-            for y in range(texFile.img.size[1]):
-                for x in range(texFile.img.size[0]):
-                    pixel = pixels[x, y]
-                    pixelColour.fromTuple(pixel)
-
-                    for transformation in self.transforms:
-                        transformation(pixelColour, x, y)
-
-                    pixels[x, y] = pixelColour.getTuple()
 ##### EndScript

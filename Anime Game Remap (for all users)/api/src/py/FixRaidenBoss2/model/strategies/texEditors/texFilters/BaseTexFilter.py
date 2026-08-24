@@ -11,19 +11,16 @@
 
 ##### EndCredits
 
-##### ExtImports
-from typing import TYPE_CHECKING
-##### EndExtImports
-
-##### LocalImports
-if (TYPE_CHECKING):
-    from ....files.TextureFile import TextureFile
-##### EndLocalImports
+##### CppLocalImports
+from .....core import CppBaseTexFilter
+##### EndCppLocalImports
 
 
 ##### Script
-class BaseTexFilter():
+class BaseTexFilter(CppBaseTexFilter):
     """
+    This class inherits from :class:`CppBaseTexFilter`
+
     Base class for transforming a texture file
 
     :raw-html:`<br />`
@@ -34,21 +31,8 @@ class BaseTexFilter():
 
         .. describe:: x(texFile)
 
-            Calls :meth:`transform` for the filters, ``x``
+            Calls :meth:`CppBaseTexFilter.transform` for the filters, ``x``
     """
 
-    def __call__(self, texFile: "TextureFile"):
-        self.transform(texFile)
-
-    def transform(self, texFile: "TextureFile"):
-        """
-        Applies a Transformation to 'texFile'
-
-        Parameters
-        ----------
-        texFile: :class:`TextureFile`
-            The texture to be editted
-        """
-
-        pass
+    pass
 ##### EndScript

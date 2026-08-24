@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_1b5bd3c237e58cb0a8249ddbcdf3a979" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/texEditors/pixelTransforms</compoundname>
+    <innerfile refid="_base_pixel_transform_8h">BasePixelTransform.h</innerfile>
+    <innerfile refid="_colour_replace_8h">ColourReplace.h</innerfile>
+    <innerfile refid="_correct_gamma_8h">CorrectGamma.h</innerfile>
+    <innerfile refid="_highlight_shadow_8h">HighlightShadow.h</innerfile>
+    <innerfile refid="_invert_alpha_8h">InvertAlpha.h</innerfile>
+    <innerfile refid="_temp_control_8h">TempControl.h</innerfile>
+    <innerfile refid="_tint_transform_8h">TintTransform.h</innerfile>
+    <innerfile refid="_transparency_8h">Transparency.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/"/>
+  </compounddef>
+</doxygen>

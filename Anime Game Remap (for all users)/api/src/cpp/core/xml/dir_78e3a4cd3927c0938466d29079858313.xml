@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_78e3a4cd3927c0938466d29079858313" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/texEditors/texFilters</compoundname>
+    <innerfile refid="_base_tex_filter_8h">BaseTexFilter.h</innerfile>
+    <innerfile refid="_colour_replace_filter_8h">ColourReplaceFilter.h</innerfile>
+    <innerfile refid="_gamma_filter_8h">GammaFilter.h</innerfile>
+    <innerfile refid="_hue_adjust_8h">HueAdjust.h</innerfile>
+    <innerfile refid="_invert_alpha_filter_8h">InvertAlphaFilter.h</innerfile>
+    <innerfile refid="_pixel_filter_8h">PixelFilter.h</innerfile>
+    <innerfile refid="_transparency_adjust_filter_8h">TransparencyAdjustFilter.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,184 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_highlight_shadow" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::HighlightShadow</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public" virt="non-virtual">AGRemapCore::BasePixelTransform</basecompoundref>
+    <includes refid="_highlight_shadow_8h" local="no">HighlightShadow.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::HighlightShadow::highlight</definition>
+        <argsstring></argsstring>
+        <name>highlight</name>
+        <qualifiedname>AGRemapCore::HighlightShadow::highlight</qualifiedname>
+        <briefdescription>
+<para>The amount of highlight to apply to the pixel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Range from -1 to 1, and 0 = no change </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="22" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="22" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_highlight_shadow_1a95564abc3f8ba28ad40ae71986d45d24" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double AGRemapCore::HighlightShadow::shadow</definition>
+        <argsstring></argsstring>
+        <name>shadow</name>
+        <qualifiedname>AGRemapCore::HighlightShadow::shadow</qualifiedname>
+        <briefdescription>
+<para>The amount of shadow to apply to the pixel. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Range from -1 to 1, and 0 = no change </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="27" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_highlight_shadow_1af5dd9c5407e37d3b022a5c65fd5f3260" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::HighlightShadow::HighlightShadow</definition>
+        <argsstring>(double highlight=0, double shadow=0)</argsstring>
+        <name>HighlightShadow</name>
+        <qualifiedname>AGRemapCore::HighlightShadow::HighlightShadow</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>highlight</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>shadow</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new highlight/shadow pixel transform. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>highlight</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The amount of highlight to apply to the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>shadow</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The amount of shadow to apply to the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="35" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="7" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_highlight_shadow_1ae1bcf6291156bd9c6b3bb73deb9d9c49" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::HighlightShadow::transform</definition>
+        <argsstring>(Colour &amp;pixel, int x, int y) override</argsstring>
+        <name>transform</name>
+        <qualifiedname>AGRemapCore::HighlightShadow::transform</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782">transform</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref> &amp;</type>
+          <declname>pixel</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>x</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>y</declname>
+        </param>
+        <briefdescription>
+<para>Applies a transformation to &apos;pixel&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>pixel</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The pixel to be edited </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>x</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>x-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>y</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>y-coordinate of the pixel </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="37" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="9" bodyend="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BasePixelTransform`
+
+A filter that approximates the adjustment of the shadow/highlight of an image
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::HighlightShadow</label>
+        <link refid="class_a_g_remap_core_1_1_highlight_shadow"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BasePixelTransform</label>
+        <link refid="class_a_g_remap_core_1_1_base_pixel_transform"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::HighlightShadow</label>
+        <link refid="class_a_g_remap_core_1_1_highlight_shadow"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="16" bodyend="38"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>highlight</name></member>
+      <member refid="class_a_g_remap_core_1_1_highlight_shadow_1af5dd9c5407e37d3b022a5c65fd5f3260" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>HighlightShadow</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>operator()</name></member>
+      <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a95564abc3f8ba28ad40ae71986d45d24" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>shadow</name></member>
+      <member refid="class_a_g_remap_core_1_1_highlight_shadow_1ae1bcf6291156bd9c6b3bb73deb9d9c49" prot="public" virt="virtual"><scope>AGRemapCore::HighlightShadow</scope><name>transform</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a9a89201688c507b28a6bca1d30b1b1bc" prot="public" virt="virtual"><scope>AGRemapCore::HighlightShadow</scope><name>~BasePixelTransform</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

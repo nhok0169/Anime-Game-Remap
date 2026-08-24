@@ -61,6 +61,28 @@ pybind11_add_module(core
     src/model/PyVGRemap.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
+    src/model/textures/PyColour.cpp
+    src/model/textures/PyColourRange.cpp
+    src/model/files/PyTextureFile.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyBasePixelTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyCorrectGamma.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyColourReplace.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyHighlightShadow.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyInvertAlpha.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyTempControl.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyTintTransform.cpp
+    src/model/strategies/texEditors/pixelTransforms/PyTransparency.cpp
+    src/model/strategies/texEditors/texFilters/PyBaseTexFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyGammaFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyTexFilterCommon.cpp
+    src/model/strategies/texEditors/texFilters/PyColourReplaceFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyTransparencyAdjustFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyInvertAlphaFilter.cpp
+    src/model/strategies/texEditors/texFilters/PyHueAdjust.cpp
+    src/model/strategies/texEditors/texFilters/PyPixelFilter.cpp
+    src/model/strategies/texEditors/PyBaseTexEditor.cpp
+    src/model/strategies/texEditors/PyTexEditor.cpp
+    src/model/strategies/texEditors/PyTexCreator.cpp
 )
 
 # Forces the linker to use response files (.rsp) to bypass Windows command limits

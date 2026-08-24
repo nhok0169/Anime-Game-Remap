@@ -1720,7 +1720,6 @@
     <member refid="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" kind="function"><name>testFunc2</name></member>
     <member refid="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" kind="function"><name>testFunc3</name></member>
     <member refid="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" kind="function"><name>testFunc4</name></member>
-    <member refid="namespace_a_g_remap_core_1a9c49c2f7a2d0719c52059d3730f2177a" kind="function"><name>testFunc5</name></member>
     <member refid="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" kind="function"><name>testFunc6</name></member>
     <member refid="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" kind="function"><name>makeZ3PredicateForTesting</name></member>
     <member refid="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" kind="function"><name>getZ3ContextImplForTesting</name></member>

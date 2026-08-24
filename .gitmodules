@@ -10,9 +10,6 @@
 [submodule "Anime Game Remap (for all users)/api/extern/xxHash"]
 	path = Anime Game Remap (for all users)/api/extern/xxHash
 	url = https://github.com/Cyan4973/xxHash.git
-[submodule "Anime Game Remap (for all users)/api/extern/DirectXTex"]
-	path = Anime Game Remap (for all users)/api/extern/DirectXTex
-	url = https://github.com/microsoft/DirectXTex.git
 [submodule "Anime Game Remap (for all users)/api/extern/Compressonator"]
 	path = Anime Game Remap (for all users)/api/extern/Compressonator
 	url = https://github.com/GPUOpen-Tools/compressonator.git

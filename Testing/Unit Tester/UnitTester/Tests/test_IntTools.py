@@ -63,7 +63,3 @@ class IntToolsTest(BaseUnitTest):
         self.assertEqual(FRB.IntTools.toBase64(-5, digits, "!"), "!5")
 
     # ========================================================
-
-    def test_foo(self):
-        digits = list("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_")
-        FRB.IntTools.toBase64(0, digits)

@@ -2585,11 +2585,14 @@ class CppPixelFilter(CppBaseTexFilter):
     
     Manipulates each pixel within an image
     
-    .. warning::
-        This filter iterates through every pixel of the image. Where possible, prefer a filter that
-        can transform the whole image at once (eg. :class:`ColourReplaceFilter`) instead -- a
-        :class:`CppBasePixelTransform` placed in :attr:`transforms` still runs at full C++ speed with
-        no per-pixel Python overhead, but a plain Python callable does not
+    .. note::
+        Every whole-image filter in this codebase (eg. :class:`ColourReplaceFilter`) is, under the
+        hood, also just a C++ loop over every pixel -- `Compressonator`_ has no vectorized whole-image
+        pixel-remap API the way `Pillow`_ did for the pure-Python original, so there's no "whole image
+        at once" fast path left to prefer instead. A :class:`CppBasePixelTransform` placed in
+        :attr:`transforms` runs directly in C++ for every pixel, at the same cost as a dedicated
+        filter's own inlined loop body -- only a plain Python callable placed in :attr:`transforms`
+        still pays a real per-pixel Python call
         
     """
     def __init__(self) -> None:
@@ -2754,6 +2757,23 @@ class CppTextureFile:
         src: :class:`str`
             The source file path for the texture file
         """
+    def getPixel(self, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex) -> CppColour:
+        """
+        The colour of the pixel at ('x', 'y'). No bounds checking is performed
+        
+        Parameters
+        ----------
+        x: :class:`int`
+            The x-coordinate of the pixel
+        
+        y: :class:`int`
+            The y-coordinate of the pixel
+        
+        Returns
+        -------
+        :class:`CppColour`
+            The colour of the pixel
+        """
     def getPixels(self) -> bytes:
         """
         The current pixel buffer, as flat RGBA8 bytes (4 bytes per pixel, row-major)
@@ -2777,6 +2797,21 @@ class CppTextureFile:
         :class:`CppGammaFilter`), in place. The file is re-encoded to whatever compressed format it was
         originally :meth:`open`-ed with -- or, for a texture file that was never successfully opened (eg. a
         brand new file), BC7
+        """
+    def setPixel(self, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex, colour: CppColour) -> None:
+        """
+        Sets the colour of the pixel at ('x', 'y'). No bounds checking is performed
+        
+        Parameters
+        ----------
+        x: :class:`int`
+            The x-coordinate of the pixel
+        
+        y: :class:`int`
+            The y-coordinate of the pixel
+        
+        colour: :class:`CppColour`
+            The new colour for the pixel
         """
     def setPixels(self, pixels: bytes, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex) -> None:
         """

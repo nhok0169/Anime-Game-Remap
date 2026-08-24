@@ -342,7 +342,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="90" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="55" bodyend="59"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="90" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="55" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a3bdd3031b4efb8ce13e508664ba74429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
@@ -384,7 +384,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="98" column="20" bodyfile="src/model/files/TextureFile.cpp" bodystart="61" bodyend="64"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="98" column="20" bodyfile="src/model/files/TextureFile.cpp" bodystart="67" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1ace7a7c132728c22d2fb8ddc91e9bb287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -438,7 +438,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="107" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="66" bodyend="72"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="107" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="72" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a75cd5f48ec490257298f826a3133f1b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -458,7 +458,7 @@ If the file does not exist, #hasImage becomes ``false`` and #getPixels is cleare
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="118" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="74" bodyend="131"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="118" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="80" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a9331cadd7bb21874dde9552f92e39639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -480,7 +480,7 @@ successfully opened (eg. a brand new file), :cpp:member:`DefaultFormat`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="131" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="133" bodyend="166"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="131" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="139" bodyend="172"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

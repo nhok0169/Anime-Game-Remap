@@ -104,26 +104,6 @@ set(UTF8PROC_BIN ${CMAKE_BINARY_DIR}/utf8proc)
 add_subdirectory(${UTF8PROC_SRC} ${UTF8PROC_BIN})
 
 # -----------------------------------
-# DirectXTex
-# -----------------------------------
-
-# disable command-line tools or sample application
-set(BUILD_TOOLS OFF CACHE BOOL "" FORCE)
-set(BUILD_SAMPLE OFF CACHE BOOL "" FORCE)
-
-# disable runtime components
-set(BUILD_DX11 OFF CACHE BOOL "" FORCE)
-set(BUILD_DX12 OFF CACHE BOOL "" FORCE)
-
-set(BC_USE_OPENMP ON CACHE BOOL "" FORCE)
-
-add_subdirectory(
-    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/DirectXTex
-    ${CMAKE_BINARY_DIR}/DirectXTex
-    EXCLUDE_FROM_ALL
-)
-
-# -----------------------------------
 # Compressonator
 # -----------------------------------
 
@@ -213,7 +193,6 @@ target_link_libraries(AGRemapCore
     PRIVATE
         z3::libz3
         utf8proc
-        DirectXTex
         CMP_Compressonator
         CMP_Framework
 )

@@ -22536,7 +22536,7 @@ class GIBuilder(ModTypeBuilder):
         return ModType(ModTypeNames.Fischl.value,
                     Hashes(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
                     Indices(map = {ModTypeNames.Fischl.value: OrderedSet([ModTypeNames.FischlHighness.value])}),
-                    aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", " FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
+                    aliases = ["Amy", "Chunibyo", "8thGraderSyndrome", "Delusional", "PrinzessinderVerurteilung", "MeinFraulein", "FischlvonLuftschlossNarfidort", "PrincessofCondemnation", "TheCondemedPrincess", "OzsMiss"],
                     vertexCounts= ModDataAssets.VertexCounts.value,
                     iniParseBuilder = IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value),
                     iniFixBuilder = IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value))

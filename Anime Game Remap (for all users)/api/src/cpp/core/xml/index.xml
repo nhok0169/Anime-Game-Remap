@@ -548,6 +548,51 @@
     <member refid="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" kind="function"><name>next</name></member>
     <member refid="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" kind="function"><name>value</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_g_i_builder" kind="class"><name>AGRemapCore::GIBuilder</name>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" kind="function"><name>amber</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" kind="function"><name>amberCN</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" kind="function"><name>ayaka</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a888eebb45709672e5462d4072e0c4138" kind="function"><name>ayakaSpringBloom</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8779810b5b2decb3738cbcb17d58a6f7" kind="function"><name>arlecchino</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a4a03bedcd5324d8e1e234f8e1c3f1384" kind="function"><name>barbara</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" kind="function"><name>barbaraSummerTime</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" kind="function"><name>cherryHutao</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7e966f33c58b85e55c25a904af988d28" kind="function"><name>diluc</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab9cda71463e6d52572e5792a128b04a6" kind="function"><name>dilucFlamme</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1afa4003520de6f2b069a96c740e412e49" kind="function"><name>fischl</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a53538223141d4d818965f348c8418f47" kind="function"><name>fischlHighness</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a43002b7d42284cc223a922cdd8492e82" kind="function"><name>ganyu</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a86bdfc983a7263f35df464955c1feadb" kind="function"><name>ganyuTwilight</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1aa74d67230a6455f9958fad1302ab1001" kind="function"><name>huTao</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1aea53b52689e138b893a2ad30f129dce0" kind="function"><name>jean</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1aca5d2d2cffde2028091d4f33c4e12751" kind="function"><name>jeanCN</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad41aa49d7e9fedceb23d481163429229" kind="function"><name>jeanSea</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab5f0fdd08d525adf387ad648282cc1b5" kind="function"><name>kaeya</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ae7414da97c4f4b7325105fdfea355d43" kind="function"><name>kaeyaSailwind</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a88fbb4a84ce38c2716fe2d18bb7f30d0" kind="function"><name>keqing</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a57562189a550ce9799f190659f2952be" kind="function"><name>keqingOpulent</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8c6f6e814fc4f4338bf783e430858db7" kind="function"><name>kirara</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a37cc24a5a1316ab15cf71618454c6e0c" kind="function"><name>kiraraBoots</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a96e15ea914e219e57bfefedd664ea471" kind="function"><name>klee</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" kind="function"><name>kleeBlossomingStarlight</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" kind="function"><name>lisa</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" kind="function"><name>lisaStudent</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" kind="function"><name>mona</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" kind="function"><name>monaCN</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" kind="function"><name>nilou</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" kind="function"><name>nilouBreeze</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" kind="function"><name>ningguang</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" kind="function"><name>ningguangOrchid</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" kind="function"><name>raiden</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" kind="function"><name>rosaria</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" kind="function"><name>rosariaCN</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" kind="function"><name>shenhe</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" kind="function"><name>shenheFrostFlower</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" kind="function"><name>xiangling</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" kind="function"><name>xianglingCheer</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" kind="function"><name>xingqiu</name></member>
+    <member refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" kind="function"><name>xingqiuBamboo</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_grapheme_iterator" kind="class"><name>AGRemapCore::GraphemeIterator</name>
     <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1ab5dda27ff24c73e8e13363b265113820" kind="variable"><name>m_text</name></member>
     <member refid="class_a_g_remap_core_1_1_grapheme_iterator_1a96a2accd410aef187805d5c1694fbac3" kind="variable"><name>m_pos</name></member>
@@ -1110,14 +1155,30 @@
     <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" kind="function"><name>resolveToAssetNames</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" kind="function"><name>getKeyInternal</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_mod_type" kind="class"><name>AGRemapCore::ModType</name>
+    <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" kind="variable"><name>gameTypeId</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" kind="variable"><name>modTypeId</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" kind="variable"><name>name</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" kind="variable"><name>aliases</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_1a1baeccd8b871c9c56f183a9dedea5fcf" kind="function"><name>ModType</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_mod_type_id_data" kind="class"><name>AGRemapCore::ModTypeIdData</name>
     <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" kind="variable"><name>gameTypeId</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" kind="variable"><name>modTypeId</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1a2b9bdb779dccb7e67627fd4f1714b5b6" kind="function"><name>ModTypeIdData</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_mod_type_id_tools" kind="class"><name>AGRemapCore::ModTypeIdTools</name>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" kind="variable"><name>_modTypes</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" kind="variable"><name>_nameDFA</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" kind="variable"><name>_nameGameTypeIds</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" kind="variable"><name>_nameDFAInitialized</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" kind="function"><name>getEnum</name></member>
     <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kind="function"><name>getName</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a10338e140944ec11b4e210716683093a" kind="function"><name>getModType</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kind="function"><name>registerModType</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" kind="function"><name>findByName</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" kind="function"><name>clear</name></member>
+    <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kind="function"><name>_setupNameDFA</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_call_graph_1_1_node" kind="struct"><name>AGRemapCore::CallGraph::Node</name>
     <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_1a57e8f65ce4f8cd6ff1b06c3b3b3d13de" kind="variable"><name>part</name></member>
@@ -1791,6 +1852,8 @@
   </compound>
   <compound refid="_game_type_id_8h" kind="file"><name>GameTypeId.h</name>
   </compound>
+  <compound refid="_g_i_builder_8h" kind="file"><name>GIBuilder.h</name>
+  </compound>
   <compound refid="_if_pred_part_type_8h" kind="file"><name>IfPredPartType.h</name>
   </compound>
   <compound refid="_mod_type_id_8h" kind="file"><name>ModTypeId.h</name>
@@ -1869,6 +1932,8 @@
   <compound refid="_ini_classifier_8h" kind="file"><name>IniClassifier.h</name>
   </compound>
   <compound refid="_ini_classify_stats_8h" kind="file"><name>IniClassifyStats.h</name>
+  </compound>
+  <compound refid="_mod_type_8h" kind="file"><name>ModType.h</name>
   </compound>
   <compound refid="_mod_type_id_data_8h" kind="file"><name>ModTypeIdData.h</name>
   </compound>
@@ -2030,6 +2095,8 @@
   </compound>
   <compound refid="_game_type_id_8cpp" kind="file"><name>GameTypeId.cpp</name>
   </compound>
+  <compound refid="_g_i_builder_8cpp" kind="file"><name>GIBuilder.cpp</name>
+  </compound>
   <compound refid="_if_pred_part_type_8cpp" kind="file"><name>IfPredPartType.cpp</name>
   </compound>
   <compound refid="_mod_type_id_8cpp" kind="file"><name>ModTypeId.cpp</name>
@@ -2075,6 +2142,8 @@
   <compound refid="_ini_classifier_8cpp" kind="file"><name>IniClassifier.cpp</name>
   </compound>
   <compound refid="_ini_classify_stats_8cpp" kind="file"><name>IniClassifyStats.cpp</name>
+  </compound>
+  <compound refid="_mod_type_8cpp" kind="file"><name>ModType.cpp</name>
   </compound>
   <compound refid="_mod_type_id_data_8cpp" kind="file"><name>ModTypeIdData.cpp</name>
   </compound>

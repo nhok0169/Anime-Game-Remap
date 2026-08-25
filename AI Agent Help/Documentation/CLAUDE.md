@@ -419,6 +419,20 @@ reopened) survives untouched.
   reflects an in-progress migration (more code moving to C++, `.ini` parsing moving to a more
   graph-based approach) — a commented block means "not ready to publish yet," not "forgotten."
   Leave it alone unless the user explicitly asks to make a specific class live.
+- **A brand-new class (added this session or recently) may not appear in either file *at all* —
+  not even as a commented-out placeholder** — don't assume "check if it's commented out" is the
+  only two states a class can be in. Confirmed for a whole new subsystem (`ModTypeId`/
+  `ModTypeIdTools`/`GameTypeId`/`GameTypeIdTools`/`ModTypeIdData`/`ModType`/`GIBuilder`/
+  `BaseIniClassifier`/`IniClassifyStats`/`IniClassifier` and their Python-side `Cpp`-prefixed
+  bindings): a `grep`/`Grep` for each name across both files returned nothing whatsoever before
+  they were added live — genuinely absent, not commented. When asked to add live docs for a new
+  class, check for an existing entry (commented or live) first, but be ready for "there's nothing
+  to uncomment, this needs a real fresh insertion" as the actual answer, alphabetically positioned
+  against the existing live entries per the classification/insertion rules below — not appended,
+  and not assumed-covered just because a same- or similar-named *pre-existing* class already had a
+  commented entry (that pre-existing entry is very likely for a different, unrelated original —
+  e.g. this codebase's commented `.. ModType`/`.. GIBuilder`/`.. IniClassifier` entries are for the
+  old, live pure-Python classes of those names, not the new C++ ones described above at all).
 - **Each file has two live, h1-headed sections: `Model` and `Tools`**, both kept in strict
   alphabetical order (case-insensitive) internally — a maintainer-driven split, not something
   either file always had. **`Tools` is for generic, reusable-outside-this-project building blocks**
@@ -444,8 +458,30 @@ reopened) survives untouched.
     make the mistake harder to make when a real sibling name (`DictTools`) suggests the wrong
     section, so still check the implementation, every time, even when the classification "feels"
     obvious from the name.
+  - `GameTypeId`/`GameTypeIdTools`/`ModTypeId`/`ModTypeIdTools` are the same `Xxx`+`XxxTools`
+    naming shape as `BufTools`/`DictTools`/`HashTools` (which mostly land in `Tools`), but these
+    four are `Model`, not `Tools` — a `GameTypeId`/`ModTypeId` value has no meaning outside this
+    project's own supported-games/supported-mod-types domain (unlike a generic dict/hash/buffer
+    operation, which genuinely doesn't care what a "mod" is), and their `Tools` companions
+    (`getEnum`/`getName`/`findByName`/the `ModTypeIdTools` name/registry lookups) exist purely to
+    serve that same domain-specific identification job. Judge each `Xxx`+`XxxTools` pair on its own
+    merits by this same "would this class's job make sense in a project with no concept of a mod or
+    a game" test, not by the naming pattern alone in either direction.
   When genuinely unsure, grep for the class's actual definition and judge from there, rather than
   guessing from the name or copying a neighboring entry's placement.
+- **Documenting a raw C++ `enum class` (not a class) via Breathe uses `.. doxygenenum::
+  AGRemapCore::EnumName`** — no `.. cppattributetable::` line (that directive is class-attribute-
+  specific and doesn't apply to an enum) and no `:members:`/`:protected-members:` options either;
+  `.. doxygenenum::` takes no such arguments. On the Python side, the `py::enum_`-bound counterpart
+  is documented like any other class via `.. autoclass:: FixRaidenBoss2.EnumName` (a pybind11 enum
+  behaves like a real Python class/`Enum` at runtime, so `autodoc` introspects it fine), but with
+  only `:members:` — no `:private-members:`, since there's nothing enum-private to extract and
+  napoleon/autodoc doesn't error on the option being present but it's simply inert/misleading to
+  include. No prior entry in either file exercised this before `GameTypeId`/`ModTypeId` (this
+  codebase's only two Doxygen/Breathe-documented C++ enums as of this writing) — verified by
+  actually building and grepping rendered HTML for both enums' `GI`/`WuWa` (`coreAPI.html`) and
+  member listings (`api.html`), not just a clean warning count, since a missing/wrong directive on
+  an enum specifically doesn't reliably warn the way a broken class cross-reference does.
 - Beyond the live `Model`/`Tools` split, everything else is a much larger, **non-alphabetical**,
   thematically-grouped region (`Ini Parts`, `Utilities`, etc. in `api.rst`; similar groupings in
   `coreAPI.rst`), each its own h2 group with h3 sub-items, that's currently *entirely* commented

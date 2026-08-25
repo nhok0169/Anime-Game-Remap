@@ -137,9 +137,17 @@ you've verified locally.
   Z3-ification of the `IniSectionGraph`/`ResGroupCollect` query-combination machinery that consumed
   it (see Architecture's Z3-wrapping/lifetime sections and [Ini Graph
   Editing](../IniGraphEditing/CLAUDE.md)'s "Predicate queries in this subsystem are Z3-typed, not
-  sympy" section). Other subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the
-  standalone script variant) still haven't been exercised to the same depth — verify assumptions
-  there with the usual tools rather than trusting this file blindly.
+  sympy" section), plus — separately again, later still — a from-scratch C++/pybind11 port of a new
+  `.ini` mod-type-classification subsystem: `GameTypeId`/`GameTypeIdTools`, `ModTypeId`/
+  `ModTypeIdTools` (including a `findByName` AhoCorasick-backed name/alias registry and its
+  `getModType`/`registerModType`/`clear` global-registry API), the lean `ModTypeIdData` and heavier
+  `ModType`/`CppGIBuilder` model classes, and finally binding the previously-Python-unreachable
+  `AGRemapCore::IniClassifier` itself (`CppIniClassifier`) — see Architecture's sections on the
+  static-non-copyable-type/pybind11-init-order/`pybind11/stl.h` gotchas this produced, and
+  Testing's/Documentation's own notes on what this touched in each of those pipelines. Other
+  subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant)
+  still haven't been exercised to the same depth — verify assumptions there with the usual tools
+  rather than trusting this file blindly.
 
 ## "Add yourself to The Council" — a running repo ritual
 

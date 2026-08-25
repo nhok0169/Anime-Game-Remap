@@ -22,10 +22,13 @@ add_library(AGRemapCore STATIC
     src/constants/ModTypeId.cpp
     src/constants/GameType.cpp
     src/constants/IfPredPartType.cpp
+    src/constants/GIBuilder.cpp
+    src/constants/GlobalIniClassifiers.cpp
     src/model/Version.cpp
     src/model/VersionSet.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
+    src/tools/TextTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp
     src/tools/parsing/Token.cpp
@@ -49,6 +52,7 @@ add_library(AGRemapCore STATIC
     src/tools/z3/Z3Context.cpp
     src/tools/z3/Z3Predicate.cpp
     src/model/strategies/ModTypeIdData.cpp
+    src/model/strategies/ModType.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
     src/model/strategies/iniClassifiers/IniClassifier.cpp
@@ -64,6 +68,8 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/files/IniFile.cpp
+    src/model/IniNamingTools.cpp
     src/model/textures/Colour.cpp
     src/model/textures/ColourRange.cpp
     src/model/files/TextureFile.cpp
@@ -85,6 +91,19 @@ add_library(AGRemapCore STATIC
     src/model/strategies/texEditors/BaseTexEditor.cpp
     src/model/strategies/texEditors/TexEditor.cpp
     src/model/strategies/texEditors/TexCreator.cpp
+    src/tools/files/FileService.cpp
+    src/tools/files/FileDownload.cpp
+    src/model/stats/FileStats.cpp
+    src/model/stats/CachedFileStats.cpp
+    src/model/stats/RemapStats.cpp
+    src/model/iniresources/IniSrcResourceModel.cpp
+    src/model/iniresources/IniFixResourceModel.cpp
+    src/model/iniresources/IniTexModel.cpp
+    src/model/iniresources/IniDownloadModel.cpp
+    src/model/iniresources/IniResource.cpp
+    src/model/iniresources/RemapIniResource.cpp
+    src/model/iniresources/RemapBlendResource.cpp
+    src/model/iniresources/RemapTexResource.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )

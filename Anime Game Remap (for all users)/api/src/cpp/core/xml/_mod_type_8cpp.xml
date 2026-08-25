@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_mod_type_8cpp" kind="file" language="C++">
+    <compoundname>ModType.cpp</compoundname>
+    <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_1a1baeccd8b871c9c56f183a9dedea5fcf" kindref="member">ModType::ModType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>gameTypeId,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>modTypeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/>&amp;aliases):<sp/>gameTypeId(gameTypeId),<sp/>modTypeId(modTypeId),<sp/>name(name),<sp/>aliases(aliases)<sp/>{}</highlight></codeline>
+<codeline lineno="6"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/model/strategies/ModType.cpp"/>
+  </compounddef>
+</doxygen>

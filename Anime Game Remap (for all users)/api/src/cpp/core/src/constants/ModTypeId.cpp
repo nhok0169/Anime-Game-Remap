@@ -289,4 +289,106 @@ namespace AGRemapCore {
         }
     }
 
+    std::unordered_map<int, ModType> ModTypeIdTools::_modTypes;
+    BaseAhoCorasickDFA<std::unordered_set<int>> ModTypeIdTools::_nameDFA;
+    std::unordered_map<std::string, std::unordered_set<int>> ModTypeIdTools::_nameGameTypeIds;
+
+    // '_nameDFA' needs the same duplicate-merging behavior IniClassifier sets up for its own
+    // 'sectionKeywordsDFA' (see IniClassifier's constructor) -- two different registered ModTypes
+    // can legitimately share the same name/alias, and the default add() behavior would otherwise
+    // let the second registration's ModTypeId set silently overwrite the first's instead of
+    // merging. There's no constructor to do this setup in for a static-method-only "Tools" class,
+    // so '_nameDFAInitialized's own initializer triggers it exactly once, right after '_nameDFA'
+    // itself is constructed above (namespace-scope variables in one translation unit are
+    // initialized in declaration order, so this ordering is well-defined).
+    bool ModTypeIdTools::_setupNameDFA() {
+        BaseAhoCorasickDFA<std::unordered_set<int>>::DupHandler combineModTypeIdSets =
+            [](std::string_view keyword, const std::unordered_set<int>& existingSet, const std::unordered_set<int>& newSet) -> std::unordered_set<int> {
+                std::unordered_set<int> combined = existingSet;
+                for (int modTypeId : newSet) {
+                    combined.insert(modTypeId);
+                }
+                return combined;
+            };
+        _nameDFA.setHandleDuplicate(combineModTypeIdSets);
+        return true;
+    }
+
+    bool ModTypeIdTools::_nameDFAInitialized = ModTypeIdTools::_setupNameDFA();
+
+    std::optional<ModType> ModTypeIdTools::getModType(int modTypeId) {
+        auto it = _modTypes.find(modTypeId);
+        if (it == _modTypes.end()) {
+            return std::nullopt;
+        }
+
+        return it->second;
+    }
+
+    void ModTypeIdTools::registerModType(const ModType &modType) {
+        _modTypes.insert_or_assign(modType.modTypeId, modType);
+
+        std::unordered_set<int> modTypeIdSet;
+        modTypeIdSet.insert(modType.modTypeId);
+
+        _nameDFA.add(modType.name, modTypeIdSet);
+        _nameGameTypeIds[modType.name].insert(modType.gameTypeId);
+
+        for (const std::string &alias : modType.aliases) {
+            _nameDFA.add(alias, modTypeIdSet);
+            _nameGameTypeIds[alias].insert(modType.gameTypeId);
+        }
+    }
+
+    std::optional<ModTypeId> ModTypeIdTools::findByName(const std::string &name, std::optional<GameTypeId> gameTypeId) {
+        std::optional<BaseAhoCorasickDFA<std::unordered_set<int>>::KeywordPredicate> pred = std::nullopt;
+
+        if (gameTypeId.has_value()) {
+            int gameTypeIdInt = static_cast<int>(*gameTypeId);
+            pred = [gameTypeIdInt](const std::string& keyword) -> bool {
+                auto it = _nameGameTypeIds.find(keyword);
+                return it != _nameGameTypeIds.end() && it->second.count(gameTypeIdInt) == 1;
+            };
+        }
+
+        auto [matchedNamePtr, matchedModTypeIdsPtr] = _nameDFA.getMaximalPtr(name, pred);
+
+        if (matchedNamePtr == nullptr) {
+            return std::nullopt;
+        }
+
+        // The DFA's own value is a flat, game-agnostic set of every ModTypeId sharing this
+        // name/alias -- narrow it down to the ones whose own registered gameTypeId actually
+        // matches (when a filter was given) by cross-referencing '_modTypes'. If more than one
+        // ModTypeId still remains, the match is ambiguous -- don't guess.
+        std::optional<int> resultModTypeId = std::nullopt;
+
+        for (int candidateModTypeId : *matchedModTypeIdsPtr) {
+            if (gameTypeId.has_value()) {
+                auto modTypeIt = _modTypes.find(candidateModTypeId);
+                if (modTypeIt == _modTypes.end() || modTypeIt->second.gameTypeId != static_cast<int>(*gameTypeId)) {
+                    continue;
+                }
+            }
+
+            if (resultModTypeId.has_value()) {
+                return std::nullopt;
+            }
+
+            resultModTypeId = candidateModTypeId;
+        }
+
+        if (!resultModTypeId.has_value()) {
+            return std::nullopt;
+        }
+
+        return getEnum(*resultModTypeId);
+    }
+
+    void ModTypeIdTools::clear() {
+        _modTypes.clear();
+        _nameDFA.clear();
+        _nameGameTypeIds.clear();
+    }
+
 }

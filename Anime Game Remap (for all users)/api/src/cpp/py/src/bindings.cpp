@@ -23,9 +23,12 @@
 #include "model/assets/PyIndices.h"
 #include "constants/PyGameTypeId.h"
 #include "constants/PyModTypeId.h"
+#include "constants/PyGIBuilder.h"
 #include "model/strategies/PyModTypeIdData.h"
+#include "model/strategies/PyModType.h"
 #include "model/strategies/iniClassifiers/PyIniClassifyStats.h"
 #include "model/strategies/iniClassifiers/PyBaseIniClassifier.h"
+#include "model/strategies/iniClassifiers/PyIniClassifier.h"
 #include "tools/parsing/PyToken.h"
 #include "tools/parsing/PyParseContext.h"
 #include "tools/parsing/PyBaseTokenizer.h"
@@ -113,8 +116,11 @@ PYBIND11_MODULE(core, m) {
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
+    initCppModType(m);
+    initCppGIBuilder(m); // must come after initCppModType (its methods return CppModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
+    initCppIniClassifier(m); // must come after initCppBaseIniClassifier (registers its base)
     initCppToken(m);
     initCppParseContext(m);
     initCppBaseTokenizer(m);

@@ -1182,3 +1182,114 @@ since every access after the first returns the identical cached object — grep 
 `_generate`/definition for where that value flows, not just the enum's call sites; (3) any
 module-level constant list built once and referenced from multiple places. If none of that turns
 up, unique-ownership/disown is still fine (and cheaper); if it does, clone-and-copy is required.
+
+## A concrete derived class can sit unbound to Python for a long time after its abstract base was bound "temporarily" to unblock other work
+
+`AGRemapCore::IniClassifier` (the derived class holding *all* the real logic — `addGIModType`,
+`addWuWaModType`, `getModType`, `readHash`, `readSectionName`, the whole hash/keyword DFA-wiring
+subsystem, several sessions' worth of feature work) had **no pybind11 binding at all** for a long
+stretch of this porting effort — only its abstract base, `BaseIniClassifier`, was ever bound (as
+`CppBaseIniClassifier`), plus the standalone `IniClassifyStats` data class (`CppIniClassifyStats`).
+`BaseIniClassifier::classify()` itself is a stub — `return IniClassifyStats();`, nothing else — so
+every one of `CppBaseIniClassifier`'s Python-facing methods was silently inert the whole time. This
+is easy to miss because nothing *fails*: `CppBaseIniClassifier()` constructs fine, `.classify(...)`
+runs fine and returns a valid (just empty) `CppIniClassifyStats`, and the class's own pybind
+docstring even says outright "classify() is expected to be overridden by future C++ subclasses
+(e.g. IniClassifier)" — a comment that reads as forward-looking design intent, not as "the concrete
+subclass isn't reachable from Python yet." Confirmed the gap by grepping `bindings.cpp` for
+`initCppIniClassifier` (nothing) and `py/src/model/strategies/iniClassifiers/` for a
+`PyIniClassifier.*` file pair (didn't exist) — `git grep`/`Glob` for the derived class's own binding
+file is the reliable check here, not "does `CppBase...` importing/running without error."
+
+**General lesson**: when a subsystem uses the "wrapper-outcome-1"/`Cpp`-prefix-while-in-progress
+naming convention (see the pybind11 bindings section below and
+[Documentation](../Documentation/CLAUDE.md)'s naming-pitfall bullet), a bound, working, `Cpp`-named
+*base* class is not evidence that the concrete class holding the actual feature work has been bound
+too — check explicitly (grep the binding `.cpp` directory and `bindings.cpp`'s `initCppXxx` call
+list for the derived class's own name) before assuming "the classifier is already testable from
+Python," especially if asked to add tests or docs for it. The fix, once noticed, is the same shape
+as any other new binding in this codebase: a `PyIniClassifier.h`/`.cpp` pair, real pybind11
+inheritance (`py::class_<AGRC::IniClassifier, AGRC::BaseIniClassifier>(m, "CppIniClassifier", ...)`,
+base registered first — see the inheritance bullet below), binding only the genuinely new methods
+(`addGIModType`/`addWuWaModType`/`getModType`/constructor) since `classify()`/`clear()` are
+inherited and dispatch to the derived override automatically via the real C++ vtable, no rebinding
+needed.
+
+## A `std::optional<T>`/return-or-parameter-type dependency between two `initCppXxx(m)` calls does *not* need call-order enforcement — only real `py::class_<Derived, Base>` inheritance does
+
+Empirically confirmed while adding `ModTypeIdTools::getModType`/`registerModType` (returning/taking
+`ModType`, i.e. `CppModType`): binding `initCppModTypeId(m)` (which registers these methods)
+*before* `initCppModType(m)` (which registers the `CppModType` type itself) still works correctly
+at runtime — Python calls to `getModType`/`registerModType` succeed and return real `CppModType`
+instances, with zero reordering needed. This makes sense once you separate *bind time* from *call
+time*: `.def_static("getModType", &Fn, ...)` only needs `CppModType` to be a valid, at-least-
+forward-declared C++ type at the point `.def_static` is compiled (a C++-level, compile-time
+concern) — the actual Python-facing type_caster lookup for the return value happens lazily, via
+`typeid`, the moment a Python caller actually invokes the function, which is always after every
+`initCppXxx(m)` in the module has already run. Contrast this with **real pybind11 inheritance**
+(`py::class_<Derived, Base>(m, "Derived", ...)`), which genuinely does need `Base`'s `py::class_<Base>`
+registration to have already executed *at the point the `py::class_<Derived, Base>` template
+instantiates* (see the existing inheritance bullet in this section) — that's a hard, bind-time
+requirement, not a lazy one. **Practical effect**: don't add a defensive "must come after" comment
+or reorder `initCppXxx` calls in `bindings.cpp` just because one function's signature mentions a
+type registered elsewhere — reserve that discipline for genuine `py::class_<Derived, Base>`
+relationships (where it's actually required) and for default-argument values needing
+`py::cast`-at-bind-time (the real, different reason `pybind11/stl.h` must be included — see the
+next bullet), not for ordinary parameter/return types.
+
+## `std::optional<T>` in a `.def_static(...)`/`.def(...)` signature needs `#include <pybind11/stl.h>`, and its absence fails at import time, not compile time
+
+Adding a `std::vector<std::string> aliases = {}` default-valued parameter to a pybind11 binding
+compiled and linked cleanly, but the very first `import` of the rebuilt module raised
+`ImportError: arg(): could not convert default argument into a Python object (type not registered
+yet?)`. The cause: `py::arg("aliases") = std::vector<std::string>{}` needs pybind11 to `py::cast`
+that empty vector into a real Python object *at module-init time*, which requires the
+`type_caster<std::vector<std::string>>` specialization from `<pybind11/stl.h>` — a header the
+binding file (`PyModType.h`) hadn't included, since nothing about a plain `std::string`/`int`
+parameter had needed it before. This is the one case from the bullet above where signature-level
+type support genuinely *is* a bind-time (not lazy call-time) requirement — a default argument's
+value must be materialized into a `py::object` immediately, unlike a plain parameter/return type
+declaration. **Fix**: `#include <pybind11/stl.h>` in the binding header whenever a `std::vector`/
+`std::optional`/`std::unordered_map`/etc. appears as a *default-valued* argument (return-only or
+required-argument uses of the same containers had already worked fine elsewhere in this codebase
+without it, e.g. `ModTypeIdTools::getModType`'s `std::optional<ModType>` return type) — and verify
+by actually importing the rebuilt module (see [Building](../Building/CLAUDE.md)'s PowerShell-vs-
+Bash note), not just by a clean compile/link, since this specific failure mode is invisible to the
+build step entirely.
+
+## A static class data member of a non-copyable, non-move-constructible type can't be initialized via `Type Class::member = factoryFunction();`, even for a directly-returned prvalue
+
+Tried to give `ModTypeIdTools::_nameDFA` (a `BaseAhoCorasickDFA<std::unordered_set<int>>` static
+member) its required one-time `setHandleDuplicate(...)` setup — matching what `IniClassifier`'s own
+constructor does for its instance-level `sectionKeywordsDFA` — via a small factory function
+returning the configured DFA by value: `BaseAhoCorasickDFA<...> ModTypeIdTools::_nameDFA =
+makeNameDFA();`. This fails to compile (MSVC `C2280`, "attempting to reference a deleted function"):
+`BaseAhoCorasickDFA`/its base `BaseTrie` holds a `std::unique_ptr<BaseIdGenerator<uint64_t>>`
+member, which deletes the implicit copy constructor — and since `makeNameDFA()`'s `return dfa;`
+returns a *named* local (NRVO territory, not a directly-constructed prvalue), C++17's *guaranteed*
+copy elision (which only applies to prvalues, not named-return-value cases) doesn't kick in; the
+compiler falls back to move-or-copy, finds no viable move (implicitly suppressed alongside the
+deleted copy), and hard-errors on the deleted copy ctor. This is a real trap for any "static/global
+member of a type from `tools/tries/`, `tools/dfa/`, or `tools/orderedMultiMap/`" (any type built
+around an owning `unique_ptr`) needing one-time configuration outside a real constructor body — a
+static-method-only "Tools" class (`ModTypeIdTools`-style) has no constructor to put this setup in.
+
+**Fix**: never construct-and-return the value by value; default-construct the static member in
+place (no initializer needed) and mutate it *in place* via a private static setup method, triggered
+exactly once through a second static `bool` member's own initializer:
+```cpp
+// header
+static BaseAhoCorasickDFA<std::unordered_set<int>> _nameDFA;
+static bool _setupNameDFA();      // mutates _nameDFA in place, returns true
+static bool _nameDFAInitialized;  // its initializer runs _setupNameDFA() once
+
+// .cpp -- declaration order within one translation unit is well-defined (unlike cross-TU order),
+// so _nameDFA is guaranteed constructed before _nameDFAInitialized's initializer runs
+BaseAhoCorasickDFA<std::unordered_set<int>> ModTypeIdTools::_nameDFA;
+bool ModTypeIdTools::_setupNameDFA() { _nameDFA.setHandleDuplicate(...); return true; }
+bool ModTypeIdTools::_nameDFAInitialized = ModTypeIdTools::_setupNameDFA();
+```
+See `ModTypeId.h`/`.cpp`'s real `_nameDFA`/`_setupNameDFA`/`_nameDFAInitialized` for the working
+version. If you're tempted to reach for a factory-function-returning-by-value for *any* static/
+global of a `unique_ptr`-owning type in this codebase, this is why it won't compile, and this
+in-place-mutation-behind-a-second-static-bool shape is the established fix.

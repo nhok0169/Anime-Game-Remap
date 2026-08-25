@@ -1,0 +1,711 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_g_i_builder" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIBuilder</compoundname>
+    <includes refid="_g_i_builder_8h" local="no">GIBuilder.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::amber</definition>
+        <argsstring>()</argsstring>
+        <name>amber</name>
+        <qualifiedname>AGRemapCore::GIBuilder::amber</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Amber. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="25" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::amberCN</definition>
+        <argsstring>()</argsstring>
+        <name>amberCN</name>
+        <qualifiedname>AGRemapCore::GIBuilder::amberCN</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for AmberCN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="30" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ayaka</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ayaka</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Ayaka. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="35" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a888eebb45709672e5462d4072e0c4138" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ayakaSpringBloom</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringBloom</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ayakaSpringBloom</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for AyakaSpringBloom. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="40" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a8779810b5b2decb3738cbcb17d58a6f7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::arlecchino</definition>
+        <argsstring>()</argsstring>
+        <name>arlecchino</name>
+        <qualifiedname>AGRemapCore::GIBuilder::arlecchino</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Arlecchino. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="45" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a4a03bedcd5324d8e1e234f8e1c3f1384" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::barbara</definition>
+        <argsstring>()</argsstring>
+        <name>barbara</name>
+        <qualifiedname>AGRemapCore::GIBuilder::barbara</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Barbara. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="50" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::barbaraSummerTime</definition>
+        <argsstring>()</argsstring>
+        <name>barbaraSummerTime</name>
+        <qualifiedname>AGRemapCore::GIBuilder::barbaraSummerTime</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for BarbaraSummerTime. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="55" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::cherryHutao</definition>
+        <argsstring>()</argsstring>
+        <name>cherryHutao</name>
+        <qualifiedname>AGRemapCore::GIBuilder::cherryHutao</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for CherryHuTao. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="60" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a7e966f33c58b85e55c25a904af988d28" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::diluc</definition>
+        <argsstring>()</argsstring>
+        <name>diluc</name>
+        <qualifiedname>AGRemapCore::GIBuilder::diluc</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Diluc. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="65" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab9cda71463e6d52572e5792a128b04a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::dilucFlamme</definition>
+        <argsstring>()</argsstring>
+        <name>dilucFlamme</name>
+        <qualifiedname>AGRemapCore::GIBuilder::dilucFlamme</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for DilucFlamme. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="70" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1afa4003520de6f2b069a96c740e412e49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::fischl</definition>
+        <argsstring>()</argsstring>
+        <name>fischl</name>
+        <qualifiedname>AGRemapCore::GIBuilder::fischl</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Fischl. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="75" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="47" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a53538223141d4d818965f348c8418f47" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::fischlHighness</definition>
+        <argsstring>()</argsstring>
+        <name>fischlHighness</name>
+        <qualifiedname>AGRemapCore::GIBuilder::fischlHighness</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for FischlHighness. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="80" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a43002b7d42284cc223a922cdd8492e82" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ganyu</definition>
+        <argsstring>()</argsstring>
+        <name>ganyu</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ganyu</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Ganyu. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="85" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a86bdfc983a7263f35df464955c1feadb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ganyuTwilight</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ganyuTwilight</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for GanyuTwilight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="90" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aa74d67230a6455f9958fad1302ab1001" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::huTao</definition>
+        <argsstring>()</argsstring>
+        <name>huTao</name>
+        <qualifiedname>AGRemapCore::GIBuilder::huTao</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for HuTao. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="95" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aea53b52689e138b893a2ad30f129dce0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::jean</definition>
+        <argsstring>()</argsstring>
+        <name>jean</name>
+        <qualifiedname>AGRemapCore::GIBuilder::jean</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Jean. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="100" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aca5d2d2cffde2028091d4f33c4e12751" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::jeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN</name>
+        <qualifiedname>AGRemapCore::GIBuilder::jeanCN</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for JeanCN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="105" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="71" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ad41aa49d7e9fedceb23d481163429229" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::jeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea</name>
+        <qualifiedname>AGRemapCore::GIBuilder::jeanSea</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for JeanSea. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="110" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="75" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ab5f0fdd08d525adf387ad648282cc1b5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::kaeya</definition>
+        <argsstring>()</argsstring>
+        <name>kaeya</name>
+        <qualifiedname>AGRemapCore::GIBuilder::kaeya</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Kaeya. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="115" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ae7414da97c4f4b7325105fdfea355d43" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::kaeyaSailwind</definition>
+        <argsstring>()</argsstring>
+        <name>kaeyaSailwind</name>
+        <qualifiedname>AGRemapCore::GIBuilder::kaeyaSailwind</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for KaeyaSailwind. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="120" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="83" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a88fbb4a84ce38c2716fe2d18bb7f30d0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::keqing</definition>
+        <argsstring>()</argsstring>
+        <name>keqing</name>
+        <qualifiedname>AGRemapCore::GIBuilder::keqing</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Keqing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="125" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a57562189a550ce9799f190659f2952be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::keqingOpulent</definition>
+        <argsstring>()</argsstring>
+        <name>keqingOpulent</name>
+        <qualifiedname>AGRemapCore::GIBuilder::keqingOpulent</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for KeqingOpulent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="130" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="91" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a8c6f6e814fc4f4338bf783e430858db7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::kirara</definition>
+        <argsstring>()</argsstring>
+        <name>kirara</name>
+        <qualifiedname>AGRemapCore::GIBuilder::kirara</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Kirara. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="135" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="95" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a37cc24a5a1316ab15cf71618454c6e0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::kiraraBoots</definition>
+        <argsstring>()</argsstring>
+        <name>kiraraBoots</name>
+        <qualifiedname>AGRemapCore::GIBuilder::kiraraBoots</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for KiraraBoots. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="140" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="99" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a96e15ea914e219e57bfefedd664ea471" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::klee</definition>
+        <argsstring>()</argsstring>
+        <name>klee</name>
+        <qualifiedname>AGRemapCore::GIBuilder::klee</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Klee. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="145" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="103" bodyend="105"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::kleeBlossomingStarlight</definition>
+        <argsstring>()</argsstring>
+        <name>kleeBlossomingStarlight</name>
+        <qualifiedname>AGRemapCore::GIBuilder::kleeBlossomingStarlight</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for KleeBlossomingStarlight. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="150" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="107" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::lisa</definition>
+        <argsstring>()</argsstring>
+        <name>lisa</name>
+        <qualifiedname>AGRemapCore::GIBuilder::lisa</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Lisa. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="155" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::lisaStudent</definition>
+        <argsstring>()</argsstring>
+        <name>lisaStudent</name>
+        <qualifiedname>AGRemapCore::GIBuilder::lisaStudent</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for LisaStudent. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="160" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="115" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::mona</definition>
+        <argsstring>()</argsstring>
+        <name>mona</name>
+        <qualifiedname>AGRemapCore::GIBuilder::mona</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Mona. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="165" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::monaCN</definition>
+        <argsstring>()</argsstring>
+        <name>monaCN</name>
+        <qualifiedname>AGRemapCore::GIBuilder::monaCN</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for MonaCN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="170" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="123" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::nilou</definition>
+        <argsstring>()</argsstring>
+        <name>nilou</name>
+        <qualifiedname>AGRemapCore::GIBuilder::nilou</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Nilou. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="175" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="127" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::nilouBreeze</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze</name>
+        <qualifiedname>AGRemapCore::GIBuilder::nilouBreeze</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for NilouBreeze. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="180" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="131" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ningguang</definition>
+        <argsstring>()</argsstring>
+        <name>ningguang</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ningguang</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Ningguang. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="185" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="135" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::ningguangOrchid</definition>
+        <argsstring>()</argsstring>
+        <name>ningguangOrchid</name>
+        <qualifiedname>AGRemapCore::GIBuilder::ningguangOrchid</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Ningguang. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="190" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::raiden</definition>
+        <argsstring>()</argsstring>
+        <name>raiden</name>
+        <qualifiedname>AGRemapCore::GIBuilder::raiden</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Ei. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="195" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="143" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::rosaria</definition>
+        <argsstring>()</argsstring>
+        <name>rosaria</name>
+        <qualifiedname>AGRemapCore::GIBuilder::rosaria</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Rosaria. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="200" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="147" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::rosariaCN</definition>
+        <argsstring>()</argsstring>
+        <name>rosariaCN</name>
+        <qualifiedname>AGRemapCore::GIBuilder::rosariaCN</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for RosariaCN. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="205" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="151" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::shenhe</definition>
+        <argsstring>()</argsstring>
+        <name>shenhe</name>
+        <qualifiedname>AGRemapCore::GIBuilder::shenhe</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Shenhe. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="210" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="155" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::shenheFrostFlower</definition>
+        <argsstring>()</argsstring>
+        <name>shenheFrostFlower</name>
+        <qualifiedname>AGRemapCore::GIBuilder::shenheFrostFlower</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for ShenheFrostFlower. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="215" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="159" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::xiangling</definition>
+        <argsstring>()</argsstring>
+        <name>xiangling</name>
+        <qualifiedname>AGRemapCore::GIBuilder::xiangling</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Xiangling. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="220" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="163" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::xianglingCheer</definition>
+        <argsstring>()</argsstring>
+        <name>xianglingCheer</name>
+        <qualifiedname>AGRemapCore::GIBuilder::xianglingCheer</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for XianglingCheer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="225" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="167" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::xingqiu</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiu</name>
+        <qualifiedname>AGRemapCore::GIBuilder::xingqiu</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for Xingqiu. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="230" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="171" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></type>
+        <definition>ModType AGRemapCore::GIBuilder::xingqiuBamboo</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiuBamboo</name>
+        <qualifiedname>AGRemapCore::GIBuilder::xingqiuBamboo</qualifiedname>
+        <briefdescription>
+<para>Creates the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for XingqiuBamboo. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GIBuilder.h" line="235" column="28" bodyfile="src/constants/GIBuilder.cpp" bodystart="175" bodyend="177"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Creates new :cpp:class:`ModType` objects for GI (Genshin Impact) mods :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``GIBuilder`` class (``constants/GIBuilder.py``), but builds the
+lighter, C++-side :cpp:class:`ModType` (id, name, and aliases only) instead of the full
+pure-Python ``ModType``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/GIBuilder.h" line="19" column="5" bodyfile="include/AGRemapCore/constants/GIBuilder.h" bodystart="19" bodyend="236"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>amber</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>amberCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8779810b5b2decb3738cbcb17d58a6f7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>arlecchino</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ayaka</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a888eebb45709672e5462d4072e0c4138" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ayakaSpringBloom</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a4a03bedcd5324d8e1e234f8e1c3f1384" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>barbara</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>barbaraSummerTime</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>cherryHutao</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7e966f33c58b85e55c25a904af988d28" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>diluc</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab9cda71463e6d52572e5792a128b04a6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>dilucFlamme</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1afa4003520de6f2b069a96c740e412e49" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>fischl</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a53538223141d4d818965f348c8418f47" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>fischlHighness</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a43002b7d42284cc223a922cdd8492e82" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ganyu</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a86bdfc983a7263f35df464955c1feadb" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ganyuTwilight</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1aa74d67230a6455f9958fad1302ab1001" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>huTao</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1aea53b52689e138b893a2ad30f129dce0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>jean</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1aca5d2d2cffde2028091d4f33c4e12751" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>jeanCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad41aa49d7e9fedceb23d481163429229" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>jeanSea</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ab5f0fdd08d525adf387ad648282cc1b5" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kaeya</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ae7414da97c4f4b7325105fdfea355d43" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kaeyaSailwind</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a88fbb4a84ce38c2716fe2d18bb7f30d0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>keqing</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a57562189a550ce9799f190659f2952be" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>keqingOpulent</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8c6f6e814fc4f4338bf783e430858db7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kirara</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a37cc24a5a1316ab15cf71618454c6e0c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kiraraBoots</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a96e15ea914e219e57bfefedd664ea471" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>klee</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>kleeBlossomingStarlight</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lisa</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>lisaStudent</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>mona</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>monaCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>nilou</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>nilouBreeze</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ningguang</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>ningguangOrchid</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>raiden</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>rosaria</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>rosariaCN</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>shenhe</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>shenheFrostFlower</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xiangling</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xianglingCheer</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xingqiu</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIBuilder</scope><name>xingqiuBamboo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -214,6 +214,29 @@ test module needs an entry there to be picked up by name. Conventions:
   the same Python wrapper object comes back twice in a row (a known, deliberately-scoped-out gap,
   see [Architecture](../Architecture/CLAUDE.md)'s wrapper-lifetime section); compare structurally
   (`.entries()`, `.src`/`.type`) instead.
+- **A new C++-side global/static registry (a `ModTypeIdTools`-style all-static-method "Tools" class
+  holding process-wide state, e.g. `_modTypes`/`_nameDFA`) needs its own `clear()` method before
+  it's safely testable at all** — without one, every test in the whole suite that touches the
+  registry shares the *same* process-lifetime state (Python's `unittest` runs the whole suite in
+  one process), so an earlier test's `registerModType(...)` silently leaks into a later, unrelated
+  test's assertions. This mirrors `HashTools.clear()`/`CppHashTools.clear()`'s own reason for
+  existing — check whether a new static-registry class already has an equivalent `clear()` *before*
+  writing tests against it; if it doesn't, add one (mirroring the existing `HashTools`/
+  `CppHashTools` shape) as part of the same change, and call it from the test file's own `setUp()`.
+  Found writing `test_ModTypeId.py` against the newly-added `ModTypeIdTools.getModType`/
+  `registerModType`/`findByName` — none of the three had any way to reset state until `clear()` was
+  added specifically to make the test suite viable.
+- **A bare pybind11 class with no `__eq__` defined compares by Python object identity, not value** —
+  `ModTypeIdData`/`ModType`(`CppModType`)-style plain data classes have no `.def(py::self ==
+  py::self)` binding, so `self.compareDict(resultDict, {key: resultDict[key]})`-style self-
+  referential comparisons fail even when the "expected" value was *fetched from the exact same
+  dict* the result came from — each `dict[key]` access on the Python side returns/`py::cast`s a
+  fresh wrapper object for the same underlying C++ value, and `!=` sees two different objects.
+  `compareDict`/`compareList`'s default `!=`-based comparison silently assumes value equality is
+  meaningful for whatever's inside the container — it isn't, for a bare pybind11 class with no
+  `__eq__`. Compare dict *keys* (`sorted(resultDict.keys())`) or specific scalar fields
+  (`result.name`, `result.modTypeId`) instead of the whole wrapper object, unless the class in
+  question is confirmed to have a real `__eq__` binding.
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
@@ -224,7 +247,18 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 `test_IfTemplateNormTree`, `test_IfTemplateTree`, and the old pre-C++-port `test_IfContentPart` —
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
 re-verify rather than assuming stale entries are still accurate**, in either direction. Confirmed
-still erroring/failing on a clean run as of this writing (**1075 tests, 0 failures, 37 errors** —
+right after this file's own warning above was written: the `test_Mod`/`test_ModType`/etc. root
+cause named two paragraphs below (`ModMappedAssets.updateKeys`, `TypeError: string indices must be
+integers`) had *already* drifted by the time it was re-checked — `test_ModType` now fails with a
+completely different error, `AttributeError: 'VGRemaps' object has no attribute 'updateRepo'`, at
+`setupMod`'s `self._vgRemaps.updateRepo(...)` call. Same practical effect (these modules are still
+broken, still pre-existing, still not worth chasing as a regression from unrelated work) — but if
+you're specifically trying to *fix* this cascade, re-derive the current root cause from a fresh
+traceback rather than trusting the `ModMappedAssets.updateKeys` diagnosis below; it's stale. The
+total test count has also grown a lot since (other sessions adding modules) — last confirmed clean
+run was **1391 tests, 0 failures, 37 errors** (same *error count* as the older 1075-test snapshot
+below, for whatever that consistency is worth — the specific errors have partially changed
+underneath it, not just accumulated). Older snapshot, kept for the parts that are still accurate:
 `IfTemplate`/`IfTemplateNode`/`IfTemplateTree`/`CallGraph`/`SectionIterData`/`IniSectionGraph` are
 now fully C++-backed with fresh, fully-passing black-box test files of their own (plus a dedicated
 `test_GraphTools.py`, split out after the `GraphTools` coverage gap described in
@@ -257,6 +291,31 @@ This list will keep drifting as the maintainer continues fixing modules — trea
 unrelated red, but verify which red" rather than a precise, permanent inventory. If you're about to
 spend time on a module not listed here, or need to confirm one of these is still actually broken,
 just re-run it (`py -3 main.py SomeTestClass -v`) rather than trusting this snapshot.
+
+- **The pure-Python `GIBuilder` (`constants/GIBuilder.py`) is part of this same broken cascade** —
+  every one of its 43 classmethods (`amber()`, `raiden()`, ...) constructs a pure-Python `ModType`
+  via `Indices(map = ...)`, which routes into the broken `ModMappedAssets`/`VGRemaps` machinery
+  above. **Don't cross-check a new C++-side builder (e.g. `CppGIBuilder`) against the live
+  pure-Python `GIBuilder` in a formal test** — confirmed by actually calling it
+  (`FRB.constants.GIBuilder.GIBuilder.amber()` inside a `Testing/Unit Tester`-style import) rather
+  than trusting either version of the diagnosis above. Compare against hardcoded expected literals
+  or against a reliable, unrelated C++-side source of truth instead (`test_CppGIBuilder.py` checks
+  each method's `name`/`modTypeId` against `ModTypeIdTools.getName`/`getEnum`, both unaffected by
+  this bug, plus a few hardcoded alias-list spot checks) — this is fine to do in a throwaway
+  verification script even while it stays unsafe to depend on in the committed suite.
+
+- **`test_IniClassifier.py` tests a different, older, pure-Python `IniClassifier`/
+  `IniClassifierBuilder` pair — not any new C++-backed classifier work.** The live pure-Python
+  original has already been renamed to `IniClassifierOld`/`IniClassifierBuilderOld`
+  (`model/strategies/iniClassifiers/`), but `test_IniClassifier.py` still constructs
+  `FRB.IniClassifier(...)` by its old bare name, which no longer exists —
+  `AttributeError: module 'src.py.FixRaidenBoss2' has no attribute 'IniClassifier'`, one of the
+  pre-existing errors in the count above. If you're asked to test "the classifier" and it turns out
+  to mean the new C++ `AGRemapCore::IniClassifier`/`CppIniClassifier` pybind binding (see
+  [Architecture](../Architecture/CLAUDE.md)'s note on that class having gone unbound to Python for a
+  long stretch), the right file is the separate `test_CppIniClassifier.py` — don't edit
+  `test_IniClassifier.py` for that work, and don't be misled by the name collision into thinking
+  the new classifier already has coverage just because a same-named test file exists.
 
 **`test_RegSurroundedAdd`, `test_IniSectionGraph`, `test_IfTemplate`, `test_IfTemplateNode`,
 `test_IfTemplateTree`, `test_CallGraph`, and `test_SectionIterData` are *not* on this list** — all

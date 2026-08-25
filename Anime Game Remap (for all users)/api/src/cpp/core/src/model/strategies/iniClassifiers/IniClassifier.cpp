@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "AGRemapCore/tools/StringTools.h"
+#include "AGRemapCore/constants/IniKeywords.h"
 
 
 namespace AGRemapCore {
@@ -105,6 +106,63 @@ namespace AGRemapCore {
         }
 
         return stats;
+    }
+
+    bool IniClassifier::checkIsMod(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId) {
+        std::vector<std::string> lines;
+        for (std::string_view line : StringTools::splitlines(iniTxt)) {
+            lines.emplace_back(line);
+        }
+
+        return checkIsMod(lines, gameTypeId);
+    }
+
+    bool IniClassifier::checkIsMod(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) {
+        IniClassifyStats stats;
+
+        // Same transient-state reset as classify() -- see its own comment for why.
+        modTypeIdDistribution.clear();
+        savedWuWaModTypeIds.clear();
+
+        for (const std::string& line : iniTxt) {
+            std::string strippedLine(StringTools::strip(line));
+            readLine(strippedLine, stats, gameTypeId);
+
+            if (stats.isMod) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    void IniClassifier::checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId) {
+        std::vector<std::string> lines;
+        for (std::string_view line : StringTools::splitlines(iniTxt)) {
+            lines.emplace_back(line);
+        }
+
+        checkIsFixedMod(lines, isFixed, isMod, gameTypeId);
+    }
+
+    void IniClassifier::checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId) {
+        IniClassifyStats stats;
+
+        // Same transient-state reset as classify()/checkIsMod() -- see classify()'s own comment for why.
+        modTypeIdDistribution.clear();
+        savedWuWaModTypeIds.clear();
+
+        for (const std::string& line : iniTxt) {
+            std::string strippedLine(StringTools::strip(line));
+            readLine(strippedLine, stats, gameTypeId);
+
+            if (stats.isMod && stats.isFixed) {
+                break;
+            }
+        }
+
+        *isFixed = stats.isFixed;
+        *isMod = stats.isMod;
     }
 
     void IniClassifier::readLine(const std::string& line, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId) {
@@ -259,11 +317,16 @@ namespace AGRemapCore {
     }
 
     void IniClassifier::readSectionName(std::string_view sectionName, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId) {
-        if (checkHasTextureOverride && !sectionName.starts_with("TextureOverride")) {
+        bool hasTextureOverride = sectionName.starts_with(IniKeywords::TextureOverride);
+        if (hasTextureOverride || sectionName.starts_with(IniKeywords::ShaderOverride)) {
+            stats.isMod = true;
+        }
+
+        if (checkHasTextureOverride && !hasTextureOverride) {
             return;
         }
 
-        if (sectionName.find("Remap") != std::string_view::npos) {
+        if (sectionName.find(IniKeywords::Remap) != std::string_view::npos) {
             stats.isFixed = true;
         }
 

@@ -22,10 +22,13 @@ pybind11_add_module(core
     src/data/HashData.cpp
     src/data/IndexData.cpp
     src/model/strategies/PyModTypeIdData.cpp
+    src/model/strategies/PyModType.cpp
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
     src/model/strategies/iniClassifiers/PyBaseIniClassifier.cpp
+    src/model/strategies/iniClassifiers/PyIniClassifier.cpp
     src/constants/PyGameTypeId.cpp
     src/constants/PyModTypeId.cpp
+    src/constants/PyGIBuilder.cpp
     src/tools/parsing/PyToken.cpp
     src/tools/parsing/PyParseContext.cpp
     src/tools/parsing/PyBaseTokenizer.cpp

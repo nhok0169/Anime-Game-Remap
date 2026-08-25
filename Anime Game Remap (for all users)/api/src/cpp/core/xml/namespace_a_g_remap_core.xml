@@ -42,6 +42,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
@@ -79,6 +80,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public">AGRemapCore::ModDictAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public">AGRemapCore::ModMappedAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_type" prot="public">AGRemapCore::ModType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_data" prot="public">AGRemapCore::ModTypeIdData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_tools" prot="public">AGRemapCore::ModTypeIdTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
@@ -571,7 +573,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="18" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="18" bodyend="243"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="24" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="24" bodyend="249"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">

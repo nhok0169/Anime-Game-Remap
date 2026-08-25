@@ -313,6 +313,17 @@ CorrectGamma
 
 :raw-html:`<br />`
 
+CppBaseIniClassifier
+====================
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniClassifier
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniClassifier
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppBasePixelTransform
 =====================
 
@@ -440,6 +451,17 @@ CppGammaFilter
 
 :raw-html:`<br />`
 
+CppGIBuilder
+============
+
+.. attributetable:: FixRaidenBoss2.CppGIBuilder
+
+.. autoclass:: FixRaidenBoss2.CppGIBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppHighlightShadow
 ==================
 
@@ -464,6 +486,29 @@ CppHueAdjust
 
 :raw-html:`<br />`
 
+CppIniClassifier
+================
+
+.. attributetable:: FixRaidenBoss2.CppIniClassifier
+
+.. autoclass:: FixRaidenBoss2.CppIniClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppIniClassifyStats
+===================
+
+.. attributetable:: FixRaidenBoss2.CppIniClassifyStats
+
+.. autoclass:: FixRaidenBoss2.CppIniClassifyStats
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppInvertAlpha
 ==============
 
@@ -483,6 +528,17 @@ CppInvertAlphaFilter
 
 .. autoclass:: FixRaidenBoss2.CppInvertAlphaFilter
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppModType
+==========
+
+.. attributetable:: FixRaidenBoss2.CppModType
+
+.. autoclass:: FixRaidenBoss2.CppModType
     :members:
     :private-members:
 
@@ -590,6 +646,25 @@ CppTransparencyAdjustFilter
 
 .. autoclass:: FixRaidenBoss2.CppTransparencyAdjustFilter
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GameTypeId
+==========
+
+.. autoclass:: FixRaidenBoss2.GameTypeId
+    :members:
+
+:raw-html:`<br />`
+
+GameTypeIdTools
+===============
+
+.. attributetable:: FixRaidenBoss2.GameTypeIdTools
+
+.. autoclass:: FixRaidenBoss2.GameTypeIdTools
     :members:
     :private-members:
 
@@ -860,6 +935,36 @@ ModMappedAssets
 
 .. autoclass:: FixRaidenBoss2.ModMappedAssets
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModTypeId
+=========
+
+.. autoclass:: FixRaidenBoss2.ModTypeId
+    :members:
+
+:raw-html:`<br />`
+
+ModTypeIdData
+=============
+
+.. attributetable:: FixRaidenBoss2.ModTypeIdData
+
+.. autoclass:: FixRaidenBoss2.ModTypeIdData
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModTypeIdTools
+==============
+
+.. attributetable:: FixRaidenBoss2.ModTypeIdTools
+
+.. autoclass:: FixRaidenBoss2.ModTypeIdTools
     :members:
     :private-members:
 

@@ -188,6 +188,59 @@ VGRemap
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Constants
+=========
+
+:raw-html:`<br />`
+
+GameTypeId
+----------
+
+.. doxygenenum:: AGRemapCore::GameTypeId
+
+:raw-html:`<br />`
+
+GameTypeIdTools
+---------------
+
+.. cppattributetable:: AGRemapCore::GameTypeIdTools
+
+.. doxygenclass:: AGRemapCore::GameTypeIdTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIBuilder
+---------
+
+.. cppattributetable:: AGRemapCore::GIBuilder
+
+.. doxygenclass:: AGRemapCore::GIBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModTypeId
+---------
+
+.. doxygenenum:: AGRemapCore::ModTypeId
+
+:raw-html:`<br />`
+
+ModTypeIdTools
+--------------
+
+.. cppattributetable:: AGRemapCore::ModTypeIdTools
+
+.. doxygenclass:: AGRemapCore::ModTypeIdTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 If Templates
 ============
 
@@ -346,7 +399,68 @@ SectionIterQueryData
     :protected-members:
 
 :raw-html:`<br />`
+:raw-html:`<br />`
 
+Ini Classifiers
+===============
+
+:raw-html:`<br />`
+
+BaseIniClassifier
+-----------------
+
+.. cppattributetable:: AGRemapCore::BaseIniClassifier
+
+.. doxygenclass:: AGRemapCore::BaseIniClassifier
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniClassifier
+-------------
+
+.. cppattributetable:: AGRemapCore::IniClassifier
+
+.. doxygenclass:: AGRemapCore::IniClassifier
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniClassifyStats
+----------------
+
+.. cppattributetable:: AGRemapCore::IniClassifyStats
+
+.. doxygenclass:: AGRemapCore::IniClassifyStats
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModType
+-------
+
+.. cppattributetable:: AGRemapCore::ModType
+
+.. doxygenclass:: AGRemapCore::ModType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModTypeIdData
+-------------
+
+.. cppattributetable:: AGRemapCore::ModTypeIdData
+
+.. doxygenclass:: AGRemapCore::ModTypeIdData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
 
 Predicate Parsers
 ==================

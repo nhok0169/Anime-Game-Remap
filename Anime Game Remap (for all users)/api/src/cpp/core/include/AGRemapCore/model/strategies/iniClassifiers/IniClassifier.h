@@ -57,6 +57,38 @@ namespace AGRemapCore {
              */
             IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
 
+            bool checkIsMod(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+
+            /**
+             * @brief
+             @rst
+             Same as :cpp:func:`classify`, except it resets #modTypeIdDistribution/
+             #savedWuWaModTypeIds and reads through 'iniTxt' line by line via :cpp:func:`readLine`
+             the exact same way, but returns ``true`` immediately, without reading any further
+             lines, the moment ``stats.isMod`` first becomes ``true`` -- cheaper than
+             :cpp:func:`classify` when only this yes/no answer is needed, since it never runs the
+             tie-breaking #modTypeIdDistribution pass and can stop reading partway through the file
+             @endrst
+             */
+            bool checkIsMod(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+
+            void checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+
+            /**
+             * @brief
+             @rst
+             Same as :cpp:func:`checkIsMod`, except it also tracks ``stats.isFixed`` and sets
+             '*isFixed'/'*isMod' from the resultant ``stats.isFixed``/``stats.isMod`` once it stops
+             reading -- it stops (without reading any further lines) the moment ``stats.isMod``
+             **and** ``stats.isFixed`` have both become ``true``, rather than as soon as
+             ``stats.isMod`` alone becomes ``true``
+             @endrst
+             *
+             * @param isFixed Set to whether the .ini file is fixed
+             * @param isMod Set to whether the .ini file belongs to a mod
+             */
+            void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+
             /**
              * @brief
              @rst
@@ -317,8 +349,14 @@ namespace AGRemapCore {
              whatever the section name reveals about the classification of the .ini file
              :raw-html:`<br />` :raw-html:`<br />`
 
-             If #checkHasTextureOverride is ``true``, does nothing unless 'sectionName' starts with
-             ``TextureOverride`` :raw-html:`<br />` :raw-html:`<br />`
+             If 'sectionName' starts with ``TextureOverride`` or ``ShaderOverride``, ``stats.isMod``
+             is set to ``true`` -- this check runs unconditionally, before #checkHasTextureOverride
+             is considered, so a ``ShaderOverride`` `section`_ is still recognized as belonging to a
+             mod even when #checkHasTextureOverride goes on to block it from any further,
+             keyword-based classification below :raw-html:`<br />` :raw-html:`<br />`
+
+             If #checkHasTextureOverride is ``true``, does nothing further unless 'sectionName'
+             starts with ``TextureOverride`` :raw-html:`<br />` :raw-html:`<br />`
 
              If 'sectionName' contains the substring ``Remap``, ``stats.isFixed`` is set to
              ``true`` :raw-html:`<br />` :raw-html:`<br />`

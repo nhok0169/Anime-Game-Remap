@@ -3,6 +3,65 @@
   <compounddef id="class_a_g_remap_core_1_1_mod_type_id_tools" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::ModTypeIdTools</compoundname>
     <includes refid="_mod_type_id_8h" local="no">ModTypeId.h</includes>
+    <sectiondef kind="private-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" prot="private" static="yes" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
+        <definition>std::unordered_map&lt; int, ModType &gt; AGRemapCore::ModTypeIdTools::_modTypes</definition>
+        <argsstring></argsstring>
+        <name>_modTypes</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::_modTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="360" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="360" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" prot="private" static="yes" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>BaseAhoCorasickDFA&lt; std::unordered_set&lt; int &gt; &gt; AGRemapCore::ModTypeIdTools::_nameDFA</definition>
+        <argsstring></argsstring>
+        <name>_nameDFA</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::_nameDFA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="365" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="365" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" prot="private" static="yes" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::unordered_map&lt; std::string, std::unordered_set&lt; int &gt; &gt; AGRemapCore::ModTypeIdTools::_nameGameTypeIds</definition>
+        <argsstring></argsstring>
+        <name>_nameGameTypeIds</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::_nameGameTypeIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="370" column="39" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" prot="private" static="yes" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModTypeIdTools::_nameDFAInitialized</definition>
+        <argsstring></argsstring>
+        <name>_nameDFAInitialized</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::_nameDFAInitialized</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kindref="member">ModTypeIdTools::_setupNameDFA</ref>()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="378" column="25" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="378" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
@@ -36,7 +95,7 @@ that the value actually corresponds to one of :cpp:enum:`ModTypeId`&apos;s decla
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="262" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="6" bodyend="146"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="268" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="6" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -71,7 +130,181 @@ Mirrors the pure-Python ``ModTypeNames`` enum&apos;s values (``constants/ModType
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="276" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="148" bodyend="290"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="282" column="32" bodyfile="src/constants/ModTypeId.cpp" bodystart="148" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a10338e140944ec11b4e210716683093a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
+        <definition>std::optional&lt; ModType &gt; AGRemapCore::ModTypeIdTools::getModType</definition>
+        <argsstring>(ModTypeId modTypeId)</argsstring>
+        <name>getModType</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::getModType</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the :cpp:class:`ModType` registered for a :cpp:enum:`ModTypeId`, if one has
+been registered (via :cpp:func:`registerModType`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is a plain lookup into a global registry shared by every caller of
+:cpp:class:`ModTypeIdTools` -- it never builds a :cpp:class:`ModType` itself. If a
+:cpp:enum:`ModTypeId` is never registered, nothing is ever built for it, since building
+one can be expensive; only a :cpp:enum:`ModTypeId` that&apos;s actually been registered
+(typically by whichever builder -- e.g. ``GIBuilder`` -- actually owns it) can be
+retrieved here
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput> to retrieve the registered :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The registered :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput>, if one exists for &apos;modTypeId&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="302" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="319" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModTypeIdTools::registerModType</definition>
+        <argsstring>(const ModType &amp;modType)</argsstring>
+        <name>registerModType</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::registerModType</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers a :cpp:class:`ModType` into the global registry, under the
+:cpp:enum:`ModTypeId` it owns (``modType.modTypeId``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If a :cpp:class:`ModType` is already registered for that :cpp:enum:`ModTypeId`, it gets
+overwritten with the new one
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> to register </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="316" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="328" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref> &gt;</type>
+        <definition>std::optional&lt; ModTypeId &gt; AGRemapCore::ModTypeIdTools::findByName</definition>
+        <argsstring>(const std::string &amp;name, std::optional&lt; GameTypeId &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::findByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the :cpp:enum:`ModTypeId` whose registered :cpp:class:`ModType` name or alias
+maximally matches some string, similar to how :cpp:func:`IniClassifier::readSectionName`
+searches ``sectionKeywordsDFA`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only searches names/aliases of :cpp:class:`ModType` s that have actually been registered
+via :cpp:func:`registerModType` -- an unregistered :cpp:enum:`ModTypeId` can never be
+found this way, even if &apos;name&apos; textually matches what :cpp:func:`getName` would return
+for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If more than one registered :cpp:enum:`ModTypeId` shares the maximally-matched name (or
+alias) -- after filtering by &apos;gameTypeId&apos;, when given -- the match is ambiguous and
+``std::nullopt`` is returned rather than guessing
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to search for a registered :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref></computeroutput> name/alias within </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+If provided, only considers a :cpp:class:`ModType` registered under this
+:cpp:enum:`GameTypeId` (via ``modType.gameTypeId``) a candidate match
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The matched :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref></computeroutput>, if exactly one unambiguous match was found </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="344" column="34" bodyfile="src/constants/ModTypeId.cpp" bodystart="343" bodyend="386"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModTypeIdTools::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears the global registry -- every :cpp:class:`ModType` registered via
+:cpp:func:`registerModType` is forgotten, and :cpp:func:`getModType`/
+:cpp:func:`findByName` behave as if nothing was ever registered :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors ``HashTools``/``CppHashTools``&apos;s own ``clear()`` -- meant for resetting shared
+global state between independent uses (e.g. between unit tests)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="357" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="388" bodyend="392"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModTypeIdTools::_setupNameDFA</definition>
+        <argsstring>()</argsstring>
+        <name>_setupNameDFA</name>
+        <qualifiedname>AGRemapCore::ModTypeIdTools::_setupNameDFA</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="377" column="25" bodyfile="src/constants/ModTypeId.cpp" bodystart="304" bodyend="315"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -79,10 +312,45 @@ Mirrors the pure-Python ``ModTypeNames`` enum&apos;s values (``constants/ModType
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/ModTypeId.h" line="248" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="248" bodyend="277"/>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; std::unordered_set&lt; int &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseTrie&lt; std::unordered_set&lt; int &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_trie"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>keywords</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BiMap&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, AGRemapCore::StringViewHash, std::equal_to&lt; void &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_bi_map"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ModTypeIdTools</label>
+        <link refid="class_a_g_remap_core_1_1_mod_type_id_tools"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>_nameDFA</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/constants/ModTypeId.h" line="254" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="254" bodyend="379"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_modTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_nameDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_nameDFAInitialized</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_nameGameTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" prot="private" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>_setupNameDFA</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>findByName</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>getEnum</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a10338e140944ec11b4e210716683093a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>getModType</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>getName</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdTools</scope><name>registerModType</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

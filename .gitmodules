@@ -13,3 +13,6 @@
 [submodule "Anime Game Remap (for all users)/api/extern/Compressonator"]
 	path = Anime Game Remap (for all users)/api/extern/Compressonator
 	url = https://github.com/GPUOpen-Tools/compressonator.git
+[submodule "Anime Game Remap (for all users)/api/extern/curl"]
+	path = Anime Game Remap (for all users)/api/extern/curl
+	url = https://github.com/curl/curl.git

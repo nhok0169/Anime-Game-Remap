@@ -59,8 +59,11 @@ from .core import GameTypeIdTools
 from .core import ModTypeId
 from .core import ModTypeIdTools
 from .core import ModTypeIdData
+from .core import CppModType
+from .core import CppGIBuilder
 from .core import CppIniClassifyStats
 from .core import CppBaseIniClassifier
+from .core import CppIniClassifier
 from .core import CppVersion
 from .core import ModDictAssets
 from .core import ModMappedAssets
@@ -357,7 +360,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppIniClassifyStats", "CppBaseIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppModType", "CppGIBuilder", "CppIniClassifyStats", "CppBaseIniClassifier", "CppIniClassifier", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
            "CppBufFile", "CppBlendFile", "CppPositionFile",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",

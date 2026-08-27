@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniResource</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::IniFixResource</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniResource</derivedcompoundref>
+    <includes refid="_ini_resource_8h" local="no">IniResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>AGRemapCore::IniResource::type</qualifiedname>
+        <briefdescription>
+<para>The name for the type of resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="51" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResource::srcPath</definition>
+        <argsstring></argsstring>
+        <name>srcPath</name>
+        <qualifiedname>AGRemapCore::IniResource::srcPath</qualifiedname>
+        <briefdescription>
+<para>The full file path to the resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="56" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniResource::IniResource</definition>
+        <argsstring>(std::string type, const std::string &amp;iniFolderPath, const std::string &amp;srcPath)</argsstring>
+        <name>IniResource</name>
+        <qualifiedname>AGRemapCore::IniResource::IniResource</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource (resolved to an absolute path against &apos;iniFolderPath&apos;) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="44" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="9" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IniResource::~IniResource</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IniResource</name>
+        <qualifiedname>AGRemapCore::IniResource::~IniResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="46" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for a resource in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.py``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The Python original also carries a generic, per-instance ``fixFunc``/``fix()``/``_fix()``
+   override mechanism at this level, built on ``*args``/``**kwargs`` -- that pattern doesn&apos;t
+   translate to a single, uniform C++ virtual signature (every real subclass in this codebase&apos;s
+   port -- ``RemapBlendResource``, ``RemapTexAddResource``, ``RemapIniDownload`` -- needs a
+   genuinely different signature for its own fix logic), so this class stays a plain data
+   holder: each concrete leaf class defines its own, concretely-typed ``fix()`` (and its own
+   ``fixFunc`` member, typed for that leaf specifically) instead of inheriting a generic one
+   from here. :cpp:class:`IniGroupedResource` is the one exception in this hierarchy that keeps
+   the generic pattern, since (unlike every other class here) it&apos;s actually used directly/bare,
+   with no natural leaf subclass of its own to hold concrete fix logic
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapBlendResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::RemapIniDownload</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::RemapTexAddResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_add_resource"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="34" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="34" bodyend="57"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::IniResource</scope><name>~IniResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

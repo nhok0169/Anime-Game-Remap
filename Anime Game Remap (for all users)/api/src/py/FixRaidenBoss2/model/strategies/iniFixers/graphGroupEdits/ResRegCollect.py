@@ -18,11 +18,11 @@ from typing import List, Optional, Tuple, TYPE_CHECKING, Callable, Dict, Set, Un
 
 ##### CppLocalImports
 from .....core import Ranges
+from .....core import IniGraphGroup
 ##### EndCppLocalImports
 
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from ....IniGraphGroup import IniGraphGroup
 from .....core import SectionIterData
 from .....core import IniSectionGraph
 from .GraphGroupRemap import GraphGroupRemap

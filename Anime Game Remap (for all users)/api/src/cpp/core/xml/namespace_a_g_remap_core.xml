@@ -8,8 +8,15 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_d_f_a" prot="public">AGRemapCore::BaseDFA</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public">AGRemapCore::BaseIniClassifier</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_fixer" prot="public">AGRemapCore::BaseIniFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public">AGRemapCore::BaseIniGraphEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public">AGRemapCore::BaseIniGraphGroupEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public">AGRemapCore::BaseRegEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public">AGRemapCore::BaseSLR1Parser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public">AGRemapCore::BaseTexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
@@ -31,18 +38,24 @@
     <innerclass refid="class_a_g_remap_core_1_1_buf_unorm" prot="public">AGRemapCore::BufUnorm</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_un_signed_int" prot="public">AGRemapCore::BufUnSignedInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_cache" prot="public">AGRemapCore::Cache</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_cached_file_stats" prot="public">AGRemapCore::CachedFileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_call_graph" prot="public">AGRemapCore::CallGraph</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour" prot="public">AGRemapCore::Colour</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_range" prot="public">AGRemapCore::ColourRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_stats" prot="public">AGRemapCore::FileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
@@ -69,7 +82,19 @@
     <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file" prot="public">AGRemapCore::IniFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public">AGRemapCore::IniFixResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public">AGRemapCore::IniFixResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_group" prot="public">AGRemapCore::IniGraphGroup</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_grouped_resource" prot="public">AGRemapCore::IniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_keywords" prot="public">AGRemapCore::IniKeywords</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_naming_tools" prot="public">AGRemapCore::IniNamingTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
@@ -93,7 +118,19 @@
     <innerclass refid="class_a_g_remap_core_1_1_pixel_filter" prot="public">AGRemapCore::PixelFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_remove" prot="public">AGRemapCore::RegRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public">AGRemapCore::RemapIniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public">AGRemapCore::RemapIniResourceMixin</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_stats" prot="public">AGRemapCore::RemapStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public">AGRemapCore::RemapTexAddResource</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
@@ -105,6 +142,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_token" prot="public">AGRemapCore::Token</innerclass>
@@ -816,7 +854,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="15" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="15" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="16" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="16" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -831,7 +869,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="16" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="16" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="17" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="17" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -959,7 +997,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="86" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="86" bodyend="120"/>
+        <location file="src/tools/IntTools.cpp" line="87" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="87" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -973,7 +1011,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="122" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="122" bodyend="136"/>
+        <location file="src/tools/IntTools.cpp" line="123" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="123" bodyend="137"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -987,7 +1025,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="138" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="138" bodyend="152"/>
+        <location file="src/tools/IntTools.cpp" line="139" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="139" bodyend="153"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1001,7 +1039,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="154" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="154" bodyend="163"/>
+        <location file="src/tools/IntTools.cpp" line="155" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="155" bodyend="164"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1015,7 +1053,21 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="165" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="165" bodyend="171"/>
+        <location file="src/tools/IntTools.cpp" line="166" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="166" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1aa6e5418f03174b1d22a058fedc62271c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::testFunc7</definition>
+        <argsstring>()</argsstring>
+        <name>testFunc7</name>
+        <qualifiedname>AGRemapCore::testFunc7</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/IntTools.cpp" line="174" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="174" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -1076,6 +1128,6 @@ user-supplied implementation, including one implemented from `Python`_.
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GameType.h" line="11" column="1"/>
+    <location file="include/AGRemapCore/constants/FileExt.h" line="7" column="1"/>
   </compounddef>
 </doxygen>

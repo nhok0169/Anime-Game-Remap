@@ -25,6 +25,7 @@
     <includedby refid="_if_template_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplate.h</includedby>
     <includedby refid="_if_template_node_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateNode.h</includedby>
     <includedby refid="_if_template_tree_8h" local="yes">include/AGRemapCore/model/iftemplate/IfTemplateTree.h</includedby>
+    <includedby refid="_base_reg_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</includedby>
     <incdepgraph>
       <node id="25">
         <label>Algo.tpp</label>
@@ -328,20 +329,68 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="14">
+        <label>include/AGRemapCore/constants/GIBuilder.h</label>
+        <link refid="_g_i_builder_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>include/AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
       <node id="2">
         <label>include/AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
+      <node id="4">
+        <label>include/AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
       <node id="3">
         <label>include/AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="21">
         <label>include/AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/files/IniFile.h</label>
+        <link refid="_ini_file_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -351,46 +400,156 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h</label>
+        <link refid="_base_ini_graph_edit_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
+        <link refid="_base_ini_graph_group_edit_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
+        <link refid="_base_reg_edit_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
+        <link refid="_reg_add_8h"/>
+      </node>
+      <node id="28">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
+        <link refid="_reg_new_vals_8h"/>
+      </node>
+      <node id="29">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
+        <link refid="_reg_remap_8h"/>
+      </node>
+      <node id="30">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
+        <link refid="_reg_remove_8h"/>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="5">
-        <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
-        <link refid="_if_content_part_colour_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
+      <node id="15">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/IniGraphGroup.cpp</label>
+        <link refid="_ini_graph_group_8cpp"/>
       </node>
       <node id="6">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
-        <link refid="_if_template_8h"/>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
       </node>
       <node id="7">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
-        <link refid="_if_template_node_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
+        <label>src/model/strategies/iniFixers/BaseIniFixer.cpp</label>
+        <link refid="_base_ini_fixer_8cpp"/>
       </node>
       <node id="8">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
-        <link refid="_if_template_tree_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
+        <label>src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp</label>
+        <link refid="_base_ini_graph_edit_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.cpp</label>
+        <link refid="_base_ini_graph_group_edit_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/model/strategies/iniParsers/BaseIniParser.cpp</label>
+        <link refid="_base_ini_parser_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>

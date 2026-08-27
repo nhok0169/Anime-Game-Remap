@@ -122,6 +122,19 @@ you've verified locally.
   consistently answered these quickly when asked and has been right to insist on it when an
   answer would've changed the implementation. Once implemented: rebuild, verify the new behavior
   empirically with a throwaway script *before* writing formal unit tests, then add the tests.
+- **The same "ask one tight, options-based question" rule applies well beyond Cython — treat it as
+  the default for any request that changes a *public API surface*, not just an implementation.**
+  The tell is when the request's *intent* is unambiguous but its *mechanism* isn't: several
+  materially different implementations would all satisfy the sentence as written, and they commit
+  the codebase to different public shapes. Confirmed on a one-line-sounding request ("this
+  predicate should also accept a `ModType`"): the intent was obvious, but it could have meant
+  widening the existing shared `ReplaceIf` marker, adding a second marker class beside it, or
+  accepting a plain `(value, predicate)` tuple — with a separate unstated fork over whether the
+  old 1-argument predicate stays valid. Two quick questions settled both; guessing would have been
+  a full rewrite of a class plus its tests and docs. Note this cuts the *other* way just as often:
+  don't ask about anything the surrounding code, an existing sibling class, or the file's own
+  conventions already answer — that's a judgment call to make yourself, and the maintainer's time
+  is the scarce thing being spent either way.
 - This set of files was authored from hands-on, verified work in the C++ core / pybind11 layer
   (the `OrderedMultiMap` / `IfContentPart` / `IfContentPartColouring` subsystem, including a full
   pure-Python-to-C++ migration of the latter — see Architecture's "Two different outcomes for
@@ -144,10 +157,16 @@ you've verified locally.
   `ModType`/`CppGIBuilder` model classes, and finally binding the previously-Python-unreachable
   `AGRemapCore::IniClassifier` itself (`CppIniClassifier`) — see Architecture's sections on the
   static-non-copyable-type/pybind11-init-order/`pybind11/stl.h` gotchas this produced, and
-  Testing's/Documentation's own notes on what this touched in each of those pipelines. Other
-  subsystems (the non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant)
-  still haven't been exercised to the same depth — verify assumptions there with the usual tools
-  rather than trusting this file blindly.
+  Testing's/Documentation's own notes on what this touched in each of those pipelines, plus —
+  separately again, later still — a full pure-Python-to-C++ replacement of the whole
+  `iniFixers/regEdits/` family (`BaseRegEdit`/`RegAdd`/`RegNewVals`/`RegRemap`/`RegRemove` as core
+  class templates + pybind11 bindings, the old Python package deleted outright), which is where
+  Architecture's sections on templating-a-core-class-for-pybind-reach, still-pure-Python
+  collaborator types, and how-a-binding-holds-a-Python-supplied-argument came from — along with
+  Documentation's `Attributes`-section and corrupt-`index.xml` traps. Other subsystems (the
+  non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant) still haven't
+  been exercised to the same depth — verify assumptions there with the usual tools rather than
+  trusting this file blindly.
 
 ## "Add yourself to The Council" — a running repo ritual
 

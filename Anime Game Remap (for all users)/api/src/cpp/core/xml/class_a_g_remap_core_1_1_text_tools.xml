@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_text_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TextTools</compoundname>
+    <includes refid="_text_tools_8h" local="no">TextTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_text_tools_1ae94b6a2511b69453cd4c2b11d79c3e98" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextTools::capitalize</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>capitalize</name>
+        <qualifiedname>AGRemapCore::TextTools::capitalize</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Capitalizes the first `Unicode`_ codepoint of &apos;txt&apos;, leaving the rest untouched --
+matches Python&apos;s ``txt[0].upper() + txt[1:]`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Uses `utf8proc`_&apos;s simple per-codepoint case mapping (:cpp:func:`utf8proc_toupper`),
+   the same as the rest of this codebase&apos;s Unicode handling -- this does not perform
+   full Unicode special-casing (eg. German ``&quot;ß&quot;`` uppercasing to ``&quot;SS&quot;``, 2
+   codepoints from 1), matching Python&apos;s own ``str.upper()`` only for the common case
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to capitalize</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The capitalized text</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if &apos;txt&apos; is not valid UTF-8 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/TextTools.h" line="43" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="9" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_text_tools_1aaf5544d63548563f42a3d2f63d118b0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TextTools::reverse</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>reverse</name>
+        <qualifiedname>AGRemapCore::TextTools::reverse</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reverses &apos;txt&apos; by `Unicode`_ codepoint (not by byte, and not by `grapheme`_) -- matches
+Python&apos;s ``txt[::-1]``, including that it can break apart a multi-codepoint `grapheme`_
+(eg. a base letter followed by a combining accent) the same way Python&apos;s version does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to reverse</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The reversed text</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if &apos;txt&apos; is not valid UTF-8 </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/TextTools.h" line="59" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="33" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for handling text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is a **partial** port of the pure-Python ``TextTools`` class (``tools/TextTools.py``)
+   -- only the methods needed so far (by :cpp:class:`IniNamingTools`) are included. Add more
+   methods as later-ported subsystems need them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/TextTools.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/TextTools.h" bodystart="21" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_text_tools_1ae94b6a2511b69453cd4c2b11d79c3e98" prot="public" virt="non-virtual"><scope>AGRemapCore::TextTools</scope><name>capitalize</name></member>
+      <member refid="class_a_g_remap_core_1_1_text_tools_1aaf5544d63548563f42a3d2f63d118b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::TextTools</scope><name>reverse</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

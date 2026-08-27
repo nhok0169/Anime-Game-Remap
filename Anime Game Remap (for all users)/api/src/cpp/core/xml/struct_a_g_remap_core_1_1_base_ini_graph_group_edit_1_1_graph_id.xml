@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseIniGraphGroupEdit::GraphId</compoundname>
+    <includes refid="_base_ini_graph_group_edit_8h" local="no">BaseIniGraphGroupEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a9ef027e018fa04d3eb3cccb185a9a809" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BaseIniGraphGroupEdit::GraphId::iniIndex</definition>
+        <argsstring></argsstring>
+        <name>iniIndex</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::iniIndex</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The index of the .ini file <ndash/> an index into the <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a47f51212b64246f627a5b3b7912e4fa5" kindref="member">GraphGroups</ref> vector. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="59" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a2621dc18f717e4b9d4c886074d687d5b" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">IniGraphGroup::ModObj</ref></type>
+        <definition>IniGraphGroup::ModObj AGRemapCore::BaseIniGraphGroupEdit::GraphId::modObj</definition>
+        <argsstring></argsstring>
+        <name>modObj</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::modObj</qualifiedname>
+        <briefdescription>
+<para>The name of the component and the name of the mod object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="64" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
+holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
+tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+fields rather than restating them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="65"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a9ef027e018fa04d3eb3cccb185a9a809" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>iniIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a2621dc18f717e4b9d4c886074d687d5b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>modObj</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

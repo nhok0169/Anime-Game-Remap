@@ -1,0 +1,291 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_ini_resource_mixin" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniResourceMixin</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixResource</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniGroupedResource</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniResource</derivedcompoundref>
+    <includes refid="_remap_ini_resource_8h" local="no">RemapIniResource.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::RemapIniResourceMixin::~RemapIniResourceMixin</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RemapIniResourceMixin</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::~RemapIniResourceMixin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="39" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcEncounteredError</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4">srcEncounteredError</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="48" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::srcIsFixed</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4">srcIsFixed</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="57" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="31" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixEncounteredError</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374">fixEncounteredError</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="66" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="36" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixIsFixed</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970">fixIsFixed</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="75" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="41" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::fixExists</definition>
+        <argsstring>(const RemapStats &amp;stats) const</argsstring>
+        <name>fixExists</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::fixExists</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153">fixExists</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a8c7902eb77906d8172c3aa518907bd8b">fixExists</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource already exists on disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource already exists </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="84" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="46" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniResourceMixin::hasRequired</definition>
+        <argsstring>() const</argsstring>
+        <name>hasRequired</name>
+        <qualifiedname>AGRemapCore::RemapIniResourceMixin::hasRequired</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f">hasRequired</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b">hasRequired</reimplementedby>
+        <briefdescription>
+<para>Determines whether all the necessary data has been collected to fix this resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether all the required data is gathered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="91" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="51" bodyend="53"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Interface for a resource in a .ini file that&apos;s used by the overall remap process :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``RemapIniResourceMixin`` class
+(``model/iniresources/RemapIniResource.py``) -- every method here defaults to ``false`` (matches
+the Python original&apos;s own methods, which are all a bare ``pass`` -- an implicit ``None``, ie.
+falsy -- rather than raising ``NotImplementedError``), so a concrete class only needs to
+override whichever of these actually apply to it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The Python original&apos;s own ``RemapIniFixResource.fixExists`` overrides this interface&apos;s
+   ``fixExists(self, stats)`` with a **different** signature (``fixExists(self)``, no ``stats``
+   parameter) -- a real mismatch only possible because Python doesn&apos;t enforce override
+   signatures. #fixExists here keeps the one uniform ``stats``-taking signature the interface
+   declares (also matching how ``RemapIniResource.fixExists`` actually *uses* ``stats``);
+   :cpp:class:`RemapIniFixResource`&apos;s own override just doesn&apos;t reference the parameter
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::RemapBlendResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::RemapIniDownload</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniGroupedResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::RemapTexAddResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_add_resource"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="37" bodyend="92"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a5808b71b65e90b59fe5cab5e85c7bae1" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResourceMixin</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

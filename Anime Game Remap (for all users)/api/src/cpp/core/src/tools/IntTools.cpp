@@ -5,6 +5,7 @@
 #include <tsl/ordered_map.h>
 #include <xxhash.h>
 #include "compressonator.h"
+#include <curl/curl.h>
 #include <iostream>
 #include "AGRemapCore/tools/grapheme/GraphemeRange.h"
 #include <string>
@@ -170,12 +171,91 @@ namespace AGRemapCore {
         std::cout << "Compressonator initialized successfully!\n";
     }
 
+    static void testFunc7() {
+        std::cout << "libcurl sanity test\n";
+
+        CURLcode result = curl_global_init(CURL_GLOBAL_DEFAULT);
+
+        if (result != CURLE_OK) {
+            std::cerr << "curl_global_init failed: "
+                    << curl_easy_strerror(result)
+                    << '\n';
+            return;
+        }
+
+        CURL* curl = curl_easy_init();
+
+        if (curl == nullptr) {
+            std::cerr << "curl_easy_init failed\n";
+            curl_global_cleanup();
+            return;
+        }
+
+        std::string response;
+
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.github.com/");
+
+        curl_easy_setopt(
+            curl,
+            CURLOPT_WRITEFUNCTION,
+            [](char* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
+                auto* output = static_cast<std::string*>(userdata);
+                output->append(ptr, size * nmemb);
+                return size * nmemb;
+            }
+        );
+
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+        curl_easy_setopt(
+            curl,
+            CURLOPT_USERAGENT,
+            "AGRemapCore-sanity-test"
+        );
+
+        result = curl_easy_perform(curl);
+
+        if (result != CURLE_OK) {
+            std::cerr << "curl_easy_perform failed: "
+                    << curl_easy_strerror(result)
+                    << '\n';
+
+            curl_easy_cleanup(curl);
+            curl_global_cleanup();
+            return;
+        }
+
+        long responseCode = 0;
+
+        curl_easy_getinfo(
+            curl,
+            CURLINFO_RESPONSE_CODE,
+            &responseCode
+        );
+
+        std::cout << "HTTP response code: "
+                << responseCode
+                << '\n';
+
+        std::cout << "Downloaded "
+                << response.size()
+                << " bytes\n";
+
+        std::cout << "Response:\n"
+                << response
+                << '\n';
+
+        curl_easy_cleanup(curl);
+        curl_global_cleanup();
+    }
+
     std::string IntTools::toBase64(long long num, bool *error, const std::optional<std::vector<std::string>>& getDigit, const std::string& negativeChar) {
         // testFunc();
         // testFunc2();
         // testFunc3();
         // testFunc4();
         // testFunc6();
+        // testFunc7();
         return IntTools::toStrBase(num, Base64BaseNum, getDigit.has_value() ? *getDigit : Base64Digits, negativeChar, error);
     }
 }

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="47" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="76" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="52" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="52" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="81" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="57" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="57" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="86" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -62,14 +62,65 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="62" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="62" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="91" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a55d5e60fe14a9552f50bbbffa8178bbd" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseIniParser&gt; AGRemapCore::ModType::iniParser</definition>
+        <argsstring></argsstring>
+        <name>iniParser</name>
+        <qualifiedname>AGRemapCore::ModType::iniParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser used to parse a ``.ini`` file of this type of mod :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original holds an ``IniParseBuilder`` (a *factory*) here, not a
+   parser, so that ``IniFile._getParser`` can build a **fresh** parser per ``.ini``
+   file. This holds a single parser instance instead, so every ``.ini`` file of this
+   mod type shares it -- bind it to the file being worked on with
+   :cpp:func:`BaseIniParser::setIniFile` before use (it is constructed unbound, since
+   a :cpp:class:`ModType` describes a *kind* of mod rather than one specific file).
+   Revisit if per-file parser state is ever needed
+
+.. note::
+   A ``shared_ptr`` rather than a ``unique_ptr`` because :cpp:class:`ModType` must stay
+   **copyable** -- :cpp:func:`ModTypeIdTools::getModType` returns one by value, and
+   :cpp:member:`IniFile::modTypes` stores them by value
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="114" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ae509000f5e1f2b7486f505d93f072097" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseIniFixer&gt; AGRemapCore::ModType::iniFixer</definition>
+        <argsstring></argsstring>
+        <name>iniFixer</name>
+        <qualifiedname>AGRemapCore::ModType::iniFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer used to fix a ``.ini`` file of this type of mod -- see #iniParser for why
+this is a shared single instance rather than the pure-Python original&apos;s
+``IniFixBuilder`` factory
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="124" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="124" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a1baeccd8b871c9c56f183a9dedea5fcf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1afb0f027bd36ef0d64ff3debf2e3f28e7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::ModType::ModType</definition>
-        <argsstring>(int gameTypeId, int modTypeId, const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;aliases={})</argsstring>
+        <argsstring>(int gameTypeId, int modTypeId, const std::string &amp;name, const std::vector&lt; std::string &gt; &amp;aliases={}, std::shared_ptr&lt; BaseIniParser &gt; iniParser=nullptr, std::shared_ptr&lt; BaseIniFixer &gt; iniFixer=nullptr)</argsstring>
         <name>ModType</name>
         <qualifiedname>AGRemapCore::ModType::ModType</qualifiedname>
         <param>
@@ -88,6 +139,16 @@
           <type>const std::vector&lt; std::string &gt; &amp;</type>
           <declname>aliases</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> &gt;</type>
+          <declname>iniParser</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref> &gt;</type>
+          <declname>iniFixer</declname>
+          <defval>nullptr</defval>
         </param>
         <briefdescription>
 <para>Constructs new data for a type of mod. </para>
@@ -134,12 +195,47 @@ registered in :cpp:enum:`ModTypeId` can still be represented
 <para>Other alternative names for the type of mod </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniParser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The parser used to parse a ``.ini`` file of this type of mod -- see #iniParser
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If this is ``nullptr``, a plain :cpp:class:`BaseIniParser` is constructed instead,
+mirroring the pure-Python original&apos;s own
+``if (iniParseBuilder is None): iniParseBuilder = IniParseBuilder(GIMIParser)``
+fallback :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>iniFixer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The fixer used to fix a ``.ini`` file of this type of mod -- see #iniFixer
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If this is ``nullptr``, a plain :cpp:class:`BaseIniFixer` bound to #iniParser is
+constructed instead, mirroring the pure-Python original&apos;s own ``iniFixBuilder``
+fallback :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="42" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="69" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="7" bodyend="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -153,11 +249,13 @@ Meant to carry the full C++-side representation of a mod type -- contrast with t
 The Python-side ``ModType`` is meant to build itself using this data.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/ModType.h" line="20" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="20" bodyend="63"/>
+    <location file="include/AGRemapCore/model/strategies/ModType.h" line="24" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="24" bodyend="125"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>aliases</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>gameTypeId</name></member>
-      <member refid="class_a_g_remap_core_1_1_mod_type_1a1baeccd8b871c9c56f183a9dedea5fcf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>ModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ae509000f5e1f2b7486f505d93f072097" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a55d5e60fe14a9552f50bbbffa8178bbd" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1afb0f027bd36ef0d64ff3debf2e3f28e7" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>ModType</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>modTypeId</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>name</name></member>
     </listofallmembers>

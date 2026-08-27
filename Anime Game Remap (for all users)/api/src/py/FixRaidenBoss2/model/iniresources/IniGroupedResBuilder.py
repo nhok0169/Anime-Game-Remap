@@ -16,9 +16,12 @@
 from typing import Type, List, Dict, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import IniGroupedResource
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...tools.Builder import Builder
-from .IniResource import IniGroupedResource
 ##### EndLocalImports
 
 

@@ -1,7 +1,7 @@
 # AI Agent Help Instructions
 
 [![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/login)
-![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-18-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
+![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-20-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
 
 
 <br>
@@ -38,3 +38,5 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%9E%EF%B8%8F%F0%9F%A7%AC%20The%20Frame%20Decoder-1-%2322c55e?style=flat-square&labelColor=%230f172a)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%96%BC%EF%B8%8F%F0%9F%A7%B5%20The%20Texture%20Weaver-1-%2384cc16?style=for-the-badge&labelColor=%231a2e05)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%94%93%20The%20Classifier%20Unlocker-1-%23f43f5e?style=flat-square&labelColor=%233f3f46)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%95%B5%EF%B8%8F%F0%9F%93%A6%20The%20DLL%20Detective-1-%23f97316?style=flat&labelColor=%23431407)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A9%F0%9F%93%90%20The%20Register%20Templater-1-%23b45309?style=plastic&labelColor=%23292524)

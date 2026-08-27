@@ -49,6 +49,12 @@ pybind11_add_module(core
     src/model/PyCallGraph.cpp
     src/model/PySectionIterData.cpp
     src/model/PyIniSectionGraph.cpp
+    src/model/PyIniGraphGroup.cpp
+    src/model/strategies/iniFixers/regEdits/PyBaseRegEdit.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegAdd.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegNewVals.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegRemap.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegRemove.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp
@@ -86,6 +92,21 @@ pybind11_add_module(core
     src/model/strategies/texEditors/PyBaseTexEditor.cpp
     src/model/strategies/texEditors/PyTexEditor.cpp
     src/model/strategies/texEditors/PyTexCreator.cpp
+    src/model/stats/PyFileStats.cpp
+    src/model/stats/PyCachedFileStats.cpp
+    src/model/stats/PyRemapStats.cpp
+    src/tools/files/PyFileDownload.cpp
+    src/model/iniresources/PyIniResourceModel.cpp
+    src/model/iniresources/PyIniSrcResourceModel.cpp
+    src/model/iniresources/PyIniFixResourceModel.cpp
+    src/model/iniresources/PyIniTexModel.cpp
+    src/model/iniresources/PyIniDownloadModel.cpp
+    src/model/iniresources/PyIniResource.cpp
+    src/model/iniresources/PyIniGroupedResource.cpp
+    src/model/iniresources/PyRemapIniResource.cpp
+    src/model/iniresources/PyRemapIniGroupedResource.cpp
+    src/model/iniresources/PyRemapBlendResource.cpp
+    src/model/iniresources/PyRemapTexResource.cpp
 )
 
 # Forces the linker to use response files (.rsp) to bypass Windows command limits
@@ -103,6 +124,8 @@ install(TARGETS core
 if (WIN32)
     install(FILES
         $<TARGET_FILE:z3::libz3>
+        $<TARGET_FILE:utf8proc>
+        $<TARGET_FILE:CURL::libcurl>
         DESTINATION FixRaidenBoss2
     )
 endif()

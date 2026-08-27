@@ -181,12 +181,27 @@ test module needs an entry there to be picked up by name. Conventions:
   rather than the input itself.
 - **A `test_Xxx.py` for a not-yet-implemented `model/strategies/iniFixers/regEdits/`- or
   `graphGroupEdits/`-style stub often already exists on disk as a literal one-line
-  `# TODO: Add tests for Xxx class` placeholder**, not a genuinely missing file — confirmed for
-  `test_RegAdd.py`, `test_RegNewVals.py`, `test_RegRemap.py`, and `test_RegRemove.py`. `Write`
-  refuses to overwrite a file you haven't `Read` first, so `Read` it (even though you already know
-  it's just the TODO line) before writing the real test module over it, and don't assume the
-  absence of a `find`/`Glob` hit for some other naming guess means no test file exists yet — check
-  the exact `test_<ClassName>.py` path directly.
+  `# TODO: Add tests for Xxx class` placeholder**, not a genuinely missing file — originally
+  confirmed for `test_RegAdd.py`, `test_RegNewVals.py`, `test_RegRemap.py`, and
+  `test_RegRemove.py`. `Write` refuses to overwrite a file you haven't `Read` first, so `Read` it
+  (even though you already know it's just the TODO line) before writing the real test module over
+  it, and don't assume the absence of a `find`/`Glob` hit for some other naming guess means no test
+  file exists yet — check the exact `test_<ClassName>.py` path directly. **Those four specific
+  files are no longer placeholders** — all four (plus a new `test_BaseRegEdit.py`) are real,
+  fully-passing black-box suites as of the C++/pybind11 port of the whole `regEdits` family (see
+  [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)); the rule itself still holds for other stubs.
+- **For a full-replacement port, read the class's existing `test_Xxx.py` *before* designing the
+  binding — it is a behavioural contract, and it routinely constrains binding internals rather
+  than just outputs.** The obvious reading of "port this class to C++" is that the tests are a
+  pass/fail check you run at the end; in practice they encode decisions the pure-Python original
+  made implicitly. Confirmed porting `regEdits`: `test_RegRemap.py`/`test_RegRemove.py` each open
+  with `self.assertIs(edit.someArg, theDictIPassedIn)`, which rules out the otherwise-natural
+  "parse the dict into a C++ member and rebuild it in the getter" binding outright (see
+  [Architecture](../Architecture/CLAUDE.md)'s three options for what to do instead). Discovering
+  that from a red test after the binding is written costs a redesign plus a rebuild; discovering it
+  from a five-minute read costs nothing. The same read also tells you which behaviours are already
+  pinned and must survive (`assertIs` on the *returned* object, `Ranges.createFull()`/
+  `createEmpty()` edge cases, an unbounded range endpoint falling back to `len(part)`).
 - **Always include at least one test that constructs every argument 100% inline, with no separate
   Python variable ever holding a reference to a piece of it**, for any pybind11-bound class that
   stores raw pointers into other Python-constructible objects (`IniSectionGraph({"a":

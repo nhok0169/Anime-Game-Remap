@@ -18,6 +18,12 @@ from collections import deque
 from typing import Optional, Dict, Callable, List
 ##### EndExtImports
 
+##### CppLocalImports
+from .core import FileStats
+from .core import CachedFileStats
+from .core import RemapStats
+##### EndCppLocalImports
+
 ##### LocalImports
 from .constants.FilePathConsts import FilePathConsts
 from .constants.FileTypes import FileTypes
@@ -35,9 +41,6 @@ from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
 from .model.strategies.ModType import ModType
 from .model.Mod import Mod
-from .model.stats.FileStats import FileStats
-from .model.stats.CachedFileStats import CachedFileStats
-from .model.stats.RemapStats import RemapStats
 from .model.files.IniFile import IniFile
 from .model.Version import Version
 from .tools.files.FileService import FileService

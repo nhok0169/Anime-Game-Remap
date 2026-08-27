@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_026347362743402906080a6472be6d31" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniFixers</compoundname>
+    <innerdir refid="dir_7175c1bafd995e4827b8d492b52dbe7a">include/AGRemapCore/model/strategies/iniFixers/graphEdits</innerdir>
+    <innerdir refid="dir_45d32c17809510f48fcbd9b7e6d1b46c">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits</innerdir>
+    <innerdir refid="dir_a33175c9e1cb196aa8cfe9dc274cd0a0">include/AGRemapCore/model/strategies/iniFixers/regEdits</innerdir>
+    <innerfile refid="_base_ini_fixer_8h">BaseIniFixer.h</innerfile>
+    <innerfile refid="_base_ini_graph_part_edit_8h">BaseIniGraphPartEdit.h</innerfile>
+    <innerfile refid="_base_ini_part_edit_8h">BaseIniPartEdit.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/"/>
+  </compounddef>
+</doxygen>

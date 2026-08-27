@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/tools</compoundname>
     <innerdir refid="dir_ebbefd75dbc2fc9d34e8472fb840add5">include/AGRemapCore/tools/caches</innerdir>
     <innerdir refid="dir_c5bba629c3eb05f0dcbd7989ed1340d2">include/AGRemapCore/tools/dfa</innerdir>
+    <innerdir refid="dir_731554f5e6e34f75123765a0b58d4ffc">include/AGRemapCore/tools/files</innerdir>
     <innerdir refid="dir_51ecc25db6fb3ac58fa2e2b437e711d4">include/AGRemapCore/tools/grapheme</innerdir>
     <innerdir refid="dir_ce0989bf685345dc86d3b45d5f225b3e">include/AGRemapCore/tools/hashing</innerdir>
     <innerdir refid="dir_7ea388311eac7c0295f6e87aa1ba1385">include/AGRemapCore/tools/idGenerator</innerdir>
@@ -20,6 +21,7 @@
     <innerfile refid="_ranges_8h">Ranges.h</innerfile>
     <innerfile refid="_string_hash_8h">StringHash.h</innerfile>
     <innerfile refid="_string_tools_8h">StringTools.h</innerfile>
+    <innerfile refid="_text_tools_8h">TextTools.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

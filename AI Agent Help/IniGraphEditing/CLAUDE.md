@@ -240,6 +240,34 @@ one to reach for if a new method needs to return several related values together
 
 ## Completing a simple `regEdits`/`graphGroupEdits`/`graphEdits` stub
 
+**The whole `regEdits/` family is now C++-backed** (a later, separate full-replacement port:
+`AGRemapCore::BaseRegEdit`/`RegAdd`/`RegNewVals`/`RegRemap`/`RegRemove`, class templates under
+`core/include/AGRemapCore/model/strategies/iniFixers/regEdits/`, plus pybind11 bindings under
+`py/src/model/strategies/iniFixers/regEdits/`). The pure-Python package this section describes
+(`model/strategies/iniFixers/regEdits/`) has been **deleted outright**, not renamed to `...Old` —
+don't go looking for `RegAdd.py`/`BaseRegEdit.py`/etc. Everything below still applies as-is to
+`graphGroupEdits/` and `graphEdits/` (both still pure Python), and the `regEdits` rows in the
+primitive table still name the right primitive for each task — just implemented in C++ now. Three
+things specific to the port, if you're extending that family:
+
+- `BaseRegEdit` and its subclasses are **class templates** over the same `K`/`V`/`KeyHash`/
+  `KeyEqual` as the `IfContentPart` they edit — they have to be, since the pybind11 layer edits
+  `IfContentPart<py::object, py::object, ...>` while a plain C++ caller wants
+  `IfContentPart<std::string, std::string>` (the template defaults). Header + `.tpp` only; nothing
+  to add to `core/CMakeLists.txt`.
+- `editFromIni`'s `ini` and `edit`'s `modType` are **nullable pointers** in the C++ core, and the
+  pybind11 layer always passes `nullptr` for both: every one of these edits ignores them (exactly
+  as the pure-Python originals did), the Python-side `ModType` is still a pure-Python class with no
+  C++ counterpart to hand over, and `AGRemapCore::IniFile` isn't bound to Python at all.
+- Each `PyRegXxx` binding keeps the **exact Python object** the caller passed for its
+  `vals`/`keyRemap`/`removeKeys` argument and re-derives the C++ member from it at the start of
+  every `edit()` (`PyRegXxx::refresh()`). That preserves both of the pure-Python originals'
+  observable behaviours — `someEdit.vals is theThingYouPassed`, and an in-place mutation of that
+  object changing what the edit does — neither of which survives a parse-once-into-a-C++-copy
+  design. It matters most for `RegRemove`, whose values are Python callables that pybind11 cannot
+  hand back as the *same* callable (its `std::function` caster re-wraps them in a fresh
+  `cpp_function`).
+
 Most stubs in `model/strategies/iniFixers/regEdits/`, `graphGroupEdits/`, and the simpler
 `graphEdits/` classes (i.e. not `RegSurroundedAdd`-style dataflow features) are **thin wrappers
 around one existing primitive** — `__init__` just stores the constructor args as attributes, and

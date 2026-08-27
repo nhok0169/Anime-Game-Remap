@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFixResourceModel::Entry</compoundname>
+    <includes refid="_ini_fix_resource_model_8h" local="no">IniFixResourceModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFixResourceModel::Entry::fixedPath</definition>
+        <argsstring></argsstring>
+        <name>fixedPath</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::Entry::fixedPath</qualifiedname>
+        <briefdescription>
+<para>The path name of the fixed file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="38" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFixResourceModel::Entry::fullPath</definition>
+        <argsstring></argsstring>
+        <name>fullPath</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::Entry::fullPath</qualifiedname>
+        <briefdescription>
+<para>The full path name to the fixed file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="43" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aa65d3863db63688afde505adeacb8275" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::IniFixResourceModel::Entry::origPath</definition>
+        <argsstring></argsstring>
+        <name>origPath</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::Entry::origPath</qualifiedname>
+        <briefdescription>
+<para>The path to the original file, if available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="48" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aec6ee4628aaa735f83efff8dde436f53" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::IniFixResourceModel::Entry::origFullPath</definition>
+        <argsstring></argsstring>
+        <name>origFullPath</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::Entry::origFullPath</qualifiedname>
+        <briefdescription>
+<para>The full path name to the original file, if available. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="53" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One entry of <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" kindref="member">items</ref> <ndash/> the C++ counterpart to one tuple the pure-Python original&apos;s <computeroutput>__iter__</computeroutput> would yield. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="34" column="13" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="34" bodyend="54"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fixedPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fullPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aec6ee4628aaa735f83efff8dde436f53" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>origFullPath</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aa65d3863db63688afde505adeacb8275" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>origPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

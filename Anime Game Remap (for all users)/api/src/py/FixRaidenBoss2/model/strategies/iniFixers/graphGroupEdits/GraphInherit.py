@@ -17,13 +17,13 @@ from typing import List, TYPE_CHECKING, Tuple, Optional, Callable
 
 ##### CppLocalImports
 from .....core import Ranges
+from .....core import IniGraphGroup
+from .....core import RegAdd
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ....IniGraphGroup import IniGraphGroup
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from .....core import SectionIterData
-from ..regEdits.RegAdd import RegAdd
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

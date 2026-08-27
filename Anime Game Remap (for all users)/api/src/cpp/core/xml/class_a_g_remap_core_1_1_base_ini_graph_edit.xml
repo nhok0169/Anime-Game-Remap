@@ -1,0 +1,305 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_ini_graph_edit" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseIniGraphEdit</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphPartEdit</basecompoundref>
+    <includes refid="_base_ini_graph_edit_8h" local="no">BaseIniGraphEdit.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit::Graph = IniSectionGraph&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph this edits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="37" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit::IterData = SectionIterData&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> is handed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="42" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices a #PartFilter returns -- ``long long`` because
+that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit::PartFilter = std::function&lt;OrderRanges(const IterData&amp;, const ModType&amp;, IniFile*)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate the valid order indices to process for some
+:cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The ``.ini`` file argument is a **non-owning, nullable** pointer, matching the
+pure-Python original&apos;s ``Optional[IniFile]`` -- an empty ``std::function`` stands in for
+that original&apos;s ``partFilter = None``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="64" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a5c4efb49f79e6280fee7cf00a80bb882" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+        <definition>BaseIniGraphEdit::Graph &amp; AGRemapCore::BaseIniGraphEdit::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile &amp;ini, const ModType &amp;modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={})</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::editFromIni</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &amp;</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The base implementation forwards straight to #edit and **ignores &apos;ini&apos; entirely**,
+   exactly as the pure-Python original does (its ``BaseIniPartEdit.editFromIni`` calls
+   ``self.edit(*args, **kwargs)`` without passing ``ini`` along). Subclasses that
+   actually need the ``.ini`` file&apos;s state override this rather than #edit
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="87" column="27" bodyfile="src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp" bodystart="8" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a15895fe34f86f839154f59758bd3eb5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+        <definition>BaseIniGraphEdit::Graph &amp; AGRemapCore::BaseIniGraphEdit::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType &amp;modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={})</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::edit</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the caller/callee graph. No-op by default (returns &apos;graph&apos; untouched), matching
+the pure-Python original&apos;s ``pass``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="104" column="27" bodyfile="src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp" bodystart="16" bodyend="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSectionGraph`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original&apos;s :cpp:class:`IniSectionGraph` is a class template here, so this
+   pins it (and :cpp:class:`SectionIterData`) to ``&lt;std::string, std::string&gt;`` -- the same
+   instantiation :cpp:class:`IniGraphGroup` and :cpp:class:`IniFile` already use, and the only
+   one any real ``.ini`` file needs
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseIniGraphEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::BaseIniGraphEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="31" bodyend="106"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a15895fe34f86f839154f59758bd3eb5e" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a5c4efb49f79e6280fee7cf00a80bb882" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

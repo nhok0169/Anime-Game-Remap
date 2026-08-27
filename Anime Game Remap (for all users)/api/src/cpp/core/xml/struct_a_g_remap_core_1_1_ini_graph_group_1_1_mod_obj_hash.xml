@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniGraphGroup::ModObjHash</compoundname>
+    <includes refid="_ini_graph_group_8h" local="no">IniGraphGroup.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash_1adab93f15937d75068acf848546c32f98" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::IniGraphGroup::ModObjHash::operator()</definition>
+        <argsstring>(const ModObj &amp;modObj) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::IniGraphGroup::ModObjHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">ModObj</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="70" column="29" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="70" bodyend="74"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Hashes a #ModObj, so it can key a ``tsl::ordered_map`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Uses the same multiply-and-xor combine the standard library&apos;s own implementations
+conventionally use -- nothing in this codebase needed a ``std::pair`` hash before this
+class, so there was no existing helper to reuse
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/IniGraphGroup.h" line="69" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="69" bodyend="75"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash_1adab93f15937d75068acf848546c32f98" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup::ModObjHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

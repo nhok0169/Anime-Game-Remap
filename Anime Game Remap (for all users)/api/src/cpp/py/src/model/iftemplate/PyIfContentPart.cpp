@@ -43,10 +43,18 @@ std::optional<size_t> parseId(const py::object &id) {
     return id.cast<size_t>();
 }
 
+}
+
+
 // removeKeys()'s dict values are each an optional check predicate -- unlike remapKeys()/
 // replaceVals(), there's no marker-class ambiguity here (a bare None or a bare callable, no
 // third alternative that could itself be a callable), so this is a direct conversion, no
 // isinstance dispatch needed.
+//
+// Deliberately NOT in this file's anonymous namespace (unlike itemsAsTuples/parseSrc/parseId
+// above): PyRegRemove.cpp reuses it verbatim, exactly the way PyIOrderedMultiMap.h already
+// shares parseRanges/parseKeyRemap/parseReplaceVals with this file -- see that header's own
+// note about keeping dict-parsing helpers in one place instead of duplicating them per binding.
 std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys) {
     std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> result;
     result.reserve(keys.size());
@@ -61,8 +69,6 @@ std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>
         result.emplace_back(std::move(key), std::move(check));
     }
     return result;
-}
-
 }
 
 

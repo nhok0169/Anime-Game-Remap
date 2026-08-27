@@ -87,6 +87,16 @@ namespace AGRemapCore {
              * @brief The substring used to indicate that the `section`_ contains some downloaded file from the internet
              */
             static inline const std::string RemapDL = Remap + "DL";
+
+            /**
+             * @brief The `KVP`_ key used to reference/call another `section`_
+             */
+            static inline const std::string Run = "run";
+
+            /**
+             * @brief The comment marker used to hide (comment out) a previously-fixed original `section`_
+             */
+            static inline const std::string HideOriginalComment = ";RemapFixHideOrig -->";
     };
 }
 

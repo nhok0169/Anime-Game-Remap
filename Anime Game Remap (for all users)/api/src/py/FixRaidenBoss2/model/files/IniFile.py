@@ -44,12 +44,12 @@ from .File import File
 from ..strategies.iniClassifiers.IniClassifierOld import IniClassifierOld
 from ...core import IfTemplate
 from ...core import IniSectionGraph
-from ..iniresources.IniFixResourceModel import IniFixResourceModel
-from ..iniresources.IniSrcResourceModel import IniSrcResourceModel
-from ..iniresources.IniResource import IniResource
-from ..iniresources.RemapIniResource import RemapIniDownload
-from ..iniresources.IniTexModel import IniTexModel
-from ..iniresources.IniDownloadModel import IniDownloadModel
+from ...core import IniFixResourceModel
+from ...core import IniSrcResourceModel
+from ...core import IniResource
+from ...core import RemapIniDownload
+from ...core import IniTexModel
+from ...core import IniDownloadModel
 from ..Version import Version
 from ..strategies.iniParsers.BaseIniParser import BaseIniParser
 from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
@@ -57,7 +57,7 @@ from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..iniparserdicts.KeepAllDict import KeepAllDict
 from ...tools.files.FilePath import FilePath
-from ...tools.files.FileDownload import FileDownload
+from ...core import FileDownload
 from ...tools.TextTools import TextTools
 from ...tools.files.FileService import FileService
 from ...view.Logger import Logger
@@ -1911,7 +1911,6 @@ class IniFile(File):
         result = self._removeFix(parse = parse, writeBack = writeBack)
         return result
     
-    # TOREMOVE
     def makeFixResourceModel(self, ifTemplate: IfTemplate, toFix: Set[str], getFixedFile: Optional[Callable[[str, str], str]] = None,
                             iniResourceModelCls: Type[IniFixResourceModel] = IniFixResourceModel, 
                             iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniFixResourceModel:
@@ -2009,7 +2008,6 @@ class IniFile(File):
 
         return iniResourceModelCls(folderPath, fixedResPaths, *iniResModelArgs, origPaths = origResPaths, **iniResModelKwargs)
     
-    # TOREMOVE
     def makeSrcResourceModel(self, ifTemplate: IfTemplate, iniResourceModelCls: Type[IniFixResourceModel] = IniSrcResourceModel, 
                              iniResModelArgs: Optional[List[Any]] = None, iniResModelKwargs: Optional[Dict[str, Any]] = None) -> IniSrcResourceModel:
         """
@@ -2118,7 +2116,6 @@ class IniFile(File):
 
         return list(result.values())
     
-    # TOREMOVE
     def makeTexModel(self, ifTemplate: IfTemplate, toFix: Set[str], texEditors: Union[BaseTexEditor, Dict[int, Dict[str, List[BaseTexEditor]]]], 
                      getFixedFile: Optional[Callable[[str, str], str]] = None) -> IniTexModel:
         """
@@ -2189,7 +2186,6 @@ class IniFile(File):
 
         return self.makeFixResourceModel(ifTemplate, toFix, getFixedFile, iniResourceModelCls = IniTexModel, iniResModelArgs = [texEdits])
     
-    # TOREMOVE
     def makeDLModel(self, ifTemplate: IfTemplate, downloads: Union[FileDownload, Dict[int, Dict[str, List[FileDownload]]]]) -> IniDownloadModel:
         """
         Creates the data needed for a particular ``[Resource.*]`` `section`_ for some file download in the .ini file

@@ -1,0 +1,1004 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_naming_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniNamingTools</compoundname>
+    <includes refid="_ini_naming_tools_8h" local="no">IniNamingTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a84554a7fb766c11208ea17a13b43c135" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getResourceName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>getResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes the name of a `section`_ to be used for the resource `sections`_ of a .ini file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Examples: ``&quot;CuteLittleEi&quot;`` -&gt; ``&quot;ResourceCuteLittleEi&quot;``;
+``&quot;ResourceCuteLittleEi&quot;`` -&gt; ``&quot;ResourceCuteLittleEi&quot;`` (unchanged)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name of the <computeroutput>section</computeroutput>_ as a resource in a .ini file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="36" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="64" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a7b2e0efb0187faca695485bee66c27ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::removeResourceName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>removeResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::removeResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Removes the &apos;Resource&apos; prefix from a section&apos;s name :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Examples: ``&quot;ResourceCuteLittleEi&quot;`` -&gt; ``&quot;CuteLittleEi&quot;``;
+``&quot;LittleMissGanyu&quot;`` -&gt; ``&quot;LittleMissGanyu&quot;`` (unchanged)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name of the <computeroutput>section</computeroutput>_ with the &apos;Resource&apos; prefix removed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="51" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="71" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a69a7a72287a46b580f0a814554af7a79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapElementName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;elementName, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapElementName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapElementName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>elementName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword from &apos;elementName&apos; to identify that the
+`section`_ is created by this fix -- replaces the LAST occurrence of &apos;elementName&apos;
+within &apos;name&apos; with ``{modName}Remap{elementName}``, or appends it if &apos;elementName&apos;
+isn&apos;t found :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Example: ``getRemapElementName(&quot;EiTriesToUseBlenderAndFails&quot;, &quot;Blend&quot;, &quot;Raiden&quot;)`` -&gt;
+``&quot;EiTriesToUseRaidenRemapBlenderAndFails&quot;``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elementName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the target element </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name of the <computeroutput>section</computeroutput>_ with the keyword of &apos;elementName&apos;, prefixed by the word &apos;Remap&apos;, added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="72" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="78" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a07d2c24a38092e47d1648e03e3aff0df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapBlendName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapBlendName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapBlendName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword &apos;RemapBlend&apos; to identify that the
+`section`_ is created by this fix -- see #getRemapElementName for the general behavior
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="81" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="96" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1ab9f7ccab40e61804e3d35b0c7d7ad5ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapPositionName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapPositionName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapPositionName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword &apos;RemapPosition&apos; to identify that the
+`section`_ is created by this fix -- see #getRemapElementName for the general behavior
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="90" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a5d343265392d01558bac84fd1f9862df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapTexcoordName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapTexcoordName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapTexcoordName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword &apos;RemapTexcoord&apos; to identify that the
+`section`_ is created by this fix -- see #getRemapElementName for the general behavior
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="99" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="104" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1addf3ec1b21a31136b74e144773e80f74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapIbName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapIbName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapIbName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword &apos;RemapIb&apos; to identify that the `section`_
+is created by this fix -- see #getRemapElementName for the general behavior
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="108" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="108" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a773da6dd47c4f31b021cd603d5d58737" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getModSuffixedName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;suffix=&quot;&quot;, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getModSuffixedName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getModSuffixedName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>suffix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the suffix of &apos;modName&apos; followed by &apos;suffix&apos;
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* If &apos;name&apos; already ends with ``{modName}{suffix}``, returns &apos;name&apos; unchanged
+* Else if &apos;name&apos; ends with just &apos;suffix&apos; (no &apos;modName&apos;), replaces that trailing
+  &apos;suffix&apos; with ``{modName}{suffix}``
+* Otherwise, appends ``{modName}{suffix}`` to the end of &apos;name&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>suffix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the suffix to put at the end of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name of the <computeroutput>section</computeroutput>_ with the added suffix keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="128" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="114" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a1666a2fea3b23fd9152b183f35d989ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapFixName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapFixName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapFixName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the suffix &apos;RemapFix&apos; to identify that the `section`_
+is created by this fix :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Examples: ``getRemapFixName(&quot;EiIsDoneWithRemapFix&quot;, &quot;Raiden&quot;)`` -&gt;
+``&quot;EiIsDoneWithRaidenRemapFix&quot;``; ``getRemapFixName(&quot;EiIsHappy&quot;, &quot;Raiden&quot;)`` -&gt;
+``&quot;EiIsHappyRaidenRemapFix&quot;``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name of the <computeroutput>section</computeroutput>_ with the added &apos;RemapFix&apos; keyword </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="146" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="136" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a8a28396934641f5623bc111a605962be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapTexName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapTexName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapTexName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the keyword &apos;RemapTex&apos; to identify that the `section`_
+is created by this fix -- see #getRemapFixName for examples of the same shape
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="155" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="140" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1addcd8772dea94117b822f72ac3fe58df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapDLName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapDLName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapDLName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to have the suffix &apos;RemapDL&apos; to identify that the `section`_
+is created by this fix -- see #getRemapFixName for examples of the same shape
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="164" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a108d390e88b1b63998b69cc4b860c486" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapFixResourceName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapFixResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapFixResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to be a new non-blend resource created by this fix -- see
+#getResourceName and #getRemapFixName for more info
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="173" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="148" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1af62ce378b6f1aa01430532f909e95065" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapTexResourceName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapTexResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapTexResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to be a texture resource created by this fix -- see
+#getResourceName and #getRemapTexName for more info
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="182" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="152" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a532b39b951ab6fb5ed08168174710fc5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapDLResourceName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapDLResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapDLResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to be a downloaded-file resource created by this fix -- see
+#getResourceName and #getRemapDLName for more info
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="191" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="156" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1ab5e6362112956160f3be47252dab2c51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapBlendResourceName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapBlendResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapBlendResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to be a new blend resource that this fix will create -- see
+#getResourceName and #getRemapBlendName for more info
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="200" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="160" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a4faf9e1703534a8bd2f192aaee0140b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getRemapPositionResourceName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getRemapPositionResourceName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getRemapPositionResourceName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Changes a `section`_ name to be a new position resource that this fix will create --
+see #getResourceName and #getRemapPositionName for more info
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="209" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a345bbe82e6cd90098a74c03a83e133b3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getFixedFile</definition>
+        <argsstring>(const std::string &amp;file, const std::string &amp;modName=&quot;&quot;, std::optional&lt; std::string &gt; fileExt=std::nullopt)</argsstring>
+        <name>getFixedFile</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getFixedFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>fileExt</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the file path for a fixed element, using `pathlib`_-style folder resolution
+(a bare filename with no directory component resolves to folder ``&quot;.&quot;``, so the result
+always has a folder prefix -- contrast with #getFixedElementFile) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fileExt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file extension for the file path of the fixed element. If this is <computeroutput>std::nullopt</computeroutput>, uses the file extension already present in &apos;file&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path of the fixed file of the element </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="227" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="168" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a25f78e59e20be5115a22591de0f10ecf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getFixedElementFile</definition>
+        <argsstring>(const std::string &amp;file, const std::string &amp;elementName, const std::string &amp;modName=&quot;&quot;, std::optional&lt; std::string &gt; fileExt=std::nullopt)</argsstring>
+        <name>getFixedElementFile</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getFixedElementFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>elementName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>fileExt</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the file path for a fixed element :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike #getFixedFile, a bare filename with no directory component returns with no
+   folder prefix at all (matches the pure-Python original&apos;s own explicit special-case
+   for this)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elementName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the element to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fileExt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file extension for the file path of the fixed element. If this is <computeroutput>std::nullopt</computeroutput>, uses the file extension already present in &apos;file&apos;</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path of the fixed file of the element </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="248" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="178" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1af96e449686a1fb13fa62a308400b78d4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getFixedBlendFile</definition>
+        <argsstring>(const std::string &amp;blendFile, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getFixedBlendFile</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getFixedBlendFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>blendFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the file path for the fixed RemapBlend.buf file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>blendFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original Blend.buf file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path of the fixed RemapBlend.buf file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="258" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="192" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a9917b5d1411cf40fc23ee04550ebfded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getFixedPositionFile</definition>
+        <argsstring>(const std::string &amp;positionFile, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getFixedPositionFile</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getFixedPositionFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>positionFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the file path for the fixed RemapPosition.buf file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>positionFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original Position.buf file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path of the fixed RemapPosition.buf file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="268" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="196" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a21bcb16680ad475099472ff0b47f3ccb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getFixedTexFile</definition>
+        <argsstring>(const std::string &amp;texFile, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getFixedTexFile</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getFixedTexFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the file path for the fixed RemapTex.dds file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Built like the pure-Python original&apos;s own ``os.path.dirname``/``os.path.basename``
+   based implementation, not the `pathlib`_-based one #getFixedFile/#getFixedElementFile
+   use -- a bare filename with no directory component returns with no folder prefix at
+   all (same no-prefix behavior as #getFixedElementFile, but arrived at differently)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original .dds file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path of the fixed RemapTex.dds file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="288" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="200" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a085a3c3f880a75b713f311411100f57b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getTextureOverrideRemapFix</definition>
+        <argsstring>(const std::string &amp;component, const std::string &amp;obj, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>getTextureOverrideRemapFix</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getTextureOverrideRemapFix</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>obj</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the name to some generic <computeroutput>TextureOverride</computeroutput> <computeroutput>section</computeroutput>_ this software has made. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the object </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The name for the <computeroutput>section</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="299" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="220" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_naming_tools_1a24e1210ce2efc8bca4cf88459482c3ef" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniNamingTools::getObjRemapFixName</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;modName, const std::pair&lt; std::string, std::string &gt; &amp;objName, const std::pair&lt; std::string, std::string &gt; &amp;newObjName)</argsstring>
+        <name>getObjRemapFixName</name>
+        <qualifiedname>AGRemapCore::IniNamingTools::getObjRemapFixName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::pair&lt; std::string, std::string &gt; &amp;</type>
+          <declname>objName</declname>
+        </param>
+        <param>
+          <type>const std::pair&lt; std::string, std::string &gt; &amp;</type>
+          <declname>newObjName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the new name of the `section`_ for a new mod object :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Finds the LAST case-insensitive occurrence of ``{objName.first}{objName.second}``
+(each part `capitalized &lt;#capitalize&gt;`_) within &apos;name&apos; and replaces it with
+``{newObjName.first}{newObjName.second}`` (also capitalized); if not found, falls back
+to #getRemapFixName with &apos;modName&apos; extended by the new object&apos;s name instead
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to be fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>objName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (component, object) name pair for the original mod object for the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newObjName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The (component, object) name pair for the new mod object for the <computeroutput>section</computeroutput>_</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new name for the <computeroutput>section</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniNamingTools.h" line="320" column="32" bodyfile="src/model/IniNamingTools.cpp" bodystart="224" bodyend="238"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Utilities for some common naming conventions for .ini files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniNamingTools`` class (``model/IniNamingTools.py``)
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/IniNamingTools.h" line="19" column="5" bodyfile="include/AGRemapCore/model/IniNamingTools.h" bodystart="19" bodyend="323"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1af96e449686a1fb13fa62a308400b78d4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedBlendFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a25f78e59e20be5115a22591de0f10ecf" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedElementFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a345bbe82e6cd90098a74c03a83e133b3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a9917b5d1411cf40fc23ee04550ebfded" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedPositionFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a21bcb16680ad475099472ff0b47f3ccb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getFixedTexFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a773da6dd47c4f31b021cd603d5d58737" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getModSuffixedName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a24e1210ce2efc8bca4cf88459482c3ef" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getObjRemapFixName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a07d2c24a38092e47d1648e03e3aff0df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapBlendName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1ab5e6362112956160f3be47252dab2c51" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapBlendResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1addcd8772dea94117b822f72ac3fe58df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapDLName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a532b39b951ab6fb5ed08168174710fc5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapDLResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a69a7a72287a46b580f0a814554af7a79" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapElementName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a1666a2fea3b23fd9152b183f35d989ea" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapFixName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a108d390e88b1b63998b69cc4b860c486" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapFixResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1addf3ec1b21a31136b74e144773e80f74" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapIbName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1ab9f7ccab40e61804e3d35b0c7d7ad5ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapPositionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a4faf9e1703534a8bd2f192aaee0140b7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapPositionResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a5d343265392d01558bac84fd1f9862df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapTexcoordName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a8a28396934641f5623bc111a605962be" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapTexName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1af62ce378b6f1aa01430532f909e95065" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getRemapTexResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a84554a7fb766c11208ea17a13b43c135" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a085a3c3f880a75b713f311411100f57b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>getTextureOverrideRemapFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_naming_tools_1a7b2e0efb0187faca695485bee66c27ed" prot="public" virt="non-virtual"><scope>AGRemapCore::IniNamingTools</scope><name>removeResourceName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

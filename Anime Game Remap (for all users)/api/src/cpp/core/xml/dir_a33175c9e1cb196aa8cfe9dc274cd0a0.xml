@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_a33175c9e1cb196aa8cfe9dc274cd0a0" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniFixers/regEdits</compoundname>
+    <innerfile refid="_base_reg_edit_8h">BaseRegEdit.h</innerfile>
+    <innerfile refid="_reg_add_8h">RegAdd.h</innerfile>
+    <innerfile refid="_reg_new_vals_8h">RegNewVals.h</innerfile>
+    <innerfile refid="_reg_remap_8h">RegRemap.h</innerfile>
+    <innerfile refid="_reg_remove_8h">RegRemove.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/"/>
+  </compounddef>
+</doxygen>

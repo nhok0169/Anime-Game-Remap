@@ -3,6 +3,7 @@
   <compounddef id="_base_tex_editor_8h" kind="file" language="C++">
     <compoundname>BaseTexEditor.h</compoundname>
     <includes local="no">string</includes>
+    <includedby refid="_ini_tex_model_8h" local="yes">include/AGRemapCore/model/iniresources/IniTexModel.h</includedby>
     <includedby refid="_tex_creator_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/TexCreator.h</includedby>
     <includedby refid="_tex_editor_8h" local="yes">include/AGRemapCore/model/strategies/texEditors/TexEditor.h</includedby>
     <includedby refid="_base_tex_editor_8cpp" local="yes">src/model/strategies/texEditors/BaseTexEditor.cpp</includedby>
@@ -18,6 +19,18 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/iniresources/IniTexModel.h</label>
+        <link refid="_ini_tex_model_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
         <link refid="_base_tex_editor_8h"/>
@@ -25,30 +38,42 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-      </node>
-      <node id="2">
-        <label>include/AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
-        <link refid="_tex_creator_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="4">
-        <label>include/AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
-        <link refid="_tex_editor_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
+        <link refid="_tex_editor_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/model/iniresources/IniTexModel.cpp</label>
+        <link refid="_ini_tex_model_8cpp"/>
       </node>
       <node id="6">
+        <label>src/model/iniresources/RemapTexResource.cpp</label>
+        <link refid="_remap_tex_resource_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/model/strategies/texEditors/BaseTexEditor.cpp</label>
         <link refid="_base_tex_editor_8cpp"/>
       </node>
-      <node id="3">
+      <node id="7">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="5">
+      <node id="9">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>

@@ -114,6 +114,255 @@ Determines the type of mod given the text from the mod&apos;s .ini file, assumin
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="52" column="38" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="9" bodyend="11"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_classifier_1a362dd5932eb6f173acf418a717248c5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseIniClassifier::checkIsMod</definition>
+        <argsstring>(const std::string &amp;iniTxt, std::optional&lt; GameTypeId &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>checkIsMod</name>
+        <qualifiedname>AGRemapCore::BaseIniClassifier::checkIsMod</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_classifier_1ada4070d534e7eebca680fe02d7111768">checkIsMod</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file belongs to a mod, given the full text from the
+.ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only this yes/no answer is needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot; means
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full text of the .ini file to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game the .ini file is expected to belong to, if known</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the .ini file belongs to a mod </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="69" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_classifier_1abc74fbcbc578e2284eb5d2fe2e7f7246" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseIniClassifier::checkIsMod</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;iniTxt, std::optional&lt; GameTypeId &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>checkIsMod</name>
+        <qualifiedname>AGRemapCore::BaseIniClassifier::checkIsMod</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_classifier_1a0e213a11781597a2e54a5381eec83a00">checkIsMod</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file belongs to a mod, given the text from the .ini
+file, assuming the lines of the text are already given :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only this yes/no answer is needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot; means
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lines of text of the .ini file to read from, with each line ending with a newline character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game the .ini file is expected to belong to, if known</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the .ini file belongs to a mod </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="86" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="17" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_classifier_1a69e9eacfec69f4540251f3cf9520e97f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniClassifier::checkIsFixedMod</definition>
+        <argsstring>(const std::string &amp;iniTxt, bool *isFixed, bool *isMod, std::optional&lt; GameTypeId &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>checkIsFixedMod</name>
+        <qualifiedname>AGRemapCore::BaseIniClassifier::checkIsFixedMod</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_classifier_1ac2ce023c6e2795f6a34767bb021648ba">checkIsFixedMod</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isFixed</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isMod</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file is fixed and/or belongs to a mod, given the
+full text from the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only these yes/no answers are needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot;/&quot;is fixed&quot; mean
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The full text of the .ini file to read from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file is fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file belongs to a mod </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game the .ini file is expected to belong to, if known </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="103" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="21" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_classifier_1a40401fd2cabfb24c401fb5b00f960d2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniClassifier::checkIsFixedMod</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;iniTxt, bool *isFixed, bool *isMod, std::optional&lt; GameTypeId &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>checkIsFixedMod</name>
+        <qualifiedname>AGRemapCore::BaseIniClassifier::checkIsFixedMod</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_classifier_1a3433b8e3196f64c4cc4bb98e8962cac6">checkIsFixedMod</reimplementedby>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>iniTxt</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isFixed</declname>
+        </param>
+        <param>
+          <type>bool *</type>
+          <declname>isMod</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the mod&apos;s .ini file is fixed and/or belongs to a mod, given the
+text from the .ini file, assuming the lines of the text are already given
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Cheaper than :cpp:func:`classify` when only these yes/no answers are needed -- see
+:cpp:func:`classify`&apos;s own doc comment for what &quot;belongs to a mod&quot;/&quot;is fixed&quot; mean
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The lines of text of the .ini file to read from, with each line ending with a newline character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file is fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isMod</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Set to whether the .ini file belongs to a mod </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game the .ini file is expected to belong to, if known </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="121" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="26" bodyend="29"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_classifier_1ad53042dba08800872c82c3abac13880a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
         <definition>void AGRemapCore::BaseIniClassifier::clear</definition>
@@ -128,7 +377,7 @@ Determines the type of mod given the text from the mod&apos;s .ini file, assumin
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="57" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="126" column="26" bodyfile="src/model/strategies/iniClassifiers/BaseIniClassifier.cpp" bodystart="31" bodyend="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -150,8 +399,12 @@ Base class to help classify the type of mod given the mod&apos;s .ini files
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="20" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" bodystart="20" bodyend="58"/>
+    <location file="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" line="20" column="5" bodyfile="include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h" bodystart="20" bodyend="127"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a69e9eacfec69f4540251f3cf9520e97f" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>checkIsFixedMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a40401fd2cabfb24c401fb5b00f960d2d" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>checkIsFixedMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a362dd5932eb6f173acf418a717248c5f" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>checkIsMod</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1abc74fbcbc578e2284eb5d2fe2e7f7246" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>checkIsMod</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a19205c354cc46ece16307c1210455475" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>classify</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1a713be9b3ada82012b9a8dd58a06576ef" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>classify</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_classifier_1ad53042dba08800872c82c3abac13880a" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniClassifier</scope><name>clear</name></member>

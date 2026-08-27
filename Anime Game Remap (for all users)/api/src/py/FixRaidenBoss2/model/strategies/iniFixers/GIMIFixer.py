@@ -23,7 +23,7 @@ from ....constants.FileSuffixes import FileSuffixes
 from ....constants.IniConsts import IniGraphModObjKeywords
 from ..iniParsers.GIMIParser import GIMIParser
 from .BaseIniFixer import BaseIniFixer
-from ...IniGraphGroup import IniGraphGroup
+from ....core import IniGraphGroup
 from .graphGroupEdits.BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 ##### EndLocalImports
 

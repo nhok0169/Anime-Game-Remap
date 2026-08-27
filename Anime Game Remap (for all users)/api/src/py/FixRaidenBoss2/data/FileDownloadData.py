@@ -15,7 +15,7 @@
 from ..core import ModTypeId, ModTypeIdTools
 from ..constants.IniConsts import IniKeywords
 from .VertexCountData import VertexCountData
-from ..tools.files.FileDownload import FileDownload
+from ..core import FileDownload
 from ..model.DownloadData import DownloadData, BlendDownloadData
 from .TexcoordByteSizeData import TexcoordByteSizeData
 ##### EndLocalImports

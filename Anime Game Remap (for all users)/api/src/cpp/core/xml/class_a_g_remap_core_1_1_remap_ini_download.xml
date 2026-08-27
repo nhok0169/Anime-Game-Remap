@@ -1,0 +1,530 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_ini_download" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniDownload</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniResource</basecompoundref>
+    <includes refid="_remap_ini_resource_8h" local="no">RemapIniResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;FileDownload&gt; AGRemapCore::RemapIniDownload::download</definition>
+        <argsstring></argsstring>
+        <name>download</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::download</qualifiedname>
+        <briefdescription>
+<para>The downloader associated with the file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="198" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref> &amp;, <ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapIniDownload&amp;, CachedFileStats&amp;)&gt; AGRemapCore::RemapIniDownload::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::fixFunc</qualifiedname>
+        <briefdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" kindref="member">_fix</ref> if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="203" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapIniDownload::RemapIniDownload</definition>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, std::unique_ptr&lt; FileDownload &gt; download, std::string type=&quot;download&quot;, std::function&lt; bool(RemapIniDownload &amp;, CachedFileStats &amp;)&gt; fixFunc=nullptr)</argsstring>
+        <name>RemapIniDownload</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::RemapIniDownload</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> &gt;</type>
+          <declname>download</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+          <defval>&quot;download&quot;</defval>
+        </param>
+        <param>
+          <type>std::function&lt; bool(RemapIniDownload &amp;, <ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new download resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>download</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The downloader associated with the file <ndash/> ownership is transferred into this resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Custom function for fixing the resource, overriding #_fix if given -- takes this
+resource and the download stats to mutate, and returns whether a fresh download
+occurred (as opposed to a cache hit)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="192" column="13" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="72" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::srcEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623">srcEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="205" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="76" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::srcIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027">srcIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="206" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="80" bodyend="82"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::fixEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49">fixEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="207" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="84" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::fixIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd">fixIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="208" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::fixExists</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixExists</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::fixExists</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a2e2c425dd00a8928fe0b0d17ddb1153d">fixExists</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the resource already exists <ndash/> same as <ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" kindref="member">srcIsFixed</ref> for this class. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="213" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="92" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a29aed6745543fde48545ffc3cc73e0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::fix</definition>
+        <argsstring>(CachedFileStats &amp;downloadStats, std::optional&lt; std::string &gt; proxy=std::nullopt)</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::fix</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;</type>
+          <declname>downloadStats</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Downloads the resource <ndash/> calls <ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" kindref="member">fixFunc</ref> if set, otherwise <ref refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" kindref="member">_fix</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>downloadStats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats for the file download to mutate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the proxy server used for any internet network requests made, if any</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether a fresh download occurred (<computeroutput>false</computeroutput> for a cache hit) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="223" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="114" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::remapFix</definition>
+        <argsstring>(RemapStats &amp;stats, std::optional&lt; std::string &gt; proxy=std::nullopt, const std::function&lt; void(const std::string &amp;)&gt; &amp;downloadHandler=nullptr, const std::function&lt; void(const std::string &amp;)&gt; &amp;cacheHitHandler=nullptr)</argsstring>
+        <name>remapFix</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::remapFix</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::function&lt; void(const std::string &amp;)&gt; &amp;</type>
+          <declname>downloadHandler</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::function&lt; void(const std::string &amp;)&gt; &amp;</type>
+          <declname>cacheHitHandler</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fixes the resource for the overall remap process -- same as #fix, additionally invoking
+&apos;downloadHandler&apos;/&apos;cacheHitHandler&apos; (whichever applies) with the resource&apos;s #srcPath
+once the download/cache-hit completes
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the proxy server used for any internet network requests made, if any </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>downloadHandler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called with <ref refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kindref="member">srcPath</ref> if a fresh download occurred </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cacheHitHandler</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Called with <ref refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kindref="member">srcPath</ref> if the file was retrieved from the cache instead</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether a fresh download occurred (<computeroutput>false</computeroutput> for a cache hit) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="240" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="122" bodyend="138"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapIniDownload::_fix</definition>
+        <argsstring>(CachedFileStats &amp;downloadStats, std::optional&lt; std::string &gt; proxy)</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::RemapIniDownload::_fix</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;</type>
+          <declname>downloadStats</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Downloads the resource via #download, moving it to #srcPath if it didn&apos;t already land
+there directly, and records the outcome in &apos;downloadStats&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>downloadStats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats for the file download to mutate </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The link to the proxy server used for any internet network requests made, if any</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether a fresh download occurred (<computeroutput>false</computeroutput> for a cache hit) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="258" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="96" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniResource`
+
+Class for some download resource in a .ini file that&apos;s used by the overall remap process --
+mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIniResource.py``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The Python original&apos;s own ``remapFix`` took a ``Mod`` purely to build
+   ``downloadHandler``/``cacheHitHandler`` callbacks that called ``mod.print(...)`` -- per the
+   maintainer&apos;s own direction (Mod is being removed from this API entirely), #remapFix instead
+   takes those same handler callbacks directly from its caller. It also actually returns
+   whether a fresh download occurred, unlike the Python original&apos;s own ``_fix``/``remapFix``,
+   which have no ``return`` statement at all and so always implicitly return ``None`` --
+   contradicting their own docstrings (&quot;Whether the resource has been downloaded&quot;/&quot;Whether the
+   resource was fixed&quot;). There&apos;s no concrete example of the &quot;correct&quot; `None` return being relied
+   upon anywhere, so this port implements the documented contract rather than the (almost
+   certainly unintentional) always-`None` gap
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapIniDownload</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapIniDownload</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="175" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="175" bodyend="259"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" prot="protected" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>download</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a29aed6745543fde48545ffc3cc73e0db" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>remapFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>RemapIniDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>~IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

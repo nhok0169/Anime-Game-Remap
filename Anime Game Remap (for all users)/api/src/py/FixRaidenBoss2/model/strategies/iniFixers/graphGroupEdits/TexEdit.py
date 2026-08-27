@@ -17,6 +17,9 @@ from typing import Optional, Tuple, TYPE_CHECKING, Callable
 
 ##### CppLocalImports
 from .....core import IfContentPart
+from .....core import IfTemplate
+from .....core import IniResource
+from .....core import RemapTexAddResource
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -24,9 +27,6 @@ from .....constants.IniConsts import IniKeywords
 from .....constants.FileExt import FileExt
 from .....tools.TextTools import TextTools
 from ....IniNamingTools import IniNamingTools
-from ....iniresources.IniResource import IniResource
-from .....core import IfTemplate
-from ....iniresources.RemapTexResource import RemapTexAddResource
 from ....strategies.texEditors.TexCreator import TexCreator
 from .ResEdit import ResCreate
 

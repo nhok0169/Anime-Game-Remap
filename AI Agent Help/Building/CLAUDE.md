@@ -172,6 +172,23 @@ need the full `main.py -d` cycle every time:
   the same destination, if a Cython change is also in play). Don't assume every worktree has a
   `cbuild/` to reuse this way — it's an opportunistic shortcut, not the normal path; fall back to
   `main.py` (which configures one from scratch if needed) when there isn't one already there.
+- **The two things `-d` adds on top of the compile — the `core.pyi` stub and the Doxygen XML — can
+  each be run standalone**, so the `ninja core` shortcut above doesn't force you back into a full
+  `main.py -d` cycle just to refresh them. Doxygen is covered in
+  [Documentation](../Documentation/CLAUDE.md) (**read its note on wiping `core/xml` first** — a
+  dirty-directory rerun can emit a corrupt `index.xml` that crashes the next Sphinx build). The
+  stub is what `APIBuilder.buildDocs()` shells out to, and it needs `PYTHONPATH` pointing at the
+  installed package:
+  ```bash
+  cd "Anime Game Remap (for all users)/api/src/py"
+  PYTHONPATH=. py -3 -m pybind11_stubgen FixRaidenBoss2.core -o . "--root-suffix="
+  ```
+  **From the PowerShell tool, write it as `"--root-suffix="`, not `--root-suffix ""`** — PowerShell
+  drops a standalone empty-string argument before `argparse` ever sees it, and you get
+  `error: argument --root-suffix: expected one argument`, which reads like a bad flag rather than a
+  quoting problem. The `pybind11_stubgen - [ERROR] ... Invalid expression 'AGRemapCore::Xxx'` lines
+  it prints for a handful of pre-existing signatures are baseline noise, not your change failing;
+  check that the classes you added actually appear in `core.pyi` instead.
 
 ## Verifying a build/binding change in Python directly
 Don't just trust that it compiled — a pybind11 registration typo (wrong base class, wrong
@@ -395,6 +412,42 @@ then rewrite the old Python data module (`HashData.py`) to a 3-line "reconstruct
 C++ instance at import time" shim instead of deleting it outright — this keeps every existing
 import path (`from .data.HashData import HashData`, `ModData.Hashes`) working unchanged, with the
 C++ table as the one real source of truth.
+
+## A new shared-lib dependency needs its own `install(FILES ...)` line — `target_link_libraries` alone isn't enough
+
+`AGRemapCore` links several externs as **shared** libraries on Windows (produce a `.dll`, not just a
+`.lib`): `z3::libz3`, `utf8proc`, and `CURL::libcurl` (see `core/CMakeLists.txt`'s
+`target_link_libraries(AGRemapCore PRIVATE ...)` block). `Compressonator`'s `CMP_Compressonator`/
+`CMP_Framework` are the exception — they build as **static** libs here, so they need no DLL install
+step at all; don't assume every extern in that list needs the same treatment without checking
+whether it actually produced a `.dll` under `cbuild/` first.
+
+Each shared extern's `.dll` has to be explicitly copied next to `core.pyd` via
+`py/CMakeLists.txt`'s `if (WIN32) install(FILES $<TARGET_FILE:...> DESTINATION FixRaidenBoss2) endif()`
+block — CMake does **not** do this automatically just because `AGRemapCore` links against the
+target. Confirmed hitting this directly: that block only listed `z3::libz3`, so `utf8proc.dll` and
+`libcurl.dll` were silently never installed even though `main.py -d`/`cmake --install` "succeeded"
+with no error. The only symptom on the Python side was
+`ImportError: DLL load failed while importing core: The specified module could not be found` —
+generic, doesn't name the missing DLL, and easy to mistake for `core.pyd` itself being broken/stale
+rather than one of its *dependencies* being absent.
+
+**If this resurfaces (a new shared extern added later, or this install block regresses):**
+1. Diagnose with `dumpbin /dependents <path-to-core.pyd>` (needs `vcvarsall.bat` sourced first, per
+   above) to list every DLL `core.pyd` actually imports, then check which of those aren't present
+   next to it in `FixRaidenBoss2/`. **Run it via the Bash tool with
+   `MSYS2_ARG_CONV_EXCL="*" dumpbin.exe /dependents "<path>"`** — Git Bash otherwise mangles the
+   single-dash `/dependents` flag into a path (`Not a file: .../dependents`).
+2. The fix is a one-line addition to the `if (WIN32) install(FILES ...)` block in
+   `py/CMakeLists.txt`: add `$<TARGET_FILE:<newTargetName>>` alongside the existing entries — same
+   pattern as `z3::libz3`/`utf8proc`/`CURL::libcurl`. Use the exact target name from
+   `core/CMakeLists.txt`'s `target_link_libraries` line (namespaced alias like `CURL::libcurl`, or
+   plain like `utf8proc`, whichever that extern actually exports).
+3. After editing, a plain `cmake --install <buildFolder> --prefix api/src/py` (no recompile needed
+   if no source changed) picks up the new install rule immediately — CMake auto-reconfigures because
+   `CMakeLists.txt`'s timestamp changed. Verify by checking the `-- Installing: .../FixRaidenBoss2/<dll>`
+   lines in its output, then re-run the "Verifying a build/binding change in Python directly"
+   import check above (from PowerShell) to confirm the `ImportError` is actually gone.
 
 ## Cython pieces
 `api/src/cy` has its own small CMakeLists, built automatically as part of the same top-level

@@ -17,14 +17,14 @@ from typing import List, Dict, Tuple, Union, Type, Optional, TYPE_CHECKING, Set,
 
 ##### CppLocalImports
 from .....core import Ranges
+from .....core import IniGraphGroup
+from .....core import BaseRegEdit
 ##### EndCppLocalImports
 
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
 from ..graphEdits.BaseIniGraphEdit import BaseIniGraphEdit
-from ..regEdits.BaseRegEdit import BaseRegEdit
 from .....core import IniSectionGraph
-from ....IniGraphGroup import IniGraphGroup
 from .....core import SectionIterData
 
 if (TYPE_CHECKING):

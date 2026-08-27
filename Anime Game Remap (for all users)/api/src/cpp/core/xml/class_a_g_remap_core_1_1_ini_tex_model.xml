@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_tex_model" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniTexModel</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniFixResourceModel</basecompoundref>
+    <includes refid="_ini_tex_model_8h" local="no">IniTexModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_tex_model_1a414e2b0073c3d9b71385fac96f16499e" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref> &gt; &gt; &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, tsl::ordered_map&lt;std::string, std::vector&lt;std::unique_ptr&lt;BaseTexEditor&gt; &gt; &gt; &gt; AGRemapCore::IniTexModel::texEdits</definition>
+        <argsstring></argsstring>
+        <name>texEdits</name>
+        <qualifiedname>AGRemapCore::IniTexModel::texEdits</qualifiedname>
+        <briefdescription>
+<para>The texture editors used to edit the texture (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="55" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_tex_model_1ad3c2952eab86d3553d494e09c1eac4c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniTexModel::IniTexModel</definition>
+        <argsstring>(std::string iniFolderPath, tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt; fixedPaths, tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::unique_ptr&lt; BaseTexEditor &gt; &gt; &gt; &gt; texEdits, std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt; origPaths=std::nullopt)</argsstring>
+        <name>IniTexModel</name>
+        <qualifiedname>AGRemapCore::IniTexModel::IniTexModel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+          <declname>fixedPaths</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref> &gt; &gt; &gt; &gt;</type>
+          <declname>texEdits</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt;</type>
+          <declname>origPaths</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs new data for editing a texture file in a .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder path to where the .ini file of the resource is located </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPaths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>texEdits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The texture editors used to edit the texture -- the outer keys are the indices to the
+:cpp:class:`IfContentPart` that the ``.dds`` file appears in the :cpp:class:`IfTemplate`
+for some texture, the inner keys are the names for the type of mod to fix to, and the
+inner values are the different texture editors used on the ``.dds`` files
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>origPaths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" kindref="compound">IniFixResourceModel</ref></computeroutput>&apos;s constructor </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="47" column="13" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="7" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniTexModel::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::IniTexModel::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aebaea03692f0e44aaf7af7f8341521ae">clear</reimplements>
+        <briefdescription>
+<para>Clears out all the path data stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="57" column="18" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="14" bodyend="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IniFixResourceModel`
+
+Contains data for editing some texture files in a .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniTexModel`` class (``model/iniresources/IniTexModel.py``) --
+#texEdits owns its :cpp:class:`BaseTexEditor`\\s via ``std::unique_ptr`` since it&apos;s a
+polymorphic type (matches how it&apos;s used elsewhere in this codebase, eg.
+:cpp:class:`BlendFile`&apos;s owned ``BufElementType``\\s)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::IniFixResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniTexModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_tex_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IniFixResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniTexModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_tex_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="30" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="30" bodyend="58"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" virt="virtual"><scope>AGRemapCore::IniTexModel</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>fixedPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1ace0bde45cceb788165ece81c424d7cb4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>fullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a97804ea6c541b4bc0dba0905752c6d22" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>IniFixResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>iniFolderPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_tex_model_1ad3c2952eab86d3553d494e09c1eac4c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>IniTexModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a5787055672b02ab9d7ed27b14cc3ca71" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>origFullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aca3cb0eee36b86c1dbe64a6496dd393e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>origPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_tex_model_1a414e2b0073c3d9b71385fac96f16499e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>texEdits</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a05094650def231acb345adeea3658f7c" prot="public" virt="virtual"><scope>AGRemapCore::IniTexModel</scope><name>~IniFixResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" virt="virtual"><scope>AGRemapCore::IniTexModel</scope><name>~IniResourceModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

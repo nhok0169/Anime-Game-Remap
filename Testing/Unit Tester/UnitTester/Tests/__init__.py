@@ -1,5 +1,15 @@
 from .test_AhoCorasickDFA import AhoCorasickDFATest
 from .test_Algo import AlgoTest
+from .test_FileStats import FileStatsTest
+from .test_CachedFileStats import CachedFileStatsTest
+from .test_RemapStats import RemapStatsTest
+from .test_FileDownload import FileDownloadTest
+from .test_IniResource import IniResourceTest, IniFixResourceTest
+from .test_IniGroupedResource import IniGroupedResourceTest, RemapIniGroupedResourceTest
+from .test_RemapIniResource import RemapIniResourceTest, RemapIniDownloadTest
+from .test_RemapBlendResource import RemapBlendResourceTest
+from .test_RemapTexAddResource import RemapTexAddResourceTest
+from .test_IniGraphGroup import IniGraphGroupTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_BaseTokenizer import BaseTokenizerTest
 from .test_BinaryFile import BinaryFileTest
@@ -73,7 +83,9 @@ from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
 from .test_ParseContext import ParseContextTest
 from .test_PositionFile import PositionFileTest
 from .test_PyWrapAhoCorasickDFA import PyWrapAhoCorasickDFATest
+from .test_BaseRegEdit import BaseRegEditTest
 from .test_RegAdd import RegAddTest
+from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
@@ -127,7 +139,7 @@ __all__ += ["ModTypeIdDataTest", "CppModTypeTest", "CppGIBuilderTest", "ModTypeI
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["RegAddTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "CppBlendFileTest", "CppPositionFileTest", "BufToolsTest"]
@@ -137,3 +149,7 @@ __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest",
 __all__ += ["CppBasePixelTransformTest", "CppCorrectGammaTest", "CppColourReplaceTest", "CppHighlightShadowTest", "CppInvertAlphaTest", "CppTempControlTest", "CppTintTransformTest", "CppTransparencyTest"]
 __all__ += ["CppColourReplaceFilterTest", "CppTransparencyAdjustFilterTest", "CppInvertAlphaFilterTest", "CppHueAdjustTest", "CppPixelFilterTest", "PixelFilterTest"]
 __all__ += ["CppTexEditorTest", "TexEditorTest", "CppTexCreatorTest", "TexCreatorTest"]
+__all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownloadTest"]
+__all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
+__all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest"]
+__all__ += ["IniGraphGroupTest"]

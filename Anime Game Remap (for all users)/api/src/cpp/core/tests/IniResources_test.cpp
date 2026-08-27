@@ -16,8 +16,12 @@
 // Covers, against the maintainer's own step-by-step spec + explicit
 // clarifications for this port (not a 1-1 translation of the deprecated
 // pure-Python originals -- Mod is removed from RemapIniResource entirely, per
-// the maintainer's direction, and FileDownload::download's real networking is
-// deliberately stubbed):
+// the maintainer's direction). FileDownload::download() is now backed by a
+// real libcurl implementation (see FileDownload_curl_test.cpp for its own
+// dedicated coverage) -- this file still uses a fake, non-networking
+// FileDownload subclass for FileDownload::get()'s caching-logic tests below,
+// since that logic is independent of which download() implementation is
+// plugged in and shouldn't need real curl/network access to verify:
 //   * FileStats/CachedFileStats/RemapStats: add*/update*/clear semantics,
 //     including skippedByMods auto-vivification and CachedFileStats::clear
 //     cascading into the inherited FileStats::clear
@@ -94,6 +98,7 @@
 #include <optional>
 #include <stdexcept>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 using namespace AGRemapCore;
@@ -333,7 +338,11 @@ void testIniResource() {
 }
 
 void testIniGroupedResource() {
-    IniGroupedResource group("blendGroup");
+    // 'resources' has no default (see IniGroupedResource's own constructor doc comment for the
+    // MSVC move-only-container-default-argument quirk this works around) -- pass an explicit,
+    // already-constructed empty map rather than a bare "{}" at the call site too, just in case.
+    std::unordered_map<std::string, std::unique_ptr<IniResource>> noResources;
+    IniGroupedResource group("blendGroup", std::move(noResources));
     check(!group.fix(), "IniGroupedResource::fix(): default _fix() returns false when no fixFunc is set");
 
     group.addResource("blend", std::make_unique<IniResource>("blend", "C:/mods", "a.buf"));
@@ -341,7 +350,8 @@ void testIniGroupedResource() {
     check(!group.isMissing({"blend"}), "IniGroupedResource::isMissing(): false when the collected subset is fully present");
     check(group.isMissing({"blend", "position"}), "IniGroupedResource::isMissing(): true when something's missing from the subset");
 
-    IniGroupedResource withFunc("g2", {}, [](IniGroupedResource& self) {
+    std::unordered_map<std::string, std::unique_ptr<IniResource>> noResources2;
+    IniGroupedResource withFunc("g2", std::move(noResources2), [](IniGroupedResource& self) {
         (void)self;
         return true;
     });
@@ -430,7 +440,12 @@ void testRemapIniDownload(const std::string& scratchDir) {
 // ============ RemapBlendResource ============
 
 void testRemapBlendResource() {
-    RemapBlendResource res("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", VGRemap());
+    // 'type'/'fixFunc'/'blendElements' have no defaults (see RemapBlendResource's own constructor
+    // doc comment for why) -- pass explicit values, using an already-constructed empty vector
+    // (not a bare "{}") for 'blendElements' for the same reason as IniGroupedResource's own test above.
+    std::vector<std::unique_ptr<BufElementType>> noBlendElements;
+    RemapBlendResource res("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", VGRemap(), "resourceRemapBlend", nullptr,
+                            std::move(noBlendElements));
 
     RemapStats stats;
     check(!res.srcEncounteredError(stats) && !res.srcIsFixed(stats) && !res.fixEncounteredError(stats) && !res.fixIsFixed(stats),
@@ -443,12 +458,13 @@ void testRemapBlendResource() {
     check(res.fixEncounteredError(stats), "RemapBlendResource::fixEncounteredError(): reflects stats.blend.skipped (keyed by fixedPath)");
 
     bool fixFuncCalled = false;
+    std::vector<std::unique_ptr<BufElementType>> noBlendElements2;
     RemapBlendResource resWithFunc("C:/mods/EiRemap", "EiBlend.buf", "RaidenRemapBlend.buf", VGRemap(), "resourceRemapBlend",
                                     [&](RemapBlendResource& self) {
                                         (void)self;
                                         fixFuncCalled = true;
                                         return true;
-                                    });
+                                    }, std::move(noBlendElements2));
     check(resWithFunc.fix(), "RemapBlendResource::fix(): dispatches to fixFunc when set");
     check(fixFuncCalled, "RemapBlendResource::fix(): fixFunc actually invoked, real BlendFile::remap() NOT called");
 }

@@ -42,6 +42,22 @@ namespace AGRC = AGRemapCore;
 using PyIfContentPart = AGRC::IfContentPart<py::object, py::object, PyObjectHash, PyObjectEqual>;
 
 
+/**
+ * @brief Converts a Python 'keys' dict into removeKeys()'s vector-based parameter shape
+ *
+ @rst
+ Shared here (rather than kept file-local) for the same reason `PyIOrderedMultiMap`'s own
+ ``parseRanges``/``parseKeyRemap``/``parseReplaceVals`` are -- `PyRegRemove` takes the exact
+ same ``dict`` shape and reuses this verbatim
+ @endrst
+ *
+ * @param keys The Python dict to convert, mapping each key to an optional check predicate (or None)
+ *
+ * @return The equivalent vector of (key, optional check) pairs, in dict iteration order
+ */
+std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys);
+
+
 void initCppIfContentPart(pybind11::module_ &m);
 
 #endif

@@ -31,7 +31,7 @@ from .GIMIParser import GIMIParser
 from ....core import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from ....tools.DictTools import DictTools
-from ...iniresources.IniTexModel import IniTexModel
+from ....core import IniTexModel
 
 if (TYPE_CHECKING):
     from ...files.IniFile import IniFile

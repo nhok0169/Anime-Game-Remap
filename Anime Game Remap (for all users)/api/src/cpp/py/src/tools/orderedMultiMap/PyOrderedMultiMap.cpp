@@ -318,17 +318,28 @@ values: List[Any]
 A :meth:`OrderedMultiMap.replaceVals` spec: replace this key's value with ``value``,
 wherever ``predicate(oldValue)`` is ``True``.
 
+.. note::
+    ``predicate`` is stored as-is and each consumer decides what it passes to it. Every
+    ``replaceVals`` (:meth:`OrderedMultiMap.replaceVals`, :meth:`OrderedMultiMapSqrt.replaceVals`,
+    :meth:`IOrderedMultiMap.replaceVals`, :meth:`IfContentPart.replaceVals`) calls it with just the
+    old value. The one deliberate exception is :class:`RegNewVals`, which calls it as
+    ``predicate(oldValue, modType)`` -- see that class for why.
+
 Parameters
 ----------
 value: Any
     The replacement value
 
-predicate: Callable[[Any], :class:`bool`]
-    The predicate deciding whether a given old value should be replaced
+predicate: Callable[..., :class:`bool`]
+    The predicate deciding whether a given old value should be replaced. Takes ``(oldValue)``
+    for every ``replaceVals``, or ``(oldValue, modType)`` when handed to :class:`RegNewVals`
         )doc")
-        .def(py::init<py::object, PyReplaceIf::Predicate>(), py::arg("value"), py::arg("predicate"))
+        .def(py::init<py::object, py::object>(), py::arg("value"), py::arg("predicate"))
         .def_property_readonly("value", &PyReplaceIf::value, py::doc(R"doc(Any: The replacement value)doc"))
-        .def_property_readonly("predicate", &PyReplaceIf::predicate, py::doc(R"doc(Callable[[Any], :class:`bool`]: The replacement predicate)doc"));
+        // Bound to predicateObj (the raw Python callable), not to the single-argument 'predicate'
+        // adapter -- so 'someSpec.predicate is theCallableYouPassed' holds, and so a caller
+        // reading it back gets something it can invoke with whatever arity that consumer defines.
+        .def_property_readonly("predicate", &PyReplaceIf::predicateObj, py::doc(R"doc(Callable[..., :class:`bool`]: The replacement predicate)doc"));
 
 
     py::class_<PyOrderedMultiMapIterator>(m, "OrderedMultiMapIterator", R"doc(

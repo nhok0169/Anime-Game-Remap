@@ -15,10 +15,13 @@
 from typing import Optional, Tuple, TYPE_CHECKING, Callable
 ##### EndExtImports
 
+##### CppLocalImports
+from .....core import IniResource
+from .....core import RemapBlendResource
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....IniNamingTools import IniNamingTools
-from ....iniresources.IniResource import IniResource
-from ....iniresources.RemapBlendResource import RemapBlendResource
 from .....tools.TextTools import TextTools
 from .ResEdit import ResReplace
 

@@ -324,6 +324,29 @@ CppBaseIniClassifier
 
 :raw-html:`<br />`
 
+CppBaseIniGraphPartEdit
+=======================
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniGraphPartEdit
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniGraphPartEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+CppBaseIniPartEdit
+==================
+
+.. attributetable:: FixRaidenBoss2.CppBaseIniPartEdit
+
+.. autoclass:: FixRaidenBoss2.CppBaseIniPartEdit
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 CppBasePixelTransform
 =====================
 
@@ -1000,6 +1023,18 @@ RegAdd
 .. attributetable:: FixRaidenBoss2.RegAdd
 
 .. autoclass:: FixRaidenBoss2.RegAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegNewVals
+==========
+
+.. attributetable:: FixRaidenBoss2.RegNewVals
+
+.. autoclass:: FixRaidenBoss2.RegNewVals
     :inherited-members:
     :members:
     :private-members:

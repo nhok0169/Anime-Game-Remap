@@ -1,0 +1,341 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_remap" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegRemap</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public" virt="non-virtual">AGRemapCore::BaseRegEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_reg_remap_8h" local="no">RegRemap.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a147bf1b1d7cbb98b5446bf87bed2d5aa" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseRegEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::RegRemap::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="36" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
+        <definition>using AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Base::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::RegRemap::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of part this edits the registers of.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
+        <definition>using AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = typename Base::OrderRanges</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::RegRemap::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices -- ``long long`` because that is the type
+:cpp:class:`IfContentPart` keys its order indices by
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" prot="public" static="no">
+        <type>typename ContentPart::KeyRemapValue</type>
+        <definition>using AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::KeyRemapValue = typename ContentPart::KeyRemapValue</definition>
+        <argsstring></argsstring>
+        <name>KeyRemapValue</name>
+        <qualifiedname>AGRemapCore::RegRemap::KeyRemapValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The remap rules for one old key -- either a plain list of replacement keys/
+:cpp:class:`RemappedKeyData`, or a whole :cpp:class:`KeyRemapData`, exactly as
+:cpp:func:`IfContentPart::remapKeys` takes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_remap_1a55cbdf103840fd1aad3728828a228df5" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; K, <ref refid="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" kindref="member">KeyRemapValue</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;K, KeyRemapValue&gt; &gt; AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::keyRemap</definition>
+        <argsstring></argsstring>
+        <name>keyRemap</name>
+        <qualifiedname>AGRemapCore::RegRemap::keyRemap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The old key -&gt; remap rules mapping to apply :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See :cpp:func:`IfContentPart::remapKeys` for the full semantics of how a rule set is
+evaluated for a given key&apos;s occurrences
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="67" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remap_1ad5660e4fef4275e92d47bfb19bd2ce1f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::RegRemap</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; K, KeyRemapValue &gt; &gt; keyRemap={})</argsstring>
+        <name>RegRemap</name>
+        <qualifiedname>AGRemapCore::RegRemap::RegRemap</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; K, <ref refid="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" kindref="member">KeyRemapValue</ref> &gt; &gt;</type>
+          <declname>keyRemap</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new bulk key-renaming register edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keyRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old key -&gt; remap rules mapping to apply </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="74" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref> &amp;</type>
+        <definition>ContentPart &amp; AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(ContentPart &amp;part, const std::string &amp;sectionName, const ModType *modType=nullptr, const std::string &amp;modName=&quot;&quot;, const OrderRanges *partRanges=nullptr) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RegRemap::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref> &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" kindref="member">OrderRanges</ref> *</type>
+          <declname>partRanges</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Applies \ref keyRemap to &apos;part&apos;, by forwarding straight to
+:cpp:func:`IfContentPart::remapKeys`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref></computeroutput> being edited, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ being edited. Unused by this edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix, or <computeroutput>nullptr</computeroutput>. Unused by this edit. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partRanges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The valid order indices to process for &apos;part&apos;, or <computeroutput>nullptr</computeroutput> for all of them. <bold>Default</bold>: <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same part that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="91" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseRegEdit`
+
+Bulk-renames the register keys for some :cpp:class:`IfContentPart`
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in the parts this edits </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="30" bodyend="93"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a147bf1b1d7cbb98b5446bf87bed2d5aa" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a55cbdf103840fd1aad3728828a228df5" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>keyRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>KeyRemapValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>RangeSpec</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_remap_1ad5660e4fef4275e92d47bfb19bd2ce1f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>RegRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>toRangeSpec</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

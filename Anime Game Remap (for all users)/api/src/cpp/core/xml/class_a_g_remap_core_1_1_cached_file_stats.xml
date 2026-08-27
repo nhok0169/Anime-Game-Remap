@@ -1,0 +1,224 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_cached_file_stats" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::CachedFileStats</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_file_stats" prot="public" virt="non-virtual">AGRemapCore::FileStats</basecompoundref>
+    <includes refid="_cached_file_stats_8h" local="no">CachedFileStats.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_cached_file_stats_1a62c855be159b09ea5762693bd0e57dde" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::CachedFileStats::hit</definition>
+        <argsstring></argsstring>
+        <name>hit</name>
+        <qualifiedname>AGRemapCore::CachedFileStats::hit</qualifiedname>
+        <briefdescription>
+<para>The paths to the files retrieved during a cache hit. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="30" column="32" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="30" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1aee8215b44ce565b170919f6b585c9c14" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CachedFileStats::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::CachedFileStats::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_file_stats_1a1202c670585c4a33180b5945fa5b5399">clear</reimplements>
+        <briefdescription>
+<para>Clears out all saved data about the files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="32" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="5" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a7df2a360c7b928bd41967e9b164cba41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CachedFileStats::updateHit</definition>
+        <argsstring>(const std::unordered_set&lt; std::string &gt; &amp;newHit)</argsstring>
+        <name>updateHit</name>
+        <qualifiedname>AGRemapCore::CachedFileStats::updateHit</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
+          <declname>newHit</declname>
+        </param>
+        <briefdescription>
+<para>Updates the file paths that have a cache hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newHit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new file paths that got a hit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="39" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="10" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a8bf5909233dc600e6aae362a858de29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CachedFileStats::addHit</definition>
+        <argsstring>(const std::string &amp;filePath)</argsstring>
+        <name>addHit</name>
+        <qualifiedname>AGRemapCore::CachedFileStats::addHit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filePath</declname>
+        </param>
+        <briefdescription>
+<para>Adds a new file path to the paths of cache hit files. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filePath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new file path that was hit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="46" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="14" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a8252aa184355f7c1fab64b18c4516cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::CachedFileStats::update</definition>
+        <argsstring>(std::optional&lt; std::string &gt; modFolder=std::nullopt, std::optional&lt; std::unordered_set&lt; std::string &gt; &gt; newFixed=std::nullopt, std::optional&lt; std::unordered_map&lt; std::string, std::exception_ptr &gt; &gt; newSkipped=std::nullopt, std::optional&lt; std::unordered_set&lt; std::string &gt; &gt; newRemoved=std::nullopt, std::optional&lt; std::unordered_set&lt; std::string &gt; &gt; newUndoed=std::nullopt, std::optional&lt; std::unordered_set&lt; std::string &gt; &gt; newVisitedAtRemoval=std::nullopt, std::optional&lt; std::unordered_set&lt; std::string &gt; &gt; newHit=std::nullopt)</argsstring>
+        <name>update</name>
+        <qualifiedname>AGRemapCore::CachedFileStats::update</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>modFolder</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>newFixed</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_map&lt; std::string, std::exception_ptr &gt; &gt;</type>
+          <declname>newSkipped</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>newRemoved</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>newUndoed</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>newVisitedAtRemoval</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::unordered_set&lt; std::string &gt; &gt;</type>
+          <declname>newHit</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Same as :cpp:func:`FileStats::update`, with an additional &apos;newHit&apos; argument -- see
+:cpp:func:`FileStats::update` for the other parameters
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newHit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new file paths that got a cache hit </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="57" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="18" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`FileStats`
+
+Adds tracking for a file retrieved via a cache hit, on top of what :cpp:class:`FileStats`
+already tracks -- mirrors the pure-Python ``CachedFileStats`` class (``model/stats/CachedFileStats.py``)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::CachedFileStats</label>
+        <link refid="class_a_g_remap_core_1_1_cached_file_stats"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::FileStats</label>
+        <link refid="class_a_g_remap_core_1_1_file_stats"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::CachedFileStats</label>
+        <link refid="class_a_g_remap_core_1_1_cached_file_stats"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::FileStats</label>
+        <link refid="class_a_g_remap_core_1_1_file_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="24" column="5" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="24" bodyend="64"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a84854abb77ead0772ff01a87329296a0" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_cached_file_stats_1a8bf5909233dc600e6aae362a858de29b" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addHit</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1aae211e3ee7cfb5cb694fbb4750cafcf9" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addRemoved</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1ae244b19fe0203e73073b3b0d652bef08" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addSkipped</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1af08886541932906b7ef02c46129a740c" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addUndoed</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a38ea882dbb9a1aec5f498c44644dc545" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addVisitedAtRemoval</name></member>
+      <member refid="class_a_g_remap_core_1_1_cached_file_stats_1aee8215b44ce565b170919f6b585c9c14" prot="public" virt="virtual"><scope>AGRemapCore::CachedFileStats</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a315f460b671a112b8eed7aff96953d6b" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>fixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_cached_file_stats_1a62c855be159b09ea5762693bd0e57dde" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>hit</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a0c6260642c65e176b3e3ae27523530f4" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>removed</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1afea1be6daac22af636e942b6a3bb1deb" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>skipped</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a97f0ac887bf42b1f0ea647eacb122d4c" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>skippedByMods</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a7dcf9ccc30803883411f0e005627d435" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>undoed</name></member>
+      <member refid="class_a_g_remap_core_1_1_cached_file_stats_1a8252aa184355f7c1fab64b18c4516cbe" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>update</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a50ca90503ece3a6be509470e8d09bc18" prot="public" virt="non-virtual" ambiguityscope="AGRemapCore::FileStats::"><scope>AGRemapCore::CachedFileStats</scope><name>update</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1adcaddb25b5492d81adcbde97b5a39d45" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_cached_file_stats_1a7df2a360c7b928bd41967e9b164cba41" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateHit</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a53439b1c0500345ce010eff1ec13e8d5" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateRemoved</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a3414cfef600c22b8cc4b410db3574aab" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateSkipped</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1aef3b2cfbccdfb57c582290f5b84e215f" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateUndoed</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a61ed213a6cf3602d29ad8c5f1f39d126" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>updateVisitedAtRemoval</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1ad3d7844f8869bc48da2e63c4a22a7901" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>visitedAtRemoval</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_stats_1a90dae2991637a725c4085ceed5ef331e" prot="public" virt="virtual"><scope>AGRemapCore::CachedFileStats</scope><name>~FileStats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

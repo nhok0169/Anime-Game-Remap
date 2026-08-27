@@ -21,15 +21,21 @@ from typing import List, Tuple, TYPE_CHECKING, Dict, Union, Set, Callable, Optio
 ##### CppLocalImports
 from .....core import CppListTools, IfTemplatePart, IfContentPart, Ranges
 from .....core import IfPredPart, Z3Predicate, Z3Context
+from .....core import IniGraphGroup
+# IniGroupedResource/IniResource here are only ever used as type hints (never constructed --
+# real instances come from an externally-injected 'groupedResBuilders' buildCls, see this
+# class's own __init__). IniGroupedResource.resources (general-purpose scratch storage keyed by
+# mod-object tuples, holding placeholder tuples that later get replaced with real resource
+# objects, deepcopy'd mid-algorithm) is exactly the shape CppIniGroupedResource's own py::dict-
+# backed 'resources' was redesigned to support -- see iniresources-cpp-port memory notes.
+from .....core import IniGroupedResource, IniResource
 ##### EndCppLocalImports
 
 ##### LocalImports
 from .....constants.IniConsts import IniKeywords
 from .....constants.IfPredPartType import IfPredPartType
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from ....IniGraphGroup import IniGraphGroup
 from .....core import SectionIterData
-from ....iniresources.IniResource import IniGroupedResource, IniResource
 from .....core import IniSectionGraph
 from ....iniresources.IniGroupedResBuilder import IniGroupedResBuilder
 from .....tools.DictTools import DictTools

@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_795a6000bd79c8f8082a11d454fe3890" kind="dir">
+    <compoundname>src/model/strategies/iniFixers</compoundname>
+    <innerdir refid="dir_a0e1e1dfb3f2561398ec8ebc7b8f2c96">src/model/strategies/iniFixers/graphEdits</innerdir>
+    <innerdir refid="dir_1db9267f0b94a5ce7df9e9b178db5500">src/model/strategies/iniFixers/graphGroupEdits</innerdir>
+    <innerfile refid="_base_ini_fixer_8cpp">BaseIniFixer.cpp</innerfile>
+    <innerfile refid="_base_ini_part_edit_8cpp">BaseIniPartEdit.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/iniFixers/"/>
+  </compounddef>
+</doxygen>

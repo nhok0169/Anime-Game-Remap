@@ -1130,6 +1130,90 @@ test modules (not just a syntax/`py_compile` check) — `Testing/CLAUDE.md`'s "k
 list exists precisely so you can tell a genuinely new regression (a test module *not* on that list
 starting to fail) apart from pre-existing, unrelated noise.
 
+## Porting a class that touches `IfContentPart`/`OrderedMultiMap` data: it has to become a class template, even if the pure-Python original had no generics at all
+
+The Python-facing `IfContentPart` is `IfContentPart<py::object, py::object, PyObjectHash,
+PyObjectEqual>` (see `PyIfContentPart.h`) — every key and value that crosses the pybind11 boundary
+is a `py::object`. A plain C++ caller of `AGRemapCore`, meanwhile, wants
+`IfContentPart<std::string, std::string>`. **A core class that names either instantiation
+concretely can only ever serve one of those two callers**, so anything meant to be both
+standalone-C++-usable *and* reachable from Python has to be templated over the same
+`<K, V, KeyHash, KeyEqual>` and let the caller pick. Confirmed the hard way porting the `regEdits`
+family: a pre-existing `BaseRegEdit` stub pinned to `<std::string, std::string>` looked perfectly
+reasonable and was completely unusable from the binding layer.
+
+Practicalities when converting an existing non-template core class:
+- **Give the template parameters defaults** (`template <typename K = std::string, typename V =
+  std::string, typename KeyHash = std::hash<K>, typename KeyEqual = std::equal_to<K>>`). Every
+  existing C++ call site then reads identically apart from a `<>`, and the "obvious"
+  instantiation stays the obvious one.
+- **The `.cpp` becomes a `.tpp`**, included at the bottom of the header (`#include "Xxx.tpp"`,
+  matching `IfContentPart.h`) — and it must be **removed from `core/CMakeLists.txt`**, since
+  there's no longer a translation unit to compile.
+- `.tpp` files are **not** in `Doxyfile`'s `FILE_PATTERNS`, so all Doxygen-visible documentation
+  has to live in the `.h`. That's the existing convention (`IfContentPart.tpp` carries no doc
+  comments either), not an oversight to correct.
+- A class template still gets a perfectly normal `.. doxygenclass:: AGRemapCore::Xxx` entry in
+  `coreAPI.rst` — Breathe handles templates fine.
+
+## A ported class whose signature names a *still-pure-Python* collaborator (`ModType`, `IniFile`) can't take it by reference
+
+`AGRemapCore::ModType` and the Python API's `ModType` (`model/strategies/ModType.py`) are **two
+unrelated classes that happen to share a name** — the former is bound as `CppModType`, the latter
+is still pure Python and does not subclass it. `AGRemapCore::IniFile` isn't bound to Python at all.
+So a newly-ported class whose methods mention either type has nothing castable to hand over from
+the binding layer, no matter how the signature is written.
+
+The shape that works, used by `BaseRegEdit`/`RegAdd`/`RegNewVals`/`RegRemap`/`RegRemove`:
+- **Core takes them as nullable pointers** (`IniFile* ini = nullptr`, `const ModType* modType =
+  nullptr`), not references. This is the same convention `partRanges` already used for "optional
+  collaborator", so it doesn't read as a special case.
+- **The binding takes them as opaque `py::object` and passes `nullptr` down.** Say so in a comment
+  at the call site; it looks like a bug otherwise.
+- **If the Python object is genuinely needed** (e.g. to hand to a user-supplied callback), route it
+  through the *Python* side instead — capture it in the binding's own lambda rather than trying to
+  smuggle it through the C++ parameter. See the next section, and `PyRegNewVals::refresh` for the
+  worked example.
+
+Re-check this whenever the Python-side class later becomes C++-backed: at that point the pointer
+can start being real, and the `nullptr` comments become stale rather than merely ugly.
+
+## How a binding should hold a Python-supplied container/callable constructor argument — three options, and when the choice is forced
+
+A ported class whose `__init__` just stored a `dict`/`list`/callable (`self.vals = vals`) has three
+plausible bindings. They are **not** interchangeable, and the existing tests usually decide it for
+you:
+
+1. **Parse once into a C++ member; reconstruct a Python value in the getter.** The
+   `PyColourReplace.coloursToReplace` pattern (`parseColourOrRangeSet` / `colourOrRangeSetToPy`).
+   Cleanest when the value is plain data. Loses object identity (`someEdit.vals is theDictYouPassed`
+   is `False`) and ignores in-place mutation of the original.
+2. **Store the `py::dict`/`py::object` and use it directly.** `PyIniGraphGroup`'s pattern, chosen
+   there because call sites depend on dict aliasing.
+3. **Store the raw `py::object` *and* re-derive the C++ member from it at the start of every
+   operation** (`PyRegXxx::refresh(modType)`). Keeps identity *and* honours in-place mutation, at
+   the cost of re-parsing a small container per call.
+
+**Three things force you off option 1**, all of which applied to `regEdits`:
+- An existing test asserting `self.assertIs(edit.someArg, theThingIPassedIn)`. Read the class's
+  `test_Xxx.py` *before* designing the binding — see [Testing](../Testing/CLAUDE.md).
+- The pure-Python original's in-place-mutation semantics being observable.
+- **A member holding Python callables.** pybind11's `<pybind11/functional.h>` caster cannot hand a
+  `std::function` back to Python as the *same* callable it was built from — it re-wraps it in a
+  fresh `cpp_function` (see its `type_caster<std::function<...>>::cast`). So any getter that
+  reconstructs from a parsed `std::function` member silently breaks callable identity. This is
+  exactly why `RegRemove` (whose dict values are predicates) can't use option 1.
+
+**The same reasoning applies to a shared spec/marker class whose callback arity differs per
+consumer.** `ReplaceIf` originally stored a pre-baked `std::function<bool(const py::object&)>`,
+which locked every consumer to that one signature — and `RegNewVals` needs to call the predicate as
+`predicate(oldValue, modType)`. Fix: store the **raw `py::object`** and expose both a raw accessor
+(`predicateObj()`, for a consumer supplying its own argument list) and a narrowing adapter
+(`predicate()`, returning the 1-arg `std::function` every `replaceVals` still wants). Two things to
+carry over if you do this to another marker class: re-add the callability check the functional
+caster used to give you for free (`PyCallable_Check` + `py::type_error`), and bind the
+Python-visible property to the *raw* accessor so identity round-trips.
+
 ## A pybind11 constructor taking `vector<unique_ptr<T>>` must pick disown-and-transfer vs. clone-and-copy deliberately — don't default to `IfTemplate`'s pattern
 
 `IfTemplate`'s own constructor takes ownership of its `IfTemplatePart` children by disowning the

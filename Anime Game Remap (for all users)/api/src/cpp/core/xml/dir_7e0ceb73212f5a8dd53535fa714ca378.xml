@@ -6,6 +6,7 @@
     <innerfile refid="_blend_file_8h">BlendFile.h</innerfile>
     <innerfile refid="_buf_file_8h">BufFile.h</innerfile>
     <innerfile refid="_buf_file_errors_8h">BufFileErrors.h</innerfile>
+    <innerfile refid="_ini_file_8h">IniFile.h</innerfile>
     <innerfile refid="_position_file_8h">PositionFile.h</innerfile>
     <innerfile refid="_texture_file_8h">TextureFile.h</innerfile>
     <briefdescription>

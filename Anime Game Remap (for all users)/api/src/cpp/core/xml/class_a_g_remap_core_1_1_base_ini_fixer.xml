@@ -1,0 +1,425 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_ini_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseIniFixer</compoundname>
+    <includes refid="_base_ini_fixer_8h" local="no">BaseIniFixer.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_fixer_1aaf898b9baf8bf1ee7d3692e4917d7270" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::BaseIniFixer::FixResult = std::unordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>FixResult</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::FixResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The result of a fix -- the new content of the fixed ``.ini`` file(s), keyed by the file
+path each one should be written to
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="48" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_fixer_1af41de7e8b56437806629c44b0b321c1e" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> *</type>
+        <definition>BaseIniParser* AGRemapCore::BaseIniFixer::parser_</definition>
+        <argsstring></argsstring>
+        <name>parser_</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::parser_</qualifiedname>
+        <briefdescription>
+<para>The associated parser to retrieve data for the fix <ndash/> non-owning, see the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="140" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_fixer_1a61bc77a1e18b8bd43c865b9c4e4129f4" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::BaseIniFixer::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::iniFile_</qualifiedname>
+        <briefdescription>
+<para>The .ini file that will be fixed <ndash/> non-owning, taken from <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1af41de7e8b56437806629c44b0b321c1e" kindref="member">parser_</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="145" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a3b7e616e038f4e27adb1d4eec308cb05" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseIniFixer::BaseIniFixer</definition>
+        <argsstring>(BaseIniParser *parser=nullptr)</argsstring>
+        <name>BaseIniFixer</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::BaseIniFixer</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> *</type>
+          <declname>parser</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new fixer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The associated parser to retrieve data for the fix :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is a non-owning pointer to a parser owned elsewhere -- it must outlive this fixer.
+#getIniFile is taken from it, matching the pure-Python original&apos;s own
+``self._iniFile = parser._iniFile`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``nullptr`` is allowed so a fixer can exist before it&apos;s bound to a parser -- see
+:cpp:member:`ModType::iniFixer`. Call #setParser before #fix in that case
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="68" column="22" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="8" bodyend="10"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1abec7ded986f397ea5c0ef0882ecca7b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseIniFixer::~BaseIniFixer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseIniFixer</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::~BaseIniFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="70" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1aea4e6dc47cfe47548b23aecc64bef8e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> *</type>
+        <definition>BaseIniParser * AGRemapCore::BaseIniFixer::getParser</definition>
+        <argsstring>() const</argsstring>
+        <name>getParser</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::getParser</qualifiedname>
+        <briefdescription>
+<para>The associated parser this fixer retrieves data from, or <computeroutput>nullptr</computeroutput> if unbound. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="75" column="27" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="12" bodyend="14"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a6ee26898d7b7cf611c679862e0e4193d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniFixer::setParser</definition>
+        <argsstring>(BaseIniParser *parser)</argsstring>
+        <name>setParser</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::setParser</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref> *</type>
+          <declname>parser</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Binds this fixer to the parser it retrieves data from, and re-reads #getIniFile from
+it -- non-owning, see the constructor
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser to use, or <computeroutput>nullptr</computeroutput> to unbind </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="86" column="18" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="16" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a398c74bde56653f753303f22f08c613b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile * AGRemapCore::BaseIniFixer::getIniFile</definition>
+        <argsstring>() const</argsstring>
+        <name>getIniFile</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::getIniFile</qualifiedname>
+        <briefdescription>
+<para>The .ini file this fixer fixes <ndash/> taken from <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1aea4e6dc47cfe47548b23aecc64bef8e8" kindref="member">getParser</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="91" column="21" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="21" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a614b55b000a9b595326aa1a5b66466b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniFixer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::clear</qualifiedname>
+        <briefdescription>
+<para>Resets any saved states within the fixer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="96" column="26" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a22ccda51316c767201df414d443b3385" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1aaf898b9baf8bf1ee7d3692e4917d7270" kindref="member">FixResult</ref></type>
+        <definition>BaseIniFixer::FixResult AGRemapCore::BaseIniFixer::fix</definition>
+        <argsstring>(bool keepBackup=true, bool fixOnly=false, bool hideOrig=false)</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::fix</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>keepBackup</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fixOnly</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hideOrig</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fixes the ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Thin non-virtual wrapper over #fixImpl, matching how the pure-Python original&apos;s public
+``fix`` delegates to its own ``_fix`` with ``withBoilerPlate``/``withSrc`` both forced
+to ``true`` -- those two are internal knobs only the fixing pipeline itself varies, so
+they aren&apos;t part of this public entry point. Override #fixImpl, not this
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keepBackup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to keep backups for the .ini file. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to only fix the .ini file without undoing any fixes. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hideOrig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to hide the mod for the original character. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new content of the fixed .ini file(s), keyed by file path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="115" column="23" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1ae16447b5fab3a7fe96f68310461dbdeb" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1aaf898b9baf8bf1ee7d3692e4917d7270" kindref="member">FixResult</ref></type>
+        <definition>BaseIniFixer::FixResult AGRemapCore::BaseIniFixer::fixImpl</definition>
+        <argsstring>(bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate, bool withSrc)</argsstring>
+        <name>fixImpl</name>
+        <qualifiedname>AGRemapCore::BaseIniFixer::fixImpl</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>keepBackup</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fixOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hideOrig</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>withBoilerPlate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>withSrc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Does the actual fixing -- the customization point behind #fix, and the direct
+equivalent of the pure-Python original&apos;s ``_fix``. Returns an empty map by default,
+matching that original&apos;s ``pass``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>keepBackup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to keep backups for the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to only fix the .ini file without undoing any fixes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hideOrig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to hide the mod for the original character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>withBoilerPlate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to include the surrounding boilerplate in the result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>withSrc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to include the .ini file&apos;s original content in the result</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new content of the fixed .ini file(s), keyed by file path </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="135" column="31" bodyfile="src/model/strategies/iniFixers/BaseIniFixer.cpp" bodystart="31" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class to fix a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Only the **base** class is ported -- none of the pure-Python original&apos;s concrete subclasses
+   (``GIMIFixer``, ``GIMIObjSplitFixer``, ...) exist in C++ yet
+
+.. note::
+   Divergences from the pure-Python
+   ``FixRaidenBoss2.model.strategies.iniFixers.BaseIniFixer`` original:
+
+   * #fix always returns a map of file path to new content. The original returns
+     ``Union[str, Dict[Union[str, int], str]]`` -- either a single ``.ini`` file&apos;s new content,
+     or several keyed by path *or* by an integer id when a path isn&apos;t available. The single-file
+     case is just a one-entry map here, and the integer-id fallback is dropped, so callers
+     never have to unpack a union
+   * The pure-Python original&apos;s ``fix`` sets ``self._iniFile._isFixed = True`` after running.
+     That&apos;s deliberately **not** done here -- :cpp:member:`IniFile::isFixed` is currently owned
+     by :cpp:func:`IniFile::classify` (it means &quot;this .ini file was *detected* as already
+     fixed&quot;), so having a fixer write to it would conflate two different meanings. Revisit
+     if/when the rest of the fixing pipeline is ported
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseIniFixer</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_fixer"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>parser_</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseIniParser</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_parser"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>fixer_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="38" bodyend="146"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a3b7e616e038f4e27adb1d4eec308cb05" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>BaseIniFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a614b55b000a9b595326aa1a5b66466b0" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a22ccda51316c767201df414d443b3385" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1ae16447b5fab3a7fe96f68310461dbdeb" prot="protected" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fixImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1aaf898b9baf8bf1ee7d3692e4917d7270" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>FixResult</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a398c74bde56653f753303f22f08c613b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1aea4e6dc47cfe47548b23aecc64bef8e8" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>getParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a61bc77a1e18b8bd43c865b9c4e4129f4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1af41de7e8b56437806629c44b0b321c1e" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>parser_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6ee26898d7b7cf611c679862e0e4193d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>setParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1abec7ded986f397ea5c0ef0882ecca7b0" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>~BaseIniFixer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

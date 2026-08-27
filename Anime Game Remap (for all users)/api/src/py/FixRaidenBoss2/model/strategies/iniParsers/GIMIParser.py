@@ -22,6 +22,8 @@ from ....core import IfContentPartColouring
 from ....core import IfContentPart
 from ....core import Hashes
 from ....core import Indices
+from ....core import RemapIniDownload
+from ....core import IniGraphGroup
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -37,8 +39,6 @@ from ....tools.TextTools import TextTools
 from ....tools.DictTools import UnHashableNone
 from ...DownloadData import DownloadData
 from ....core import IniSectionGraph
-from ...IniGraphGroup import IniGraphGroup
-from ...iniresources.RemapIniResource import RemapIniDownload
 from ....core import IfTemplate
 from ...strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
 from ...IniNamingTools import IniNamingTools

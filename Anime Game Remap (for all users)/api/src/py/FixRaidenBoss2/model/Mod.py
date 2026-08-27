@@ -18,6 +18,12 @@ import shutil
 from typing import Optional, List, Set, Union, Dict, Callable, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import FileStats
+from ..core import CachedFileStats
+from ..core import RemapStats
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.FileExt import FileExt
 from ..constants.FileTypes import FileTypes
@@ -34,14 +40,14 @@ from .files.TextureFile import TextureFile
 from ..tools.files.FileService import FileService
 from ..tools.ListTools import ListTools
 from .files.IniFile import IniFile
-from .stats.FileStats import FileStats
-from .stats.CachedFileStats import CachedFileStats
-from .stats.RemapStats import RemapStats
-from .iniresources.IniFixResourceModel import IniFixResourceModel
-from .iniresources.IniSrcResourceModel import IniSrcResourceModel
+# IniFixResourceModel/IniSrcResourceModel/IniTexModel/IniDownloadModel are Group B (see
+# iniresources-cpp-port migration notes) -- IniFile.py's own factories now construct these
+# C++-backed classes directly (see that file's own history), so these are just the bare classes.
+from ..core import IniFixResourceModel
+from ..core import IniSrcResourceModel
 from ..constants.GlobalClassifiers import GlobalClassifiers
-from .iniresources.IniTexModel import IniTexModel
-from .iniresources.IniDownloadModel import IniDownloadModel
+from ..core import IniTexModel
+from ..core import IniDownloadModel
 from .Version import Version
 from .strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..view.Logger import Logger

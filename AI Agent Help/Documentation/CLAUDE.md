@@ -59,6 +59,31 @@ registered; watch for this specifically when hand-editing a toctree list). If a 
 --keep-going` build reports a *new* warning on `api.rst`/`coreAPI.rst` (or `index.rst`'s toctree
 warnings reappear), treat it as a real regression to fix, not baseline noise to ignore.
 
+**Running `doxygen Doxyfile` over a `core/xml/` that already has output in it can silently emit a
+corrupt `index.xml`, which crashes the *next* Sphinx build with a stack trace rather than a
+warning.** `Tools/APIBuilder`'s own `buildDocs()` does `shutil.rmtree(core/xml)` immediately before
+shelling out to Doxygen — that wipe is load-bearing, not tidiness, and the "just run `doxygen
+Doxyfile` yourself" shortcut above skips it. Symptom, confirmed hands-on: Sphinx dies with
+`breathe.parser.ParserError: file .../core/xml/index.xml: mismatched tag: line NNNN, column 2`,
+where the reported line is the closing `</doxygenindex>` and therefore tells you nothing. The real
+damage is a handful of `<compound …>` elements written without their closing `</compound>` —
+scattered across files you never touched (`BaseIniClassifier.h`, `ModType.h`, `BaseTexEditor.h` in
+the observed case), which makes it look like a pre-existing repo problem rather than something the
+previous command just did. It is also intermittent: the *same* dirty-directory invocation had
+produced a perfectly parseable `index.xml` one run earlier. **Fix / prevention**: delete the
+directory's contents first, then rerun —
+```bash
+cd "Anime Game Remap (for all users)/api/src/cpp"
+rm -rf core/xml && (cd core && doxygen Doxyfile)
+```
+(if `rm -rf core/xml` reports `Device or resource busy`, some shell's working directory is still
+*inside* `core/xml` — `cd` out of it first; an emptied-but-undeletable directory is fine, Doxygen
+only needs it empty, not absent). Verify before building Sphinx, since neither Doxygen's exit code
+nor its warning output flags this at all:
+```bash
+python -c "import glob, xml.etree.ElementTree as ET; [ET.parse(p) for p in glob.glob('core/xml/*.xml')]"
+```
+
 **Doxygen's own warnings are a separate surface from Sphinx's, and "0 Sphinx warnings" does not
 mean "0 Doxygen warnings."** Sphinx/Breathe renders whatever XML Doxygen already produced; it
 never re-validates a `@param`/`@copydoc` mismatch inside a C++ header comment, so a broken
@@ -411,6 +436,20 @@ reopened) survives untouched.
   touching. Grep an existing docstring for `Paramters` (or any other hand-typed section heading)
   before reusing it as a template; the typo won't warn until two copies of it end up rendered on
   the same page.
+- **A pybind11 class docstring must NOT carry a numpydoc `Attributes` section when its attributes
+  are also bound with their own `py::doc(...)`** — napoleon turns each `Attributes` entry into a
+  `py:attribute` object description, `:members:` emits another for the bound
+  `def_property`/`def_readwrite`, and you get one
+  `WARNING: duplicate object description of FixRaidenBoss2.Xxx.attr, other instance in api, use
+  :no-index: for one of them` per attribute. **The per-attribute `py::doc(...)` string is this
+  codebase's convention; the class-level `Attributes` section is not** — verified by grep, no other
+  bound class in `py/src` has one. This is a porting-specific trap rather than a general one: the
+  pure-Python original's docstring almost certainly *did* have both a `Parameters` and an
+  `Attributes` section (every pure-Python class here does), and it got away with it only because
+  plain Python instance attributes have no `__doc__` for `:members:` to pick up. Drop the
+  `Attributes` section when you port the docstring across; keep `Parameters` (that one describes
+  the constructor and has no bound counterpart). Hit this porting all four `regEdits` classes at
+  once — six warnings, all of which vanished with the sections removed.
 
 ### `Docs/src/api.rst` / `Docs/src/coreAPI.rst` structure — read before touching either
 - **Most of each file is deliberately commented out** (`.. ClassName`, `.. .. autoclass::`, every

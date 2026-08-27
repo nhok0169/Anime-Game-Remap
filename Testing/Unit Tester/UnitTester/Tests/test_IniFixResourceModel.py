@@ -1,7 +1,6 @@
 import sys
-from typing import Dict, List
 
-from .baseFileUnitTest import BaseFileUnitTest
+from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
@@ -9,73 +8,75 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
-class IniFixResourceModelTest(BaseFileUnitTest):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls._iniFolderPath = ""
-        cls._fixedBlendPaths = {}
-        cls._origBlendPaths = None
-        cls.remapBlendModel = None
+class IniFixResourceModelTest(BaseUnitTest):
+    """
+    Tests for :class:`IniFixResourceModel` -- the C++-backed replacement for the pure-Python
+    original, now deleted outright (was briefly renamed to ``IniFixResourceModelOld``
+    mid-migration) :raw-html:`<br />` :raw-html:`<br />`
 
-        cls.setDefaultAtts()
+    .. note::
+        Deliberately does **not** inherit :class:`BaseFileUnitTest` -- that class mocks
+        :mod:`os`/:mod:`shutil` at the Python level, which the new C++-backed
+        :meth:`FileService.absPathOfRelPath` (used internally to resolve :attr:`fullPaths`/
+        :attr:`origFullPaths`) never goes through (real ``std::filesystem`` calls from C++). Uses
+        real absolute paths instead, matching how this migration's other new test files
+        (``test_FileDownload.py``, ``test_IniResource.py``) handle the same C++-vs-mocked-Python
+        path-resolution mismatch.
+    """
 
-    @classmethod
-    def setDefaultAtts(cls):
-        cls._iniFolderPath = r"C:/totally/an/absolute/path"
-        cls._fixedBlendPaths = {1: {"Type1": ["hello"],
-                                    "Type2": ["bye"]},
-                                3: {"Calc1": ["../../value/../remember/triangle identity/modulus.buf"]},
-                                888: {"Lucky": ["D:/lucky/golden_frog_baccarat/eight.webAPI.Controller.house_edge"]},
-                                -892: {"ahhh": ["Aria/by\John Cage/is/a/great\song/you/should/listen/to/it/everyday.mp3"],
-                                       "silence": ["433/by\John Cage/is/another/great/song/toHear.m4a"]},
-                                0: {"Musique Concrete": ["Apostrophe/by\Pierre Schaeffer/is/also/another/great/listen.avi"]},
-                                -897: {}}
-        cls._origBlendPaths = {1: ["PapaOutai.buf"],
-                               2: ["macronutrient/alpha-linolenic acid.buf"],
-                               56: ["M:/Dumb\Drive"]}
+    def test_noOrigPaths_fullPathsResolved(self):
+        fixedPaths = {1: {"Type1": ["hello.buf"], "Type2": ["bye.buf"]},
+                      3: {"Calc1": ["nested/value.buf"]}}
 
-    def getFullPaths(self, paths: Dict[int, Dict[str, List[str]]]) -> Dict[int, Dict[str, str]]:
-        result = {}
-        for ind, partPaths in paths.items():
-            try:
-                result[ind]
-            except:
-                result[ind] = {}
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths)
 
-            for modName, paths in partPaths.items(): 
-                result[ind][modName] = list(map(lambda path: FRB.FileService.absPathOfRelPath(path, self._iniFolderPath), paths))
+        self.assertEqual(model.fullPaths[1]["Type1"], ["C:\\mods\\EiRemap\\hello.buf"])
+        self.assertEqual(model.fullPaths[1]["Type2"], ["C:\\mods\\EiRemap\\bye.buf"])
+        self.assertEqual(model.fullPaths[3]["Calc1"], ["C:\\mods\\EiRemap\\nested\\value.buf"])
+        self.compareDict(model.origFullPaths, {})
 
-        return result
-    
-    def getOrigFullPaths(self, paths: Dict[int, List[str]]) -> Dict[int, str]:
-        result = {}
-        for ind in paths:
-            result[ind] = list(map(lambda path: FRB.FileService.absPathOfRelPath(path, self._iniFolderPath), paths[ind]))
+    def test_origPaths_origFullPathsAlsoResolved(self):
+        fixedPaths = {1: {"Type1": ["hello.buf"]}}
+        origPaths = {1: ["orig.buf"], 2: ["another/orig.buf"]}
 
-        return result
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths, origPaths = origPaths)
 
-    def setUp(self):
-        super().setUp()
+        self.assertEqual(model.origFullPaths[1], ["C:\\mods\\EiRemap\\orig.buf"])
+        self.assertEqual(model.origFullPaths[2], ["C:\\mods\\EiRemap\\another\\orig.buf"])
 
-    def createRemapBlendModel(self):
-        self.remapBlendModel = FRB.IniFixResourceModel(self._iniFolderPath, self._fixedBlendPaths, origPaths = self._origBlendPaths)
+    def test_items_yieldsFixedFullOrigOrigFullTuples(self):
+        fixedPaths = {0: {"Type1": ["hello.buf"]}}
+        origPaths = {0: ["orig.buf"]}
 
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths, origPaths = origPaths)
+        entries = model.items()
 
-    # ========= __init__ =====================================
+        self.assertEqual(len(entries), 1)
+        fixedPath, fullPath, origPath, origFullPath = entries[0]
+        self.assertEqual(fixedPath, "hello.buf")
+        self.assertEqual(fullPath, "C:\\mods\\EiRemap\\hello.buf")
+        self.assertEqual(origPath, "orig.buf")
+        self.assertEqual(origFullPath, "C:\\mods\\EiRemap\\orig.buf")
 
-    def test_noOrigBlendData_remapBlendModelWithoutOrigBlendData(self):
-        self._origBlendPaths = None
-        self.createRemapBlendModel()
+    def test_items_noOrigPaths_origEntriesAreNone(self):
+        fixedPaths = {0: {"Type1": ["hello.buf"]}}
 
-        self.compareDictOfDict(self.remapBlendModel.fullPaths, self.getFullPaths(self._fixedBlendPaths))
-        self.compareDict(self.remapBlendModel.origFullPaths, {})
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", fixedPaths)
+        _, _, origPath, origFullPath = model.items()[0]
 
-    def test_origBlendData_remapBlendModelWithOrigBlendData(self):
-        self.setDefaultAtts()
-        self.createRemapBlendModel()
+        self.assertIsNone(origPath)
+        self.assertIsNone(origFullPath)
 
-        self.compareDictOfDict(self.remapBlendModel.fullPaths, self.getFullPaths(self._fixedBlendPaths))
-        self.compareDict(self.remapBlendModel.origFullPaths, self.getOrigFullPaths(self._origBlendPaths))
+    def test_clear_clearsAllPathData(self):
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", {0: {"Type1": ["hello.buf"]}}, origPaths = {0: ["orig.buf"]})
 
-    # ========================================================  
+        model.clear()
+
+        self.compareDict(model.fixedPaths, {})
+        self.compareDict(model.fullPaths, {})
+        self.compareDict(model.origFullPaths, {})
+        self.compareDict(model.origPaths, {})
+
+    def test_isInstanceOfIniResourceModel(self):
+        model = FRB.IniFixResourceModel("C:/mods/EiRemap", {})
+        self.assertIsInstance(model, FRB.IniResourceModel)

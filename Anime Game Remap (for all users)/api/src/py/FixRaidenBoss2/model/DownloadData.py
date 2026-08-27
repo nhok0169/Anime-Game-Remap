@@ -18,12 +18,12 @@ from typing import Optional, List, Tuple
 
 ##### CppLocalImports
 from ..core import IfContentPart
+from ..core import FileDownload
+from ..core import IfTemplate
 ##### EndCppLocalImports
 
 ##### LocalImports
 from ..constants.IniConsts import IniKeywords
-from ..tools.files.FileDownload import FileDownload
-from ..core import IfTemplate
 ##### EndLocalImports
 
 

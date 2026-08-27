@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_download_model" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniDownloadModel</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniSrcResourceModel</basecompoundref>
+    <includes refid="_ini_download_model_8h" local="no">IniDownloadModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_download_model_1a72bb422dd6a0bced1e562aa6dbe56b65" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> &gt; &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, std::vector&lt;std::unique_ptr&lt;FileDownload&gt; &gt; &gt; AGRemapCore::IniDownloadModel::downloads</definition>
+        <argsstring></argsstring>
+        <name>downloads</name>
+        <qualifiedname>AGRemapCore::IniDownloadModel::downloads</qualifiedname>
+        <briefdescription>
+<para>The downloader associated with each file (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="51" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_download_model_1ad5a3b3f01fd186c429e2098fbfd9873a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniDownloadModel::IniDownloadModel</definition>
+        <argsstring>(std::string iniFolderPath, tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; paths, tsl::ordered_map&lt; int, std::vector&lt; std::unique_ptr&lt; FileDownload &gt; &gt; &gt; downloads)</argsstring>
+        <name>IniDownloadModel</name>
+        <qualifiedname>AGRemapCore::IniDownloadModel::IniDownloadModel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+          <declname>paths</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> &gt; &gt; &gt;</type>
+          <declname>downloads</declname>
+        </param>
+        <briefdescription>
+<para>Constructs new data for a resource to download. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder path to where the .ini file of the resource is located </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>paths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_src_resource_model" kindref="compound">IniSrcResourceModel</ref></computeroutput>&apos;s constructor </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>downloads</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The downloader associated with each file -- the keys are the indices to the
+:cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+for some resource, and the values are the downloaders for the files within that
+:cpp:class:`IfContentPart`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="45" column="13" bodyfile="src/model/iniresources/IniDownloadModel.cpp" bodystart="7" bodyend="9"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IniSrcResourceModel`
+
+Contains data about a particular resource to download in the original .ini file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniDownloadModel`` class (``model/iniresources/IniDownloadModel.py``)
+-- #downloads owns its :cpp:class:`FileDownload`\\s via ``std::unique_ptr`` (matches
+:cpp:class:`IniTexModel`&apos;s own reasoning for owning polymorphic entries this way)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IniDownloadModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_download_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniSrcResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_src_resource_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::IniDownloadModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_download_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniSrcResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_src_resource_model"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/IniDownloadModel.h" line="29" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniDownloadModel.h" bodystart="29" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_download_model_1a72bb422dd6a0bced1e562aa6dbe56b65" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>downloads</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>fullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_download_model_1ad5a3b3f01fd186c429e2098fbfd9873a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>IniDownloadModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>iniFolderPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1ab91055ed7de53ba62bd71b9041cd8665" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>IniSrcResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1abdf9d6143d246e2691aefe913d008f23" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a14864861533cf2be4834cfc2e5f55dcc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>paths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" virt="virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>~IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a67983c391b4ec64dab303faf83a5294f" prot="public" virt="virtual"><scope>AGRemapCore::IniDownloadModel</scope><name>~IniSrcResourceModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

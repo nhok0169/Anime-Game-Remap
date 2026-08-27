@@ -84,21 +84,51 @@ class PyReplaceList {
  spec: "replace with this value, wherever this predicate returns True for the old value" :raw-html:`<br />` :raw-html:`<br />`
 
  Disambiguates against a bare replacement value for the same reason as :class:`PyReplaceList`.
+ :raw-html:`<br />` :raw-html:`<br />`
+
+ .. note::
+    The predicate is stored as the **raw** `Python`_ callable, not as an already-baked
+    ``std::function`` of a fixed arity, so each consumer decides how it calls it:
+    :meth:`PyOrderedMultiMap.replaceVals` (and every other ``replaceVals``) calls it with just
+    the old value, via #predicate; `PyRegNewVals` calls it with ``(oldValue, modType)``, via
+    #predicateObj. Keeping the original object also means ``someSpec.predicate`` hands back the
+    exact callable that was passed in, rather than a fresh `pybind11`_ ``cpp_function`` wrapper
+    around it
  @endrst
  */
 class PyReplaceIf {
     public:
         using Predicate = std::function<bool(const py::object&)>;
 
-        explicit PyReplaceIf(py::object value, Predicate predicate):
-            value_(std::move(value)), predicate_(std::move(predicate)) {}
+        explicit PyReplaceIf(py::object value, py::object predicate):
+            value_(std::move(value)), predicate_(std::move(predicate)) {
+            // pybind11's <pybind11/functional.h> caster used to reject a non-callable at load
+            // time, back when this constructor took a Predicate directly -- taking a raw
+            // py::object skips that, so the same error is raised explicitly instead.
+            if (!PyCallable_Check(predicate_.ptr())) {
+                throw py::type_error("ReplaceIf(): 'predicate' must be callable");
+            }
+        }
 
         const py::object& value() const { return value_; }
-        const Predicate& predicate() const { return predicate_; }
+
+        /**
+         * @brief Retrieves the raw Python predicate, for a caller that supplies its own argument list
+         */
+        const py::object& predicateObj() const { return predicate_; }
+
+        /**
+         * @brief Adapts the raw Python predicate into the single-argument form every ``replaceVals`` calls it with
+         */
+        Predicate predicate() const {
+            return [predicate = predicate_](const py::object &oldValue) {
+                return predicate(oldValue).cast<bool>();
+            };
+        }
 
     private:
         py::object value_;
-        Predicate predicate_;
+        py::object predicate_;
 };
 
 

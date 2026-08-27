@@ -68,6 +68,12 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/IniGraphGroup.cpp
+    src/model/strategies/iniParsers/BaseIniParser.cpp
+    src/model/strategies/iniFixers/BaseIniFixer.cpp
+    src/model/strategies/iniFixers/BaseIniPartEdit.cpp
+    src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.cpp
     src/model/files/IniFile.cpp
     src/model/IniNamingTools.cpp
     src/model/textures/Colour.cpp
@@ -177,6 +183,33 @@ add_subdirectory(
 # Restore our project's PROJECT_SOURCE_DIR.
 set(PROJECT_SOURCE_DIR ${AGREMAP_PROJECT_SOURCE_DIR})
 
+
+# -----------------------------------
+# libcurl
+# -----------------------------------
+
+set(BUILD_CURL_EXE OFF CACHE BOOL "" FORCE)
+set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+set(BUILD_LIBCURL_DOCS OFF CACHE BOOL "" FORCE)
+set(BUILD_MISC_DOCS OFF CACHE BOOL "" FORCE)
+
+set(CURL_USE_LIBPSL OFF CACHE BOOL "" FORCE)
+set(CURL_DISABLE_INSTALL ON CACHE BOOL "" FORCE)
+
+if(WIN32)
+    set(CURL_USE_SCHANNEL ON CACHE BOOL "" FORCE)
+endif()
+
+set(CURL_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../extern/curl)
+set(CURL_BIN ${CMAKE_BINARY_DIR}/curl)
+
+add_subdirectory(
+    ${CURL_SRC}
+    ${CURL_BIN}
+    EXCLUDE_FROM_ALL
+)
+
 # -----------------------------------
 # Link Libraries
 # -----------------------------------
@@ -214,6 +247,7 @@ target_link_libraries(AGRemapCore
         utf8proc
         CMP_Compressonator
         CMP_Framework
+        CURL::libcurl
 )
 
 set_target_properties(AGRemapCore PROPERTIES

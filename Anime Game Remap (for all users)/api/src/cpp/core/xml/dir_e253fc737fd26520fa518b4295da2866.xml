@@ -6,9 +6,13 @@
     <innerdir refid="dir_85b85b17f51e6d5285aad9be19d4c1a3">include/AGRemapCore/model/buffers</innerdir>
     <innerdir refid="dir_7e0ceb73212f5a8dd53535fa714ca378">include/AGRemapCore/model/files</innerdir>
     <innerdir refid="dir_cba8dac7a58d0603f30aa2971b8ef0ab">include/AGRemapCore/model/iftemplate</innerdir>
+    <innerdir refid="dir_34c31718a0495ddae57da6ef4e6edf41">include/AGRemapCore/model/iniresources</innerdir>
+    <innerdir refid="dir_68bd0a7752c7f41d7d12fa1bd0766c50">include/AGRemapCore/model/stats</innerdir>
     <innerdir refid="dir_262090020142afce8472a874afdbb94c">include/AGRemapCore/model/strategies</innerdir>
     <innerdir refid="dir_cb1871b90e5ecfacbdda10a9b11e3c31">include/AGRemapCore/model/textures</innerdir>
     <innerfile refid="_call_graph_8h">CallGraph.h</innerfile>
+    <innerfile refid="_ini_graph_group_8h">IniGraphGroup.h</innerfile>
+    <innerfile refid="_ini_naming_tools_8h">IniNamingTools.h</innerfile>
     <innerfile refid="_ini_section_graph_8h">IniSectionGraph.h</innerfile>
     <innerfile refid="_section_iter_data_8h">SectionIterData.h</innerfile>
     <innerfile refid="_version_8h">Version.h</innerfile>

@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_ini_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseIniParser</compoundname>
+    <includes refid="_base_ini_parser_8h" local="no">BaseIniParser.h</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_parser_1ab95859e5603293d7036d4d8d91e900d4" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::BaseIniParser::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::iniFile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file that will be parsed -- non-owning, see the constructor
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="104" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1acd94c4e509a377ea5d3d2315829cedcb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseIniParser::BaseIniParser</definition>
+        <argsstring>(IniFile *iniFile=nullptr)</argsstring>
+        <name>BaseIniParser</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::BaseIniParser</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new parser. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file to parse :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is a non-owning pointer to a file owned elsewhere -- it must outlive this parser
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``nullptr`` is allowed so a parser can exist before it&apos;s bound to any particular file
+-- :cpp:member:`ModType::iniParser` holds one this way, since a
+:cpp:class:`ModType` describes a *kind* of mod rather than one specific ``.ini`` file.
+Call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="51" column="22" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="7" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a6699e82027e33e3244db8b12da72f635" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseIniParser::~BaseIniParser</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseIniParser</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::~BaseIniParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="53" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a031629cd0f41ff37d7e7052fb96851b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile * AGRemapCore::BaseIniParser::getIniFile</definition>
+        <argsstring>() const</argsstring>
+        <name>getIniFile</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::getIniFile</qualifiedname>
+        <briefdescription>
+<para>The .ini file this parser reads from, or <computeroutput>nullptr</computeroutput> if it hasn&apos;t been bound to one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="58" column="21" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1ac462b24ff22b8fe1f8d5c62df4e0a801" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniParser::setIniFile</definition>
+        <argsstring>(IniFile *iniFile)</argsstring>
+        <name>setIniFile</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::setIniFile</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Binds this parser to the ``.ini`` file it should read from -- non-owning, see the
+constructor
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file to parse, or <computeroutput>nullptr</computeroutput> to unbind </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="69" column="18" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="13" bodyend="15"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a29c198d1ae36db562566fc0c60babea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseIniParser::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears any saved data. No-op by default -- see this class&apos;s own note on why there&apos;s
+nothing here to clear, unlike the pure-Python original
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="78" column="26" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1ad429c0d3a7b7b2d54cf614003bea4d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref> &gt;</type>
+        <definition>std::vector&lt; IniGraphGroup &gt; AGRemapCore::BaseIniParser::parse</definition>
+        <argsstring>()</argsstring>
+        <name>parse</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::parse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Parses the ``.ini`` file. Returns an empty vector by default, matching the pure-Python
+original&apos;s ``pass`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   :cpp:class:`IniGraphGroup` is move-only (it holds move-only
+   :cpp:class:`IniSectionGraph`\\s), so the returned vector is likewise move-only --
+   take it by value and ``std::move`` it around, don&apos;t try to copy it
+</verbatim></para>
+<para><simplesect kind="return"><para>The parsed groups of caller/callee graphs found in the .ini file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="94" column="33" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="19" bodyend="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class to parse a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Two deliberate divergences from the pure-Python
+   ``FixRaidenBoss2.model.strategies.iniParsers.BaseIniParser`` original:
+
+   * There is no ``_modsToFix`` attribute (and so #clear has nothing of its own to reset, and
+     is a no-op by default). The pure-Python original&apos;s ``clear`` exists *only* to clear that
+     set, so subclasses here own whatever state they accumulate and reset it themselves
+   * #parse returns the parsed :cpp:class:`IniGraphGroup`\\s instead of ``None``, so a parser
+     hands its results back to its caller as a real value rather than by mutating the
+     :cpp:class:`IniFile` it was given
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniFixer</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_fixer"/>
+        <childnode refid="1" relation="usage">
+          <edgelabel>parser_</edgelabel>
+        </childnode>
+        <childnode refid="2" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseIniParser</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_parser"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>fixer_</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="30" bodyend="105"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1acd94c4e509a377ea5d3d2315829cedcb" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>BaseIniParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a29c198d1ae36db562566fc0c60babea4" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a031629cd0f41ff37d7e7052fb96851b1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ab95859e5603293d7036d4d8d91e900d4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ad429c0d3a7b7b2d54cf614003bea4d37" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>parse</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ac462b24ff22b8fe1f8d5c62df4e0a801" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>setIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a6699e82027e33e3244db8b12da72f635" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>~BaseIniParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

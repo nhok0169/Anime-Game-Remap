@@ -106,6 +106,33 @@ from .core import CppPixelFilter
 from .core import CppBaseTexEditor
 from .core import CppTexEditor
 from .core import CppTexCreator
+from .core import IniResource
+from .core import IniFixResource
+from .core import IniGroupedResource
+from .core import RemapIniResourceMixin
+from .core import RemapIniResource
+from .core import RemapIniFixResource
+from .core import RemapIniGroupedResource
+from .core import RemapIniDownload
+from .core import RemapBlendResource
+from .core import RemapTexAddResource
+from .core import FileStats
+from .core import CachedFileStats
+from .core import RemapStats
+from .core import FileDownload
+from .core import IniGraphGroup
+from .core import IniResourceModel
+from .core import IniSrcResourceModel
+from .core import IniFixResourceModel
+from .core import IniTexModel
+from .core import IniDownloadModel
+from .core import CppBaseIniPartEdit
+from .core import CppBaseIniGraphPartEdit
+from .core import BaseRegEdit
+from .core import RegAdd
+from .core import RegNewVals
+from .core import RegRemap
+from .core import RegRemove
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -244,12 +271,6 @@ from .model.strategies.iniFixers.regEditFilters.RegRemoveOld import RegRemoveOld
 from .model.strategies.iniFixers.regEditFilters.RegTexAdd import RegTexAdd
 from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
 
-from .model.strategies.iniFixers.regEdits.BaseRegEdit import BaseRegEdit
-from .model.strategies.iniFixers.regEdits.RegAdd import RegAdd
-from .model.strategies.iniFixers.regEdits.RegNewVals import RegNewVals
-from .model.strategies.iniFixers.regEdits.RegRemap import RegRemap
-from .model.strategies.iniFixers.regEdits.RegRemove import RegRemove
-
 # TOREMOVE
 from .model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
 
@@ -288,27 +309,12 @@ from .model.strategies.ModType import ModType
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
 
-# TOREMOVE
-from .model.iniresources.IniDownloadModel import IniDownloadModel
-from .model.iniresources.IniFixResourceModel import IniFixResourceModel
-from .model.iniresources.IniResourceModel import IniResourceModel
-from .model.iniresources.IniSrcResourceModel import IniSrcResourceModel
-from .model.iniresources.IniTexModel import IniTexModel
-
 from .model.iniresources.IniGroupedResBuilder import IniGroupedResBuilder
-from .model.iniresources.IniResource import IniResource, IniFixResource, IniGroupedResource
-from .model.iniresources.RemapIniResource import RemapIniResource, RemapIniFixResource, RemapIniGroupedResource, RemapIniDownload
-from .model.iniresources.RemapBlendResource import RemapBlendResource
 
 from .model.textures.Colour import Colour
 from .model.textures.ColourRange import ColourRange
 
-from .model.stats.FileStats import FileStats
-from .model.stats.CachedFileStats import CachedFileStats
-from .model.stats.RemapStats import RemapStats
-
 from .model.DownloadData import DownloadData, BlendDownloadData
-from .model.IniGraphGroup import IniGraphGroup
 from .model.IniNamingTools import IniNamingTools
 from .model.Mod import Mod
 from .model.Model import Model
@@ -324,7 +330,6 @@ from .tools.concurrency.ThreadManager import ThreadManager
 from .tools.enums.DeferredEnum import DeferredEnum
 from .tools.enums.StrEnum import StrEnum
 
-from .tools.files.FileDownload import FileDownload
 from .tools.files.FileService import FileService
 from .tools.files.FilePath import FilePath
 
@@ -367,6 +372,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppHueAdjust", "CppPixelFilter",
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
+           "CppBaseIniPartEdit", "CppBaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegNewVals", "RegRemap", "RegRemove",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -386,7 +392,6 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseIniClassifierOld", "BaseIniClassifierBuilderOld", "IniClassifierOld", "IniClassifierBuilderOld", "IniClassifyStatsOld", 
            "BaseIniGraphPartEdit", "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemoveOld", "RegTexAdd", "RegTexEdit",
-           "BaseRegEdit", "RegAdd", "RegNewVals", "RegRemap", "RegRemove",
            "BaseIniParser", "GIMIObjParser", "GIMIParser", "GIMISectionClassifier", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
@@ -395,7 +400,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "ModType",
            "IfPredLogicGenerator", "SympyIfPredGenerator", "IfPredParser", "SympyParser",
            "IniDownloadModel", "IniFixResourceModel", "IniResourceModel", "IniSrcResourceModel", "IniTexModel",
-           "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource",
+           "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
            "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "Mod", "Model", "Version", "VGRemap",

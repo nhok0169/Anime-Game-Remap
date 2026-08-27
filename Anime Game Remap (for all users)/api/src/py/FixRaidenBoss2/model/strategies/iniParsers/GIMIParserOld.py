@@ -30,7 +30,7 @@ from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ...DownloadData import DownloadData
 from ....core import IniSectionGraph
-from ...iniresources.IniFixResourceModel import IniFixResourceModel
+from ....core import IniFixResourceModel
 from ....core import IfTemplate
 
 if (TYPE_CHECKING):

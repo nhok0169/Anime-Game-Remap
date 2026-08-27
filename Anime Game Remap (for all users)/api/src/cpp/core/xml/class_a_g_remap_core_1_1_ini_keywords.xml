@@ -1,0 +1,242 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_keywords" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniKeywords</compoundname>
+    <includes refid="_ini_keywords_8h" local="no">IniKeywords.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a27d2c42c6996a4a709bb76dc8b94fe09" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Resource</definition>
+        <argsstring></argsstring>
+        <name>Resource</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Resource</qualifiedname>
+        <initializer>= &quot;Resource&quot;</initializer>
+        <briefdescription>
+<para>The starting prefix used for any <computeroutput>sections</computeroutput>_ that reference some file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="28" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ac451ee538f75835c0f8778946f16ea4d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TextureOverride</definition>
+        <argsstring></argsstring>
+        <name>TextureOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TextureOverride</qualifiedname>
+        <initializer>= &quot;TextureOverride&quot;</initializer>
+        <briefdescription>
+<para>The starting prefix used for some <computeroutput>section</computeroutput>_ that overrides the resource of a mod. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="33" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1711e269e7af667dd2b0151a647763cc" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::ShaderOverride</definition>
+        <argsstring></argsstring>
+        <name>ShaderOverride</name>
+        <qualifiedname>AGRemapCore::IniKeywords::ShaderOverride</qualifiedname>
+        <initializer>= &quot;ShaderOverride&quot;</initializer>
+        <briefdescription>
+<para>The starting prefix used for some <computeroutput>section</computeroutput>_ that overrides a mod&apos;s shader. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="38" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Remap</definition>
+        <argsstring></argsstring>
+        <name>Remap</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Remap</qualifiedname>
+        <initializer>= &quot;Remap&quot;</initializer>
+        <briefdescription>
+<para>The substring used to indicate a <computeroutput>section</computeroutput>_ is edited by this software. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="43" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Blend</definition>
+        <argsstring></argsstring>
+        <name>Blend</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Blend</qualifiedname>
+        <initializer>= &quot;Blend&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The substring that usually occurs in the name of a `section`_ to indicate that the
+`section`_ will call some ``*.Blend.buf`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="52" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Position</definition>
+        <argsstring></argsstring>
+        <name>Position</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Position</qualifiedname>
+        <initializer>= &quot;Position&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The substring that usually occurs in the name of a `section`_ to indicate that the
+`section`_ will call some ``*.Position.buf`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="61" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a72d6d458d05a470b21af76242aae7a80" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Texcoord</definition>
+        <argsstring></argsstring>
+        <name>Texcoord</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Texcoord</qualifiedname>
+        <initializer>= &quot;Texcoord&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The substring that usually occurs in the name of a `section`_ to indicate that the
+`section`_ will call some ``*.Texcoord.buf`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="70" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1abfe2e5d692993371b6b6108e42a42379" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RemapFix</definition>
+        <argsstring></argsstring>
+        <name>RemapFix</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RemapFix</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kindref="member">Remap</ref> + &quot;Fix&quot;</initializer>
+        <briefdescription>
+<para>The substring used to indicate that the <computeroutput>section</computeroutput>_ was created by this program. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="75" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1c69fc02c2938355e1d147c833170566" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RemapTex</definition>
+        <argsstring></argsstring>
+        <name>RemapTex</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RemapTex</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kindref="member">Remap</ref> + &quot;Tex&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The substring used to indicate that the `section`_ contains some edited/created texture
+``*.RemapTex.dds`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="84" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::RemapDL</definition>
+        <argsstring></argsstring>
+        <name>RemapDL</name>
+        <qualifiedname>AGRemapCore::IniKeywords::RemapDL</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" kindref="member">Remap</ref> + &quot;DL&quot;</initializer>
+        <briefdescription>
+<para>The substring used to indicate that the <computeroutput>section</computeroutput>_ contains some downloaded file from the internet. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="89" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Run</definition>
+        <argsstring></argsstring>
+        <name>Run</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Run</qualifiedname>
+        <initializer>= &quot;run&quot;</initializer>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key used to reference/call another <computeroutput>section</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="94" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::HideOriginalComment</definition>
+        <argsstring></argsstring>
+        <name>HideOriginalComment</name>
+        <qualifiedname>AGRemapCore::IniKeywords::HideOriginalComment</qualifiedname>
+        <initializer>= &quot;;RemapFixHideOrig --&gt;&quot;</initializer>
+        <briefdescription>
+<para>The comment marker used to hide (comment out) a previously-fixed original <computeroutput>section</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="99" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is a **partial** port of the pure-Python ``IniKeywords`` enum
+   (``constants/IniConsts.py``) -- that enum has ~30 members covering many subsystems that
+   haven&apos;t been ported to C++ yet; only the members :cpp:class:`IniNamingTools` actually needs
+   are included here. Add more members as later-ported subsystems need them, rather than
+   porting the whole enum speculatively up front
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="100"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>HideOriginalComment</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Remap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapDL</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1abfe2e5d692993371b6b6108e42a42379" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1c69fc02c2938355e1d147c833170566" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapTex</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a27d2c42c6996a4a709bb76dc8b94fe09" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Resource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Run</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1711e269e7af667dd2b0151a647763cc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>ShaderOverride</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a72d6d458d05a470b21af76242aae7a80" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Texcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac451ee538f75835c0f8778946f16ea4d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TextureOverride</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

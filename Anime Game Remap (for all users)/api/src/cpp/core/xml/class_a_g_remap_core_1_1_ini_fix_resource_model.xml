@@ -1,0 +1,248 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_fix_resource_model" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFixResourceModel</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniResourceModel</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public" virt="non-virtual">AGRemapCore::IniTexModel</derivedcompoundref>
+    <includes refid="_ini_fix_resource_model_8h" local="no">IniFixResourceModel.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" prot="public">AGRemapCore::IniFixResourceModel::Entry</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, tsl::ordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::IniFixResourceModel::fixedPaths</definition>
+        <argsstring></argsstring>
+        <name>fixedPaths</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::fixedPaths</qualifiedname>
+        <briefdescription>
+<para>The file paths to the fixed files for the resource (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="84" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1aca3cb0eee36b86c1dbe64a6496dd393e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::optional&lt;tsl::ordered_map&lt;int, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::IniFixResourceModel::origPaths</definition>
+        <argsstring></argsstring>
+        <name>origPaths</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::origPaths</qualifiedname>
+        <briefdescription>
+<para>The file paths for the (unfixed) resource, if any (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="89" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1ace0bde45cceb788165ece81c424d7cb4" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, tsl::ordered_map&lt;std::string, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::IniFixResourceModel::fullPaths</definition>
+        <argsstring></argsstring>
+        <name>fullPaths</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::fullPaths</qualifiedname>
+        <briefdescription>
+<para>The absolute paths to the fixed resource files, keyed the same way as <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" kindref="member">fixedPaths</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="94" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a5787055672b02ab9d7ed27b14cc3ca71" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, std::vector&lt;std::string&gt; &gt; AGRemapCore::IniFixResourceModel::origFullPaths</definition>
+        <argsstring></argsstring>
+        <name>origFullPaths</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::origFullPaths</qualifiedname>
+        <briefdescription>
+<para>The absolute paths to the (unfixed) resource files, keyed the same way as <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aca3cb0eee36b86c1dbe64a6496dd393e" kindref="member">origPaths</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="99" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a97804ea6c541b4bc0dba0905752c6d22" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFixResourceModel::IniFixResourceModel</definition>
+        <argsstring>(std::string iniFolderPath, tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt; fixedPaths, std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt; origPaths=std::nullopt)</argsstring>
+        <name>IniFixResourceModel</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::IniFixResourceModel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+          <declname>fixedPaths</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt;</type>
+          <declname>origPaths</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs new data for fixing a resource in a .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder path to where the .ini file of the resource is located </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPaths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The file paths to the fixed files for the resource -- the outer keys are the indices to
+the :cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+for some resource, the inner keys are the names for the type of mod to fix to, and the
+inner values are the file paths within that :cpp:class:`IfContentPart`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>origPaths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The file paths for the (unfixed) resource -- the keys are the indices to the
+:cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+for some resource, and the values are the file paths within that
+:cpp:class:`IfContentPart`. ``std::nullopt`` if there&apos;s no original-file data at all
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="75" column="13" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="9" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a05094650def231acb345adeea3658f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IniFixResourceModel::~IniFixResourceModel</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IniFixResourceModel</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::~IniFixResourceModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="79" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
+        <definition>std::vector&lt; IniFixResourceModel::Entry &gt; AGRemapCore::IniFixResourceModel::items</definition>
+        <argsstring>() const</argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every fixed/orig path combination across every :cpp:class:`IfContentPart` and mod type
+in #fixedPaths, in the same order #fixedPaths itself iterates -- the C++ counterpart to
+the pure-Python original&apos;s ``__iter__`` (see :cpp:class:`IniSrcResourceModel::items` for
+why this is a plain flattened list rather than a lazy generator)
+</verbatim></para>
+<para><simplesect kind="return"><para>The flattened entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="112" column="25" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="44" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1aebaea03692f0e44aaf7af7f8341521ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFixResourceModel::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::IniFixResourceModel::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f">clear</reimplementedby>
+        <briefdescription>
+<para>Clears out all the path data stored. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="117" column="26" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="96" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IniResourceModel`
+
+Contains data for fixing a particular resource in a .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniFixResourceModel`` class
+(``model/iniresources/IniFixResourceModel.py``) -- see :cpp:class:`IniSrcResourceModel`&apos;s own
+doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::unordered_map``
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IniFixResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniTexModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_tex_model"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::IniFixResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="27" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="27" bodyend="118"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aebaea03692f0e44aaf7af7f8341521ae" prot="public" virt="virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>fixedPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1ace0bde45cceb788165ece81c424d7cb4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>fullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a97804ea6c541b4bc0dba0905752c6d22" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>IniFixResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>iniFolderPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a5787055672b02ab9d7ed27b14cc3ca71" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>origFullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aca3cb0eee36b86c1dbe64a6496dd393e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>origPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a05094650def231acb345adeea3658f7c" prot="public" virt="virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>~IniFixResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" virt="virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>~IniResourceModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

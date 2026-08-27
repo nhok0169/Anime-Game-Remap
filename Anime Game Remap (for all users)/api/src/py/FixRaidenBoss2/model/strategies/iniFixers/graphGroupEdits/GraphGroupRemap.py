@@ -18,7 +18,7 @@ from typing import Dict, Tuple, List, TYPE_CHECKING, Union, Callable, Optional
 
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from ....IniGraphGroup import IniGraphGroup
+from .....core import IniGraphGroup
 from ....IniNamingTools import IniNamingTools
 from .....core import IniSectionGraph
 

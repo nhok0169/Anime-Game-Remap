@@ -19,12 +19,17 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        :cpp:func:`download` itself -- the actual network request -- is **not yet implemented**.
-        Porting a real HTTP client (matching the Python original's use of the `requests`_ package)
-        is a separate concern from this ``iniresources`` path/data-model port and hasn't happened
-        yet; #download throws ``std::logic_error`` for now. It's declared ``virtual`` specifically
-        so a subclass (eg. a test double, or a future real implementation) can override it without
-        needing to touch #get's own caching logic at all
+        :cpp:func:`download` is backed by `libcurl`_'s easy API (``curl_easy_*``), matching the
+        Python original's use of the `requests`_ package -- entirely confined to
+        ``FileDownload.cpp``, so this public header (and every other public ``AGRemapCore`` header
+        that transitively includes it) stays free of any ``<curl/curl.h>`` dependency, the same
+        "wrap a third-party C library without leaking it into public headers" posture this codebase
+        already takes for `Z3`_ (see the Architecture doc's own section on that). Unlike `Z3`_
+        though, no persistent per-instance state needs wrapping here -- a download is a single,
+        self-contained ``curl_easy_init``/``curl_easy_perform``/``curl_easy_cleanup`` sequence local
+        to one #download call, so no pimpl is needed at all, just keeping the ``#include`` itself
+        out of the header. #download is declared ``virtual`` regardless, so a subclass (eg. a test
+        double) can still override it without needing to touch #get's own caching logic
      @endrst
      */
     class FileDownload {
@@ -59,18 +64,16 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Downloads the required file :raw-html:`<br />` :raw-html:`<br />`
-
-             .. warning::
-                Not yet implemented -- see this class's own doc comment
+             Downloads the required file via `libcurl`_ -- see this class's own doc comment
              @endrst
              *
-             * @param folder The folder to store the downloaded file
+             * @param folder The folder to store the downloaded file (created if it doesn't already exist)
              * @param proxy The link to the proxy server used for any internet network access, if any
              *
              * @return The full path to the downloaded file
              *
-             * @throws std::logic_error Always, until a real implementation is wired in
+             * @throws std::runtime_error if the download fails for any reason (curl init failure,
+             *      transfer error, non-2xx HTTP status, or the destination file couldn't be opened)
              */
             virtual std::string download(const std::string& folder, std::optional<std::string> proxy = std::nullopt);
 

@@ -6,6 +6,7 @@
     <innerfile refid="_blend_file_8cpp">BlendFile.cpp</innerfile>
     <innerfile refid="_buf_file_8cpp">BufFile.cpp</innerfile>
     <innerfile refid="_buf_file_errors_8cpp">BufFileErrors.cpp</innerfile>
+    <innerfile refid="_ini_file_8cpp">IniFile.cpp</innerfile>
     <innerfile refid="_position_file_8cpp">PositionFile.cpp</innerfile>
     <innerfile refid="_texture_file_8cpp">TextureFile.cpp</innerfile>
     <briefdescription>

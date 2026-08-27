@@ -8,122 +8,190 @@
     <includedby refid="_base_s_l_r1_parser_8h" local="yes">include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</includedby>
     <includedby refid="_base_trie_8h" local="yes">include/AGRemapCore/tools/tries/BaseTrie.h</includedby>
     <invincdepgraph>
-      <node id="35">
-        <label>include/AGRemapCore/constants/GameType.h</label>
-        <link refid="_game_type_8h"/>
-        <childnode refid="36" relation="include">
+      <node id="36">
+        <label>include/AGRemapCore/constants/GIBuilder.h</label>
+        <link refid="_g_i_builder_8h"/>
+        <childnode refid="37" relation="include">
         </childnode>
       </node>
-      <node id="37">
+      <node id="59">
+        <label>include/AGRemapCore/constants/GameType.h</label>
+        <link refid="_game_type_8h"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
+        <link refid="_global_ini_classifiers_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
-        <childnode refid="38" relation="include">
+        <childnode refid="37" relation="include">
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="22">
+      <node id="25">
         <label>include/AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="27">
+        <label>include/AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
         <label>include/AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
       </node>
-      <node id="24">
+      <node id="43">
         <label>include/AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
-        <childnode refid="23" relation="include">
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="28">
+        <label>include/AGRemapCore/model/files/IniFile.h</label>
+        <link refid="_ini_file_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
         <label>include/AGRemapCore/model/iftemplate/IfContentPart.h</label>
         <link refid="_if_content_part_8h"/>
-        <childnode refid="22" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
         <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="44">
         <label>include/AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
-      <node id="6">
-        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
-        <link refid="_if_pred_parser_8h"/>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="29">
-        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
-        <link refid="_if_pred_part_8h"/>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
-        <link refid="_if_template_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
-      <node id="27">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
-        <link refid="_if_template_node_8h"/>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-      </node>
-      <node id="20">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
-        <link refid="_if_template_part_8h"/>
-        <childnode refid="21" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
-        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
-        <link refid="_if_template_tree_8h"/>
-        <childnode refid="26" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
       <node id="9">
+        <label>include/AGRemapCore/model/iftemplate/IfPredParser.h</label>
+        <link refid="_if_pred_parser_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>include/AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>include/AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
         <label>include/AGRemapCore/model/iftemplate/SympyParser.h</label>
         <link refid="_sympy_parser_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>include/AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -131,15 +199,71 @@
         <link refid="_ini_classifier_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h</label>
+        <link refid="_base_ini_graph_edit_8h"/>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
+        <link refid="_base_ini_graph_group_edit_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
+        <link refid="_base_reg_edit_8h"/>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
+        <link refid="_reg_add_8h"/>
+      </node>
+      <node id="50">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
+        <link refid="_reg_new_vals_8h"/>
+      </node>
+      <node id="51">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
+        <link refid="_reg_remap_8h"/>
+      </node>
+      <node id="52">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
+        <link refid="_reg_remove_8h"/>
+      </node>
+      <node id="34">
+        <label>include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>include/AGRemapCore/tools/dfa/BaseDFA.h</label>
         <link refid="_base_d_f_a_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -147,136 +271,168 @@
         <link refid="_base_id_generator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="19" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
-        <childnode refid="31" relation="include">
+        <childnode refid="55" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="33" relation="include">
+        <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="22">
         <label>include/AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
         <link refid="_inc_id_generator_8h"/>
-        <childnode refid="20" relation="include">
+        <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="31">
+      <node id="55">
         <label>include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h</label>
         <link refid="_uuid_id_generator_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="32" relation="include">
+        <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="8">
         <label>include/AGRemapCore/tools/parsing/BaseSLR1Parser.h</label>
         <link refid="_base_s_l_r1_parser_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="11">
+      <node id="14">
         <label>include/AGRemapCore/tools/parsing/BaseTokenizer.h</label>
         <link refid="_base_tokenizer_8h"/>
-        <childnode refid="12" relation="include">
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
+        <link refid="_filtered_tokenizer_8h"/>
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-      </node>
-      <node id="12">
-        <label>include/AGRemapCore/tools/parsing/FilteredTokenizer.h</label>
-        <link refid="_filtered_tokenizer_8h"/>
-        <childnode refid="13" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+      </node>
+      <node id="16">
+        <label>include/AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
+        <link refid="_if_pred_tokenizer_8h"/>
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="13">
-        <label>include/AGRemapCore/tools/parsing/IfPredTokenizer.h</label>
-        <link refid="_if_pred_tokenizer_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="14" relation="include">
-        </childnode>
-      </node>
-      <node id="15">
+      <node id="18">
         <label>include/AGRemapCore/tools/parsing/SympyTokenizer.h</label>
         <link refid="_sympy_tokenizer_8h"/>
-        <childnode refid="16" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="34">
+      <node id="58">
         <label>include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
-        <childnode refid="35" relation="include">
+        <childnode refid="59" relation="include">
         </childnode>
-        <childnode refid="37" relation="include">
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="33">
+      <node id="57">
         <label>include/AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
-        <childnode refid="34" relation="include">
+        <childnode refid="58" relation="include">
         </childnode>
       </node>
-      <node id="38">
+      <node id="37">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="36">
+      <node id="60">
         <label>src/constants/GameType.cpp</label>
         <link refid="_game_type_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
       </node>
       <node id="39">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="7">
+      <node id="41">
+        <label>src/model/IniGraphGroup.cpp</label>
+        <link refid="_ini_graph_group_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/model/iftemplate/IfPredParser.cpp</label>
         <link refid="_if_pred_parser_8cpp"/>
       </node>
-      <node id="8">
+      <node id="11">
         <label>src/model/iftemplate/IfPredPart.cpp</label>
         <link refid="_if_pred_part_8cpp"/>
       </node>
-      <node id="30">
+      <node id="54">
         <label>src/model/iftemplate/IfTemplatePart.cpp</label>
         <link refid="_if_template_part_8cpp"/>
       </node>
-      <node id="10">
+      <node id="13">
         <label>src/model/iftemplate/SympyParser.cpp</label>
         <link refid="_sympy_parser_8cpp"/>
       </node>
-      <node id="4">
+      <node id="40">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
+      <node id="29">
+        <label>src/model/strategies/iniFixers/BaseIniFixer.cpp</label>
+        <link refid="_base_ini_fixer_8cpp"/>
+      </node>
+      <node id="30">
+        <label>src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp</label>
+        <link refid="_base_ini_graph_edit_8cpp"/>
+      </node>
+      <node id="31">
+        <label>src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.cpp</label>
+        <link refid="_base_ini_graph_group_edit_8cpp"/>
+      </node>
       <node id="32">
+        <label>src/model/strategies/iniParsers/BaseIniParser.cpp</label>
+        <link refid="_base_ini_parser_8cpp"/>
+      </node>
+      <node id="56">
         <label>src/tools/idGenerator/UuidIdGenerator.cpp</label>
         <link refid="_uuid_id_generator_8cpp"/>
       </node>
-      <node id="18">
+      <node id="21">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
       </node>
-      <node id="17">
+      <node id="20">
         <label>src/tools/parsing/FilteredTokenizer.cpp</label>
         <link refid="_filtered_tokenizer_8cpp"/>
       </node>
-      <node id="14">
+      <node id="17">
         <label>src/tools/parsing/IfPredTokenizer.cpp</label>
         <link refid="_if_pred_tokenizer_8cpp"/>
       </node>
-      <node id="16">
+      <node id="19">
         <label>src/tools/parsing/SympyTokenizer.cpp</label>
         <link refid="_sympy_tokenizer_8cpp"/>
       </node>

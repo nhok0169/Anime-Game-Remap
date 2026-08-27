@@ -17,7 +17,7 @@ from typing import List, TYPE_CHECKING, Tuple
 
 ##### LocalImports
 from .BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from ....IniGraphGroup import IniGraphGroup
+from .....core import IniGraphGroup
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

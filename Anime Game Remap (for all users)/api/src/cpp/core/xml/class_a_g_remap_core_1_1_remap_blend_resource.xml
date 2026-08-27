@@ -1,0 +1,546 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_blend_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapBlendResource</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixResource</basecompoundref>
+    <includes refid="_remap_blend_resource_8h" local="no">RemapBlendResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_blend_resource_1ad85c928b4d1177526207e5b45c9615fd" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref></type>
+        <definition>VGRemap AGRemapCore::RemapBlendResource::vgRemap</definition>
+        <argsstring></argsstring>
+        <name>vgRemap</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::vgRemap</qualifiedname>
+        <briefdescription>
+<para>The vertex group remap for the <computeroutput>Blend.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="88" column="21" bodyfile="include/AGRemapCore/model/iniresources/RemapBlendResource.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_blend_resource_1ae48917d14b419977b508d08fd20a470f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;BufElementType&gt; &gt; AGRemapCore::RemapBlendResource::blendElements</definition>
+        <argsstring></argsstring>
+        <name>blendElements</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::blendElements</qualifiedname>
+        <briefdescription>
+<para>The sequence of elements for constructing the <computeroutput>Blend.buf</computeroutput> file (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="93" column="25" bodyfile="include/AGRemapCore/model/iniresources/RemapBlendResource.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_blend_resource_1a0b5155120f9effa59c96ef6d1869fcdc" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" kindref="member">RemapBlendResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapBlendResource&amp;)&gt; AGRemapCore::RemapBlendResource::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::fixFunc</qualifiedname>
+        <briefdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" kindref="member">_fix</ref> if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="98" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapBlendResource.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapBlendResource::RemapBlendResource</definition>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, const std::string &amp;fixedPath, VGRemap vgRemap, std::string type, std::function&lt; bool(RemapBlendResource &amp;)&gt; fixFunc, std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; blendElements)</argsstring>
+        <name>RemapBlendResource</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::RemapBlendResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref></type>
+          <declname>vgRemap</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>std::function&lt; bool(RemapBlendResource &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+          <declname>blendElements</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new blend resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the fixed resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vgRemap</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The vertex group remap for the <computeroutput>Blend.buf</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" kindref="member">_fix</ref> if given </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>blendElements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The sequence of elements for constructing the ``Blend.buf`` file -- if this is empty,
+:cpp:class:`BlendFile` uses the elements for a GIMI character instead (see
+:cpp:class:`BlendFile`&apos;s own constructor) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   None of &apos;type&apos;/&apos;fixFunc&apos;/&apos;blendElements&apos; have a default value here, unlike most
+   other trailing constructor parameters in this codebase -- &apos;blendElements&apos; can&apos;t (see
+   :cpp:class:`IniGroupedResource`&apos;s own constructor doc comment for the MSVC
+   move-only-container-default-argument quirk this works around), and since a
+   defaulted parameter can&apos;t precede a non-defaulted one, &apos;type&apos;/&apos;fixFunc&apos; lost their
+   defaults too rather than reordering this constructor&apos;s parameter list. Pass explicit
+   values for all three from C++; the pybind11 binding supplies its own independent
+   Python-side defaults regardless
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="66" column="13" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="21" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a84cff9e08dc50328833fe54952947fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapBlendResource::RemapBlendResource</definition>
+        <argsstring>(const RemapBlendResource &amp;)=delete</argsstring>
+        <name>RemapBlendResource</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::RemapBlendResource</qualifiedname>
+        <param>
+          <type>const RemapBlendResource &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+.. note::
+   Explicitly declared (rather than left implicit) to work around the same MSVC
+   eager-instantiation-of-a-deleted-copy-constructor quirk documented on
+   :cpp:class:`IniGroupedResource`&apos;s own explicit special member declarations --
+   #blendElements is a ``std::vector`` of ``unique_ptr``, which triggers it identically
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="80" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1adfcc8731ed11a464756efdac93be09d7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" kindref="member">RemapBlendResource</ref> &amp;</type>
+        <definition>RemapBlendResource &amp; AGRemapCore::RemapBlendResource::operator=</definition>
+        <argsstring>(const RemapBlendResource &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" kindref="member">RemapBlendResource</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="81" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a4a745da2fb7e72d99fd98cf0b91a286e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapBlendResource::RemapBlendResource</definition>
+        <argsstring>(RemapBlendResource &amp;&amp;)=default</argsstring>
+        <name>RemapBlendResource</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::RemapBlendResource</qualifiedname>
+        <param>
+          <type>RemapBlendResource &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="82" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a578097d71df62921ca93b2d3df9dee9d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" kindref="member">RemapBlendResource</ref> &amp;</type>
+        <definition>RemapBlendResource &amp; AGRemapCore::RemapBlendResource::operator=</definition>
+        <argsstring>(RemapBlendResource &amp;&amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" kindref="member">RemapBlendResource</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="83" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::srcEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623">srcEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="100" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="27" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::srcIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027">srcIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="101" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::fixEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49">fixEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="102" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="35" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::fixIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd">fixIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="103" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="39" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1ab7aa1d71252544dbb854825604958c40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_blend_file" kindref="compound">BlendFile</ref></type>
+        <definition>BlendFile AGRemapCore::RemapBlendResource::createBlend</definition>
+        <argsstring>() const</argsstring>
+        <name>createBlend</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::createBlend</qualifiedname>
+        <briefdescription>
+<para>Creates the blend file <ndash/> a fresh copy of <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1ae48917d14b419977b508d08fd20a470f" kindref="member">blendElements</ref> is cloned into it, leaving this resource&apos;s own copy untouched. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The created blend file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="110" column="23" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a4f6e0bcc9eca68fcdbd5c43241939572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::fix</qualifiedname>
+        <briefdescription>
+<para>Fixes the resource <ndash/> calls <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1a0b5155120f9effa59c96ef6d1869fcdc" kindref="member">fixFunc</ref> if set, otherwise <ref refid="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" kindref="member">_fix</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="117" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapBlendResource::_fix</definition>
+        <argsstring>()</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::RemapBlendResource::_fix</qualifiedname>
+        <briefdescription>
+<para>Performs a vertex group remap on the <computeroutput>Blend.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="126" column="26" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="47" bodyend="51"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniFixResource`
+
+Class for fixing some ``Blend.buf`` file used by the overall remap process -- mirrors the
+pure-Python ``RemapBlendResource`` class (``model/iniresources/RemapBlendResource.py``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   #fixExists isn&apos;t re-overridden here -- the Python original re-declares it with an identical
+   body to what :cpp:class:`RemapIniFixResource` (its own base) already does
+   (``os.path.isfile(fixedPath)``), so this class just inherits :cpp:func:`RemapIniFixResource::fixExists`
+   directly rather than duplicating it
+
+   #_fix&apos;s return value: same &quot;the Python original has no ``return`` statement here at all, so
+   it always implicitly returns ``None``/falsy&quot; gap as :cpp:class:`RemapIniDownload::_fix` --
+   see that class&apos;s own doc comment. This port returns ``true`` on success instead
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapBlendResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapBlendResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>vgRemap</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::VGRemap</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remap"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="37" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapBlendResource.h" bodystart="37" bodyend="127"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1aaef7df8d9956875303f7610d04f8ca10" prot="protected" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1ae48917d14b419977b508d08fd20a470f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>blendElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab7aa1d71252544dbb854825604958c40" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>createBlend</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a4f6e0bcc9eca68fcdbd5c43241939572" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fixedPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a0b5155120f9effa59c96ef6d1869fcdc" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>IniFixResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1adfcc8731ed11a464756efdac93be09d7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a578097d71df62921ca93b2d3df9dee9d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a96970264e426ccfcdb6a50fbdfcae563" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>RemapBlendResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a84cff9e08dc50328833fe54952947fe2" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>RemapBlendResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1a4a745da2fb7e72d99fd98cf0b91a286e" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>RemapBlendResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_blend_resource_1ad85c928b4d1177526207e5b45c9615fd" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>vgRemap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>~IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapBlendResource</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

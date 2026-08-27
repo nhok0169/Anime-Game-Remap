@@ -49,6 +49,12 @@
 #include "model/PyCallGraph.h"
 #include "model/PySectionIterData.h"
 #include "model/PyIniSectionGraph.h"
+#include "model/PyIniGraphGroup.h"
+#include "model/strategies/iniFixers/regEdits/PyBaseRegEdit.h"
+#include "model/strategies/iniFixers/regEdits/PyRegAdd.h"
+#include "model/strategies/iniFixers/regEdits/PyRegNewVals.h"
+#include "model/strategies/iniFixers/regEdits/PyRegRemap.h"
+#include "model/strategies/iniFixers/regEdits/PyRegRemove.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -84,6 +90,21 @@
 #include "model/strategies/texEditors/PyBaseTexEditor.h"
 #include "model/strategies/texEditors/PyTexEditor.h"
 #include "model/strategies/texEditors/PyTexCreator.h"
+#include "model/stats/PyFileStats.h"
+#include "model/stats/PyCachedFileStats.h"
+#include "model/stats/PyRemapStats.h"
+#include "tools/files/PyFileDownload.h"
+#include "model/iniresources/PyIniResourceModel.h"
+#include "model/iniresources/PyIniSrcResourceModel.h"
+#include "model/iniresources/PyIniFixResourceModel.h"
+#include "model/iniresources/PyIniTexModel.h"
+#include "model/iniresources/PyIniDownloadModel.h"
+#include "model/iniresources/PyIniResource.h"
+#include "model/iniresources/PyIniGroupedResource.h"
+#include "model/iniresources/PyRemapIniResource.h"
+#include "model/iniresources/PyRemapIniGroupedResource.h"
+#include "model/iniresources/PyRemapBlendResource.h"
+#include "model/iniresources/PyRemapTexResource.h"
 
 namespace py = pybind11;
 
@@ -141,6 +162,15 @@ PYBIND11_MODULE(core, m) {
     initCppCallGraph(m);
     initCppSectionIterData(m);
     initCppIniSectionGraph(m);
+    initCppIniGraphGroup(m); // no ordering dependency -- holds py::object graph values generically, no pybind base of its own
+
+    // ----- iniFixers/regEdits (full replacement of the pure-Python regEdits package -- see
+    // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
+    initCppBaseRegEdit(m); // registers CppBaseIniPartEdit/CppBaseIniGraphPartEdit/BaseRegEdit; must come after initCppIfContentPart (its edit signatures take one) and initCppRanges (partRanges)
+    initCppRegAdd(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegNewVals(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);
@@ -176,4 +206,27 @@ PYBIND11_MODULE(core, m) {
     initCppBaseTexEditor(m); // must come after initCppTextureFile (its 'fix' method signature references it)
     initCppTexEditor(m); // must come after initCppBaseTexEditor (registers its base)
     initCppTexCreator(m); // must come after initCppBaseTexEditor (registers its base) and initCppColour (constructor arg type)
+
+    // ----- iniresources / stats / FileDownload (Phase 1 of the Cpp-prefix-then-full-replacement
+    // playbook -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class"; every
+    // class below already exists as a live pure-Python class of the same bare name today) -----
+    initCppFileStats(m);
+    initCppCachedFileStats(m); // must come after initCppFileStats (registers its base)
+    initCppRemapStats(m); // must come after initCppFileStats/initCppCachedFileStats (its members are those types)
+    initCppFileDownload(m);
+    initCppIniResourceModel(m);
+    initCppIniSrcResourceModel(m); // must come after initCppIniResourceModel (registers its base)
+    initCppIniFixResourceModel(m); // must come after initCppIniResourceModel (registers its base)
+    initCppIniTexModel(m); // must come after initCppIniFixResourceModel (registers its base) and initCppBaseTexEditor (constructor takes ownership of CppBaseTexEditor instances)
+    initCppIniDownloadModel(m); // must come after initCppIniSrcResourceModel (registers its base) and initCppFileDownload (constructor takes ownership of FileDownload instances)
+    initCppIniResource(m);
+    initCppIniFixResource(m); // must come after initCppIniResource (registers its base)
+    initCppIniGroupedResource(m); // binds PyIniGroupedResource (base: plain AGRC::IniGroupedResource, not separately registered) -- no ordering dependency on initCppIniResource
+    initCppRemapIniResourceMixin(m);
+    initCppRemapIniResource(m); // must come after initCppIniResource/initCppRemapIniResourceMixin (registers its bases)
+    initCppRemapIniFixResource(m); // must come after initCppIniFixResource/initCppRemapIniResourceMixin (registers its bases)
+    initCppRemapIniGroupedResource(m); // must come after initCppIniGroupedResource/initCppRemapIniResourceMixin (registers PyIniGroupedResource/RemapIniResourceMixin, its real bases)
+    initCppRemapIniDownload(m); // must come after initCppRemapIniResource (registers its base) and initCppFileDownload (constructor takes ownership of a FileDownload instance)
+    initCppRemapBlendResource(m); // must come after initCppRemapIniFixResource (registers its base); VGRemap/BufElementType already registered above
+    initCppRemapTexAddResource(m); // must come after initCppRemapIniResource (registers its base); CppTexCreator already registered above
 }

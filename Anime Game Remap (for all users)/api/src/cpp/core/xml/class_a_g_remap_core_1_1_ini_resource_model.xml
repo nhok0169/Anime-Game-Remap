@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_resource_model" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniResourceModel</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniFixResourceModel</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniSrcResourceModel</derivedcompoundref>
+    <includes refid="_ini_resource_model_8h" local="no">IniResourceModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniResourceModel::iniFolderPath</definition>
+        <argsstring></argsstring>
+        <name>iniFolderPath</name>
+        <qualifiedname>AGRemapCore::IniResourceModel::iniFolderPath</qualifiedname>
+        <briefdescription>
+<para>The folder path to where the .ini file of the resource is located. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="33" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniResourceModel::IniResourceModel</definition>
+        <argsstring>(std::string iniFolderPath)</argsstring>
+        <name>IniResourceModel</name>
+        <qualifiedname>AGRemapCore::IniResourceModel::IniResourceModel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <briefdescription>
+<para>Constructs new data for a resource in a .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder path to where the .ini file of the resource is located </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="26" column="22" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IniResourceModel::~IniResourceModel</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IniResourceModel</name>
+        <qualifiedname>AGRemapCore::IniResourceModel::~IniResourceModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="28" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Contains data for some particular resource in a .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniResourceModel`` class (``model/iniresources/IniResourceModel.py``)
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="5">
+        <label>AGRemapCore::IniDownloadModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_download_model"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniFixResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource_model"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniSrcResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_src_resource_model"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniTexModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_tex_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="18" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="18" bodyend="34"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResourceModel</scope><name>iniFolderPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResourceModel</scope><name>IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" virt="virtual"><scope>AGRemapCore::IniResourceModel</scope><name>~IniResourceModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

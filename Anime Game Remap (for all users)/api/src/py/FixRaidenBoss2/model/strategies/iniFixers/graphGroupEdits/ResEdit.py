@@ -18,6 +18,10 @@ from typing import List, Optional, Tuple, TYPE_CHECKING, Dict, Callable, Deque
 
 ##### CppLocalImports
 from .....core import IfContentPart
+from .....core import IfTemplate
+from .....core import IniResource, IniFixResource
+from .....core import IniSectionGraph
+from .....core import IniGraphGroup
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -26,10 +30,6 @@ from .....constants.IniGraphReplaceMode import IniGraphReplaceMode
 from .....tools.DictTools import DictTools
 from .....tools.HashTools import HashTools
 from ....IniNamingTools import IniNamingTools
-from ....IniGraphGroup import IniGraphGroup
-from .....core import IfTemplate
-from ....iniresources.IniResource import IniResource, IniFixResource
-from .....core import IniSectionGraph
 
 if (TYPE_CHECKING):
     from ...ModType import ModType

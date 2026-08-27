@@ -129,6 +129,14 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
+      <node id="10">
+        <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
+        <link refid="_global_ini_classifiers_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
       <node id="5">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
@@ -136,11 +144,15 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
         <link refid="_ini_classifier_8h"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -150,7 +162,7 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -167,11 +179,19 @@
         <label>src/constants/GameType.cpp</label>
         <link refid="_game_type_8cpp"/>
       </node>
+      <node id="11">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
       <node id="7">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="9">
+      <node id="8">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="12">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>

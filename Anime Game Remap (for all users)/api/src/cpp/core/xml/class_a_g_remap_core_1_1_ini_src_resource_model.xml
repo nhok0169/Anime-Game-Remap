@@ -1,0 +1,183 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_src_resource_model" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniSrcResourceModel</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public" virt="non-virtual">AGRemapCore::IniResourceModel</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_download_model" prot="public" virt="non-virtual">AGRemapCore::IniDownloadModel</derivedcompoundref>
+    <includes refid="_ini_src_resource_model_8h" local="no">IniSrcResourceModel.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a14864861533cf2be4834cfc2e5f55dcc" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, std::vector&lt;std::string&gt; &gt; AGRemapCore::IniSrcResourceModel::paths</definition>
+        <argsstring></argsstring>
+        <name>paths</name>
+        <qualifiedname>AGRemapCore::IniSrcResourceModel::paths</qualifiedname>
+        <briefdescription>
+<para>The file paths to the resource, keyed by :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> index (see the constructor). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="51" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>tsl::ordered_map&lt;int, std::vector&lt;std::string&gt; &gt; AGRemapCore::IniSrcResourceModel::fullPaths</definition>
+        <argsstring></argsstring>
+        <name>fullPaths</name>
+        <qualifiedname>AGRemapCore::IniSrcResourceModel::fullPaths</qualifiedname>
+        <briefdescription>
+<para>The absolute paths to the resource, keyed the same way as <ref refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a14864861533cf2be4834cfc2e5f55dcc" kindref="member">paths</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="56" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1ab91055ed7de53ba62bd71b9041cd8665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniSrcResourceModel::IniSrcResourceModel</definition>
+        <argsstring>(std::string iniFolderPath, tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; paths)</argsstring>
+        <name>IniSrcResourceModel</name>
+        <qualifiedname>AGRemapCore::IniSrcResourceModel::IniSrcResourceModel</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
+          <declname>paths</declname>
+        </param>
+        <briefdescription>
+<para>Constructs new data for a resource in the original .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder path to where the .ini file of the resource is located </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>paths</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The file paths to the resource -- the keys are the indices to the
+:cpp:class:`IfContentPart` that the resource file appears in the :cpp:class:`IfTemplate`
+for some resource, and the values are the file paths within that
+:cpp:class:`IfContentPart`
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="44" column="13" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="9" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a67983c391b4ec64dab303faf83a5294f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IniSrcResourceModel::~IniSrcResourceModel</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IniSrcResourceModel</name>
+        <qualifiedname>AGRemapCore::IniSrcResourceModel::~IniSrcResourceModel</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="46" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1abdf9d6143d246e2691aefe913d008f23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; AGRemapCore::IniSrcResourceModel::items</definition>
+        <argsstring>() const</argsstring>
+        <name>items</name>
+        <qualifiedname>AGRemapCore::IniSrcResourceModel::items</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every ``(path, fullPath)`` pair across every :cpp:class:`IfContentPart` in #paths, in
+the same order #paths itself iterates -- the C++ counterpart to the pure-Python
+original&apos;s ``__iter__`` (a plain flattened list here rather than a lazy generator,
+since the whole flattened sequence is small and already fully materialized in #paths/
+#fullPaths anyway)
+</verbatim></para>
+<para><simplesect kind="return"><para>The flattened <computeroutput>(path, fullPath)</computeroutput> pairs </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="70" column="25" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="23" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`IniResourceModel`
+
+Contains data for a particular resource in the original .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``IniSrcResourceModel`` class
+(``model/iniresources/IniSrcResourceModel.py``) -- #paths/#fullPaths use ``tsl::ordered_map``
+rather than ``std::unordered_map`` specifically to preserve the same insertion-order iteration
+the Python original&apos;s plain ``dict`` gives for free, since these keys are the (order-meaningful)
+:cpp:class:`IfContentPart` indices for some :cpp:class:`IfTemplate`
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniDownloadModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_download_model"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniSrcResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_src_resource_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IniResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniSrcResourceModel</label>
+        <link refid="class_a_g_remap_core_1_1_ini_src_resource_model"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="29" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="29" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>fullPaths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>iniFolderPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1ab91055ed7de53ba62bd71b9041cd8665" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>IniSrcResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1abdf9d6143d246e2691aefe913d008f23" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>items</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a14864861533cf2be4834cfc2e5f55dcc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>paths</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" virt="virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>~IniResourceModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a67983c391b4ec64dab303faf83a5294f" prot="public" virt="virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>~IniSrcResourceModel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

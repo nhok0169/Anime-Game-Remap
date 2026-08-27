@@ -103,14 +103,46 @@ namespace AGRemapCore {
              * @brief Constructs a new group of resources
              *
              * @param name The name of the group of resources
-             * @param resources The group of resources, keyed by the type of the resource
+             * @param resources
+             @rst
+             The group of resources, keyed by the type of the resource :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                No default value (unlike 'fixFunc'/'isBuilt' below) -- MSVC has a known quirk where
+                a by-value parameter of a move-only container type (here, a value type holding
+                ``unique_ptr``) with a ``= {}`` default argument fails to compile
+                (``std::construct_at``/copy-constructor errors from deep inside ``<xmemory>``, at
+                every call site that omits the argument) under some optimization settings, even
+                though the empty case is never actually copied. Pass an explicit empty map instead
+                of relying on a default here
+             @endrst
              * @param fixFunc Custom function for fixing the resource, overriding #_fix if given
              * @param isBuilt Whether the grouped resource is ready to be fixed
              */
-            explicit IniGroupedResource(std::string name, std::unordered_map<std::string, std::unique_ptr<IniResource>> resources = {},
+            explicit IniGroupedResource(std::string name, std::unordered_map<std::string, std::unique_ptr<IniResource>> resources,
                                          std::function<bool(IniGroupedResource&)> fixFunc = nullptr, bool isBuilt = true);
 
             virtual ~IniGroupedResource() = default;
+
+            /**
+             * @brief
+             @rst
+             .. note::
+                Explicitly declared (rather than left implicit) to work around an MSVC quirk: with
+                #resources being a ``std::unordered_map`` of ``unique_ptr``, some MSVC/STL versions
+                eagerly instantiate (rather than merely SFINAE-check) the container's own copy
+                constructor body while determining whether this class's *implicit* copy constructor
+                should be deleted -- and that eager instantiation is itself a hard compile error deep
+                inside ``<unordered_map>``/``<xhash>``, even though the deletion determination itself
+                is completely valid. Declaring the special members explicitly here sidesteps that
+                determination entirely
+             @endrst
+             */
+            IniGroupedResource(const IniGroupedResource&) = delete;
+            IniGroupedResource& operator=(const IniGroupedResource&) = delete;
+            IniGroupedResource(IniGroupedResource&&) = default;
+            IniGroupedResource& operator=(IniGroupedResource&&) = default;
 
             /**
              * @brief The name of the group of resources

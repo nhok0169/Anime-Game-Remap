@@ -16,11 +16,14 @@ import re
 from typing import TYPE_CHECKING, Set
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import FileDownload
+from ....core import IniSectionGraph
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords, IniBoilerPlate
 from ....tools.TextTools import TextTools
-from ....tools.files.FileDownload import FileDownload
-from ....core import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from .BaseIniRemover import BaseIniRemover
 

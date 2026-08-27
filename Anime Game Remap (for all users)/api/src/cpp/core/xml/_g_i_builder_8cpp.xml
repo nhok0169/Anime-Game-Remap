@@ -5,15 +5,30 @@
     <includes refid="_g_i_builder_8h" local="yes">AGRemapCore/constants/GIBuilder.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_game_type_id_8h" local="yes">AGRemapCore/constants/GameTypeId.h</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_base_ini_fixer_8h" local="yes">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</includes>
+    <includes refid="_base_ini_parser_8h" local="yes">AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</includes>
     <incdepgraph>
-      <node id="25">
+      <node id="35">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="82">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="24">
+      <node id="41">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="81">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="21">
+      <node id="79">
         <label>BiMap.tpp</label>
+      </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="2">
         <label>AGRemapCore/constants/GIBuilder.h</label>
@@ -21,30 +36,324 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="74">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="56">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
         <label>AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="23" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+      </node>
+      <node id="55">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="54">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -54,75 +363,311 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
-      <node id="20">
+      <node id="7">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="21" relation="include">
-        </childnode>
-      </node>
-      <node id="23">
-        <label>AGRemapCore/tools/StringHash.h</label>
-        <link refid="_string_hash_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-      </node>
-      <node id="22">
-        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
-        <link refid="_base_id_generator_8h"/>
-      </node>
-      <node id="11">
-        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
-        <link refid="_base_aho_corasick_d_f_a_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-      </node>
-      <node id="13">
-        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
-        <link refid="_base_trie_8h"/>
-        <childnode refid="14" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="16" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="43" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="58">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -130,45 +675,138 @@
         <link refid="_g_i_builder_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="16">
+      <node id="71">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="49">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="53">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="66">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="63">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="65">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="29">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="72">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="62">
+        <label>Node.tpp</label>
+      </node>
+      <node id="45">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="36">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="67">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="23">
+        <label>algorithm</label>
+      </node>
+      <node id="47">
+        <label>cmath</label>
+      </node>
+      <node id="69">
+        <label>coroutine</label>
+      </node>
+      <node id="11">
+        <label>cstddef</label>
+      </node>
+      <node id="33">
         <label>cstdint</label>
       </node>
-      <node id="14">
-        <label>functional</label>
+      <node id="16">
+        <label>deque</label>
       </node>
-      <node id="17">
-        <label>memory</label>
-      </node>
-      <node id="7">
-        <label>optional</label>
-      </node>
-      <node id="18">
-        <label>stdexcept</label>
-      </node>
-      <node id="4">
-        <label>string</label>
-      </node>
-      <node id="15">
-        <label>string_view</label>
+      <node id="70">
+        <label>exception</label>
       </node>
       <node id="12">
+        <label>functional</label>
+      </node>
+      <node id="38">
+        <label>list</label>
+      </node>
+      <node id="39">
+        <label>map</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>optional</label>
+      </node>
+      <node id="34">
+        <label>queue</label>
+      </node>
+      <node id="18">
+        <label>set</label>
+      </node>
+      <node id="24">
+        <label>stdexcept</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="77">
+        <label>string_view</label>
+      </node>
+      <node id="14">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="43">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="40">
         <label>tuple</label>
+      </node>
+      <node id="25">
+        <label>type_traits</label>
       </node>
       <node id="8">
         <label>unordered_map</label>
       </node>
-      <node id="9">
+      <node id="19">
         <label>unordered_set</label>
       </node>
-      <node id="19">
+      <node id="13">
+        <label>utility</label>
+      </node>
+      <node id="20">
         <label>variant</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -182,181 +820,214 @@
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_game_type_id_8h" kindref="compound">AGRemapCore/constants/GameTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="7"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" kindref="member">GIBuilder::amber</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">ModTypeId::Amber</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">ModTypeId::Amber</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;BaronBunny&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ColleisBestie&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" kindref="member">GIBuilder::amberCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">ModTypeId::AmberCN</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">ModTypeId::AmberCN</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;BaronBunnyCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ColleisBestieCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" kindref="member">GIBuilder::ayaka</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">ModTypeId::Ayaka</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">ModTypeId::Ayaka</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Ayaya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Yandere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewArchonOfEternity&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a888eebb45709672e5462d4072e0c4138" kindref="member">GIBuilder::ayakaSpringBloom</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;AyayaFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YandereFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewArchonOfEternityFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FontaineAyaya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FontaineYandere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewFontaineArchonOfEternity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MusketeerAyaka&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AyakaMusketeer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AyayaMusketeer&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8779810b5b2decb3738cbcb17d58a6f7" kindref="member">GIBuilder::arlecchino</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">ModTypeId::Arlecchino</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">ModTypeId::Arlecchino</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Father&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Knave&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Perrie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Peruere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Harlequin&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a4a03bedcd5324d8e1e234f8e1c3f1384" kindref="member">GIBuilder::barbara</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">ModTypeId::Barbara</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">ModTypeId::Barbara</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Idol&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Healer&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" kindref="member">GIBuilder::barbaraSummerTime</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">ModTypeId::BarbaraSummertime</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">ModTypeId::BarbaraSummertime</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;IdolSummertime&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HealerSummertime&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BarbaraBikini&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" kindref="member">GIBuilder::cherryHutao</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">ModTypeId::CherryHuTao</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">ModTypeId::CherryHuTao</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;HutaoCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HutaoSnowLaden&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SnowLadenHutao&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteHutao&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HutaoLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Cherry77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CherryQiqiKidnapper&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlorCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapperCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRite77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteQiqiKidnapper&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlorLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapperLanternRite&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a7e966f33c58b85e55c25a904af988d28" kindref="member">GIBuilder::diluc</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">ModTypeId::Diluc</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">ModTypeId::Diluc</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;KaeyasBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DawnWineryMaster&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AngelShareOwner&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DarkNightBlaze&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"></highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ab9cda71463e6d52572e5792a128b04a6" kindref="member">GIBuilder::dilucFlamme</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">ModTypeId::DilucFlamme</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">ModTypeId::DilucFlamme</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;RedDeadOfTheNight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DarkNightHero&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="46"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1afa4003520de6f2b069a96c740e412e49" kindref="member">GIBuilder::fischl</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">ModTypeId::Fischl</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">ModTypeId::Fischl</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Amy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Chunibyo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8thGraderSyndrome&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Delusional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinderVerurteilung&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MeinFraulein&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessofCondemnation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheCondemedPrincess&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OzsMiss&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a53538223141d4d818965f348c8418f47" kindref="member">GIBuilder::fischlHighness</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">ModTypeId::FischlHighness</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">ModTypeId::FischlHighness</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;PrincessAmy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RealPrinzessinderVerurteilung&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Prinzessin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessFischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinFischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ImmernachtreichPrincess&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinderImmernachtreich&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessoftheEverlastingNight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OzsPrincess&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a43002b7d42284cc223a922cdd8492e82" kindref="member">GIBuilder::ganyu</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">ModTypeId::Ganyu</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">ModTypeId::Ganyu</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Cocogoat&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a86bdfc983a7263f35df464955c1feadb" kindref="member">GIBuilder::ganyuTwilight</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">ModTypeId::GanyuTwilight</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">ModTypeId::GanyuTwilight</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;GanyuLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGanyu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CocogoatTwilight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CocogoatLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteCocogoat&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aa74d67230a6455f9958fad1302ab1001" kindref="member">GIBuilder::huTao</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">ModTypeId::HuTao</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">ModTypeId::HuTao</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapper&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aea53b52689e138b893a2ad30f129dce0" kindref="member">GIBuilder::jean</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">ModTypeId::Jean</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">ModTypeId::Jean</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMaster&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitter&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aca5d2d2cffde2028091d4f33c4e12751" kindref="member">GIBuilder::jeanCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">ModTypeId::JeanCN</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">ModTypeId::JeanCN</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMasterCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitterCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ad41aa49d7e9fedceb23d481163429229" kindref="member">GIBuilder::jeanSea</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">ModTypeId::JeanSea</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">ModTypeId::JeanSea</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMasterSea&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitterSea&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ab5f0fdd08d525adf387ad648282cc1b5" kindref="member">GIBuilder::kaeya</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">ModTypeId::Kaeya</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">ModTypeId::Kaeya</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;DilucsBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptain&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ae7414da97c4f4b7325105fdfea355d43" kindref="member">GIBuilder::kaeyaSailwind</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">ModTypeId::KaeyaSailwind</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">ModTypeId::KaeyaSailwind</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;DilucsBrotherSailwind&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptainSailwind&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftKaeya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftDilucsBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftCavalryCaptain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KaeyaTheft&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DilucsBrotherTheft&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptainTheft&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="86"><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a88fbb4a84ce38c2716fe2d18bb7f30d0" kindref="member">GIBuilder::keqing</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">ModTypeId::Keqing</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">ModTypeId::Keqing</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Kequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimp&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a57562189a550ce9799f190659f2952be" kindref="member">GIBuilder::keqingOpulent</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">ModTypeId::KeqingOpulent</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">ModTypeId::KeqingOpulent</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;LanternRiteKeqing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KeqingLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CuterKequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteKequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KequeenLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KequeenOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CuterKeqing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimpOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimpOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimpLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimpLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteZhongliSimp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteMoraxSimp&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8c6f6e814fc4f4338bf783e430858db7" kindref="member">GIBuilder::kirara</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">ModTypeId::Kirara</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">ModTypeId::Kirara</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Nekomata&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KonomiyaExpress&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CatBox&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a37cc24a5a1316ab15cf71618454c6e0c" kindref="member">GIBuilder::kiraraBoots</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">ModTypeId::KiraraBoots</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">ModTypeId::KiraraBoots</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;NekomataInBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KonomiyaExpressInBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CatBoxWithBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PussInBoots&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a96e15ea914e219e57bfefedd664ea471" kindref="member">GIBuilder::klee</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">ModTypeId::Klee</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">ModTypeId::Klee</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;SparkKnight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DodocoBuddy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DestroyerofWorlds&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" kindref="member">GIBuilder::kleeBlossomingStarlight</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">ModTypeId::KleeBlossomingStarlight</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">ModTypeId::KleeBlossomingStarlight</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;RedVelvetMage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DodocoLittleWitchBuddy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MagicDestroyerofWorlds&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FlandreScarlet&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ScarletFlandre&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" kindref="member">GIBuilder::lisa</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">ModTypeId::Lisa</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">ModTypeId::Lisa</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;CutieLibrarian&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" kindref="member">GIBuilder::lisaStudent</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">ModTypeId::LisaStudent</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">ModTypeId::LisaStudent</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;LisaSumeru&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SumeruLisa&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AkademiyaLisa&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LisaAkademiya&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" kindref="member">GIBuilder::mona</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">ModTypeId::Mona</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">ModTypeId::Mona</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;NoMora&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BigHat&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" kindref="member">GIBuilder::monaCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">ModTypeId::MonaCN</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">ModTypeId::MonaCN</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;NoMoraCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BigHatCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" kindref="member">GIBuilder::nilou</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">ModTypeId::Nilou</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">ModTypeId::Nilou</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Dancer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Morgiana&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" kindref="member">GIBuilder::nilouBreeze</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">ModTypeId::NilouBreeze</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">ModTypeId::NilouBreeze</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;ForestFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NilouFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DancerBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MorgianaBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirlBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DancerFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MorgianaFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirlFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyNilou&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyDancer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyMorgiana&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyBloomGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="134"><highlight class="normal"></highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" kindref="member">GIBuilder::ningguang</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">ModTypeId::Ningguang</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">ModTypeId::Ningguang</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;GeoMommy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommy&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" kindref="member">GIBuilder::ningguangOrchid</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">ModTypeId::NingguangOrchid</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">ModTypeId::NingguangOrchid</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;NingguangLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteNingguang&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GeoMommyOrchid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommyOrchid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GeoMommyLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommyLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteGeoMommy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteSugarMommy&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" kindref="member">GIBuilder::raiden</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">ModTypeId::Raiden</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">ModTypeId::Raiden</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;Ei&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenEi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Shogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenShogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenShotgun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Shotgun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CrydenShogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Cryden&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SmolEi&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="146"><highlight class="normal"></highlight></codeline>
-<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" kindref="member">GIBuilder::rosaria</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">ModTypeId::Rosaria</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">ModTypeId::Rosaria</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;GothGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" kindref="member">GIBuilder::rosariaCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">ModTypeId::RosariaCN</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">ModTypeId::RosariaCN</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;GothGirlCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"></highlight></codeline>
-<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" kindref="member">GIBuilder::shenhe</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">ModTypeId::Shenhe</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">ModTypeId::Shenhe</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;YelansBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopes&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" kindref="member">GIBuilder::shenheFrostFlower</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ModTypeId::ShenheFrostFlower</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ModTypeId::ShenheFrostFlower</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;ShenheLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteShenhe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YelansBestieFrostFlower&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YelansBestieLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteYelansBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopesFrostFlower&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopesLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteRedRopes&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" kindref="member">GIBuilder::xiangling</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">ModTypeId::Xiangling</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">ModTypeId::Xiangling</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;CookingFanatic&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HeadChefoftheWanminRestaurant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChefMaosDaughter&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuobasBuddy&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="166"><highlight class="normal"></highlight></codeline>
-<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" kindref="member">GIBuilder::xianglingCheer</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">ModTypeId::XianglingCheer</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">ModTypeId::XianglingCheer</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;XianglingLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteXiangling&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CookingFanaticLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HeadChefoftheWanminRestaurantLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChefMaosDaughterLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuobasBuddyLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteCookingFanatic&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteHeadChefoftheWanminRestaurant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteChefMaosDaughter&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGuobasBuddy&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" kindref="member">GIBuilder::xingqiu</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">ModTypeId::Xingqiu</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">ModTypeId::Xingqiu</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;GuhuaGeek&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bookworm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestie&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"></highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" kindref="member">GIBuilder::xingqiuBamboo</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ModType(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">ModTypeId::XingqiuBamboo</ref>),<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">ModTypeId::XingqiuBamboo</ref>),<sp/>{</highlight><highlight class="stringliteral">&quot;XingqiuLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuhuaGeekLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BookwormLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuildLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestieLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteXingqiu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGuhuaGeek&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteBookworm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteSecondSonofTheFeiyunCommerceGuild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteChongyunsBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuhuaGeekBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BookwormBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuildBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestieBamboo&quot;</highlight><highlight class="normal">});</highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_parser_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="17"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Builds<sp/>one<sp/>GI<sp/>ModType,<sp/>giving<sp/>it<sp/>the<sp/>plain<sp/>BaseIniParser/BaseIniFixer.</highlight></codeline>
+<codeline lineno="18"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="19"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>The<sp/>pure-Python<sp/>GIBuilder<sp/>passes<sp/>a<sp/>real<sp/>&quot;IniParseBuilder(...)&quot;/&quot;IniFixBuilder(...)&quot;<sp/>to</highlight></codeline>
+<codeline lineno="20"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>every<sp/>one<sp/>of<sp/>its<sp/>own<sp/>43<sp/>ModType(...)<sp/>calls,<sp/>so<sp/>these<sp/>are<sp/>passed<sp/>explicitly<sp/>here<sp/>too</highlight></codeline>
+<codeline lineno="21"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>rather<sp/>than<sp/>leaning<sp/>on<sp/>ModType&apos;s<sp/>own<sp/>null-fallback.<sp/>They&apos;re<sp/>the<sp/>*base*<sp/>classes<sp/>for<sp/>now</highlight></codeline>
+<codeline lineno="22"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>simply<sp/>because<sp/>no<sp/>concrete<sp/>C++<sp/>GIMIParser/GIMIFixer<sp/>equivalent<sp/>has<sp/>been<sp/>ported<sp/>yet<sp/>--</highlight></codeline>
+<codeline lineno="23"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>swap<sp/>the<sp/>two<sp/>make_shared<sp/>calls<sp/>below<sp/>when<sp/>one<sp/>lands,<sp/>and<sp/>all<sp/>43<sp/>mod<sp/>types<sp/>pick<sp/>it<sp/>up.</highlight></codeline>
+<codeline lineno="24"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="25"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Both<sp/>are<sp/>constructed<sp/>unbound<sp/>(no<sp/>IniFile),<sp/>since<sp/>a<sp/>ModType<sp/>describes<sp/>a<sp/>kind<sp/>of<sp/>mod</highlight></codeline>
+<codeline lineno="26"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>rather<sp/>than<sp/>one<sp/>specific<sp/>.ini<sp/>file<sp/>--<sp/>see<sp/>ModType::iniParser.<sp/>The<sp/>fixer<sp/>holds<sp/>a</highlight></codeline>
+<codeline lineno="27"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>non-owning<sp/>pointer<sp/>into<sp/>the<sp/>parser,<sp/>and<sp/>the<sp/>ModType<sp/>owns<sp/>both<sp/>shared_ptrs<sp/>together,<sp/>so</highlight></codeline>
+<codeline lineno="28"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>they<sp/>share<sp/>a<sp/>lifetime.</highlight></codeline>
+<codeline lineno="29"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>modTypeId,<sp/>std::vector&lt;std::string&gt;<sp/>aliases<sp/>=<sp/>{})<sp/>{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>parser<sp/>=<sp/>std::make_shared&lt;BaseIniParser&gt;();</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>fixer<sp/>=<sp/>std::make_shared&lt;BaseIniFixer&gt;(parser.get());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(<ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768fa02c73fe4efabc7a908c3768c18d8ffe3" kindref="member">GameTypeId::GI</ref>),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(modTypeId),</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(modTypeId),<sp/>std::move(aliases),</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::move(parser),<sp/>std::move(fixer));</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a144fc5dd87f9218152a03cb11a76a682" kindref="member">GIBuilder::amber</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">ModTypeId::Amber</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;BaronBunny&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ColleisBestie&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a0321c432ac6421e650c2255cb4cf9b77" kindref="member">GIBuilder::amberCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">ModTypeId::AmberCN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;BaronBunnyCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ColleisBestieCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a9a975291c28b44a2d48ee37658757100" kindref="member">GIBuilder::ayaka</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">ModTypeId::Ayaka</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Ayaya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Yandere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewArchonOfEternity&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a888eebb45709672e5462d4072e0c4138" kindref="member">GIBuilder::ayakaSpringBloom</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;AyayaFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YandereFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewArchonOfEternityFontaine&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FontaineAyaya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FontaineYandere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NewFontaineArchonOfEternity&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MusketeerAyaka&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AyakaMusketeer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AyayaMusketeer&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8779810b5b2decb3738cbcb17d58a6f7" kindref="member">GIBuilder::arlecchino</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">ModTypeId::Arlecchino</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Father&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Knave&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Perrie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Peruere&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Harlequin&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a4a03bedcd5324d8e1e234f8e1c3f1384" kindref="member">GIBuilder::barbara</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">ModTypeId::Barbara</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Idol&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Healer&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a070e05a35ad4e430318475bf44ca226b" kindref="member">GIBuilder::barbaraSummerTime</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">ModTypeId::BarbaraSummertime</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;IdolSummertime&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HealerSummertime&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BarbaraBikini&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aaf132ba66f0d0a4c556c776e458d431a" kindref="member">GIBuilder::cherryHutao</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">ModTypeId::CherryHuTao</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;HutaoCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HutaoSnowLaden&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SnowLadenHutao&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteHutao&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HutaoLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Cherry77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CherryQiqiKidnapper&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlorCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapperCherry&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRite77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteQiqiKidnapper&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlorLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapperLanternRite&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a7e966f33c58b85e55c25a904af988d28" kindref="member">GIBuilder::diluc</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">ModTypeId::Diluc</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;KaeyasBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DawnWineryMaster&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AngelShareOwner&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DarkNightBlaze&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ab9cda71463e6d52572e5792a128b04a6" kindref="member">GIBuilder::dilucFlamme</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">ModTypeId::DilucFlamme</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;RedDeadOfTheNight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DarkNightHero&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1afa4003520de6f2b069a96c740e412e49" kindref="member">GIBuilder::fischl</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">ModTypeId::Fischl</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Amy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Chunibyo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;8thGraderSyndrome&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Delusional&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinderVerurteilung&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MeinFraulein&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessofCondemnation&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheCondemedPrincess&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OzsMiss&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a53538223141d4d818965f348c8418f47" kindref="member">GIBuilder::fischlHighness</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">ModTypeId::FischlHighness</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;PrincessAmy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RealPrinzessinderVerurteilung&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Prinzessin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessFischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinFischlvonLuftschlossNarfidort&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ImmernachtreichPrincess&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrinzessinderImmernachtreich&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PrincessoftheEverlastingNight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;OzsPrincess&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a43002b7d42284cc223a922cdd8492e82" kindref="member">GIBuilder::ganyu</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">ModTypeId::Ganyu</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Cocogoat&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a86bdfc983a7263f35df464955c1feadb" kindref="member">GIBuilder::ganyuTwilight</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">ModTypeId::GanyuTwilight</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;GanyuLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGanyu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CocogoatTwilight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CocogoatLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteCocogoat&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aa74d67230a6455f9958fad1302ab1001" kindref="member">GIBuilder::huTao</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">ModTypeId::HuTao</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;77thDirectoroftheWangshengFuneralParlor&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;QiqiKidnapper&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aea53b52689e138b893a2ad30f129dce0" kindref="member">GIBuilder::jean</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">ModTypeId::Jean</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMaster&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitter&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aca5d2d2cffde2028091d4f33c4e12751" kindref="member">GIBuilder::jeanCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">ModTypeId::JeanCN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMasterCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitterCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ad41aa49d7e9fedceb23d481163429229" kindref="member">GIBuilder::jeanSea</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">ModTypeId::JeanSea</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;ActingGrandMasterSea&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KleesBabySitterSea&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ab5f0fdd08d525adf387ad648282cc1b5" kindref="member">GIBuilder::kaeya</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">ModTypeId::Kaeya</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;DilucsBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptain&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ae7414da97c4f4b7325105fdfea355d43" kindref="member">GIBuilder::kaeyaSailwind</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">ModTypeId::KaeyaSailwind</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;DilucsBrotherSailwind&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptainSailwind&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftKaeya&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftDilucsBrother&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;TheftCavalryCaptain&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KaeyaTheft&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DilucsBrotherTheft&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CavalryCaptainTheft&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a88fbb4a84ce38c2716fe2d18bb7f30d0" kindref="member">GIBuilder::keqing</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">ModTypeId::Keqing</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Kequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimp&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a57562189a550ce9799f190659f2952be" kindref="member">GIBuilder::keqingOpulent</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">ModTypeId::KeqingOpulent</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;LanternRiteKeqing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KeqingLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CuterKequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteKequeen&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KequeenLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KequeenOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CuterKeqing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimpOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimpOpulent&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ZhongliSimpLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MoraxSimpLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteZhongliSimp&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteMoraxSimp&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8c6f6e814fc4f4338bf783e430858db7" kindref="member">GIBuilder::kirara</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">ModTypeId::Kirara</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Nekomata&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KonomiyaExpress&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CatBox&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a37cc24a5a1316ab15cf71618454c6e0c" kindref="member">GIBuilder::kiraraBoots</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">ModTypeId::KiraraBoots</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;NekomataInBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;KonomiyaExpressInBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CatBoxWithBoots&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;PussInBoots&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a96e15ea914e219e57bfefedd664ea471" kindref="member">GIBuilder::klee</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">ModTypeId::Klee</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;SparkKnight&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DodocoBuddy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DestroyerofWorlds&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a2c88a92a8b4a2614496f372c0fb6cf64" kindref="member">GIBuilder::kleeBlossomingStarlight</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">ModTypeId::KleeBlossomingStarlight</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;RedVelvetMage&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DodocoLittleWitchBuddy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MagicDestroyerofWorlds&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FlandreScarlet&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ScarletFlandre&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a7bd5ce9cba9dcf35483925689a76987c" kindref="member">GIBuilder::lisa</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">ModTypeId::Lisa</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;CutieLibrarian&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a5a3d04382de2e5b01324ca03ec47f5f8" kindref="member">GIBuilder::lisaStudent</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">ModTypeId::LisaStudent</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;LisaSumeru&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SumeruLisa&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;AkademiyaLisa&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LisaAkademiya&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ad3b6f5f22c666712e5c4672a2a6dd18d" kindref="member">GIBuilder::mona</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">ModTypeId::Mona</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;NoMora&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BigHat&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3a0d460df739ca57e7139f5de0542e2c" kindref="member">GIBuilder::monaCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">ModTypeId::MonaCN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;NoMoraCN&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BigHatCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3564ba0f8ee7b7178a3e62a6a6254258" kindref="member">GIBuilder::nilou</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">ModTypeId::Nilou</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Dancer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Morgiana&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a03adb956185757ebc2f30eee6c61afdd" kindref="member">GIBuilder::nilouBreeze</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">ModTypeId::NilouBreeze</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;ForestFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;NilouFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DancerBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MorgianaBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirlBreeze&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DancerFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;MorgianaFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BloomGirlFairy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyNilou&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyDancer&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyMorgiana&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FairyBloomGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1aabec5e2834f3c46c2985772e594d9432" kindref="member">GIBuilder::ningguang</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">ModTypeId::Ningguang</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;GeoMommy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommy&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a00db5eff8a7cd6a5efeef20ce20633f2" kindref="member">GIBuilder::ningguangOrchid</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">ModTypeId::NingguangOrchid</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;NingguangLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteNingguang&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GeoMommyOrchid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommyOrchid&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GeoMommyLaternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SugarMommyLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LaternRiteGeoMommy&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteSugarMommy&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3aac2f7b1a38f2a3866a00b346e43d1a" kindref="member">GIBuilder::raiden</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">ModTypeId::Raiden</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;Ei&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenEi&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Shogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenShogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RaidenShotgun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Shotgun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CrydenShogun&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Cryden&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SmolEi&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1afb36be20b1f0c0770b593e98d478f19f" kindref="member">GIBuilder::rosaria</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">ModTypeId::Rosaria</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;GothGirl&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a2e86d8f8050c7c71de2e03d042c4de3e" kindref="member">GIBuilder::rosariaCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">ModTypeId::RosariaCN</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;GothGirlCN&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ae3a2f0f656d4c7fed0bee1944a742b2d" kindref="member">GIBuilder::shenhe</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">ModTypeId::Shenhe</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;YelansBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopes&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a421b3ccd105ae49d2b69b97f1a167e37" kindref="member">GIBuilder::shenheFrostFlower</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ModTypeId::ShenheFrostFlower</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;ShenheLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteShenhe&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YelansBestieFrostFlower&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;YelansBestieLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteYelansBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopesFrostFlower&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;RedRopesLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteRedRopes&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a3a194310b8e3afc6a572b4edf1197d60" kindref="member">GIBuilder::xiangling</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">ModTypeId::Xiangling</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;CookingFanatic&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HeadChefoftheWanminRestaurant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChefMaosDaughter&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuobasBuddy&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a9cb845d129fd1923f3fbebaed59e76fa" kindref="member">GIBuilder::xianglingCheer</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">ModTypeId::XianglingCheer</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;XianglingLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteXiangling&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;CookingFanaticLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;HeadChefoftheWanminRestaurantLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChefMaosDaughterLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuobasBuddyLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteCookingFanatic&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteHeadChefoftheWanminRestaurant&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteChefMaosDaughter&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGuobasBuddy&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1a8408dc8f47709391d3c0e12e37e90e0d" kindref="member">GIBuilder::xingqiu</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">ModTypeId::Xingqiu</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;GuhuaGeek&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Bookworm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestie&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1add2e213abd350d473bb78b116dabfdd2" kindref="member">GIBuilder::xingqiuBamboo</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>makeGIModType(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">ModTypeId::XingqiuBamboo</ref>,<sp/>{</highlight><highlight class="stringliteral">&quot;XingqiuLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuhuaGeekLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BookwormLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuildLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestieLanternRite&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteXingqiu&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteGuhuaGeek&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteBookworm&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteSecondSonofTheFeiyunCommerceGuild&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;LanternRiteChongyunsBestie&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;GuhuaGeekBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;BookwormBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SecondSonofTheFeiyunCommerceGuildBamboo&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ChongyunsBestieBamboo&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/constants/GIBuilder.cpp"/>
   </compounddef>

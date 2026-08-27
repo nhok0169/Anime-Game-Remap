@@ -1,0 +1,20 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_34c31718a0495ddae57da6ef4e6edf41" kind="dir">
+    <compoundname>include/AGRemapCore/model/iniresources</compoundname>
+    <innerfile refid="_ini_download_model_8h">IniDownloadModel.h</innerfile>
+    <innerfile refid="_ini_fix_resource_model_8h">IniFixResourceModel.h</innerfile>
+    <innerfile refid="_ini_resource_8h">IniResource.h</innerfile>
+    <innerfile refid="_ini_resource_model_8h">IniResourceModel.h</innerfile>
+    <innerfile refid="_ini_src_resource_model_8h">IniSrcResourceModel.h</innerfile>
+    <innerfile refid="_ini_tex_model_8h">IniTexModel.h</innerfile>
+    <innerfile refid="_remap_blend_resource_8h">RemapBlendResource.h</innerfile>
+    <innerfile refid="_remap_ini_resource_8h">RemapIniResource.h</innerfile>
+    <innerfile refid="_remap_tex_resource_8h">RemapTexResource.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/iniresources/"/>
+  </compounddef>
+</doxygen>

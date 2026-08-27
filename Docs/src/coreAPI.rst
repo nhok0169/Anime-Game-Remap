@@ -518,6 +518,89 @@ SympyTokenizer
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Reg Edits
+=========
+
+:raw-html:`<br />`
+
+BaseIniGraphPartEdit
+--------------------
+
+.. cppattributetable:: AGRemapCore::BaseIniGraphPartEdit
+
+.. doxygenclass:: AGRemapCore::BaseIniGraphPartEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BaseIniPartEdit
+---------------
+
+.. cppattributetable:: AGRemapCore::BaseIniPartEdit
+
+.. doxygenclass:: AGRemapCore::BaseIniPartEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BaseRegEdit
+-----------
+
+.. cppattributetable:: AGRemapCore::BaseRegEdit
+
+.. doxygenclass:: AGRemapCore::BaseRegEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegAdd
+------
+
+.. cppattributetable:: AGRemapCore::RegAdd
+
+.. doxygenclass:: AGRemapCore::RegAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegNewVals
+----------
+
+.. cppattributetable:: AGRemapCore::RegNewVals
+
+.. doxygenclass:: AGRemapCore::RegNewVals
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegRemap
+--------
+
+.. cppattributetable:: AGRemapCore::RegRemap
+
+.. doxygenclass:: AGRemapCore::RegRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegRemove
+---------
+
+.. cppattributetable:: AGRemapCore::RegRemove
+
+.. doxygenclass:: AGRemapCore::RegRemove
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Textures
 ========
 

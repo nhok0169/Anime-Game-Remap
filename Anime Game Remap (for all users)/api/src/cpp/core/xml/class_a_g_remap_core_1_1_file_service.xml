@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_service" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileService</compoundname>
+    <includes refid="_file_service_8h" local="no">FileService.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_file_service_1af4b1cd4dc7de8e98dfb68cec6c384a75" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::FileService::absPathOfRelPath</definition>
+        <argsstring>(const std::string &amp;dstPath, const std::string &amp;relFolder)</argsstring>
+        <name>absPathOfRelPath</name>
+        <qualifiedname>AGRemapCore::FileService::absPathOfRelPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>dstPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>relFolder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the absolute path of a (possibly relative) file path with respect to a
+certain folder :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike the pure-Python original (which always normalizes through Windows-style
+   ``ntpath`` rules first, then swaps in the host OS&apos;s separator), this uses
+   ``std::filesystem`` directly and returns the host platform&apos;s own native separator
+   style throughout -- matching this codebase&apos;s existing precedent (see
+   :cpp:class:`IniNamingTools`&apos;s own path-joining methods) rather than replicating
+   Python&apos;s Windows-first normalization quirk
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>dstPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target file path to resolve </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>relFolder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder &apos;dstPath&apos; is relative to, if it isn&apos;t already absolute</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The absolute path for &apos;dstPath&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/files/FileService.h" line="44" column="32" bodyfile="src/tools/files/FileService.cpp" bodystart="7" bodyend="16"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for handling with files and folders :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is a **partial** port of the pure-Python ``FileService`` class
+   (``tools/files/FileService.py``) -- only #absPathOfRelPath is included so far, since it&apos;s
+   the one method the ``iniresources`` model classes need. Add more methods as later-ported
+   subsystems need them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/files/FileService.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/files/FileService.h" bodystart="21" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_service_1af4b1cd4dc7de8e98dfb68cec6c384a75" prot="public" virt="non-virtual"><scope>AGRemapCore::FileService</scope><name>absPathOfRelPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

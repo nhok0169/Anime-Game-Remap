@@ -3,6 +3,8 @@
   <compounddef id="dir_262090020142afce8472a874afdbb94c" kind="dir">
     <compoundname>include/AGRemapCore/model/strategies</compoundname>
     <innerdir refid="dir_993421041861c3b153f2c223ff78c2a0">include/AGRemapCore/model/strategies/iniClassifiers</innerdir>
+    <innerdir refid="dir_026347362743402906080a6472be6d31">include/AGRemapCore/model/strategies/iniFixers</innerdir>
+    <innerdir refid="dir_da3f701502d0f3e3a9165a4d9a669fd6">include/AGRemapCore/model/strategies/iniParsers</innerdir>
     <innerdir refid="dir_6dacdda535e02a8003b9ede585fc89cd">include/AGRemapCore/model/strategies/texEditors</innerdir>
     <innerfile refid="_mod_type_8h">ModType.h</innerfile>
     <innerfile refid="_mod_type_id_data_8h">ModTypeIdData.h</innerfile>

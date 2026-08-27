@@ -58,18 +58,26 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="12">
-        <label>include/AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
-        <link refid="_tex_creator_8h"/>
+      <node id="14">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="13">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</label>
-        <link refid="_base_pixel_transform_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h</label>
+        <link refid="_base_pixel_transform_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="18" relation="include">
@@ -84,71 +92,73 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-      </node>
-      <node id="14">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/ColourReplace.h</label>
-        <link refid="_colour_replace_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
       </node>
       <node id="16">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h</label>
-        <link refid="_correct_gamma_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/ColourReplace.h</label>
+        <link refid="_colour_replace_8h"/>
         <childnode refid="17" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="18">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h</label>
-        <link refid="_highlight_shadow_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h</label>
+        <link refid="_correct_gamma_8h"/>
         <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="20">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h</label>
-        <link refid="_invert_alpha_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h</label>
+        <link refid="_highlight_shadow_8h"/>
         <childnode refid="21" relation="include">
         </childnode>
       </node>
       <node id="22">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h</label>
-        <link refid="_temp_control_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h</label>
+        <link refid="_invert_alpha_8h"/>
         <childnode refid="23" relation="include">
         </childnode>
       </node>
       <node id="24">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h</label>
-        <link refid="_tint_transform_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TempControl.h</label>
+        <link refid="_temp_control_8h"/>
         <childnode refid="25" relation="include">
         </childnode>
       </node>
       <node id="26">
-        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h</label>
-        <link refid="_transparency_8h"/>
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h</label>
+        <link refid="_tint_transform_8h"/>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+      </node>
+      <node id="28">
+        <label>include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h</label>
+        <link refid="_transparency_8h"/>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</label>
+        <link refid="_colour_replace_filter_8h"/>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="31">
-        <label>include/AGRemapCore/model/strategies/texEditors/texFilters/ColourReplaceFilter.h</label>
-        <link refid="_colour_replace_filter_8h"/>
-        <childnode refid="6" relation="include">
-        </childnode>
-      </node>
-      <node id="29">
         <label>include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h</label>
         <link refid="_pixel_filter_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
-      <node id="32">
+      <node id="34">
         <label>include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h</label>
         <link refid="_transparency_adjust_filter_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -156,35 +166,35 @@
         <link refid="_colour_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="34" relation="include">
-        </childnode>
-      </node>
-      <node id="30">
-        <label>include/AGRemapCore/model/textures/ColourRange.h</label>
-        <link refid="_colour_range_8h"/>
-        <childnode refid="14" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="31" relation="include">
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/AGRemapCore/model/textures/ColourRange.h</label>
+        <link refid="_colour_range_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
         <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -192,74 +202,78 @@
         <link refid="_texture_file_8cpp"/>
       </node>
       <node id="4">
+        <label>src/model/iniresources/RemapTexResource.cpp</label>
+        <link refid="_remap_tex_resource_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>
-      <node id="28">
+      <node id="30">
         <label>src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp</label>
         <link refid="_base_pixel_transform_8cpp"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>src/model/strategies/texEditors/pixelTransforms/ColourReplace.cpp</label>
         <link refid="_colour_replace_8cpp"/>
       </node>
-      <node id="17">
+      <node id="19">
         <label>src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp</label>
         <link refid="_correct_gamma_8cpp"/>
       </node>
-      <node id="19">
+      <node id="21">
         <label>src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp</label>
         <link refid="_highlight_shadow_8cpp"/>
       </node>
-      <node id="21">
+      <node id="23">
         <label>src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp</label>
         <link refid="_invert_alpha_8cpp"/>
       </node>
-      <node id="23">
+      <node id="25">
         <label>src/model/strategies/texEditors/pixelTransforms/TempControl.cpp</label>
         <link refid="_temp_control_8cpp"/>
       </node>
-      <node id="25">
+      <node id="27">
         <label>src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp</label>
         <link refid="_tint_transform_8cpp"/>
       </node>
-      <node id="27">
+      <node id="29">
         <label>src/model/strategies/texEditors/pixelTransforms/Transparency.cpp</label>
         <link refid="_transparency_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/model/strategies/texEditors/texFilters/ColourReplaceFilter.cpp</label>
         <link refid="_colour_replace_filter_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/model/strategies/texEditors/texFilters/GammaFilter.cpp</label>
         <link refid="_gamma_filter_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/model/strategies/texEditors/texFilters/HueAdjust.cpp</label>
         <link refid="_hue_adjust_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp</label>
         <link refid="_invert_alpha_filter_8cpp"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>src/model/strategies/texEditors/texFilters/PixelFilter.cpp</label>
         <link refid="_pixel_filter_8cpp"/>
       </node>
-      <node id="11">
+      <node id="12">
         <label>src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp</label>
         <link refid="_transparency_adjust_filter_8cpp"/>
       </node>
-      <node id="34">
+      <node id="36">
         <label>src/model/textures/Colour.cpp</label>
         <link refid="_colour_8cpp"/>
       </node>
-      <node id="33">
+      <node id="35">
         <label>src/model/textures/ColourRange.cpp</label>
         <link refid="_colour_range_8cpp"/>
       </node>

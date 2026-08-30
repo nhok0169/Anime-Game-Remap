@@ -261,3 +261,225 @@ filename = uniqueBaseFile""", 4]]
             self.assertEqual(len(self._iniFile.fileDownloads), expectedDownloadCount)
 
     # ====================================================================
+    # ==================== structure / attributes ========================
+
+    def test_parser_isABaseIniParser(self):
+        self.create()
+
+        # The C++ GIMIParser is registered with BaseIniParser as its real pybind11 base, so this is
+        # genuine inheritance, not just a documented claim.
+        self.assertIsInstance(self._parser, FRB.BaseIniParser)
+        self.assertIs(self._parser._iniFile, self._iniFile)
+
+    def test_modObjs_isTheCallersOwnObject(self):
+        self.create()
+        modObjs = OrderedSet([("bang", "B"), ("", "head")])
+
+        self._parser.modObjs = modObjs
+        self.assertIs(self._parser.modObjs, modObjs)
+
+    def test_components_derivedFromModObjs(self):
+        self.create()
+        self._parser.modObjs = OrderedSet([("bang", "B"), ("bang", "C"), ("", "head")])
+        self.compareSet(self._parser.components, {"bang", ""})
+
+    def test_objTargetFuncs_isTheCallersOwnList(self):
+        self.create()
+        funcs = []
+
+        self._parser.objTargetFuncs = funcs
+        self.assertIs(self._parser.objTargetFuncs, funcs)
+
+    def test_downloads_isTheCallersOwnDict(self):
+        self.create()
+        downloads = {}
+
+        self._parser.downloads = downloads
+        self.assertIs(self._parser.downloads, downloads)
+
+    def test_commandGraphs_isTheSameDictEveryAccess(self):
+        self.create()
+
+        # editCommands() hands this exact dict to an IniGraphGroup and reads it back out, so the
+        # aliasing has to survive -- a fresh copy per access would silently break every edit.
+        self.assertIs(self._parser.commandGraphs, self._parser.commandGraphs)
+
+    def test_commandGraphs_assignable(self):
+        self.create()
+        graphs = {}
+
+        self._parser.commandGraphs = graphs
+        self.assertIs(self._parser.commandGraphs, graphs)
+
+    def test_tempKwargs_startsEmptyAndIsClearedByClear(self):
+        self.create()
+        self.compareDict(self._parser.tempKwargs, {})
+
+        self._parser.tempKwargs["scratch"] = 42
+        self.assertEqual(self._parser.tempKwargs["scratch"], 42)
+
+        self._parser.clear()
+        self.compareDict(self._parser.tempKwargs, {})
+
+    def test_clear_emptiesTheParsedGraphs(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+        self._iniFile.parse()
+
+        self.assertTrue(len(self._parser.commandGraphs) > 0)
+
+        self._parser.clear()
+        self.compareDict(self._parser.commandGraphs, {})
+        self.compareDict(self._parser.downloadResourceGraphs, {})
+        self.assertIsNone(self._parser.globalGraph)
+
+    # ====================================================================
+    # ============== classifyByTextureOverrideName =======================
+
+    def test_classifyByTextureOverrideName_matchingSuffix_classified(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunBlend")
+        self.compareList(result, [("", "blend")])
+
+    def test_classifyByTextureOverrideName_caseAndWhitespaceInsensitive(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "   textureoverrideRAIDENSHOGUNblend  ")
+        self.compareList(result, [("", "blend")])
+
+    def test_classifyByTextureOverrideName_alreadyRemapped_notClassified(self):
+        self.create()
+
+        # A section this software wrote itself -- 'remap' anywhere after the prefix disqualifies it.
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunRemapBlend")
+        self.compareList(result, [])
+
+    def test_classifyByTextureOverrideName_notATextureOverride_notClassified(self):
+        self.create()
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "CommandListRaidenShogunBlend"), [])
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "ResourceRaidenShogunBlend.0"), [])
+
+    def test_classifyByTextureOverrideName_noMatchingModObj_notClassified(self):
+        self.create()
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunDress"), [])
+
+    def test_classifyByTextureOverrideName_matchMustBeASuffix(self):
+        self.create()
+
+        # 'blend' occurs, but not at the end -- it names some other object, not this one.
+        self.compareList(FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenBlendExtras"), [])
+
+    def test_classifyByTextureOverrideName_explicitModObjs_overridesTheParsers(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideHuTaoBody",
+                                                              modObjs = OrderedSet([("", "Body")]))
+        self.compareList(result, [("", "Body")])
+
+    def test_classifyByTextureOverrideName_componentAndObjectConcatenated(self):
+        self.create()
+        result = FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideYelanBangB",
+                                                              modObjs = OrderedSet([("Bang", "B")]))
+        self.compareList(result, [("Bang", "B")])
+
+    def test_classifyByTextureOverrideName_fromRoots_buildsTheGlobalGraph(self):
+        self.create()
+        self._parser.clear()
+        self.assertIsNone(self._parser.globalGraph)
+
+        FRB.GIMIParser.classifyByTextureOverrideName(self._parser, "TextureOverrideRaidenShogunBlend", fromRoots = True)
+        self.assertIsNotNone(self._parser.globalGraph)
+
+    # ====================================================================
+    # ========================= parse's result ===========================
+
+    def _parseResult(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+        return self._parser.parse()
+
+    def test_parse_returnsExactlyOneGraphGroup(self):
+        result = self._parseResult()
+
+        self.assertIsInstance(result, list)
+        self.assertEqual(len(result), 1)
+        self.assertIsInstance(result[0], FRB.IniGraphGroup)
+
+    def test_parse_groupHoldsCommandGraphsThenDownloadGraphs(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        # Command graphs keep their own (component, mod object) key; download resource graphs get
+        # the reserved "download" component plus the download's own name.
+        expected = [("", "blend"), ("", "texcoord"), ("", "body"), ("", "ib")]
+        expected = [modObj for modObj in expected if modObj in self._parser.commandGraphs]
+        expected += [(FRB.IniGraphModObjKeywords.Download.value, name)
+                     for name in ["testPosition", "testTexture", "testDiffuse", "testLightMap"]]
+
+        self.compareList(list(graphs.keys()), expected)
+
+    def test_parse_groupSharesTheParsersOwnGraphObjects(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        for modObj in self._parser.commandGraphs:
+            # Identity: a Python IniGraphGroup holds references, so nothing is copied on the way out.
+            self.assertIs(graphs[modObj], self._parser.commandGraphs[modObj])
+
+        downloadGraphs = self._parser.downloadResourceGraphs
+        for modObj in downloadGraphs:
+            for reg in downloadGraphs[modObj]:
+                name = self._parser.downloads[modObj][reg].name
+                self.assertIs(graphs[(FRB.IniGraphModObjKeywords.Download.value, name)], downloadGraphs[modObj][reg])
+
+    def test_parse_groupsDictIsFresh_notCommandGraphsItself(self):
+        result = self._parseResult()
+
+        # Adding to the returned group must not also add to the parser's own commandGraphs.
+        self.assertIsNot(result[0].graphs, self._parser.commandGraphs)
+
+        before = len(self._parser.commandGraphs)
+        result[0].graphs[("scratch", "entry")] = None
+        self.assertEqual(len(self._parser.commandGraphs), before)
+
+    def test_parse_oneDownloadSharedByTwoRegisters_builtAndDownloadedOnce(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+
+        # The same DownloadData under two registers of one mod object. A .ini file can only hold
+        # one section of a given name, so it is built -- and downloaded -- once, and both
+        # registers' resource graphs point at that one section.
+        shared = FRB.DownloadData("sharedDownload", FRB.FileDownload("sharedURL", "sharedBaseFile"))
+        self._parser.downloads = {("", "texcoord"): {"vb0": shared, "vb1": shared}}
+
+        self._iniFile.parse()
+
+        self.assertEqual(len(self._iniFile.fileDownloads), 1)
+
+        graphs = self._parser.collectParseResult()[0].graphs
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
+        self.compareList(downloadKeys, [(FRB.IniGraphModObjKeywords.Download.value, "sharedDownload")])
+
+        resourceGraphs = self._parser.downloadResourceGraphs[("", "texcoord")]
+        self.assertIsNot(resourceGraphs["vb0"], resourceGraphs["vb1"])
+        self.compareList(sorted(resourceGraphs["vb0"].sections.keys()),
+                         sorted(resourceGraphs["vb1"].sections.keys()))
+
+    def test_parse_downloadGraphsKeyedByTheDownloadsNameNotItsRegister(self):
+        result = self._parseResult()
+        graphs = result[0].graphs
+
+        # The register a download is referenced from ("vb0", "ps-t1", ...) never appears in the
+        # key -- only the download's own name does, so the same resource reached from two places
+        # would be one entry.
+        downloadKeys = [modObj for modObj in graphs if modObj[0] == FRB.IniGraphModObjKeywords.Download.value]
+        self.compareList(sorted(name for _, name in downloadKeys),
+                         sorted(["testPosition", "testTexture", "testDiffuse", "testLightMap"]))
+
+    def test_parse_noDownloads_groupIsJustTheCommandGraphs(self):
+        self.setupIniTxt(self._defaultIniTxt)
+        self.createNamedParser()
+        self._parser.downloads = {}
+
+        graphs = self._parser.parse()[0].graphs
+        self.compareList(list(graphs.keys()), list(self._parser.commandGraphs.keys()))
+
+    # ====================================================================

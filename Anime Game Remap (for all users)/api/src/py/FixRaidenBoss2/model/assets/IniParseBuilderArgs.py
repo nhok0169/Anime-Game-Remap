@@ -18,7 +18,7 @@ from typing import Callable, List, Dict, Any, Tuple, Optional
 
 ##### LocalImports
 from ...data.IniParseBuilderData import IniParseBuilderData
-from ..strategies.iniParsers.BaseIniParser import BaseIniParser
+from ...core import BaseIniParser
 from .ModAssets import ModAssets
 ##### EndLocalImports
 

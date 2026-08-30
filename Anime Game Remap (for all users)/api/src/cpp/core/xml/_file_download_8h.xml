@@ -7,6 +7,7 @@
     <includes local="no">tuple</includes>
     <includedby refid="_ini_download_model_8h" local="yes">include/AGRemapCore/model/iniresources/IniDownloadModel.h</includedby>
     <includedby refid="_remap_ini_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapIniResource.h</includedby>
+    <includedby refid="_ini_parse_download_data_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</includedby>
     <includedby refid="_file_download_8cpp" local="yes">src/tools/files/FileDownload.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -51,11 +52,23 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
       </node>
       <node id="7">
         <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
         <link refid="_remap_tex_resource_8h"/>
         <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="10" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -65,7 +78,9 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -76,7 +91,7 @@
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/model/iniresources/RemapIniResource.cpp</label>
         <link refid="_remap_ini_resource_8cpp"/>
       </node>
@@ -84,7 +99,7 @@
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="10">
+      <node id="12">
         <label>src/tools/files/FileDownload.cpp</label>
         <link refid="_file_download_8cpp"/>
       </node>

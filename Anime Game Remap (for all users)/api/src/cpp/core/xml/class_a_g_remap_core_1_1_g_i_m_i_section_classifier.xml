@@ -1,0 +1,869 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMISectionClassifier</compoundname>
+    <includes refid="_g_i_m_i_section_classifier_8h" local="no">GIMISectionClassifier.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash" prot="public">AGRemapCore::GIMISectionClassifier::IndexKeyHash</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_equal" prot="public">AGRemapCore::GIMISectionClassifier::IndexKeyEqual</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" prot="public">AGRemapCore::GIMISectionClassifier::ClassifierConfig</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ModObj = std::pair&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::ModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The key identifying a graph -- ``(component name, mod object name)``, the direct
+equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a9484359a209c788e7072c541f799a063" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash = typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash</definition>
+        <argsstring></argsstring>
+        <name>ModObjHash</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::ModObjHash</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Hashes a #ModObj, so it can key a ``tsl::ordered_map`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Uses the same multiply-and-xor combine the standard library&apos;s own implementations
+conventionally use -- nothing in this codebase needed a ``std::pair`` hash before this
+class, so there was no existing helper to reuse
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7f7076bd1da783f55cb8c1db98f2d902" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::Section = IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ this classifies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad043756f777e91431fc2ea3cbb128053" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::Colouring = IfContentPartColouring&lt;K, V, KeyHash, KeyEqual, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Colouring</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::Colouring</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ state of the :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> being classified. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::Assets = ModMappedAssets&lt;K, V, KeyHash, KeyEqual, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Assets</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::Assets</qualifiedname>
+        <briefdescription>
+<para>The kind of asset table <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad235116d6c967694348428583c9d1ed9" kindref="member">hashes</ref>/<ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" kindref="member">indices</ref> are. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" prot="public" static="no">
+        <type>std::pair&lt; K, K &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::IndexKey = std::pair&lt;K, K&gt;</definition>
+        <argsstring></argsstring>
+        <name>IndexKey</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::IndexKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``(component, mod object)`` half of an ``match_first_index`` lookup key -- the last
+two index columns of an :cpp:class:`Indices` row, as a pair
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" prot="public" static="no">
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" kindref="member">IndexKey</ref>, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref>, <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash" kindref="compound">IndexKeyHash</ref>, <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_equal" kindref="compound">IndexKeyEqual</ref> &gt;</type>
+        <definition>using AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::IndexModObjs = std::unordered_map&lt;IndexKey, ModObj, IndexKeyHash, IndexKeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IndexModObjs</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::IndexModObjs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects reachable from one ``hash``, keyed by the ``match_first_index`` value
+that picks between them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="131" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1adccc0e512b019106f2d275dd41ea2e63" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref>, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_map&lt;K, ModObj, KeyHash, KeyEqual&gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::hashKeyOnlyToModObj</definition>
+        <argsstring></argsstring>
+        <name>hashKeyOnlyToModObj</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::hashKeyOnlyToModObj</qualifiedname>
+        <briefdescription>
+<para>The mod objects identified by a <computeroutput>hash</computeroutput> value alone <ndash/> see the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="188" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad69547d9c69f2693d84673ff48317dcb" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" kindref="member">IndexModObjs</ref>, KeyHash, KeyEqual &gt;</type>
+        <definition>std::unordered_map&lt;K, IndexModObjs, KeyHash, KeyEqual&gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indexKeyToModObj</definition>
+        <argsstring></argsstring>
+        <name>indexKeyToModObj</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indexKeyToModObj</qualifiedname>
+        <briefdescription>
+<para>The mod objects that need a <computeroutput>match_first_index</computeroutput> value too <ndash/> see the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="193" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a28d81f252cffd8049cbbd39f75bd4785" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt;Version&gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::version</qualifiedname>
+        <briefdescription>
+<para>The version of the .ini file, or <computeroutput>std::nullopt</computeroutput> for &quot;the latest&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="198" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="198" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7c856e14e269959264806b1f78804148" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+        <definition>Assets* AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::hashes_</definition>
+        <argsstring></argsstring>
+        <name>hashes_</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::hashes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="289" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="289" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a23970d616cfd7bfa1ba5d09f13fc98fa" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+        <definition>Assets* AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indices_</definition>
+        <argsstring></argsstring>
+        <name>indices_</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indices_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="290" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="290" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af05e85730385f11cc9c82ee1540a75e9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
+        <definition>std::vector&lt;std::optional&lt;K&gt; &gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::hashNonVersionVals_</definition>
+        <argsstring></argsstring>
+        <name>hashNonVersionVals_</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::hashNonVersionVals_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="291" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="291" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aadbf0a2c6066cbfa5d3a52f06ccca954" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
+        <definition>std::vector&lt;std::optional&lt;K&gt; &gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indexNonVersionVals_</definition>
+        <argsstring></argsstring>
+        <name>indexNonVersionVals_</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indexNonVersionVals_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="292" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a2589263d7a7e425c5434c367c043d867" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
+        <definition>ClassifierConfig AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="293" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="293" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
+        <definition>static ClassifierConfig AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::defaultConfig</definition>
+        <argsstring>()</argsstring>
+        <name>defaultConfig</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::defaultConfig</qualifiedname>
+        <briefdescription>
+<para>The default <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref> for a plain, <computeroutput>std::string</computeroutput>-keyed C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="157" column="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a94b7cbfa32e2ff54c9f3c3ed0ce43ec3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" kindref="member">GIMISectionClassifier</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::buildDefaultClassifier</definition>
+        <argsstring>(Assets *hashes, Assets *indices, std::optional&lt; Version &gt; version=std::nullopt, ClassifierConfig config=defaultConfig())</argsstring>
+        <name>buildDefaultClassifier</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::buildDefaultClassifier</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>hashes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>indices</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the default classifier -- one that knows every asset the mod type ships with,
+but starts with no mod-object mapping at all, ready for a caller to fill in
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type&apos;s <computeroutput>hash</computeroutput> assets </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type&apos;s <computeroutput>match_first_index</computeroutput> assets </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version of the .ini file. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini-domain customization points to use. <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="275" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a81c12542ed0e94390fc60597b24ea9af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" kindref="member">GIMISectionClassifier</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
+        <definition>static std::unique_ptr&lt; GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt; &gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::buildDefaultClassifierFromIni</definition>
+        <argsstring>(IniParseContext&lt; K, V, KeyHash, KeyEqual &gt; &amp;ctx, ClassifierConfig config=defaultConfig())</argsstring>
+        <name>buildDefaultClassifierFromIni</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::buildDefaultClassifierFromIni</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context" kindref="compound">IniParseContext</ref>&lt; K, V, KeyHash, KeyEqual &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a94b7cbfa32e2ff54c9f3c3ed0ce43ec3" kindref="member">buildDefaultClassifier</ref>, reading the mod type and version out of a .ini file </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file to build the classifier for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini-domain customization points to use. <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="285" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::GIMISectionClassifier</definition>
+        <argsstring>(std::unordered_map&lt; K, ModObj, KeyHash, KeyEqual &gt; hashKeyOnlyToModObj, Assets *hashes, std::unordered_map&lt; K, IndexModObjs, KeyHash, KeyEqual &gt; indexKeyToModObj={}, Assets *indices=nullptr, std::optional&lt; Version &gt; version=std::nullopt, ClassifierConfig config=defaultConfig())</argsstring>
+        <name>GIMISectionClassifier</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::GIMISectionClassifier</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref>, KeyHash, KeyEqual &gt;</type>
+          <declname>hashKeyOnlyToModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>hashes</declname>
+        </param>
+        <param>
+          <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" kindref="member">IndexModObjs</ref>, KeyHash, KeyEqual &gt;</type>
+          <declname>indexKeyToModObj</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>indices</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new classifier. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>hashKeyOnlyToModObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The mod objects identified by a ``hash`` value alone. The keys are the *last* index
+column of the matched :cpp:class:`Hashes` row (the type of hash, eg. ``blend_vb``)
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hashes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>hash</computeroutput> assets to resolve a <computeroutput>hash</computeroutput> <computeroutput>KVP</computeroutput>_ value against. <bold>Nullable</bold> <ndash/> see this class&apos;s own note </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>indexKeyToModObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The mod objects that need a ``match_first_index`` value too. The outer keys are the
+same &quot;type of hash&quot; as ``hashKeyOnlyToModObj``&apos;s; the inner keys are the last two index
+columns of the matched :cpp:class:`Indices` row. **Default**: empty
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>indices</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>match_first_index</computeroutput> assets. <bold>Nullable</bold>, same as &apos;hashes&apos;. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version of the .ini file, or <computeroutput>std::nullopt</computeroutput> for &quot;the latest&quot;. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini-domain customization points to use. <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" kindref="member">defaultConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="178" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad235116d6c967694348428583c9d1ed9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+        <definition>Assets * AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::hashes</definition>
+        <argsstring>() const</argsstring>
+        <name>hashes</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::hashes</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>hash</computeroutput> assets <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="203" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af61541267bf64850ae316e15b893a13a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::setHashes</definition>
+        <argsstring>(Assets *newHashes)</argsstring>
+        <name>setHashes</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::setHashes</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>newHashes</declname>
+        </param>
+        <briefdescription>
+<para>The <computeroutput>hash</computeroutput> assets <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="208" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+        <definition>Assets * AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indices</definition>
+        <argsstring>() const</argsstring>
+        <name>indices</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indices</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>match_first_index</computeroutput> assets <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="213" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abe927abfa7ed48e8846ad45b4a02e91c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::setIndices</definition>
+        <argsstring>(Assets *newIndices)</argsstring>
+        <name>setIndices</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::setIndices</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
+          <declname>newIndices</declname>
+        </param>
+        <briefdescription>
+<para>The <computeroutput>match_first_index</computeroutput> assets <ndash/> borrowed, may be <computeroutput>nullptr</computeroutput>.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="218" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ab8f5b205590fc586d68d67a9eda07188" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::hashNonVersionVals</definition>
+        <argsstring>() const</argsstring>
+        <name>hashNonVersionVals</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::hashNonVersionVals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The already-normalized non-version filter used when searching #hashes -- see this
+class&apos;s own note on how this differs from the pure-Python original
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="227" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abc10bff6190ce2a66b25d3d3a24c1a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::setHashNonVersionVals</definition>
+        <argsstring>(std::vector&lt; std::optional&lt; K &gt; &gt; newVals)</argsstring>
+        <name>setHashNonVersionVals</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::setHashNonVersionVals</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
+          <declname>newVals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The already-normalized non-version filter used when searching #hashes -- see this
+class&apos;s own note on how this differs from the pure-Python original
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="232" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aebaadb2c517dfb74bdc8e4298ab6ad3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indexNonVersionVals</definition>
+        <argsstring>() const</argsstring>
+        <name>indexNonVersionVals</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indexNonVersionVals</qualifiedname>
+        <briefdescription>
+<para>The already-normalized non-version filter used when searching <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" kindref="member">indices</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="237" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a3e0dfb70cde5189b36dd110e283e17db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::setIndexNonVersionVals</definition>
+        <argsstring>(std::vector&lt; std::optional&lt; K &gt; &gt; newVals)</argsstring>
+        <name>setIndexNonVersionVals</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::setIndexNonVersionVals</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
+          <declname>newVals</declname>
+        </param>
+        <briefdescription>
+<para>The already-normalized non-version filter used when searching <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" kindref="member">indices</ref>.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="242" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a0a3fa2fcd98df801decb194f541d0bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref> &amp;</type>
+        <definition>const ClassifierConfig &amp; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::config</qualifiedname>
+        <briefdescription>
+<para>The .ini-domain customization points this instance uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="247" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aa13410ad4523f06872bf54e310038558" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::vector&lt; ModObj &gt; AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::classify</definition>
+        <argsstring>(const std::string &amp;sectionName, Section *section, const Colouring &amp;partKeys) const</argsstring>
+        <name>classify</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::classify</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7f7076bd1da783f55cb8c1db98f2d902" kindref="member">Section</ref> *</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad043756f777e91431fc2ea3cbb128053" kindref="member">Colouring</ref> &amp;</type>
+          <declname>partKeys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Classifies which mod objects a particular :cpp:class:`IfContentPart` belongs to
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ the part belongs to. Unused <ndash/> kept because the pure-Python original&apos;s signature has it </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ the part belongs to. Unused, same reason </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current state of the <computeroutput>KVPs</computeroutput>_ for the part</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The classified mod objects, in first-found order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="261" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1afb64bee6016cd849fe5f584761b90d41" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::indFilter</definition>
+        <argsstring>(const std::optional&lt; long long &gt; &amp;ind, const std::optional&lt; long long &gt; &amp;startInd, const std::optional&lt; long long &gt; &amp;endInd)</argsstring>
+        <name>indFilter</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::indFilter</qualifiedname>
+        <param>
+          <type>const std::optional&lt; long long &gt; &amp;</type>
+          <declname>ind</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; long long &gt; &amp;</type>
+          <declname>startInd</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; long long &gt; &amp;</type>
+          <declname>endInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="299" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Classifies a `section`_ into the mod object(s) it belongs to, by its ``hash`` and
+``match_first_index`` `KVP`_ values :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is the default :cpp:type:`GIMIParser::ObjTargetFunc` whenever a ``.ini`` file was
+actually classified as some mod type and the parser is tracking `KVPs`_ -- ie. the &quot;look at
+what the `section`_ *does*&quot; half of the two ways :cpp:class:`GIMIParser` finds its mod
+objects. The other half (:cpp:func:`GIMIParser::classifyByTextureOverrideName`, &quot;look at what
+the `section`_ is *called*&quot;) is the fallback used when there&apos;s nothing to match against.
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A ``hash`` alone identifies most mod objects. The ones it can&apos;t (several objects of one
+   model sharing a hash, told apart only by which vertex range they draw) are resolved by
+   additionally matching the ``match_first_index`` `KVPs`_ that follow that ``hash`` within
+   the same :cpp:class:`IfContentPart` -- which is why #classify walks the ``hash`` values in
+   index order and windows each one&apos;s ``match_first_index`` lookup to the span before the
+   *next* ``hash``
+
+.. note::
+   Two deliberate divergences from the pure-Python original:
+
+   * ``hashNonVersionVals``/``indexNonVersionVals`` are stored here already normalized into
+     the positional ``std::vector&lt;std::optional&lt;K&gt;&gt;`` shape
+     :cpp:func:`ModMappedAssets::getKey` takes. The original stores the caller&apos;s raw
+     bare-value/list/dict form and normalizes it in its ``hashes``/``indices`` setters only --
+     so re-assigning ``hashNonVersionVals`` *after* construction leaves the un-normalized
+     value in ``_currentHashNonVersionVals``. That&apos;s harmless there (the `Python`_
+     ``getKey`` re-normalizes whatever it&apos;s handed), but there is no reason to reproduce it
+   * ``hashes``/``indices`` are **nullable borrowed pointers**, not owned values -- they
+     belong to the :cpp:class:`ModType` the ``.ini`` file was classified as, and #classify
+     simply finds nothing when either is missing, rather than raising
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>hashes_</edgelabel>
+          <edgelabel>indices_</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>config_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ModMappedAssets&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="67" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="67" bodyend="301"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>Assets</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a94b7cbfa32e2ff54c9f3c3ed0ce43ec3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>buildDefaultClassifier</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a81c12542ed0e94390fc60597b24ea9af" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>buildDefaultClassifierFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aa13410ad4523f06872bf54e310038558" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>classify</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad043756f777e91431fc2ea3cbb128053" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>Colouring</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a0a3fa2fcd98df801decb194f541d0bcd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>config</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a2589263d7a7e425c5434c367c043d867" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>config_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a745dbc541b691356c122351f2b7a11c1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>defaultConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>GIMISectionClassifier</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad235116d6c967694348428583c9d1ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>hashes</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7c856e14e269959264806b1f78804148" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>hashes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1adccc0e512b019106f2d275dd41ea2e63" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>hashKeyOnlyToModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ab8f5b205590fc586d68d67a9eda07188" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>hashNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af05e85730385f11cc9c82ee1540a75e9" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>hashNonVersionVals_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>IndexKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad69547d9c69f2693d84673ff48317dcb" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indexKeyToModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>IndexModObjs</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aebaadb2c517dfb74bdc8e4298ab6ad3c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indexNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aadbf0a2c6066cbfa5d3a52f06ccca954" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indexNonVersionVals_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1afb64bee6016cd849fe5f584761b90d41" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indices</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a23970d616cfd7bfa1ba5d09f13fc98fa" prot="private" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>indices_</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a9484359a209c788e7072c541f799a063" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>ModObjHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7f7076bd1da783f55cb8c1db98f2d902" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af61541267bf64850ae316e15b893a13a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>setHashes</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abc10bff6190ce2a66b25d3d3a24c1a6c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>setHashNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a3e0dfb70cde5189b36dd110e283e17db" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>setIndexNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abe927abfa7ed48e8846ad45b4a02e91c" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>setIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a28d81f252cffd8049cbbd39f75bd4785" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

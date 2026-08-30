@@ -117,6 +117,51 @@ namespace AGRemapCore {
             std::optional<T> get(const std::vector<std::optional<K>>& nonVersionVals, const std::vector<std::optional<Version>>& versionVals, bool errorOnNotFound = true) const;
 
             /**
+             * @brief
+             @rst
+             Retrieves **every** matching asset, one per distinct combination of the non-version
+             columns left unresolved -- the multi-result counterpart to #get :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Where #get answers "the asset for this key", this answers "every asset reachable by
+             leaving some columns free". A ``std::nullopt`` in 'nonVersionVals' is that free axis:
+             rows are grouped by their values in those positions, and each group independently
+             resolves its version columns exactly the way #get does :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                **Version resolution happens per group, not once globally.** That is the whole point
+                -- resolving versions across the merged candidate set first would pick one winning
+                version and silently drop every group that has no row at it. Doing it per group
+                means each free-column combination contributes its own best version match, so a
+                caller fanning out over (say) target mod names gets one result per target mod even
+                when those targets are listed at different versions
+
+             .. note::
+                Groups come back in no particular order. Sort by the returned key if a stable order
+                matters
+
+             .. note::
+                There is no ``errorOnNotFound`` here: "nothing matched" is a legitimate, expected
+                answer for a fan-out query, so this returns an empty vector rather than throwing
+             @endrst
+             *
+             * @param nonVersionVals One entry per non-version column, in their relative index order
+             *      -- ``std::nullopt`` marks a column to fan out over. Must have exactly
+             *      #getNonVersionColumnCount elements
+             * @param versionVals One entry per version column, in their relative index order --
+             *      resolved per group, see #get. Must have exactly #getVersionColumnCount elements
+             *
+             * @throws std::invalid_argument If 'nonVersionVals'/'versionVals' don't have exactly
+             *      #getNonVersionColumnCount/#getVersionColumnCount elements respectively
+             *
+             * @return One ``(nonVersionVals, asset)`` pair per matching group, with the key given in
+             *      full (including the columns that were fixed), so the caller can tell the groups
+             *      apart
+             */
+            std::vector<std::pair<std::vector<K>, T>> getAll(const std::vector<std::optional<K>>& nonVersionVals, const std::vector<std::optional<Version>>& versionVals) const;
+
+            /**
              * @brief The total number of index columns
              */
             std::size_t getTotalIndices() const;
@@ -151,6 +196,12 @@ namespace AGRemapCore {
             std::vector<StoredRow> rows_;
 
             void addRow(const Row<K, T>& row);
+
+            // Narrows 'candidates' in place by resolving each version column in turn, exactly as
+            // get() documents: nullopt means "latest among what's left", otherwise floor-match
+            // (largest <= target, else the smallest available). Shared by get() and getAll() so the
+            // two can never drift apart on version semantics.
+            void resolveVersionColumns(std::vector<const StoredRow*>& candidates, const std::vector<std::optional<Version>>& versionVals) const;
     };
 }
 

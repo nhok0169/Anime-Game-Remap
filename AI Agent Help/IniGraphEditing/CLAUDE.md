@@ -2,16 +2,20 @@
 
 Conventions and gotchas for the subsystem that models `.ini` file structure as a graph and edits
 it — `IniSectionGraph`, `CallGraph`, `SectionIterData`/`SectionIterQueryData`, `IfTemplate`,
-`IfTemplateNode`, `IfTemplateTree`, `GraphTools` (`tools/GraphTools.py`), and the graph-editing
-strategies under `model/strategies/iniFixers/graphEdits/` (`RegSurroundedAdd` is the deep, worked
-example — read it alongside `Testing/Unit Tester/UnitTester/Tests/test_RegSurroundedAdd.py`,
-which exercises every case below concretely). This file was authored from hands-on work building
+`IfTemplateNode`, `IfTemplateTree`, `GraphTools` (now C++-backed; `tools/GraphToolsOld.py` is the
+retained pure-Python original), and the graph-editing strategies under
+`model/strategies/iniFixers/graphEdits/` (`RegSurroundedAdd` is the deep, worked example — read
+`RegSurroundedAddOld.py`, the retained pure-Python original, alongside
+`Testing/Unit Tester/UnitTester/Tests/test_RegSurroundedAdd.py`, which exercises every case below
+concretely against the live, C++-backed class). This file was authored from hands-on work building
 this subsystem from scratch (the fixpoint/reachability redesign of `RegSurroundedAdd`, then
 extracting the reusable pieces into `IniSectionGraph`/`GraphTools`/`CallGraph`), plus — later,
 separately — a full pass completing simpler stub classes across `regEdits/` (`RegAdd`, `RegRemap`,
 `RegRemove`), `graphGroupEdits/` (`GraphInherit`, `GraphRemove`), and `graphEdits/` itself
-(`GraphRename`) — see "Completing a simple `regEdits`/`graphGroupEdits`/`graphEdits` stub" below
-for what came out of that. It hasn't been exercised as deeply for the *other* `.ini`-parsing
+(`GraphRename`), plus — later still — the full C++/pybind11 replacement of all three of those
+packages, `RegSurroundedAdd`/`GraphTools` included (the pure-Python originals are kept as
+`RegSurroundedAddOld`/`GraphToolsOld`) — see "Completing a simple
+`regEdits`/`graphGroupEdits`/`graphEdits` stub" below for what came out of that. It hasn't been exercised as deeply for the *other* `.ini`-parsing
 subsystems (`GIMIFixer` family, the non-graph parsers), so verify assumptions there rather than
 assuming this file covers them too. See
 [Overview](../Overview/CLAUDE.md) for how this fits in the wider repo, and
@@ -240,15 +244,73 @@ one to reach for if a new method needs to return several related values together
 
 ## Completing a simple `regEdits`/`graphGroupEdits`/`graphEdits` stub
 
-**The whole `regEdits/` family is now C++-backed** (a later, separate full-replacement port:
-`AGRemapCore::BaseRegEdit`/`RegAdd`/`RegNewVals`/`RegRemap`/`RegRemove`, class templates under
-`core/include/AGRemapCore/model/strategies/iniFixers/regEdits/`, plus pybind11 bindings under
-`py/src/model/strategies/iniFixers/regEdits/`). The pure-Python package this section describes
-(`model/strategies/iniFixers/regEdits/`) has been **deleted outright**, not renamed to `...Old` —
-don't go looking for `RegAdd.py`/`BaseRegEdit.py`/etc. Everything below still applies as-is to
-`graphGroupEdits/` and `graphEdits/` (both still pure Python), and the `regEdits` rows in the
-primitive table still name the right primitive for each task — just implemented in C++ now. Three
-things specific to the port, if you're extending that family:
+**All three families — `regEdits/`, `graphGroupEdits/`, and `graphEdits/` — are now C++-backed**,
+across three separate full-replacement ports (`AGRemapCore::BaseRegEdit`/`RegAdd`/`RegNewVals`/
+`RegRemap`/`RegRemove`; `BaseIniGraphGroupEdit`/`GraphRemove`/`GraphInherit`/`GraphGroupRemap`/
+`GraphGroupEdit`/the `resEdits/` family/`ResRegCollect`/`ResGroupCollect`; and
+`BaseIniGraphEdit`/`GraphRename`/`RegFillMissing`) — class templates under
+`core/include/AGRemapCore/model/strategies/iniFixers/<family>/`, plus pybind11 bindings under
+`py/src/model/strategies/iniFixers/<family>/`. Every pure-Python package this section describes has
+been **deleted outright**, not renamed to `...Old` — don't go looking for `RegAdd.py`/
+`BaseRegEdit.py`/`GraphRename.py`/`RegFillMissing.py`/etc.
+
+**`RegSurroundedAdd` (and the generic `GraphTools` dataflow engine it depends on) has since been
+ported to C++/pybind11 too** — it was, for a while, the one class left pure Python in all three
+families (deliberately scoped out of the initial `graphEdits/` port), but that gap has since been
+closed. Unlike the rest of this section's classes, its pure-Python original is kept, renamed to
+`RegSurroundedAddOld`/`GraphToolsOld` (not deleted) — this was the one class in the family that
+still had real, hard-won correctness fixes (reachability-clamping, the "prefer nearest true reason"
+preference) worth keeping a readable reference implementation for. If you're reading `RegSurroundedAddOld.py`
+as a worked example: notice its `__init__` calls `super().__init__()` — needed because it subclasses
+the *pybind11-bound* `BaseIniGraphEdit` instead of a pure-Python one; a Python subclass that defines
+`__init__` without calling the bound base's never constructs the C++ subobject. Watch for that
+whenever a still-pure-Python class's base becomes C++-backed. The live `RegSurroundedAdd`/
+`GraphTools` are C++ all the way down and have no such concern.
+
+### How `partFilter` and key tracking actually flow — read this before adding either to an edit
+
+Two things here look like they should already work and, until recently, silently didn't. Both are
+now fixed, but the *shape* of them is what matters when extending this:
+
+- **A `partFilter` reaching an edit does not mean the edit uses it.** `GraphGroupEdit` hands every
+  edit a `partFilter` (the caller's own `keyFilters` entry, or a `defaultPartFilter()` returning
+  `Ranges.createFull()`), and an edit is free to accept and ignore it — which is exactly what the
+  pure-Python `RegFillMissing` did, and what its C++ port faithfully preserved. `RegSurroundedAdd`
+  reads it; `GraphRename` genuinely has no use for it; `RegFillMissing` now honours it. **Before
+  building a new "restrict this edit to certain parts" feature, check whether the edit is simply
+  dropping the `partFilter` it already receives** (`grep -n partFilter` in both the core `.tpp` and
+  the `Py*.cpp` — a `(void)partFilter;` is the tell). Making it honour the existing parameter is
+  usually the whole feature, and needs no new argument.
+- **The convention for a `partFilter` used as a *part selector*: an empty `Ranges` skips that part,
+  any non-empty result accepts it, and the actual ranges are not consulted.** That's what
+  `GraphGroupEdit` already does for register edits (`if (keyRanges.isEmpty()) continue;`), and what
+  `RegFillMissing` matches. Don't invent a second selection concept (a separate `bool` predicate
+  argument) when this one is already threaded everywhere.
+- **`GraphGroupEdit`'s `trackKeys`/`keysToTrack` only ever reached *register* edits.** They are read
+  on exactly one line — `result->iterByContentPart(1, trackKeys, keysToTrack)` — inside the
+  `PartEditKind::RegEdit` branch of `filterGroupEdit`; the `GraphEdit` branch returns before it. A
+  graph edit walks the graph itself, so nothing `GraphGroupEdit` builds ever reached it, and setting
+  the flag for one was a silent no-op. They are now **handed down** as `trackKeys`/`keysToTrack`
+  parameters on `BaseIniGraphEdit::edit`/`editFromIni`, which `PartEdit::editGraph` passes through.
+  An edit with its own key-tracking setting combines the two (`RegFillMissing::effectiveTrackKeys` =
+  `own || caller`; `effectiveKeysToTrack` = own if set, else the caller's); one without simply
+  ignores them.
+- **Adding a parameter to `BaseIniGraphEdit::edit` is a migration, not a signature tweak** — every
+  pure-Python override breaks on the new keyword. See [Architecture](../Architecture/CLAUDE.md)'s
+  section on the no-trampoline arity trap for the inventory grep to run *first*.
+- **`editFromIni` must forward whatever `edit` now consumes.** `GraphGroupEdit` routes through
+  `editFromIni` (not `edit`) whenever it has an `.ini` file, so an `editFromIni` that drops an
+  argument silently disables that feature for exactly the callers who configured it. The pure-Python
+  originals dropped `partFilter` here; the ports deliberately do not.
+- **A binding's `editFromIni` reaches `edit` via `self.attr("edit")`** (so a pure-Python subclass's
+  override still wins), and `edit`'s signature has nowhere to carry an `.ini` — so a `partFilter`
+  invoked through the *Python* `editFromIni` receives `None` as its third argument. A plain C++
+  caller gets the real one (that's what `RegFillMissing::editImpl` exists for). Don't "fix" this by
+  binding straight to the core `editFromIni`; that would skip subclass overrides.
+
+Everything below still applies to writing a *new* edit in any of the three families, and the rows in
+the primitive table still name the right primitive for each task — just implemented in C++ now.
+Things specific to these ports, if you're extending any of the families:
 
 - `BaseRegEdit` and its subclasses are **class templates** over the same `K`/`V`/`KeyHash`/
   `KeyEqual` as the `IfContentPart` they edit — they have to be, since the pybind11 layer edits
@@ -267,6 +329,30 @@ things specific to the port, if you're extending that family:
   design. It matters most for `RegRemove`, whose values are Python callables that pybind11 cannot
   hand back as the *same* callable (its `std::function` caster re-wraps them in a fresh
   `cpp_function`).
+- The same **keep-the-Python-object-and-re-derive-per-edit** pattern carried straight over to
+  `graphEdits/`: `GraphRename` stores the caller's own `renameFunc` object (`test_GraphRename.py`
+  pins `assertIs` on it), and `RegFillMissing` stores the caller's own `fillMissing` *and*
+  `fillMode`. `RegFillMissing`'s two have to be re-derived **together**, not independently — which
+  end of a part a bare value/`KVP` list is added to is decided by the *mode*
+  (`TopdownCover` → front), exactly as the pure-Python original's
+  `_getFillMissingFunc(self.fillMissing, toFront = isCoverMode)` did.
+- **A binding that mutates an `IniSectionGraph`'s structure must call
+  `PyIniSectionGraph::refreshKeepAlive()` before returning.** `GraphRename` relabels sections;
+  `RegFillMissing`'s `TopdownCover`/`addCover` appends brand-new `IfContentPart`s, and its
+  `DownloadMode.Always` path calls `normalize()`, which splits sections into fresh parts. None of
+  those new parts are in the graph's Python-side keep-alive until it is refreshed — see
+  `PyIniSectionGraph.h`'s own note on the `id(part)`-collision class of bug that causes.
+- **`AGRemapCore::IniFile` carries no `downloadMode`**, so `RegFillMissing`'s core class exposes a
+  second, `DownloadMode`-taking `editFromIni` overload for a plain C++ caller, and the binding reads
+  `ini.downloadMode` off the *Python* object instead (via `.value`, the same way `PyResEdit.cpp`
+  maps `IniGraphReplaceMode`). Two new core enums (`constants/DownloadMode.h`,
+  `constants/RegFillMissingMode.h`) exist purely to mirror the still-pure-Python `Enum`s by value —
+  neither side replaced the other.
+- **A `RegFillMissing`-shaped binding whose `editFromIni` branches before delegating must still
+  reach `edit` through `self.attr("edit")`**, not through the C++ core's own `editFromIni` — with no
+  trampoline in play, a C++-internal virtual call silently skips a pure-Python subclass's `edit`
+  override. That is why the download-mode branching is duplicated in the binding rather than
+  delegated to the core overload.
 
 Most stubs in `model/strategies/iniFixers/regEdits/`, `graphGroupEdits/`, and the simpler
 `graphEdits/` classes (i.e. not `RegSurroundedAdd`-style dataflow features) are **thin wrappers

@@ -14,9 +14,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public">AGRemapCore::BaseIniGraphPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_ini_remover" prot="public">AGRemapCore::BaseIniRemover</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public">AGRemapCore::BaseRegEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_res_edit" prot="public">AGRemapCore::BaseResEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_s_l_r1_parser" prot="public">AGRemapCore::BaseSLR1Parser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_editor" prot="public">AGRemapCore::BaseTexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_tex_filter" prot="public">AGRemapCore::BaseTexFilter</innerclass>
@@ -45,6 +47,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
@@ -55,11 +58,22 @@
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_parser" prot="public">AGRemapCore::GIMIParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" prot="public">AGRemapCore::GIMISectionClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public">AGRemapCore::GraphGroupRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_inherit" prot="public">AGRemapCore::GraphInherit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_remove" prot="public">AGRemapCore::GraphRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_rename" prot="public">AGRemapCore::GraphRename</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_tools" prot="public">AGRemapCore::GraphTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash128" prot="public">AGRemapCore::Hash128</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash64" prot="public">AGRemapCore::Hash64</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_hashes" prot="public">AGRemapCore::Hashes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_tools" prot="public">AGRemapCore::HashTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public">AGRemapCore::HighlightShadow</innerclass>
@@ -79,17 +93,34 @@
     <innerclass refid="class_a_g_remap_core_1_1_if_template_part" prot="public">AGRemapCore::IfTemplatePart</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_if_template_run_config" prot="public">AGRemapCore::IfTemplateRunConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_template_tree" prot="public">AGRemapCore::IfTemplateTree</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_i_ini_graph_groups" prot="public">AGRemapCore::IIniGraphGroups</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_indices" prot="public">AGRemapCore::Indices</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_file" prot="public">AGRemapCore::IniFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder" prot="public">AGRemapCore::IniFixBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_data" prot="public">AGRemapCore::IniFixBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs" prot="public">AGRemapCore::IniFixBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_fix_context" prot="public">AGRemapCore::IniFixContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public">AGRemapCore::IniFixResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public">AGRemapCore::IniFixResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_graph_group" prot="public">AGRemapCore::IniGraphGroup</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" prot="public">AGRemapCore::IniGraphGroupsVec</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_graph_mod_obj_keywords" prot="public">AGRemapCore::IniGraphModObjKeywords</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_grouped_resource" prot="public">AGRemapCore::IniGroupedResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_keywords" prot="public">AGRemapCore::IniKeywords</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_naming_tools" prot="public">AGRemapCore::IniNamingTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder" prot="public">AGRemapCore::IniParseBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_data" prot="public">AGRemapCore::IniParseBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs" prot="public">AGRemapCore::IniParseBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public">AGRemapCore::IniParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_parse_download_data" prot="public">AGRemapCore::IniParseDownloadData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder" prot="public">AGRemapCore::IniRemoveBuilder</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_data" prot="public">AGRemapCore::IniRemoveBuilderData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" prot="public">AGRemapCore::IniRemoveBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_res_edit_context" prot="public">AGRemapCore::IniResEditContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_section_graph" prot="public">AGRemapCore::IniSectionGraph</innerclass>
@@ -103,6 +134,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lru_cache" prot="public">AGRemapCore::LruCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mod_data_assets" prot="public">AGRemapCore::ModDataAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public">AGRemapCore::ModDictAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public">AGRemapCore::ModMappedAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type" prot="public">AGRemapCore::ModType</innerclass>
@@ -119,9 +151,12 @@
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remove" prot="public">AGRemapCore::RegRemove</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public">AGRemapCore::RegSurroundedAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
@@ -131,6 +166,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_stats" prot="public">AGRemapCore::RemapStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public">AGRemapCore::RemapTexAddResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_create" prot="public">AGRemapCore::ResCreate</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_replace" prot="public">AGRemapCore::ResReplace</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
@@ -140,6 +180,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_sympy_tokenizer" prot="public">AGRemapCore::SympyTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_syntax_err" prot="public">AGRemapCore::SyntaxErr</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
@@ -151,13 +192,66 @@
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_vertex_counts" prot="public">AGRemapCore::VertexCounts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remaps" prot="public">AGRemapCore::VGRemaps</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_predicate" prot="public">AGRemapCore::Z3Predicate</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core_1_1_data">AGRemapCore::Data</innernamespace>
     <innernamespace refid="namespace_a_g_remap_core_1_1detail">AGRemapCore::detail</innernamespace>
     <innernamespace refid="namespace_a_g_remap_core_1_1sqrt__detail">AGRemapCore::sqrt_detail</innernamespace>
     <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DownloadMode</name>
+        <qualifiedname>AGRemapCore::DownloadMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082ab9f5c797ebbf55adccdd8539a65a0241" prot="public">
+          <name>Disabled</name>
+          <briefdescription>
+<para>Will not perform any file downloads for any mods. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082a960b44c579bc2f6818d2daaf9e4c16f0" prot="public">
+          <name>Normal</name>
+          <briefdescription>
+<para>Only perform file downloads at places in a .ini file where a resource is missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082a68eec46437c384d8dad18d5464ebc35c" prot="public">
+          <name>Always</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Will always perform file downloads for every mod, if possible, using pessimistic
+assumptions
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The download mode of how the software handles file downloads :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``DownloadMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/DownloadMode.py``) whose members carry the same three string values. The
+   binding layer maps one onto the other by that value, rather than either side being replaced
+   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
+   ``IniGraphReplaceMode`` already does for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="21" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="21" bodyend="40"/>
+      </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" prot="public" static="no" strong="yes">
         <type></type>
         <name>GameTypeId</name>
@@ -235,6 +329,52 @@ Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IfPredPartType.h" line="18" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="18" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>IniGraphReplaceMode</name>
+        <qualifiedname>AGRemapCore::IniGraphReplaceMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236afd038fc7f319e48f3115d92bf5bdbef9" prot="public">
+          <name>Ignore</name>
+          <briefdescription>
+<para>Keeps the already existing graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236a0ebe6df8a3ac338e0512acc741823fdb" prot="public">
+          <name>Replace</name>
+          <briefdescription>
+<para>Replaces the already existing graph with a brand-new one. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236ae7b3c0acb7168c7969b03e8aebc67ce7" prot="public">
+          <name>Combine</name>
+          <briefdescription>
+<para>Combines the already existing graph with the newly created graph. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Different replacement modes for when the :cpp:class:`IniSectionGraph` already exists when
+:cpp:class:`BaseResEdit` builds the corresponding graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``IniGraphReplaceMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/IniGraphReplaceMode.py``) whose members carry the same three string values.
+   The binding layer maps one onto the other by that value, rather than either side being
+   replaced -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="20" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="20" bodyend="35"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" prot="public" static="no" strong="yes">
         <type></type>
@@ -612,6 +752,52 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         <inbodydescription>
         </inbodydescription>
         <location file="include/AGRemapCore/constants/ModTypeId.h" line="24" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="24" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RegFillMissingMode</name>
+        <qualifiedname>AGRemapCore::RegFillMissingMode</qualifiedname>
+        <enumvalue id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" prot="public">
+          <name>FillMissing</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Finds all :cpp:class:`IfContentPart`\s missing the desired register and fills those parts
+with the register
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106a5f661b94a3970374f336519a3c5c854f" prot="public">
+          <name>TopdownCover</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+<para><verbatim>embed:rst 
+Determines whether the caller/callee graph (:cpp:class:`IniSectionGraph`) contains an
+:cpp:class:`IfContentPart` missing the desired register, then adds the register to the
+roots of the graph to cover for the missing registers
+</verbatim> </para>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `Python`_-facing ``RegFillMissingMode`` is a separate, still-pure-Python ``Enum``
+   (``constants/RegFillMissingMode.py``) whose members carry the same two string values. The
+   binding layer maps one onto the other by that value, rather than either side being replaced
+   -- this enum exists so `AGRemapCore` stays usable with no `Python`_ at all, matching what
+   ``IniGraphReplaceMode`` already does for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="21" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="21" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
@@ -1128,6 +1314,6 @@ user-supplied implementation, including one implemented from `Python`_.
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/FileExt.h" line="7" column="1"/>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="5" column="1"/>
   </compounddef>
 </doxygen>

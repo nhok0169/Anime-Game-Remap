@@ -190,6 +190,11 @@ test module needs an entry there to be picked up by name. Conventions:
   files are no longer placeholders** — all four (plus a new `test_BaseRegEdit.py`) are real,
   fully-passing black-box suites as of the C++/pybind11 port of the whole `regEdits` family (see
   [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)); the rule itself still holds for other stubs.
+  The same is now true of the `graphEdits` family: `test_BaseIniGraphEdit.py` and
+  `test_RegFillMissing.py` are new, real suites (neither existed in any form before, not even as a
+  TODO placeholder), and the pre-existing `test_GraphRename.py` was kept and extended in place
+  rather than renamed — its `assertIs(edit.renameFunc, fn)` opener is exactly the kind of
+  behavioural contract that constrains the binding's internals, per the bullet below.
 - **For a full-replacement port, read the class's existing `test_Xxx.py` *before* designing the
   binding — it is a behavioural contract, and it routinely constrains binding internals rather
   than just outputs.** The obvious reading of "port this class to C++" is that the tests are a
@@ -252,6 +257,16 @@ test module needs an entry there to be picked up by name. Conventions:
   `__eq__`. Compare dict *keys* (`sorted(resultDict.keys())`) or specific scalar fields
   (`result.name`, `result.modTypeId`) instead of the whole wrapper object, unless the class in
   question is confirmed to have a real `__eq__` binding.
+- **When you promote an assertion from a scratchpad verification script into a formal test,
+  re-derive the expected value against the *test file's own* fixture — don't carry the literal
+  across.** The empirical-verification-before-formal-tests habit (see
+  [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)) is right, but the throwaway script almost never
+  builds the same graph/part the test's `makeXxx` helper does, and for this subsystem the expected
+  value usually depends on the fixture's exact `KVP`s. Confirmed: a colouring assertion copied from
+  a probe whose `parent` section happened to hold a `b` key became `[["b"], ["b"]]` in a test whose
+  helper's `parent` has no `b` at all — the correct answer there was `[[], ["b"]]`. The test failed
+  for a *good* reason (the code was right, the literal was wrong), which is a genuinely confusing
+  way to start debugging. Read the fixture helper, then write the literal.
 
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
@@ -271,7 +286,9 @@ broken, still pre-existing, still not worth chasing as a regression from unrelat
 you're specifically trying to *fix* this cascade, re-derive the current root cause from a fresh
 traceback rather than trusting the `ModMappedAssets.updateKeys` diagnosis below; it's stale. The
 total test count has also grown a lot since (other sessions adding modules) — last confirmed clean
-run was **1391 tests, 0 failures, 37 errors** (same *error count* as the older 1075-test snapshot
+run was **1637 tests, 0 failures, 37 errors** (2026-08-28; the 37 break down as 22 stale
+`src.FixRaidenBoss2` import errors, 12+1 missing `IniClassifier`/`IniClassifierBuilder` attributes,
+1 `flattenNestedDict`, 1 `VGRemaps.updateRepo` --- none of them related to the C++ core) (same *error count* as the older 1075-test snapshot
 below, for whatever that consistency is worth — the specific errors have partially changed
 underneath it, not just accumulated). Older snapshot, kept for the parts that are still accurate:
 `IfTemplate`/`IfTemplateNode`/`IfTemplateTree`/`CallGraph`/`SectionIterData`/`IniSectionGraph` are
@@ -347,6 +364,28 @@ Don't chase those down as regressions from your work — scope your "did I break
 the test module(s) actually relevant to what you touched (plus anything that imports it), not a
 full-suite green bar. If genuinely unsure whether a failure is pre-existing, check on a clean
 `git stash` before attributing it to your change.
+
+## C++-only work is invisible to the Python suite --- write a standalone C++ test
+
+An `AGRemapCore` class with no pybind11 binding cannot be reached from `Testing/Unit Tester`: there
+is nothing to import. A whole feature can land in `core/` --- new classes, new members on `ModType`,
+new data tables --- and the Python suite will neither exercise nor notice it. Running the suite after
+such work is still worth doing, but be clear what it proves: **no regression**, *not* **new code
+covered**. Don't report a green suite as evidence your core change works.
+
+Write a standalone `core/tests/Xxx_test.cpp` for that coverage instead --- see
+[Building](../Building/CLAUDE.md)'s standalone-test sections for how to compile one (including the
+static-lib fallback for anything touching `IniFile::parse`/`fix`).
+
+**Those tests are not wired into anything.** `core/tests/*.cpp` are hand-compiled files: not listed
+in `core/CMakeLists.txt`, no CTest target, not run by `main.py` and not run by CI. They execute only
+when a human or an agent compiles them. If you add one, say so explicitly when reporting --- a reader
+will otherwise reasonably assume it runs somewhere automatically.
+
+**A failed compile leaves the previous `test.exe` on disk, and re-running it prints `ALL PASSED` from
+the stale binary.** This bites hardest right after renaming something several test files reference:
+the files you forgot to update fail to compile, while their old executables keep passing. Delete the
+`.exe`s before a sweep, or check the compiler's exit status --- never trust the run output alone.
 
 ## Integration Tester (`Testing/Integration Tester`)
 End-to-end tests of the actual script/API output. Run from that directory:

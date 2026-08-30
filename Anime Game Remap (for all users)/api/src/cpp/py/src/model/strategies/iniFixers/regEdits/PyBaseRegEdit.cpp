@@ -37,8 +37,8 @@ void initCppBaseRegEdit(pybind11::module_ &m) {
     // 'BaseIniPartEdit'/'BaseIniGraphPartEdit' names are still held by live pure-Python classes
     // -- see Architecture/CLAUDE.md's Cpp-prefix rule. They exist here purely so BaseRegEdit's
     // real C++ inheritance chain is also real at the pybind11 level (isinstance/attribute
-    // inheritance, and 'clear' below); the pure-Python originals stay in place as the base of the
-    // still-unported BaseIniGraphEdit/BaseIniGraphGroupEdit families.
+    // inheritance, and 'clear' below). BaseIniGraphEdit/BaseIniGraphGroupEdit are registered
+    // against these same two bases by their own bindings.
     py::class_<AGRC::BaseIniPartEdit, py::smart_holder>(m, "CppBaseIniPartEdit", R"doc(
 Base class for a filter that edits some part of a `.ini` file
 

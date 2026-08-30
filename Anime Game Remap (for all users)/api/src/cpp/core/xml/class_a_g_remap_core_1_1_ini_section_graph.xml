@@ -1209,7 +1209,7 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="333" column="25"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="338" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a7bb881e884f38486659475e821605562" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -1231,14 +1231,14 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="334" column="25"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="339" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1a80250caa13156d3efa06bfa4f9eb806b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_section_graph_1acf7d359a9313901dc1c5e34c2f212c6d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a48f82278f5ae5137d55e7be22a2430fc" kindref="member">Section</ref> * &gt;</type>
         <definition>static std::unordered_map&lt; std::string, Section * &gt; AGRemapCore::IniSectionGraph&lt; K, V, KeyHash, KeyEqual &gt;::deepCopySections</definition>
-        <argsstring>(const std::unordered_map&lt; std::string, Section * &gt; &amp;src, std::vector&lt; std::unique_ptr&lt; Section &gt; &gt; &amp;storage)</argsstring>
+        <argsstring>(const std::unordered_map&lt; std::string, Section * &gt; &amp;src, std::vector&lt; std::unique_ptr&lt; Section &gt; &gt; &amp;storage, bool newPartIds=true)</argsstring>
         <name>deepCopySections</name>
         <qualifiedname>AGRemapCore::IniSectionGraph::deepCopySections</qualifiedname>
         <param>
@@ -1249,13 +1249,18 @@ path through this `section`_ alone (ie. ignoring any ``run =`` call)
           <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_section_graph_1a48f82278f5ae5137d55e7be22a2430fc" kindref="member">Section</ref> &gt; &gt; &amp;</type>
           <declname>storage</declname>
         </param>
+        <param>
+          <type>bool</type>
+          <declname>newPartIds</declname>
+          <defval>true</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="331" column="39"/>
+        <location file="include/AGRemapCore/model/IniSectionGraph.h" line="334" column="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1326,7 +1331,7 @@ the C++ port of ``IniSectionGraph.py`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;b
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/IniSectionGraph.h" line="55" column="5" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="55" bodyend="335"/>
+    <location file="include/AGRemapCore/model/IniSectionGraph.h" line="55" column="5" bodyfile="include/AGRemapCore/model/IniSectionGraph.h" bodystart="55" bodyend="340"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a5a7fb0712e743658550a5ceedc3deff1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>build</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a099e3d38496943e1a51219a86369781d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>buildCallGraph</name></member>
@@ -1338,7 +1343,7 @@ the C++ port of ``IniSectionGraph.py`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;b
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ae318ad46a646363dccba06a8c0e26044" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>computeSectionPredecessors</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1ab8b844ae2352464ce159b212bf676df1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>ContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a6a3b2ea7d2e3b983ac4d6f113f94c5a4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>deepcopy</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a80250caa13156d3efa06bfa4f9eb806b" prot="private" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>deepCopySections</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_section_graph_1acf7d359a9313901dc1c5e34c2f212c6d" prot="private" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>deepCopySections</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a85d7d819e3059291d858f4910cf637cd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>getChildren</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1a2a073bbebd2e13c97add391e5e3244ed" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>getKeyMissingParts</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_section_graph_1add12e45b621ea2f6f3a01b0b1c96b91a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSectionGraph</scope><name>getNeighbourNames</name></member>

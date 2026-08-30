@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_global_ini_remove_builders" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GlobalIniRemoveBuilders</compoundname>
+    <includes refid="_global_ini_remove_builders_8h" local="no">GlobalIniRemoveBuilders.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_remove_builders_1a583b5b3e6b46f38744083dcc22a2f365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GlobalIniRemoveBuilders::GlobalIniRemoveBuilders</definition>
+        <argsstring>()=delete</argsstring>
+        <name>GlobalIniRemoveBuilders</name>
+        <qualifiedname>AGRemapCore::GlobalIniRemoveBuilders::GlobalIniRemoveBuilders</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="43" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_remove_builders_1a8c14fde4f863004588f00d2b78ce37e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_builder" kindref="compound">IniRemoveBuilder</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; IniRemoveBuilder &gt; &amp; AGRemapCore::GlobalIniRemoveBuilders::removeBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>removeBuilder</name>
+        <qualifiedname>AGRemapCore::GlobalIniRemoveBuilders::removeBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared default :cpp:class:`IniRemoveBuilder`, lazily constructed on first access
+and reused for every later call
+</verbatim></para>
+<para><simplesect kind="return"><para>The shared default remove builder </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="54" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="5" bodyend="12"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Global, shared builder used by the software to create the modules that remove fixes from a
+``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``GlobalIniRemoveBuilders`` class
+(``constants/GlobalIniRemoveBuilders.py``) -- a ``DeferredEnum`` there, lazily building its one
+``IniRemoveBuilder(IniRemover)`` the first time it&apos;s accessed. #removeBuilder below gets the
+same lazy, build-once-then-reuse behavior from a C++11 function-local ``static`` (guaranteed
+thread-safe, exactly-once initialization), exactly as :cpp:class:`GlobalIniClassifiers` does
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is what :cpp:class:`ModType` falls back to when constructed with no remove builder of its
+own, matching the pure-Python ``ModType``&apos;s own
+``iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value`` default :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Because the returned builder is shared *and* caches (see :cpp:class:`IniRemoveBuilder`),
+   every :cpp:class:`ModType` that falls back to it ends up sharing **one** remover instance,
+   rebound per :cpp:func:`IniRemoveBuilder::build` call. That is the pure-Python behavior too
+
+.. note::
+   The builder returned here wraps :cpp:func:`IniRemoveBuilder::defaultFactory`, so it produces
+   a bare :cpp:class:`BaseIniRemover` rather than the pure-Python original&apos;s real
+   ``IniRemover`` -- no concrete C++ remover has been ported yet
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="40" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" bodystart="40" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a583b5b3e6b46f38744083dcc22a2f365" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>GlobalIniRemoveBuilders</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a8c14fde4f863004588f00d2b78ce37e6" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>removeBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

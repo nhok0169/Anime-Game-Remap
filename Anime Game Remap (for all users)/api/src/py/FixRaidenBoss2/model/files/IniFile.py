@@ -51,8 +51,8 @@ from ...core import RemapIniDownload
 from ...core import IniTexModel
 from ...core import IniDownloadModel
 from ..Version import Version
-from ..strategies.iniParsers.BaseIniParser import BaseIniParser
-from ..strategies.iniFixers.BaseIniFixer import BaseIniFixer
+from ...core import BaseIniParser
+from ...core import BaseIniFixer
 from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..iniparserdicts.KeepAllDict import KeepAllDict

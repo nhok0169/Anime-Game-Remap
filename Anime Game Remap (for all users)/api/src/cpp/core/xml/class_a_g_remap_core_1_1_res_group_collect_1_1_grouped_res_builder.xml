@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::ResGroupCollect::GroupedResBuilder</compoundname>
+    <includes refid="_res_group_collect_8h" local="no">ResGroupCollect.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder::~GroupedResBuilder</definition>
+        <argsstring>()=default</argsstring>
+        <name>~GroupedResBuilder</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GroupedResBuilder::~GroupedResBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="169" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> *</type>
+        <definition>virtual IniGroupedResource * AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder::build</definition>
+        <argsstring>()=0</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GroupedResBuilder::build</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a fresh grouped resource that is **not** yet marked built
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The implementation keeps ownership; the returned pointer must stay valid until
+the edit finishes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="181" column="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder::store</definition>
+        <argsstring>(IniGroupedResource &amp;resource)=0</argsstring>
+        <name>store</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GroupedResBuilder::store</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+<para>Hands a finished grouped resource to the <computeroutput>.ini</computeroutput> file it belongs to. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grouped resource, already marked built and fully populated </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="188" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GroupedResBuilder::addResource</definition>
+        <argsstring>(IniGroupedResource &amp;group, const GraphId &amp;resType, IniResource &amp;resource)=0</argsstring>
+        <name>addResource</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GroupedResBuilder::addResource</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> &amp;</type>
+          <declname>group</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files one built model into a grouped resource, under the resource type it
+belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Not :cpp:func:`IniGroupedResource::addResource` directly: that keys by a plain
+``std::string`` resource-type name, while a group here is keyed by a whole mod
+object -- and the `Python`_-facing grouped resource stores these somewhere
+entirely different from the C++ one (see ``PyIniGroupedResource``). Both are
+the implementation&apos;s business
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>group</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The grouped resource to file into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The built model. Ownership stays wherever it already was </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="207" column="34"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Builds one type of grouped resource :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original takes an ``IniGroupedResBuilder``, which wraps a *user-supplied
+class* to instantiate -- there is nothing for this class to construct itself. Behind an
+interface, the same holds for a plain C++ caller, and the `pybind11`_ layer&apos;s
+implementation simply calls the caller&apos;s own `Python`_ builder
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="167" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="167" bodyend="208"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" virt="pure-virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>addResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" prot="public" virt="pure-virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" prot="public" virt="pure-virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>store</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" prot="public" virt="virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>~GroupedResBuilder</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

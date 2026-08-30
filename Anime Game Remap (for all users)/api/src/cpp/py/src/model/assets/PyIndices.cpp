@@ -4,14 +4,14 @@
 #include <utility>
 #include <vector>
 
-#include "../../data/IndexData.h"
+#include "AGRemapCore/data/IndexData.h"
 #include "../PyVersion.h"
 
 
 namespace {
 
     AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual> buildIndexRepo() {
-        const auto &rawRows = AGRemapPyBind::Data::getIndexDataRows();
+        const auto &rawRows = AGRC::Data::getIndexDataRows();
 
         std::vector<AGRC::Row<py::object, py::object>> rows;
         rows.reserve(rawRows.size());

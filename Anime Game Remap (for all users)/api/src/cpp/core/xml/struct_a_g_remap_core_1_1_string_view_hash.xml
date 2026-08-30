@@ -31,7 +31,7 @@
           <declname>sv</declname>
         </param>
         <briefdescription>
-<para>Hashes a string_view. </para>
+<para><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> a string_view. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -50,7 +50,7 @@
           <declname>str</declname>
         </param>
         <briefdescription>
-<para>Hashes a constant reference to a string. </para>
+<para><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> a constant reference to a string. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
@@ -69,7 +69,7 @@
           <declname>ptr</declname>
         </param>
         <briefdescription>
-<para>Hashes a char pointer that acts as a string. </para>
+<para><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> a char pointer that acts as a string. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>

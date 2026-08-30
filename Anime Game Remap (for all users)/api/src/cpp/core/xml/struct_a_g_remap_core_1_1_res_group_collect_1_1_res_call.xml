@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ResGroupCollect::ResCall</compoundname>
+    <includes refid="_res_group_collect_8h" local="no">ResGroupCollect.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1ad41b0ac476830eebf4bf90341d24c581" prot="public" static="no" mutable="no">
+        <type>V</type>
+        <definition>V AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResCall::val</definition>
+        <argsstring></argsstring>
+        <name>val</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResCall::val</qualifiedname>
+        <briefdescription>
+<para>The name of the resource <computeroutput>section</computeroutput>_ being referenced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="250" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResCall::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResCall::query</qualifiedname>
+        <briefdescription>
+<para>The conditional predicate the reference sits under. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="255" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One collected reference to a resource, and the query it sits under. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="246" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="246" bodyend="256"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResCall</scope><name>query</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1ad41b0ac476830eebf4bf90341d24c581" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResCall</scope><name>val</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

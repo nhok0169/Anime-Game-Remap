@@ -72,10 +72,11 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::unordered_map<std::string, typename IniSectionGraph<K, V, KeyHash, KeyEqual>::Section*> IniSectionGraph<K, V, KeyHash, KeyEqual>::deepCopySections(
-            const std::unordered_map<std::string, Section*>& src, std::vector<std::unique_ptr<Section>>& storage) {
+            const std::unordered_map<std::string, Section*>& src, std::vector<std::unique_ptr<Section>>& storage,
+            bool newPartIds) {
         std::unordered_map<std::string, Section*> result;
         for (const auto& entry : src) {
-            storage.push_back(entry.second->deepcopy(true));
+            storage.push_back(entry.second->deepcopy(newPartIds));
             result[entry.first] = storage.back().get();
         }
         return result;
@@ -488,7 +489,14 @@ namespace AGRemapCore {
             new IniSectionGraph<K, V, KeyHash, KeyEqual>(sections_, targetSectionNames_, runConfig_, false, false, z3Ctx_));
 
         result->ownedSections_.clear();
-        result->sections_ = IniSectionGraph<K, V, KeyHash, KeyEqual>::deepCopySections(sections_, result->ownedSections_);
+
+        // BUGFIX: this used to clone every section with newPartIds = true unconditionally, so a
+        // copy always got fresh part ids and 'newPartIds = false' only skipped the *second*
+        // renumbering below -- ie. the flag could not do the one thing it is documented to do.
+        // Anything correlating parts across a copy by id (ResGroupCollect's resource file keys,
+        // ResRegCollect's rewrite of a remapped call site) silently matched nothing as a result.
+        result->sections_ = IniSectionGraph<K, V, KeyHash, KeyEqual>::deepCopySections(sections_, result->ownedSections_,
+                                                                                        newPartIds);
 
         if (newPartIds) {
             result->refreshPartIds(true);

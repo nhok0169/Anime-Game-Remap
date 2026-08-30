@@ -1,367 +1,69 @@
-import sys
+##### Credits
 
+# ===== Anime Game Remap (AG Remap) =====
+# Authors: Albert Gold#2696, NK#1321
+#
+# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+# Special Thanks:
+#   nguen#2011 (for support)
+#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+#   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+##### EndCredits
+
+##### ExtImports
+import sys
+##### EndExtImports
+
+##### LocalImports
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
-
+##### EndLocalImports
 
 
 _Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test file
+
+
+# RegSurroundedAdd is now C++-backed (see AI Agent Help/IniGraphEditing/CLAUDE.md) -- unlike the
+# pure-Python original (RegSurroundedAddOld), its private helpers (_buildKeyFilters,
+# _getSatisfiedRange, _keysExistSomewhere, _pickInsertInd, ...) aren't bound and so aren't
+# separately testable here. Every one of those helpers is exercised indirectly, and exhaustively,
+# through the public edit() tests below -- which is also all a caller (whether pure Python or C++)
+# can actually see.
 class RegSurroundedAddTest(BaseUnitTest):
-    # ================================================
-    # ================ _buildKeyFilters =================
-
-    def test_buildKeyFilters_emptyRegs_returnsEmptyDict(self):
-        result = FRB.RegSurroundedAdd._buildKeyFilters({})
-        self.compareDict(result, {})
-
-    def test_buildKeyFilters_predicateNone_excludedFromResult(self):
-        result = FRB.RegSurroundedAdd._buildKeyFilters({"a": None, "b": None})
-        self.compareDict(result, {})
-
-    def test_buildKeyFilters_predicateGiven_wrapsValueOnlyPredicate(self):
-        result = FRB.RegSurroundedAdd._buildKeyFilters({"a": lambda val: val == "yes", "b": None})
-
-        self.compareList(list(result.keys()), ["a"])
-        self.assertTrue(result["a"](None, "yes"))
-        self.assertFalse(result["a"](None, "no"))
-        # the index argument is ignored -- only the value matters to the underlying predicate
-        self.assertTrue(result["a"](5, "yes"))
-
-    def test_buildKeyFilters_threeKeysAllWithPredicates_wrapsEveryOne(self):
-        result = FRB.RegSurroundedAdd._buildKeyFilters({
-            "a": lambda val: val == "1", "b": lambda val: val == "2", "c": lambda val: val == "3",
-        })
-
-        self.compareSet(set(result.keys()), {"a", "b", "c"})
-        self.assertTrue(result["a"](None, "1"))
-        self.assertTrue(result["b"](None, "2"))
-        self.assertTrue(result["c"](None, "3"))
-        self.assertFalse(result["c"](None, "1"))
+    def _getContentPart(self, graph: FRB.IniSectionGraph, sectionName: str, partInd: int = 0) -> FRB.IfContentPart:
+        return graph.getSection(sectionName).parts[partInd]
 
     # ================================================
-    # ================ _getSatisfiedRange ================
+    # =================== __init__ ====================
 
-    def test_getSatisfiedRange_emptyRegs_returnsFullRange(self):
-        colouring = FRB.IfContentPartColouring({"a": [(0, "1")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {}, {}, True)
-        self.assertTrue(result.isFull())
+    def test_init_setsAttributes(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, afterRegs = {"c": None}, latest = True)
 
-    def test_getSatisfiedRange_keyFromCurrentPart_satisfiedFromItsIndexOnward(self):
-        colouring = FRB.IfContentPartColouring({"a": [(3, "1")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None}, {}, True)
+        self.assertEqual(edit.addition, ("addition", "yay"))
+        self.compareDict(edit.beforeRegs, {"a": None})
+        self.compareDict(edit.afterRegs, {"c": None})
+        self.assertTrue(edit.latest)
 
-        self.assertFalse(result.has(2))
-        self.assertTrue(result.has(3))
-        self.assertTrue(result.has(1000))
+    def test_init_defaults_emptyRegsAndLatestFalse(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"))
 
-    def test_getSatisfiedRange_keyCarriedFromPreviousPart_satisfiedThroughout(self):
-        colouring = FRB.IfContentPartColouring({"a": "1"})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None}, {}, True)
-        self.assertTrue(result.isFull())
+        self.compareDict(edit.beforeRegs, {})
+        self.compareDict(edit.afterRegs, {})
+        self.assertFalse(edit.latest)
 
-    def test_getSatisfiedRange_keyNeverSeen_returnsEmptyRange(self):
-        colouring = FRB.IfContentPartColouring()
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None}, {}, True)
-        self.assertTrue(result.isEmpty())
-
-    def test_getSatisfiedRange_multipleKeys_requiresAllToBeSatisfied(self):
-        colouring = FRB.IfContentPartColouring({"a": [(0, "1")], "b": [(5, "2")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None, "b": None}, {}, True)
-
-        self.assertFalse(result.has(2))
-        self.assertTrue(result.has(5))
-
-    def test_getSatisfiedRange_threeKeys_boundedByTheLastOneToAppear(self):
-        colouring = FRB.IfContentPartColouring({"a": [(0, "1")], "b": [(5, "2")], "c": [(2, "3")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None, "b": None, "c": None}, {}, True)
-
-        self.assertFalse(result.has(4))
-        self.assertTrue(result.has(5))
-
-    def test_getSatisfiedRange_multipleKeysOneNeverSeen_returnsEmptyRange(self):
-        # requiring "a", "b" and "zzz" all seen -- "zzz" never appearing anywhere makes the whole group
-        # unsatisfiable, regardless of how many of the other keys are present
-        colouring = FRB.IfContentPartColouring({"a": [(0, "1")], "b": [(1, "2")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None, "b": None, "zzz": None}, {}, True)
-
-        self.assertTrue(result.isEmpty())
-
-    def test_getSatisfiedRange_predicateRejectsValue_excludedFromRange(self):
-        colouring = FRB.IfContentPartColouring({"a": [(0, "no"), (4, "yes")]})
-        filters = FRB.RegSurroundedAdd._buildKeyFilters({"a": lambda val: val == "yes"})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": lambda val: val == "yes"}, filters, True)
-
-        self.assertFalse(result.has(0))
-        self.assertFalse(result.has(3))
-        self.assertTrue(result.has(4))
-
-    def test_getSatisfiedRange_includeKeyDefsFalse_excludesDefinitionIndex(self):
-        colouring = FRB.IfContentPartColouring({"a": [(3, "1")]})
-        result = FRB.RegSurroundedAdd._getSatisfiedRange(colouring, {"a": None}, {}, False)
-
-        self.assertFalse(result.has(3))
-        self.assertTrue(result.has(4))
-
-    # ================================================
-    # ================ _getValidRangeForPart ===============
-    # NOTE: 'beforeRegs' are the registers that must come *before* 'addition' (addition ends up after them),
-    # and 'afterRegs' are the registers that must come *after* 'addition' (addition ends up before them).
-    #
-    # 'beforeEntryFacts'/'beforeReturnFacts'/'afterExitFacts'/'afterReturnFacts' are the (per-register) fixpoint
-    # facts _computeKeyFacts would normally compute across the whole graph -- passed in directly here to test
-    # _getValidRangeForPart's own WITHIN-PART logic in isolation, without needing a full graph. A register
-    # missing from any of these dicts is treated as False :raw-html:`<br />` :raw-html:`<br />`
-    #
-    # The "Return" facts (as opposed to the "Entry"/"Exit" ones) only ever matter for a part that makes its own
-    # ``run =`` call -- they answer "is this guaranteed once that call has *returned*", as distinct from
-    # "guaranteed somewhere reachable via the call" (which the plain Entry/Exit facts already cover) -- see the
-    # dedicated tests near the bottom of this section for parts that actually make a call
-    #
-    # IfContentPart's src/buildFromOrder constructor index values only control insertion *ordering*, not the
-    # literal stored position (see Testing/CLAUDE.md's note on this) -- so where a test's point is a specific
-    # *gap* between two registers, filler KVPs are used to actually reserve that gap in the real stored positions.
-
-    def test_getValidRangeForPart_beforeAndAfterRegsSpecified_intersectsToAnOpenWindow(self):
-        part = FRB.IfContentPart({"a": [(0, "1")], "x": [(1, "f")], "c": [(2, "3")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None}, afterRegs = {"c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        # index 2 (c's own position) is included -- inserting there lands 'addition' immediately before "c"
-        self.compareList(result.ranges, [(1, 3)])
-
-    def test_getValidRangeForPart_beforeRegsTwoKeys_boundedByTheLaterOfTheTwo(self):
-        # "a" and "b" are both required -- the window only opens once *both* have been seen, ie. after the
-        # later of the two ("b")
-        part = FRB.IfContentPart({"a": [(0, "1")], "x1": [(1, "f")], "x2": [(2, "f")], "b": [(3, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None, "b": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.compareList(result.ranges, [(4, None)])
-
-    def test_getValidRangeForPart_afterRegsTwoKeys_boundedByTheEarlierOfTheTwoNotTheLater(self):
-        # Unlike beforeRegs (where "after the last one to appear" already implies "after every one of them",
-        # since the max is >= each individual index), afterRegs needs 'addition' to precede *each* register
-        # individually -- so the bound tracks the *earlier* of "c" and "d", not the later. Bounding by the later
-        # one instead ("only before the whole group being satisfied together") would let 'addition' land after
-        # "c" as long as "d" hadn't shown up yet, which isn't "afterRegs" for "c" at all
-        part = FRB.IfContentPart({"c": [(0, "1")], "x1": [(1, "f")], "x2": [(2, "f")], "d": [(3, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), afterRegs = {"c": None, "d": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        # index 0 ("c"'s own position) is still included -- inserting there lands 'addition' immediately before it
-        self.compareList(result.ranges, [(None, 1)])
-
-    def test_getValidRangeForPart_beforeRegsThreeKeys_boundedByTheLastOfTheThree(self):
-        part = FRB.IfContentPart({"a": [(0, "1")], "x": [(1, "f")], "c": [(2, "3")], "x2": [(3, "f")], "x3": [(4, "f")], "b": [(5, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None, "b": None, "c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.compareList(result.ranges, [(6, None)])
-
-    def test_getValidRangeForPart_beforeRegsMultipleKeysOneNeverSeen_returnsEmptyRange(self):
-        part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None, "b": None, "zzz": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.assertTrue(result.isEmpty())
-
-    def test_getValidRangeForPart_beforeAndAfterRegsBothMultipleKeys_intersectsBothBounds(self):
-        part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "x1": [(2, "f")], "x2": [(3, "f")],
-                                   "c": [(4, "3")], "x3": [(5, "f")], "d": [(6, "4")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None, "b": None}, afterRegs = {"c": None, "d": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        # lower bound after "b" (the later beforeRegs key); upper bound before "c" (the earlier afterRegs
-        # key) -- not "d"
-        self.compareList(result.ranges, [(2, 5)])
-
-    def test_getValidRangeForPart_onlyBeforeRegsGiven_unboundedAbove(self):
-        part = FRB.IfContentPart({"a": [(0, "1")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.compareList(result.ranges, [(1, None)])
-
-    def test_getValidRangeForPart_onlyAfterRegsGiven_unboundedBelow(self):
-        part = FRB.IfContentPart({"b": [(0, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), afterRegs = {"b": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        # index 0 (b's own position) is included -- inserting there lands 'addition' immediately before "b"
-        self.compareList(result.ranges, [(None, 1)])
-
-    def test_getValidRangeForPart_neitherSpecified_returnsFullRange(self):
-        part = FRB.IfContentPart({})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"))
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.assertTrue(result.isFull())
-
-    def test_getValidRangeForPart_beforeRegsPredicateNeverAccepted_returnsEmptyRange(self):
-        part = FRB.IfContentPart({"a": [(0, "1")], "x": [(1, "f")], "c": [(2, "3")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": lambda val: val == "never"}, afterRegs = {"c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.assertTrue(result.isEmpty())
-
-    def test_getValidRangeForPart_afterRegsExitFactTrue_treatedAsStillOpen(self):
-        # unlike the old, colouring-only implementation, _getValidRangeForPart can now distinguish "not reached
-        # yet on this part, but guaranteed to be seen somewhere after it" (exitFact True, from _computeKeyFacts'
-        # graph-wide fixpoint) from "genuinely never happens anywhere" (see the sibling test right below) --
-        # this part makes no call, so afterReturnFacts is irrelevant (never consulted) and left empty
-        part = FRB.IfContentPart({"a": [(0, "1")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None}, afterRegs = {"zzz": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {"zzz": True}, {})
-        self.compareList(result.ranges, [(1, None)])
-
-    def test_getValidRangeForPart_afterRegsExitFactFalse_returnsEmptyRange(self):
-        part = FRB.IfContentPart({"a": [(0, "1")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None}, afterRegs = {"zzz": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {"zzz": False}, {})
-        self.assertTrue(result.isEmpty())
-
-    def test_getValidRangeForPart_beforeRegsKeyNeverSeen_returnsEmptyRange(self):
-        part = FRB.IfContentPart({"b": [(0, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"zzz": None}, afterRegs = {"b": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.assertTrue(result.isEmpty())
-
-    def test_getValidRangeForPart_beforeRegsEntryFactTrue_treatedAsUnconditionallyOpen(self):
-        # entryFact True (from _computeKeyFacts) means the register was already satisfied entering this part --
-        # here the part doesn't even touch it itself, so the whole part is open
-        part = FRB.IfContentPart({})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {"a": True}, {}, {}, {})
-        self.assertTrue(result.isFull())
-
-    def test_getValidRangeForPart_beforeRegsEntryFactTrueAndAlsoRedefinedLocally_reinstatesCarriedSatisfaction(self):
-        # "a" was already satisfied entering this part (entryFact True), *and* this part also redefines "a"
-        # itself, locally, at index 1 -- IfContentPartColouring alone only sees the LOCAL redefinition, and
-        # would bound the range to *after* it (ie. [(2, None)], as if position 0 -- before "a" is even locally
-        # redefined -- weren't valid); _getForwardValidRangeForPart explicitly reinstates entryFact's carried-in
-        # satisfaction, extending the range back down to the very start of the part instead
-        part = FRB.IfContentPart({"x": [(0, "f")], "a": [(1, "2")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {"a": True}, {}, {}, {})
-        self.compareList(result.ranges, [(0, None)])
-
-    def test_getValidRangeForPart_beforeRegsSatisfiedWithinThisPart_boundedAtItsIndex(self):
-        part = FRB.IfContentPart({"a": [(0, "1")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.compareList(result.ranges, [(1, None)])
-
-    def test_getValidRangeForPart_beforeAndAfterRegsContradict_returnsEmptyRange(self):
-        # "c" must come before 'addition' (addition at-or-before index 2) while "a" must come after 'addition'
-        # (addition after index 0) -- these can't both hold since "a" is already positioned before "c"
-        part = FRB.IfContentPart({"a": [(0, "1")], "x": [(1, "f")], "c": [(2, "3")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"c": None}, afterRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {}, {})
-        self.assertTrue(result.isEmpty())
-
-    # ---- call/return split: only relevant for a part that makes its own "run =" call ----
-    # these exist because a part making a call can be satisfied two structurally different ways: something
-    # guaranteed reachable *via* the call (Exit/Entry facts) vs something only guaranteed once that call has
-    # actually *returned* (Return facts) -- and a call that never returns (eg. unconditional recursion with no
-    # escape) must not let a position that can provably never execute "pass" via the wrong one of these two
-
-    def test_getValidRangeForPart_afterRegsCallWithExitFactOnly_boundedAtOrBeforeTheCall(self):
-        # "c" is guaranteed reachable via the call itself (exitFact), but NOT guaranteed once the call returns
-        # (returnFact False) -- so only the position at-or-before the call ("run") itself is valid, not the
-        # position after it
-        part = FRB.IfContentPart({"run": [(0, "callee")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), afterRegs = {"c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {"c": True}, {"c": False})
-        # bounded at 0 (not unbounded below) -- the pre-call zone's own contribution is explicitly anchored at
-        # the start of the part (index 0), not an unbounded-below range
-        self.compareList(result.ranges, [(0, 1)])
-
-    def test_getValidRangeForPart_afterRegsCallWithReturnFactOnly_boundedStrictlyAfterTheCall(self):
-        # the reverse of the above: "c" is guaranteed only once the call has returned (returnFact True), but
-        # not guaranteed via the call itself (exitFact False) -- so only the position strictly after "run" is
-        # valid, not the position at-or-before it
-        part = FRB.IfContentPart({"run": [(0, "callee")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), afterRegs = {"c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {"c": False}, {"c": True})
-        self.compareList(result.ranges, [(1, None)])
-
-    def test_getValidRangeForPart_afterRegsCallWithNeitherFactNorLocalOccurence_returnsEmptyRange(self):
-        part = FRB.IfContentPart({"run": [(0, "callee")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), afterRegs = {"c": None})
-
-        result = edit._getValidRangeForPart(part, {}, {}, {"c": False}, {"c": False})
-        self.assertTrue(result.isEmpty())
-
-    def test_getValidRangeForPart_beforeRegsCallCalleeOnlyDefinesReg_validOnlyAfterTheCallReturns(self):
-        # "a" isn't touched by 'part' at all, and isn't satisfied entering it either (entryFact False) -- it's
-        # only ever satisfied because the callee itself defines it, which can only be observed once the call
-        # has actually returned (returnFact True); the position at-or-before the call itself is NOT valid, since
-        # "a" genuinely hasn't happened yet by then
-        part = FRB.IfContentPart({"run": [(0, "callee")]})
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), beforeRegs = {"a": None})
-
-        result = edit._getValidRangeForPart(part, {"a": False}, {"a": True}, {}, {})
-        self.compareList(result.ranges, [(1, None)])
-
-    # ================================================
-    # ================ _keysExistSomewhere ===============
-
-    def test_keysExistSomewhere_emptyKeys_returnsTrue(self):
-        graph = FRB.IniSectionGraph({}, [])
-        self.assertTrue(FRB.RegSurroundedAdd._keysExistSomewhere(graph, set()))
-
-    def test_keysExistSomewhere_allKeysFoundAcrossParts_returnsTrue(self):
-        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0),
-                                             FRB.IfPredPart("if $x == 1", FRB.IfPredPartType.If, _Z3CTX),
-                                             FRB.IfContentPart({"b": [(0, "2")]}, 1),
-                                             FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX)])}
-        graph = FRB.IniSectionGraph(sections, ["root"])
-        self.assertTrue(FRB.RegSurroundedAdd._keysExistSomewhere(graph, {"a", "b"}))
-
-    def test_keysExistSomewhere_oneKeyMissing_returnsFalse(self):
-        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)])}
-        graph = FRB.IniSectionGraph(sections, ["root"])
-        self.assertFalse(FRB.RegSurroundedAdd._keysExistSomewhere(graph, {"a", "zzz"}))
-
-    # ================================================
-    # ================== _pickInsertInd ==================
-
-    def test_pickInsertInd_latestFalse_picksEarliestIndexOfFirstRange(self):
-        edit = FRB.RegSurroundedAdd(("ADD", "X"))
-        part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "c": [(2, "3")]})
-
-        self.assertEqual(edit._pickInsertInd(FRB.Ranges([(1, 3), (5, 7)]), part), 1)
-
-    def test_pickInsertInd_latestTrue_picksLatestIndexOfLastRange(self):
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), latest = True)
-        part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "c": [(2, "3")]})
-
-        self.assertEqual(edit._pickInsertInd(FRB.Ranges([(1, 3), (5, 7)]), part), 6)
-
-    def test_pickInsertInd_latestTrueUnboundedEnd_fallsBackToPartLength(self):
-        edit = FRB.RegSurroundedAdd(("ADD", "X"), latest = True)
-        part = FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")]})
-
-        self.assertEqual(edit._pickInsertInd(FRB.Ranges([(1, None)]), part), len(part))
+    def test_isSubclassOfBaseIniGraphEdit(self):
+        self.assertTrue(issubclass(FRB.RegSurroundedAdd, FRB.BaseIniGraphEdit))
+        self.assertIsInstance(FRB.RegSurroundedAdd(("addition", "yay")), FRB.BaseIniGraphEdit)
 
     # ================================================
     # ===================== edit ======================
-
-    def _getContentPart(self, graph: FRB.IniSectionGraph, sectionName: str, partInd: int = 0) -> FRB.IfContentPart:
-        return graph.getSection(sectionName).parts[partInd]
+    # NOTE: 'beforeRegs' are the registers that must come *before* 'addition' (addition ends up after them),
+    # and 'afterRegs' are the registers that must come *after* 'addition' (addition ends up before them).
 
     def test_edit_singlePartSurrounded_insertsBetweenBeforeAndAfterRegs(self):
         sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "c": [(2, "3")]}, 0)])}
@@ -742,7 +444,7 @@ class RegSurroundedAddTest(BaseUnitTest):
     def test_edit_mutualRunCallCycleMultiKeyBeforeAndAfterRegsLatestFalse_insertsOnlyAtTheFirstReachablePart(self):
         # same mutual A<->B cycle as above, but exercising the fixpoint/dedup machinery together with MULTI-key
         # beforeRegs/afterRegs (each previously only tested separately -- multi-key against a non-cyclic graph,
-        # or a single key against a cyclic one) :raw-html:`<br />` :raw-html:`<br />`
+        # or a single key against a cyclic one)
         #
         # "a" and "b" are both local to A, so A's own beforeRegs bound is after the later of the two (its own
         # "b"). "c" and "d" are only ever defined in B, reachable purely via A's own call -- since neither is
@@ -784,7 +486,7 @@ class RegSurroundedAddTest(BaseUnitTest):
     def test_edit_threeSectionRunCallCycleLatestTrue_insertsOnlyAtTheLastReachablePart(self):
         # X -> run=Y -> run=Z -> run=X (back to the start), with NO conditional anywhere -- ie. the recursion
         # never escapes, "run = X" in Z never actually returns, so nothing after it is reachable (see
-        # _getBackwardValidRangeForPart's call/return split and _computeReachableNodes) :raw-html:`<br />` :raw-html:`<br />`
+        # _getBackwardValidRangeForPart's call/return split and _computeReachableNodes)
         #
         # "c" (Z's own afterRegs key) is satisfied locally by Z itself, right there before the call -- so even
         # though *some* "c" is also reachable by looping all the way back around via the call (X -> Y -> Z again),

@@ -1,0 +1,705 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_graph_groups_vec" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniGraphGroupsVec</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" prot="public" virt="non-virtual">AGRemapCore::IIniGraphGroups&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_i_ini_graph_groups_8h" local="no">IIniGraphGroups.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::Base = IIniGraphGroups&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::Base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="209" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="209" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::Graph</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="210" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="210" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Base::Section</ref></type>
+        <definition>using AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::Section = typename Base::Section</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::Section</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="211" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="211" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">Base::ModObj</ref></type>
+        <definition>using AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::ModObj = typename Base::ModObj</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::ModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="212" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="212" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::Group = IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Group</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::Group</qualifiedname>
+        <briefdescription>
+<para>The type of group this holds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="217" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" kindref="member">Group</ref> &gt; &amp;</type>
+        <definition>std::vector&lt;Group&gt;&amp; AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="240" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+        <definition>IfTemplateRunConfig&lt;K, V&gt; AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::runConfig_</definition>
+        <argsstring></argsstring>
+        <name>runConfig_</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::runConfig_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="241" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::unique_ptr&lt;Graph&gt; &gt; AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::owned_</definition>
+        <argsstring></argsstring>
+        <name>owned_</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::owned_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="246" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::IniGraphGroupsVec</definition>
+        <argsstring>(std::vector&lt; Group &gt; &amp;groups, IfTemplateRunConfig&lt; K, V &gt; runConfig)</argsstring>
+        <name>IniGraphGroupsVec</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::IniGraphGroupsVec</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" kindref="member">Group</ref> &gt; &amp;</type>
+          <declname>groups</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+          <declname>runConfig</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a view over &apos;groups&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The groups to operate on, <bold>borrowed</bold> <ndash/> this object edits them in place and does not own them </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>runConfig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The domain customization points any graph built by <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" kindref="member">createGraph</ref> uses (see :cpp:class:<computeroutput><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref></computeroutput>) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="225" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::size</definition>
+        <argsstring>() const override</argsstring>
+        <name>size</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::size</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a56d503e9d07bcabc6a68ab738767d0d0">size</reimplements>
+        <briefdescription>
+<para>The number of groups (ie. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>the number of .ini files) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="227" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::insertGroup</definition>
+        <argsstring>(std::size_t groupInd) override</argsstring>
+        <name>insertGroup</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::insertGroup</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a6304ad772d42381eef99a33eac614df8">insertGroup</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts a fresh, empty group at &apos;groupInd&apos;, shifting every later group up by one
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where to insert. Clamped to <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" kindref="member">size</ref> for an out-of-range index </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="228" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::removeGroup</definition>
+        <argsstring>(std::size_t groupInd) override</argsstring>
+        <name>removeGroup</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::removeGroup</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5f99eedbf65a800945646a0ea7c547e8">removeGroup</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <briefdescription>
+<para>Removes the group at &apos;groupInd&apos;, if it exists. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="229" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::vector&lt; ModObj &gt; AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::modObjs</definition>
+        <argsstring>(std::size_t groupInd) const override</argsstring>
+        <name>modObjs</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::modObjs</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ab3037316083f240b13b90785d90147cc">modObjs</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``(component name, mod object name)`` key of every graph in the group at
+&apos;groupInd&apos;, in insertion order -- empty for an out-of-range index
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="230" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::graphCount</definition>
+        <argsstring>(std::size_t groupInd) const override</argsstring>
+        <name>graphCount</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::graphCount</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a60f5c3aaf70d3f98a55945d40bb5892b">graphCount</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <briefdescription>
+<para>The number of graphs in the group at &apos;groupInd&apos; (<computeroutput>0</computeroutput> for an out-of-range index). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to read </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="231" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
+        <argsstring>(std::size_t groupInd, const ModObj &amp;modObj) const override</argsstring>
+        <name>getGraph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::getGraph</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a366ee34d86b9c3377cf2ac6c42084ad9">getGraph</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <briefdescription>
+<para>The graph stored under &apos;modObj&apos; in the group at &apos;groupInd&apos;, or <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to read </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated component and mod object for the graph </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="232" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::addGraph</definition>
+        <argsstring>(std::size_t groupInd, const ModObj &amp;modObj, Graph *graph) override</argsstring>
+        <name>addGraph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::addGraph</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d05f614b07e5cd154df39bc5b657ccb">addGraph</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds &apos;graph&apos; under &apos;modObj&apos; in the group at &apos;groupInd&apos;, replacing whatever was already
+stored there -- a no-op for an out-of-range index
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to add to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated component and mod object for the graph </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The graph to add. Must be one this object already owns (ie. came out of #getGraph,
+#removeGraph, #deepcopyGraph or #createGraph) -- see this class&apos;s ownership contract
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="233" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::removeGraph</definition>
+        <argsstring>(std::size_t groupInd, const ModObj &amp;modObj) override</argsstring>
+        <name>removeGraph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::removeGraph</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a579eef330fb3b4af939534b2d6c87569">removeGraph</reimplements>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <briefdescription>
+<para>Removes the graph stored under &apos;modObj&apos; in the group at &apos;groupInd&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>groupInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which group to remove from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated component and mod object for the graph</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The removed graph -- still valid and still owned by this object (see this class&apos;s own
+note) -- or ``nullptr`` if there was nothing to remove
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="234" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::deepcopyGraph</definition>
+        <argsstring>(const Graph &amp;src, bool minimal=true, bool newPartIds=true) override</argsstring>
+        <name>deepcopyGraph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::deepcopyGraph</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a889e6da1433c81267055f4603a6ccbad">deepcopyGraph</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> &amp;</type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>minimal</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>newPartIds</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Deep-copies an existing graph, taking ownership of the copy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to copy </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>minimal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to make a minimal copy. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newPartIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the copied parts get fresh ids. <bold>Default</bold>: <computeroutput>true</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new copy. Owned by this object, and not in any group until <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" kindref="member">addGraph</ref> is called for it </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="235" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;::createGraph</definition>
+        <argsstring>(std::unordered_map&lt; std::string, Section * &gt; sections, std::vector&lt; std::string &gt; targetSectionNames, bool copySections=false, Z3Context *z3Ctx=nullptr) override</argsstring>
+        <name>createGraph</name>
+        <qualifiedname>AGRemapCore::IniGraphGroupsVec::createGraph</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ae96b68799f53fee2e8052b283fe65881">createGraph</reimplements>
+        <param>
+          <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" kindref="member">Section</ref> * &gt;</type>
+          <declname>sections</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>targetSectionNames</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>copySections</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>z3Ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Builds a brand-new graph, taking ownership of it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>All the <computeroutput>sections</computeroutput>_ available to the graph, borrowed unless &apos;copySections&apos; is <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targetSectionNames</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The names of the <computeroutput>sections</computeroutput>_ the new subgraph should reach </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>copySections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to deep-copy the referenced <computeroutput>sections</computeroutput>_. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>z3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>Z3</computeroutput>_ context the new graph&apos;s predicates belong to. <bold>Default</bold>: <computeroutput>nullptr</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new graph. Owned by this object, and not in any group until <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" kindref="member">addGraph</ref> is called for it </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="236" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The plain-C++ :cpp:class:`IIniGraphGroups`, backed by a ``std::vector`` of real
+:cpp:class:`IniGraphGroup` values :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Use this from any standalone C++ caller. The `pybind11`_ layer uses its own
+``PyIniGraphGroups`` implementation instead -- see :cpp:class:`IIniGraphGroups`&apos;s own note for
+why there are two
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::IIniGraphGroups&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_i_ini_graph_groups"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_graph_groups_vec"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IIniGraphGroups&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_i_ini_graph_groups"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IfTemplateRunConfig&lt; std::string, std::string &gt;</label>
+        <link refid="struct_a_g_remap_core_1_1_if_template_run_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_graph_groups_vec"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>runConfig_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="207" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="207" bodyend="247"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>createGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>deepcopyGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>graphCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>Group</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" prot="private" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>IniGraphGroupsVec</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>insertGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>modObjs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" prot="private" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>owned_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>removeGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>removeGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" prot="private" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>runConfig_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d4335ca0671c1a5d2bf7a27771cf49e" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>~IIniGraphGroups</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

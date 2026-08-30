@@ -2,14 +2,19 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_f1f682f73d7e566e7cb53b8964d208b5" kind="dir">
     <compoundname>include/AGRemapCore/constants</compoundname>
+    <innerfile refid="_download_mode_8h">DownloadMode.h</innerfile>
     <innerfile refid="_file_ext_8h">FileExt.h</innerfile>
     <innerfile refid="_game_type_8h">GameType.h</innerfile>
     <innerfile refid="_game_type_id_8h">GameTypeId.h</innerfile>
     <innerfile refid="_g_i_builder_8h">GIBuilder.h</innerfile>
     <innerfile refid="_global_ini_classifiers_8h">GlobalIniClassifiers.h</innerfile>
+    <innerfile refid="_global_ini_remove_builders_8h">GlobalIniRemoveBuilders.h</innerfile>
     <innerfile refid="_if_pred_part_type_8h">IfPredPartType.h</innerfile>
+    <innerfile refid="_ini_graph_mod_obj_keywords_8h">IniGraphModObjKeywords.h</innerfile>
+    <innerfile refid="_ini_graph_replace_mode_8h">IniGraphReplaceMode.h</innerfile>
     <innerfile refid="_ini_keywords_8h">IniKeywords.h</innerfile>
     <innerfile refid="_mod_type_id_8h">ModTypeId.h</innerfile>
+    <innerfile refid="_reg_fill_missing_mode_8h">RegFillMissingMode.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

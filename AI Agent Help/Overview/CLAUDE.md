@@ -163,7 +163,14 @@ you've verified locally.
   class templates + pybind11 bindings, the old Python package deleted outright), which is where
   Architecture's sections on templating-a-core-class-for-pybind-reach, still-pure-Python
   collaborator types, and how-a-binding-holds-a-Python-supplied-argument came from — along with
-  Documentation's `Attributes`-section and corrupt-`index.xml` traps. Other subsystems (the
+  Documentation's `Attributes`-section and corrupt-`index.xml` traps, plus — separately again,
+  later still — the same full-replacement treatment for the remaining two edit families,
+  `iniFixers/graphGroupEdits/` and `iniFixers/graphEdits/` (`BaseIniGraphEdit`/`GraphRename`/
+  `RegFillMissing`; `RegSurroundedAdd` alone left pure Python, re-parented onto the bound base),
+  both Python packages deleted outright — see [Ini Graph
+  Editing](../IniGraphEditing/CLAUDE.md)'s "Completing a simple stub" section for the
+  keep-alive-refresh, re-derive-mode-and-fill-together, and mirror-a-Python-`Enum`-by-value
+  conventions those produced. Other subsystems (the
   non-graph `.ini` parsers, the `GIMIFixer` family, the standalone script variant) still haven't
   been exercised to the same depth — verify assumptions there with the usual tools rather than
   trusting this file blindly.

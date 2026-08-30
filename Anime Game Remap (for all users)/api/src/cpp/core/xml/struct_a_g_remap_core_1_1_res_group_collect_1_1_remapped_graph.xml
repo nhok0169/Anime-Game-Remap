@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ResGroupCollect::RemappedGraph</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a8458d525d711608382dbe91a448599c0" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *</type>
+        <definition>Graph* AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::RemappedGraph::graph</definition>
+        <argsstring></argsstring>
+        <name>graph</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::RemappedGraph::graph</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="539" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a32f25c6d52bd3a88a82c2a944a5fb17c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" kindref="member">RenameFunc</ref></type>
+        <definition>RenameFunc AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::RemappedGraph::renameFunc</definition>
+        <argsstring></argsstring>
+        <name>renameFunc</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::RemappedGraph::renameFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="540" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a3a2e8ee5715cc043ec6437f3d6927161" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::RemappedGraph::partIdRefreshRequired</definition>
+        <argsstring></argsstring>
+        <name>partIdRefreshRequired</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::RemappedGraph::partIdRefreshRequired</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="541" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="538" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="538" bodyend="542"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a8458d525d711608382dbe91a448599c0" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::RemappedGraph</scope><name>graph</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a3a2e8ee5715cc043ec6437f3d6927161" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::RemappedGraph</scope><name>partIdRefreshRequired</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a32f25c6d52bd3a88a82c2a944a5fb17c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::RemappedGraph</scope><name>renameFunc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

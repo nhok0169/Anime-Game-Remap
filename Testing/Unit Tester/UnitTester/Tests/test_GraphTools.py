@@ -22,13 +22,18 @@ from ..src.constants.ConfigKeys import ConfigKeys
 
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
-from src.py.FixRaidenBoss2.tools.GraphTools import GraphTools
+from src.py.FixRaidenBoss2 import GraphTools
 ##### EndLocalImports
 
 
 # GraphTools is generic (plain Dict[node, List[node]] adjacency, no notion of IfContentPart/section
 # at all) -- these tests build small graphs directly out of plain strings, not through
 # IniSectionGraph, matching how the tools are actually meant to be used/tested in isolation.
+#
+# GraphTools is now C++-backed (see AI Agent Help/IniGraphEditing/CLAUDE.md) -- this file exercises
+# it entirely through its public static methods, which is all a caller (whether pure Python or C++)
+# can see. The pure-Python original is kept as GraphToolsOld, following this repo's own convention
+# of not carrying a dedicated test file for a ...Old-renamed class.
 class GraphToolsTest(BaseUnitTest):
     # ========= getReachableNodes ====================================
 

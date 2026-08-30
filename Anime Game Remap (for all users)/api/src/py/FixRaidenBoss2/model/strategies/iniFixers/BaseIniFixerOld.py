@@ -26,7 +26,7 @@ from ....constants.IfPredPartType import IfPredPartType
 from ....constants.IniConsts import IniKeywords
 from ....core import IniSectionGraph
 from ....exceptions.NoModType import NoModType
-from ..iniParsers.BaseIniParser import BaseIniParser
+from ....core import BaseIniParser
 from ....core import IfTemplate
 ##### EndLocalImports
 

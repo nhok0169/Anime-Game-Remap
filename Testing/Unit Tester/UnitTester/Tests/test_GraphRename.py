@@ -17,6 +17,10 @@ class GraphRenameTest(BaseUnitTest):
         edit = FRB.GraphRename(fn)
         self.assertIs(edit.renameFunc, fn)
 
+    def test_isSubclassOfBaseIniGraphEdit(self):
+        self.assertTrue(issubclass(FRB.GraphRename, FRB.BaseIniGraphEdit))
+        self.assertIsInstance(FRB.GraphRename(lambda name: name), FRB.BaseIniGraphEdit)
+
     # ================================================
     # ===================== edit ======================
 
@@ -72,3 +76,25 @@ class GraphRenameTest(BaseUnitTest):
         self.compareList(graph.roots, ["root"])
         self.assertIn("root", graph.sections)
         self.assertEqual(graph.getSection("root").name, "root")
+
+    def test_edit_renameFuncReassignedAfterConstruction_isHonoured(self):
+        # the C++ member is re-derived from the stored Python object at the start of every edit
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)], name = "root")}, ["root"])
+        edit = FRB.GraphRename(lambda name: name)
+        edit.renameFunc = lambda name: f"{name}_late"
+
+        edit.edit(graph, None)
+
+        self.compareList(graph.roots, ["root_late"])
+
+    # ================================================
+    # ================== editFromIni ==================
+
+    def test_editFromIni_forwardsToEditAndIgnoresIni(self):
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")]}, 0)], name = "root")}, ["root"])
+        edit = FRB.GraphRename(lambda name: f"{name}_new")
+
+        result = edit.editFromIni(graph, "SOME INI", None, modName = "rika")
+
+        self.assertIs(result, graph)
+        self.compareList(graph.roots, ["root_new"])

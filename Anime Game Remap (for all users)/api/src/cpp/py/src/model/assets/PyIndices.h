@@ -14,7 +14,7 @@ namespace py = pybind11;
  @rst
  The `pybind11`_ bound ``Indices`` class -- the exact same pattern as :cpp:class:`PyHashes` (see
  its own class-level note): one *specific*, pre-populated instance of
- :cpp:class:`PyModMappedAssets`, with its index data (:cpp:func:`AGRemapPyBind::Data::getIndexDataRows`)
+ :cpp:class:`PyModMappedAssets`, with its index data (:cpp:func:`AGRemapCore::Data::getIndexDataRows`)
  and non-version index names (``name``, ``component``, ``type``) baked in at construction,
  matching the pure-Python ``Indices`` class's own constructor contract (``model/assets/Indices.py``,
  now removed entirely -- see git history) exactly: a bare, optional ``map`` is the only real

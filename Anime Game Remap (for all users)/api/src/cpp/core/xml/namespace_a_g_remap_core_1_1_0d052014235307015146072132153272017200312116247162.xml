@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d052014235307015146072132153272017200312116247162" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@052014235307015146072132153272017200312116247162</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/assets/Hashes.cpp" line="12" column="5"/>
+  </compounddef>
+</doxygen>

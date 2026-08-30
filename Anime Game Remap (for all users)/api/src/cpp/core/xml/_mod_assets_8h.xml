@@ -10,6 +10,8 @@
     <includes refid="_version_8h" local="yes">AGRemapCore/model/Version.h</includes>
     <includes refid="_row_8h" local="yes">AGRemapCore/model/assets/Row.h</includes>
     <includes local="yes">ModAssets.tpp</includes>
+    <includedby refid="_v_g_remaps_8h" local="yes">include/AGRemapCore/model/assets/VGRemaps.h</includedby>
+    <includedby refid="_ini_fix_builder_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includedby>
     <incdepgraph>
       <node id="7">
         <label>AGRemapCore/model/Version.h</label>
@@ -83,6 +85,154 @@
         <label>vector</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="7">
+        <label>include/AGRemapCore/constants/GIBuilder.h</label>
+        <link refid="_g_i_builder_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>include/AGRemapCore/data/IniFixBuilderData.h</label>
+        <link refid="_ini_fix_builder_data_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/data/ModDataAssets.h</label>
+        <link refid="_mod_data_assets_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/assets/ModAssets.h</label>
+        <link refid="_mod_assets_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/assets/VGRemaps.h</label>
+        <link refid="_v_g_remaps_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/AGRemapCore/model/files/IniFile.h</label>
+        <link refid="_ini_file_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/constants/ModTypeId.cpp</label>
+        <link refid="_mod_type_id_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/ModDataAssets.cpp</label>
+        <link refid="_mod_data_assets_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/VGRemapData.cpp</label>
+        <link refid="_v_g_remap_data_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/VertexCountData.cpp</label>
+        <link refid="_vertex_count_data_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/model/assets/VGRemaps.cpp</label>
+        <link refid="_v_g_remaps_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="22">
+        <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
+        <link refid="_ini_fix_builder_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/model/strategies/iniRemovers/BaseIniRemover.cpp</label>
+        <link refid="_base_ini_remover_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" prot="private">AGRemapCore::ModAssets::StoredRow</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
@@ -118,35 +268,43 @@
 <codeline lineno="84"><highlight class="normal"></highlight></codeline>
 <codeline lineno="117" refid="class_a_g_remap_core_1_1_mod_assets_1a31715acc88bedaf05966331b166b05cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;T&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a31715acc88bedaf05966331b166b05cb" kindref="member">get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;K&gt;&gt;&amp;<sp/>nonVersionVals,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;Version&gt;&gt;&amp;<sp/>versionVals,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>errorOnNotFound<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="118"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122" refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" kindref="member">getTotalIndices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"></highlight></codeline>
-<codeline lineno="127" refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" kindref="member">getVersionColumnCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="132" refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" kindref="member">getNonVersionColumnCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="137" refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="138"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="140" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" kindref="compound">StoredRow</ref><sp/>{</highlight></codeline>
-<codeline lineno="141" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;K&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" kindref="member">nonVersionVals</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>per<sp/>non-version<sp/>column,<sp/>in<sp/>relative<sp/>order</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="142" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Version&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" kindref="member">versionVals</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>per<sp/>version<sp/>column,<sp/>in<sp/>relative<sp/>order</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="143" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" kindref="member">value</ref>;</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="146" refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" kindref="member">totalIndices_</ref>;</highlight></codeline>
-<codeline lineno="147" refid="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" kindref="member">isVersionColumn_</ref>;</highlight></codeline>
-<codeline lineno="148" refid="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" kindref="member">versionColumnPositions_</ref>;</highlight></codeline>
-<codeline lineno="149" refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" kindref="member">nonVersionColumnPositions_</ref>;</highlight></codeline>
-<codeline lineno="150" refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a4204466c80a1daef134697521605944e" kindref="member">VersionParser</ref><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" kindref="member">parseVersion_</ref>;</highlight></codeline>
-<codeline lineno="151" refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StoredRow&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" kindref="member">rows_</ref>;</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"></highlight></codeline>
-<codeline lineno="153" refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" kindref="member">addRow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_row" kindref="compound">Row&lt;K, T&gt;</ref>&amp;<sp/>row);</highlight></codeline>
-<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="156"><highlight class="normal"></highlight></codeline>
-<codeline lineno="157"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ModAssets.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="158"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="162" refid="class_a_g_remap_core_1_1_mod_assets_1a0e2a8b1ab4ff19c297dfe102a2ed2a39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::vector&lt;K&gt;,<sp/>T&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a0e2a8b1ab4ff19c297dfe102a2ed2a39" kindref="member">getAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;K&gt;&gt;&amp;<sp/>nonVersionVals,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;Version&gt;&gt;&amp;<sp/>versionVals)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" kindref="member">getTotalIndices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" kindref="member">getVersionColumnCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" kindref="member">getNonVersionColumnCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="185" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" kindref="compound">StoredRow</ref><sp/>{</highlight></codeline>
+<codeline lineno="186" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;K&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" kindref="member">nonVersionVals</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>per<sp/>non-version<sp/>column,<sp/>in<sp/>relative<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Version&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" kindref="member">versionVals</ref>;<sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>per<sp/>version<sp/>column,<sp/>in<sp/>relative<sp/>order</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>T<sp/><ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" kindref="member">value</ref>;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight></codeline>
+<codeline lineno="191" refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" kindref="member">totalIndices_</ref>;</highlight></codeline>
+<codeline lineno="192" refid="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;bool&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" kindref="member">isVersionColumn_</ref>;</highlight></codeline>
+<codeline lineno="193" refid="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" kindref="member">versionColumnPositions_</ref>;</highlight></codeline>
+<codeline lineno="194" refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::size_t&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" kindref="member">nonVersionColumnPositions_</ref>;</highlight></codeline>
+<codeline lineno="195" refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a4204466c80a1daef134697521605944e" kindref="member">VersionParser</ref><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" kindref="member">parseVersion_</ref>;</highlight></codeline>
+<codeline lineno="196" refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;StoredRow&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" kindref="member">rows_</ref>;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" kindref="member">addRow</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_row" kindref="compound">Row&lt;K, T&gt;</ref>&amp;<sp/>row);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Narrows<sp/>&apos;candidates&apos;<sp/>in<sp/>place<sp/>by<sp/>resolving<sp/>each<sp/>version<sp/>column<sp/>in<sp/>turn,<sp/>exactly<sp/>as</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>get()<sp/>documents:<sp/>nullopt<sp/>means<sp/>&quot;latest<sp/>among<sp/>what&apos;s<sp/>left&quot;,<sp/>otherwise<sp/>floor-match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(largest<sp/>&lt;=<sp/>target,<sp/>else<sp/>the<sp/>smallest<sp/>available).<sp/>Shared<sp/>by<sp/>get()<sp/>and<sp/>getAll()<sp/>so<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>two<sp/>can<sp/>never<sp/>drift<sp/>apart<sp/>on<sp/>version<sp/>semantics.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204" refid="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" kindref="member">resolveVersionColumns</ref>(std::vector&lt;const<sp/>StoredRow*&gt;&amp;<sp/>candidates,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;Version&gt;&gt;&amp;<sp/>versionVals)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="206"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ModAssets.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/assets/ModAssets.h"/>
   </compounddef>

@@ -8,6 +8,7 @@
     <includedby refid="_game_type_8h" local="yes">include/AGRemapCore/constants/GameType.h</includedby>
     <includedby refid="_mod_type_id_8h" local="yes">include/AGRemapCore/constants/ModTypeId.h</includedby>
     <includedby refid="_ini_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</includedby>
+    <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
     <incdepgraph>
       <node id="20">
         <label>BaseAhoCorasickDFA.tpp</label>
@@ -132,12 +133,12 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="14">
         <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
         <link refid="_global_ini_classifiers_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -149,14 +150,28 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-      </node>
-      <node id="8">
-        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
-        <link refid="_ini_classifier_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
+        <link refid="_ini_classifier_8h"/>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
       </node>
       <node id="1">
         <label>include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
@@ -165,7 +180,9 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
       <node id="5">
@@ -176,7 +193,7 @@
         <label>src/constants/GameType.cpp</label>
         <link refid="_game_type_8cpp"/>
       </node>
-      <node id="10">
+      <node id="15">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
@@ -185,10 +202,30 @@
         <link refid="_mod_type_id_8cpp"/>
       </node>
       <node id="7">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/VGRemapData.cpp</label>
+        <link refid="_v_g_remap_data_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/VertexCountData.cpp</label>
+        <link refid="_vertex_count_data_8cpp"/>
+      </node>
+      <node id="12">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="11">
+      <node id="16">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>

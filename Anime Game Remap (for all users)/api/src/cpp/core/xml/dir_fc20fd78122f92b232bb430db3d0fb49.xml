@@ -5,6 +5,7 @@
     <innerdir refid="dir_819ebbf4e5b98687cb4887b96f912c80">src/model/strategies/iniClassifiers</innerdir>
     <innerdir refid="dir_795a6000bd79c8f8082a11d454fe3890">src/model/strategies/iniFixers</innerdir>
     <innerdir refid="dir_8755b04416a59baf944b19571b466c40">src/model/strategies/iniParsers</innerdir>
+    <innerdir refid="dir_4e87c9297cab9eba154fc7cbff3acf73">src/model/strategies/iniRemovers</innerdir>
     <innerdir refid="dir_cf83367b8ec7e929b9de96eff9f8402f">src/model/strategies/texEditors</innerdir>
     <innerfile refid="_mod_type_8cpp">ModType.cpp</innerfile>
     <innerfile refid="_mod_type_id_data_8cpp">ModTypeIdData.cpp</innerfile>

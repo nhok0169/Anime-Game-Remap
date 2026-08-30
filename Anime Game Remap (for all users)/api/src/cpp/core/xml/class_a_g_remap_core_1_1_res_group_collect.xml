@@ -1,0 +1,1938 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_res_group_collect" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ResGroupCollect</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_res_group_collect_8h" local="no">ResGroupCollect.h</includes>
+    <innerclass refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" prot="public">AGRemapCore::ResGroupCollect::GroupedResBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" prot="public">AGRemapCore::ResGroupCollect::ResRootLocation</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" prot="public">AGRemapCore::ResGroupCollect::ResCall</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry" prot="public">AGRemapCore::ResGroupCollect::ResGroupEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" prot="public">AGRemapCore::ResGroupCollect::ResGroup</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" prot="private">AGRemapCore::ResGroupCollect::RemappedGraph</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" prot="private">AGRemapCore::ResGroupCollect::CollectedResource</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" prot="private">AGRemapCore::ResGroupCollect::ResCallConnData</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a526baef278d436875727894c5a3b729f" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = typename Base::GraphGroups</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs for each <computeroutput>.ini</computeroutput> file.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph held in a group.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" prot="public" static="no">
+        <type>typename Base::GraphId</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename Base::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
+holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
+tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+fields rather than restating them
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" prot="public" static="no">
+        <type>typename Base::GraphIdHash</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::GraphIdHash = typename Base::GraphIdHash</definition>
+        <argsstring></argsstring>
+        <name>GraphIdHash</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::GraphIdHash</qualifiedname>
+        <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> a <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, so it can key an unordered container.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1adceed5084246cdefe7065e015cc42a3d" prot="public" static="no">
+        <type>typename Graph::Section</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::Section = typename Graph::Section</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ a graph is made of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="98" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of part a resource reference lives in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="103" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a5d75b6345e37342128f65ee0b7eac916" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::IterData = SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data the predicates are handed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="108" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data" kindref="compound">SectionIterQueryData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::IterQueryData = SectionIterQueryData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterQueryData</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::IterQueryData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data carrying the query the part sits under. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="113" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::OrderRanges</qualifiedname>
+        <briefdescription>
+<para>The ranges of valid <computeroutput>KVP</computeroutput>_ order indices a <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" kindref="member">PartPredicate</ref> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="118" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_res_edit" kindref="compound">BaseResEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResEdit = BaseResEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResEdit</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResEdit</qualifiedname>
+        <briefdescription>
+<para>The resource edit each resource is built with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="123" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="123" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">ResEdit::Context</ref></type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::Context = typename ResEdit::Context</definition>
+        <argsstring></argsstring>
+        <name>Context</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::Context</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> file the resources are built for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="128" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a9a1e7bf3bea3e28edf5729d6a403215e" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap" kindref="compound">GraphGroupRemap</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::Remapper = GraphGroupRemap&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Remapper</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::Remapper</qualifiedname>
+        <briefdescription>
+<para>The graph remapper this uses when <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aa3704dcddcc6849720dcfeb166050aad" kindref="member">remaps</ref> is set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="133" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">Remapper::RenameFunc</ref></type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::RenameFunc = typename Remapper::RenameFunc</definition>
+        <argsstring></argsstring>
+        <name>RenameFunc</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::RenameFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renames one `section`_ -- takes the old name, returns the new one. An empty
+``std::function`` stands in for the pure-Python original&apos;s &quot;no rename function given&quot;,
+which falls back to :cpp:func:`IniNamingTools::getObjRemapFixName`
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="138" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" kindref="member">IterQueryData</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::PartPredicate = std::function&lt;OrderRanges(const IterQueryData&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartPredicate</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::PartPredicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Restricts collection to specific order indices of a :cpp:class:`IfContentPart` -- an
+empty ``std::function`` means the whole part
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="143" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a946f3ffc8ac27d61940a2e7095bf855b" prot="public" static="no">
+        <type>std::function&lt; bool(const K &amp;, const V &amp;, const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" kindref="member">IterQueryData</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResPredicate = std::function&lt;bool(const K&amp;, const V&amp;, const IterQueryData&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResPredicate</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResPredicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Decides whether one reference to the resource should be collected -- takes the register
+name holding the reference, the name of the resource being referenced, and the part it
+was found in. An empty ``std::function`` accepts everything
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="148" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" prot="public" static="no">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, T, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref> &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ByGraph = tsl::ordered_map&lt;GraphId, T, GraphIdHash&gt;</definition>
+        <argsstring></argsstring>
+        <name>ByGraph</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ByGraph</qualifiedname>
+        <briefdescription>
+<para>A map keyed by which graph something applies to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="154" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" prot="private" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" kindref="compound">RemappedGraph</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::RemappedGraphs = ByGraph&lt;tsl::ordered_map&lt;std::string, RemappedGraph&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>RemappedGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::RemappedGraphs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="544" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="544" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" prot="private" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">ResEdit::CollectedSections</ref></type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::CollectedSections = typename ResEdit::CollectedSections</definition>
+        <argsstring></argsstring>
+        <name>CollectedSections</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::CollectedSections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="545" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="545" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" prot="private" static="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" kindref="compound">ResGroup</ref> &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResGroups = std::vector&lt;ResGroup&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResGroups</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="546" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="546" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" prot="private" static="no">
+        <type>tsl::ordered_map&lt; std::string, std::deque&lt; <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" kindref="compound">CollectedResource</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::CollectedResources = tsl::ordered_map&lt;std::string, std::deque&lt;CollectedResource&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>CollectedResources</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::CollectedResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="555" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="555" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a94b3d7f4164e23ecc72d04911a1c01e0" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; K &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;K&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::srcRegs</definition>
+        <argsstring></argsstring>
+        <name>srcRegs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::srcRegs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The registers that reference each resource, keyed first by the mod object for the type
+of resource, then by which :cpp:class:`IniSectionGraph` to search
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="355" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="355" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a5c5cdcf8d5fb590c2fa0e8df0962c1cb" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" kindref="member">ResEdit</ref> * &gt; &gt;</type>
+        <definition>ByGraph&lt;tsl::ordered_map&lt;std::string, ResEdit*&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resEdits</definition>
+        <argsstring></argsstring>
+        <name>resEdits</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resEdits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How each resource in a group is built, keyed first by the mod object for the type of
+resource, then by the type of the resource group. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="364" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="364" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a169630e2754974fdb620a10ae2b117f1" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref> * &gt;</type>
+        <definition>tsl::ordered_map&lt;std::string, GroupedResBuilder*&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::groupedResBuilders</definition>
+        <argsstring></argsstring>
+        <name>groupedResBuilders</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::groupedResBuilders</qualifiedname>
+        <briefdescription>
+<para>The builders used to construct each type of grouped resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Borrowed, not owned </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="369" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a77e952d4cfd3d9c9a41eacd570418a07" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" kindref="member">PartPredicate</ref> &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;PartPredicate&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::partPredicates</definition>
+        <argsstring></argsstring>
+        <name>partPredicates</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::partPredicates</qualifiedname>
+        <briefdescription>
+<para>Which order indices to collect from, keyed by resource type then by source graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="374" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="374" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a81a547744c43fb69853e6d8dcd220d8d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a946f3ffc8ac27d61940a2e7095bf855b" kindref="member">ResPredicate</ref> &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;ResPredicate&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resPredicates</definition>
+        <argsstring></argsstring>
+        <name>resPredicates</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resPredicates</qualifiedname>
+        <briefdescription>
+<para>Which references to collect, keyed by resource type then by source graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="379" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="379" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1aa3704dcddcc6849720dcfeb166050aad" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, typename Remapper::RemapTarget &gt; &gt;</type>
+        <definition>ByGraph&lt;tsl::ordered_map&lt;std::string, typename Remapper::RemapTarget&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::remaps</definition>
+        <argsstring></argsstring>
+        <name>remaps</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::remaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to remap the graphs searched from \ref srcRegs, keyed by the resource&apos;s mod
+object then by the type of the resource group. Empty means no remapping at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="388" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="388" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a6ad53e7f5c2cd4b3c3477015d402e801" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::trackKeysIsGlobal</definition>
+        <argsstring></argsstring>
+        <name>trackKeysIsGlobal</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::trackKeysIsGlobal</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a1afb20d2afa8e6b1c2cf41bbecc2cab4" kindref="member">trackKeysGlobal</ref> applies to every graph, instead of the per-graph <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a75743549d995823526c5a2a1b2bbd28c" kindref="member">trackKeys</ref> entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="393" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="393" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a1afb20d2afa8e6b1c2cf41bbecc2cab4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::trackKeysGlobal</definition>
+        <argsstring></argsstring>
+        <name>trackKeysGlobal</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::trackKeysGlobal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>The key-tracking flag used for every graph when <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a6ad53e7f5c2cd4b3c3477015d402e801" kindref="member">trackKeysIsGlobal</ref> is <computeroutput>true</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="398" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="398" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a75743549d995823526c5a2a1b2bbd28c" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; bool &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;bool&gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::trackKeys</definition>
+        <argsstring></argsstring>
+        <name>trackKeys</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::trackKeys</qualifiedname>
+        <briefdescription>
+<para>Whether to track <computeroutput>KVPs</computeroutput>_ while searching, keyed by resource type then by source graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="403" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="403" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1abce4afc82de25a19f240bdcea88e0829" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; std::optional&lt; std::unordered_set&lt; K, KeyHash, KeyEqual &gt; &gt; &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;std::optional&lt;std::unordered_set&lt;K, KeyHash, KeyEqual&gt; &gt; &gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::keysToTrack</definition>
+        <argsstring></argsstring>
+        <name>keysToTrack</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::keysToTrack</qualifiedname>
+        <briefdescription>
+<para>Which <computeroutput>KVP</computeroutput>_ keys to track while searching, keyed by resource type then by source graph. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="408" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="408" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1afe9ec15e2577e9309d7d5b85a8d2fa65" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resGroupTypesSameTopology</definition>
+        <argsstring></argsstring>
+        <name>resGroupTypesSameTopology</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resGroupTypesSameTopology</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Assumes every resource type has the same graph topology across all resource-group types,
+which lets the expensive satisfiability work be done once and reused :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Two graphs have &quot;the same topology&quot; when they hold exactly the same `sections`_, with
+the same structure and the same names. The state this is judged against is the graphs
+as :cpp:func:`BaseResEdit::getResGraph` returns them with ``rename = false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="422" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="422" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a128ff1931e49cf2eb3a0d7b3c3728556" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The unique id for this object, which every replicated graph&apos;s own id is built from (see
+#getResGraphId)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="431" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="431" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1ac141eb1a36edb1ebeda60025966acad9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::nullValue</definition>
+        <argsstring></argsstring>
+        <name>nullValue</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::nullValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The value a ``filename =`` `KVP`_ carries to mean &quot;no resource at all&quot; -- references to
+it are skipped. Defaults to :cpp:member:`IniKeywords::Null`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="440" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="440" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a00be4f10f1767d1428d14047d9cba931" prot="public" static="no" mutable="no">
+        <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;V(const std::string&amp;)&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::valOfSectionName</definition>
+        <argsstring></argsstring>
+        <name>valOfSectionName</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::valOfSectionName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the ``V`` for a ``run =``-style reference to a `section`_, by name -- the same
+customization point :cpp:type:`IfTemplateRunConfig` carries, needed here because the
+new call sites this edit splices in name their target `sections`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="450" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="450" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1af2b6bb260d3aac3528f6ef6adee2aef4" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, tsl::ordered_map&lt; std::size_t, std::map&lt; long long, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" kindref="compound">ResCall</ref> &gt; &gt; &gt; &gt; &gt;</type>
+        <definition>ByGraph&lt;ByGraph&lt;tsl::ordered_map&lt;std::string, tsl::ordered_map&lt;std::size_t, std::map&lt;long long, ResCall&gt; &gt; &gt; &gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resCalls</definition>
+        <argsstring></argsstring>
+        <name>resCalls</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resCalls</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The calls to each resource, keyed by resource type, then source graph, then `section`_
+name, then part id, then order index :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Scratch state, rebuilt by every \ref edit
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="461" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="461" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_res_group_collect_1a4d6538481580dc10e189a2b74f534683" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resGroupTypes_</definition>
+        <argsstring></argsstring>
+        <name>resGroupTypes_</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resGroupTypes_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="536" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="536" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1ac1d6b01643a43b9e390031ee932af658" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resGroupTypes</definition>
+        <argsstring>() const</argsstring>
+        <name>resGroupTypes</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resGroupTypes</qualifiedname>
+        <briefdescription>
+<para>The unique names for the type of resource groups. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="335" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a29efb6e760e86d0fbefe9ac74f4bc55b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::setResGroupTypes</definition>
+        <argsstring>(std::vector&lt; std::string &gt; newResGroupTypes)</argsstring>
+        <name>setResGroupTypes</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::setResGroupTypes</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>newResGroupTypes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the types of the resource groups -- duplicates are dropped, keeping the first
+occurrence of each, exactly as the pure-Python original&apos;s own property setter did
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newResGroupTypes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new types for the resource groups </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="346" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1ac7feb148754b32171c2dbc1dafae0958" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResGroupCollect</definition>
+        <argsstring>(std::vector&lt; std::string &gt; resGroupTypes={}, ByGraph&lt; ByGraph&lt; K &gt; &gt; srcRegs={}, ByGraph&lt; tsl::ordered_map&lt; std::string, ResEdit * &gt; &gt; resEdits={}, tsl::ordered_map&lt; std::string, GroupedResBuilder * &gt; groupedResBuilders={}, std::function&lt; V(const std::string &amp;)&gt; valOfSectionName={}, long long id=0)</argsstring>
+        <name>ResGroupCollect</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResGroupCollect</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::string &gt;</type>
+          <declname>resGroupTypes</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; K &gt; &gt;</type>
+          <declname>srcRegs</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" kindref="member">ResEdit</ref> * &gt; &gt;</type>
+          <declname>resEdits</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref> * &gt;</type>
+          <declname>groupedResBuilders</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+          <declname>valOfSectionName</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>id</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource-group-collecting edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resGroupTypes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique names for the type of resource groups </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcRegs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The registers that reference each resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resEdits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How each resource in a group is built. Borrowed, not owned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>groupedResBuilders</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The builders for each type of grouped resource. Borrowed, not owned </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>valOfSectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Builds the <computeroutput>V</computeroutput> for a reference to a <computeroutput>section</computeroutput>_, by name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique id for this object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="473" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::clear</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049">clear</reimplements>
+        <briefdescription>
+<para>Clears <ref refid="class_a_g_remap_core_1_1_res_group_collect_1af2b6bb260d3aac3528f6ef6adee2aef4" kindref="member">resCalls</ref> and every resource edit&apos;s own saved state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="481" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1ac97eaf6b4a2573b89ab6d24e3b2af11a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::editWithContext</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, Context &amp;ctx, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
+        <name>editWithContext</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::editWithContext</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Collects, groups, replicates and connects <ndash/> see this class&apos;s own description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file the resources are built for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused directly <ndash/> reaches the resource edits only </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="521" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a60ce4caa90f325f788bb322f52851fca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Collects and groups, but builds no resources <ndash/> there is no <computeroutput>.ini</computeroutput> file to build them for. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="533" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a74543a4365597514451e27af47c87fe4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
+        <definition>static Z3Predicate AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::combineQueries</definition>
+        <argsstring>(const Z3Predicate &amp;a, const Z3Predicate &amp;b, Z3Context *targetZ3Ctx)</argsstring>
+        <name>combineQueries</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::combineQueries</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &amp;</type>
+          <declname>b</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>targetZ3Ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Combines two queries with a logical AND, tolerating them belonging to *different*
+:cpp:class:`Z3Context`\\s :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Whichever operand does not already belong to &apos;targetZ3Ctx&apos; is reparented into it first
+-- the only way to make two `Z3`_ predicates combinable at all when they do not already
+share a context. The ``belongsTo`` check in front of that matters: it is a raw pointer
+comparison, while reparenting is a full render/re-parse/re-generate round trip, so the
+common same-context case stays free
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second query </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>targetZ3Ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The context the result should belong to. ``nullptr`` skips reparenting entirely, which
+only produces a correct result when &apos;a&apos;/&apos;b&apos; already share a context -- best-effort
+behaviour for a graph that was never threaded a context, rather than a hard failure
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If reparenting either query into &apos;targetZ3Ctx&apos; fails</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>&apos;a&apos; AND &apos;b&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="509" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1af21f1727543e7cdd9ebb910d64b8d1c6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectFromGraphGroup</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const GraphId &amp;resModObj, const GraphId &amp;srcModObj, const K &amp;srcReg)</argsstring>
+        <name>collectFromGraphGroup</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::collectFromGraphGroup</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>srcModObj</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>srcReg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="565" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1ad7111cc18c4151db903ab0ef738a34c4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::remapGraphs</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs)</argsstring>
+        <name>remapGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::remapGraphs</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="566" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a98a8773600c9eac20d127d0a54d4a264" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::pair&lt; bool, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &gt; &gt;</type>
+        <definition>std::pair&lt; bool, std::vector&lt; GraphId &gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::isValidResGroupType</definition>
+        <argsstring>(const std::string &amp;resGroupType) const</argsstring>
+        <name>isValidResGroupType</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::isValidResGroupType</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="567" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a24fd5b41263a6642ba19f5dc60082c04" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref></type>
+        <definition>CollectedSections AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::getResCallNewNames</definition>
+        <argsstring>(const GraphId &amp;resModObj, const std::string &amp;resGroupType, tsl::ordered_map&lt; std::string, std::optional&lt; Z3Predicate &gt; &gt; &amp;resRootQueries, tsl::ordered_map&lt; std::string, ResRootLocation &gt; &amp;resRootLocations, const std::string &amp;modName) const</argsstring>
+        <name>getResCallNewNames</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::getResCallNewNames</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &gt; &amp;</type>
+          <declname>resRootQueries</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref> &gt; &amp;</type>
+          <declname>resRootLocations</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="568" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a5c47709572abe86c2ce96c7e00280ba4" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::getResGraph</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const std::string &amp;resGroupType, const GraphId &amp;resModObj, ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, tsl::ordered_map&lt; std::string, std::optional&lt; Z3Predicate &gt; &gt; &amp;resRootQueries, tsl::ordered_map&lt; std::string, ResRootLocation &gt; &amp;resRootLocations, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>getResGraph</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::getResGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &gt; &amp;</type>
+          <declname>resRootQueries</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref> &gt; &amp;</type>
+          <declname>resRootLocations</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="572" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1abef60708b95419360528018ffab0209b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectAllResources</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const std::string &amp;resGroupType, const GraphId &amp;resModObj, ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, GroupedResBuilder &amp;builder, ResGroups &amp;resGroups, std::unordered_set&lt; GraphId, GraphIdHash &gt; &amp;collectedResTypes, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>collectAllResources</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::collectAllResources</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref> &amp;</type>
+          <declname>resGroups</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref> &gt; &amp;</type>
+          <declname>collectedResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="577" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a80883d36f96dd351f61a930a4a3cf78c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectSatisfyingResources</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const std::string &amp;resGroupType, const GraphId &amp;resModObj, ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, GroupedResBuilder &amp;builder, ResGroups &amp;resGroups, std::unordered_set&lt; GraphId, GraphIdHash &gt; &amp;collectedResTypes, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>collectSatisfyingResources</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::collectSatisfyingResources</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref> &amp;</type>
+          <declname>builder</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref> &amp;</type>
+          <declname>resGroups</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref> &gt; &amp;</type>
+          <declname>collectedResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="581" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a7f6f3b6a50ee36f2dc57ba6edc9beae1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectResGroups</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const std::string &amp;resGroupType, ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, const std::vector&lt; GraphId &gt; &amp;commonResTypes, ResGroups &amp;resGroups, ByGraph&lt; Graph * &gt; &amp;resGraphs, std::unordered_set&lt; GraphId, GraphIdHash &gt; &amp;collectedResTypes, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>collectResGroups</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::collectResGroups</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &gt; &amp;</type>
+          <declname>commonResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref> &amp;</type>
+          <declname>resGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> * &gt; &amp;</type>
+          <declname>resGraphs</declname>
+        </param>
+        <param>
+          <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref> &gt; &amp;</type>
+          <declname>collectedResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="585" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a8e0cadb9f50a5ce7bfdc9a40dbb87566" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::collectResGraphNewNames</definition>
+        <argsstring>(const std::string &amp;resGroupType, const std::vector&lt; GraphId &gt; &amp;commonResTypes, ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, const std::string &amp;modName)</argsstring>
+        <name>collectResGraphNewNames</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::collectResGraphNewNames</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &gt; &amp;</type>
+          <declname>commonResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="590" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1af00ccf0ce3f253199b023a01ff62ee1b" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::getResGraphId</definition>
+        <argsstring>(std::size_t resGroupTypeId, std::size_t resTypeId, std::size_t graphCopyId) const</argsstring>
+        <name>getResGraphId</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::getResGraphId</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>resGroupTypeId</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>resTypeId</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>graphCopyId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="593" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a9b46bd03da63c78914e6853384f2f346" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::replicateResGraphs</definition>
+        <argsstring>(const std::string &amp;resGroupType, std::size_t resGroupTypeId, const ByGraph&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;sectionFreqs, const ByGraph&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;fileFreqs, const std::vector&lt; GraphId &gt; &amp;commonResTypes, ByGraph&lt; Graph * &gt; &amp;resGraphs, CollectedResources &amp;collectedResources, ByGraph&lt; std::vector&lt; std::pair&lt; Graph *, std::string &gt; &gt; &gt; &amp;combinedResGraphs, GraphGroups &amp;graphGroups, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>replicateResGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::replicateResGraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>resGroupTypeId</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;</type>
+          <declname>sectionFreqs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;</type>
+          <declname>fileFreqs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &gt; &amp;</type>
+          <declname>commonResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> * &gt; &amp;</type>
+          <declname>resGraphs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref> &amp;</type>
+          <declname>collectedResources</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *, std::string &gt; &gt; &gt; &amp;</type>
+          <declname>combinedResGraphs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="594" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a6a1d4e670499c6c016f02b0bc6686153" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::countAndReplicateResGraphs</definition>
+        <argsstring>(const std::string &amp;resGroupType, std::size_t resGroupTypeId, const ResGroups &amp;resGroups, ByGraph&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;sectionFreqs, ByGraph&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;fileFreqs, const std::vector&lt; GraphId &gt; &amp;commonResTypes, ByGraph&lt; Graph * &gt; &amp;resGraphs, CollectedResources &amp;collectedResources, ByGraph&lt; std::vector&lt; std::pair&lt; Graph *, std::string &gt; &gt; &gt; &amp;combinedResGraphs, GraphGroups &amp;graphGroups, Context *ctx, const std::string &amp;modName)</argsstring>
+        <name>countAndReplicateResGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::countAndReplicateResGraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>resGroupTypeId</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref> &amp;</type>
+          <declname>resGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;</type>
+          <declname>sectionFreqs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; tsl::ordered_map&lt; std::string, long long &gt; &gt; &amp;</type>
+          <declname>fileFreqs</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &gt; &amp;</type>
+          <declname>commonResTypes</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> * &gt; &amp;</type>
+          <declname>resGraphs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref> &amp;</type>
+          <declname>collectedResources</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *, std::string &gt; &gt; &gt; &amp;</type>
+          <declname>combinedResGraphs</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="601" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1aeadf3c0f95da1e5e5559496932017363" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref>, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" kindref="compound">ResCallConnData</ref> &gt;</type>
+        <definition>std::map&lt; ResRootLocation, ResCallConnData &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::connectResGroups</definition>
+        <argsstring>(ResGroups &amp;resGroups, CollectedResources &amp;collectedResources, const ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, const std::string &amp;resGroupType)</argsstring>
+        <name>connectResGroups</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::connectResGroups</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref> &amp;</type>
+          <declname>resGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref> &amp;</type>
+          <declname>collectedResources</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="610" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a1263b68698c247347808580c9e9fa72d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::buildResIfCalls</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::optional&lt; Z3Predicate &gt; &gt; &gt; &amp;resCallers, const K &amp;srcReg, int depth, Z3Context *targetZ3Ctx) const</argsstring>
+        <name>buildResIfCalls</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::buildResIfCalls</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt; &gt; &gt; &amp;</type>
+          <declname>resCallers</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>srcReg</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>depth</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+          <declname>targetZ3Ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="613" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1af5b1d37f92b6dfc52181e11f76d121ec" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::connectResCalls</definition>
+        <argsstring>(const std::string &amp;resGroupType, GraphGroups &amp;graphGroups, const std::map&lt; ResRootLocation, ResCallConnData &gt; &amp;resCallConnData, RemappedGraphs *remappedGraphs)</argsstring>
+        <name>connectResCalls</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::connectResCalls</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref>, <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" kindref="compound">ResCallConnData</ref> &gt; &amp;</type>
+          <declname>resCallConnData</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="620" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a884e05b742bd37fafe60adec06cd1058" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::connectResGraphs</definition>
+        <argsstring>(const std::string &amp;resGroupType, ByGraph&lt; std::vector&lt; std::pair&lt; Graph *, std::string &gt; &gt; &gt; &amp;combinedResGraphs, const ByGraph&lt; CollectedSections &gt; &amp;resCallNewNames, GraphGroups &amp;graphGroups)</argsstring>
+        <name>connectResGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::connectResGraphs</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; std::vector&lt; std::pair&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *, std::string &gt; &gt; &gt; &amp;</type>
+          <declname>combinedResGraphs</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &gt; &amp;</type>
+          <declname>resCallNewNames</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="624" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1adf37350baf3f231671d0f711bca6ac71" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::editImpl</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, Context *ctx, const ModType *modType, const std::string &amp;modName)</argsstring>
+        <name>editImpl</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::editImpl</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="627" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a1df34f4dac3f73542d8145bf5d44bc61" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::fileKeyExists</definition>
+        <argsstring>(const std::string &amp;fileKey, tsl::ordered_map&lt; std::string, long long &gt; &amp;fileFreqs)</argsstring>
+        <name>fileKeyExists</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::fileKeyExists</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileKey</declname>
+        </param>
+        <param>
+          <type>tsl::ordered_map&lt; std::string, long long &gt; &amp;</type>
+          <declname>fileFreqs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="592" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1aa26b9f1bbbd6d2dc956dd00356a44c7b" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::getNewSectionName</definition>
+        <argsstring>(const std::string &amp;sectionName, const CollectedSections &amp;resNewCalls, const std::string &amp;graphId)</argsstring>
+        <name>getNewSectionName</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::getNewSectionName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref> &amp;</type>
+          <declname>resNewCalls</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="608" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1afc1c4abd8fb4e57ea183ab3ee9b8f121" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt;</type>
+        <definition>static std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::splitIfContentPart</definition>
+        <argsstring>(ContentPart &amp;part, std::map&lt; long long, std::vector&lt; std::unique_ptr&lt; IfTemplatePart &gt; &gt; &gt; &amp;ifPartsToAdd)</argsstring>
+        <name>splitIfContentPart</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::splitIfContentPart</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" kindref="member">ContentPart</ref> &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>std::map&lt; long long, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_template_part" kindref="compound">IfTemplatePart</ref> &gt; &gt; &gt; &amp;</type>
+          <declname>ifPartsToAdd</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="616" column="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1a5422755a0e392d535e87901681576304" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::resolveToGraph</definition>
+        <argsstring>(const std::string &amp;resGroupType, const GraphId &amp;srcModObj, GraphGroups &amp;graphGroups, RemappedGraphs *remappedGraphs)</argsstring>
+        <name>resolveToGraph</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::resolveToGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resGroupType</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref> &amp;</type>
+          <declname>srcModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="618" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1aaf0b7d89c9ca8183c11165efa9e016b7" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::cleanResCallGraphs</definition>
+        <argsstring>(RemappedGraphs *remappedGraphs)</argsstring>
+        <name>cleanResCallGraphs</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::cleanResCallGraphs</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref> *</type>
+          <declname>remappedGraphs</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="623" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
+
+Creates the :cpp:class:`IniSectionGraph` for a particular *group* of resources
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where :cpp:class:`ResRegCollect` handles one resource at a time, this handles several that
+belong together -- a ``Blend.buf`` file and the textures that go with it, say -- and has to work out
+which combinations of them can actually co-occur. That is what makes it the one edit in this
+family that reasons about `Z3`_ predicates: two resources belong in the same group only if the
+conditional branches they live under are simultaneously satisfiable :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Roughly, per resource-group type: **collect** every reference (recording the query each one
+sits under), optionally **remap** the source graphs, **group** the referenced resources by
+satisfiability, **replicate** each resource&apos;s graph once per group that needs its own copy,
+then **connect** -- splicing ``if``/``endif`` blocks back into the source graphs so each call
+site reaches the right replica :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is the one place in the codebase where predicates from two *different*
+   :cpp:class:`Z3Context`\\s legitimately meet -- a source graph and a resource&apos;s own graph can
+   come from different ``.ini`` files, each owning its own context. Every combination therefore
+   goes through #combineQueries, which reparents whichever operand does not already belong to
+   the target context. Combining raw would not reliably throw; it would silently misbehave
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_group_collect"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="67" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="67" bodyend="628"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a526baef278d436875727894c5a3b729f" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a1263b68698c247347808580c9e9fa72d" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>buildResIfCalls</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ByGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aaf0b7d89c9ca8183c11165efa9e016b7" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>cleanResCallGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20" prot="public" virt="virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1abef60708b95419360528018ffab0209b" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>collectAllResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>CollectedResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>CollectedSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1af21f1727543e7cdd9ebb910d64b8d1c6" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>collectFromGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a8e0cadb9f50a5ce7bfdc9a40dbb87566" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>collectResGraphNewNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a7f6f3b6a50ee36f2dc57ba6edc9beae1" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>collectResGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a80883d36f96dd351f61a930a4a3cf78c" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>collectSatisfyingResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a74543a4365597514451e27af47c87fe4" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>combineQueries</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1af5b1d37f92b6dfc52181e11f76d121ec" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>connectResCalls</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a884e05b742bd37fafe60adec06cd1058" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>connectResGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aeadf3c0f95da1e5e5559496932017363" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>connectResGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a6a1d4e670499c6c016f02b0bc6686153" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>countAndReplicateResGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a60ce4caa90f325f788bb322f52851fca" prot="public" virt="virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" virt="virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1adf37350baf3f231671d0f711bca6ac71" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>editImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ac97eaf6b4a2573b89ab6d24e3b2af11a" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>editWithContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a1df34f4dac3f73542d8145bf5d44bc61" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>fileKeyExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aa26b9f1bbbd6d2dc956dd00356a44c7b" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>getNewSectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a24fd5b41263a6642ba19f5dc60082c04" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>getResCallNewNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a5c47709572abe86c2ce96c7e00280ba4" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>getResGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1af00ccf0ce3f253199b023a01ff62ee1b" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>getResGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>GraphIdHash</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a169630e2754974fdb620a10ae2b117f1" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>groupedResBuilders</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a128ff1931e49cf2eb3a0d7b3c3728556" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>id</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a98a8773600c9eac20d127d0a54d4a264" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>isValidResGroupType</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a5d75b6345e37342128f65ee0b7eac916" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>IterQueryData</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1abce4afc82de25a19f240bdcea88e0829" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>keysToTrack</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ac141eb1a36edb1ebeda60025966acad9" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>nullValue</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>PartPredicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a77e952d4cfd3d9c9a41eacd570418a07" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>partPredicates</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ad7111cc18c4151db903ab0ef738a34c4" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>remapGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>RemappedGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a9a1e7bf3bea3e28edf5729d6a403215e" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>Remapper</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1aa3704dcddcc6849720dcfeb166050aad" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>remaps</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>RenameFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a9b46bd03da63c78914e6853384f2f346" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>replicateResGraphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1af2b6bb260d3aac3528f6ef6adee2aef4" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resCalls</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ResEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a5c5cdcf8d5fb590c2fa0e8df0962c1cb" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resEdits</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ac7feb148754b32171c2dbc1dafae0958" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ResGroupCollect</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ResGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1ac1d6b01643a43b9e390031ee932af658" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resGroupTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a4d6538481580dc10e189a2b74f534683" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resGroupTypes_</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1afe9ec15e2577e9309d7d5b85a8d2fa65" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resGroupTypesSameTopology</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a5422755a0e392d535e87901681576304" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resolveToGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a946f3ffc8ac27d61940a2e7095bf855b" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>ResPredicate</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a81a547744c43fb69853e6d8dcd220d8d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>resPredicates</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1adceed5084246cdefe7065e015cc42a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a29efb6e760e86d0fbefe9ac74f4bc55b" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>setResGroupTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1afc1c4abd8fb4e57ea183ab3ee9b8f121" prot="private" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>splitIfContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a94b3d7f4164e23ecc72d04911a1c01e0" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>srcRegs</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a75743549d995823526c5a2a1b2bbd28c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>trackKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a1afb20d2afa8e6b1c2cf41bbecc2cab4" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>trackKeysGlobal</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a6ad53e7f5c2cd4b3c3477015d402e801" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>trackKeysIsGlobal</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_group_collect_1a00be4f10f1767d1428d14047d9cba931" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>valOfSectionName</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::ResGroupCollect</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

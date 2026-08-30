@@ -110,7 +110,21 @@ namespace AGRemapCore {
             return std::nullopt;
         }
 
-        for (std::size_t vi = 0; vi < versionVals.size(); ++vi) {
+        resolveVersionColumns(candidates, versionVals);
+
+        if (candidates.empty()) {
+            if (errorOnNotFound) {
+                throw std::out_of_range("ModAssets::get: no matching entry found after resolving version columns");
+            }
+            return std::nullopt;
+        }
+
+        return candidates.front()->value;
+    }
+
+    template <typename K, typename T, typename KeyEqual>
+    void ModAssets<K, T, KeyEqual>::resolveVersionColumns(std::vector<const StoredRow*>& candidates, const std::vector<std::optional<Version>>& versionVals) const {
+        for (std::size_t vi = 0; vi < versionVals.size() && !candidates.empty(); ++vi) {
             const std::optional<Version>& target = versionVals[vi];
             Version resolved = candidates.front()->versionVals[vi];
 
@@ -149,18 +163,73 @@ namespace AGRemapCore {
                 }
             }
             candidates = std::move(narrowed);
+        }
+    }
 
-            if (candidates.empty()) {
-                // Shouldn't happen (resolved was derived from the candidate set itself), but
-                // guard anyway rather than dereferencing an empty range on the next iteration.
-                if (errorOnNotFound) {
-                    throw std::out_of_range("ModAssets::get: no matching entry found after resolving version columns");
+    template <typename K, typename T, typename KeyEqual>
+    std::vector<std::pair<std::vector<K>, T>> ModAssets<K, T, KeyEqual>::getAll(const std::vector<std::optional<K>>& nonVersionVals, const std::vector<std::optional<Version>>& versionVals) const {
+        if (nonVersionVals.size() != nonVersionColumnPositions_.size()) {
+            throw std::invalid_argument("ModAssets::getAll: expected " + std::to_string(nonVersionColumnPositions_.size()) + " non-version values, got " + std::to_string(nonVersionVals.size()));
+        }
+        if (versionVals.size() != versionColumnPositions_.size()) {
+            throw std::invalid_argument("ModAssets::getAll: expected " + std::to_string(versionColumnPositions_.size()) + " version values, got " + std::to_string(versionVals.size()));
+        }
+
+        // Same fixed-column filter get() does -- a nullopt position matches anything, and is the
+        // axis this fans out over.
+        KeyEqual keyEqual;
+        std::vector<const StoredRow*> candidates;
+        for (const StoredRow& row : rows_) {
+            bool matches = true;
+            for (std::size_t i = 0; i < nonVersionVals.size(); ++i) {
+                if (nonVersionVals[i].has_value() && !keyEqual(*nonVersionVals[i], row.nonVersionVals[i])) {
+                    matches = false;
+                    break;
                 }
-                return std::nullopt;
+            }
+            if (matches) {
+                candidates.push_back(&row);
             }
         }
 
-        return candidates.front()->value;
+        // Group by the FULL non-version key. Rows sharing one differ only in their versions, which
+        // is exactly what the per-group resolution below is there to settle -- see getAll's note on
+        // why this cannot be one global resolution.
+        std::vector<std::vector<K>> groupKeys;
+        std::vector<std::vector<const StoredRow*>> groups;
+        for (const StoredRow* c : candidates) {
+            std::size_t g = 0;
+            for (; g < groupKeys.size(); ++g) {
+                bool same = true;
+                for (std::size_t i = 0; i < c->nonVersionVals.size(); ++i) {
+                    if (!keyEqual(groupKeys[g][i], c->nonVersionVals[i])) {
+                        same = false;
+                        break;
+                    }
+                }
+                if (same) {
+                    break;
+                }
+            }
+
+            if (g == groupKeys.size()) {
+                groupKeys.push_back(c->nonVersionVals);
+                groups.emplace_back();
+            }
+
+            groups[g].push_back(c);
+        }
+
+        std::vector<std::pair<std::vector<K>, T>> result;
+        result.reserve(groups.size());
+        for (std::size_t g = 0; g < groups.size(); ++g) {
+            resolveVersionColumns(groups[g], versionVals);
+            if (!groups[g].empty()) {
+                result.emplace_back(groupKeys[g], groups[g].front()->value);
+            }
+        }
+
+        return result;
     }
 
     template <typename K, typename T, typename KeyEqual>

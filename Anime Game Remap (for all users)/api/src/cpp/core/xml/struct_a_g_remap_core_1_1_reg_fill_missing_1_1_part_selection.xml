@@ -1,0 +1,169 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegFillMissing::PartSelection</compoundname>
+    <includes refid="_reg_fill_missing_8h" local="no">RegFillMissing.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a48cdb944381b13b7b3cb282be6444e84" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" kindref="member">PartFilter</ref></type>
+        <definition>PartFilter AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection::partFilter</definition>
+        <argsstring></argsstring>
+        <name>partFilter</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartSelection::partFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Decides whether one part may be filled: an **empty** :cpp:class:`Ranges` result
+skips that part, any non-empty result accepts it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+This is the same convention -- and the same
+:cpp:type:`BaseIniGraphEdit::PartFilter` type -- that
+:cpp:class:`GraphGroupEdit` already applies to its register edits
+(``if (keyRanges.isEmpty()) continue;``). Only which *parts* get filled is
+decided here; a non-empty result&apos;s actual ranges are **not** consulted, since
+filling a part appends a whole `KVP`_ rather than editing occurrences at
+particular order indices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+An empty ``std::function`` accepts every part
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="135" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1affea2f9a24a13f38a208abc96df8a875" prot="public" static="no" mutable="no">
+        <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+        <definition>const ModType* AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection::modType</definition>
+        <argsstring></argsstring>
+        <name>modType</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartSelection::modType</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>The type of mod to fix, handed straight to <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a48cdb944381b13b7b3cb282be6444e84" kindref="member">partFilter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Nullable</bold> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="140" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a5e472da53d410cca0841b90fce4d46cd" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection::ini</definition>
+        <argsstring></argsstring>
+        <name>ini</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartSelection::ini</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>The associated .ini file, handed straight to <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a48cdb944381b13b7b3cb282be6444e84" kindref="member">partFilter</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><bold>Nullable</bold> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="145" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a4c533fe87e844a72052b44136b632642" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection::trackKeys</definition>
+        <argsstring></argsstring>
+        <name>trackKeys</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartSelection::trackKeys</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to give \ref partFilter a populated
+:cpp:member:`SectionIterData::colouring` -- the running state of the `KVPs`_ seen
+on the path reaching each part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+When ``false``, ``colouring`` is ``nullptr`` and a filter can only discriminate on
+the part/`section`_ itself
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="158" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a547221aaa72964b786b66be4ef723593" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt;</type>
+        <definition>std::optional&lt;KeySet&gt; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection::keysToTrack</definition>
+        <argsstring></argsstring>
+        <name>keysToTrack</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartSelection::keysToTrack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which keys \ref trackKeys should colour, or ``std::nullopt`` for **every** key --
+the same convention :cpp:func:`IfContentPartColouring::updateColouring` and
+:cpp:class:`GraphGroupEdit` already use
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="168" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Which parts a fill is allowed to touch, and the state a filter gets to decide that from
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A default-constructed instance (an empty \ref partFilter, no tracking) accepts every
+part, which is what makes the whole selection feature opt-in: \ref fillMissingGraph and
+\ref addCover then behave exactly as they did before it existed, and skip the graph walk
+entirely
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ModType</label>
+        <link refid="class_a_g_remap_core_1_1_mod_type"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartSelection</label>
+        <link refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>modType</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>ini</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="116" bodyend="169"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a5e472da53d410cca0841b90fce4d46cd" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>ini</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a547221aaa72964b786b66be4ef723593" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>keysToTrack</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1affea2f9a24a13f38a208abc96df8a875" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>modType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a48cdb944381b13b7b3cb282be6444e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>partFilter</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a4c533fe87e844a72052b44136b632642" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>trackKeys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

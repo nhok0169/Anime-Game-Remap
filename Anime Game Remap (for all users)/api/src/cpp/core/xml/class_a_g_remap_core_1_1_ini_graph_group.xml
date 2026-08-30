@@ -4,10 +4,28 @@
     <compoundname>AGRemapCore::IniGraphGroup</compoundname>
     <includes refid="_ini_graph_group_8h" local="no">IniGraphGroup.h</includes>
     <innerclass refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash" prot="public">AGRemapCore::IniGraphGroup::ModObjHash</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
     <sectiondef kind="public-type">
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1a6c3613c300f34a74e914930ddea90a54" prot="public" static="no">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; std::string, std::string &gt;</type>
-        <definition>using AGRemapCore::IniGraphGroup::Graph = IniSectionGraph&lt;std::string, std::string&gt;</definition>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::Graph = IniSectionGraph&lt;K, V, KeyHash, KeyEqual&gt;</definition>
         <argsstring></argsstring>
         <name>Graph</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::Graph</qualifiedname>
@@ -18,11 +36,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="47" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="66" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="66" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" prot="public" static="no">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" prot="public" static="no">
         <type>std::pair&lt; std::string, std::string &gt;</type>
-        <definition>using AGRemapCore::IniGraphGroup::ModObj = std::pair&lt;std::string, std::string&gt;</definition>
+        <definition>using AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::ModObj = std::pair&lt;std::string, std::string&gt;</definition>
         <argsstring></argsstring>
         <name>ModObj</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::ModObj</qualifiedname>
@@ -36,11 +54,11 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="56" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="75" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="75" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" prot="public" static="no">
-        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">ModObj</ref>, <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a6c3613c300f34a74e914930ddea90a54" kindref="member">Graph</ref>, <ref refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash" kindref="compound">ModObjHash</ref> &gt;</type>
-        <definition>using AGRemapCore::IniGraphGroup::GraphMap = tsl::ordered_map&lt;ModObj, Graph, ModObjHash&gt;</definition>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" prot="public" static="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" kindref="member">ModObj</ref>, std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" kindref="member">Graph</ref> &gt;, <ref refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash" kindref="compound">ModObjHash</ref> &gt;</type>
+        <definition>using AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::GraphMap = tsl::ordered_map&lt;ModObj, std::unique_ptr&lt;Graph&gt;, ModObjHash&gt;</definition>
         <argsstring></argsstring>
         <name>GraphMap</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::GraphMap</qualifiedname>
@@ -55,13 +73,13 @@ The container the graphs live in -- a ``tsl::ordered_map`` rather than a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="85" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="85" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="104" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="104" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_group_1a99b01ebce2382ac9afbee2e0a4327552" prot="private" static="no" mutable="no">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" kindref="member">GraphMap</ref></type>
-        <definition>GraphMap AGRemapCore::IniGraphGroup::graphs_</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_group_1af1f9adee31d18f1d397f53bf4e09f338" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" kindref="member">GraphMap</ref></type>
+        <definition>GraphMap AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::graphs_</definition>
         <argsstring></argsstring>
         <name>graphs_</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::graphs_</qualifiedname>
@@ -71,13 +89,13 @@ The container the graphs live in -- a ``tsl::ordered_map`` rather than a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="153" column="22" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="153" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="181" column="22" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="181" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::IniGraphGroup::IniGraphGroup</definition>
+        <definition>AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::IniGraphGroup</definition>
         <argsstring>()=default</argsstring>
         <name>IniGraphGroup</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::IniGraphGroup</qualifiedname>
@@ -87,16 +105,16 @@ The container the graphs live in -- a ``tsl::ordered_map`` rather than a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="87" column="13"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="106" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1af646f6ab83d72da9793a4d23a117e257" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a5de0f258f86d6f2f72bfbbfe7c0ec086" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::IniGraphGroup::IniGraphGroup</definition>
+        <definition>AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::IniGraphGroup</definition>
         <argsstring>(GraphMap graphs)</argsstring>
         <name>IniGraphGroup</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::IniGraphGroup</qualifiedname>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" kindref="member">GraphMap</ref></type>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" kindref="member">GraphMap</ref></type>
           <declname>graphs</declname>
         </param>
         <briefdescription>
@@ -116,11 +134,11 @@ The container the graphs live in -- a ``tsl::ordered_map`` rather than a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="94" column="22" bodyfile="src/model/IniGraphGroup.cpp" bodystart="7" bodyend="7"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="113" column="22" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="113" bodyend="113"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1adfad34b6bbefc93228c4fc2b160799f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a0a6cb4779bf1feeb8876f9937acfa2b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::IniGraphGroup::IniGraphGroup</definition>
+        <definition>AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::IniGraphGroup</definition>
         <argsstring>(const IniGraphGroup &amp;)=delete</argsstring>
         <name>IniGraphGroup</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::IniGraphGroup</qualifiedname>
@@ -137,16 +155,16 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="103" column="13"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="122" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1af91d6a783dc5b24a6f3aa5b7afd6891f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" kindref="member">IniGraphGroup</ref> &amp;</type>
-        <definition>IniGraphGroup &amp; AGRemapCore::IniGraphGroup::operator=</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a2d41fe5d3d6af4288e1da5108d6a6c79" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" kindref="member">IniGraphGroup</ref> &amp;</type>
+        <definition>IniGraphGroup &amp; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
         <argsstring>(const IniGraphGroup &amp;)=delete</argsstring>
         <name>operator=</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::operator=</qualifiedname>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" kindref="member">IniGraphGroup</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" kindref="member">IniGraphGroup</ref> &amp;</type>
         </param>
         <briefdescription>
         </briefdescription>
@@ -154,11 +172,11 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="104" column="27"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="123" column="27"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1aadd73dff2e634889d02877a4a16bc262" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a533ad0431025382f3b64705b547c310e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::IniGraphGroup::IniGraphGroup</definition>
+        <definition>AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::IniGraphGroup</definition>
         <argsstring>(IniGraphGroup &amp;&amp;)=default</argsstring>
         <name>IniGraphGroup</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::IniGraphGroup</qualifiedname>
@@ -171,16 +189,16 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="105" column="13"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="124" column="13"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a3a3140fd1169d07d2d088b35bef88c4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" kindref="member">IniGraphGroup</ref> &amp;</type>
-        <definition>IniGraphGroup &amp; AGRemapCore::IniGraphGroup::operator=</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a24e8143449c25221ab01f32f4ce320f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" kindref="member">IniGraphGroup</ref> &amp;</type>
+        <definition>IniGraphGroup &amp; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::operator=</definition>
         <argsstring>(IniGraphGroup &amp;&amp;)=default</argsstring>
         <name>operator=</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::operator=</qualifiedname>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" kindref="member">IniGraphGroup</ref> &amp;&amp;</type>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" kindref="member">IniGraphGroup</ref> &amp;&amp;</type>
         </param>
         <briefdescription>
         </briefdescription>
@@ -188,11 +206,11 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="106" column="27"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="125" column="27"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a3efaf0a88ff103d2a4537f46e031f25a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
-        <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" kindref="member">GraphMap</ref> &amp;</type>
-        <definition>const IniGraphGroup::GraphMap &amp; AGRemapCore::IniGraphGroup::graphs</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1ac732fe4e401669fc7acb0cb3aee8d7f3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" kindref="member">GraphMap</ref> &amp;</type>
+        <definition>const GraphMap &amp; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::graphs</definition>
         <argsstring>() const</argsstring>
         <name>graphs</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::graphs</qualifiedname>
@@ -203,11 +221,11 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="111" column="28" bodyfile="src/model/IniGraphGroup.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="130" column="28"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a5b16718488478a2aaf3b66146a0e6d86" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" kindref="member">GraphMap</ref> &amp;</type>
-        <definition>IniGraphGroup::GraphMap &amp; AGRemapCore::IniGraphGroup::graphs</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a9180abfb883992c52826a0fc652ee955" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" kindref="member">GraphMap</ref> &amp;</type>
+        <definition>GraphMap &amp; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::graphs</definition>
         <argsstring>()</argsstring>
         <name>graphs</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::graphs</qualifiedname>
@@ -218,20 +236,38 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="116" column="22" bodyfile="src/model/IniGraphGroup.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="135" column="22"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1abe7bc29ee0875476b0319284218f5639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a9b10fc528c7870e65516435d4a8f3687" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" kindref="member">ModObj</ref> &gt;</type>
+        <definition>std::vector&lt; ModObj &gt; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::modObjs</definition>
+        <argsstring>() const</argsstring>
+        <name>modObjs</name>
+        <qualifiedname>AGRemapCore::IniGraphGroup::modObjs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``(component name, mod object name)`` keys of every graph in this group, in
+insertion order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="144" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a99b2468b81e59d49a67ad29135058b43" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void AGRemapCore::IniGraphGroup::addGraph</definition>
-        <argsstring>(ModObj modObj, Graph graph)</argsstring>
+        <definition>void AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::addGraph</definition>
+        <argsstring>(ModObj modObj, std::unique_ptr&lt; Graph &gt; graph)</argsstring>
         <name>addGraph</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::addGraph</qualifiedname>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">ModObj</ref></type>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" kindref="member">ModObj</ref></type>
           <declname>modObj</declname>
         </param>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a6c3613c300f34a74e914930ddea90a54" kindref="member">Graph</ref></type>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" kindref="member">Graph</ref> &gt;</type>
           <declname>graph</declname>
         </param>
         <briefdescription>
@@ -259,16 +295,16 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="124" column="18" bodyfile="src/model/IniGraphGroup.cpp" bodystart="17" bodyend="21"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="152" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a8c3ce6f7fe2773e69cedc76e03e21a93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>bool</type>
-        <definition>bool AGRemapCore::IniGraphGroup::removeGraph</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a5d32b7bdef0a36ea5e9fc78116126732" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" kindref="member">Graph</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; Graph &gt; AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::removeGraph</definition>
         <argsstring>(const ModObj &amp;modObj)</argsstring>
         <name>removeGraph</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::removeGraph</qualifiedname>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">ModObj</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" kindref="member">ModObj</ref> &amp;</type>
           <declname>modObj</declname>
         </param>
         <briefdescription>
@@ -284,22 +320,22 @@ this necessarily is too
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>Whether a graph was actually removed </para>
+<simplesect kind="return"><para>The removed graph, or <computeroutput>nullptr</computeroutput> if there was none stored under &apos;modObj&apos; </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="133" column="18" bodyfile="src/model/IniGraphGroup.cpp" bodystart="23" bodyend="31"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="161" column="29"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a4e33994b25018849e07122a2a9094bd3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a6c3613c300f34a74e914930ddea90a54" kindref="member">Graph</ref> *</type>
-        <definition>IniGraphGroup::Graph * AGRemapCore::IniGraphGroup::getGraph</definition>
-        <argsstring>(const ModObj &amp;modObj)</argsstring>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1ad0b1e25cd86c207af06886b8548ef7c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" kindref="member">Graph</ref> *</type>
+        <definition>Graph * AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::getGraph</definition>
+        <argsstring>(const ModObj &amp;modObj) const</argsstring>
         <name>getGraph</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::getGraph</qualifiedname>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">ModObj</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" kindref="member">ModObj</ref> &amp;</type>
           <declname>modObj</declname>
         </param>
         <briefdescription>
@@ -319,11 +355,11 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="140" column="19" bodyfile="src/model/IniGraphGroup.cpp" bodystart="33" bodyend="40"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="168" column="19"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a878eaa5a18bea05ad2d27de00aeb5828" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1ad92c38dbf6b0286ea8c7c45ad6d247b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
-        <definition>std::size_t AGRemapCore::IniGraphGroup::size</definition>
+        <definition>std::size_t AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::size</definition>
         <argsstring>() const</argsstring>
         <name>size</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::size</qualifiedname>
@@ -334,11 +370,11 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="145" column="25" bodyfile="src/model/IniGraphGroup.cpp" bodystart="42" bodyend="44"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="173" column="25"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a24a1e6789208483227679a0902605866" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_group_1a616f319d52af0af74362bdfc60655a6d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
-        <definition>bool AGRemapCore::IniGraphGroup::empty</definition>
+        <definition>bool AGRemapCore::IniGraphGroup&lt; K, V, KeyHash, KeyEqual &gt;::empty</definition>
         <argsstring>() const</argsstring>
         <name>empty</name>
         <qualifiedname>AGRemapCore::IniGraphGroup::empty</qualifiedname>
@@ -349,7 +385,7 @@ this necessarily is too
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="150" column="18" bodyfile="src/model/IniGraphGroup.cpp" bodystart="46" bodyend="48"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="178" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -364,39 +400,85 @@ A group of caller/callee graphs within a ``.ini`` file :raw-html:`&lt;br /&gt;` 
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   :cpp:class:`IniSectionGraph` is a class template, but this deliberately is **not** -- it
-   pins its graphs to ``IniSectionGraph&lt;std::string, std::string&gt;``, the same instantiation
-   :cpp:class:`IniFile` already pins :cpp:class:`IfTemplate` to. Every ``.ini`` file this
-   codebase actually parses is string-keyed and string-valued, so a template parameter here
-   would only ever take one argument
+   This is a class template over the same ``K``/``V``/``KeyHash``/``KeyEqual`` as the
+   :cpp:class:`IniSectionGraph`\\s it holds, defaulting to ``&lt;std::string, std::string&gt;``
+   (the instantiation :cpp:class:`IniFile` pins :cpp:class:`IfTemplate` to, and the only one
+   a plain C++ ``.ini`` caller needs). It has to be templated rather than pinned, for the same
+   reason :cpp:class:`BaseRegEdit` does: the `pybind11`_ layer&apos;s graphs are
+   ``IniSectionGraph&lt;py::object, py::object, ...&gt;``, so a group pinned to
+   ``&lt;std::string, std::string&gt;`` would be unreachable from any binding.
+
+.. note::
+   The graphs are stored as ``std::unique_ptr``\\s rather than by value, so that a
+   :cpp:class:`IniSectionGraph` pointer handed out by #getGraph stays valid across later
+   inserts/erases on the same group. Every graph-group edit under ``graphGroupEdits/`` relies
+   on that (it holds borrowed graph pointers across whole multi-phase algorithms), and
+   ``tsl::ordered_map`` does **not** otherwise guarantee reference stability.
 
 .. note::
    There is a separate, unrelated ``PyIniGraphGroup`` in the `pybind11`_ binding layer that is
    **not** built on this class. That one deliberately wraps a genuine `Python`_ ``dict``,
    because real call sites (``GIMIParser.py``) depend on `Python`_ dict *reference* semantics
    -- reading ``graphGroups[0].graphs`` back out and expecting the same object identity.
-   Converting to/from a C++ map would silently break that aliasing, so the two coexist for now
-</verbatim> </para>
+   Converting to/from a C++ map would silently break that aliasing, so the two coexist. The
+   seam that lets one algorithm serve both is :cpp:class:`IIniGraphGroups` -- see its own
+   top-level note
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/IniGraphGroup.h" line="41" column="5" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="41" bodyend="154"/>
+    <location file="include/AGRemapCore/model/IniGraphGroup.h" line="60" column="5" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="60" bodyend="182"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1abe7bc29ee0875476b0319284218f5639" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>addGraph</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a24a1e6789208483227679a0902605866" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>empty</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a4e33994b25018849e07122a2a9094bd3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>getGraph</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a6c3613c300f34a74e914930ddea90a54" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>Graph</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1aa67bf04658fe60c342559c015933e701" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>GraphMap</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a3efaf0a88ff103d2a4537f46e031f25a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a5b16718488478a2aaf3b66146a0e6d86" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a99b01ebce2382ac9afbee2e0a4327552" prot="private" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs_</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1aeabf7e2035b8351dd12bce11f43bb05c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1af646f6ab83d72da9793a4d23a117e257" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1adfad34b6bbefc93228c4fc2b160799f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1aadd73dff2e634889d02877a4a16bc262" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>ModObj</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1af91d6a783dc5b24a6f3aa5b7afd6891f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>operator=</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a3a3140fd1169d07d2d088b35bef88c4d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>operator=</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a8c3ce6f7fe2773e69cedc76e03e21a93" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>removeGraph</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a878eaa5a18bea05ad2d27de00aeb5828" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a99b2468b81e59d49a67ad29135058b43" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a616f319d52af0af74362bdfc60655a6d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1ad0b1e25cd86c207af06886b8548ef7c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a8cc3967e4bff1a3f1e25110cec131543" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a067d21796d0dcc0cd7e438742812052e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>GraphMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1ac732fe4e401669fc7acb0cb3aee8d7f3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a9180abfb883992c52826a0fc652ee955" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1af1f9adee31d18f1d397f53bf4e09f338" prot="private" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>graphs_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1ab8bfc5b84b81471f9601cad6caad07dc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a5de0f258f86d6f2f72bfbbfe7c0ec086" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a0a6cb4779bf1feeb8876f9937acfa2b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a533ad0431025382f3b64705b547c310e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>IniGraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a8145e618bfbcee24479f5d5a731a8fd6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a9b10fc528c7870e65516435d4a8f3687" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>modObjs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a2d41fe5d3d6af4288e1da5108d6a6c79" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a24e8143449c25221ab01f32f4ce320f1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1a5d32b7bdef0a36ea5e9fc78116126732" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>removeGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_graph_group_1ad92c38dbf6b0286ea8c7c45ad6d247b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup</scope><name>size</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

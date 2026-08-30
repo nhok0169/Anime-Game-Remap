@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIParser::ParserConfig</compoundname>
+    <includes refid="_g_i_m_i_parser_8h" local="no">GIMIParser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1ae549e37bc6608691558c43ff3911d9b1" prot="public" static="no" mutable="no">
+        <type>Classifier::ClassifierConfig</type>
+        <definition>Classifier::ClassifierConfig AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig::classifier</definition>
+        <argsstring></argsstring>
+        <name>classifier</name>
+        <qualifiedname>AGRemapCore::GIMIParser::ParserConfig::classifier</qualifiedname>
+        <briefdescription>
+<para>The customization points the default :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" kindref="compound">GIMISectionClassifier</ref></computeroutput> uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="256" column="55" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+        <definition>IfTemplateRunConfig&lt;K, V&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig::runConfig</definition>
+        <argsstring></argsstring>
+        <name>runConfig</name>
+        <qualifiedname>AGRemapCore::GIMIParser::ParserConfig::runConfig</qualifiedname>
+        <briefdescription>
+<para>The run configuration any <computeroutput>section</computeroutput>_ built by this parser uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="261" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="261" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" prot="public" static="no" mutable="no">
+        <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;V(const std::string&amp;)&gt; AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig::valOfSectionName</definition>
+        <argsstring></argsstring>
+        <name>valOfSectionName</name>
+        <qualifiedname>AGRemapCore::GIMIParser::ParserConfig::valOfSectionName</qualifiedname>
+        <briefdescription>
+<para>Converts a <computeroutput>section</computeroutput>_ name into the <computeroutput>KVP</computeroutput>_ value that references it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="266" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="266" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs -- ``K``/``V`` are not
+``std::string`` for every instantiation, so no ``.ini`` keyword can be spelled as a
+literal here
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::GIMIParser&lt; K, V, KeyHash, KeyEqual, ParserBase &gt;::ParserConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>classifier</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="252" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="252" bodyend="267"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1ae549e37bc6608691558c43ff3911d9b1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>classifier</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>runConfig</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>valOfSectionName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

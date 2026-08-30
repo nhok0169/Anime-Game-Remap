@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_5dd65160827af56e6353642206b80129" kind="dir">
     <compoundname>src/model</compoundname>
+    <innerdir refid="dir_b8a2f5fce41f5d93b63074e63f71a337">src/model/assets</innerdir>
     <innerdir refid="dir_9da8a69756c8d6e8bdd968d668b94d0c">src/model/buffers</innerdir>
     <innerdir refid="dir_89356c07892b6ff3ab361b2626767945">src/model/files</innerdir>
     <innerdir refid="dir_941b5cb2d2010f0c64ef256f59e27c9d">src/model/iftemplate</innerdir>
@@ -9,7 +10,6 @@
     <innerdir refid="dir_e3096fae6cb60abe644df6d10e6a272e">src/model/stats</innerdir>
     <innerdir refid="dir_fc20fd78122f92b232bb430db3d0fb49">src/model/strategies</innerdir>
     <innerdir refid="dir_ce9990a9ef7edc5fd8dda418ad63991a">src/model/textures</innerdir>
-    <innerfile refid="_ini_graph_group_8cpp">IniGraphGroup.cpp</innerfile>
     <innerfile refid="_ini_naming_tools_8cpp">IniNamingTools.cpp</innerfile>
     <innerfile refid="_version_8cpp">Version.cpp</innerfile>
     <innerfile refid="_version_set_8cpp">VersionSet.cpp</innerfile>

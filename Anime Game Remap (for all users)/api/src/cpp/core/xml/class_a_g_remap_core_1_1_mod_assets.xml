@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="146" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="191" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="191" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" prot="private" static="no" mutable="no">
         <type>std::vector&lt; bool &gt;</type>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="147" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="147" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="192" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="192" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::size_t &gt;</type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="148" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="193" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="193" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::size_t &gt;</type>
@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="149" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="194" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="194" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_assets_1a4204466c80a1daef134697521605944e" kindref="member">VersionParser</ref></type>
@@ -102,7 +102,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="150" column="27" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="150" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="195" column="27" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="195" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" prot="private" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" kindref="compound">StoredRow</ref> &gt;</type>
@@ -116,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="151" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="196" column="25" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="196" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -313,6 +313,84 @@ DataFrame-filtering order exactly
         </inbodydescription>
         <location file="include/AGRemapCore/model/assets/ModAssets.h" line="117" column="27"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1a0e2a8b1ab4ff19c297dfe102a2ed2a39" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::pair&lt; std::vector&lt; K &gt;, T &gt; &gt;</type>
+        <definition>std::vector&lt; std::pair&lt; std::vector&lt; K &gt;, T &gt; &gt; AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::getAll</definition>
+        <argsstring>(const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;nonVersionVals, const std::vector&lt; std::optional&lt; Version &gt; &gt; &amp;versionVals) const</argsstring>
+        <name>getAll</name>
+        <qualifiedname>AGRemapCore::ModAssets::getAll</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &gt; &amp;</type>
+          <declname>versionVals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves **every** matching asset, one per distinct combination of the non-version
+columns left unresolved -- the multi-result counterpart to #get :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Where #get answers &quot;the asset for this key&quot;, this answers &quot;every asset reachable by
+leaving some columns free&quot;. A ``std::nullopt`` in &apos;nonVersionVals&apos; is that free axis:
+rows are grouped by their values in those positions, and each group independently
+resolves its version columns exactly the way #get does :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   **Version resolution happens per group, not once globally.** That is the whole point
+   -- resolving versions across the merged candidate set first would pick one winning
+   version and silently drop every group that has no row at it. Doing it per group
+   means each free-column combination contributes its own best version match, so a
+   caller fanning out over (say) target mod names gets one result per target mod even
+   when those targets are listed at different versions
+
+.. note::
+   Groups come back in no particular order. Sort by the returned key if a stable order
+   matters
+
+.. note::
+   There is no ``errorOnNotFound`` here: &quot;nothing matched&quot; is a legitimate, expected
+   answer for a fan-out query, so this returns an empty vector rather than throwing
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>nonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One entry per non-version column, in their relative index order <ndash/> <computeroutput>std::nullopt</computeroutput> marks a column to fan out over. Must have exactly <ref refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" kindref="member">getNonVersionColumnCount</ref> elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>versionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One entry per version column, in their relative index order <ndash/> resolved per group, see <ref refid="class_a_g_remap_core_1_1_mod_assets_1a31715acc88bedaf05966331b166b05cb" kindref="member">get</ref>. Must have exactly <ref refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" kindref="member">getVersionColumnCount</ref> elements</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If &apos;nonVersionVals&apos;/&apos;versionVals&apos; don&apos;t have exactly <ref refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" kindref="member">getNonVersionColumnCount</ref>/<ref refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" kindref="member">getVersionColumnCount</ref> elements respectively</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>One <computeroutput>(nonVersionVals, asset)</computeroutput> pair per matching group, with the key given in full (including the columns that were fixed), so the caller can tell the groups apart </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="162" column="25"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
         <definition>std::size_t AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::getTotalIndices</definition>
@@ -326,7 +404,7 @@ DataFrame-filtering order exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="122" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="167" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -341,7 +419,7 @@ DataFrame-filtering order exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="127" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="172" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -356,7 +434,7 @@ DataFrame-filtering order exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="132" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="177" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -371,7 +449,7 @@ DataFrame-filtering order exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="137" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="182" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -391,7 +469,29 @@ DataFrame-filtering order exactly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="153" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="198" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModAssets&lt; K, T, KeyEqual &gt;::resolveVersionColumns</definition>
+        <argsstring>(std::vector&lt; const StoredRow * &gt; &amp;candidates, const std::vector&lt; std::optional&lt; Version &gt; &gt; &amp;versionVals) const</argsstring>
+        <name>resolveVersionColumns</name>
+        <qualifiedname>AGRemapCore::ModAssets::resolveVersionColumns</qualifiedname>
+        <param>
+          <type>std::vector&lt; const <ref refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row" kindref="compound">StoredRow</ref> * &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &gt; &amp;</type>
+          <declname>versionVals</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="204" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -446,11 +546,12 @@ Class to handle assets of any type for a mod where retrieval is based on some ke
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/assets/ModAssets.h" line="46" column="5" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="46" bodyend="154"/>
+    <location file="include/AGRemapCore/model/assets/ModAssets.h" line="46" column="5" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="46" bodyend="205"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>addRow</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a5d89e9cc54cd6b01f44891b647f2064d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>addRows</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a31715acc88bedaf05966331b166b05cb" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a0e2a8b1ab4ff19c297dfe102a2ed2a39" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>getAll</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>getNonVersionColumnCount</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>getTotalIndices</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>getVersionColumnCount</name></member>
@@ -458,6 +559,7 @@ Class to handle assets of any type for a mod where retrieval is based on some ke
       <member refid="class_a_g_remap_core_1_1_mod_assets_1aaa84747b6a3a5f0fdc0bb4c3729baf52" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>ModAssets</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>nonVersionColumnPositions_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>parseVersion_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>resolveVersionColumns</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>rows_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>size</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" prot="private" virt="non-virtual"><scope>AGRemapCore::ModAssets</scope><name>totalIndices_</name></member>

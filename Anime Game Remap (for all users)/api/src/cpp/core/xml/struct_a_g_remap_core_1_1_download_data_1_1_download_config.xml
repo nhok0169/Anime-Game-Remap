@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_download_data_1_1_download_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::DownloadData::DownloadConfig</compoundname>
+    <includes refid="_ini_parse_download_data_8h" local="no">IniParseDownloadData.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1add845026e22b6055b46fae628fb294ec" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::DownloadData&lt; K, V, KeyHash, KeyEqual &gt;::DownloadConfig::filenameKey</definition>
+        <argsstring></argsstring>
+        <name>filenameKey</name>
+        <qualifiedname>AGRemapCore::DownloadData::DownloadConfig::filenameKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key naming the file a resource <computeroutput>section</computeroutput>_ points at. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="170" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a2770f4b64602e76e3d0bef3a36992cb1" prot="public" static="no" mutable="no">
+        <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;V(const std::string&amp;)&gt; AGRemapCore::DownloadData&lt; K, V, KeyHash, KeyEqual &gt;::DownloadConfig::valOfPath</definition>
+        <argsstring></argsstring>
+        <name>valOfPath</name>
+        <qualifiedname>AGRemapCore::DownloadData::DownloadConfig::valOfPath</qualifiedname>
+        <briefdescription>
+<para>Converts a file path into the <computeroutput>KVP</computeroutput>_ value that names it. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="175" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a317527f4bd768c3fe8b10d0a68ab75f8" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+        <definition>IfTemplateRunConfig&lt;K, V&gt; AGRemapCore::DownloadData&lt; K, V, KeyHash, KeyEqual &gt;::DownloadConfig::runConfig</definition>
+        <argsstring></argsstring>
+        <name>runConfig</name>
+        <qualifiedname>AGRemapCore::DownloadData::DownloadConfig::runConfig</qualifiedname>
+        <briefdescription>
+<para>The run configuration any <computeroutput>section</computeroutput>_ built by this class uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="180" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="180" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs, for the same reason
+:cpp:class:`IfTemplateRunConfig` exists: ``K``/``V`` are not ``std::string`` for every
+instantiation, so the ``filename`` `KVP`_ key can&apos;t be spelled as a literal here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="166" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="166" bodyend="181"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1add845026e22b6055b46fae628fb294ec" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadData::DownloadConfig</scope><name>filenameKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a317527f4bd768c3fe8b10d0a68ab75f8" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadData::DownloadConfig</scope><name>runConfig</name></member>
+      <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a2770f4b64602e76e3d0bef3a36992cb1" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadData::DownloadConfig</scope><name>valOfPath</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

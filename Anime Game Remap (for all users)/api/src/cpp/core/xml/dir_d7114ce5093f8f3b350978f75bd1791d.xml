@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_d7114ce5093f8f3b350978f75bd1791d" kind="dir">
+    <compoundname>include/AGRemapCore/model/strategies/iniRemovers</compoundname>
+    <innerfile refid="_base_ini_remover_8h">BaseIniRemover.h</innerfile>
+    <innerfile refid="_ini_remove_builder_8h">IniRemoveBuilder.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/"/>
+  </compounddef>
+</doxygen>

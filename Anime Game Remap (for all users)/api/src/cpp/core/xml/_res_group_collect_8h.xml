@@ -1,0 +1,1149 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_res_group_collect_8h" kind="file" language="C++">
+    <compoundname>ResGroupCollect.h</compoundname>
+    <includes local="no">cstddef</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_set</includes>
+    <includes local="no">utility</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">tsl/ordered_map.h</includes>
+    <includes refid="_section_iter_data_8h" local="yes">AGRemapCore/model/SectionIterData.h</includes>
+    <includes refid="_ini_resource_8h" local="yes">AGRemapCore/model/iniresources/IniResource.h</includes>
+    <includes refid="_base_ini_graph_group_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</includes>
+    <includes refid="_graph_group_remap_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</includes>
+    <includes refid="_res_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</includes>
+    <includes refid="_ranges_8h" local="yes">AGRemapCore/tools/Ranges.h</includes>
+    <includes refid="_z3_context_8h" local="yes">AGRemapCore/tools/z3/Z3Context.h</includes>
+    <includes refid="_z3_predicate_8h" local="yes">AGRemapCore/tools/z3/Z3Predicate.h</includes>
+    <includes local="yes">ResGroupCollect.tpp</includes>
+    <incdepgraph>
+      <node id="30">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="75">
+        <label>BaseIniGraphGroupEdit.tpp</label>
+      </node>
+      <node id="35">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="67">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="48">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>AGRemapCore/constants/IniGraphReplaceMode.h</label>
+        <link refid="_ini_graph_replace_mode_8h"/>
+      </node>
+      <node id="66">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="64">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="65">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="56">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>AGRemapCore/model/iniresources/IniResource.h</label>
+        <link refid="_ini_resource_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="62">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
+        <link refid="_base_ini_part_edit_8h"/>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
+        <link refid="_base_ini_graph_group_edit_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</label>
+        <link refid="_graph_group_remap_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
+        <link refid="_i_ini_graph_groups_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="80">
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
+        <link refid="_ini_res_edit_context_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h</label>
+        <link refid="_res_group_collect_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="78">
+        <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
+        <link refid="_res_edit_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="20">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+      </node>
+      <node id="40">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="50">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="51">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="77">
+        <label>GraphGroupRemap.tpp</label>
+      </node>
+      <node id="74">
+        <label>IIniGraphGroups.tpp</label>
+      </node>
+      <node id="43">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="45">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="58">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="55">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="57">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="22">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="73">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="72">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="54">
+        <label>Node.tpp</label>
+      </node>
+      <node id="39">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="42">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="31">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="81">
+        <label>ResEdit.tpp</label>
+      </node>
+      <node id="82">
+        <label>ResGroupCollect.tpp</label>
+      </node>
+      <node id="59">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="15">
+        <label>algorithm</label>
+      </node>
+      <node id="41">
+        <label>cmath</label>
+      </node>
+      <node id="69">
+        <label>coroutine</label>
+      </node>
+      <node id="2">
+        <label>cstddef</label>
+      </node>
+      <node id="28">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>deque</label>
+      </node>
+      <node id="70">
+        <label>exception</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="33">
+        <label>list</label>
+      </node>
+      <node id="5">
+        <label>map</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="29">
+        <label>queue</label>
+      </node>
+      <node id="26">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="12">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="37">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="34">
+        <label>tuple</label>
+      </node>
+      <node id="17">
+        <label>type_traits</label>
+      </node>
+      <node id="18">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>unordered_set</label>
+      </node>
+      <node id="10">
+        <label>utility</label>
+      </node>
+      <node id="24">
+        <label>variant</label>
+      </node>
+      <node id="11">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" prot="public">AGRemapCore::ResGroupCollect::GroupedResBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" prot="public">AGRemapCore::ResGroupCollect::ResRootLocation</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" prot="public">AGRemapCore::ResGroupCollect::ResCall</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry" prot="public">AGRemapCore::ResGroupCollect::ResGroupEntry</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" prot="public">AGRemapCore::ResGroupCollect::ResGroup</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" prot="private">AGRemapCore::ResGroupCollect::RemappedGraph</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" prot="private">AGRemapCore::ResGroupCollect::CollectedResource</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" prot="private">AGRemapCore::ResGroupCollect::ResCallConnData</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_ResGroupCollect_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_ResGroupCollect_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;tsl/ordered_map.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_section_iter_data_8h" kindref="compound">AGRemapCore/model/SectionIterData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_resource_8h" kindref="compound">AGRemapCore/model/iniresources/IniResource.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_graph_group_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_graph_group_remap_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_res_edit_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ranges_8h" kindref="compound">AGRemapCore/tools/Ranges.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_z3_context_8h" kindref="compound">AGRemapCore/tools/z3/Z3Context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_z3_predicate_8h" kindref="compound">AGRemapCore/tools/z3/Z3Predicate.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="67" refid="class_a_g_remap_core_1_1_res_group_collect" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac7feb148754b32171c2dbc1dafae0958" kindref="member">ResGroupCollect</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="class_a_g_remap_core_1_1_res_group_collect_1a526baef278d436875727894c5a3b729f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a526baef278d436875727894c5a3b729f" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref>;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Base::GraphId;</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Base::GraphIdHash;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="class_a_g_remap_core_1_1_res_group_collect_1adceed5084246cdefe7065e015cc42a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1adceed5084246cdefe7065e015cc42a3d" kindref="member">Section</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>Graph::Section;</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103" refid="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" kindref="member">ContentPart</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="class_a_g_remap_core_1_1_res_group_collect_1a5d75b6345e37342128f65ee0b7eac916" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5d75b6345e37342128f65ee0b7eac916" kindref="member">IterData</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" kindref="member">IterQueryData</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_section_iter_query_data" kindref="compound">SectionIterQueryData&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" kindref="member">OrderRanges</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges&lt;long long&gt;</ref>;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5cbd278fdec15faac00cb7db6e06e6ca" kindref="member">ResEdit</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_base_res_edit" kindref="compound">BaseResEdit&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">ResEdit::Context</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="class_a_g_remap_core_1_1_res_group_collect_1a9a1e7bf3bea3e28edf5729d6a403215e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9a1e7bf3bea3e28edf5729d6a403215e" kindref="member">Remapper</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_graph_group_remap" kindref="compound">GraphGroupRemap&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" kindref="member">RenameFunc</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">Remapper::RenameFunc</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac663c7002358cc3ffa6a19404b4b5633" kindref="member">PartPredicate</ref><sp/>=<sp/>std::function&lt;<ref refid="class_a_g_remap_core_1_1_res_group_collect_1add37aae5d1c8f391cc9e866cc77cf6db" kindref="member">OrderRanges</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" kindref="member">IterQueryData</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="class_a_g_remap_core_1_1_res_group_collect_1a946f3ffc8ac27d61940a2e7095bf855b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a946f3ffc8ac27d61940a2e7095bf855b" kindref="member">ResPredicate</ref><sp/>=<sp/>std::function&lt;bool(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>V&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b787a99d45c87056e1216e57367e9fd" kindref="member">IterQueryData</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>T&gt;</highlight></codeline>
+<codeline lineno="154" refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref><sp/>=<sp/>tsl::ordered_map&lt;GraphId,<sp/>T,<sp/>GraphIdHash&gt;;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref><sp/>{</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="169" refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a2086e068e6e5148293c3b7033f84b100" kindref="member">~GroupedResBuilder</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181" refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" kindref="member">build</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188" refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" kindref="member">store</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>resource)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" kindref="member">addResource</ref>(<ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref>&amp;<sp/>group,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resType,<sp/><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref>&amp;<sp/>resource)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref><sp/>{</highlight></codeline>
+<codeline lineno="217" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1ae5654540e7378b165501a37560ccce5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1ae5654540e7378b165501a37560ccce5b" kindref="member">resModObj</ref>;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a0ab76740c9fddf93a17a2b9ffbfb2a35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a0ab76740c9fddf93a17a2b9ffbfb2a35" kindref="member">srcModObj</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a04a68db3ccf5604df349e988ab6f661c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a04a68db3ccf5604df349e988ab6f661c" kindref="member">sectionName</ref>;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a9259b733269844bd177f034006edb5fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a9259b733269844bd177f034006edb5fd" kindref="member">partId</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a28e0b2294862358e398a9d268f4fda5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a28e0b2294862358e398a9d268f4fda5a" kindref="member">orderInd</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" kindref="member">operator&lt;</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" kindref="member">operator==</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref>&amp;<sp/>other)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call" kindref="compound">ResCall</ref><sp/>{</highlight></codeline>
+<codeline lineno="250" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1ad41b0ac476830eebf4bf90341d24c581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>V<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1ad41b0ac476830eebf4bf90341d24c581" kindref="member">val</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Z3Predicate&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry" kindref="compound">ResGroupEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="265" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1ad7d95bff3dc25a84e6f6387433aa3ec9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1ad7d95bff3dc25a84e6f6387433aa3ec9" kindref="member">fileKey</ref>;</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1a04f265620b66d63bc65df99f79c23b09" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1a04f265620b66d63bc65df99f79c23b09" kindref="member">rootSectionName</ref>;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1aa3d7f668c94d75fbd0a87cba99347398" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1aa3d7f668c94d75fbd0a87cba99347398" kindref="member">rootLocation</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1a1d1c317a857d87cfa18fd3c6cd289b57" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1a1d1c317a857d87cfa18fd3c6cd289b57" kindref="member">partDepth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1af9aede82ac2a5faf94690685931e8dcb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref>*<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry_1af9aede82ac2a5faf94690685931e8dcb" kindref="member">resource</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" kindref="compound">ResGroup</ref><sp/>{</highlight></codeline>
+<codeline lineno="313" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ResGroupEntry&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" kindref="member">entries</ref>;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1acec42446b7b315cab6f2caebb4f3ca1d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;Z3Predicate&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1acec42446b7b315cab6f2caebb4f3ca1d" kindref="member">query</ref>;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a847f3c088504d2477496bd46c45f52ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a847f3c088504d2477496bd46c45f52ea" kindref="member">isMissing</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_set&lt;GraphId,<sp/>GraphIdHash&gt;&amp;<sp/>collected)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight></codeline>
+<codeline lineno="335" refid="class_a_g_remap_core_1_1_res_group_collect_1ac1d6b01643a43b9e390031ee932af658" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac1d6b01643a43b9e390031ee932af658" kindref="member">resGroupTypes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346" refid="class_a_g_remap_core_1_1_res_group_collect_1a29efb6e760e86d0fbefe9ac74f4bc55b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a29efb6e760e86d0fbefe9ac74f4bc55b" kindref="member">setResGroupTypes</ref>(std::vector&lt;std::string&gt;<sp/>newResGroupTypes);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355" refid="class_a_g_remap_core_1_1_res_group_collect_1a94b3d7f4164e23ecc72d04911a1c01e0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;K&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a94b3d7f4164e23ecc72d04911a1c01e0" kindref="member">srcRegs</ref>;</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364" refid="class_a_g_remap_core_1_1_res_group_collect_1a5c5cdcf8d5fb590c2fa0e8df0962c1cb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;tsl::ordered_map&lt;std::string, ResEdit*&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5c5cdcf8d5fb590c2fa0e8df0962c1cb" kindref="member">resEdits</ref>;</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369" refid="class_a_g_remap_core_1_1_res_group_collect_1a169630e2754974fdb620a10ae2b117f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>GroupedResBuilder*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a169630e2754974fdb620a10ae2b117f1" kindref="member">groupedResBuilders</ref>;</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374" refid="class_a_g_remap_core_1_1_res_group_collect_1a77e952d4cfd3d9c9a41eacd570418a07" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;PartPredicate&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a77e952d4cfd3d9c9a41eacd570418a07" kindref="member">partPredicates</ref>;</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="379" refid="class_a_g_remap_core_1_1_res_group_collect_1a81a547744c43fb69853e6d8dcd220d8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;ResPredicate&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a81a547744c43fb69853e6d8dcd220d8d" kindref="member">resPredicates</ref>;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388" refid="class_a_g_remap_core_1_1_res_group_collect_1aa3704dcddcc6849720dcfeb166050aad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;tsl::ordered_map&lt;std::string, typename Remapper::RemapTarget&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aa3704dcddcc6849720dcfeb166050aad" kindref="member">remaps</ref>;</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393" refid="class_a_g_remap_core_1_1_res_group_collect_1a6ad53e7f5c2cd4b3c3477015d402e801" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a6ad53e7f5c2cd4b3c3477015d402e801" kindref="member">trackKeysIsGlobal</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="398" refid="class_a_g_remap_core_1_1_res_group_collect_1a1afb20d2afa8e6b1c2cf41bbecc2cab4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a1afb20d2afa8e6b1c2cf41bbecc2cab4" kindref="member">trackKeysGlobal</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"></highlight></codeline>
+<codeline lineno="403" refid="class_a_g_remap_core_1_1_res_group_collect_1a75743549d995823526c5a2a1b2bbd28c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;bool&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a75743549d995823526c5a2a1b2bbd28c" kindref="member">trackKeys</ref>;</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408" refid="class_a_g_remap_core_1_1_res_group_collect_1abce4afc82de25a19f240bdcea88e0829" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;std::optional&lt;std::unordered_set&lt;K, KeyHash, KeyEqual&gt;</ref>&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1abce4afc82de25a19f240bdcea88e0829" kindref="member">keysToTrack</ref>;</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422" refid="class_a_g_remap_core_1_1_res_group_collect_1afe9ec15e2577e9309d7d5b85a8d2fa65" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1afe9ec15e2577e9309d7d5b85a8d2fa65" kindref="member">resGroupTypesSameTopology</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight></codeline>
+<codeline lineno="431" refid="class_a_g_remap_core_1_1_res_group_collect_1a128ff1931e49cf2eb3a0d7b3c3728556" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440" refid="class_a_g_remap_core_1_1_res_group_collect_1ac141eb1a36edb1ebeda60025966acad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac141eb1a36edb1ebeda60025966acad9" kindref="member">nullValue</ref>;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450" refid="class_a_g_remap_core_1_1_res_group_collect_1a00be4f10f1767d1428d14047d9cba931" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;V(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a00be4f10f1767d1428d14047d9cba931" kindref="member">valOfSectionName</ref>;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"></highlight></codeline>
+<codeline lineno="461" refid="class_a_g_remap_core_1_1_res_group_collect_1af2b6bb260d3aac3528f6ef6adee2aef4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;tsl::ordered_map&lt;std::string, tsl::ordered_map&lt;std::size_t, std::map&lt;long long, ResCall&gt;</ref>&gt;&gt;&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1af2b6bb260d3aac3528f6ef6adee2aef4" kindref="member">resCalls</ref>;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="473" refid="class_a_g_remap_core_1_1_res_group_collect_1ac7feb148754b32171c2dbc1dafae0958" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac7feb148754b32171c2dbc1dafae0958" kindref="member">ResGroupCollect</ref>(std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac1d6b01643a43b9e390031ee932af658" kindref="member">resGroupTypes</ref><sp/>=<sp/>{},<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;ByGraph&lt;K&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a94b3d7f4164e23ecc72d04911a1c01e0" kindref="member">srcRegs</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;tsl::ordered_map&lt;std::string, ResEdit*&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5c5cdcf8d5fb590c2fa0e8df0962c1cb" kindref="member">resEdits</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>GroupedResBuilder*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a169630e2754974fdb620a10ae2b117f1" kindref="member">groupedResBuilders</ref><sp/>=<sp/>{},</highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::function&lt;V(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a00be4f10f1767d1428d14047d9cba931" kindref="member">valOfSectionName</ref><sp/>=<sp/>{},<sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/>0);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481" refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1af11791adf52768a6f49d5c5d074f1a20" kindref="member">clear</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509" refid="class_a_g_remap_core_1_1_res_group_collect_1a74543a4365597514451e27af47c87fe4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a74543a4365597514451e27af47c87fe4" kindref="member">combineQueries</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref>&amp;<sp/>a,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref>&amp;<sp/>b,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>targetZ3Ctx);</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"></highlight></codeline>
+<codeline lineno="521" refid="class_a_g_remap_core_1_1_res_group_collect_1ac97eaf6b4a2573b89ab6d24e3b2af11a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ac97eaf6b4a2573b89ab6d24e3b2af11a" kindref="member">editWithContext</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>&amp;<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType,</highlight></codeline>
+<codeline lineno="522"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="523"><highlight class="normal"></highlight></codeline>
+<codeline lineno="533" refid="class_a_g_remap_core_1_1_res_group_collect_1a60ce4caa90f325f788bb322f52851fca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a60ce4caa90f325f788bb322f52851fca" kindref="member">edit</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="534"><highlight class="normal"></highlight></codeline>
+<codeline lineno="535"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="536" refid="class_a_g_remap_core_1_1_res_group_collect_1a4d6538481580dc10e189a2b74f534683" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a4d6538481580dc10e189a2b74f534683" kindref="member">resGroupTypes_</ref>;</highlight></codeline>
+<codeline lineno="537"><highlight class="normal"></highlight></codeline>
+<codeline lineno="538" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph" kindref="compound">RemappedGraph</ref><sp/>{</highlight></codeline>
+<codeline lineno="539" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a8458d525d711608382dbe91a448599c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref>*<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a8458d525d711608382dbe91a448599c0" kindref="member">graph</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="540" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a32f25c6d52bd3a88a82c2a944a5fb17c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a159de6844e0591fd1d0dd76aa1510372" kindref="member">RenameFunc</ref><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a32f25c6d52bd3a88a82c2a944a5fb17c" kindref="member">renameFunc</ref>;</highlight></codeline>
+<codeline lineno="541" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a3a2e8ee5715cc043ec6437f3d6927161" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_remapped_graph_1a3a2e8ee5715cc043ec6437f3d6927161" kindref="member">partIdRefreshRequired</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="542"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="543"><highlight class="normal"></highlight></codeline>
+<codeline lineno="544" refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;tsl::ordered_map&lt;std::string, RemappedGraph&gt;</ref>&gt;;</highlight></codeline>
+<codeline lineno="545" refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">ResEdit::CollectedSections</ref>;</highlight></codeline>
+<codeline lineno="546" refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref><sp/>=<sp/>std::vector&lt;ResGroup&gt;;</highlight></codeline>
+<codeline lineno="547"><highlight class="normal"></highlight></codeline>
+<codeline lineno="548"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>built<sp/>resource,<sp/>plus<sp/>which<sp/>replicated<sp/>graph<sp/>it<sp/>came<sp/>from<sp/>--<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="549"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original&apos;s<sp/>own<sp/>(resource,<sp/>graphId)<sp/>pair.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="550" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" kindref="compound">CollectedResource</ref><sp/>{</highlight></codeline>
+<codeline lineno="551" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a6514e63a1f211a92d9ea7bf2bcf31153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref>*<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a6514e63a1f211a92d9ea7bf2bcf31153" kindref="member">resource</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="552" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a914530a59b8dbb1f3d45fa93a61192ef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a914530a59b8dbb1f3d45fa93a61192ef" kindref="member">graphId</ref>;</highlight></codeline>
+<codeline lineno="553"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="554"><highlight class="normal"></highlight></codeline>
+<codeline lineno="555" refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref><sp/>=<sp/>tsl::ordered_map&lt;std::string,<sp/>std::deque&lt;CollectedResource&gt;&gt;;</highlight></codeline>
+<codeline lineno="556"><highlight class="normal"></highlight></codeline>
+<codeline lineno="557"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>new<sp/>&quot;run<sp/>=&quot;<sp/>call<sp/>sites<sp/>to<sp/>splice<sp/>into<sp/>one<sp/>source<sp/>part,<sp/>keyed<sp/>by<sp/>the<sp/>order<sp/>index</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="558"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>original<sp/>reference<sp/>sat<sp/>at.<sp/>std::map<sp/>(not<sp/>insertion-ordered)<sp/>deliberately:<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="559"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>split<sp/>below<sp/>sorts<sp/>its<sp/>indices,<sp/>so<sp/>these<sp/>have<sp/>to<sp/>be<sp/>walked<sp/>in<sp/>the<sp/>same<sp/>ascending<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="560" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data" kindref="compound">ResCallConnData</ref><sp/>{</highlight></codeline>
+<codeline lineno="561" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data_1a223a8923215d70dbbad2a45948f1ff2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data_1a223a8923215d70dbbad2a45948f1ff2e" kindref="member">partDepth</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="562" refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data_1a9d9c8db748ba19caa23acc19980ad7f3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::optional&lt;Z3Predicate&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_conn_data_1a9d9c8db748ba19caa23acc19980ad7f3" kindref="member">resCallers</ref>;</highlight></codeline>
+<codeline lineno="563"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="564"><highlight class="normal"></highlight></codeline>
+<codeline lineno="565" refid="class_a_g_remap_core_1_1_res_group_collect_1af21f1727543e7cdd9ebb910d64b8d1c6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1af21f1727543e7cdd9ebb910d64b8d1c6" kindref="member">collectFromGraphGroup</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resModObj,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>srcModObj,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>srcReg);</highlight></codeline>
+<codeline lineno="566" refid="class_a_g_remap_core_1_1_res_group_collect_1ad7111cc18c4151db903ab0ef738a34c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ad7111cc18c4151db903ab0ef738a34c4" kindref="member">remapGraphs</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref>*<sp/>remappedGraphs);</highlight></codeline>
+<codeline lineno="567" refid="class_a_g_remap_core_1_1_res_group_collect_1a98a8773600c9eac20d127d0a54d4a264" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::pair&lt;bool,<sp/>std::vector&lt;GraphId&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a98a8773600c9eac20d127d0a54d4a264" kindref="member">isValidResGroupType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="568" refid="class_a_g_remap_core_1_1_res_group_collect_1a24fd5b41263a6642ba19f5dc60082c04" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a24fd5b41263a6642ba19f5dc60082c04" kindref="member">getResCallNewNames</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resModObj,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,</highlight></codeline>
+<codeline lineno="569"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>std::optional&lt;Z3Predicate&gt;&gt;&amp;<sp/>resRootQueries,</highlight></codeline>
+<codeline lineno="570"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>ResRootLocation&gt;&amp;<sp/>resRootLocations,</highlight></codeline>
+<codeline lineno="571"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="572" refid="class_a_g_remap_core_1_1_res_group_collect_1a5c47709572abe86c2ce96c7e00280ba4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5c47709572abe86c2ce96c7e00280ba4" kindref="member">getResGraph</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resModObj,</highlight></codeline>
+<codeline lineno="573"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,</highlight></codeline>
+<codeline lineno="574"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>std::optional&lt;Z3Predicate&gt;&gt;&amp;<sp/>resRootQueries,</highlight></codeline>
+<codeline lineno="575"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>ResRootLocation&gt;&amp;<sp/>resRootLocations,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,</highlight></codeline>
+<codeline lineno="576"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="577" refid="class_a_g_remap_core_1_1_res_group_collect_1abef60708b95419360528018ffab0209b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1abef60708b95419360528018ffab0209b" kindref="member">collectAllResources</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resModObj,</highlight></codeline>
+<codeline lineno="578"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref>&amp;<sp/>builder,</highlight></codeline>
+<codeline lineno="579"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref>&amp;<sp/>resGroups,<sp/>std::unordered_set&lt;GraphId,<sp/>GraphIdHash&gt;&amp;<sp/>collectedResTypes,</highlight></codeline>
+<codeline lineno="580"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="581" refid="class_a_g_remap_core_1_1_res_group_collect_1a80883d36f96dd351f61a930a4a3cf78c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a80883d36f96dd351f61a930a4a3cf78c" kindref="member">collectSatisfyingResources</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>resModObj,</highlight></codeline>
+<codeline lineno="582"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder" kindref="compound">GroupedResBuilder</ref>&amp;<sp/>builder,</highlight></codeline>
+<codeline lineno="583"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref>&amp;<sp/>resGroups,<sp/>std::unordered_set&lt;GraphId,<sp/>GraphIdHash&gt;&amp;<sp/>collectedResTypes,</highlight></codeline>
+<codeline lineno="584"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="585" refid="class_a_g_remap_core_1_1_res_group_collect_1a7f6f3b6a50ee36f2dc57ba6edc9beae1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a7f6f3b6a50ee36f2dc57ba6edc9beae1" kindref="member">collectResGroups</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,</highlight></codeline>
+<codeline lineno="586"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GraphId&gt;&amp;<sp/>commonResTypes,</highlight></codeline>
+<codeline lineno="587"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref>&amp;<sp/>resGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;Graph*&gt;</ref>&amp;<sp/>resGraphs,</highlight></codeline>
+<codeline lineno="588"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_set&lt;GraphId,<sp/>GraphIdHash&gt;&amp;<sp/>collectedResTypes,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,</highlight></codeline>
+<codeline lineno="589"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="590" refid="class_a_g_remap_core_1_1_res_group_collect_1a8e0cadb9f50a5ce7bfdc9a40dbb87566" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a8e0cadb9f50a5ce7bfdc9a40dbb87566" kindref="member">collectResGraphNewNames</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GraphId&gt;&amp;<sp/>commonResTypes,</highlight></codeline>
+<codeline lineno="591"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="592" refid="class_a_g_remap_core_1_1_res_group_collect_1a1df34f4dac3f73542d8145bf5d44bc61" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a1df34f4dac3f73542d8145bf5d44bc61" kindref="member">fileKeyExists</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fileKey,<sp/>tsl::ordered_map&lt;std::string,<sp/>long<sp/>long&gt;&amp;<sp/>fileFreqs);</highlight></codeline>
+<codeline lineno="593" refid="class_a_g_remap_core_1_1_res_group_collect_1af00ccf0ce3f253199b023a01ff62ee1b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1af00ccf0ce3f253199b023a01ff62ee1b" kindref="member">getResGraphId</ref>(std::size_t<sp/>resGroupTypeId,<sp/>std::size_t<sp/>resTypeId,<sp/>std::size_t<sp/>graphCopyId)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="594" refid="class_a_g_remap_core_1_1_res_group_collect_1a9b46bd03da63c78914e6853384f2f346" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9b46bd03da63c78914e6853384f2f346" kindref="member">replicateResGraphs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/>std::size_t<sp/>resGroupTypeId,</highlight></codeline>
+<codeline lineno="595"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;tsl::ordered_map&lt;std::string,<sp/>long<sp/>long&gt;&gt;&amp;<sp/>sectionFreqs,</highlight></codeline>
+<codeline lineno="596"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;tsl::ordered_map&lt;std::string,<sp/>long<sp/>long&gt;&gt;&amp;<sp/>fileFreqs,</highlight></codeline>
+<codeline lineno="597"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GraphId&gt;&amp;<sp/>commonResTypes,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;Graph*&gt;</ref>&amp;<sp/>resGraphs,</highlight></codeline>
+<codeline lineno="598"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref>&amp;<sp/>collectedResources,</highlight></codeline>
+<codeline lineno="599"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;std::vector&lt;std::pair&lt;Graph*,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>combinedResGraphs,</highlight></codeline>
+<codeline lineno="600"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="601" refid="class_a_g_remap_core_1_1_res_group_collect_1a6a1d4e670499c6c016f02b0bc6686153" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a6a1d4e670499c6c016f02b0bc6686153" kindref="member">countAndReplicateResGraphs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/>std::size_t<sp/>resGroupTypeId,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref>&amp;<sp/>resGroups,</highlight></codeline>
+<codeline lineno="602"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;tsl::ordered_map&lt;std::string,<sp/>long<sp/>long&gt;&gt;&amp;<sp/>sectionFreqs,</highlight></codeline>
+<codeline lineno="603"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;tsl::ordered_map&lt;std::string,<sp/>long<sp/>long&gt;&gt;&amp;<sp/>fileFreqs,</highlight></codeline>
+<codeline lineno="604"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;GraphId&gt;&amp;<sp/>commonResTypes,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;Graph*&gt;</ref>&amp;<sp/>resGraphs,</highlight></codeline>
+<codeline lineno="605"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref>&amp;<sp/>collectedResources,</highlight></codeline>
+<codeline lineno="606"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;std::vector&lt;std::pair&lt;Graph*,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>combinedResGraphs,</highlight></codeline>
+<codeline lineno="607"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="608" refid="class_a_g_remap_core_1_1_res_group_collect_1aa26b9f1bbbd6d2dc956dd00356a44c7b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aa26b9f1bbbd6d2dc956dd00356a44c7b" kindref="member">getNewSectionName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>sectionName,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab76c1c68a649843acb5adc3a1fd40cd0" kindref="member">CollectedSections</ref>&amp;<sp/>resNewCalls,</highlight></codeline>
+<codeline lineno="609"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>graphId);</highlight></codeline>
+<codeline lineno="610" refid="class_a_g_remap_core_1_1_res_group_collect_1aeadf3c0f95da1e5e5559496932017363" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::map&lt;ResRootLocation,<sp/>ResCallConnData&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeadf3c0f95da1e5e5559496932017363" kindref="member">connectResGroups</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a499938b61de869d6a4b68fc407e36035" kindref="member">ResGroups</ref>&amp;<sp/>resGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a86375af5a84565cfaeb321050b699b24" kindref="member">CollectedResources</ref>&amp;<sp/>collectedResources,</highlight></codeline>
+<codeline lineno="611"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,</highlight></codeline>
+<codeline lineno="612"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType);</highlight></codeline>
+<codeline lineno="613" refid="class_a_g_remap_core_1_1_res_group_collect_1a1263b68698c247347808580c9e9fa72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;IfTemplatePart&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a1263b68698c247347808580c9e9fa72d" kindref="member">buildResIfCalls</ref>(</highlight></codeline>
+<codeline lineno="614"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::optional&lt;Z3Predicate&gt;&gt;&gt;&amp;<sp/>resCallers,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>K&amp;<sp/>srcReg,</highlight></codeline>
+<codeline lineno="615"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>depth,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>targetZ3Ctx)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="616" refid="class_a_g_remap_core_1_1_res_group_collect_1afc1c4abd8fb4e57ea183ab3ee9b8f121" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;IfTemplatePart&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1afc1c4abd8fb4e57ea183ab3ee9b8f121" kindref="member">splitIfContentPart</ref>(</highlight></codeline>
+<codeline lineno="617"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aba4427ef652bb425855b443e6e8a35c0" kindref="member">ContentPart</ref>&amp;<sp/>part,<sp/>std::map&lt;</highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal">,<sp/>std::vector&lt;std::unique_ptr&lt;IfTemplatePart&gt;&gt;&gt;&amp;<sp/>ifPartsToAdd);</highlight></codeline>
+<codeline lineno="618" refid="class_a_g_remap_core_1_1_res_group_collect_1a5422755a0e392d535e87901681576304" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a947145520920679b0c5ce66d5262e666" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a5422755a0e392d535e87901681576304" kindref="member">resolveToGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>&amp;<sp/>srcModObj,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,</highlight></codeline>
+<codeline lineno="619"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref>*<sp/>remappedGraphs);</highlight></codeline>
+<codeline lineno="620" refid="class_a_g_remap_core_1_1_res_group_collect_1af5b1d37f92b6dfc52181e11f76d121ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1af5b1d37f92b6dfc52181e11f76d121ec" kindref="member">connectResCalls</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,</highlight></codeline>
+<codeline lineno="621"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::map&lt;ResRootLocation,<sp/>ResCallConnData&gt;&amp;<sp/>resCallConnData,</highlight></codeline>
+<codeline lineno="622"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref>*<sp/>remappedGraphs);</highlight></codeline>
+<codeline lineno="623" refid="class_a_g_remap_core_1_1_res_group_collect_1aaf0b7d89c9ca8183c11165efa9e016b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aaf0b7d89c9ca8183c11165efa9e016b7" kindref="member">cleanResCallGraphs</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9007b267141068c5da1351f3abd8bcee" kindref="member">RemappedGraphs</ref>*<sp/>remappedGraphs);</highlight></codeline>
+<codeline lineno="624" refid="class_a_g_remap_core_1_1_res_group_collect_1a884e05b742bd37fafe60adec06cd1058" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a884e05b742bd37fafe60adec06cd1058" kindref="member">connectResGraphs</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resGroupType,</highlight></codeline>
+<codeline lineno="625"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt;std::vector&lt;std::pair&lt;Graph*,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>combinedResGraphs,</highlight></codeline>
+<codeline lineno="626"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph&lt;CollectedSections&gt;</ref>&amp;<sp/>resCallNewNames,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups);</highlight></codeline>
+<codeline lineno="627" refid="class_a_g_remap_core_1_1_res_group_collect_1adf37350baf3f231671d0f711bca6ac71" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1adf37350baf3f231671d0f711bca6ac71" kindref="member">editImpl</ref>(<ref refid="class_a_g_remap_core_1_1_res_group_collect_1a78815eccac29f43ecdcfd63a80630391" kindref="member">GraphGroups</ref>&amp;<sp/>graphGroups,<sp/><ref refid="class_a_g_remap_core_1_1_res_group_collect_1ab2d3bc2a0d5e9ada16aa0f5e1a1c098f" kindref="member">Context</ref>*<sp/>ctx,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/>modType,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modName);</highlight></codeline>
+<codeline lineno="628"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="629"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="630"><highlight class="normal"></highlight></codeline>
+<codeline lineno="631"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;ResGroupCollect.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="632"><highlight class="normal"></highlight></codeline>
+<codeline lineno="633"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h"/>
+  </compounddef>
+</doxygen>

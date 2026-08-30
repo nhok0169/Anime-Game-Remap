@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_parse_builder_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniParseBuilderData</compoundname>
+    <includes refid="_ini_parse_builder_data_8h" local="no">IniParseBuilderData.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniParseBuilderData::IniParseBuilderData</definition>
+        <argsstring>()=delete</argsstring>
+        <name>IniParseBuilderData</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderData::IniParseBuilderData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="542" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">IniParseBuilder::ArgsRepo</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; const IniParseBuilder::ArgsRepo &gt; &amp; AGRemapCore::IniParseBuilderData::repo</definition>
+        <argsstring>()</argsstring>
+        <name>repo</name>
+        <qualifiedname>AGRemapCore::IniParseBuilderData::repo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared table, lazily built on first access and reused afterwards -- the same
+lazy, build-once pattern as :cpp:func:`GlobalIniClassifiers::classifier`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Held by ``shared_ptr`` because that is what
+:cpp:func:`IniParseBuilder::IniParseBuilder` takes -- every
+:cpp:class:`ModType` of the game shares this one table
+</verbatim></para>
+<para><simplesect kind="return"><para>The shared args table </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="558" column="42" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="148" bodyend="158"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The version-keyed table of :cpp:class:`IniParseBuilder` factories -- the C++ counterpart
+to the pure-Python ``IniParseBuilderData`` dictionary (``data/IniParseBuilderData.py``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+53 rows across 9 game versions (4.0, 4.4, 4.6, 4.8, 5.3, 5.4, 5.5, 5.6, 5.7), each mapping a
+``(version, mod name)`` pair to one :cpp:class:`IniParseBuilderFuncs` method
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
+   string literals, exactly as the original&apos;s own
+   ``ModTypeIdTools.getName(ModTypeId.Amber)`` keys do -- so a rename in the registry
+   cannot silently desync this table from it
+
+.. note::
+   A mod only needs a row at the version its parser *changed*.  
+   :cpp:func:`ModDictAssets::get`&apos;s inclusive floor-match means that row keeps applying to
+   every later version until a newer one supersedes it, which is why most mods appear only
+   once, at 4.0
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="539" column="5" bodyfile="include/AGRemapCore/data/IniParseBuilderData.h" bodystart="539" bodyend="559"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1ac642c2bf76096942aad4a78efbfda9e2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>IniParseBuilderData</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_builder_data_1a1219c5a152085532d5b891fe6bdb1851" prot="public" virt="non-virtual"><scope>AGRemapCore::IniParseBuilderData</scope><name>repo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

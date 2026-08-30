@@ -18,7 +18,7 @@ from typing import Type, List, Any, Dict, TYPE_CHECKING, Optional, Union, Callab
 
 ##### LocalImports
 from ....tools.Builder import Builder
-from .BaseIniParser import BaseIniParser
+from ....core import BaseIniParser
 
 if (TYPE_CHECKING):
     from ...assets.IniParseBuilderArgs import IniParseBuilderArgs

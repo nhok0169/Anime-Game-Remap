@@ -28,6 +28,13 @@ native-code change.
     one `.bat` path via `cmd //c <path>` (unquoted if the scratchpad path has no spaces, which it
     won't). Run it via the tool's background mode and tail the log; don't try to poll for
     completion, wait for the completion notification instead.
+  - **Pass that `.bat` as a full *Windows* path, not a bare filename — even after `cd`-ing into the
+    directory that holds it.** `cd "$SP" && cmd //c build_core.bat` fails with
+    `'build_core.bat' is not recognized as an internal or external command`, because the Git-Bash
+    cwd isn't what `cmd` resolves against. Convert explicitly:
+    `cmd //c "$(cygpath -w "$SP/build_core.bat")"`. The error message reads like a missing file, so
+    it's easy to waste time re-checking that the `.bat` was written correctly when the path form is
+    the actual problem.
 
 ## `api/extern/*` are git submodules — empty in a fresh `git worktree`
 
@@ -347,6 +354,43 @@ without asking first. One caveat: the maintainer is planning a dedicated, real u
 core later — once that exists, the temporary files sitting here will need to be migrated into it,
 not left behind as a second, informal test suite; don't delete or treat them as superseded without
 checking first once that tester exists.
+
+### When the hand-picked source list stops working: link `AGRemapCore.lib` instead
+
+The source-list approach above scales only while the test's dependency cone stays small. It stops
+working the moment a test touches `IniFile::parse`/`IniFile::fix`, which reach `getIfTemplates` and
+so drag in the entire Z3/`IfTemplate` half of the core — you get a wall of `LNK2019` on
+`Z3Context`, `Z3Predicate`, `IfTemplatePart`, `IfPredPart`. **Don't try to grow the source list to
+cover that.** Link the already-built static library instead (`cd cbuild && ninja AGRemapCore` first):
+
+```bash
+cl /std:c++latest /EHsc /nologo /MD ^
+   /I <core>/include /I <extern>/utf8proc /I <extern>/ordered-map/include /I <repo>/cext/z3/include ^
+   Foo_test.cpp /Fe:test.exe ^
+   /link /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:libcmt.lib /NODEFAULTLIB:libucrt.lib ^
+   <repo>/cbuild/src/cpp/core/AGRemapCore.lib ^
+   <repo>/cbuild/utf8proc/utf8proc.lib ^
+   <repo>/cext/z3/lib/libz3.lib ^
+   <repo>/cbuild/curl/lib/libcurl_imp.lib
+```
+
+Three details on that line are load-bearing:
+- **The three `/NODEFAULTLIB` flags.** `AGRemapCore.lib` is built against the DLL CRT (`/MD`) while
+  `utf8proc.lib`/`libz3.lib` carry `/DEFAULTLIB` directives for the *static* one. Without them the
+  link dies in a wall of `LNK2005 ... already defined in libcpmt.lib(cout.obj)`; switching to `/MT`
+  instead just yields the mirror-image `LNK2019 __imp_?...@std@@` on `basic_streambuf`/
+  `basic_ostream`. Neither error mentions a CRT mismatch, so both read as a missing library.
+- **`utf8proc.lib`, not `utf8proc_static.lib`, and drop `/DUTF8PROC_STATIC`.** The core links the
+  shared one; the static variant gives `unresolved external __imp_utf8proc_map`.
+- Copy `libz3.dll` next to `test.exe` before running it.
+
+`vcvarsall.bat` may print a harmless `'vswhere.exe' is not recognized as an internal or external
+command` line — ignore it, the environment still sets up correctly.
+
+**The recipes written into `core/tests/*.cpp` headers are not all current.** Several predate this
+problem and still list a source set that no longer links — `IniFile_classify_test.cpp` is one, since
+`IniFile`'s destructor alone now reaches `Z3Context::~Z3Context`. Treat a test file's header recipe
+as a hint, not a contract, and fall back to the static-lib line above.
 
 ## Migrating a class's associated literal *project data* (not its algorithmic code) into C++
 

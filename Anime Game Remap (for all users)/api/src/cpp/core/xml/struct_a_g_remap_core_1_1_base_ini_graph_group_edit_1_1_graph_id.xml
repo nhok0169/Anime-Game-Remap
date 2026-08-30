@@ -4,25 +4,25 @@
     <compoundname>AGRemapCore::BaseIniGraphGroupEdit::GraphId</compoundname>
     <includes refid="_base_ini_graph_group_edit_8h" local="no">BaseIniGraphGroupEdit.h</includes>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a9ef027e018fa04d3eb3cccb185a9a809" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a1ac09b3bca47541b9c32adad54df7743" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
-        <definition>std::size_t AGRemapCore::BaseIniGraphGroupEdit::GraphId::iniIndex</definition>
+        <definition>std::size_t AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::iniIndex</definition>
         <argsstring></argsstring>
         <name>iniIndex</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::iniIndex</qualifiedname>
         <initializer>= 0</initializer>
         <briefdescription>
-<para>The index of the .ini file <ndash/> an index into the <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a47f51212b64246f627a5b3b7912e4fa5" kindref="member">GraphGroups</ref> vector. </para>
+<para>The index of the .ini file <ndash/> an index into the <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> sequence. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="59" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="75" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="75" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a2621dc18f717e4b9d4c886074d687d5b" prot="public" static="no" mutable="no">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group_1a920f9ca1cc9022405f4e1b52f6aa75b7" kindref="member">IniGraphGroup::ModObj</ref></type>
-        <definition>IniGraphGroup::ModObj AGRemapCore::BaseIniGraphGroupEdit::GraphId::modObj</definition>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1acb9550e6e5b7ff44946d4aab6f22de0a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">ModObj</ref></type>
+        <definition>ModObj AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::modObj</definition>
         <argsstring></argsstring>
         <name>modObj</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::modObj</qualifiedname>
@@ -33,7 +33,112 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="64" column="39" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="80" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aab7fefd4577ceb27c7ecf896ba261477" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::GraphId</definition>
+        <argsstring>()=default</argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="82" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a1589cd913321af31e99f880236948e34" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::GraphId</definition>
+        <argsstring>(std::size_t iniIndex, std::string comp, std::string obj)</argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::GraphId</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>iniIndex</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>comp</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>obj</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a graph id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniIndex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The index of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>comp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the component </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>obj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod object </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="91" column="17" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="91" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aedc42fb0295cce48e566395c70256b76" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::operator==</definition>
+        <argsstring>(const GraphId &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aab7fefd4577ceb27c7ecf896ba261477" kindref="member">GraphId</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="94" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="94" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a585fbfe36d800e73c7cd7b6e4c1e0a26" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId::operator!=</definition>
+        <argsstring>(const GraphId &amp;other) const</argsstring>
+        <name>operator!=</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::GraphId::operator!=</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aab7fefd4577ceb27c7ecf896ba261477" kindref="member">GraphId</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="98" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="98" bodyend="100"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -48,10 +153,14 @@ tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the tw
 fields rather than restating them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="55" bodyend="65"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h" bodystart="71" bodyend="101"/>
     <listofallmembers>
-      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a9ef027e018fa04d3eb3cccb185a9a809" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>iniIndex</name></member>
-      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a2621dc18f717e4b9d4c886074d687d5b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>modObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aab7fefd4577ceb27c7ecf896ba261477" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>GraphId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a1589cd913321af31e99f880236948e34" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>GraphId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a1ac09b3bca47541b9c32adad54df7743" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>iniIndex</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1acb9550e6e5b7ff44946d4aab6f22de0a" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>modObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1a585fbfe36d800e73c7cd7b6e4c1e0a26" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>operator!=</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_ini_graph_group_edit_1_1_graph_id_1aedc42fb0295cce48e566395c70256b76" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphGroupEdit::GraphId</scope><name>operator==</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

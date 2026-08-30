@@ -27,7 +27,7 @@ from ....constants.DownloadMode import DownloadMode
 from ....tools.ListTools import ListTools
 from ....tools.TextTools import TextTools
 from ...DownloadData import DownloadData
-from .GIMIParser import GIMIParser
+from ....core import GIMIParser
 from ....core import IniSectionGraph
 from ..texEditors.BaseTexEditor import BaseTexEditor
 from ....tools.DictTools import DictTools

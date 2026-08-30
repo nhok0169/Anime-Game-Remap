@@ -192,6 +192,89 @@ The substring used to indicate that the `section`_ contains some edited/created 
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="94" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="94" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Hash</definition>
+        <argsstring></argsstring>
+        <name>Hash</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Hash</qualifiedname>
+        <initializer>= &quot;hash&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `KVP`_ key holding a `section`_&apos;s model hash -- what
+:cpp:class:`GIMISectionClassifier` looks a mod object up by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="103" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::MatchFirstIndex</definition>
+        <argsstring></argsstring>
+        <name>MatchFirstIndex</name>
+        <qualifiedname>AGRemapCore::IniKeywords::MatchFirstIndex</qualifiedname>
+        <initializer>= &quot;match_first_index&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `KVP`_ key holding the first index of the model a `section`_ draws -- the second
+half of what :cpp:class:`GIMISectionClassifier` looks a mod object up by, for the mod
+objects a ``hash`` alone cannot tell apart
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="113" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Filename</definition>
+        <argsstring></argsstring>
+        <name>Filename</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Filename</qualifiedname>
+        <initializer>= &quot;filename&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Classes that edit `KVPs`_ generically take this as a ``K``-typed customization point
+   instead (eg. :cpp:type:`BaseResEdit::ResEditConfig`&apos;s ``filenameKey``), since ``K``
+   is not ``std::string`` in the `pybind11`_ layer. This constant is for the
+   plain-``std::string`` callers, and for keeping the one spelling in one place
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="128" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::Null</definition>
+        <argsstring></argsstring>
+        <name>Null</name>
+        <qualifiedname>AGRemapCore::IniKeywords::Null</qualifiedname>
+        <initializer>= &quot;null&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The value a `KVP`_ carries to mean &quot;nothing at all&quot; -- a ``filename =`` naming this is
+a placeholder, not a real resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="137" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::HideOriginalComment</definition>
@@ -206,7 +289,7 @@ The substring used to indicate that the `section`_ contains some edited/created 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="99" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="142" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="142" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -223,10 +306,14 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    porting the whole enum speculatively up front
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="100"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="143"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Filename</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Hash</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>HideOriginalComment</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>MatchFirstIndex</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Null</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Position</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Remap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapDL</name></member>

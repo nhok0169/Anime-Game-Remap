@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ResGroupCollect::ResGroup</compoundname>
+    <includes refid="_res_group_collect_8h" local="no">ResGroupCollect.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1aeb755aa2ada492cb5537f6fdf19d3d29" kindref="member">ByGraph</ref>&lt; <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_entry" kindref="compound">ResGroupEntry</ref> &gt;</type>
+        <definition>ByGraph&lt;ResGroupEntry&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResGroup::entries</definition>
+        <argsstring></argsstring>
+        <name>entries</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResGroup::entries</qualifiedname>
+        <briefdescription>
+<para>The resources in this group, keyed by which type of resource each is. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="313" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="313" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1acec42446b7b315cab6f2caebb4f3ca1d" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
+        <definition>std::optional&lt;Z3Predicate&gt; AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResGroup::query</definition>
+        <argsstring></argsstring>
+        <name>query</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResGroup::query</qualifiedname>
+        <briefdescription>
+<para>The query under which every resource in this group co-occurs. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="318" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="318" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a847f3c088504d2477496bd46c45f52ea" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResGroup::isMissing</definition>
+        <argsstring>(const std::unordered_set&lt; GraphId, GraphIdHash &gt; &amp;collected) const</argsstring>
+        <name>isMissing</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResGroup::isMissing</qualifiedname>
+        <param>
+          <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref>, <ref refid="class_a_g_remap_core_1_1_res_group_collect_1a9ff1309fd079fe11ef36e7be38bae83e" kindref="member">GraphIdHash</ref> &gt; &amp;</type>
+          <declname>collected</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether this group is missing any of &apos;collected&apos; -- the equivalent of
+:cpp:func:`IniGroupedResource::isMissing`, over #entries
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collected</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The resource types that have been collected so far </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="329" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One group of resources that can co-occur, plus the query under which they do
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original stored these entries **inside** the grouped resource&apos;s own
+   ``resources`` dict, as placeholder tuples later overwritten with real resource
+   objects, and ``copy.deepcopy``&apos;d the whole thing to fork a group. That only works
+   because the `Python`_-facing ``resources`` is an untyped ``dict``; the real
+   :cpp:member:`IniGroupedResource::resources` is a typed map of owned
+   :cpp:class:`IniResource`\\s and could never hold a placeholder. Keeping the working
+   state here instead is both typed and cheaper to fork -- and the grouped resource
+   itself is only built once a group actually survives (see #connectResGroups), rather
+   than once per candidate
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="309" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="309" bodyend="330"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a8b958e09031b8adb7f7964f69ef2e446" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResGroup</scope><name>entries</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1a847f3c088504d2477496bd46c45f52ea" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResGroup</scope><name>isMissing</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_group_1acec42446b7b315cab6f2caebb4f3ca1d" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResGroup</scope><name>query</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

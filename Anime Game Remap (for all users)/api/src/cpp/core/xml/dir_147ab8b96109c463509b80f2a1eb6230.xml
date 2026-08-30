@@ -2,10 +2,14 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_147ab8b96109c463509b80f2a1eb6230" kind="dir">
     <compoundname>include/AGRemapCore/model/assets</compoundname>
+    <innerfile refid="_hashes_8h">Hashes.h</innerfile>
+    <innerfile refid="_indices_8h">Indices.h</innerfile>
     <innerfile refid="_mod_assets_8h">ModAssets.h</innerfile>
     <innerfile refid="_mod_dict_assets_8h">ModDictAssets.h</innerfile>
     <innerfile refid="_mod_mapped_assets_8h">ModMappedAssets.h</innerfile>
     <innerfile refid="_row_8h">Row.h</innerfile>
+    <innerfile refid="_vertex_counts_8h">VertexCounts.h</innerfile>
+    <innerfile refid="_v_g_remaps_8h">VGRemaps.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

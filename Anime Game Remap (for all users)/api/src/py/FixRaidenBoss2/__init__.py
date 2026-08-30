@@ -13,6 +13,7 @@ from .core import CppAhoCorasickDFA
 from .core import CppAlgo
 from .core import CppIntTools
 from .core import CppListTools
+from .core import GraphTools
 from .core import Ranges
 from .core import CppTrie
 from .core import DFA
@@ -133,6 +134,28 @@ from .core import RegAdd
 from .core import RegNewVals
 from .core import RegRemap
 from .core import RegRemove
+from .core import BaseIniGraphEdit
+from .core import GraphRename
+from .core import RegFillMissing
+from .core import RegSurroundedAdd
+from .core import GraphRemove
+from .core import GraphInherit
+from .core import GraphGroupRemap
+from .core import GraphGroupEdit
+from .core import BaseResEdit
+from .core import ResIdentity
+from .core import ResReplace
+from .core import ResCreate
+from .core import RemapBlendReplace
+from .core import TexCreate
+from .core import ResRegCollect
+from .core import ResGroupCollect
+from .core import BaseIniGraphGroupEdit
+from .core import BaseIniParser
+from .core import GIMISectionClassifier
+from .core import GIMIParser
+from .core import BaseIniFixer
+from .core import GIMIFixer
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -231,26 +254,11 @@ from .model.strategies.iniClassifiers.states.IniClsActionArgs import IniClsActio
 from .model.strategies.iniClassifiers.states.IniClsCond import IniClsCond
 from .model.strategies.iniClassifiers.states.IniClsTransitionVals import IniClsTransitionVals
 
-from .model.strategies.iniFixers.graphEdits.BaseIniGraphEdit import BaseIniGraphEdit
-from .model.strategies.iniFixers.graphEdits.GraphRename import GraphRename
-from .model.strategies.iniFixers.graphEdits.RegFillMissing import RegFillMissing
-from .model.strategies.iniFixers.graphEdits.RegSurroundedAdd import RegSurroundedAdd
-
-from .model.strategies.iniFixers.graphGroupEdits.BaseIniGraphGroupEdit import BaseIniGraphGroupEdit
-from .model.strategies.iniFixers.graphGroupEdits.BlendEdit import RemapBlendReplace
-from .model.strategies.iniFixers.graphGroupEdits.GraphGroupEdit import GraphGroupEdit
-from .model.strategies.iniFixers.graphGroupEdits.GraphGroupRemap import GraphGroupRemap
-from .model.strategies.iniFixers.graphGroupEdits.GraphInherit import GraphInherit
-from .model.strategies.iniFixers.graphGroupEdits.GraphRemove import GraphRemove
-from .model.strategies.iniFixers.graphGroupEdits.ResEdit import BaseResEdit, ResIdentity, ResReplace, ResCreate
-from .model.strategies.iniFixers.graphGroupEdits.ResRegCollect import ResRegCollect
-from .model.strategies.iniFixers.graphGroupEdits.ResGroupCollect import ResGroupCollect
-from .model.strategies.iniFixers.graphGroupEdits.TexEdit import TexCreate
-
 from .model.strategies.iniFixers.BaseIniGraphPartEdit import BaseIniGraphPartEdit
 from .model.strategies.iniFixers.BaseIniPartEdit import BaseIniPartEdit
 
 # TOREMOVE
+from .model.strategies.iniFixers.graphEdits.RegSurroundedAddOld import RegSurroundedAddOld
 from .model.strategies.iniFixers.BaseIniFixerOld import BaseIniFixerOld
 from .model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from .model.strategies.iniFixers.GIMIObjMergeFixerOld import GIMIObjMergeFixer
@@ -258,7 +266,6 @@ from .model.strategies.iniFixers.GIMIObjRegEditFixerOld import GIMIObjRegEditFix
 from .model.strategies.iniFixers.GIMIObjReplaceFixerOld import GIMIObjReplaceFixer
 from .model.strategies.iniFixers.GIMIObjSplitFixerOld import GIMIObjSplitFixer
 
-from .model.strategies.iniFixers.GIMIFixer import GIMIFixer
 from .model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from .model.strategies.iniFixers.MultiModFixer import MultiModFixer
 
@@ -274,8 +281,6 @@ from .model.strategies.iniFixers.regEditFilters.RegTexEdit import RegTexEdit
 # TOREMOVE
 from .model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
 
-from .model.strategies.iniParsers.BaseIniParser import BaseIniParser
-from .model.strategies.iniParsers.GIMIParser import GIMIParser, GIMISectionClassifier
 from .model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 
 from .model.strategies.iniRemovers.BaseIniRemover import BaseIniRemover
@@ -347,7 +352,7 @@ from .tools.BufTools import BufTools
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
-from .tools.GraphTools import GraphTools
+from .tools.GraphToolsOld import GraphToolsOld  # TOREMOVE
 from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
 from .tools.IntTools import IntTools
@@ -373,6 +378,10 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "CppBaseTexEditor", "CppTexEditor", "CppTexCreator",
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
            "CppBaseIniPartEdit", "CppBaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegNewVals", "RegRemap", "RegRemove",
+           "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
+           "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
+           "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
+           "BaseIniParser", "GIMISectionClassifier", "GIMIParser", "BaseIniFixer", "GIMIFixer",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -387,12 +396,11 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "KeepFirstDict",
            "BaseBufEditor", "BufEditor",
            "IniClsAction", "IniClsActionArgs", "IniClsCond", "IniClsTransitionVals",
-           "BaseIniGraphEdit", "GraphRename", "RegFillMissing", "RegSurroundedAdd",
-           "BaseIniGraphGroupEdit", "GraphGroupEdit", "GraphGroupRemap", "GraphInherit", "GraphRemove", "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "ResRegCollect", "ResGroupCollect", "TexCreate",
-           "BaseIniClassifierOld", "BaseIniClassifierBuilderOld", "IniClassifierOld", "IniClassifierBuilderOld", "IniClassifyStatsOld", 
-           "BaseIniGraphPartEdit", "BaseIniPartEdit", "BaseIniFixerOld", "GIMIFixer", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
+           "RegSurroundedAdd",
+                      "BaseIniClassifierOld", "BaseIniClassifierBuilderOld", "IniClassifierOld", "IniClassifierBuilderOld", "IniClassifyStatsOld",
+           "BaseIniGraphPartEdit", "BaseIniPartEdit", "RegSurroundedAddOld", "BaseIniFixerOld", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemoveOld", "RegTexAdd", "RegTexEdit",
-           "BaseIniParser", "GIMIObjParser", "GIMIParser", "GIMISectionClassifier", "IniParseBuilder",
+           "GIMIObjParser", "IniParseBuilder",
            "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
@@ -411,7 +419,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Node", "ParseNode",
            "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
-           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
+           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "GraphToolsOld", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "Logger",
            "RemapService",
            "remapMain"]

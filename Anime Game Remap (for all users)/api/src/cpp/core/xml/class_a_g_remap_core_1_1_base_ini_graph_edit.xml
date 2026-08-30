@@ -3,11 +3,32 @@
   <compounddef id="class_a_g_remap_core_1_1_base_ini_graph_edit" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseIniGraphEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphPartEdit</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_rename" prot="public" virt="non-virtual">AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public" virt="non-virtual">AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public" virt="non-virtual">AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_base_ini_graph_edit_8h" local="no">BaseIniGraphEdit.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
     <sectiondef kind="public-type">
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" prot="public" static="no">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; std::string, std::string &gt;</type>
-        <definition>using AGRemapCore::BaseIniGraphEdit::Graph = IniSectionGraph&lt;std::string, std::string&gt;</definition>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::Graph = IniSectionGraph&lt;K, V, KeyHash, KeyEqual&gt;</definition>
         <argsstring></argsstring>
         <name>Graph</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::Graph</qualifiedname>
@@ -18,26 +39,26 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="37" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="40" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="40" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" prot="public" static="no">
-        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; std::string, std::string &gt;</type>
-        <definition>using AGRemapCore::BaseIniGraphEdit::IterData = SectionIterData&lt;std::string, std::string&gt;</definition>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::IterData = SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
         <argsstring></argsstring>
         <name>IterData</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::IterData</qualifiedname>
         <briefdescription>
-<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> is handed. </para>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">PartFilter</ref> is handed. </para>
         </briefdescription>
         <detaileddescription>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="42" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="45" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="45" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" prot="public" static="no">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
-        <definition>using AGRemapCore::BaseIniGraphEdit::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
         <argsstring></argsstring>
         <name>OrderRanges</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::OrderRanges</qualifiedname>
@@ -51,11 +72,11 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="54" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" prot="public" static="no">
-        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
-        <definition>using AGRemapCore::BaseIniGraphEdit::PartFilter = std::function&lt;OrderRanges(const IterData&amp;, const ModType&amp;, IniFile*)&gt;</definition>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = std::function&lt;OrderRanges(const IterData&amp;, const ModType*, IniFile*)&gt;</definition>
         <argsstring></argsstring>
         <name>PartFilter</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::PartFilter</qualifiedname>
@@ -66,33 +87,51 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
 The filter used to indicate the valid order indices to process for some
 :cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-The ``.ini`` file argument is a **non-owning, nullable** pointer, matching the
-pure-Python original&apos;s ``Optional[IniFile]`` -- an empty ``std::function`` stands in for
-that original&apos;s ``partFilter = None``
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
+matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
+convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
+for that original&apos;s ``partFilter = None``. Identical to
+:cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="64" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" prot="public" static="no">
+        <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = std::unordered_set&lt;K, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::BaseIniGraphEdit::KeySet</qualifiedname>
+        <briefdescription>
+<para>A set of the keys to keep track of for colouring. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="74" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a5c4efb49f79e6280fee7cf00a80bb882" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
-        <definition>BaseIniGraphEdit::Graph &amp; AGRemapCore::BaseIniGraphEdit::editFromIni</definition>
-        <argsstring>(Graph &amp;graph, IniFile &amp;ini, const ModType &amp;modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={})</argsstring>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Graph</ref> &amp;</type>
+        <definition>virtual Graph &amp; AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
         <name>editFromIni</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::editFromIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47">editFromIni</reimplementedby>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Graph</ref> &amp;</type>
           <declname>graph</declname>
         </param>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &amp;</type>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
           <declname>ini</declname>
         </param>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
           <declname>modType</declname>
         </param>
         <param>
@@ -101,9 +140,19 @@ that original&apos;s ``partFilter = None``
           <defval>&quot;&quot;</defval>
         </param>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">PartFilter</ref> &amp;</type>
           <declname>partFilter</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -131,7 +180,7 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
 <parametername>ini</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The associated .ini file </para>
+<para>The associated .ini file. <bold>Nullable</bold> <ndash/> see this subsystem&apos;s own note on still-pure-Python collaborators </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -139,7 +188,7 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
 <parametername>modType</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The type of mod to fix </para>
+<para>The type of mod to fix. <bold>Nullable</bold>, same reason </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -155,7 +204,23 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
 <parametername>partFilter</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty</para>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> see <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" kindref="member">edit</ref>. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -165,20 +230,23 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="87" column="27" bodyfile="src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp" bodystart="8" bodyend="14"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="99" column="27"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a15895fe34f86f839154f59758bd3eb5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
-        <definition>BaseIniGraphEdit::Graph &amp; AGRemapCore::BaseIniGraphEdit::edit</definition>
-        <argsstring>(Graph &amp;graph, const ModType &amp;modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={})</argsstring>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Graph</ref> &amp;</type>
+        <definition>virtual Graph &amp; AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::edit</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ab4ded33966a5b623d2ac35dcede40246">edit</reimplementedby>
         <param>
-          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" kindref="member">Graph</ref> &amp;</type>
+          <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Graph</ref> &amp;</type>
           <declname>graph</declname>
         </param>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
           <declname>modType</declname>
         </param>
         <param>
@@ -187,9 +255,19 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
           <defval>&quot;&quot;</defval>
         </param>
         <param>
-          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" kindref="member">PartFilter</ref> &amp;</type>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">PartFilter</ref> &amp;</type>
           <declname>partFilter</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -211,7 +289,7 @@ the pure-Python original&apos;s ``pass``
 <parametername>modType</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The type of mod to fix </para>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -227,7 +305,41 @@ the pure-Python original&apos;s ``pass``
 <parametername>partFilter</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty</para>
+<para>The filter for valid order indices <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking default, handed down by whatever is driving this edit
+(:cpp:class:`GraphGroupEdit` passes its own ``trackKeys`` here) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A subclass that has its own key-tracking setting decides how to combine the two;
+:cpp:class:`RegFillMissing` treats this as a default it can turn *on* but not off, so
+either side asking for tracking is enough. A subclass with no such setting simply
+ignores it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **caller&apos;s** key-tracking key set, handed down the same way -- ``std::nullopt``
+meaning &quot;every key&quot;, matching
+:cpp:func:`IfContentPartColouring::updateColouring`&apos;s own convention :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -237,26 +349,55 @@ the pure-Python original&apos;s ``pass``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="104" column="27" bodyfile="src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp" bodystart="16" bodyend="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="139" column="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSectionGraph`
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+This class inherits from :cpp:class:`BaseIniGraphPartEdit`
 
-.. note::
-   The pure-Python original&apos;s :cpp:class:`IniSectionGraph` is a class template here, so this
-   pins it (and :cpp:class:`SectionIterData`) to ``&lt;std::string, std::string&gt;`` -- the same
-   instantiation :cpp:class:`IniGraphGroup` and :cpp:class:`IniFile` already use, and the only
-   one any real ``.ini`` file needs
-</verbatim> </para>
+Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSectionGraph`
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
     </detaileddescription>
     <inheritancegraph>
       <node id="1">
-        <label>AGRemapCore::BaseIniGraphEdit</label>
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
@@ -271,10 +412,28 @@ Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSe
         <label>AGRemapCore::BaseIniPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
+      <node id="4">
+        <label>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_rename"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_surrounded_add"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
     </inheritancegraph>
     <collaborationgraph>
       <node id="1">
-        <label>AGRemapCore::BaseIniGraphEdit</label>
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
@@ -290,15 +449,16 @@ Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSe
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="31" bodyend="106"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="34" bodyend="142"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>clear</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a15895fe34f86f839154f59758bd3eb5e" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>edit</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a5c4efb49f79e6280fee7cf00a80bb882" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>editFromIni</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a24df051d6ae8c88e1048fb2ea2c7c4a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>Graph</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1aeebb571d92974e34407c0489644941a5" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>IterData</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a59cd3f3b96e4930c8d6a6e4569d9a848" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>OrderRanges</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b55ccf582cb1b749d56d40beb8ab8cf" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>PartFilter</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

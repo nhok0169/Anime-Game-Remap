@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::ResGroupCollect::ResRootLocation</compoundname>
+    <includes refid="_res_group_collect_8h" local="no">ResGroupCollect.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1ae5654540e7378b165501a37560ccce5b" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::resModObj</definition>
+        <argsstring></argsstring>
+        <name>resModObj</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::resModObj</qualifiedname>
+        <briefdescription>
+<para>The mod object for the type of resource being referenced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="217" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a0ab76740c9fddf93a17a2b9ffbfb2a35" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::srcModObj</definition>
+        <argsstring></argsstring>
+        <name>srcModObj</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::srcModObj</qualifiedname>
+        <briefdescription>
+<para>The mod object of the graph the reference was found in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="222" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="222" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a04a68db3ccf5604df349e988ab6f661c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::sectionName</definition>
+        <argsstring></argsstring>
+        <name>sectionName</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::sectionName</qualifiedname>
+        <briefdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ the reference was found in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="227" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="227" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a9259b733269844bd177f034006edb5fd" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::partId</definition>
+        <argsstring></argsstring>
+        <name>partId</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::partId</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The id of the part the reference was found in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="232" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a28e0b2294862358e398a9d268f4fda5a" prot="public" static="no" mutable="no">
+        <type>long long</type>
+        <definition>long long AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::orderInd</definition>
+        <argsstring></argsstring>
+        <name>orderInd</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::orderInd</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The order index the reference was found at within that part. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="237" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="237" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::operator&lt;</definition>
+        <argsstring>(const ResRootLocation &amp;other) const</argsstring>
+        <name>operator&lt;</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::operator&lt;</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="239" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation::operator==</definition>
+        <argsstring>(const ResRootLocation &amp;other) const</argsstring>
+        <name>operator==</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::ResRootLocation::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location" kindref="compound">ResRootLocation</ref> &amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="240" column="22"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Where one reference to a resource was found. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</label>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::ResRootLocation</label>
+        <link refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>resModObj</edgelabel>
+          <edgelabel>srcModObj</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="213" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="213" bodyend="241"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>operator&lt;</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>operator==</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a28e0b2294862358e398a9d268f4fda5a" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>orderInd</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a9259b733269844bd177f034006edb5fd" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>partId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1ae5654540e7378b165501a37560ccce5b" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>resModObj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a04a68db3ccf5604df349e988ab6f661c" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>sectionName</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a0ab76740c9fddf93a17a2b9ffbfb2a35" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>srcModObj</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

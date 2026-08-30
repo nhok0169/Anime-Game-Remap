@@ -1,0 +1,1202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_res_edit" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseResEdit</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_res_create" prot="public" virt="non-virtual">AGRemapCore::ResCreate&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_res_identity" prot="public" virt="non-virtual">AGRemapCore::ResIdentity&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_res_replace" prot="public" virt="non-virtual">AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <includes refid="_res_edit_8h" local="no">ResEdit.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config" prot="public">AGRemapCore::BaseResEdit::ResEditConfig</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = IIniGraphGroups&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs a resource&apos;s graph is added to. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="38" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">GraphGroups::Graph</ref></type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename GraphGroups::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph held in a group.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="43" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">GraphGroups::Section</ref></type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::Section = typename GraphGroups::Section</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ a <ref refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kindref="member">Graph</ref> is built out of.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="48" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of part a resource reference lives in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
+holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
+tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+fields rather than restating them
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_res_edit_context" kindref="compound">IniResEditContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::Context = IniResEditContext&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Context</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::Context</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> file this builds resources for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="63" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" prot="public" static="no">
+        <type>tsl::ordered_map&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::CollectedSections = tsl::ordered_map&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>CollectedSections</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::CollectedSections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The target `sections`_ that reference the resource -- old `section`_ name mapped to its
+fixed name. Insertion-ordered, because the pure-Python original&apos;s own
+``list(collectedSections.keys())`` order decides the built graph&apos;s target order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;)&gt;</type>
+        <definition>using AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResourceFilter = std::function&lt;bool(const std::string&amp;, const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResourceFilter</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::ResourceFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A predicate deciding which files to build a resource for -- takes the source file and
+its assigned id (see \ref getFileId). An empty ``std::function`` accepts everything
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="82" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::resType</definition>
+        <argsstring></argsstring>
+        <name>resType</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::resType</qualifiedname>
+        <briefdescription>
+<para>The name of the type of resource. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="115" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config" kindref="compound">ResEditConfig</ref></type>
+        <definition>ResEditConfig AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::config</qualifiedname>
+        <briefdescription>
+<para>The domain customization points this instance uses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="120" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::resModObj</definition>
+        <argsstring></argsstring>
+        <name>resModObj</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::resModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod object to hold the newly created :cpp:class:`IniSectionGraph` for the resource
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="128" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" kindref="member">IniGraphReplaceMode</ref></type>
+        <definition>IniGraphReplaceMode AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::graphReplaceMode</definition>
+        <argsstring></argsstring>
+        <name>graphReplaceMode</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::graphReplaceMode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What to do when the corresponding :cpp:class:`IniSectionGraph` to construct already
+exists
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="137" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::BaseResEdit</definition>
+        <argsstring>(std::string resType, GraphId resModObj, ResEditConfig config, IniGraphReplaceMode graphReplaceMode=IniGraphReplaceMode::Ignore)</argsstring>
+        <name>BaseResEdit</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::BaseResEdit</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" kindref="member">GraphId</ref></type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config" kindref="compound">ResEditConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" kindref="member">IniGraphReplaceMode</ref></type>
+          <declname>graphReplaceMode</declname>
+          <defval><ref refid="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236afd038fc7f319e48f3115d92bf5bdbef9" kindref="member">IniGraphReplaceMode::Ignore</ref></defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new resource edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resModObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object to hold the newly created graph for the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The domain customization points this instance uses (see <ref refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config" kindref="compound">ResEditConfig</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphReplaceMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to do when that graph already exists. <bold>Default</bold>: <computeroutput>Ignore</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="147" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a69609feba68d8ab79031b12aa5f5c433" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::~BaseResEdit</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseResEdit</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::~BaseResEdit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="150" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::clear</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1abac3e1d2a5dc6bfcf31b2f1a3758335e">clear</reimplementedby>
+        <briefdescription>
+<para>Clears any saved state information. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="155" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::getFileId</definition>
+        <argsstring>(const GraphId &amp;modObj, const std::string &amp;sectionName, std::size_t partId, long long orderInd, const std::string &amp;file) const</argsstring>
+        <name>getFileId</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::getFileId</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" kindref="member">GraphId</ref> &amp;</type>
+          <declname>modObj</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>partId</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>orderInd</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves a unique id for a file within a single ``.ini`` file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The value is **not** byte-identical to the pure-Python original&apos;s, which hashed a
+   `Python`_ tuple through ``CyHashTools.hashLibSerialize``. It is an opaque
+   within-one-run dictionary key -- never written to a file, never persisted, never
+   compared against a previously stored value (the hash that *does* reach a filename is
+   the separate ``graphId`` one, which hashes a plain string and is unchanged) -- so a
+   different canonical serialization is safe here, and avoids two disagreeing
+   implementations of the same id inside one run
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object holding the graph for the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the part where the file belongs to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>orderInd</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The specific order index where the file occurs in the part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path for the file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The unique id for the file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="181" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>virtual std::pair&lt; std::string, std::string &gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::collectResourceName</definition>
+        <argsstring>(const std::string &amp;oldResourceName, const std::string &amp;newResourceName) const</argsstring>
+        <name>collectResourceName</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::collectResourceName</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f">collectResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f">collectResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1a5f245ec94619f26579001ad7850a0c9f">collectResourceName</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>oldResourceName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>newResourceName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Collects the name of the fixed resource `section`_ (used for the ``collectedSections``
+argument of \ref buildResGraph)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>oldResourceName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The old name of the resource <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>newResourceName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The fixed name for the resource <computeroutput>section</computeroutput>_</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>(old resource name, new resource name)</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="196" column="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a0567540e3b73dc109dd65dcc8f6b0dce" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>virtual std::optional&lt; std::string &gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::getFixResourceName</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;modName=&quot;&quot;) const</argsstring>
+        <name>getFixResourceName</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::getFixResourceName</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_identity_1af5d7a918a2fcaeae24e082dd080d1892">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the name of the fixed resource <computeroutput>section</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the original resource <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The `section`_ name of the fixed resource, or ``std::nullopt`` (the pure-Python
+original&apos;s ``None``) to indicate there is no name change between the original resource
+and the fixed resource
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="212" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::getFixFile</definition>
+        <argsstring>(const std::string &amp;file, const std::string &amp;modName=&quot;&quot;, const std::string &amp;graphId=&quot;&quot;) const</argsstring>
+        <name>getFixFile</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::getFixFile</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9804f37e7028338bea96549bc9e3c679">getFixFile</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e">getFixFile</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Retrieves the file path to the fixed resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique id for the graph of the resource. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file path to the fixed resource </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="237" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::buildResModel</definition>
+        <argsstring>(const std::string &amp;resType, const std::string &amp;srcPath, const std::string &amp;fixedPath, const std::string &amp;modName, const std::string &amp;fileKey, Context &amp;ctx)</argsstring>
+        <name>buildResModel</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::buildResModel</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7">buildResModel</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileKey</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the model for one resource **and stores it** :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The one place the concrete resource-edit classes genuinely differ: each builds a
+different kind of :cpp:class:`IniResource`. Storing is part of the same call rather than
+a separate step, because a built model is opaque to this class -- it is never read back
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The default builds a plain :cpp:class:`IniResource` from &apos;srcPath&apos;, ignoring &apos;fixedPath&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the original resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the fixed resource. Empty for an edit that has no separate fixed path </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fileKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The assigned id for the source file (see <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" kindref="member">getFileId</ref>) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file the resource is being built for </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="261" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::buildResModels</definition>
+        <argsstring>(Graph &amp;graph, Context &amp;ctx, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, const std::string &amp;graphId=&quot;&quot;, const GraphId *resModObj=nullptr)</argsstring>
+        <name>buildResModels</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::buildResModels</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_identity_1a93bc94394a60239ad6b62f983d5e89b4">buildResModels</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" kindref="member">ResourceFilter</ref> &amp;</type>
+          <declname>resourceFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" kindref="member">GraphId</ref> *</type>
+          <declname>resModObj</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds and saves the resources, given the :cpp:class:`IniSectionGraph` for a resource
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph for the particular resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file to build the resource for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resourceFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which files to build the resource for <ndash/> empty accepts everything. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique id for the graph of the resource. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resModObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object used to create the unique id for the resources, or <computeroutput>nullptr</computeroutput> for <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" kindref="member">resModObj</ref>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="277" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::renameUncollectedSection</definition>
+        <argsstring>(const std::string &amp;sectionName, const std::string &amp;modName=&quot;&quot;) const</argsstring>
+        <name>renameUncollectedSection</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::renameUncollectedSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>sectionName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The name a `section`_ that was *not* collected gets renamed to -- \ref
+getFixResourceName, or the `section`_&apos;s own name when that reports no change
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>sectionName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="291" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" kindref="member">Graph</ref> *</type>
+        <definition>virtual Graph * AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::getResGraph</definition>
+        <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, bool rename=true, bool copySections=false)</argsstring>
+        <name>getResGraph</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::getResGraph</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f">getResGraph</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f">getResGraph</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_create_1add6ef14c18ad4f13dd1fdcfeb719a12f">getResGraph</reimplementedby>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">CollectedSections</ref> &amp;</type>
+          <declname>collectedSections</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>rename</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>copySections</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the particular :cpp:class:`IniSectionGraph` for the resource
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collectedSections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target <computeroutput>sections</computeroutput>_ that reference the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file being fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rename</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to rename the <computeroutput>sections</computeroutput>_ for the graph. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>copySections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to make a deep copy of the <computeroutput>sections</computeroutput>_ referenced by the graph. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The retrieved graph, or <computeroutput>nullptr</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="308" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>virtual GraphGroups &amp; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::buildResources</definition>
+        <argsstring>(const CollectedSections &amp;collectedSections, Context &amp;ctx, GraphGroups &amp;graphGroups, const std::string &amp;modName=&quot;&quot;, const ResourceFilter &amp;resourceFilter={}, bool copySections=false)</argsstring>
+        <name>buildResources</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::buildResources</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" kindref="member">CollectedSections</ref> &amp;</type>
+          <declname>collectedSections</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" kindref="member">Context</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" kindref="member">ResourceFilter</ref> &amp;</type>
+          <declname>resourceFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>copySections</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the :cpp:class:`IniSectionGraph` and the corresponding models for the resources
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>collectedSections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The target <computeroutput>sections</computeroutput>_ that reference the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file being fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resourceFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which files to build the resource for. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>copySections</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to deep-copy the <computeroutput>sections</computeroutput>_ referenced by the graph. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The same groups that were passed in, now including the newly created graph for the
+resource (reachable via \ref resModObj)
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="330" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::fileAddGraphId</definition>
+        <argsstring>(const std::string &amp;file, const std::string &amp;graphId=&quot;&quot;)</argsstring>
+        <name>fileAddGraphId</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::fileAddGraphId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Adds the unique id for the :cpp:class:`IniSectionGraph` of the resource to the name of
+the file
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the file to add the id to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>graphId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id to add. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The file with the id added </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="226" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class to construct the necessary parts for a particular resource in a ``.ini`` file
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_res_edit"/>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::RemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_blend_replace"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_create"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::ResIdentity&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_identity"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_replace"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::TexCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_create"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_res_edit"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>resModObj</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="32" bodyend="333"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>BaseResEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a4077095cd3703c8c6bb65d85f57d151f" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>buildResModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>buildResModels</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>buildResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a5b0bbf5c576c4f7931f02b0898ab2dc3" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>CollectedSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>collectResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>config</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a13f236c70fb15e8b5b70895b4f56e534" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>fileAddGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>getFileId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>getFixFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0567540e3b73dc109dd65dcc8f6b0dce" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>getFixResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>getResGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1abb28701c075df493d6072da7885e7762" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a8eb8d23624fddd14e28faca046fe3502" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa4aecfd07c861b2daa97e0447cd031c2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>graphReplaceMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>renameUncollectedSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>resModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a9fb9ff35abe2e14515d6ded65c739daa" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>ResourceFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>resType</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69609feba68d8ab79031b12aa5f5c433" prot="public" virt="virtual"><scope>AGRemapCore::BaseResEdit</scope><name>~BaseResEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

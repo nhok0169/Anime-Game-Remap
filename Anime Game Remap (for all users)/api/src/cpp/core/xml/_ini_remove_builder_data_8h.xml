@@ -1,0 +1,268 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ini_remove_builder_data_8h" kind="file" language="C++">
+    <compoundname>IniRemoveBuilderData.h</compoundname>
+    <includes local="no">memory</includes>
+    <includes refid="_ini_remove_builder_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</includes>
+    <includedby refid="_g_i_builder_8cpp" local="yes">src/constants/GIBuilder.cpp</includedby>
+    <includedby refid="_ini_remove_builder_data_8cpp" local="yes">src/data/IniRemoveBuilderData.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/data/IniRemoveBuilderData.h</label>
+        <link refid="_ini_remove_builder_data_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
+        <link refid="_ini_remove_builder_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>memory</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="14">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+      <node id="12">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/data/IniRemoveBuilderData.h</label>
+        <link refid="_ini_remove_builder_data_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/constants/GIBuilder.cpp</label>
+        <link refid="_g_i_builder_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" prot="public">AGRemapCore::IniRemoveBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_data" prot="public">AGRemapCore::IniRemoveBuilderData</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_IniRemoveBuilderData_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_IniRemoveBuilderData_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_remove_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" kindref="member">IniRemoveBuilderFuncs</ref><sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" kindref="member">IniRemoveBuilderFuncs</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" kindref="member">amber4_0</ref>();</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" kindref="member">amberCN4_0</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" kindref="member">ayaka4_0</ref>();</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" kindref="member">ayakaSpringbloom4_0</ref>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" kindref="member">arlecchino4_0</ref>();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" kindref="member">barbara4_0</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" kindref="member">barbaraSummertime4_0</ref>();</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" kindref="member">cherryHuTao4_0</ref>();</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" kindref="member">diluc4_0</ref>();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" kindref="member">dilucFlamme4_0</ref>();</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" kindref="member">fischl4_0</ref>();</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" kindref="member">fischlHighness4_0</ref>();</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" kindref="member">ganyu4_0</ref>();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" kindref="member">ganyuTwilight4_0</ref>();</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" kindref="member">huTao4_0</ref>();</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" kindref="member">jean4_0</ref>();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" kindref="member">jeanCN4_0</ref>();</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" kindref="member">jeanSea4_0</ref>();</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" kindref="member">kaeya4_0</ref>();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" kindref="member">kaeyaSailwind4_0</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" kindref="member">keqing4_0</ref>();</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" kindref="member">keqingOpulent4_0</ref>();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" kindref="member">kirara4_0</ref>();</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" kindref="member">kiraraBoots4_0</ref>();</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" kindref="member">klee4_0</ref>();</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" kindref="member">kleeBlossomingStarlight4_0</ref>();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" kindref="member">lisa4_0</ref>();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" kindref="member">lisaStudent4_0</ref>();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" kindref="member">mona4_0</ref>();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" kindref="member">monaCN4_0</ref>();</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" kindref="member">nilou4_0</ref>();</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" kindref="member">nilouBreeze4_0</ref>();</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" kindref="member">ningguang4_0</ref>();</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"></highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" kindref="member">ningguangOrchid4_0</ref>();</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" kindref="member">raiden4_0</ref>();</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" kindref="member">rosaria4_0</ref>();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" kindref="member">rosariaCN4_0</ref>();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" kindref="member">shenhe4_0</ref>();</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" kindref="member">shenheFrostFlower4_0</ref>();</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"></highlight></codeline>
+<codeline lineno="408"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" kindref="member">xiangling4_0</ref>();</highlight></codeline>
+<codeline lineno="409"><highlight class="normal"></highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" kindref="member">xianglingCheer4_0</ref>();</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" kindref="member">xingqiu4_0</ref>();</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"></highlight></codeline>
+<codeline lineno="435"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" kindref="member">xingqiuBamboo4_0</ref>();</highlight></codeline>
+<codeline lineno="436"><highlight class="normal"></highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464" refid="class_a_g_remap_core_1_1_ini_remove_builder_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1a25d9bb814679abedf399ff3412425550" kindref="member">IniRemoveBuilderData</ref><sp/>{</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467" refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1a25d9bb814679abedf399ff3412425550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1a25d9bb814679abedf399ff3412425550" kindref="member">IniRemoveBuilderData</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniRemoveBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1aaf0c52bec5aa03a995ca0f5e590814e6" kindref="member">repo</ref>();</highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="485"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="486"><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h"/>
+  </compounddef>
+</doxygen>

@@ -3,8 +3,10 @@
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include <tsl/ordered_map.h>
 
@@ -24,27 +26,44 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        :cpp:class:`IniSectionGraph` is a class template, but this deliberately is **not** -- it
-        pins its graphs to ``IniSectionGraph<std::string, std::string>``, the same instantiation
-        :cpp:class:`IniFile` already pins :cpp:class:`IfTemplate` to. Every ``.ini`` file this
-        codebase actually parses is string-keyed and string-valued, so a template parameter here
-        would only ever take one argument
+        This is a class template over the same ``K``/``V``/``KeyHash``/``KeyEqual`` as the
+        :cpp:class:`IniSectionGraph`\\s it holds, defaulting to ``<std::string, std::string>``
+        (the instantiation :cpp:class:`IniFile` pins :cpp:class:`IfTemplate` to, and the only one
+        a plain C++ ``.ini`` caller needs). It has to be templated rather than pinned, for the same
+        reason :cpp:class:`BaseRegEdit` does: the `pybind11`_ layer's graphs are
+        ``IniSectionGraph<py::object, py::object, ...>``, so a group pinned to
+        ``<std::string, std::string>`` would be unreachable from any binding.
+
+     .. note::
+        The graphs are stored as ``std::unique_ptr``\\s rather than by value, so that a
+        :cpp:class:`IniSectionGraph` pointer handed out by #getGraph stays valid across later
+        inserts/erases on the same group. Every graph-group edit under ``graphGroupEdits/`` relies
+        on that (it holds borrowed graph pointers across whole multi-phase algorithms), and
+        ``tsl::ordered_map`` does **not** otherwise guarantee reference stability.
 
      .. note::
         There is a separate, unrelated ``PyIniGraphGroup`` in the `pybind11`_ binding layer that is
         **not** built on this class. That one deliberately wraps a genuine `Python`_ ``dict``,
         because real call sites (``GIMIParser.py``) depend on `Python`_ dict *reference* semantics
         -- reading ``graphGroups[0].graphs`` back out and expecting the same object identity.
-        Converting to/from a C++ map would silently break that aliasing, so the two coexist for now
+        Converting to/from a C++ map would silently break that aliasing, so the two coexist. The
+        seam that lets one algorithm serve both is :cpp:class:`IIniGraphGroups` -- see its own
+        top-level note
      @endrst
+     *
+     * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
+     * @tparam V The type of the values stored in a referenced :cpp:class:`IfContentPart`
+     * @tparam KeyHash A hasher for ``K``. Defaults to ``std::hash<K>``
+     * @tparam KeyEqual An equality comparator for ``K``. Defaults to ``std::equal_to<K>``
      */
+    template <typename K = std::string, typename V = std::string, typename KeyHash = std::hash<K>, typename KeyEqual = std::equal_to<K>>
     class IniGraphGroup {
         public:
 
             /**
              * @brief The type of graph stored in this group
              */
-            using Graph = IniSectionGraph<std::string, std::string>;
+            using Graph = IniSectionGraph<K, V, KeyHash, KeyEqual>;
 
             /**
              * @brief
@@ -82,7 +101,7 @@ namespace AGRemapCore {
              ``dict`` the pure-Python original used (which #toStr's output order depends on)
              @endrst
              */
-            using GraphMap = tsl::ordered_map<ModObj, Graph, ModObjHash>;
+            using GraphMap = tsl::ordered_map<ModObj, std::unique_ptr<Graph>, ModObjHash>;
 
             IniGraphGroup() = default;
 
@@ -91,7 +110,7 @@ namespace AGRemapCore {
              *
              * @param graphs The group of graphs, keyed by their ``(component name, mod object name)``
              */
-            explicit IniGraphGroup(GraphMap graphs);
+            explicit IniGraphGroup(GraphMap graphs): graphs_(std::move(graphs)) {}
 
             /**
              * @brief
@@ -116,28 +135,37 @@ namespace AGRemapCore {
             GraphMap& graphs();
 
             /**
+             * @brief
+             @rst
+             The ``(component name, mod object name)`` keys of every graph in this group, in
+             insertion order
+             @endrst
+             */
+            std::vector<ModObj> modObjs() const;
+
+            /**
              * @brief Adds a new graph, replacing any graph already stored under 'modObj'
              *
              * @param modObj The associated component and mod object for the graph
              * @param graph The new graph to add
              */
-            void addGraph(ModObj modObj, Graph graph);
+            void addGraph(ModObj modObj, std::unique_ptr<Graph> graph);
 
             /**
              * @brief Removes the graph stored under 'modObj', if there is one
              *
              * @param modObj The associated component and mod object for the graph
              *
-             * @return Whether a graph was actually removed
+             * @return The removed graph, or ``nullptr`` if there was none stored under 'modObj'
              */
-            bool removeGraph(const ModObj& modObj);
+            std::unique_ptr<Graph> removeGraph(const ModObj& modObj);
 
             /**
              * @brief The graph stored under 'modObj', or ``nullptr`` if there isn't one
              *
              * @param modObj The associated component and mod object for the graph
              */
-            Graph* getGraph(const ModObj& modObj);
+            Graph* getGraph(const ModObj& modObj) const;
 
             /**
              * @brief The number of graphs in this group
@@ -153,5 +181,7 @@ namespace AGRemapCore {
             GraphMap graphs_;
     };
 }
+
+#include "IniGraphGroup.tpp"
 
 #endif

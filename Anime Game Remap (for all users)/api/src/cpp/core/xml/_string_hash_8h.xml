@@ -31,12 +31,12 @@
         <childnode refid="19" relation="include">
         </childnode>
       </node>
-      <node id="25">
+      <node id="30">
         <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
         <link refid="_global_ini_classifiers_8h"/>
-        <childnode refid="26" relation="include">
+        <childnode refid="31" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="20">
@@ -47,6 +47,16 @@
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -63,13 +73,17 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="24">
+      <node id="29">
         <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
         <link refid="_ini_classifier_8h"/>
-        <childnode refid="25" relation="include">
+        <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
+      </node>
+      <node id="33">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
       </node>
       <node id="1">
         <label>include/AGRemapCore/tools/StringHash.h</label>
@@ -80,7 +94,7 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="34" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -130,7 +144,9 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
         </childnode>
       </node>
       <node id="16">
@@ -147,7 +163,7 @@
         <label>src/constants/GameType.cpp</label>
         <link refid="_game_type_8cpp"/>
       </node>
-      <node id="26">
+      <node id="31">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
@@ -156,6 +172,26 @@
         <link refid="_mod_type_id_8cpp"/>
       </node>
       <node id="23">
+        <label>src/data/IniFixBuilderData.cpp</label>
+        <link refid="_ini_fix_builder_data_8cpp"/>
+      </node>
+      <node id="24">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="25">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+      </node>
+      <node id="26">
+        <label>src/data/VGRemapData.cpp</label>
+        <link refid="_v_g_remap_data_8cpp"/>
+      </node>
+      <node id="27">
+        <label>src/data/VertexCountData.cpp</label>
+        <link refid="_vertex_count_data_8cpp"/>
+      </node>
+      <node id="28">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
@@ -171,11 +207,11 @@
         <label>src/model/iftemplate/SympyParser.cpp</label>
         <link refid="_sympy_parser_8cpp"/>
       </node>
-      <node id="27">
+      <node id="32">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
-      <node id="28">
+      <node id="34">
         <label>src/tools/StringHash.cpp</label>
         <link refid="_string_hash_8cpp"/>
       </node>

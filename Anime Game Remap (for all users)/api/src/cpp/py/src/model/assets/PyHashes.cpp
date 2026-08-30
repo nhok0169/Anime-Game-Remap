@@ -4,14 +4,14 @@
 #include <utility>
 #include <vector>
 
-#include "../../data/HashData.h"
+#include "AGRemapCore/data/HashData.h"
 #include "../PyVersion.h"
 
 
 namespace {
 
     AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual> buildHashRepo() {
-        const auto &rawRows = AGRemapPyBind::Data::getHashDataRows();
+        const auto &rawRows = AGRC::Data::getHashDataRows();
 
         std::vector<AGRC::Row<py::object, py::object>> rows;
         rows.reserve(rawRows.size());

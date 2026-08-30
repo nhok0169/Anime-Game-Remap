@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMISectionClassifier::IndexKeyHash</compoundname>
+    <includes refid="_g_i_m_i_section_classifier_8h" local="no">GIMISectionClassifier.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash_1abc3c91ecb0008d1038bad5a0b07c88e4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::IndexKeyHash::operator()</definition>
+        <argsstring>(const IndexKey &amp;key) const</argsstring>
+        <name>operator()</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::IndexKeyHash::operator()</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" kindref="member">IndexKey</ref> &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="108" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="108" bodyend="112"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> an <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" kindref="member">IndexKey</ref>, so it can key an <computeroutput>std::unordered_map</computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="107" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="107" bodyend="113"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash_1abc3c91ecb0008d1038bad5a0b07c88e4" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::IndexKeyHash</scope><name>operator()</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIFixer::FixerConfig</compoundname>
+    <includes refid="_g_i_m_i_fixer_8h" local="no">GIMIFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config_1aebe9fddbfc4f5ff5f2452b11f49ee921" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8173db7e04d0a54256a0557476ddb6c6" kindref="member">SectionToStr</ref></type>
+        <definition>SectionToStr AGRemapCore::GIMIFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::FixerConfig::sectionToStr</definition>
+        <argsstring></argsstring>
+        <name>sectionToStr</name>
+        <qualifiedname>AGRemapCore::GIMIFixer::FixerConfig::sectionToStr</qualifiedname>
+        <briefdescription>
+<para>How to render one <computeroutput>section</computeroutput>_. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a6e3af844525b5994c4e0864ed5e8e497" kindref="member">groupToStr</ref> renders nothing when this is empty </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="162" column="30" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs -- see #SectionToStr
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="158" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="158" bodyend="163"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config_1aebe9fddbfc4f5ff5f2452b11f49ee921" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer::FixerConfig</scope><name>sectionToStr</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

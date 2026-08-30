@@ -1,0 +1,677 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_remove_builder" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniRemoveBuilder</compoundname>
+    <includes refid="_ini_remove_builder_8h" local="no">IniRemoveBuilder.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" prot="public" static="no">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref> &gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>using AGRemapCore::IniRemoveBuilder::Factory = std::function&lt;std::shared_ptr&lt;BaseIniRemover&gt;(IniFile*)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Factory</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::Factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds one remover, already bound to the ``.ini`` file it will act on -- the C++
+stand-in for the pure-Python original&apos;s ``(cls, args, kwargs)`` triple, see
+:cpp:type:`IniParseBuilder::Factory` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The :cpp:class:`IniFile` argument is what the original&apos;s ``build(args = [iniFile])``
+passes positionally to the remover&apos;s constructor; it may be ``nullptr``, since
+:cpp:class:`BaseIniRemover` allows an unbound remover
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref> &gt;</type>
+        <definition>using AGRemapCore::IniRemoveBuilder::ArgsRepo = ModDictAssets&lt;std::string, Factory&gt;</definition>
+        <argsstring></argsstring>
+        <name>ArgsRepo</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::ArgsRepo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The version-dependent lookup table a #build can consult -- the same ``{version, name}``
+shape as :cpp:type:`IniParseBuilder::ArgsRepo`, and filled in by
+:cpp:class:`IniRemoveBuilderData` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Unlike the other two, this has **no pure-Python counterpart** -- see this class&apos;s own
+note on why it exists anyway
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a9eccaec1442b98c0eebc98470522cee6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniRemoveBuilder::cache</definition>
+        <argsstring></argsstring>
+        <name>cache</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether #build reuses a cached remover instead of constructing a new one every call
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A plain, publicly mutable member rather than a getter/setter pair, matching the
+pure-Python original&apos;s own public ``self.cache`` attribute (and this codebase&apos;s
+:cpp:member:`IniFile::downloadMode`) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Setting this to ``false`` does **not** empty the cache -- see #clearCache. It only
+stops #build consulting or filling it, which is exactly what the original&apos;s
+``if (not cache)`` early-out does :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="190" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="190" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a40d0ebcbc2da2cdfb338cea11c617789" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref></type>
+        <definition>Factory AGRemapCore::IniRemoveBuilder::factory_</definition>
+        <argsstring></argsstring>
+        <name>factory_</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::factory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="323" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a5af756221ceee68911dbe43bb9cc31c0" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" kindref="member">ArgsRepo</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;const ArgsRepo&gt; AGRemapCore::IniRemoveBuilder::builderArgs_</definition>
+        <argsstring></argsstring>
+        <name>builderArgs_</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::builderArgs_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="325" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="325" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a9faddf0b686477d4efbb7edd7d548528" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniRemoveBuilder::errorOnNotFound_</definition>
+        <argsstring></argsstring>
+        <name>errorOnNotFound_</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::errorOnNotFound_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="327" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a2b560c4091e524b0084092efa0edcec5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniRemoveBuilder::id_</definition>
+        <argsstring></argsstring>
+        <name>id_</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="329" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="329" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_remove_builder_1a7539c2cab06055dd762ebec5b13d9126" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref> &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::shared_ptr&lt;BaseIniRemover&gt; &gt; AGRemapCore::IniRemoveBuilder::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="331" column="32" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="331" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilder::defaultFactory</definition>
+        <argsstring>()</argsstring>
+        <name>defaultFactory</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::defaultFactory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The #Factory used when nothing else supplies one -- constructs a plain
+:cpp:class:`BaseIniRemover` bound to the given file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Stands in for the pure-Python original&apos;s ``IniRemoveBuilder(IniRemover)`` default (see
+``constants/GlobalIniRemoveBuilders.py``). It is the *base* class rather than an
+``IniRemover`` simply because no concrete C++ remover has been ported yet -- change
+this one function when one lands, and every fallback path picks it up at once
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="101" column="28" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="7" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a2b2ed4464bace2fc4d167fd495841875" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::IniRemoveBuilder::defaultId</definition>
+        <argsstring>()</argsstring>
+        <name>defaultId</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::defaultId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The id #build files a remover under when the caller names none :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses ``self._buildCls.__name__`` here. C++ has no runtime
+class name to read off a #Factory closure, so the id is a plain string chosen at
+construction, defaulting to this constant. The effect is the same either way: since the
+cache is per-builder and a builder has exactly one factory, the default id is simply a
+*stable* key, so one builder keeps one cached remover unless a caller deliberately asks
+for a different id
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="117" column="38" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="13" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1ae1e45ec76201c6ea36884fe0981de37f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>IniRemoveBuilder</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</qualifiedname>
+        <briefdescription>
+<para>Constructs a caching builder that hands out a plain :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref></computeroutput> <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">defaultFactory</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="123" column="13" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a239b7f21e32ff84b44bc92dae67bfcd4" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</definition>
+        <argsstring>(Factory factory, std::string id=&quot;&quot;, bool cache=true)</argsstring>
+        <name>IniRemoveBuilder</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a builder. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The factory to build a remover with. If this is empty, #defaultFactory is used instead
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The id to file built removers under when #build&apos;s caller names none -- see #defaultId.
+An empty string means &quot;use #defaultId&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``&quot;&quot;``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The initial value of #cache :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="146" column="22" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="23" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a68887527f92ec95563b140dbe8e03603" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</definition>
+        <argsstring>(std::shared_ptr&lt; const ArgsRepo &gt; builderArgs, bool errorOnNotFound=false, bool cache=true)</argsstring>
+        <name>IniRemoveBuilder</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::IniRemoveBuilder</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" kindref="member">ArgsRepo</ref> &gt;</type>
+          <declname>builderArgs</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>errorOnNotFound</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>cache</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a builder that picks its factory by mod name and game version. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>builderArgs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The lookup table to resolve a factory from -- see #ArgsRepo. If this is ``nullptr``, the
+builder degrades to the #defaultFactory-only behaviour of the default constructor
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>errorOnNotFound</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+What #build does when &apos;builderArgs&apos; holds no row for the mod name it was asked about --
+see :cpp:func:`IniParseBuilder::IniParseBuilder`&apos;s own &apos;errorOnNotFound&apos; argument
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cache</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The initial value of #cache :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="171" column="22" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="34" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a54418320cdac2c72cd1b126a8fa057b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::IniRemoveBuilder::getId</definition>
+        <argsstring>() const</argsstring>
+        <name>getId</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::getId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The id built removers are filed under when #build&apos;s caller names none **and** no
+#ArgsRepo is in use -- see #defaultId and #build&apos;s own note on cache keys
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="199" column="31" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1aab3ed17418ae97b01ee21a7294a5b1c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" kindref="member">ArgsRepo</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; const IniRemoveBuilder::ArgsRepo &gt; &amp; AGRemapCore::IniRemoveBuilder::getBuilderArgs</definition>
+        <argsstring>() const</argsstring>
+        <name>getBuilderArgs</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::getBuilderArgs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The lookup table this builder resolves factories from, or ``nullptr`` if it is a
+fixed-factory builder
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="208" column="35" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a8229e518e3f76db61e1cfcdaeb600eff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniRemoveBuilder::getErrorOnNotFound</definition>
+        <argsstring>() const</argsstring>
+        <name>getErrorOnNotFound</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::getErrorOnNotFound</qualifiedname>
+        <briefdescription>
+<para>Whether <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a19989178b7a65ceaaa0223f7049ebfe3" kindref="member">build</ref> throws rather than falling back when the mod name has no row <ndash/> see the constructor&apos;s &apos;errorOnNotFound&apos; argument. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="214" column="18" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="52" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a19989178b7a65ceaaa0223f7049ebfe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; BaseIniRemover &gt; AGRemapCore::IniRemoveBuilder::build</definition>
+        <argsstring>(IniFile *iniFile, const std::string &amp;modName=&quot;&quot;, const std::optional&lt; Version &gt; &amp;version=std::nullopt, const std::optional&lt; std::string &gt; &amp;id=std::nullopt)</argsstring>
+        <name>build</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::build</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>id</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Hands back the remover for one ``.ini`` file, **already bound to it** :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python original&apos;s ``build`` exactly:
+
+#. Resolve which #Factory applies: from #getBuilderArgs using &apos;modName&apos;/&apos;version&apos; when a
+   table is in use, otherwise the builder&apos;s single fixed factory
+#. If #cache is ``false``, construct a fresh remover with it and return it, consulting
+   nothing
+#. Otherwise look up this call&apos;s **cache key** (see below); on a miss, construct one
+   with that factory and store it there
+#. Either way, bind the result to &apos;iniFile&apos; with
+   :cpp:func:`BaseIniRemover::setIniFile` before returning -- the equivalent of the
+   original&apos;s ``result.iniFile = iniFile``
+
+:raw-html:`&lt;br /&gt;`
+
+The cache key is the first of these that applies:
+
+#. &apos;id&apos;, when the caller passed one -- an explicit override, matching the original&apos;s
+   own ``id`` argument
+#. &apos;modName&apos;, when a #getBuilderArgs is in use and &apos;modName&apos; is non-empty. **This is
+   what stops two mod types whose rows resolve to different factories from colliding on
+   one cached instance**, and is the one way this diverges from the original&apos;s
+   id-only keying
+#. #getId otherwise
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Step 4 happens on a cache **hit** too, not just on a miss. That is the whole reason
+   a single shared remover can serve many ``.ini`` files: each call re-points it at the
+   caller&apos;s file. The corollary is that a remover handed out here is only correctly
+   bound until the *next* #build call landing on the same key -- so use it immediately
+   rather than storing it, and do not remove fixes from two :cpp:class:`IniFile`\\s
+   concurrently through one builder
+
+.. note::
+   The cache is never keyed by the ``.ini`` file. Two different files resolving to the
+   same key share an instance by design -- that is what &quot;flyweight&quot; means here
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini file the remover will act on <ndash/> passed to the <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref> on a cache miss, and bound onto the result either way. May be <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The name of the mod to build the remover for (:cpp:member:`ModType::name`) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Ignored entirely when this builder has no #getBuilderArgs, matching how
+:cpp:func:`IniParseBuilder::build` treats it for a fixed-factory builder
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``&quot;&quot;``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The game version the ``.ini`` file originates from (:cpp:member:`IniFile::version`). If
+``std::nullopt``, the latest listed version for &apos;modName&apos; is used :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+An explicit cache key, overriding the mod-name/#getId defaults above :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::out_of_range</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>If <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8229e518e3f76db61e1cfcdaeb600eff" kindref="member">getErrorOnNotFound</ref> is <computeroutput>true</computeroutput> and &apos;modName&apos; has no row at any version</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The remover <ndash/> never <computeroutput>nullptr</computeroutput> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="295" column="29" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="73" bodyend="116"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a10760774ae54f78580fa18672e0ca43b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniRemoveBuilder::clearCache</definition>
+        <argsstring>()</argsstring>
+        <name>clearCache</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::clearCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Empties the flyweight cache, so the next #build constructs fresh removers
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+No equivalent exists on the pure-Python original, whose ``_cache`` dict is private and
+never cleared. Added here because a cached remover holds a non-owning
+:cpp:class:`IniFile` pointer (see #build&apos;s note): if that file is destroyed while this
+builder outlives it -- easy, since :cpp:member:`ModType::iniRemoveBuilder` is shared
+and long-lived -- the cached remover is left pointing at freed memory until the next
+#build rebinds it. Clearing is the way to drop that dangling binding deliberately
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="313" column="18" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="118" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1a30b398b612464521445a3431403c56de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::IniRemoveBuilder::getCacheSize</definition>
+        <argsstring>() const</argsstring>
+        <name>getCacheSize</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::getCacheSize</qualifiedname>
+        <briefdescription>
+<para>How many removers are currently cached. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="318" column="25" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="122" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_1acf6864dce0e0186fff635ae347e47331" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilder::resolveFactory</definition>
+        <argsstring>(const std::string &amp;modName, const std::optional&lt; Version &gt; &amp;version) const</argsstring>
+        <name>resolveFactory</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilder::resolveFactory</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="335" column="21" bodyfile="src/model/strategies/iniRemovers/IniRemoveBuilder.cpp" bodystart="56" bodyend="71"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A **flyweight** factory that hands out the :cpp:class:`BaseIniRemover` for a ``.ini`` file,
+reusing one shared remover instance per id rather than building a fresh one each time
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The C++ counterpart to the pure-Python ``IniRemoveBuilder``
+(``model/strategies/iniRemovers/IniRemoveBuilder.py``), and what
+:cpp:member:`ModType::iniRemoveBuilder` holds :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   This is **not** the same shape as :cpp:class:`IniParseBuilder` / :cpp:class:`IniFixBuilder`,
+   even though it now shares their version-keyed lookup. The pure-Python original derives from
+   ``FlyweightBuilder`` rather than ``Builder``, and two of its differences survive here:
+
+   #. **It caches, and the cache lives on the builder.** The other two build a genuinely fresh
+      strategy every call and let :cpp:class:`IniFile` own what it built; this one hands the
+      *same* instance back to every caller sharing a cache key, so one remover is shared across
+      every ``.ini`` file that resolves to it
+   #. **The returned remover is re-bound on every call** (see #build), which is what makes
+      reusing one shared instance workable at all
+
+.. note::
+   The #ArgsRepo flavour is a deliberate **extension beyond** the pure-Python original, not a
+   port of it: there is no ``IniRemoveBuilderData.py`` or ``IniRemoveBuilderArgs.py``, and the
+   only ``IniRemoveBuilder`` the whole Python package ever constructs is the single global
+   ``IniRemoveBuilder(IniRemover)`` in ``constants/GlobalIniRemoveBuilders.py`` -- every mod
+   type there shares one remover class, with no per-mod or per-version variation. The lookup
+   exists here so that per-mod removers *can* be expressed when they are needed; see
+   :cpp:class:`IniRemoveBuilderData` for the table, whose rows are all currently stubs
+
+.. note::
+   When an #ArgsRepo is in use the flyweight cache is keyed by **mod name** rather than by
+   #getId, so two mod types whose rows resolve to different factories cannot collide on one
+   cached instance. That is the one behavioural consequence of adding the lookup, and the
+   reason the id is not simply reused as the key -- see #build
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" line="59" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h" bodystart="59" bodyend="336"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>ArgsRepo</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a19989178b7a65ceaaa0223f7049ebfe3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>build</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a5af756221ceee68911dbe43bb9cc31c0" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>builderArgs_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9eccaec1442b98c0eebc98470522cee6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>cache</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a7539c2cab06055dd762ebec5b13d9126" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>cache_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a10760774ae54f78580fa18672e0ca43b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>clearCache</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>defaultFactory</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a2b2ed4464bace2fc4d167fd495841875" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>defaultId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9faddf0b686477d4efbb7edd7d548528" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>errorOnNotFound_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>Factory</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a40d0ebcbc2da2cdfb338cea11c617789" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>factory_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1aab3ed17418ae97b01ee21a7294a5b1c1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>getBuilderArgs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a30b398b612464521445a3431403c56de" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>getCacheSize</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8229e518e3f76db61e1cfcdaeb600eff" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>getErrorOnNotFound</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a54418320cdac2c72cd1b126a8fa057b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>getId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a2b560c4091e524b0084092efa0edcec5" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>id_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1ae1e45ec76201c6ea36884fe0981de37f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>IniRemoveBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a239b7f21e32ff84b44bc92dae67bfcd4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>IniRemoveBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1a68887527f92ec95563b140dbe8e03603" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>IniRemoveBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_1acf6864dce0e0186fff635ae347e47331" prot="private" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilder</scope><name>resolveFactory</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_v_g_remaps" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VGRemaps</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_mod_assets" prot="public" virt="non-virtual">AGRemapCore::ModAssets&lt; std::string, VGRemap &gt;</basecompoundref>
+    <includes refid="_v_g_remaps_8h" local="no">VGRemaps.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remaps_1ad38292391156b172a2a960bc633b00a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VGRemaps::VGRemaps</definition>
+        <argsstring>()</argsstring>
+        <name>VGRemaps</name>
+        <qualifiedname>AGRemapCore::VGRemaps::VGRemaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new, fully-populated vertex group remap table :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Most callers want :cpp:func:`ModDataAssets::vgRemaps` instead -- see this class&apos;s
+   last note. Constructing one directly is for when a genuinely independent, mutable
+   table is wanted
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="65" column="13" bodyfile="src/model/assets/VGRemaps.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex group remaps for a mod -- a :cpp:class:`ModAssets` pre-populated with this project&apos;s
+real remap data :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Maps the blend indices of one mod&apos;s vertex groups onto another&apos;s. Like its
+:cpp:class:`Hashes`/:cpp:class:`Indices`/:cpp:class:`VertexCounts` siblings, a
+default-constructed ``VGRemaps`` is already fully populated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **This is the only asset table built on** :cpp:class:`ModAssets` **rather than**
+   :cpp:class:`ModDictAssets`, and the reason is structural, not stylistic: it has **two**
+   version columns -- ``fromVersion`` *and* ``toVersion`` -- because a remap is defined between
+   a version of one mod and a version of another. :cpp:class:`ModDictAssets` handles exactly one
+   version column, so it cannot express this. :cpp:class:`ModAssets`&apos;s linear scan is the cost of
+   that extra dimension, which its own class note calls out as acceptable at this table&apos;s size
+   (52 rows)
+
+.. note::
+   Six index columns, in order: ``fromVersion`` (version), ``fromChar``, ``fromComp``,
+   ``toVersion`` (version), ``toChar``, ``toComp``. So
+   :cpp:func:`ModAssets::get` takes **four** non-version values -- ``fromChar``, ``fromComp``,
+   ``toChar``, ``toComp``, in that relative order -- and **two** versions,
+   ``fromVersion`` then ``toVersion`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Both component columns are ``&quot;&quot;`` on every shipped row (see
+   :cpp:func:`Data::getVGRemapDataRows`), so a caller remapping whole mods passes empty strings
+   for them
+
+.. note::
+   Unlike the other three asset tables, :cpp:member:`ModType::vgRemaps` does **not** default to
+   a fresh instance per mod type -- it falls back to the single shared
+   :cpp:func:`ModDataAssets::vgRemaps`. That mirrors the pure-Python ``ModType``, whose own
+   default is ``ModDataAssets.VGRemaps.value`` rather than a new ``VGRemaps()``, and it matters
+   here more than elsewhere: this is much the largest of the tables
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::ModAssets&lt; std::string, VGRemap &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGRemaps</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remaps"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::ModAssets&lt; std::string, VGRemap &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VGRemaps</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remaps"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="50" column="5" bodyfile="include/AGRemapCore/model/assets/VGRemaps.h" bodystart="50" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>addRow</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a5d89e9cc54cd6b01f44891b647f2064d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>addRows</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a31715acc88bedaf05966331b166b05cb" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a0e2a8b1ab4ff19c297dfe102a2ed2a39" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>getAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a07131484934a4fedeb84a6c0bd4a1f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>getNonVersionColumnCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a7a3c8261e0bdcae4bc5bcb4baa43bf03" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>getTotalIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a45436dbb5bfc86d39fcd079eddcbcadf" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>getVersionColumnCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1aff5cf36601f7cebb663d5846b662f06a" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>isVersionColumn_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1aaa84747b6a3a5f0fdc0bb4c3729baf52" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>ModAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1ab20b8dca94ccc90434ff2fcc9609ca83" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>nonVersionColumnPositions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1afb0cc60f79636a40f1f6ad2cbdf185d4" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>parseVersion_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a3cbc891198e3827555936e2d62f5d8dd" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>resolveVersionColumns</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a465d90ad6425b6d313c60683f3495601" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>rows_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1aa00aa768fc38842815ba3e702aae7019" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1ad0f544426c0e9bfee1b4eaf9739dc6c5" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>totalIndices_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a6f28e8cc7252814164025d5ded526924" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>versionColumnPositions_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_assets_1a4204466c80a1daef134697521605944e" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>VersionParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_v_g_remaps_1ad38292391156b172a2a960bc633b00a8" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>VGRemaps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

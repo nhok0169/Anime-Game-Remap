@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphGroupEdit::IniEdits</compoundname>
+    <includes refid="_graph_group_edit_8h" local="no">GraphGroupEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ae4858501805a3b6f9a92ac3799122832" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" kindref="compound">PartEdit</ref> * &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
+        <definition>tsl::ordered_map&lt;ModObj, std::vector&lt;PartEdit*&gt;, typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash&gt; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::IniEdits::edits</definition>
+        <argsstring></argsstring>
+        <name>edits</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::IniEdits::edits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The edits for each graph, keyed by ``(component name, mod object name)``. Applied
+in the order given
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="220" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="220" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a3589833d2df200e7789e232880a36b67" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
+        <definition>tsl::ordered_map&lt;ModObj, std::vector&lt;PartFilter&gt;, typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash&gt; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::IniEdits::keyFilters</definition>
+        <argsstring></argsstring>
+        <name>keyFilters</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::IniEdits::keyFilters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The per-edit part filters for each graph. May be shorter than that graph&apos;s edit
+list -- any edit past the end is unfiltered
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="229" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="229" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a6620201ae812ec0c2476f884978a5221" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" kindref="member">KeySet</ref> &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
+        <definition>tsl::ordered_map&lt;ModObj, std::optional&lt;KeySet&gt;, typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash&gt; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::IniEdits::keysToTrack</definition>
+        <argsstring></argsstring>
+        <name>keysToTrack</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::IniEdits::keysToTrack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `KVP`_ keys to track for each graph. ``std::nullopt`` tracks every key
+encountered, matching the pure-Python original&apos;s ``None``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="238" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ad3a4cc389b580d5aacf8d3336fad8cdf" prot="public" static="no" mutable="no">
+        <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, bool, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
+        <definition>tsl::ordered_map&lt;ModObj, bool, typename IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;::ModObjHash&gt; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::IniEdits::trackKeys</definition>
+        <argsstring></argsstring>
+        <name>trackKeys</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::IniEdits::trackKeys</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to track `KVPs`_ for each graph. Only consulted when \ref
+GraphGroupEdit::trackKeysIsGlobal is ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="247" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>The edits, key filters and key-tracking settings for one <computeroutput>.ini</computeroutput> file&apos;s graphs. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="212" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="212" bodyend="248"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ae4858501805a3b6f9a92ac3799122832" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>edits</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a3589833d2df200e7789e232880a36b67" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>keyFilters</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a6620201ae812ec0c2476f884978a5221" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>keysToTrack</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ad3a4cc389b580d5aacf8d3336fad8cdf" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>trackKeys</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -59,10 +59,10 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
-      <node id="9">
+      <node id="6">
         <label>include/AGRemapCore/constants/GlobalIniClassifiers.h</label>
         <link refid="_global_ini_classifiers_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -74,32 +74,26 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
         <link refid="_base_ini_classifier_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="8">
-        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
-        <link refid="_ini_classifier_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
+        <link refid="_ini_classifier_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="7">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
@@ -107,29 +101,17 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="12">
+      <node id="9">
         <label>src/model/strategies/iniClassifiers/BaseIniClassifier.cpp</label>
         <link refid="_base_ini_classifier_8cpp"/>
       </node>
-      <node id="11">
+      <node id="8">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
       <node id="4">
-        <label>src/model/strategies/iniFixers/BaseIniFixer.cpp</label>
-        <link refid="_base_ini_fixer_8cpp"/>
-      </node>
-      <node id="5">
-        <label>src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp</label>
-        <link refid="_base_ini_graph_edit_8cpp"/>
-      </node>
-      <node id="6">
-        <label>src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.cpp</label>
-        <link refid="_base_ini_graph_group_edit_8cpp"/>
-      </node>
-      <node id="7">
-        <label>src/model/strategies/iniParsers/BaseIniParser.cpp</label>
-        <link refid="_base_ini_parser_8cpp"/>
+        <label>src/model/strategies/iniRemovers/BaseIniRemover.cpp</label>
+        <link refid="_base_ini_remover_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public">AGRemapCore::BaseIniClassifier</innerclass>

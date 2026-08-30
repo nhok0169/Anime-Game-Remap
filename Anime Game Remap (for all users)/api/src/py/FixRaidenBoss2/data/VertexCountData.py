@@ -16,6 +16,15 @@ from ..core import ModTypeId, ModTypeIdTools
 ##### EndLocalImports
 
 ##### Script
+# NOTE: The C++ counterpart of this table (api/src/cpp/core/src/data/VertexCountData.cpp) has
+#   diverged from it deliberately: over there the data is three levels deep, with a "component"
+#   name between the mod name and the count, currently "" on every row. This dict is still two
+#   levels deep.
+#
+#   Practical effect: the C++ table can no longer be regenerated from this dict by a naive walk --
+#   that would silently drop the component column. Either re-add the "" component when regenerating,
+#   or add the component level here first.
+
 VertexCountData = {4.0 : {ModTypeIdTools.getName(ModTypeId.Amber): 10406,
         ModTypeIdTools.getName(ModTypeId.AmberCN): 10514,
         ModTypeIdTools.getName(ModTypeId.Ayaka): 15700,

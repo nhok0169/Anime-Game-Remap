@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_remove_builder_data" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniRemoveBuilderData</compoundname>
+    <includes refid="_ini_remove_builder_data_8h" local="no">IniRemoveBuilderData.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_data_1a25d9bb814679abedf399ff3412425550" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemoveBuilderData::IniRemoveBuilderData</definition>
+        <argsstring>()=delete</argsstring>
+        <name>IniRemoveBuilderData</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderData::IniRemoveBuilderData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="467" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_data_1aaf0c52bec5aa03a995ca0f5e590814e6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a9e24a598b3226837fd5008604f43eb28" kindref="member">IniRemoveBuilder::ArgsRepo</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; const IniRemoveBuilder::ArgsRepo &gt; &amp; AGRemapCore::IniRemoveBuilderData::repo</definition>
+        <argsstring>()</argsstring>
+        <name>repo</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderData::repo</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared table, lazily built on first access and reused afterwards -- the same
+lazy, build-once pattern as :cpp:func:`GlobalIniClassifiers::classifier`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Held by ``shared_ptr`` because that is what
+:cpp:func:`IniRemoveBuilder::IniRemoveBuilder` takes -- every
+:cpp:class:`ModType` of the game shares this one table
+</verbatim></para>
+<para><simplesect kind="return"><para>The shared args table </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="483" column="42" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="113" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The version-keyed table of :cpp:class:`IniRemoveBuilder` factories
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Has no pure-Python counterpart -- see :cpp:class:`IniRemoveBuilderFuncs`&apos;s own warning
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+43 rows across 1 game versions (4.0), each mapping a
+``(version, mod name)`` pair to one :cpp:class:`IniRemoveBuilderFuncs` method
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Mod names come from :cpp:func:`ModTypeIdTools::getName` rather than being spelled out as
+   string literals, matching its sibling tables -- so a rename in the registry cannot
+   silently desync this table from it
+
+.. note::
+   A mod only needs a row at the version its remover *changed*.  
+   :cpp:func:`ModDictAssets::get`&apos;s inclusive floor-match means that row keeps applying to
+   every later version until a newer one supersedes it, which is why most mods appear only
+   once, at 4.0
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="464" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="464" bodyend="484"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1a25d9bb814679abedf399ff3412425550" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderData</scope><name>IniRemoveBuilderData</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1aaf0c52bec5aa03a995ca0f5e590814e6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderData</scope><name>repo</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

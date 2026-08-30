@@ -73,6 +73,8 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="6">
         <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
@@ -85,7 +87,7 @@
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -93,6 +95,16 @@
         <link refid="_remap_stats_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="9" relation="include">
         </childnode>
       </node>
@@ -100,7 +112,7 @@
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/model/iniresources/RemapIniResource.cpp</label>
         <link refid="_remap_ini_resource_8cpp"/>
       </node>
@@ -108,11 +120,11 @@
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="10">
+      <node id="12">
         <label>src/model/stats/CachedFileStats.cpp</label>
         <link refid="_cached_file_stats_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/model/stats/RemapStats.cpp</label>
         <link refid="_remap_stats_8cpp"/>
       </node>

@@ -25,7 +25,7 @@ from ....constants.IniConsts import IniKeywords
 from ....constants.DownloadMode import DownloadMode
 from ....constants.GlobalClassifiers import GlobalClassifiers
 from ....tools.DictTools import DictTools
-from .BaseIniParser import BaseIniParser
+from ....core import BaseIniParser
 from ....constants.IniConsts import IniKeywords
 from ....tools.TextTools import TextTools
 from ...DownloadData import DownloadData

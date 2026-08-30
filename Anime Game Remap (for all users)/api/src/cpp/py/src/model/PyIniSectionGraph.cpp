@@ -395,6 +395,36 @@ Dict[:class:`int`, List[:class:`int`]]
         .def("normalize", &PyIniSectionGraph::normalize,
     py::doc(R"doc(Normalizes the branching structure of all `sections`_ in :attr:`sections`)doc"))
 
+        // AGRC::IniSectionGraph::toStr needs a per-section renderer (the core has no notion of what
+        // a section's text looks like -- see IfTemplate's own note on why it has no core toStr
+        // either), so this supplies one that goes back through genuine Python attribute lookup on
+        // IfTemplate.toStr. Bound only now: IniGraphGroup.toStr has always called
+        // `graph.toStr(autoindent = ...)` on each of its graphs, which raised AttributeError
+        // against a C++-backed graph -- a gap PyIniGraphGroup.h itself flagged when it was written.
+        .def("toStr", [](PyIniSectionGraph &self, bool autoindent) {
+            return self.toStr([](PyIfTemplate &section, const std::string &linePrefix, bool sectionAutoindent) {
+                py::object sectionObj = py::cast(&section, py::return_value_policy::reference);
+                return sectionObj.attr("toStr")(py::arg("linePrefix") = linePrefix,
+                                                 py::arg("autoindent") = sectionAutoindent).cast<std::string>();
+            }, autoindent);
+        }, py::arg("autoindent") = true,
+    py::doc(R"doc(
+Converts all the `sections`_ of this graph to a string, walked outwards from :attr:`roots` using
+`DFS`_ and joined with blank lines
+
+Parameters
+-----------
+autoindent: :class:`bool`
+    Whether to compute the proper tab indent for each `section`_
+
+    **Default**: ``True``
+
+Returns
+--------
+:class:`str`
+    The string representation
+        )doc"))
+
         .def_static("iterSectsByContentPart", [](const py::dict &sections, const py::list &roots, int states, bool colour, py::object colourKeys) {
             std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
             if (!colourKeys.is_none()) {

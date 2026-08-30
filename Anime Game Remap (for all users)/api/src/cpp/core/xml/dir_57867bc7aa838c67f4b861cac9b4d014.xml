@@ -3,6 +3,7 @@
   <compounddef id="dir_57867bc7aa838c67f4b861cac9b4d014" kind="dir">
     <compoundname>include/AGRemapCore</compoundname>
     <innerdir refid="dir_f1f682f73d7e566e7cb53b8964d208b5">include/AGRemapCore/constants</innerdir>
+    <innerdir refid="dir_b92a30438a15d3d9f8193085ca7b9396">include/AGRemapCore/data</innerdir>
     <innerdir refid="dir_e253fc737fd26520fa518b4295da2866">include/AGRemapCore/model</innerdir>
     <innerdir refid="dir_067fdac686df85c6c242b72face67be5">include/AGRemapCore/tools</innerdir>
     <briefdescription>

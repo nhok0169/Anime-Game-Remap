@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d140240253036152275071017222113247273073332144111" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@140240253036152275071017222113247273073332144111</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixBuilderData.cpp" line="88" column="5"/>
+  </compounddef>
+</doxygen>

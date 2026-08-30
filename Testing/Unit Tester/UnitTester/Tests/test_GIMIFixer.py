@@ -1,4 +1,5 @@
 import sys
+from ordered_set import OrderedSet
 
 from .baseIniFileTest import BaseIniFileTest
 from ..src.Config import Configs
@@ -8,7 +9,35 @@ sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
 
+class SpyGroupEdit(FRB.BaseIniGraphGroupEdit):
+    """
+    Records which mods it was run for, and hands the groups straight back.
+
+    ``BaseIniGraphGroupEdit.editFromIni`` forwards to ``self.edit`` through genuine Python
+    attribute lookup, so overriding only ``edit`` here is enough to be reached from the C++ side.
+    """
+
+    def __init__(self):
+        super().__init__()
+        self.calls = []
+
+    def edit(self, graphGroups, modType, modName = ""):
+        self.calls.append(modName)
+        return graphGroups
+
+
 class GIMIFixerTest(BaseIniFileTest):
+    """
+    Tests for :class:`FRB.GIMIFixer` -- the half of the pipeline that turns what
+    :class:`FRB.GIMIParser` found into the new .ini file's text.
+
+    .. note::
+        These avoid asserting the exact rendered .ini text: what a `section`_ looks like belongs to
+        :class:`FRB.IfTemplate`/:class:`FRB.IniSectionGraph` and is covered by their own tests. What
+        is pinned here is the fixer's own contract -- which groups it builds, that they are copies,
+        which mods the edits run for, and how the result is keyed.
+    """
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -17,256 +46,226 @@ class GIMIFixerTest(BaseIniFileTest):
         cls._fixer = None
 
     def createParser(self):
-        self._parser = FRB.GIMIParser(self._iniFile)
+        self._parser = FRB.GIMIParser(self._iniFile, modObjs = OrderedSet([("", "blend"), ("", "texcoord")]),
+                                      downloads = {("", "texcoord"): {"vb0": FRB.DownloadData("testPosition", FRB.FileDownload("anotherURL", "anotherBaseFile"))}},
+                                      trackKeys = False)
 
-    def createFixer(self):
-        self._fixer = FRB.GIMIFixer(self._parser)
+    def createFixer(self, **kwargs):
+        self._fixer = FRB.GIMIFixer(self._parser, **kwargs)
 
-    def create(self):
+    def create(self, **kwargs):
         self.createIniFile()
         self.createParser()
-        self.createFixer()
+        self.createFixer(**kwargs)
         self._iniFile._iniParser = self._parser
         self._iniFile._iniFixer = self._fixer
 
-    # ====================== _fillTextureOverrideRemapBlend ==============
+    def parseAndFix(self):
+        self._iniFile.parse()
+        return self._iniFile.fix()
 
-    def test_differentPartsHasDefaultType_filledPartForTextureOverride(self):
-        self.create()
-        modName = "kyrie"
+    # =========================== construction =====================================
 
-        parts = [[FRB.IfContentPart({}, 0), "", {}, {}, []],
-                 [FRB.IfContentPart(
-                     {"Oryx and Crake": [(1, "8.0/10")],
-                      "Brave New World": [(0, "8.9/10")],
-                      "The Buried Giant": [(2, "8.5/10")],
-                      "Life of Pi": [(3, "8.8/10")]}, 2), "Book Rating: ", {}, {}, 
-                      ["Brave New World = 8.9/10",
-                       "Oryx and Crake = 8.0/10",
-                       "The Buried Giant = 8.5/10",
-                       "Life of Pi = 8.8/10"]],
-                 [FRB.IfContentPart(
-                     {"draw": [(4, "pictures")],
-                      "vb1": [(3, "video bar 1")],
-                      "run": [(2, "away")],
-                      "hash": [(1, "gloria")],
-                      "handling": [(0, "the undead")]}, 3), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
-                   ["handling = skip",
-                    "hash = credo",
-                    "run = Away in a Manger",
-                    "vb1 = video bar 1",
-                    "draw = pictures",]],
-                 [FRB.IfContentPart(
-                     {"draw": [(3, "pictures")],
-                      "paint": [(2000000, "the sky")],
-                      "run": [(-1.5, "away")],
-                      "nowhere": [(0, "to hide")],
-                      "handling": [(-100, "the undead")]}, 5), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
-                   ["handling = skip",
-                    "run = Away in a Manger",
-                    "nowhere = to hide",
-                    "draw = pictures",
-                    "paint = the sky"]]]
-
-        sectionName = "someSection"
-        oldSectionName = "someOldSection"
-        partIndex = 2
-
-        for partObj in parts:
-            linePrefix = partObj[1]
-            self._parser.blendCommandsGraph._remapNames = partObj[2]
-            self._iniFile.remapBlendModels = partObj[3]
-            result = self._fixer._fillTextureOverrideRemapBlend(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
-
-            expectedLines = partObj[4]
-            expectedLinesLen = len(expectedLines)
-            expected = ""
-            for i in range(expectedLinesLen):
-                expected += f"{linePrefix}{expectedLines[i]}\n"
-
-            self.assertEqual(result, expected)
-
-    def test_differentPartsWithoutTypeNoDefaultType_noModTypeFound(self):
-        self._defaultModType = None
+    def test_fixer_isABaseIniFixer(self):
         self.create()
 
-        parts = [[FRB.IfContentPart({"draw": [(0, "pictures")],
-                   "vb1": [(2, "video bar 1")],
-                   "run": [(1, "away")],
-                   "hash": [(3, "brown")],
-                   "handling": [(4, "the undead")]}, 0), "fill the blanks: ", {"away": {"Christmas mod": "Away in a Manger"}}, {"video bar 1": FRB.IniFixResourceModel("some path", {})},
-                   ["draw = pictures",
-                    "vb1 = Bose",
-                    "run = Away in a Manger",
-                    "hash = credo",
-                    "handling = skip"]]]
+        # The C++ GIMIFixer is registered with BaseIniFixer as its real pybind11 base, so this is
+        # genuine inheritance, not just a documented claim.
+        self.assertIsInstance(self._fixer, FRB.BaseIniFixer)
 
-        modName = "kyrie"
-        sectionName = "someSection"
-        oldSectionName = "someOldSection"
-        partIndex = 2
-
-        for partObj in parts:
-            linePrefix = partObj[1]
-            self._parser.blendCommandsGraph._remapNames = partObj[2]
-            self._iniFile.remapBlendModels = partObj[3]
-
-            result = None
-            try:
-                result = self._fixer._fillTextureOverrideRemapBlend(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
-            except Exception as e:
-                result = e
-
-            self.assertIsInstance(result, FRB.NoModType)
-
-        # TODO: Add case for different ModNames
-
-    # ====================================================================
-    # ====================== _fillRemapResource ==========================
-
-    def test_differentParts_filledPartForRemapResource(self):
+    def test_construct_parserAndIniFileTakenFromTheParser(self):
         self.create()
-        sectionName = "someSection"
-        modName = "kyrie"
-        oldSectionName = "someOldSection"
-        partIndex = 2   
 
-        parts = [[FRB.IfContentPart({}, 0), "", {}, {}, []],
-                 [FRB.IfContentPart(
-                     {"Oryx and Crake": [(1, "8.0/10")],
-                      "Brave New World": [(0.1, "8.9/10")],
-                      "The Buried Giant": [(0, "8.5/10")],
-                      "Life of Pi": [(-1, "8.8/10")]}, 3), "Book Rating: ", {}, {}, 
-                      ["Life of Pi = 8.8/10",
-                       "The Buried Giant = 8.5/10",
-                       "Brave New World = 8.9/10",
-                       "Oryx and Crake = 8.0/10"]],
-                 [FRB.IfContentPart(
-                     {"type": [(2, "darkness")],
-                     "filename": [(4, "Inode")],
-                     "run": [(8, "away")],
-                     "stride": [(16, "and one big step for man kind")]}, -1), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, 
-                   {"Inode": FRB.IniFixResourceModel("some path", {}),
-                    oldSectionName: FRB.IniFixResourceModel("another path", {1 : {modName: ["forever lost one"]}, 2: {modName: ["forever lost two"]}, 3: {modName: ["forever lost three"]}})},
-                   ["type = Buffer",
-                    "filename = forever lost two",
-                    "run = Away in a Manger",
-                    "stride = 32"]],
-                 [FRB.IfContentPart(
-                     {"type": [(1, "darkness")],
-                      "draw": [(2, "pictures")],
-                      "run": [(0, "away")],
-                      "paint": [(3, "the sky")]}, 0), "fill the blanks: ", {"away": {modName: "Away in a Manger"}}, {"Inode": FRB.IniFixResourceModel("some path", {})},
-                   ["run = Away in a Manger",
-                    "type = Buffer",
-                    "draw = pictures",
-                    "paint = the sky"]]] 
-        
-        for partObj in parts:
-            linePrefix = partObj[1]
-            self._parser.blendResourceCommandsGraph._remapNames = partObj[2]
-            self._iniFile.remapBlendModels = partObj[3]
-            result = self._fixer._fillRemapBlendResource(modName, sectionName, partObj[0], partIndex, linePrefix, oldSectionName)
+        self.assertIs(self._fixer._parser, self._parser)
+        self.assertIs(self._fixer._iniFile, self._iniFile)
 
-            expectedLines = partObj[4]
-            expectedLinesLen = len(expectedLines)
-            expected = ""
-            for i in range(expectedLinesLen):
-                expected += f"{linePrefix}{expectedLines[i]}\n"
+    def test_construct_keepsTheCallersOwnObjects(self):
+        self.createIniFile()
+        self.createParser()
 
-            self.assertEqual(result, expected)
+        edits = [SpyGroupEdit()]
+        modsToFix = ["rika"]
+        fixer = FRB.GIMIFixer(self._parser, graphGroupEdits = edits, modsToFix = modsToFix)
 
+        self.assertIs(fixer.graphGroupEdits, edits)
+        self.assertIs(fixer.modsToFix, modsToFix)
+        self.assertIsNone(fixer.prevFixer)
 
-        # TODO: Add case for different ModNames
-
-
-    # ====================================================================
-    # ========================= fix ======================================
-
-    def test_iniTxtNeedingDownloads_fixWithDownloads(self):
+    def test_construct_defaults_emptyEditsNoModsToFix(self):
         self.create()
-        self._parser.bufDownloads = {FRB.IniKeywords.Blend.value: {"vb999": FRB.BlendDownloadData("AlwaysAddBlend", FRB.FileDownload("aURL.com", "AlwaysAdd.buf"), resourceKeys = {"type": "Buffer", "Stride": "43"})}}
-        self._iniFile.downloadMode = FRB.DownloadMode.SoftTexDrivenAll
 
-        tests = [[self._defaultIniTxt, """
+        self.compareList(self._fixer.graphGroupEdits, [])
+        self.assertIsNone(self._fixer.modsToFix)
+        self.compareList(self._fixer.graphGroups, [])
 
-PREFIX:
+    # =========================== getModsToFix =====================================
 
+    def test_getModsToFix_explicitList_usedAsIs(self):
+        self.create(modsToFix = ["rika", "kyrie"])
+        self.compareList(self._fixer.getModsToFix(), ["rika", "kyrie"])
 
-; ***** RaidenBoss *****
-[TextureOverrideRaidenShogunRaidenBossRemapBlend]
-run = CommandListRaidenShogunRaidenBossRemapBlend
-handling = skip
-draw = 21916,0
+    def test_getModsToFix_noExplicitList_takenFromTheIniFilesModType(self):
+        self.create()
 
-[CommandListRaidenShogunRaidenBossRemapBlend]
-                    if $swapmain == 0
-                        if $swapvar == 0 && $swapvarn == 0
-                        \tvb1 = ResourceRaidenShogunRaidenBossRemapBlend.0
-                        \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
-                        \thandling = skip
-                        \tdraw = 13251,0
-                        else
-                        \tvb1 = ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie
-                        \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
-                        \thandling = skip
-                        \tdraw = 13251,0
-                        endif
-                    else if $swapmain == 1
-                    \trun = SubSubTextureOverrideRaidenBossRemapBlend
-                    endif
+        expected = self._iniFile.availableType.getModsToFix()
+        self.compareList(self._fixer.getModsToFix(), list(expected))
 
-[SubSubTextureOverrideRaidenBossRemapBlend]
-                    if $swapoffice == 0 && $swapglasses == 0
-                    \tvb1 = ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend
-                    \tvb999 = ResourceRaidenAlwaysAddBlendRemapDL
-                    \thandling = skip
-                    \tdraw = 13251,0
-                    endif
+    def test_getModsToFix_assignedAfterConstruction_isHonoured(self):
+        self.create()
 
-[ResourceRaidenAlwaysAddBlendRemapDL]
-type = Buffer
-Stride = 43
-filename = AlwaysAdd.buf
+        self._fixer.modsToFix = ["lateMod"]
+        self.compareList(self._fixer.getModsToFix(), ["lateMod"])
 
-[ResourceGIMINeedsResourcesToAllStartWithResourceRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = ../AAA/BBBB/CCCCCC/DDDDDRemapRaidenBossRemapBlend.buf
+    # =========================== getFix =====================================
 
-[ResourceEiBlendsHerRaidenBossRemapBlenderInsteadOfHerSmoothie]
-type = Buffer
-stride = 32
-                    if $swapmain == 1
-                    \tfilename = M:/AnotherDrive/CuteLittleEiRaidenBossRemapBlend.buf
-                    else
-                    \trun = ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend
-                    endif
+    def test_getFix_groupsKeyedByTheIniFilePath(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
 
-[ResourceRaidenPuppetCommandResourceRaidenBossRemapBlend]
-type = Buffer
-stride = 32
-filename = Dont/Use/If/Statements/Or/SubCommands/In/Resource/SectionsRaidenBossRemapBlend.buf
+        result = self._fixer.getFix()
 
-[ResourceRaidenShogunRaidenBossRemapBlend.0]
-type = Buffer
-stride = 32
-filename = ../../../../../../../../../2-BunnyRaidenShogun/RaidenShogunRaidenBossRemapBlend.buf
+        self.compareList(list(result.keys()), [self._iniFile.filePath.path])
+        self.assertIsInstance(result[self._iniFile.filePath.path], FRB.IniGraphGroup)
 
-; **********************"""
-]]
-        
-        prefixStr = "\n\nPREFIX:\n"
-        
-        for test in tests:
-            self._iniFile.clear()
-            self._iniFile._iniParser = self._parser
-            self._iniFile._iniFixer = self._fixer
-            self._iniFile.fileTxt = test[0]
-            self._iniFile.parse()
+    def test_getFix_groupHoldsTheParsersCommandAndDownloadGraphs(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
 
-            result = self._fixer.getFix(fixStr = prefixStr)
-            #print(result)
-            self.assertEqual(result, test[1])
+        self._fixer.getFix()
+        graphs = self._fixer.graphGroups[0].graphs
 
-    # ====================================================================
+        expected = list(self._parser.commandGraphs.keys())
+        expected.append((FRB.IniGraphModObjKeywords.Download.value, "testPosition"))
+        self.compareList(list(graphs.keys()), expected)
+
+    def test_getFix_graphsAreCopiesOfTheParsers(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        self._fixer.getFix()
+        graphs = self._fixer.graphGroups[0].graphs
+
+        # Editing the fixer's groups must not write through to the parser -- a second fixer over
+        # the same .ini file has to start from the same place.
+        for modObj in self._parser.commandGraphs:
+            self.assertIsNot(graphs[modObj], self._parser.commandGraphs[modObj])
+
+    def test_getFix_onlyEditObjGraphs_returnsNothingButStillBuildsTheGroups(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        self.assertIsNone(self._fixer.getFix(onlyEditObjGraphs = True))
+        self.assertEqual(len(self._fixer.graphGroups), 1)
+
+    def test_getFix_runsEveryEditOncePerModToFix(self):
+        edit = SpyGroupEdit()
+        self.create(graphGroupEdits = [edit], modsToFix = ["rika", "kyrie"])
+        self._iniFile.parse()
+
+        self._fixer.getFix()
+
+        self.compareList(edit.calls, ["rika", "kyrie"])
+
+    def test_getFix_noModsToFix_noEditsRun(self):
+        edit = SpyGroupEdit()
+        self.create(graphGroupEdits = [edit], modsToFix = [])
+        self._iniFile.parse()
+
+        self._fixer.getFix()
+
+        self.compareList(edit.calls, [])
+
+    def test_getFix_editsAssignedAfterConstruction_areHonoured(self):
+        self.create(modsToFix = ["rika"])
+        edit = SpyGroupEdit()
+        self._fixer.graphGroupEdits = [edit]
+
+        self._iniFile.parse()
+        self._fixer.getFix()
+
+        self.compareList(edit.calls, ["rika"])
+
+    # =========================== fix =====================================
+
+    def test_fix_resultKeyedByPathAndIncludesTheOriginalContent(self):
+        self.create(modsToFix = ["rika"])
+        result = self.parseAndFix()
+
+        path = self._iniFile.filePath.path
+        self.compareList(list(result.keys()), [path])
+        self.assertIsInstance(result[path], str)
+
+        # withSrc/withBoilerPlate are both on for the public fix(), so the .ini file's own text
+        # leads and this software's own credit block follows.
+        self.assertTrue(result[path].startswith(self._iniFile.fileTxt))
+
+    def test_fix_marksTheIniFileAsFixed(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        # Cleared by hand first: the default .ini text already contains this software's own
+        # RemapBlend sections, so classify() legitimately flags it as already-fixed before a fixer
+        # ever runs.
+        self._iniFile._isFixed = False
+
+        self._fixer.fix()
+        self.assertTrue(self._iniFile._isFixed)
+
+    def test_fix_populatesGraphGroups(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        self.compareList(self._fixer.graphGroups, [])
+        self._fixer.fix()
+        self.assertEqual(len(self._fixer.graphGroups), 1)
+
+    # =========================== groupToStr =====================================
+
+    def test_groupToStr_rendersTheGroupsGraphs(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+        self._fixer.getFix()
+
+        rendered = self._fixer.groupToStr(0)
+
+        # Same text the group renders itself, since both walk the same graphs.
+        self.assertEqual(rendered, self._fixer.graphGroups[0].toStr())
+
+    # =========================== clear =====================================
+
+    def test_clear_dropsTheGraphGroups(self):
+        self.create(modsToFix = ["rika"])
+        self.parseAndFix()
+        self.assertEqual(len(self._fixer.graphGroups), 1)
+
+        self._fixer.clear()
+        self.compareList(self._fixer.graphGroups, [])
+
+    def test_clear_keepsTheParserAndIniFile(self):
+        self.create(modsToFix = ["rika"])
+        self._fixer.clear()
+
+        self.assertIs(self._fixer._parser, self._parser)
+        self.assertIs(self._fixer._iniFile, self._iniFile)
+
+    # =========================== prevFixer =====================================
+
+    def test_prevFixer_itsEditedGroupsAreTakenOver(self):
+        self.create(modsToFix = ["rika"])
+
+        prevEdit = SpyGroupEdit()
+        prev = FRB.GIMIFixer(self._parser, graphGroupEdits = [prevEdit], modsToFix = ["rika"])
+
+        ownEdit = SpyGroupEdit()
+        self._fixer.graphGroupEdits = [ownEdit]
+        self._fixer.prevFixer = prev
+
+        self._iniFile.parse()
+        self._fixer.getFix()
+
+        # The previous fixer runs its own edit pass first, then hands its groups over and is left
+        # empty -- so both edits ran, and only this fixer still holds anything.
+        self.compareList(prevEdit.calls, ["rika"])
+        self.compareList(ownEdit.calls, ["rika"])
+        self.assertEqual(len(self._fixer.graphGroups), 1)
+        self.compareList(prev.graphGroups, [])

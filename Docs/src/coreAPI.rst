@@ -17,6 +17,56 @@ of what a "mod" or a ``.ini``/``.buf`` file even is.
 
 :raw-html:`<br />`
 
+Assets
+======
+
+:raw-html:`<br />`
+
+Hashes
+------
+
+.. cppattributetable:: AGRemapCore::Hashes
+
+.. doxygenclass:: AGRemapCore::Hashes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Indices
+-------
+
+.. cppattributetable:: AGRemapCore::Indices
+
+.. doxygenclass:: AGRemapCore::Indices
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VertexCounts
+------------
+
+.. cppattributetable:: AGRemapCore::VertexCounts
+
+.. doxygenclass:: AGRemapCore::VertexCounts
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VGRemaps
+--------
+
+.. cppattributetable:: AGRemapCore::VGRemaps
+
+.. doxygenclass:: AGRemapCore::VGRemaps
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Buf Files
 =========
 
@@ -193,6 +243,13 @@ Constants
 
 :raw-html:`<br />`
 
+DownloadMode
+------------
+
+.. doxygenenum:: AGRemapCore::DownloadMode
+
+:raw-html:`<br />`
+
 GameTypeId
 ----------
 
@@ -222,6 +279,35 @@ GIBuilder
 
 :raw-html:`<br />`
 
+GlobalIniRemoveBuilders
+-----------------------
+
+.. cppattributetable:: AGRemapCore::GlobalIniRemoveBuilders
+
+.. doxygenclass:: AGRemapCore::GlobalIniRemoveBuilders
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGraphModObjKeywords
+----------------------
+
+.. cppattributetable:: AGRemapCore::IniGraphModObjKeywords
+
+.. doxygenclass:: AGRemapCore::IniGraphModObjKeywords
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGraphReplaceMode
+-------------------
+
+.. doxygenenum:: AGRemapCore::IniGraphReplaceMode
+
+:raw-html:`<br />`
+
 ModTypeId
 ---------
 
@@ -235,6 +321,295 @@ ModTypeIdTools
 .. cppattributetable:: AGRemapCore::ModTypeIdTools
 
 .. doxygenclass:: AGRemapCore::ModTypeIdTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegFillMissingMode
+------------------
+
+.. doxygenenum:: AGRemapCore::RegFillMissingMode
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Data
+====
+
+:raw-html:`<br />`
+
+IniFixBuilderData
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniFixBuilderData
+
+.. doxygenclass:: AGRemapCore::IniFixBuilderData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniParseBuilderData
+-------------------
+
+.. cppattributetable:: AGRemapCore::IniParseBuilderData
+
+.. doxygenclass:: AGRemapCore::IniParseBuilderData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniRemoveBuilderData
+--------------------
+
+.. cppattributetable:: AGRemapCore::IniRemoveBuilderData
+
+.. doxygenclass:: AGRemapCore::IniRemoveBuilderData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ModDataAssets
+-------------
+
+.. cppattributetable:: AGRemapCore::ModDataAssets
+
+.. doxygenclass:: AGRemapCore::ModDataAssets
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Graph Edits
+===========
+
+:raw-html:`<br />`
+
+BaseIniGraphEdit
+----------------
+
+.. cppattributetable:: AGRemapCore::BaseIniGraphEdit
+
+.. doxygenclass:: AGRemapCore::BaseIniGraphEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphRename
+-----------
+
+.. cppattributetable:: AGRemapCore::GraphRename
+
+.. doxygenclass:: AGRemapCore::GraphRename
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegFillMissing
+--------------
+
+.. cppattributetable:: AGRemapCore::RegFillMissing
+
+.. doxygenclass:: AGRemapCore::RegFillMissing
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegSurroundedAdd
+----------------
+
+.. cppattributetable:: AGRemapCore::RegSurroundedAdd
+
+.. doxygenclass:: AGRemapCore::RegSurroundedAdd
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Graph Group Edits
+=================
+
+:raw-html:`<br />`
+
+BaseIniGraphGroupEdit
+---------------------
+
+.. cppattributetable:: AGRemapCore::BaseIniGraphGroupEdit
+
+.. doxygenclass:: AGRemapCore::BaseIniGraphGroupEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BaseResEdit
+-----------
+
+.. cppattributetable:: AGRemapCore::BaseResEdit
+
+.. doxygenclass:: AGRemapCore::BaseResEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphGroupEdit
+--------------
+
+.. cppattributetable:: AGRemapCore::GraphGroupEdit
+
+.. doxygenclass:: AGRemapCore::GraphGroupEdit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphGroupRemap
+---------------
+
+.. cppattributetable:: AGRemapCore::GraphGroupRemap
+
+.. doxygenclass:: AGRemapCore::GraphGroupRemap
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphInherit
+------------
+
+.. cppattributetable:: AGRemapCore::GraphInherit
+
+.. doxygenclass:: AGRemapCore::GraphInherit
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GraphRemove
+-----------
+
+.. cppattributetable:: AGRemapCore::GraphRemove
+
+.. doxygenclass:: AGRemapCore::GraphRemove
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IIniGraphGroups
+---------------
+
+.. cppattributetable:: AGRemapCore::IIniGraphGroups
+
+.. doxygenclass:: AGRemapCore::IIniGraphGroups
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniGraphGroupsVec
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniGraphGroupsVec
+
+.. doxygenclass:: AGRemapCore::IniGraphGroupsVec
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniResEditContext
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniResEditContext
+
+.. doxygenclass:: AGRemapCore::IniResEditContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RemapBlendReplace
+-----------------
+
+.. cppattributetable:: AGRemapCore::RemapBlendReplace
+
+.. doxygenclass:: AGRemapCore::RemapBlendReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ResCreate
+---------
+
+.. cppattributetable:: AGRemapCore::ResCreate
+
+.. doxygenclass:: AGRemapCore::ResCreate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ResGroupCollect
+---------------
+
+.. cppattributetable:: AGRemapCore::ResGroupCollect
+
+.. doxygenclass:: AGRemapCore::ResGroupCollect
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ResIdentity
+-----------
+
+.. cppattributetable:: AGRemapCore::ResIdentity
+
+.. doxygenclass:: AGRemapCore::ResIdentity
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ResRegCollect
+-------------
+
+.. cppattributetable:: AGRemapCore::ResRegCollect
+
+.. doxygenclass:: AGRemapCore::ResRegCollect
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+ResReplace
+----------
+
+.. cppattributetable:: AGRemapCore::ResReplace
+
+.. doxygenclass:: AGRemapCore::ResReplace
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+TexCreate
+---------
+
+.. cppattributetable:: AGRemapCore::TexCreate
+
+.. doxygenclass:: AGRemapCore::TexCreate
     :members:
     :protected-members:
 
@@ -401,6 +776,45 @@ SectionIterQueryData
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Ini Builders
+============
+
+:raw-html:`<br />`
+
+IniFixBuilder
+-------------
+
+.. cppattributetable:: AGRemapCore::IniFixBuilder
+
+.. doxygenclass:: AGRemapCore::IniFixBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniParseBuilder
+---------------
+
+.. cppattributetable:: AGRemapCore::IniParseBuilder
+
+.. doxygenclass:: AGRemapCore::IniParseBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniRemoveBuilder
+----------------
+
+.. cppattributetable:: AGRemapCore::IniRemoveBuilder
+
+.. doxygenclass:: AGRemapCore::IniRemoveBuilder
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Ini Classifiers
 ===============
 
@@ -456,6 +870,117 @@ ModTypeIdData
 .. cppattributetable:: AGRemapCore::ModTypeIdData
 
 .. doxygenclass:: AGRemapCore::ModTypeIdData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Fixers
+==========
+
+:raw-html:`<br />`
+
+BaseIniFixer
+------------
+
+.. cppattributetable:: AGRemapCore::BaseIniFixer
+
+.. doxygenclass:: AGRemapCore::BaseIniFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMIFixer
+---------
+
+.. cppattributetable:: AGRemapCore::GIMIFixer
+
+.. doxygenclass:: AGRemapCore::GIMIFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFixContext
+-------------
+
+.. cppattributetable:: AGRemapCore::IniFixContext
+
+.. doxygenclass:: AGRemapCore::IniFixContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Ini Parsers
+===========
+
+:raw-html:`<br />`
+
+BaseIniParser
+-------------
+
+.. cppattributetable:: AGRemapCore::BaseIniParser
+
+.. doxygenclass:: AGRemapCore::BaseIniParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+DownloadData
+------------
+
+.. cppattributetable:: AGRemapCore::DownloadData
+
+.. doxygenclass:: AGRemapCore::DownloadData
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMIParser
+----------
+
+.. cppattributetable:: AGRemapCore::GIMIParser
+
+.. doxygenclass:: AGRemapCore::GIMIParser
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GIMISectionClassifier
+---------------------
+
+.. cppattributetable:: AGRemapCore::GIMISectionClassifier
+
+.. doxygenclass:: AGRemapCore::GIMISectionClassifier
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniParseContext
+---------------
+
+.. cppattributetable:: AGRemapCore::IniParseContext
+
+.. doxygenclass:: AGRemapCore::IniParseContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniParseDownloadData
+--------------------
+
+.. cppattributetable:: AGRemapCore::IniParseDownloadData
+
+.. doxygenclass:: AGRemapCore::IniParseDownloadData
     :members:
     :protected-members:
 
@@ -942,6 +1467,17 @@ GraphemeRange
 
 :raw-html:`<br />`
 
+GraphTools
+==========
+
+.. cppattributetable:: AGRemapCore::GraphTools
+
+.. doxygenclass:: AGRemapCore::GraphTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 
 Hashing
 =======
@@ -1290,7 +1826,17 @@ Z3Predicate
 .. _DFS: https://en.wikipedia.org/wiki/Depth-first_search
 .. _call graph: https://en.wikipedia.org/wiki/Call_graph
 .. _call-with-return: https://en.wikipedia.org/wiki/Subroutine
+.. _goto: https://en.wikipedia.org/wiki/Goto
+.. _.ini: https://en.wikipedia.org/wiki/INI_file
+.. _BFS: https://en.wikipedia.org/wiki/Breadth-first_search
 .. _dataflow analysis: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _MUST: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _available expressions: https://en.wikipedia.org/wiki/Available_expression_set
+.. _very busy expressions: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _fixpoint: https://en.wikipedia.org/wiki/Fixed_point_(mathematics)
+.. _fixpoint iteration: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _worklist algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
+.. _Kildall's algorithm: https://en.wikipedia.org/wiki/Data-flow_analysis
 .. _Aho-Corasick: https://www.geeksforgeeks.org/aho-corasick-algorithm-pattern-searching/
 .. _one-to-one: https://en.wikipedia.org/wiki/Bijection
 .. _graphemes: https://en.wikipedia.org/wiki/Grapheme

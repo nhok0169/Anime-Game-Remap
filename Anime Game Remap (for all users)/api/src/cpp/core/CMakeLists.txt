@@ -23,6 +23,15 @@ add_library(AGRemapCore STATIC
     src/constants/GameType.cpp
     src/constants/IfPredPartType.cpp
     src/constants/GIBuilder.cpp
+    src/constants/GlobalIniRemoveBuilders.cpp
+    src/data/HashData.cpp
+    src/data/IndexData.cpp
+    src/data/VertexCountData.cpp
+    src/data/VGRemapData.cpp
+    src/data/ModDataAssets.cpp
+    src/data/IniParseBuilderData.cpp
+    src/data/IniFixBuilderData.cpp
+    src/data/IniRemoveBuilderData.cpp
     src/constants/GlobalIniClassifiers.cpp
     src/model/Version.cpp
     src/model/VersionSet.cpp
@@ -52,6 +61,10 @@ add_library(AGRemapCore STATIC
     src/tools/z3/Z3Context.cpp
     src/tools/z3/Z3Predicate.cpp
     src/model/strategies/ModTypeIdData.cpp
+    src/model/assets/Hashes.cpp
+    src/model/assets/Indices.cpp
+    src/model/assets/VertexCounts.cpp
+    src/model/assets/VGRemaps.cpp
     src/model/strategies/ModType.cpp
     src/model/strategies/iniClassifiers/IniClassifyStats.cpp
     src/model/strategies/iniClassifiers/BaseIniClassifier.cpp
@@ -68,12 +81,11 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
-    src/model/IniGraphGroup.cpp
-    src/model/strategies/iniParsers/BaseIniParser.cpp
-    src/model/strategies/iniFixers/BaseIniFixer.cpp
+    src/model/strategies/iniParsers/IniParseBuilder.cpp
+    src/model/strategies/iniFixers/IniFixBuilder.cpp
+    src/model/strategies/iniRemovers/BaseIniRemover.cpp
+    src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
     src/model/strategies/iniFixers/BaseIniPartEdit.cpp
-    src/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.cpp
-    src/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.cpp
     src/model/files/IniFile.cpp
     src/model/IniNamingTools.cpp
     src/model/textures/Colour.cpp

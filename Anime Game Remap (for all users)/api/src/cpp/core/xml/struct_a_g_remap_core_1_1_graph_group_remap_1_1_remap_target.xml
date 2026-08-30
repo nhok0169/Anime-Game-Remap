@@ -1,0 +1,127 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphGroupRemap::RemapTarget</compoundname>
+    <includes refid="_graph_group_remap_8h" local="no">GraphGroupRemap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a01d49a20f877fd566421631e0a1eb5df" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1af217f5c1716c480bda2f49fa0e5d2c92" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;::RemapTarget::id</definition>
+        <argsstring></argsstring>
+        <name>id</name>
+        <qualifiedname>AGRemapCore::GraphGroupRemap::RemapTarget::id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``iniIndex`` may not end up being the index of the group that actually holds the
+   graph -- see \ref remapGraphs&apos;s own note on collisions
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="84" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1add2aad55990621585ddd232205010483" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">RenameFunc</ref></type>
+        <definition>RenameFunc AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;::RemapTarget::renameFunc</definition>
+        <argsstring></argsstring>
+        <name>renameFunc</name>
+        <qualifiedname>AGRemapCore::GraphGroupRemap::RemapTarget::renameFunc</qualifiedname>
+        <briefdescription>
+<para>The optional rename function for this target <ndash/> empty for &quot;use the default&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="89" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1ac881b5f33350a52cc2c41a1edc393bed" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;::RemapTarget::RemapTarget</definition>
+        <argsstring>()=default</argsstring>
+        <name>RemapTarget</name>
+        <qualifiedname>AGRemapCore::GraphGroupRemap::RemapTarget::RemapTarget</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="91" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a4feee0897dc8b9116e2e825b09559a74" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;::RemapTarget::RemapTarget</definition>
+        <argsstring>(GraphId id, RenameFunc renameFunc={})</argsstring>
+        <name>RemapTarget</name>
+        <qualifiedname>AGRemapCore::GraphGroupRemap::RemapTarget::RemapTarget</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1af217f5c1716c480bda2f49fa0e5d2c92" kindref="member">GraphId</ref></type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">RenameFunc</ref></type>
+          <declname>renameFunc</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a remap target. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the remapped graph goes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>renameFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The optional rename function. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="99" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="99" bodyend="99"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One destination for a remapped graph. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</label>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphGroupRemap&lt; K, V, KeyHash, KeyEqual &gt;::RemapTarget</label>
+        <link refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>id</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="73" bodyend="100"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a01d49a20f877fd566421631e0a1eb5df" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>id</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1ac881b5f33350a52cc2c41a1edc393bed" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>RemapTarget</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a4feee0897dc8b9116e2e825b09559a74" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>RemapTarget</name></member>
+      <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1add2aad55990621585ddd232205010483" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>renameFunc</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

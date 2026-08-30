@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="141" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="141" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="186" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="186" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a4d02c5abb284a00b273765605ec493d0" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="142" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="142" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="187" column="29" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="187" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" prot="public" static="no" mutable="no">
         <type>T</type>
@@ -43,14 +43,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="143" column="19" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModAssets.h" line="188" column="19" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="188" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/assets/ModAssets.h" line="140" column="13" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="140" bodyend="144"/>
+    <location file="include/AGRemapCore/model/assets/ModAssets.h" line="185" column="13" bodyfile="include/AGRemapCore/model/assets/ModAssets.h" bodystart="185" bodyend="189"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1ae5c836eb5239593b3164fa530b1bf662" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets::StoredRow</scope><name>nonVersionVals</name></member>
       <member refid="struct_a_g_remap_core_1_1_mod_assets_1_1_stored_row_1a2f9d069378c2fff4e7db66c21dc63c52" prot="public" virt="non-virtual"><scope>AGRemapCore::ModAssets::StoredRow</scope><name>value</name></member>

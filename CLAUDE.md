@@ -20,13 +20,17 @@ build/test/doc pipelines from scratch when they're already written down.
 | Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) |
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
-These files were authored from hands-on, verified work in four subsystems: the C++ core / pybind11
+These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11
 `OrderedMultiMap`/`IfContentPart` layer, the Python-side `.ini` graph model and its
 dataflow-analysis-based graph edits (see **Ini Graph Editing**), — separately, later — the
 Compressonator-backed C++ port of the texture-editing pipeline (see **Texture Editing**), and,
 later still, the full pure-Python-to-C++ replacement of the `iniFixers/regEdits/` family (see
-**Architecture** for the porting patterns it produced) — each file says so where relevant, so treat
-claims about less-explored subsystems as a starting point to verify, not gospel.
+**Architecture** for the porting patterns it produced), and — most recently — the `ModType` strategy
+/ asset layer: its three `Ini*Builder`s and `Ini*BuilderData` tables, its four asset attributes
+(`hashes`/`indices`/`vertexCounts`/`vgRemaps`), and the `ModAssets`/`ModDictAssets`/
+`ModMappedAssets` lookup family underneath them (see **Architecture**'s last three sections) — each
+file says so where relevant, so treat claims about less-explored subsystems as a starting point to
+verify, not gospel.
 
 **A "port this pure-Python class to C++" request is a well-trodden path here, not a one-off.**
 Several have landed already, and the accumulated conventions are load-bearing — read
@@ -34,3 +38,10 @@ Several have landed already, and the accumulated conventions are load-bearing �
 after it on templating for pybind reach, still-pure-Python collaborator types, and how a binding
 holds a Python-supplied argument) *before* writing the first header, and **Testing**'s note on
 reading the class's existing `test_Xxx.py` as a behavioural contract before designing the binding.
+
+**Not every port has a Python test to read, though — and increasingly it won't.** Work landing in
+`AGRemapCore` with no pybind11 binding is unreachable from `Testing/Unit Tester`, so a green Python
+suite proves *no regression*, not *new code covered*. **Testing**'s "C++-only work is invisible to
+the Python suite" section covers what to write instead, and **Building**'s standalone-test sections
+cover how to compile it — including the static-lib link line you'll need the moment a test touches
+`IniFile::parse`/`fix`.

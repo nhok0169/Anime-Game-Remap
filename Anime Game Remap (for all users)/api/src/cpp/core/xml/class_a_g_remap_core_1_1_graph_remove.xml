@@ -1,0 +1,287 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_remove" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphRemove</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_graph_remove_8h" local="no">GraphRemove.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_remove_1a0dd5614d151981536947e251204f9697" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::GraphRemove::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_remove_1a19ffafd6ebbea1d06d909ba7a1bfb390" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
+        <definition>using AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = typename Base::GraphGroups</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::GraphRemove::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs for each <computeroutput>.ini</computeroutput> file.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_remove_1ae4e3f9cf7626ccbcf289c59c3aae3921" prot="public" static="no">
+        <type>typename Base::GraphId</type>
+        <definition>using AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename Base::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::GraphRemove::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
+holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
+tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+fields rather than restating them
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_remove_1ae54c9c93201758c59a9a80f8fe6d639e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_remove_1ae4e3f9cf7626ccbcf289c59c3aae3921" kindref="member">GraphId</ref> &gt;</type>
+        <definition>std::vector&lt;GraphId&gt; AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::graphIds</definition>
+        <argsstring></argsstring>
+        <name>graphIds</name>
+        <qualifiedname>AGRemapCore::GraphRemove::graphIds</qualifiedname>
+        <briefdescription>
+<para>The ids of the graphs to remove. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="56" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_remove_1a0825390446ecf6508f86b511ef244c6c" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::GraphRemove</definition>
+        <argsstring>(std::vector&lt; GraphId &gt; graphIds={})</argsstring>
+        <name>GraphRemove</name>
+        <qualifiedname>AGRemapCore::GraphRemove::GraphRemove</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_remove_1ae4e3f9cf7626ccbcf289c59c3aae3921" kindref="member">GraphId</ref> &gt;</type>
+          <declname>graphIds</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new graph-removing edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphIds</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The ids of the graphs to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="63" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_remove_1a8e80fbe4db7c2babb6fef1dea3238f95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_remove_1a19ffafd6ebbea1d06d909ba7a1bfb390" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::GraphRemove::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_remove_1a19ffafd6ebbea1d06d909ba7a1bfb390" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Removes every graph named by <ref refid="class_a_g_remap_core_1_1_graph_remove_1ae54c9c93201758c59a9a80f8fe6d639e" kindref="member">graphIds</ref> from &apos;graphGroups&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused by this edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="74" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
+
+Removes some graphs from a group of graphs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A graph id that names no existing graph (a missing ``(component, object)`` key, or an
+   out-of-range ``.ini`` index) is skipped silently -- no exception. That&apos;s this class&apos;s
+   documented contract, not an oversight; contrast :cpp:func:`BaseIniGraphGroupEdit::getGraph`,
+   which raises by default
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_remove"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_remove"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphRemove.h" bodystart="35" bodyend="75"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1a0dd5614d151981536947e251204f9697" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphRemove</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1a8e80fbe4db7c2babb6fef1dea3238f95" prot="public" virt="virtual"><scope>AGRemapCore::GraphRemove</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" virt="virtual"><scope>AGRemapCore::GraphRemove</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1a19ffafd6ebbea1d06d909ba7a1bfb390" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1ae4e3f9cf7626ccbcf289c59c3aae3921" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1ae54c9c93201758c59a9a80f8fe6d639e" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>graphIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_remove_1a0825390446ecf6508f86b511ef244c6c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>GraphRemove</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRemove</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::GraphRemove</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

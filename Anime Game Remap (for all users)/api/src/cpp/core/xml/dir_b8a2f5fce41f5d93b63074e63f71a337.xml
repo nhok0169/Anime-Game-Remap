@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b8a2f5fce41f5d93b63074e63f71a337" kind="dir">
+    <compoundname>src/model/assets</compoundname>
+    <innerfile refid="_hashes_8cpp">Hashes.cpp</innerfile>
+    <innerfile refid="_indices_8cpp">Indices.cpp</innerfile>
+    <innerfile refid="_vertex_counts_8cpp">VertexCounts.cpp</innerfile>
+    <innerfile refid="_v_g_remaps_8cpp">VGRemaps.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/assets/"/>
+  </compounddef>
+</doxygen>

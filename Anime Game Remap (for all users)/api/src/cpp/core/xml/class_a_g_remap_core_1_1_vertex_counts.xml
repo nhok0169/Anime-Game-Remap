@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_vertex_counts" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VertexCounts</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_mod_dict_assets" prot="public" virt="non-virtual">AGRemapCore::ModDictAssets&lt; std::string, int &gt;</basecompoundref>
+    <includes refid="_vertex_counts_8h" local="no">VertexCounts.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vertex_counts_1a2f905a39394ed475806c9f9cd9c2cc59" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VertexCounts::VertexCounts</definition>
+        <argsstring>()</argsstring>
+        <name>VertexCounts</name>
+        <qualifiedname>AGRemapCore::VertexCounts::VertexCounts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a new, fully-populated vertex count lookup table :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike the pure-Python original there is no ``repo`` argument to swap the whole
+   table out with -- nothing in this project ever passed one, and
+   :cpp:func:`ModDictAssets::addRows` already covers extending it
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="64" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex counts related to a mod -- a :cpp:class:`ModDictAssets` pre-populated with this
+project&apos;s real vertex count data :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Like :cpp:class:`Hashes` and :cpp:class:`Indices`, a default-constructed ``VertexCounts`` is
+already fully populated, which is what lets :cpp:member:`ModType::vertexCounts` fall back to one
+and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Two differences from its :cpp:class:`Hashes`/:cpp:class:`Indices` siblings, both inherited
+   from the pure-Python original:
+
+   #. It derives from :cpp:class:`ModDictAssets`, **not** :cpp:class:`ModMappedAssets` -- the
+      pure-Python ``VertexCounts`` extends ``ModAssets`` rather than ``ModMappedAssets``, so
+      there is no fix-from/fix-to adjacency list here and therefore no ``getMap``/``hasFrom``.
+      A vertex count is looked *up*, never remapped
+   #. Its value type is ``int`` rather than ``std::string``
+
+.. note::
+   Three index columns: ``version`` (the version index, at position 0), ``name`` and
+   ``component``. So :cpp:func:`ModDictAssets::get` takes exactly two non-version values --
+   the mod&apos;s name and the component -- in that order :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   ``component`` is ``&quot;&quot;`` for every row the software currently ships (see
+   :cpp:func:`Data::getVertexCountDataRows`), so a caller wanting a mod&apos;s overall count passes
+   an empty string for it. It is a real key value, not a &quot;missing&quot; marker -- the same
+   convention :cpp:class:`Indices` uses for its own ``component`` column
+
+.. note::
+   :cpp:class:`ModDictAssets` rather than :cpp:class:`ModAssets` (which is what the pure-Python
+   original inherits): this table has exactly one version column, which is the case
+   :cpp:class:`ModDictAssets`&apos;s own class note calls out as belonging in the hash-based table
+   rather than the linear-scanning one. The pure-Python ``ModAssets`` supports several version
+   columns; ``VertexCounts`` never used more than one
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::ModDictAssets&lt; std::string, int &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_dict_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VertexCounts</label>
+        <link refid="class_a_g_remap_core_1_1_vertex_counts"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::ModDictAssets&lt; std::string, int &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_dict_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VertexCounts</label>
+        <link refid="class_a_g_remap_core_1_1_vertex_counts"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="49" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="49" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>addRows</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>extractNonVersionVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a73b325b0d73d24b0bcd11593a654fd97" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>forEachEntry</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa08492c8ad3c26232cfb85a4340bdfac" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>getTotalIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a6df0e840a5a0578cd77eedfc28cf20c2" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>getVersionIndexPos</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1adda2c6d4dbac4491ccedefa76be4ebc5" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a26db622309b3343b00a4f505c7f71e09" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>ModDictAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ae2d3c9a25cd070f92d98f953fbb44838" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>parseVersion_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a1d1df820a6d411d221d806cf787d25d7" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>size</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a1d622ef1e79f3ff75754040c510ed4e7" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>totalIndices_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1a135b1d57e2d9a27c301db57b1dac8b09" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>versionIndexPos_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>VersionParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_vertex_counts_1a2f905a39394ed475806c9f9cd9c2cc59" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>VertexCounts</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -20,7 +20,7 @@ from ...tools.ListTools import ListTools
 from ...tools.DictTools import UnHashableNone
 from ...tools.Heading import Heading
 from ...model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
-from ...model.strategies.iniParsers.GIMIParser import GIMIParser
+from ...core import GIMIParser
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 from ...model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder

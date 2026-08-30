@@ -16,6 +16,7 @@
     <innerfile refid="_algo_8h">Algo.h</innerfile>
     <innerfile refid="_bi_map_8h">BiMap.h</innerfile>
     <innerfile refid="_generator_8h">Generator.h</innerfile>
+    <innerfile refid="_graph_tools_8h">GraphTools.h</innerfile>
     <innerfile refid="_int_tools_8h">IntTools.h</innerfile>
     <innerfile refid="_list_tools_8h">ListTools.h</innerfile>
     <innerfile refid="_ranges_8h">Ranges.h</innerfile>

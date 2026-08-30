@@ -3,10 +3,45 @@
   <compounddef id="class_a_g_remap_core_1_1_base_ini_parser" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseIniParser</compoundname>
     <includes refid="_base_ini_parser_8h" local="no">BaseIniParser.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroup = IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>GraphGroup</name>
+        <qualifiedname>AGRemapCore::BaseIniParser::GraphGroup</qualifiedname>
+        <briefdescription>
+<para>The type of group of caller/callee graphs this parser produces. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="62" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="protected-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_parser_1ab95859e5603293d7036d4d8d91e900d4" prot="protected" static="no" mutable="no">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
-        <definition>IniFile* AGRemapCore::BaseIniParser::iniFile_</definition>
+        <definition>IniFile* AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::iniFile_</definition>
         <argsstring></argsstring>
         <name>iniFile_</name>
         <qualifiedname>AGRemapCore::BaseIniParser::iniFile_</qualifiedname>
@@ -19,13 +54,13 @@ The ``.ini`` file that will be parsed -- non-owning, see the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="104" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="148" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="148" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1acd94c4e509a377ea5d3d2315829cedcb" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::BaseIniParser::BaseIniParser</definition>
+        <definition>AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::BaseIniParser</definition>
         <argsstring>(IniFile *iniFile=nullptr)</argsstring>
         <name>BaseIniParser</name>
         <qualifiedname>AGRemapCore::BaseIniParser::BaseIniParser</qualifiedname>
@@ -49,10 +84,23 @@ The ``.ini`` file to parse :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 This is a non-owning pointer to a file owned elsewhere -- it must outlive this parser
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-``nullptr`` is allowed so a parser can exist before it&apos;s bound to any particular file
--- :cpp:member:`ModType::iniParser` holds one this way, since a
-:cpp:class:`ModType` describes a *kind* of mod rather than one specific ``.ini`` file.
-Call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+``nullptr`` is allowed so a parser can exist before it&apos;s bound to any particular file;
+call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A parser reached through a :cpp:class:`ModType` is never in that state --
+   :cpp:member:`ModType::iniParseBuilder` builds one per ``.ini`` file, already bound
+   to it (see :cpp:func:`IniParseBuilder::build`), rather than sharing one unbound
+   instance across every file of that mod type
+
+.. note::
+   :cpp:class:`GIMIParser` -- the one concrete parser in this hierarchy -- does **not**
+   read the ``.ini`` file through this pointer at all; it goes through a
+   :cpp:class:`IniParseContext` instead, because the ``.ini`` file its real callers
+   hand it is the *`Python`_* ``IniFile``, an unrelated class to
+   :cpp:class:`AGRemapCore::IniFile`. See that class&apos;s own note
+
+:raw-html:`&lt;br /&gt;`
 
 **Default**: ``nullptr``
 </verbatim> </para>
@@ -63,11 +111,11 @@ Call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="51" column="22" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="7" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="95" column="22"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a6699e82027e33e3244db8b12da72f635" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
-        <definition>virtual AGRemapCore::BaseIniParser::~BaseIniParser</definition>
+        <definition>virtual AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::~BaseIniParser</definition>
         <argsstring>()=default</argsstring>
         <name>~BaseIniParser</name>
         <qualifiedname>AGRemapCore::BaseIniParser::~BaseIniParser</qualifiedname>
@@ -77,11 +125,11 @@ Call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="53" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="97" column="21"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a031629cd0f41ff37d7e7052fb96851b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
-        <definition>IniFile * AGRemapCore::BaseIniParser::getIniFile</definition>
+        <definition>IniFile * AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::getIniFile</definition>
         <argsstring>() const</argsstring>
         <name>getIniFile</name>
         <qualifiedname>AGRemapCore::BaseIniParser::getIniFile</qualifiedname>
@@ -92,11 +140,11 @@ Call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="58" column="21" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="102" column="21"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1ac462b24ff22b8fe1f8d5c62df4e0a801" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void AGRemapCore::BaseIniParser::setIniFile</definition>
+        <definition>void AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::setIniFile</definition>
         <argsstring>(IniFile *iniFile)</argsstring>
         <name>setIniFile</name>
         <qualifiedname>AGRemapCore::BaseIniParser::setIniFile</qualifiedname>
@@ -124,11 +172,11 @@ constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="69" column="18" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="113" column="18"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a29c198d1ae36db562566fc0c60babea4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
-        <definition>void AGRemapCore::BaseIniParser::clear</definition>
+        <definition>virtual void AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::clear</definition>
         <argsstring>()</argsstring>
         <name>clear</name>
         <qualifiedname>AGRemapCore::BaseIniParser::clear</qualifiedname>
@@ -142,11 +190,11 @@ nothing here to clear, unlike the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="78" column="26" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="17" bodyend="17"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="122" column="26"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1ad429c0d3a7b7b2d54cf614003bea4d37" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
-        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref> &gt;</type>
-        <definition>std::vector&lt; IniGraphGroup &gt; AGRemapCore::BaseIniParser::parse</definition>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" kindref="member">GraphGroup</ref> &gt;</type>
+        <definition>virtual std::vector&lt; GraphGroup &gt; AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;::parse</definition>
         <argsstring>()</argsstring>
         <name>parse</name>
         <qualifiedname>AGRemapCore::BaseIniParser::parse</qualifiedname>
@@ -168,7 +216,7 @@ original&apos;s ``pass`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="94" column="33" bodyfile="src/model/strategies/iniParsers/BaseIniParser.cpp" bodystart="19" bodyend="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="138" column="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -179,7 +227,8 @@ Base class to parse a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
 
 .. note::
    Two deliberate divergences from the pure-Python
-   ``FixRaidenBoss2.model.strategies.iniParsers.BaseIniParser`` original:
+   ``FixRaidenBoss2.model.strategies.iniParsers.BaseIniParser`` original (which has since been
+   deleted outright -- this class *is* the ``BaseIniParser`` the `Python`_ API exposes now):
 
    * There is no ``_modsToFix`` attribute (and so #clear has nothing of its own to reset, and
      is a no-op by default). The pure-Python original&apos;s ``clear`` exists *only* to clear that
@@ -187,25 +236,66 @@ Base class to parse a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
    * #parse returns the parsed :cpp:class:`IniGraphGroup`\\s instead of ``None``, so a parser
      hands its results back to its caller as a real value rather than by mutating the
      :cpp:class:`IniFile` it was given
-</verbatim> </para>
+
+.. note::
+   This is a class template over the same ``K``/``V``/``KeyHash``/``KeyEqual`` as the
+   :cpp:class:`IfContentPart`\\s the `sections`_ it parses are made of, defaulting to
+   ``&lt;std::string, std::string&gt;``. It has to be, for the same reason
+   :cpp:class:`BaseRegEdit`/:cpp:class:`BaseIniGraphEdit` do: the `pybind11`_ layer&apos;s
+   `sections`_ are ``IfTemplate&lt;py::object, py::object, ...&gt;``, so a parser pinned to
+   ``&lt;std::string, std::string&gt;`` would be unreachable from any binding -- and
+   :cpp:class:`GIMIParser`, the one concrete parser this base has, is reached from exactly
+   there.
+
+.. note::
+   :cpp:class:`IniParseBuilder` (and, through it, :cpp:member:`ModType::iniParseBuilder` and
+   :cpp:func:`IniFile::getParser`) deliberately stays pinned to ``BaseIniParser&lt;&gt;`` rather
+   than becoming a template of its own: nothing on the `Python`_ side builds parsers through
+   it (the `Python`_ API has its own pure-Python ``IniParseBuilder``), so the only instantiation
+   it ever needs is the plain-``std::string`` one
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
     </detaileddescription>
     <collaborationgraph>
-      <node id="4">
+      <node id="3">
         <label>AGRemapCore::BaseIniClassifier</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
       </node>
-      <node id="3">
-        <label>AGRemapCore::BaseIniFixer</label>
-        <link refid="class_a_g_remap_core_1_1_base_ini_fixer"/>
-        <childnode refid="1" relation="usage">
-          <edgelabel>parser_</edgelabel>
-        </childnode>
-        <childnode refid="2" relation="usage">
-          <edgelabel>iniFile_</edgelabel>
-        </childnode>
-      </node>
       <node id="1">
-        <label>AGRemapCore::BaseIniParser</label>
+        <label>AGRemapCore::BaseIniParser&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_parser"/>
         <childnode refid="2" relation="usage">
           <edgelabel>iniFile_</edgelabel>
@@ -215,29 +305,27 @@ Base class to parse a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         <label>AGRemapCore::IniFile</label>
         <link refid="class_a_g_remap_core_1_1_ini_file"/>
         <childnode refid="3" relation="usage">
-          <edgelabel>fixer_</edgelabel>
-        </childnode>
-        <childnode refid="4" relation="usage">
           <edgelabel>iniClassifier_</edgelabel>
         </childnode>
-        <childnode refid="5" relation="usage">
+        <childnode refid="4" relation="usage">
           <edgelabel>z3Ctx_</edgelabel>
         </childnode>
       </node>
-      <node id="5">
+      <node id="4">
         <label>AGRemapCore::Z3Context</label>
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="30" bodyend="105"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="56" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="56" bodyend="149"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1acd94c4e509a377ea5d3d2315829cedcb" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>BaseIniParser</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a29c198d1ae36db562566fc0c60babea4" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>clear</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a031629cd0f41ff37d7e7052fb96851b1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>getIniFile</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ab95859e5603293d7036d4d8d91e900d4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>iniFile_</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ad429c0d3a7b7b2d54cf614003bea4d37" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>parse</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ac462b24ff22b8fe1f8d5c62df4e0a801" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>setIniFile</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a6699e82027e33e3244db8b12da72f635" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>~BaseIniParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>BaseIniParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>GraphGroup</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a55efacdce5969b858c7022ff8e933258" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>parse</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>setIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>~BaseIniParser</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -1,0 +1,881 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_remove_builder_funcs" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniRemoveBuilderFuncs</compoundname>
+    <includes refid="_ini_remove_builder_data_8h" local="no">IniRemoveBuilderData.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemoveBuilderFuncs::IniRemoveBuilderFuncs</definition>
+        <argsstring>()=delete</argsstring>
+        <name>IniRemoveBuilderFuncs</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::IniRemoveBuilderFuncs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="48" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::amber4_0</definition>
+        <argsstring>()</argsstring>
+        <name>amber4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::amber4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the amber4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="57" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="16" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::amberCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>amberCN4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::amberCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the amberCN4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="66" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="17" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ayaka4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ayaka4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ayaka4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ayaka4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="75" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="18" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ayakaSpringbloom4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ayakaSpringbloom4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ayakaSpringbloom4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ayakaSpringbloom4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="84" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="19" bodyend="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::arlecchino4_0</definition>
+        <argsstring>()</argsstring>
+        <name>arlecchino4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::arlecchino4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the arlecchino4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="93" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="20" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::barbara4_0</definition>
+        <argsstring>()</argsstring>
+        <name>barbara4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::barbara4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the barbara4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="102" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="21" bodyend="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::barbaraSummertime4_0</definition>
+        <argsstring>()</argsstring>
+        <name>barbaraSummertime4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::barbaraSummertime4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the barbaraSummertime4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="111" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="22" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::cherryHuTao4_0</definition>
+        <argsstring>()</argsstring>
+        <name>cherryHuTao4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::cherryHuTao4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the cherryHuTao4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="120" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="23" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::diluc4_0</definition>
+        <argsstring>()</argsstring>
+        <name>diluc4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::diluc4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the diluc4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="129" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="24" bodyend="24"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::dilucFlamme4_0</definition>
+        <argsstring>()</argsstring>
+        <name>dilucFlamme4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::dilucFlamme4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the dilucFlamme4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="138" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="25" bodyend="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::fischl4_0</definition>
+        <argsstring>()</argsstring>
+        <name>fischl4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::fischl4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the fischl4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="147" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="26" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::fischlHighness4_0</definition>
+        <argsstring>()</argsstring>
+        <name>fischlHighness4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::fischlHighness4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the fischlHighness4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="156" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="27" bodyend="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ganyu4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ganyu4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ganyu4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ganyu4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="165" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="28" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ganyuTwilight4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ganyuTwilight4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ganyuTwilight4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="174" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="29" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::huTao4_0</definition>
+        <argsstring>()</argsstring>
+        <name>huTao4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::huTao4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the huTao4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="183" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="30" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::jean4_0</definition>
+        <argsstring>()</argsstring>
+        <name>jean4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::jean4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the jean4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="192" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::jeanCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>jeanCN4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::jeanCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the jeanCN4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="201" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="32" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::jeanSea4_0</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::jeanSea4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the jeanSea4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="210" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::kaeya4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeya4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::kaeya4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the kaeya4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="219" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="34" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::kaeyaSailwind4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kaeyaSailwind4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::kaeyaSailwind4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the kaeyaSailwind4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="228" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::keqing4_0</definition>
+        <argsstring>()</argsstring>
+        <name>keqing4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::keqing4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the keqing4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="237" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::keqingOpulent4_0</definition>
+        <argsstring>()</argsstring>
+        <name>keqingOpulent4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::keqingOpulent4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the keqingOpulent4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="246" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::kirara4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kirara4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::kirara4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the kirara4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="255" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="38" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::kiraraBoots4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kiraraBoots4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::kiraraBoots4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the kiraraBoots4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="264" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="39" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::klee4_0</definition>
+        <argsstring>()</argsstring>
+        <name>klee4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::klee4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the klee4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="273" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="40" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0</definition>
+        <argsstring>()</argsstring>
+        <name>kleeBlossomingStarlight4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the kleeBlossomingStarlight4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="282" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="41" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::lisa4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lisa4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::lisa4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the lisa4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="291" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="42" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::lisaStudent4_0</definition>
+        <argsstring>()</argsstring>
+        <name>lisaStudent4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::lisaStudent4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the lisaStudent4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="300" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="43" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::mona4_0</definition>
+        <argsstring>()</argsstring>
+        <name>mona4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::mona4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the mona4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="309" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::monaCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>monaCN4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::monaCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the monaCN4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="318" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::nilou4_0</definition>
+        <argsstring>()</argsstring>
+        <name>nilou4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::nilou4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the nilou4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="327" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::nilouBreeze4_0</definition>
+        <argsstring>()</argsstring>
+        <name>nilouBreeze4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::nilouBreeze4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the nilouBreeze4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="336" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ningguang4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ningguang4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ningguang4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ningguang4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="345" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::ningguangOrchid4_0</definition>
+        <argsstring>()</argsstring>
+        <name>ningguangOrchid4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::ningguangOrchid4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the ningguangOrchid4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="354" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::raiden4_0</definition>
+        <argsstring>()</argsstring>
+        <name>raiden4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::raiden4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the raiden4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="363" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::rosaria4_0</definition>
+        <argsstring>()</argsstring>
+        <name>rosaria4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::rosaria4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the rosaria4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="372" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::rosariaCN4_0</definition>
+        <argsstring>()</argsstring>
+        <name>rosariaCN4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::rosariaCN4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the rosariaCN4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="381" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="52" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::shenhe4_0</definition>
+        <argsstring>()</argsstring>
+        <name>shenhe4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::shenhe4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the shenhe4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="390" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="53" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::shenheFrostFlower4_0</definition>
+        <argsstring>()</argsstring>
+        <name>shenheFrostFlower4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::shenheFrostFlower4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the shenheFrostFlower4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="399" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="54" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::xiangling4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xiangling4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::xiangling4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the xiangling4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="408" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::xianglingCheer4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xianglingCheer4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::xianglingCheer4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the xianglingCheer4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="417" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::xingqiu4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiu4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::xingqiu4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the xingqiu4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="426" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref></type>
+        <definition>IniRemoveBuilder::Factory AGRemapCore::IniRemoveBuilderFuncs::xingqiuBamboo4_0</definition>
+        <argsstring>()</argsstring>
+        <name>xingqiuBamboo4_0</name>
+        <qualifiedname>AGRemapCore::IniRemoveBuilderFuncs::xingqiuBamboo4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stub for the xingqiuBamboo4_0&apos;s remover -- returns
+:cpp:func:`IniRemoveBuilder::defaultFactory`, see this class&apos;s own warning
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="435" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Defines how the :cpp:class:`IniRemoveBuilder` arguments for some mod are built for a
+particular game version :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One static method per mod, each returning the :cpp:type:`IniRemoveBuilder::Factory` for it
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   **This class has no pure-Python counterpart**, unlike its
+   :cpp:class:`IniParseBuilderFuncs`/:cpp:class:`IniFixBuilderFuncs` siblings. There is no
+   ``IniRemoveBuilderData.py`` and no ``IniRemoveBuilderArgs.py``; the whole Python package
+   constructs exactly one ``IniRemoveBuilder(IniRemover)``, globally, in
+   ``constants/GlobalIniRemoveBuilders.py``, with no per-mod or per-version variation at
+   all. This table exists so per-mod removers *can* be expressed in C++ when they are
+   needed -- do not treat its method names as mirroring anything upstream
+
+.. warning::
+   **Every method here is currently a stub**: they all return
+   :cpp:func:`IniRemoveBuilder::defaultFactory`, which builds a plain
+   :cpp:class:`BaseIniRemover`. No concrete C++ remover (the equivalent of the pure-Python
+   ``IniRemover``) has been ported yet, so today every row resolves the same way. Fill them
+   in one at a time as concrete removers land, without touching
+   :cpp:class:`IniRemoveBuilderData` or anything downstream
+
+.. note::
+   The method names follow the ``&lt;mod&gt;&lt;version&gt;`` convention the other two tables use, and
+   every one currently sits at 4.0 -- not because a remover changed at 4.0, but because
+   that is the baseline version those tables use for &quot;has not changed since&quot;. A remover
+   that genuinely starts differing at some later version gets a new method and a new row,
+   exactly as on the parse and fix sides
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="45" bodyend="437"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amber4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amberCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>arlecchino4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ayaka4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ayakaSpringbloom4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>barbara4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>barbaraSummertime4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>cherryHuTao4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>diluc4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>dilucFlamme4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>fischl4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>fischlHighness4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ganyu4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ganyuTwilight4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>huTao4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7224e3d7d5c1829885716ea291722e42" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>IniRemoveBuilderFuncs</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>jean4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>jeanCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>jeanSea4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>kaeya4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>kaeyaSailwind4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>keqing4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>keqingOpulent4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>kirara4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>kiraraBoots4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>klee4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>kleeBlossomingStarlight4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>lisa4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>lisaStudent4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>mona4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>monaCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>nilou4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>nilouBreeze4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ningguang4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>ningguangOrchid4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>raiden4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>rosaria4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>rosariaCN4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>shenhe4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>shenheFrostFlower4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xiangling4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xianglingCheer4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xingqiu4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>xingqiuBamboo4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

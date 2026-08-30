@@ -112,6 +112,36 @@ you see the warning return or are tempted to reach for it to influence protected
 — `EXTRACT_PRIVATE` is the real, analogous tag for *private* members, and there's no `PROTECTED`
 counterpart because none is needed.
 
+**Never write a Doxygen `\command` into a doc comment through a *non-raw* Python string when doing
+a scripted edit — `\ref` becomes a carriage return, and Doxygen then misreports the damage as
+"every parameter is undocumented".** Architecture's guidance to prefer a small script over N manual
+edits is right, and this is its one sharp edge when the target is a C++ doc comment. In a Python
+`"...\ref..."` (or `"""..."""`) replacement string, `\r` is an escape: the emitted bytes are
+`CR` + `ef`, which splits the line in two mid-`@param` and leaves the continuation without its
+leading ` * `. That silently terminates Doxygen's parameter parsing for the *whole* comment block,
+so the warning you get is `The following parameters of ... are not documented:` listing **every**
+parameter including ones you never touched — pointing at entirely the wrong problem (it reads like
+you forgot to document the function, not like one character is wrong mid-sentence).
+
+Two things make this genuinely hard to see, so check for it explicitly rather than by eye:
+- **`pathlib.Path.read_text()` normalises the stray `CR` into a line break**, so a `repr()`
+  spot-check of the line comes back looking *correct*. Only `read_bytes()` shows the truth.
+- `sed`/terminal output renders it as a plausible-looking `ef trackKeys`, which reads as a typo
+  somewhere else entirely.
+
+Detect and repair with bytes, never text:
+```bash
+py -3 -c "
+import pathlib, re
+raw = pathlib.Path('Xxx.h').read_bytes()
+print('stray CR:', len(re.findall(rb'\r(?!\n)', raw)))          # CR not part of a CRLF ending
+pathlib.Path('Xxx.h').write_bytes(raw.replace(bytes([13]) + b'ef ', bytes([92]) + b'ref '))
+"
+```
+**Prevention**: use a raw string (`r'\ref'`) or `chr(92) + 'ref'` in any script that writes
+`\ref`/`\rst`/`\return`/etc. into a header, and re-run `doxygen Doxyfile` immediately after a
+scripted doc-comment edit rather than batching it to the end.
+
 **A plain incremental build only shows warnings for files Sphinx actually reprocessed** (`0
 added, 0 changed, 0 removed` means it reused the cached result and reported nothing new) — a
 handful of files being edited this session can make the build look like it only has ~7 warnings
@@ -135,6 +165,23 @@ about your change. Always rerun with `-E` after any C++/Cython/pybind11 change t
 `autodoc`/`autoclass` would introspect, even if you didn't touch the `.rst` file at all — this is
 the same fix as the header-comment case above, just for a different trigger (compiled binary
 changed vs. Doxygen XML changed), both invisible to the same incremental cache.
+
+
+**One concrete instance of that misattribution, worth grepping for first:** a `@rst` block whose
+delimiters carry the Doxygen comment's leading `*` --- `     * @rst` / `     * @endrst` instead of
+the bare `     @rst` / `     @endrst` --- produces
+`coreAPI.rst:NN: WARNING: Explicit markup ends without a blank line; unexpected unindent.` The
+reported line is the `.rst` line just *after* some `.. doxygenclass::` directive, and it will point
+at a **different class than the one whose header is actually broken** (a bad comment in
+`VertexCounts.h` was reported against `Hashes`'s entry). Grep the header tree for the pattern rather
+than reading the reported line:
+
+```bash
+grep -rn "^\s*\*\s*@rst\|^\s*\*\s*@endrst" core/include/
+```
+
+Note `tools/hashing/HashInt.h` uses the `* @rst` form and does *not* warn, so its presence there is
+not licence to copy it --- the bare form is the convention everywhere else.
 
 **When a Doxygen/Breathe-sourced error's reported line number doesn't match anything meaningful in
 the named `.rst` file** (e.g. `coreAPI.rst:4: ERROR: ...` pointing at a blank title-underline
@@ -599,6 +646,34 @@ reopened) survives untouched.
   rather than assuming a plain-English phrase like `` `dataflow analysis`_ `` or `` `call graph`_ ``
   will just work. Sphinx never validates that the target URL is actually reachable — only that
   some `.. _Term:` definition exists — so a build passing is not proof the link goes anywhere real.
+- **The glossary blocks are per-file, and `api.rst`'s and `coreAPI.rst`'s are *different sets* — a
+  term that works in a C++ header's `@rst` block can be a hard error in a `py::doc(...)` docstring.**
+  The bullet above says "add it to that end-of-file block", which is right but understates the
+  problem: each of the two pages carries its own `.. _Term: URL` block, and a definition in one is
+  invisible to the other. Concretely, `` `Python`_ `` is defined **only** in `coreAPI.rst`
+  (`.. _Python: https://www.python.org/`) — so the ~130 uses of it across the C++ header comments
+  resolve fine, while the very same `` `Python`_ `` written into a pybind11 `py::doc(...)` string
+  (which renders into `api.rst`) produces `ERROR: Unknown target name: "python"`. Easy to write by
+  accident precisely because you've just been copying the surrounding C++ doc-comment style. Before
+  using a `` `Term`_ `` in a **docstring**, grep `Docs/src/api.rst` (not `coreAPI.rst`) for
+  `.. _Term:`; if it's missing, either add it there too or just write the word as plain text — for a
+  passing mention like "genuine Python attribute lookup" the hyperlink adds nothing anyway.
+- **A docstring-sourced Sphinx problem is attributed to `docstring of
+  FixRaidenBoss2.core.pybind11_detail_function_record_v1_...`, not to any `.rst` file — so the
+  obvious "which file is this warning in" triage misses it completely.** Two things conspire here:
+  the location string names no `.rst` file at all (so filtering/grouping warnings by
+  `tutorial.rst|apiExamples.rst|...` silently drops it), and it is reported as an **ERROR** rather
+  than a WARNING (so a check that greps for `WARNING` finds nothing). Both bit at once chasing a
+  25→26 warning-count delta: every per-file grep came back clean and the total still didn't
+  reconcile. **The reliable triage when the count moves but no file owns the change**: capture the
+  whole build to a file and grep it for lines matching *neither* a known baseline `.rst` file *nor*
+  the two intersphinx SSL warnings, and grep for `ERROR` separately from `WARNING` —
+  ```bash
+  py -3 -m sphinx -E -b html -W --keep-going src build/html > sphinx.log 2>&1
+  grep -nE "WARNING|ERROR" sphinx.log | grep -v "Docs.src" | grep -v RemovedInSphinx80Warning
+  ```
+  A hit on `docstring of ...` means a pybind11 `py::doc(...)` string you just edited, and the
+  reported line number is the offset *within that docstring*, which is genuinely useful for once.
 - **A multi-phase feature effort can go its *entire* duration without anyone actually running a
   Sphinx build, even while writing `@rst`-block doc comments with `` `Term`_ `` links throughout.**
   A full Z3 predicate-conversion effort (`IfPredZ3Generator`/`Z3IfPredGenerator`/`Z3Context`/

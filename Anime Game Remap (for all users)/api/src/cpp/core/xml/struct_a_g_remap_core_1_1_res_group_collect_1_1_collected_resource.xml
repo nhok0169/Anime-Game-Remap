@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource" kind="struct" language="C++" prot="private">
+    <compoundname>AGRemapCore::ResGroupCollect::CollectedResource</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a6514e63a1f211a92d9ea7bf2bcf31153" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> *</type>
+        <definition>IniResource* AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::CollectedResource::resource</definition>
+        <argsstring></argsstring>
+        <name>resource</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::CollectedResource::resource</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="551" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="551" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a914530a59b8dbb1f3d45fa93a61192ef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::CollectedResource::graphId</definition>
+        <argsstring></argsstring>
+        <name>graphId</name>
+        <qualifiedname>AGRemapCore::ResGroupCollect::CollectedResource::graphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="552" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="552" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::ResGroupCollect&lt; K, V, KeyHash, KeyEqual &gt;::CollectedResource</label>
+        <link refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>resource</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="550" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="550" bodyend="553"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a914530a59b8dbb1f3d45fa93a61192ef" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::CollectedResource</scope><name>graphId</name></member>
+      <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_collected_resource_1a6514e63a1f211a92d9ea7bf2bcf31153" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::CollectedResource</scope><name>resource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -7,6 +7,7 @@
 #include "tools/dfa/PyDFA.h"
 #include "tools/PyBiMap.h"
 #include "tools/PyAlgo.h"
+#include "tools/PyGraphTools.h"
 #include "tools/PyRanges.h"
 #include "tools/tries/PyTrie.h"
 #include "tools/tries/PyAhoCorasickDFA.h"
@@ -55,6 +56,25 @@
 #include "model/strategies/iniFixers/regEdits/PyRegNewVals.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemap.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemove.h"
+#include "model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.h"
+#include "model/strategies/iniFixers/graphEdits/PyGraphRename.h"
+#include "model/strategies/iniFixers/graphEdits/PyRegFillMissing.h"
+#include "model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyResEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.h"
+#include "model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.h"
+#include "model/strategies/iniParsers/PyBaseIniParser.h"
+#include "model/strategies/iniParsers/PyGIMISectionClassifier.h"
+#include "model/strategies/iniParsers/PyGIMIParser.h"
+#include "model/strategies/iniFixers/PyBaseIniFixer.h"
+#include "model/strategies/iniFixers/PyGIMIFixer.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -119,6 +139,7 @@ PYBIND11_MODULE(core, m) {
     initCppIntTools(m);
     initCppBiMap(m);
     initCppAlgo(m);
+    initCppGraphTools(m);
     initCppRanges(m);
     initCppDFA(m);
     initCppTrie(m);
@@ -171,6 +192,26 @@ PYBIND11_MODULE(core, m) {
     initCppRegNewVals(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
+
+    // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
+    // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
+    initCppBaseIniGraphEdit(m); // must come after initCppBaseRegEdit (registers CppBaseIniGraphPartEdit, its base) and initCppIniSectionGraph (the type it edits)
+    initCppGraphRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
+    initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
+    initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
+
+    // ----- iniFixers/graphGroupEdits (full replacement of the pure-Python graphGroupEdits
+    // package -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
+    initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers CppBaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
+    initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
+    initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
+    initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
+    initCppGraphGroupEdit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppBaseRegEdit (its isinstance target for register edits)
+    initCppResEdit(m); // must come after initCppIniResource/initCppIniFixResource (the models it builds) and initCppIniSectionGraph/initCppIfTemplate
+    initCppRemapBlendReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapBlendResource (the model it builds)
+    initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
+    initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
+    initCppResGroupCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base), initCppResEdit and initCppIniGroupedResource (the groups it builds)
     initCppHash64(m);
     initCppHash128(m);
     initCppHashTools(m);
@@ -229,4 +270,14 @@ PYBIND11_MODULE(core, m) {
     initCppRemapIniDownload(m); // must come after initCppRemapIniResource (registers its base) and initCppFileDownload (constructor takes ownership of a FileDownload instance)
     initCppRemapBlendResource(m); // must come after initCppRemapIniFixResource (registers its base); VGRemap/BufElementType already registered above
     initCppRemapTexAddResource(m); // must come after initCppRemapIniResource (registers its base); CppTexCreator already registered above
+
+    // ----- iniParsers (full replacement of the pure-Python BaseIniParser/GIMIParser pair --
+    // see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
+    initCppBaseIniParser(m);
+    initCppGIMISectionClassifier(m); // must come after initCppHashes/initCppIndices (its assets) and initCppIfContentPartColour (what it classifies from)
+    initCppGIMIParser(m); // must come after initCppBaseIniParser (registers its base), initCppIniGraphGroup/initCppIniSectionGraph (the graphs it builds) and initCppRemapIniDownload (the downloads it records)
+
+    // ----- iniFixers (full replacement of the pure-Python BaseIniFixer/GIMIFixer pair) -----
+    initCppBaseIniFixer(m);
+    initCppGIMIFixer(m); // must come after initCppBaseIniFixer (registers its base), initCppGIMIParser (what it fixes from) and initCppResEdit (its pyCoreModule() is how the package's own constants are reached)
 }

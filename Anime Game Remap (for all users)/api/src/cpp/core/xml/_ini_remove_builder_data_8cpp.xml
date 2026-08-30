@@ -1,0 +1,1205 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ini_remove_builder_data_8cpp" kind="file" language="C++">
+    <compoundname>IniRemoveBuilderData.cpp</compoundname>
+    <includes refid="_ini_remove_builder_data_8h" local="yes">AGRemapCore/data/IniRemoveBuilderData.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
+    <includes refid="_version_8h" local="yes">AGRemapCore/model/Version.h</includes>
+    <includes refid="_row_8h" local="yes">AGRemapCore/model/assets/Row.h</includes>
+    <incdepgraph>
+      <node id="50">
+        <label>Algo.tpp</label>
+      </node>
+      <node id="102">
+        <label>BaseAhoCorasickDFA.tpp</label>
+      </node>
+      <node id="91">
+        <label>BaseIniFixer.tpp</label>
+      </node>
+      <node id="90">
+        <label>BaseIniParser.tpp</label>
+      </node>
+      <node id="56">
+        <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="101">
+        <label>BaseTrie.tpp</label>
+      </node>
+      <node id="99">
+        <label>BiMap.tpp</label>
+      </node>
+      <node id="65">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="94">
+        <label>AGRemapCore/constants/GameTypeId.h</label>
+        <link refid="_game_type_id_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="71">
+        <label>AGRemapCore/constants/IfPredPartType.h</label>
+        <link refid="_if_pred_part_type_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
+        <label>AGRemapCore/constants/ModTypeId.h</label>
+        <link refid="_mod_type_id_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore/data/IniRemoveBuilderData.h</label>
+        <link refid="_ini_remove_builder_data_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="38">
+        <label>AGRemapCore/model/CallGraph.h</label>
+        <link refid="_call_graph_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>AGRemapCore/model/IniGraphGroup.h</label>
+        <link refid="_ini_graph_group_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>AGRemapCore/model/IniSectionGraph.h</label>
+        <link refid="_ini_section_graph_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>AGRemapCore/model/SectionIterData.h</label>
+        <link refid="_section_iter_data_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="28">
+        <label>AGRemapCore/model/VGRemap.h</label>
+        <link refid="_v_g_remap_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/model/Version.h</label>
+        <link refid="_version_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>AGRemapCore/model/assets/Hashes.h</label>
+        <link refid="_hashes_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>AGRemapCore/model/assets/Indices.h</label>
+        <link refid="_indices_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>AGRemapCore/model/assets/ModAssets.h</label>
+        <link refid="_mod_assets_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/assets/ModDictAssets.h</label>
+        <link refid="_mod_dict_assets_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
+        <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
+        <link refid="_mod_mapped_assets_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>AGRemapCore/model/assets/Row.h</label>
+        <link refid="_row_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="27">
+        <label>AGRemapCore/model/assets/VGRemaps.h</label>
+        <link refid="_v_g_remaps_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+      </node>
+      <node id="26">
+        <label>AGRemapCore/model/assets/VertexCounts.h</label>
+        <link refid="_vertex_counts_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="39">
+        <label>AGRemapCore/model/iftemplate/IfContentPart.h</label>
+        <link refid="_if_content_part_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="57" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+      </node>
+      <node id="67">
+        <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
+        <link refid="_if_content_part_colour_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="70">
+        <label>AGRemapCore/model/iftemplate/IfPredPart.h</label>
+        <link refid="_if_pred_part_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="74" relation="include">
+        </childnode>
+      </node>
+      <node id="69">
+        <label>AGRemapCore/model/iftemplate/IfTemplate.h</label>
+        <link refid="_if_template_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>AGRemapCore/model/iftemplate/IfTemplateNode.h</label>
+        <link refid="_if_template_node_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="42">
+        <label>AGRemapCore/model/iftemplate/IfTemplatePart.h</label>
+        <link refid="_if_template_part_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>AGRemapCore/model/iftemplate/IfTemplateTree.h</label>
+        <link refid="_if_template_tree_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="71" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/model/strategies/ModType.h</label>
+        <link refid="_mod_type_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
+        <link refid="_base_ini_fixer_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
+        <link refid="_ini_fix_builder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="89">
+        <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
+        <link refid="_base_ini_parser_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
+        <link refid="_ini_parse_builder_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
+        <link refid="_ini_remove_builder_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>AGRemapCore/tools/Algo.h</label>
+        <link refid="_algo_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+      </node>
+      <node id="98">
+        <label>AGRemapCore/tools/BiMap.h</label>
+        <link refid="_bi_map_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>AGRemapCore/tools/Generator.h</label>
+        <link refid="_generator_8h"/>
+        <childnode refid="84" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="47">
+        <label>AGRemapCore/tools/Ranges.h</label>
+        <link refid="_ranges_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+      </node>
+      <node id="100">
+        <label>AGRemapCore/tools/StringHash.h</label>
+        <link refid="_string_hash_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+      </node>
+      <node id="44">
+        <label>AGRemapCore/tools/idGenerator/BaseIdGenerator.h</label>
+        <link refid="_base_id_generator_8h"/>
+      </node>
+      <node id="43">
+        <label>AGRemapCore/tools/idGenerator/IncIdGenerator.h</label>
+        <link refid="_inc_id_generator_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>AGRemapCore/tools/nodes/Node.h</label>
+        <link refid="_node_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+      </node>
+      <node id="52">
+        <label>AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h</label>
+        <link refid="_base_ordered_multi_map_8h"/>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="54" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="56" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h</label>
+        <link refid="_i_ordered_multi_map_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="59">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h</label>
+        <link refid="_ordered_multi_map_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="57">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h</label>
+        <link refid="_ordered_multi_map_adapter_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h</label>
+        <link refid="_ordered_multi_map_sqrt_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="53" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="72">
+        <label>AGRemapCore/tools/parsing/ParseContext.h</label>
+        <link refid="_parse_context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="95">
+        <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
+        <link refid="_base_aho_corasick_d_f_a_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="102" relation="include">
+        </childnode>
+      </node>
+      <node id="96">
+        <label>AGRemapCore/tools/tries/BaseTrie.h</label>
+        <link refid="_base_trie_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="100" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>AGRemapCore/tools/z3/Z3Context.h</label>
+        <link refid="_z3_context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>AGRemapCore/tools/z3/Z3Predicate.h</label>
+        <link refid="_z3_predicate_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniRemoveBuilderData.cpp</label>
+        <link refid="_ini_remove_builder_data_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="64">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="68">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="81">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="78">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="80">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="45">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="88">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="87">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="30">
+        <label>ModAssets.tpp</label>
+      </node>
+      <node id="17">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="24">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="77">
+        <label>Node.tpp</label>
+      </node>
+      <node id="60">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="63">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="51">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="82">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="40">
+        <label>algorithm</label>
+      </node>
+      <node id="62">
+        <label>cmath</label>
+      </node>
+      <node id="84">
+        <label>coroutine</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="11">
+        <label>cstdint</label>
+      </node>
+      <node id="35">
+        <label>deque</label>
+      </node>
+      <node id="85">
+        <label>exception</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="53">
+        <label>list</label>
+      </node>
+      <node id="54">
+        <label>map</label>
+      </node>
+      <node id="3">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="49">
+        <label>queue</label>
+      </node>
+      <node id="36">
+        <label>set</label>
+      </node>
+      <node id="15">
+        <label>stdexcept</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="97">
+        <label>string_view</label>
+      </node>
+      <node id="33">
+        <label>tsl/ordered_map.h</label>
+      </node>
+      <node id="58">
+        <label>tsl/ordered_set.h</label>
+      </node>
+      <node id="55">
+        <label>tuple</label>
+      </node>
+      <node id="41">
+        <label>type_traits</label>
+      </node>
+      <node id="9">
+        <label>unordered_map</label>
+      </node>
+      <node id="20">
+        <label>unordered_set</label>
+      </node>
+      <node id="12">
+        <label>utility</label>
+      </node>
+      <node id="37">
+        <label>variant</label>
+      </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_remove_builder_data_8h" kindref="compound">AGRemapCore/data/IniRemoveBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_version_8h" kindref="compound">AGRemapCore/model/Version.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_row_8h" kindref="compound">AGRemapCore/model/assets/Row.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>generator<sp/>is<sp/>a<sp/>stub<sp/>for<sp/>now<sp/>--<sp/>see<sp/>IniParseBuilderFuncs&apos;<sp/>own<sp/>warning.<sp/>They<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>written<sp/>out<sp/>one-per-method<sp/>rather<sp/>than<sp/>collapsed<sp/>into<sp/>a<sp/>single<sp/>shared<sp/>stub<sp/>so<sp/>that<sp/>each</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>can<sp/>be<sp/>filled<sp/>in<sp/>independently,<sp/>and<sp/>so<sp/>the<sp/>table<sp/>below<sp/>reads<sp/>exactly<sp/>like<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pure-Python<sp/>original&apos;s.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" kindref="member">IniRemoveBuilderFuncs::amber4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" kindref="member">IniRemoveBuilderFuncs::amberCN4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" kindref="member">IniRemoveBuilderFuncs::ayaka4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" kindref="member">IniRemoveBuilderFuncs::ayakaSpringbloom4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" kindref="member">IniRemoveBuilderFuncs::arlecchino4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" kindref="member">IniRemoveBuilderFuncs::barbara4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" kindref="member">IniRemoveBuilderFuncs::barbaraSummertime4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" kindref="member">IniRemoveBuilderFuncs::cherryHuTao4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" kindref="member">IniRemoveBuilderFuncs::diluc4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" kindref="member">IniRemoveBuilderFuncs::dilucFlamme4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" kindref="member">IniRemoveBuilderFuncs::fischl4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" kindref="member">IniRemoveBuilderFuncs::fischlHighness4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" kindref="member">IniRemoveBuilderFuncs::ganyu4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" kindref="member">IniRemoveBuilderFuncs::ganyuTwilight4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" kindref="member">IniRemoveBuilderFuncs::huTao4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" kindref="member">IniRemoveBuilderFuncs::jean4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" kindref="member">IniRemoveBuilderFuncs::jeanCN4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" kindref="member">IniRemoveBuilderFuncs::jeanSea4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" kindref="member">IniRemoveBuilderFuncs::kaeya4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" kindref="member">IniRemoveBuilderFuncs::kaeyaSailwind4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" kindref="member">IniRemoveBuilderFuncs::keqing4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" kindref="member">IniRemoveBuilderFuncs::keqingOpulent4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" kindref="member">IniRemoveBuilderFuncs::kirara4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" kindref="member">IniRemoveBuilderFuncs::kiraraBoots4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" kindref="member">IniRemoveBuilderFuncs::klee4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" kindref="member">IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" kindref="member">IniRemoveBuilderFuncs::lisa4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" kindref="member">IniRemoveBuilderFuncs::lisaStudent4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" kindref="member">IniRemoveBuilderFuncs::mona4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" kindref="member">IniRemoveBuilderFuncs::monaCN4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" kindref="member">IniRemoveBuilderFuncs::nilou4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" kindref="member">IniRemoveBuilderFuncs::nilouBreeze4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" kindref="member">IniRemoveBuilderFuncs::ningguang4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" kindref="member">IniRemoveBuilderFuncs::ningguangOrchid4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" kindref="member">IniRemoveBuilderFuncs::raiden4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" kindref="member">IniRemoveBuilderFuncs::rosaria4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" kindref="member">IniRemoveBuilderFuncs::rosariaCN4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" kindref="member">IniRemoveBuilderFuncs::shenhe4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" kindref="member">IniRemoveBuilderFuncs::shenheFrostFlower4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" kindref="member">IniRemoveBuilderFuncs::xiangling4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" kindref="member">IniRemoveBuilderFuncs::xianglingCheer4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" kindref="member">IniRemoveBuilderFuncs::xingqiu4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a8b0d2814f95bf5688d0fe1b45598f5eb" kindref="member">IniRemoveBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" kindref="member">IniRemoveBuilderFuncs::xingqiuBamboo4_0</ref>()<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a57ca105f17d5c53f7a53d0ad9d9e154e" kindref="member">IniRemoveBuilder::defaultFactory</ref>();<sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>version<sp/>index<sp/>sits<sp/>at<sp/>position<sp/>0<sp/>and<sp/>the<sp/>mod<sp/>name<sp/>at<sp/>position<sp/>1,<sp/>matching<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>pure-Python<sp/>ModAssets&apos;<sp/>own<sp/>[&quot;version&quot;,<sp/>&quot;name&quot;]<sp/>index<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Row&lt;std::string,<sp/>IniRemoveBuilder::Factory&gt;&gt;<sp/>buildRows()<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>=====<sp/>4.0<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">ModTypeId::Amber</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" kindref="member">IniRemoveBuilderFuncs::amber4_0</ref>()},</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">ModTypeId::AmberCN</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" kindref="member">IniRemoveBuilderFuncs::amberCN4_0</ref>()},</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">ModTypeId::Ayaka</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" kindref="member">IniRemoveBuilderFuncs::ayaka4_0</ref>()},</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">ModTypeId::AyakaSpringbloom</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" kindref="member">IniRemoveBuilderFuncs::ayakaSpringbloom4_0</ref>()},</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">ModTypeId::Arlecchino</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" kindref="member">IniRemoveBuilderFuncs::arlecchino4_0</ref>()},</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">ModTypeId::Barbara</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" kindref="member">IniRemoveBuilderFuncs::barbara4_0</ref>()},</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">ModTypeId::BarbaraSummertime</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" kindref="member">IniRemoveBuilderFuncs::barbaraSummertime4_0</ref>()},</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">ModTypeId::CherryHuTao</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" kindref="member">IniRemoveBuilderFuncs::cherryHuTao4_0</ref>()},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">ModTypeId::Diluc</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" kindref="member">IniRemoveBuilderFuncs::diluc4_0</ref>()},</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">ModTypeId::DilucFlamme</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" kindref="member">IniRemoveBuilderFuncs::dilucFlamme4_0</ref>()},</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">ModTypeId::Fischl</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" kindref="member">IniRemoveBuilderFuncs::fischl4_0</ref>()},</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">ModTypeId::FischlHighness</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" kindref="member">IniRemoveBuilderFuncs::fischlHighness4_0</ref>()},</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">ModTypeId::Ganyu</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" kindref="member">IniRemoveBuilderFuncs::ganyu4_0</ref>()},</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">ModTypeId::GanyuTwilight</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" kindref="member">IniRemoveBuilderFuncs::ganyuTwilight4_0</ref>()},</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">ModTypeId::HuTao</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" kindref="member">IniRemoveBuilderFuncs::huTao4_0</ref>()},</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">ModTypeId::Jean</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" kindref="member">IniRemoveBuilderFuncs::jean4_0</ref>()},</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">ModTypeId::JeanCN</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" kindref="member">IniRemoveBuilderFuncs::jeanCN4_0</ref>()},</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">ModTypeId::JeanSea</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" kindref="member">IniRemoveBuilderFuncs::jeanSea4_0</ref>()},</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">ModTypeId::Kaeya</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" kindref="member">IniRemoveBuilderFuncs::kaeya4_0</ref>()},</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">ModTypeId::KaeyaSailwind</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" kindref="member">IniRemoveBuilderFuncs::kaeyaSailwind4_0</ref>()},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">ModTypeId::Keqing</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" kindref="member">IniRemoveBuilderFuncs::keqing4_0</ref>()},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">ModTypeId::KeqingOpulent</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" kindref="member">IniRemoveBuilderFuncs::keqingOpulent4_0</ref>()},</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">ModTypeId::Kirara</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" kindref="member">IniRemoveBuilderFuncs::kirara4_0</ref>()},</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">ModTypeId::KiraraBoots</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" kindref="member">IniRemoveBuilderFuncs::kiraraBoots4_0</ref>()},</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">ModTypeId::Klee</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" kindref="member">IniRemoveBuilderFuncs::klee4_0</ref>()},</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">ModTypeId::KleeBlossomingStarlight</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" kindref="member">IniRemoveBuilderFuncs::kleeBlossomingStarlight4_0</ref>()},</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">ModTypeId::Lisa</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" kindref="member">IniRemoveBuilderFuncs::lisa4_0</ref>()},</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">ModTypeId::LisaStudent</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" kindref="member">IniRemoveBuilderFuncs::lisaStudent4_0</ref>()},</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">ModTypeId::Mona</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" kindref="member">IniRemoveBuilderFuncs::mona4_0</ref>()},</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">ModTypeId::MonaCN</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" kindref="member">IniRemoveBuilderFuncs::monaCN4_0</ref>()},</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">ModTypeId::Nilou</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" kindref="member">IniRemoveBuilderFuncs::nilou4_0</ref>()},</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">ModTypeId::NilouBreeze</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" kindref="member">IniRemoveBuilderFuncs::nilouBreeze4_0</ref>()},</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">ModTypeId::Ningguang</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" kindref="member">IniRemoveBuilderFuncs::ningguang4_0</ref>()},</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">ModTypeId::NingguangOrchid</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" kindref="member">IniRemoveBuilderFuncs::ningguangOrchid4_0</ref>()},</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">ModTypeId::Raiden</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" kindref="member">IniRemoveBuilderFuncs::raiden4_0</ref>()},</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">ModTypeId::Rosaria</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" kindref="member">IniRemoveBuilderFuncs::rosaria4_0</ref>()},</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">ModTypeId::RosariaCN</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" kindref="member">IniRemoveBuilderFuncs::rosariaCN4_0</ref>()},</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">ModTypeId::Shenhe</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" kindref="member">IniRemoveBuilderFuncs::shenhe4_0</ref>()},</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ModTypeId::ShenheFrostFlower</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" kindref="member">IniRemoveBuilderFuncs::shenheFrostFlower4_0</ref>()},</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">ModTypeId::Xiangling</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" kindref="member">IniRemoveBuilderFuncs::xiangling4_0</ref>()},</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">ModTypeId::XianglingCheer</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" kindref="member">IniRemoveBuilderFuncs::xianglingCheer4_0</ref>()},</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">ModTypeId::Xingqiu</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" kindref="member">IniRemoveBuilderFuncs::xingqiu4_0</ref>()},</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;4.0&quot;</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">ModTypeIdTools::getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">ModTypeId::XingqiuBamboo</ref>)},<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" kindref="member">IniRemoveBuilderFuncs::xingqiuBamboo4_0</ref>()},</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniRemoveBuilder::ArgsRepo&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_data_1aaf0c52bec5aa03a995ca0f5e590814e6" kindref="member">IniRemoveBuilderData::repo</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Function-local<sp/>static:<sp/>built<sp/>once,<sp/>on<sp/>first<sp/>use,<sp/>thread-safely<sp/>--<sp/>and<sp/>crucially<sp/>after</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ModTypeIdTools&apos;<sp/>own<sp/>registry<sp/>is<sp/>ready,<sp/>which<sp/>the<sp/>row<sp/>keys<sp/>depend<sp/>on.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;const<sp/>IniRemoveBuilder::ArgsRepo&gt;<sp/>table<sp/>=</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::make_shared&lt;const<sp/>IniRemoveBuilder::ArgsRepo&gt;(</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*totalIndices*/</highlight><highlight class="normal"><sp/>2,<sp/></highlight><highlight class="comment">/*versionIndexPos*/</highlight><highlight class="normal"><sp/>0,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>raw)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_version_1a573798d69f6e8ef63df070d09130d194" kindref="member">Version::parse</ref>(raw);<sp/>},</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buildRows());</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>table;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniRemoveBuilderData.cpp"/>
+  </compounddef>
+</doxygen>

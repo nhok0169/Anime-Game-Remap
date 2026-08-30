@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_data" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::Data</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a7f779d0038e3aa9abb64cc0106ab6db0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp; AGRemapCore::Data::getHashDataRows</definition>
+        <argsstring>()</argsstring>
+        <name>getHashDataRows</name>
+        <qualifiedname>AGRemapCore::Data::getHashDataRows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The hash data table backing :cpp:class:`Hashes` -- the C++-side replacement for the pure-Python
+``HashData`` dict (``model/data/HashData.py``, now removed; see git history for the
+pre-migration version) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` shape
+:cpp:func:`convertRows` already expects, so building a :cpp:class:`PyModDictAssets`/
+:cpp:class:`PyHashes` from this needs no extra conversion step beyond
+``std::string`` -&gt; ``py::str`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. danger::
+   Mechanically generated from the real, live pure-Python ``HashData`` dict (never
+   hand-transcribed -- a script imported the actual module and walked it), then verified
+   row-for-row identical via a standalone round-trip check before being committed. Future
+   hash updates edit :cpp:func:`getHashDataRows`&apos;s literal directly (see
+   ``HashData.cpp``) -- there is no other copy of this data anywhere in the codebase, and
+   no regeneration step to keep in sync
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/HashData.cpp" line="11" column="19" bodyfile="src/data/HashData.cpp" bodystart="11" bodyend="1019" declfile="include/AGRemapCore/data/HashData.h" declline="33" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a77be158216c0ca3c6907e38d4f8c7ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp; AGRemapCore::Data::getIndexDataRows</definition>
+        <argsstring>()</argsstring>
+        <name>getIndexDataRows</name>
+        <qualifiedname>AGRemapCore::Data::getIndexDataRows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The index data table backing :cpp:class:`Indices` -- the C++-side replacement for the
+pure-Python ``IndexData`` dict (``model/data/IndexData.py``, now removed; see git history
+for the pre-migration version) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Rows are ``({version, name, component, type}, index)`` -- the exact ``(indexVals, value)``
+shape :cpp:func:`convertRows` already expects, so building a :cpp:class:`PyModDictAssets`/
+:cpp:class:`PyIndices` from this needs no extra conversion step beyond ``std::string`` -&gt;
+``py::str`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. danger::
+   Mechanically generated from the real, live pure-Python ``IndexData`` dict (never
+   hand-transcribed -- a script imported the actual module and walked it), then verified
+   row-for-row identical via a standalone round-trip check before being committed. Future
+   index updates edit :cpp:func:`getIndexDataRows`&apos;s literal directly (see
+   ``IndexData.cpp``) -- there is no other copy of this data anywhere in the codebase, and
+   no regeneration step to keep in sync
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IndexData.cpp" line="12" column="19" bodyfile="src/data/IndexData.cpp" bodystart="12" bodyend="189" declfile="include/AGRemapCore/data/IndexData.h" declline="33" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1ae7a673359e8b593af164a336741f2214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, int &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, int &gt; &gt; &amp; AGRemapCore::Data::getVertexCountDataRows</definition>
+        <argsstring>()</argsstring>
+        <name>getVertexCountDataRows</name>
+        <qualifiedname>AGRemapCore::Data::getVertexCountDataRows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex count data table backing :cpp:class:`VertexCounts` -- the C++-side counterpart to
+the pure-Python ``VertexCountData`` dict (``data/VertexCountData.py``) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Rows are ``({version, name, component}, count)`` -- the ``(indexVals, value)`` shape
+:cpp:class:`ModDictAssets` expects, so building the table is a straight
+:cpp:class:`Row` conversion :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``component`` sits between the mod name and the count, and is currently ``&quot;&quot;`` for
+   **every** row -- no vertex count is component-specific yet. The column exists so one can
+   be, without reshaping the table or touching :cpp:class:`VertexCounts` again. An empty
+   component is a real key value, not a &quot;missing&quot; marker, exactly as in
+   :cpp:func:`Data::getIndexDataRows`
+
+.. note::
+   The value type is ``int``, not ``std::string`` -- unlike
+   :cpp:func:`Data::getHashDataRows` and :cpp:func:`Data::getIndexDataRows`, whose values
+   are hex/index *strings*. A vertex count is a real number and the pure-Python original
+   stores it as one, so it stays one here
+
+.. danger::
+   Originally generated mechanically from the real, live pure-Python ``VertexCountData``
+   dict (never hand-transcribed -- a script imported the actual module and walked it), then
+   verified row-for-row identical against it. Future vertex count updates edit
+   :cpp:func:`getVertexCountDataRows`&apos;s literal directly (see ``VertexCountData.cpp``);
+   unlike the hash/index tables the pure-Python source dict still exists, so if both are
+   ever live at once they must be kept in step by hand :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   **The two have since diverged on purpose: this table has a ``component`` column and
+   the pure-Python dict does not.** It is still ``({version, name}, count)`` over there,
+   two levels deep. So this table can no longer be regenerated from that dict by a naive
+   walk -- doing so would silently drop the component column and shrink every row back to
+   two index values. Add the ``&quot;&quot;`` component back in if you ever do regenerate, or bring
+   the Python dict up to three levels first
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/VertexCountData.cpp" line="19" column="19" bodyfile="src/data/VertexCountData.cpp" bodystart="19" bodyend="76" declfile="include/AGRemapCore/data/VertexCountData.h" declline="52" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1afc306755f2c9fc44cbb37caa7fc1098f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &gt; &gt; &amp;</type>
+        <definition>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, VGRemap &gt; &gt; &amp; AGRemapCore::Data::getVGRemapDataRows</definition>
+        <argsstring>()</argsstring>
+        <name>getVGRemapDataRows</name>
+        <qualifiedname>AGRemapCore::Data::getVGRemapDataRows</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The vertex group remap table backing :cpp:class:`VGRemaps` -- the C++-side counterpart to the
+pure-Python ``VGRemapData`` (``data/VGRemapData.py``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Rows are ``({fromVersion, fromChar, fromComp, toVersion, toChar, toComp}, remap)`` -- **six**
+index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion`` at position
+3) are version columns :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   That two-version-column shape is what sets this table apart from every other one in
+   ``data/``. The hash, index, vertex-count and builder-args tables all have exactly one
+   version column and so are :cpp:class:`ModDictAssets`; this one cannot be, and
+   :cpp:class:`VGRemaps` uses :cpp:class:`ModAssets` instead -- see that class
+
+.. note::
+   The value is a whole :cpp:class:`VGRemap` object, not a scalar -- 52 rows carrying 5229
+   index pairs between them
+
+.. note::
+   Both ``fromComp`` and ``toComp`` are ``&quot;&quot;`` on every row the software currently ships.
+   They are real key values, not &quot;missing&quot; markers, exactly as with the component columns in
+   :cpp:func:`Data::getIndexDataRows` and :cpp:func:`Data::getVertexCountDataRows`
+
+.. danger::
+   Mechanically generated from the real, live pure-Python data (never hand-transcribed -- a
+   script imported the actual module, ran ``vgRemapDataBuilder.build()`` and walked the
+   resulting 6-deep dict), then verified row-for-row and pair-for-pair against it. Future
+   remap updates edit :cpp:func:`getVGRemapDataRows`&apos;s literal directly (see
+   ``VGRemapData.cpp``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   The pure-Python source still exists and is still live, so the two must be kept in step by
+   hand -- the same caveat :cpp:func:`Data::getVertexCountDataRows` carries
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/VGRemapData.cpp" line="14" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="14" bodyend="907" declfile="include/AGRemapCore/data/VGRemapData.h" declline="50" declcolumn="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/HashData.h" line="10" column="5"/>
+  </compounddef>
+</doxygen>

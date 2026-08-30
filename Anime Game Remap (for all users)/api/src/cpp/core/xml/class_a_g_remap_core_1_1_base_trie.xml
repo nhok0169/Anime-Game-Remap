@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="class_a_g_remap_core_1_1_base_trie" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseTrie</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public" virt="non-virtual">AGRemapCore::BaseAhoCorasickDFA&lt; std::optional&lt; ModObj &gt; &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public" virt="non-virtual">AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</derivedcompoundref>
     <includes refid="_base_trie_8h" local="no">BaseTrie.h</includes>
     <templateparamlist>
@@ -354,6 +355,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa">clear</reimplementedby>
         <briefdescription>
 <para>Clears the data in the cache. </para>
         </briefdescription>
@@ -515,6 +517,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         <argsstring>(const std::string &amp;keyword)</argsstring>
         <name>contains</name>
         <qualifiedname>AGRemapCore::BaseTrie::contains</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5">contains</reimplementedby>
@@ -1199,8 +1202,14 @@ Cons
 </para>
     </detaileddescription>
     <inheritancegraph>
-      <node id="2">
+      <node id="3">
         <label>AGRemapCore::BaseAhoCorasickDFA&lt; TrieVal &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseAhoCorasickDFA&lt; std::optional&lt; ModObj &gt; &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>

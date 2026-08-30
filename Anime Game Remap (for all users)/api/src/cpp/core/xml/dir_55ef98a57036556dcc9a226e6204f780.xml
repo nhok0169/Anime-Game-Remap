@@ -6,6 +6,7 @@
     <innerfile refid="_game_type_id_8cpp">GameTypeId.cpp</innerfile>
     <innerfile refid="_g_i_builder_8cpp">GIBuilder.cpp</innerfile>
     <innerfile refid="_global_ini_classifiers_8cpp">GlobalIniClassifiers.cpp</innerfile>
+    <innerfile refid="_global_ini_remove_builders_8cpp">GlobalIniRemoveBuilders.cpp</innerfile>
     <innerfile refid="_if_pred_part_type_8cpp">IfPredPartType.cpp</innerfile>
     <innerfile refid="_mod_type_id_8cpp">ModTypeId.cpp</innerfile>
     <briefdescription>

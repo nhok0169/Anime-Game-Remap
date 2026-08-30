@@ -1,6 +1,10 @@
 #include "AGRemapCore/constants/GIBuilder.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/constants/GameTypeId.h"
+#include "AGRemapCore/constants/GlobalIniRemoveBuilders.h"
+#include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/data/IniParseBuilderData.h"
+#include "AGRemapCore/data/IniRemoveBuilderData.h"
 
 #include <memory>
 #include <string>
@@ -8,32 +12,90 @@
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+#include "AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h"
 
 
 namespace AGRemapCore {
     namespace {
         /*
-         * Builds one GI ModType, giving it the plain BaseIniParser/BaseIniFixer.
+         * The one IniParseBuilder every GI ModType shares, mirroring how the pure-Python GIBuilder
+         * hands the same "IniParseBuilder(ModDataAssets.IniParseBuilderArgs.value)" to all 43 of
+         * its own ModType(...) calls.
+         *
+         * This is the *version-dependent* flavour, built over IniParseBuilderData's table -- the
+         * C++ counterpart to the original passing "ModDataAssets.IniParseBuilderArgs.value". Every
+         * generator in that table is still a stub returning a plain BaseIniParser (no concrete C++
+         * GIMIParser/GIMIObjParser exists yet), so today every row resolves to the same thing; the
+         * version *selection* around them is real, and filling a stub in immediately takes effect
+         * for the mod types whose rows point at it.
+         *
+         * Function-local static rather than a namespace-scope one so it is constructed on first
+         * use, after ModTypeIdTools' own registry is ready -- see PyGIBuilder's init-order note.
+         * IniParseBuilderData::repo() depends on that registry for its row keys.
+         */
+        const std::shared_ptr<IniParseBuilder>& giIniParseBuilder() {
+            static const std::shared_ptr<IniParseBuilder> builder =
+                std::make_shared<IniParseBuilder>(IniParseBuilderData::repo());
+            return builder;
+        }
+
+        /*
+         * The fix-side counterpart of giIniParseBuilder -- same reasoning throughout, mirroring the
+         * single shared "IniFixBuilder(ModDataAssets.IniFixBuilderArgs.value)" the pure-Python
+         * GIBuilder hands to all 43 of its own ModType(...) calls.
+         */
+        const std::shared_ptr<IniFixBuilder>& giIniFixBuilder() {
+            static const std::shared_ptr<IniFixBuilder> builder =
+                std::make_shared<IniFixBuilder>(IniFixBuilderData::repo());
+            return builder;
+        }
+
+        /*
+         * The remove-side counterpart, over IniRemoveBuilderData's table.
+         *
+         * Unlike the other two this has no pure-Python equivalent -- the original hands every mod
+         * type the single global IniRemoveBuilder(IniRemover) instead (which is still what
+         * ModType's own null-fallback supplies, see GlobalIniRemoveBuilders). Using a table here is
+         * a deliberate extension so a per-mod remover can be expressed when one exists; every row
+         * is a stub today, so behaviour is identical to the global builder's.
+         *
+         * Note this is a *different* builder instance from GlobalIniRemoveBuilders::removeBuilder(),
+         * and therefore has its own flyweight cache -- deliberate, since a table-backed builder
+         * caches per mod name while the global one caches under a single id.
+         */
+        const std::shared_ptr<IniRemoveBuilder>& giIniRemoveBuilder() {
+            static const std::shared_ptr<IniRemoveBuilder> builder =
+                std::make_shared<IniRemoveBuilder>(IniRemoveBuilderData::repo());
+            return builder;
+        }
+
+        /*
+         * Builds one GI ModType from the three shared builders.
          *
          * The pure-Python GIBuilder passes a real "IniParseBuilder(...)"/"IniFixBuilder(...)" to
-         * every one of its own 43 ModType(...) calls, so these are passed explicitly here too
-         * rather than leaning on ModType's own null-fallback. They're the *base* classes for now
-         * simply because no concrete C++ GIMIParser/GIMIFixer equivalent has been ported yet --
-         * swap the two make_shared calls below when one lands, and all 43 mod types pick it up.
+         * every one of its own 43 ModType(...) calls, so those are passed explicitly here too
+         * rather than leaning on ModType's own null-fallback.
          *
-         * Both are constructed unbound (no IniFile), since a ModType describes a kind of mod
-         * rather than one specific .ini file -- see ModType::iniParser. The fixer holds a
-         * non-owning pointer into the parser, and the ModType owns both shared_ptrs together, so
-         * they share a lifetime.
+         * Nothing is constructed per mod type any more: IniFile builds a parser and fixer per file
+         * from the first two builders, and asks the third for a remover per call. See
+         * ModType::iniParseBuilder / ModType::iniRemoveBuilder.
          */
         ModType makeGIModType(ModTypeId modTypeId, std::vector<std::string> aliases = {}) {
-            auto parser = std::make_shared<BaseIniParser>();
-            auto fixer = std::make_shared<BaseIniFixer>(parser.get());
-
             return ModType(static_cast<int>(GameTypeId::GI), static_cast<int>(modTypeId),
                            ModTypeIdTools::getName(modTypeId), std::move(aliases),
-                           std::move(parser), std::move(fixer));
+                           // nullptr hashes/indices/vertexCounts -> each GI mod type gets its own
+                           // fully-populated tables, matching the pure-Python GIBuilder (which
+                           // likewise passes none of them and so lands on ModType's own
+                           // Hashes()/Indices()/VertexCounts() defaults).
+                           //
+                           // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
+                           // single shared ModDataAssets::vgRemaps, so all 43 GI mod types share one
+                           // remap table. That too matches the original -- see ModType::vgRemaps.
+                           nullptr, nullptr, nullptr, nullptr,
+                           giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
         }
     }
 

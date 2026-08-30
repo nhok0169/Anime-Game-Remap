@@ -1,0 +1,458 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphTools</compoundname>
+    <includes refid="_graph_tools_8h" local="no">GraphTools.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1a0c30bc8406397d6eb28956b615dadd18" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></type>
+          </param>
+          <param>
+            <type>typename NodeHash</type>
+            <defval>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+          <param>
+            <type>typename NodeEqual</type>
+            <defval>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, NodeHash, NodeEqual &gt;</type>
+        <definition>static std::unordered_set&lt; Node, NodeHash, NodeEqual &gt; AGRemapCore::GraphTools::getReachableNodes</definition>
+        <argsstring>(const std::unordered_map&lt; Node, std::vector&lt; Node &gt;, NodeHash, NodeEqual &gt; &amp;forwardEdges, const std::unordered_set&lt; Node, NodeHash, NodeEqual &gt; &amp;rootNodes)</argsstring>
+        <name>getReachableNodes</name>
+        <qualifiedname>AGRemapCore::GraphTools::getReachableNodes</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref> &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>forwardEdges</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>rootNodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Computes every node reachable from &apos;rootNodes&apos;, via plain forward graph reachability
+(`BFS`_/`DFS`_ -- no dataflow facts involved, just &quot;is there some path here at all&quot;) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is the tool that grounds #runForwardMustFixpoint/#runBackwardMustFixpoint&apos;s
+   otherwise-optimistic `fixpoint iteration`_ against nodes that can provably never be
+   reached at all -- see #clampFactsToReachable
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>forwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to search, as <computeroutput>node -&gt; list of the nodes directly reachable from it</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootNodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nodes to start searching from</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Every node reachable from &apos;rootNodes&apos; (including &apos;rootNodes&apos; themselves) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="52" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1a337f97d2b3f3cb89e72436694f626175" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></type>
+          </param>
+          <param>
+            <type>typename NodeHash</type>
+            <defval>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+          <param>
+            <type>typename NodeEqual</type>
+            <defval>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, bool, NodeHash, NodeEqual &gt;</type>
+        <definition>static std::unordered_map&lt; Node, bool, NodeHash, NodeEqual &gt; AGRemapCore::GraphTools::clampFactsToReachable</definition>
+        <argsstring>(const std::unordered_map&lt; Node, bool, NodeHash, NodeEqual &gt; &amp;facts, const std::unordered_set&lt; Node, NodeHash, NodeEqual &gt; &amp;reachableNodes)</argsstring>
+        <name>clampFactsToReachable</name>
+        <qualifiedname>AGRemapCore::GraphTools::clampFactsToReachable</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, bool, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>facts</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>reachableNodes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Forces every fact about a node not in &apos;reachableNodes&apos; down to ``false`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A node with no path back to any true root (eg. a virtual &quot;continuation&quot; node for a
+   call that never returns, because every path out of the callee always loops back
+   around with no escape) keeps whatever optimistic starting value
+   #runForwardMustFixpoint/#runBackwardMustFixpoint gave it forever, since nothing in a
+   disconnected component ever forces it to change -- a vacuous, unsound &quot;fact&quot; about a
+   position that can provably never even execute. Always pair a `fixpoint`_ result with
+   #getReachableNodes through this method before trusting it
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>facts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The raw facts to clamp, as returned by <ref refid="class_a_g_remap_core_1_1_graph_tools_1ada921cb712bea2e6b09a14512a2b87d5" kindref="member">runForwardMustFixpoint</ref>/<ref refid="class_a_g_remap_core_1_1_graph_tools_1abb48a4f14513b6115f1c2fc49e6db876" kindref="member">runBackwardMustFixpoint</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reachableNodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="class_a_g_remap_core_1_1_graph_tools_1a0c30bc8406397d6eb28956b615dadd18" kindref="member">getReachableNodes</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The clamped facts </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="80" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1ada921cb712bea2e6b09a14512a2b87d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></type>
+          </param>
+          <param>
+            <type>typename NodeHash</type>
+            <defval>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+          <param>
+            <type>typename NodeEqual</type>
+            <defval>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, bool, NodeHash, NodeEqual &gt;</type>
+        <definition>static std::unordered_map&lt; Node, bool, NodeHash, NodeEqual &gt; AGRemapCore::GraphTools::runForwardMustFixpoint</definition>
+        <argsstring>(const std::unordered_map&lt; Node, std::vector&lt; Node &gt;, NodeHash, NodeEqual &gt; &amp;forwardEdges, const std::unordered_map&lt; Node, std::vector&lt; Node &gt;, NodeHash, NodeEqual &gt; &amp;backwardEdges, const std::unordered_set&lt; Node, NodeHash, NodeEqual &gt; &amp;rootNodes, const std::unordered_map&lt; Node, std::pair&lt; bool, bool &gt;, NodeHash, NodeEqual &gt; &amp;localFacts)</argsstring>
+        <name>runForwardMustFixpoint</name>
+        <qualifiedname>AGRemapCore::GraphTools::runForwardMustFixpoint</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref> &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>forwardEdges</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref> &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>backwardEdges</declname>
+        </param>
+        <param>
+          <type>const std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>rootNodes</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::pair&lt; bool, bool &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>localFacts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Runs a forward, `MUST`_ (`available expressions`_-style) `dataflow analysis`_ over a
+graph, computing whether some boolean property has been established entering every
+node -- correctly handling cycles via `fixpoint iteration`_ (`Kildall&apos;s algorithm`_/
+`worklist algorithm`_), rather than assuming a single forward pass ever &quot;finishes&quot; with
+a graph that may not have an end at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A node is only ever *forced* unsatisfied (the boundary condition) if it&apos;s in
+   &apos;rootNodes&apos;, or if it has no predecessors at all (per &apos;backwardEdges&apos;) --
+   everywhere else starts optimistic (already satisfied) and gets refined downward by
+   the `worklist algorithm`_ as actual predecessors are discovered not to satisfy it,
+   converging once nothing changes anymore :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   A cyclic, unreachable-from-any-root component (eg. a call that never returns) can
+   end up keeping its optimistic value forever, since nothing ever forces it down from
+   within an isolated cycle -- pair this result with #getReachableNodes/
+   #clampFactsToReachable before trusting a fact about such a node
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>forwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to analyze, as <computeroutput>node -&gt; list of the nodes that can run directly after it</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reverse of &apos;forwardEdges&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>rootNodes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The nodes that are true entry points of the graph (forced unsatisfied on entry, regardless of &apos;backwardEdges&apos;) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>localFacts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+For every node with content of its own worth examining (as opposed to a purely
+pass-through, virtual node), a pair containing:
+
+#. Whether the node&apos;s own content touches the property being tracked at all
+#. Whether the property is still satisfied by the very end of the node&apos;s own content
+   (only meaningful if the first value is ``true``)
+
+A node missing from this map is treated as a pure pass-through (its own value is
+whatever was true entering it)
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Every node reachable in the graph structure, mapped to whether the property is satisfied entering that node </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="128" column="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1abb48a4f14513b6115f1c2fc49e6db876" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></type>
+          </param>
+          <param>
+            <type>typename NodeHash</type>
+            <defval>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+          <param>
+            <type>typename NodeEqual</type>
+            <defval>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</defval>
+          </param>
+        </templateparamlist>
+        <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, bool, NodeHash, NodeEqual &gt;</type>
+        <definition>static std::unordered_map&lt; Node, bool, NodeHash, NodeEqual &gt; AGRemapCore::GraphTools::runBackwardMustFixpoint</definition>
+        <argsstring>(const std::unordered_map&lt; Node, std::vector&lt; Node &gt;, NodeHash, NodeEqual &gt; &amp;forwardEdges, const std::unordered_map&lt; Node, std::vector&lt; Node &gt;, NodeHash, NodeEqual &gt; &amp;backwardEdges, const std::unordered_map&lt; Node, bool, NodeHash, NodeEqual &gt; &amp;localFacts)</argsstring>
+        <name>runBackwardMustFixpoint</name>
+        <qualifiedname>AGRemapCore::GraphTools::runBackwardMustFixpoint</qualifiedname>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref> &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>forwardEdges</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref> &gt;, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>backwardEdges</declname>
+        </param>
+        <param>
+          <type>const std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>, bool, NodeHash, NodeEqual &gt; &amp;</type>
+          <declname>localFacts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mirror of #runForwardMustFixpoint: a backward `MUST`_ (`very busy expressions`_-style)
+`dataflow analysis`_ over the same kind of graph, computing whether some boolean
+property is *guaranteed* to be established somewhere after every node exits -- again
+via `fixpoint iteration`_ so a cyclic graph resolves correctly (eg. a property only
+established after looping back around) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A node is only ever *forced* unsatisfied (the boundary condition) if it has no
+   outgoing edges at all (per &apos;forwardEdges&apos;) -- a genuine dead end, nothing can
+   possibly run after it. Everywhere else starts optimistic and gets refined downward
+   as actual successors are discovered not to guarantee it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+   Same caveat as #runForwardMustFixpoint applies for unreachable, isolated cyclic
+   components -- pair this result with #getReachableNodes/#clampFactsToReachable
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>Node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The node type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::hash&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>NodeEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput><ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref></computeroutput>. Defaults to <computeroutput>std::equal_to&lt;<ref refid="class_a_g_remap_core_1_1_node" kindref="compound">Node</ref>&gt;</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>forwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to analyze, as <computeroutput>node -&gt; list of the nodes that can run directly after it</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backwardEdges</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The reverse of &apos;forwardEdges&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>localFacts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+For every node, whether its own content, by itself, already establishes the property
+being tracked (a plain existential check, eg. &quot;does this node&apos;s own content contain
+*any* accepted occurence of X&quot;). A node missing from this map is treated as ``false``
+(its own content alone establishes nothing)
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Every node reachable in the graph structure, mapped to whether the property is guaranteed to be satisfied somewhere after that node exits </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="169" column="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for handling with generic directed graphs, represented as adjacency lists (``node -&gt;
+list of the nodes directly reachable from it``) -- the C++ port of ``GraphTools.py``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Nodes can be any type satisfying ``NodeHash``/``NodeEqual`` as a hash-map key -- these tools
+have no notion of what a node &quot;is&quot; (a `section`_, an :cpp:class:`IfContentPart`, a plain
+``std::string``, ...); that meaning is entirely up to the caller. See
+:cpp:func:`IniSectionGraph::buildCallGraph` for how a `call graph`_ suitable for these tools
+gets built out of an actual `.ini`_ file&apos;s `sections`_
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/GraphTools.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/GraphTools.h" bodystart="27" bodyend="172"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_graph_tools_1a337f97d2b3f3cb89e72436694f626175" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>clampFactsToReachable</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_tools_1a0c30bc8406397d6eb28956b615dadd18" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>getReachableNodes</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_tools_1abb48a4f14513b6115f1c2fc49e6db876" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>runBackwardMustFixpoint</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_tools_1ada921cb712bea2e6b09a14512a2b87d5" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>runForwardMustFixpoint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,310 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_res_edit_context" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::IniResEditContext</compoundname>
+    <includes refid="_ini_res_edit_context_8h" local="no">IniResEditContext.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a0899dacf5d640c6457df25ed7dc2610c" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::Section = IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::Section</qualifiedname>
+        <briefdescription>
+<para>The type of <computeroutput>section</computeroutput>_ a <computeroutput>.ini</computeroutput> file is made of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a73e8d4f354b77a797d157b8f570453af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::~IniResEditContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IniResEditContext</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::~IniResEditContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="56" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a2550dd46c02f9f13785edc8eb5a20993" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::iniFolder</definition>
+        <argsstring>() const =0</argsstring>
+        <name>iniFolder</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::iniFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder the ``.ini`` file lives in (the equivalent of the pure-Python original&apos;s
+``ini.folder``), or an empty string when there is no ``.ini`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="65" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1aeb9383ea7f4afa6193f1bf5cb44ce329" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::storeResource</definition>
+        <argsstring>(const std::string &amp;fileKey, std::unique_ptr&lt; IniResource &gt; resource)=0</argsstring>
+        <name>storeResource</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::storeResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fileKey</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt;</type>
+          <declname>resource</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stores one built resource model under &apos;fileKey&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where it goes is the environment&apos;s business: the pure-Python original either appends to
+``ini.resources`` or collects into a caller-supplied ``Dict[str, Deque[IniResource]]``,
+and a resource edit itself never reads a built model back
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fileKey</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The assigned id for the source file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The built resource model </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="80" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a6d920b63b4d8a6e36288617741e9370b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::beginCollectingResources</definition>
+        <argsstring>()=0</argsstring>
+        <name>beginCollectingResources</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::beginCollectingResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Starts capturing built models by file key instead of handing them to the ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`ResGroupCollect` builds each resource&apos;s models many times over (once per
+replicated copy of its graph) and has to see *which* models came out before deciding
+which ones a group actually keeps -- it cannot simply let them flow into the ``.ini``
+file. Everything captured stays owned by the implementation
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="94" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a65c54790ea774d8ba1e9a75ca629ba28" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> * &gt; &gt;</type>
+        <definition>virtual std::vector&lt; std::pair&lt; std::string, IniResource * &gt; &gt; AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::takeCollectedResources</definition>
+        <argsstring>()=0</argsstring>
+        <name>takeCollectedResources</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::takeCollectedResources</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Hands back everything captured since the last call, as ``(file key, model)`` pairs in
+the order they were built, and clears the capture buffer
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="103" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a359816a4ec9c09e9d8a517f9a0c2b410" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::endCollectingResources</definition>
+        <argsstring>()=0</argsstring>
+        <name>endCollectingResources</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::endCollectingResources</qualifiedname>
+        <briefdescription>
+<para>Stops capturing <ndash/> later models go to the <computeroutput>.ini</computeroutput> file again. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="108" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a4f96412d6586c920382e145b7be4008a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::hasIni</definition>
+        <argsstring>() const =0</argsstring>
+        <name>hasIni</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::hasIni</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``false`` stands in for the pure-Python original&apos;s ``ini = None``, which several
+resource-edit paths check before doing anything at all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="120" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a77dd46f408138e7471ff9f90a7c4d3af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a0899dacf5d640c6457df25ed7dc2610c" kindref="member">Section</ref> * &gt;</type>
+        <definition>virtual std::unordered_map&lt; std::string, Section * &gt; AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::sectionIfTemplates</definition>
+        <argsstring>() const =0</argsstring>
+        <name>sectionIfTemplates</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::sectionIfTemplates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of
+the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="129" column="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a140635d8506871a648607357f4efb10a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+        <definition>virtual Z3Context * AGRemapCore::IniResEditContext&lt; K, V, KeyHash, KeyEqual &gt;::z3Ctx</definition>
+        <argsstring>() const =0</argsstring>
+        <name>z3Ctx</name>
+        <qualifiedname>AGRemapCore::IniResEditContext::z3Ctx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The one `Z3`_ context this ``.ini`` file owns (the equivalent of the pure-Python
+original&apos;s ``ini._z3Ctx``), or ``nullptr`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+There is deliberately one context per ``.ini`` file, not one per
+:cpp:class:`IniSectionGraph` -- every graph built here borrows this one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="141" column="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file a resource edit is building resources *for*, behind an interface
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Why this isn&apos;t just an** :cpp:class:`IniFile` **pointer.** The ``.ini`` file every real
+caller of this subsystem passes is the *`Python`_* ``IniFile`` (``model/files/IniFile.py``),
+which is an unrelated class to :cpp:class:`AGRemapCore::IniFile` and has no C++ counterpart to
+cast to -- so a plain ``IniFile*`` parameter would always be ``nullptr`` here, and every
+resource edit would be inert (compare the ``regEdits/`` family, where that *is* the right
+answer, because those edits genuinely never read the ``.ini`` file). Resource edits do the
+opposite: reading the ``.ini`` file&apos;s `sections`_ is most of what they do. This interface is
+the narrowest thing that makes them work against either implementation.
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Building and storing the resource *models* themselves is deliberately **not** here -- it
+   lives on :cpp:func:`BaseResEdit::buildResModel`, since which kind of resource gets built is
+   per-edit-class behaviour rather than a property of the ``.ini`` file
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="48" bodyend="142"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a6d920b63b4d8a6e36288617741e9370b" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>beginCollectingResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a359816a4ec9c09e9d8a517f9a0c2b410" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>endCollectingResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a4f96412d6586c920382e145b7be4008a" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>hasIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a2550dd46c02f9f13785edc8eb5a20993" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>iniFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a0899dacf5d640c6457df25ed7dc2610c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a77dd46f408138e7471ff9f90a7c4d3af" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>sectionIfTemplates</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1aeb9383ea7f4afa6193f1bf5cb44ce329" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>storeResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a65c54790ea774d8ba1e9a75ca629ba28" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>takeCollectedResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a140635d8506871a648607357f4efb10a" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>z3Ctx</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a73e8d4f354b77a797d157b8f570453af" prot="public" virt="virtual"><scope>AGRemapCore::IniResEditContext</scope><name>~IniResEditContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -328,7 +328,12 @@ namespace AGRemapCore {
             mutable std::optional<Z3Predicate> trueQueryCache_;
 
             void setTargetSectionNamesImpl(std::vector<std::string> newTargetSections);
-            static std::unordered_map<std::string, Section*> deepCopySections(const std::unordered_map<std::string, Section*>& src, std::vector<std::unique_ptr<Section>>& storage);
+            // 'newPartIds' is threaded through to each section's own deepcopy. It defaults to
+            // true so build(copySections = true) keeps behaving exactly as it did; only
+            // deepcopy() passes false, and only when its own caller asked for stable part ids.
+            static std::unordered_map<std::string, Section*> deepCopySections(const std::unordered_map<std::string, Section*>& src,
+                                                                              std::vector<std::unique_ptr<Section>>& storage,
+                                                                              bool newPartIds = true);
 
             Z3Predicate trueQuery() const;
             Z3Predicate getQuery(const std::vector<Z3Predicate>& queryPath, bool simplify) const;

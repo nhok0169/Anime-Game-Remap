@@ -4,9 +4,347 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseRegEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBaseIniGraphPartEdit', 'CppBaseIniPartEdit', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifier', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GameTypeId', 'GameTypeIdTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniDownloadModel', 'IniFixResource', 'IniFixResourceModel', 'IniGraphGroup', 'IniGroupedResource', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RegAdd', 'RegNewVals', 'RegRemap', 'RegRemove', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniParser', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBaseIniGraphPartEdit', 'CppBaseIniPartEdit', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifier', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniDownloadModel', 'IniFixResource', 'IniFixResourceModel', 'IniGraphGroup', 'IniGroupedResource', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
+class BaseIniFixer:
+    """
+    
+    Base class to fix a .ini file
+    
+    Parameters
+    ----------
+    parser: :class:`BaseIniParser`
+        The associated parser to retrieve data for the fix
+        
+    """
+    def __init__(self, parser: typing.Any = None) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Resets any saved states within the fixer
+        """
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False) -> typing.Any:
+        """
+        Fixes the .ini file
+        
+        Parameters
+        ----------
+        keepBackup: :class:`bool`
+            Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        fixOnly: :class:`bool`
+            Whether to only fix the .ini file without undoing any fixes :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[Dict[Union[:class:`str`, :class:`int`], :class:`str`]]
+            The new content of the fixed .ini file(s) -- always ``None`` here, since this base class fixes
+            nothing. See :meth:`GIMIFixer.fix` for a real one
+        """
+    @property
+    def _iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that will be fixed
+        """
+    @_iniFile.setter
+    def _iniFile(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def _parser(self) -> typing.Any:
+        """
+        :class:`BaseIniParser`: The associated parser to retrieve data for the fix
+        """
+    @_parser.setter
+    def _parser(self, arg0: typing.Any) -> None:
+        ...
+class BaseIniGraphEdit(CppBaseIniGraphPartEdit):
+    """
+    
+    This class inherits from :class:`CppBaseIniGraphPartEdit`
+    
+    Base class for a filter that edits some caller/callee graph of :class:`IniSectionGraph`
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Edits the caller/callee graph of :class:`IniSectionGraph`
+        
+        .. note::
+            The base implementation is a no-op that hands 'graph' straight back, matching the pure-Python
+            original's ``pass``
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            The filter used to indicate the valid order indices to process some :class:`IfContentPart` in
+            the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            The **caller's** key-tracking default, handed down by whatever is driving this edit
+            (:class:`GraphGroupEdit` passes its own ``trackKeys`` here) :raw-html:`<br />` :raw-html:`<br />`
+        
+            A subclass with its own key-tracking setting decides how to combine the two; a subclass without
+            one simply ignores it :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            The **caller's** key-tracking key set, handed down the same way. ``None`` means every key
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The resultant graph that got editted
+        """
+    def editFromIni(self, graph: typing.Any, ini: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Edits the caller/callee graph of :class:`IniSectionGraph` with state info from 'ini'
+        
+        .. note::
+            This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
+            original does
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        ini: Optional[:class:`IniFile`]
+            The associated .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            The filter used to indicate the valid order indices to process some :class:`IfContentPart` in
+            the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            The **caller's** key-tracking default, handed down by whatever is driving this edit
+            (:class:`GraphGroupEdit` passes its own ``trackKeys`` here) :raw-html:`<br />` :raw-html:`<br />`
+        
+            A subclass with its own key-tracking setting decides how to combine the two; a subclass without
+            one simply ignores it :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            The **caller's** key-tracking key set, handed down the same way. ``None`` means every key
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The resultant graph that got editted
+        """
+class BaseIniGraphGroupEdit(CppBaseIniPartEdit):
+    """
+    
+    This class inherits from :class:`CppBaseIniPartEdit`
+    
+    Base class for a filter that edits a group of caller/callee graphs across many .ini files
+        
+    """
+    @staticmethod
+    def addGraph(graphGroups: list, id: typing.Any, graph: typing.Any) -> bool:
+        """
+        Adds a graph to the group of graphs
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        id: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id for where to add the graph. The tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+        
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+        
+        graph: :class:`IniSectionGraph`
+            The graph to add
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the graph has been added
+        """
+    @staticmethod
+    def getGraph(graphGroups: list, id: typing.Any, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding graph from a group of graphs
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        id: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id to retrieve the graph. The tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+        
+            #. The index for the .ini file
+            #. The name of the component
+            #. The name of the object
+        
+        errorOnNotFound: :class:`bool`
+            If no graphs are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no graphs are found :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        `KeyError`_
+            If no graphs are found
+        
+        Returns
+        -------
+        Union[:class:`IniSectionGraph`, Any]
+            Either the found graph or the value specified at 'default', if no graphs were found and
+            'errorOnNotFound' is set to ``False``
+        """
+    def __init__(self) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Edits a group of caller/callee graphs
+        
+        .. note::
+            The base implementation is a no-op that hands 'graphGroups' straight back, matching the
+            pure-Python original's ``pass``
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: :class:`ModType`
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The resultant group of graphs that got editted
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> typing.Any:
+        """
+        Edits a group of caller/callee graphs with state info from 'ini'
+        
+        .. note::
+            This forwards straight to :meth:`edit` and ignores 'ini' entirely, exactly as the pure-Python
+            original does
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        ini: :class:`IniFile`
+            The associated original .ini file
+        
+        modType: :class:`ModType`
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The resultant group of graphs that got editted
+        """
+class BaseIniParser:
+    """
+    
+    Base class to parse a .ini file
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to parse
+        
+    """
+    def __init__(self, iniFile: typing.Any = None) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears any saved data
+        """
+    def parse(self) -> typing.Any:
+        """
+        Parses the .ini file
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The parsed groups of caller/callee graphs found in the .ini file -- always empty here, since
+            this base class parses nothing. See :meth:`GIMIParser.parse` for a real one
+        """
+    @property
+    def _iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that will be parsed
+        """
+    @_iniFile.setter
+    def _iniFile(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def _modsToFix(self) -> typing.Any:
+        """
+        Set[:class:`str`]: The names of the mods that will be fixed to
+        """
+    @_modsToFix.setter
+    def _modsToFix(self, arg0: typing.Any) -> None:
+        ...
 class BaseRegEdit(CppBaseIniGraphPartEdit):
     """
     
@@ -85,6 +423,353 @@ class BaseRegEdit(CppBaseIniGraphPartEdit):
         :class:`IfContentPart`
             The resultant part of the `IfTemplate` that got its registers editted
         """
+class BaseResEdit:
+    """
+    
+    Base class to construct the necessary parts for a particular resource in a .ini file
+    
+    Parameters
+    ----------
+    resType: :class:`str`
+        The name of the type of resource
+    
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    graphReplaceMode: :class:`IniGraphReplaceMode`
+        What to do when the corresponding :class:`IniSectionGraph` to construct already exists :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``IniGraphReplaceMode.Ignore``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resType: str, resModObj: typing.Any, graphReplaceMode: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, *args, **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        Returns
+        -------
+        :class:`IniResource`
+            The built resource
+        """
+    def buildResModels(self, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def clear(self) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
 class BaseSLR1Parser:
     """
     
@@ -4501,6 +5186,701 @@ class FilteredTokenizer(BaseTokenizer):
         """
         Set[:class:`str`]: The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
         """
+class GIMIFixer(BaseIniFixer):
+    """
+    
+    This class inherits from :class:`BaseIniFixer`
+    
+    Fixes a .ini file used by a ``GIMI``-style importer
+    
+    Parameters
+    ----------
+    parser: :class:`GIMIParser`
+        The associated parser to retrieve data for the fix
+    
+    graphGroupEdits: Optional[List[:class:`BaseIniGraphGroupEdit`]]
+        The edits to apply to the parsed caller/callee graphs, run in order, once for each mod being
+        fixed to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    modsToFix: Optional[List[:class:`str`]]
+        The names of the mods to fix to :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this argument is ``None``, will ask the .ini file's own :class:`ModType` instead -- see
+        :meth:`getModsToFix` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    prevFixer: Optional[:class:`GIMIFixer`]
+        A fixer whose already-edited graph groups this one continues from instead of starting fresh
+        from the parser :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, parser: typing.Any, graphGroupEdits: typing.Any = None, modsToFix: typing.Any = None, prevFixer: typing.Any = None) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Resets any saved states within the fixer
+        """
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False) -> typing.Any:
+        """
+        Fixes the .ini file
+        
+        Parameters
+        ----------
+        keepBackup: :class:`bool`
+            Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        fixOnly: :class:`bool`
+            Whether to only fix the .ini file without undoing any fixes :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        hideOrig: :class:`bool`
+            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Dict[Union[:class:`str`, :class:`int`], :class:`str`]
+            The new content of the fixed .ini file(s) :raw-html:`<br />` :raw-html:`<br />`
+        
+            * The keys are the file paths each fixed .ini file was written to. A .ini file with no path at
+              all is keyed by its group's index instead, and nothing is written for it
+            * The values are that file's new content, including the original content and the boilerplate
+        """
+    def getFix(self, onlyEditObjGraphs: bool = False) -> typing.Any:
+        """
+        Retrieves only the content of the fix, without writing anything
+        
+        Parameters
+        ----------
+        onlyEditObjGraphs: :class:`bool`
+            Whether to only run :attr:`graphGroupEdits` :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``True``, returns nothing and the results are left on :attr:`graphGroups`
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[Dict[Union[:class:`str`, :class:`int`], :class:`IniGraphGroup`]]
+            The content of the fix :raw-html:`<br />` :raw-html:`<br />`
+        
+            * The keys are the file paths each group should be written to. A .ini file with no path at all
+              is keyed by its group's index instead
+            * The values are the edited graph groups themselves
+        """
+    def getModsToFix(self) -> list[str]:
+        """
+        Retrieves the mods to fix to
+        
+        Returns
+        -------
+        List[:class:`str`]
+            :attr:`modsToFix` when it was set explicitly, otherwise whatever the .ini file's own
+            :class:`ModType` says -- empty when the .ini file was never classified
+        """
+    def groupToStr(self, groupInd: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Renders one of :attr:`graphGroups` to .ini text -- every graph in it, joined by blank lines
+        
+        Parameters
+        ----------
+        groupInd: :class:`int`
+            Which group to render
+        
+        Returns
+        -------
+        :class:`str`
+            The rendered .ini text
+        """
+    @property
+    def _iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that will be fixed
+        """
+    @_iniFile.setter
+    def _iniFile(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def _parser(self) -> typing.Any:
+        """
+        :class:`BaseIniParser`: The associated parser to retrieve data for the fix
+        """
+    @_parser.setter
+    def _parser(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def graphGroupEdits(self) -> typing.Any:
+        """
+        List[:class:`BaseIniGraphGroupEdit`]: The edits to apply to the parsed caller/callee graphs
+        """
+    @graphGroupEdits.setter
+    def graphGroupEdits(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def graphGroups(self) -> typing.Any:
+        """
+        List[:class:`IniGraphGroup`]: The graph groups this fixer edited, one per .ini file the fix
+        produces -- empty until :meth:`getFix` or :meth:`fix` has run
+        """
+    @graphGroups.setter
+    def graphGroups(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def modsToFix(self) -> typing.Any:
+        """
+        Optional[List[:class:`str`]]: The names of the mods to fix to, or ``None`` to ask the .ini file
+        """
+    @modsToFix.setter
+    def modsToFix(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def prevFixer(self) -> typing.Any:
+        """
+        Optional[:class:`GIMIFixer`]: A fixer whose already-edited graph groups this one continues from
+        """
+    @prevFixer.setter
+    def prevFixer(self, arg0: typing.Any) -> None:
+        ...
+class GIMIParser(BaseIniParser):
+    """
+    
+    This class inherits from :class:`BaseIniParser`
+    
+    Parses a .ini file used by a ``GIMI``-style importer
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to parse
+    
+    modObjs: Optional[Set[Tuple[:class:`str`, :class:`str`]]]
+        The mod objects to parse :raw-html:`<br />` :raw-html:`<br />`
+    
+        Each tuple contains:
+    
+        #. The name of the component
+        #. The name of the object within the component
+    
+        .. tip::
+            You can also interpret mod objects as the suffix part ending of some ``TextureOverride``
+            `section`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+            eg.
+    
+            ``[TextureOverrideHuTaoBody]`` --> ``("", "Body")``
+            ``[TextureOverrideYelanBangB]`` --> ``("Bang", "B")``
+            ``[TextureOverrideTexture16]`` --> ``("", "Texture16")``
+    
+        .. note::
+            Iteration order matters -- it decides the order the command graphs are built in -- so an
+            ``OrderedSet`` (or a plain ``list``) is preferred over a bare ``set`` here
+    
+        **Default**: ``None``
+    
+    objTargetFuncs: Optional[List[Callable[[:class:`GIMIParser`, :class:`str`, :class:`IfTemplate`, :class:`bool`, Optional[:class:`IfContentPart`], Optional[:class:`IfContentPartColouring`]], List[Tuple[:class:`str`, :class:`str`]]]]]
+        A list of custom functions to define how to retrieve the root `sections`_ of the mod objects
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        Each function takes in:
+    
+        #. This parser
+        #. The name of the `section`_ to parse
+        #. The content of the `section`_ to parse
+        #. Whether to only return 1 result
+        #. The :class:`IfContentPart` that is being parsed. Only available if :attr:`trackKeys` is ``True``
+        #. The `KVPs`_ to track. Only available if :attr:`trackKeys` is ``True``
+    
+        and returns the corresponding mod objects the `section`_ belongs to, or ``None`` if it belongs
+        to none. :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this argument is ``None``, will use :meth:`classifyByTextureOverrideName` (or a default
+        :class:`GIMISectionClassifier`, when the .ini file was classified and :attr:`trackKeys` is on)
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    downloads: Optional[Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`DownloadData`]]]
+        The files to download if the mod is missing some required files :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The outer keys are tuples that contain the name of the component and the mod object
+        * The inner keys are the names of the registers
+    
+        .. note::
+            The :attr:`DownloadData.name` for each :class:`DownloadData` should be unique
+    
+        **Default**: ``None``
+    
+    commandEdits: Optional[:class:`GraphGroupEdit`]
+        Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command
+        `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    makeGlobalGraph: :class:`bool`
+        Whether to make the graph for the entire .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    disjointModObjs: :class:`bool`
+        Whether the sets of `sections`_ for each mod object should be disjoint or not :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    trackKeys: :class:`bool`
+        Whether to track the `KVPs`_ in the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    keysToTrack: Optional[Set[:class:`str`]]
+        Specific keys to track in the .ini file. If ``None``, keeps track of every key encountered
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        .. note::
+            Only takes effect if 'trackKeys' and 'makeGlobalGraph' are both ``True``
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def classifyByTextureOverrideName(parser: GIMIParser, sectionName: str, disjoint: bool = True, modObjs: typing.Any = None, fromRoots: bool = True) -> list:
+        """
+        Classify the ``TextureOverride`` `sections`_ to the specified mod objects
+        
+        Parameters
+        ----------
+        parser: :class:`GIMIParser`
+            The parser used for the classification
+        
+        sectionName: :class:`str`
+            The name of the `section`_ to classify
+        
+        disjoint: :class:`bool`
+            Whether to classify the `section`_ to only 1 mod object or allow classification to multiple mod
+            objects :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        modObjs: Optional[Set[Tuple[:class:`str`, :class:`str`]]]
+            The mod objects for classification. If ``None``, uses the mod objects at :attr:`modObjs` for
+            the argument, 'parser' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        fromRoots: :class:`bool`
+            Whether to make sure 'parser''s :attr:`globalGraph` has been built first :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The mod objects the `section`_ has been classified to
+        """
+    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None) -> None:
+        ...
+    def _getSectionTargets(self) -> None:
+        """
+        Retrieves the "entry points" names of the ``TextureOverride`` `sections`_ for each mod object
+        specified at :attr:`modObjs`
+        """
+    def addDownloads(self, partsNeedDownload: dict) -> None:
+        """
+        Adds the required download resources to the corresponding `sections`_ and their parts
+        
+        Parameters
+        ----------
+        partsNeedDownload: Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, Union[Set[:class:`IfContentPart`], Set[:class:`IfTemplate`]]]]
+            What :meth:`getDownloads` returned
+        """
+    def buildGlobalGraph(self) -> typing.Any:
+        """
+        Builds the graph for the entire .ini file
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The built graph
+        """
+    def clear(self) -> None:
+        """
+        Clears any saved data
+        """
+    def collectParseResult(self) -> typing.Any:
+        """
+        Collects whatever the *last* :meth:`parse` produced into the same ``[IniGraphGroup]`` that method
+        returns, without parsing again
+        
+        .. note::
+            :class:`GIMIFixer` needs exactly this: by the time a fixer runs, :meth:`IniFile.parse` has
+            already driven the parser, so re-parsing would synthesize every download resource a second time
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            A one-element list -- see :meth:`parse` for the group's exact shape
+        """
+    def editCommands(self) -> None:
+        """
+        Edits the caller/callee graphs for ``TextureOverride`` related command `sections`_
+        """
+    def getDownloads(self) -> dict:
+        """
+        Retrieves the particular parts of `sections`_ that require a file download
+        
+        Returns
+        -------
+        Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, Union[Set[:class:`IfContentPart`], Set[:class:`IfTemplate`]]]]
+            The parts or `sections`_ needing each register's download
+        """
+    def parse(self) -> typing.Any:
+        """
+        Parses the .ini file
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            A one-element list holding every graph this parse produced :raw-html:`<br />` :raw-html:`<br />`
+        
+            The group's ``graphs`` dict holds, in this order:
+        
+            #. every graph in :attr:`commandGraphs`, under its own ``(component, mod object)`` key
+            #. every graph in :attr:`downloadResourceGraphs`, under
+               ``("download", <the download's name>)``. A download whose name is already in the group is
+               skipped, so one resource shared by several registers appears once
+        
+            :raw-html:`<br />`
+        
+            .. note::
+                The graphs are the parser's own live objects, not copies, and the ``dict`` is a fresh one
+                -- so adding to the returned group does not touch :attr:`commandGraphs`, but editing a
+                graph in it does edit the parser's. Call :meth:`IniSectionGraph.deepcopy` on whichever
+                graphs you need to keep independent, exactly as :class:`GIMIFixer` does
+        """
+    def parseCommands(self) -> None:
+        """
+        Parses particular command `sections`_ within the mod, specified from :attr:`modObjs`
+        """
+    def removeAddedIfTemplates(self) -> None:
+        """
+        Removes the newly added :class:`IfTemplate`\\s generated by this parser or its associated
+        :class:`BaseIniFixer`\\s from :attr:`IniFile.sectionIfTemplates`
+        """
+    def setupDownloads(self) -> None:
+        """
+        Setup the required downloads resources, if not already setup
+        """
+    @property
+    def _iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that will be parsed
+        """
+    @_iniFile.setter
+    def _iniFile(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def _modsToFix(self) -> typing.Any:
+        """
+        Set[:class:`str`]: The names of the mods that will be fixed to
+        """
+    @_modsToFix.setter
+    def _modsToFix(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def _sectionTargets(self) -> dict:
+        """
+        Dict[Tuple[:class:`str`, :class:`str`], List[:class:`str`]]: The names of the `sections`_ used as
+        the "entry point" to a particular group of `sections`_ in the ``TextureOverride`` `section`_
+        caller/callee `graph`_
+        
+        .. warning::
+            These `sections`_ are not necessarily the roots of the graph (they may instead be a child to
+            some other `section`_)
+        """
+    @property
+    def commandEdits(self) -> typing.Any:
+        """
+        Optional[:class:`GraphGroupEdit`]: Any further edits to the parsed caller/callee graphs for ``TextureOverride`` related command `sections`_
+        """
+    @commandEdits.setter
+    def commandEdits(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def commandGraphs(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`str`, :class:`str`], :class:`IniSectionGraph`]: The caller/callee graphs for
+        ``TextureOverride`` related command `sections`_ :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            This is the *same* dict object every time -- it is group ``0`` of the parser's own
+            ``List[IniGraphGroup]``, which is what makes :meth:`editCommands`' in-place editing work
+        """
+    @commandGraphs.setter
+    def commandGraphs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def components(self) -> set:
+        """
+        Set[:class:`str`]: The different components to parse
+        """
+    @property
+    def disjointModObjs(self) -> bool:
+        """
+        :class:`bool`: Whether the sets of `sections`_ for each mod object should be disjoint or not
+        """
+    @disjointModObjs.setter
+    def disjointModObjs(self, arg0: bool) -> None:
+        ...
+    @property
+    def downloadResourceGraphs(self) -> dict:
+        """
+        Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`IniSectionGraph`]]: The
+        caller/callee graphs for `sections`_ related to download resources :raw-html:`<br />` :raw-html:`<br />`
+        
+        .. note::
+            A fresh dict is built on each access (the graphs inside are the same objects every time)
+        """
+    @property
+    def downloads(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, :class:`DownloadData`]]: The files to download if the mod is missing some required files
+        """
+    @downloads.setter
+    def downloads(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def globalGraph(self) -> typing.Any:
+        """
+        Optional[:class:`IniSectionGraph`]: The graph for the entire .ini file
+        """
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        Optional[Set[:class:`str`]]: Specific keys to track in the .ini file
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def makeGlobalGraph(self) -> bool:
+        """
+        :class:`bool`: Whether to make the graph for the entire .ini file
+        """
+    @makeGlobalGraph.setter
+    def makeGlobalGraph(self, arg0: bool) -> None:
+        ...
+    @property
+    def modObjs(self) -> typing.Any:
+        """
+        Set[Tuple[:class:`str`, :class:`str`]]: The different mod objects to parse
+        """
+    @modObjs.setter
+    def modObjs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def objTargetFuncs(self) -> typing.Any:
+        """
+        List[Callable]: The custom functions defining how to retrieve the root `sections`_ of the mod objects
+        """
+    @objTargetFuncs.setter
+    def objTargetFuncs(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def tempKwargs(self) -> dict:
+        """
+        Dict[:class:`str`, Any]: Temporary user-defined keyword variables for the user to use. Only cleared by :meth:`clear`
+        """
+    @tempKwargs.setter
+    def tempKwargs(self, arg0: dict) -> None:
+        ...
+    @property
+    def trackKeys(self) -> bool:
+        """
+        :class:`bool`: Whether to track the `KVPs`_ in the .ini file
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg0: bool) -> None:
+        ...
+class GIMISectionClassifier:
+    """
+    
+    A callable class used to classify `sections`_ based on their ``hash`` value and their
+    ``match_first_index`` value
+    
+    :raw-html:`<br />`
+    
+    .. container:: operations
+    
+        **Supported Operations:**
+    
+        .. describe:: x(parser, sectionName, section, disjoint, part, kvps)
+    
+            Classifies the mod objects based on the current :class:`IfContentPart`. For more details on
+            the arguments to pass, see :attr:`GIMIParser.objTargetFuncs`
+    
+    Parameters
+    ----------
+    hashKeyOnlyToModObj: Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]
+        Mapping for mod objects that are only identified by ``hash`` value :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the names for the type of hashes (most inner keys at :attr:`ModData.Hashes`) and
+        the values are tuples that contain the corresponding component and mod object to classify the
+        `section`_
+    
+    hashes: :class:`Hashes`
+        The assets for the ``hashes``
+    
+    indexKeyToModObj: Optional[Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Tuple[:class:`str`, :class:`str`]]]]
+        Mapping for mod objects that are identified by both ``hash`` value and their
+        ``match_first_index`` value :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    indices: Optional[:class:`Indices`]
+        The assets for the ``match_first_index`` values :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    hashNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+        The filter values used when searching :attr:`hashes` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``UnHashableNone``
+    
+    indexNonVersionVals: Optional[Union[`Hashable`_, List[`Hashable`_], Dict[:class:`str`, `Hashable`_]]]
+        The filter values used when searching :attr:`indices` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``UnHashableNone``
+        
+    """
+    @staticmethod
+    def buildDefaultClassifier(modType: typing.Any, version: typing.Any = None) -> GIMISectionClassifier:
+        """
+        Builds the default classifier for the `sections`_
+        
+        Parameters
+        ----------
+        modType: :class:`ModType`
+            The type of mod
+        
+        version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+            The version of the .ini file. If ``None``, assumes the latest version :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`GIMISectionClassifier`
+            The built classifier
+        """
+    @staticmethod
+    def buildDefaultClassifierFromIni(ini: typing.Any) -> GIMISectionClassifier:
+        """
+        Builds the default classifier for the `sections`_ from a .ini file
+        
+        Parameters
+        ----------
+        ini: :class:`IniFile`
+            The .ini file
+        
+        Returns
+        -------
+        :class:`GIMISectionClassifier`
+            The built classifier
+        """
+    def __call__(self, parser: typing.Any, sectionName: str, section: typing.Any, disjoint: bool, part: typing.Any, kvps: typing.Any) -> list:
+        ...
+    def __init__(self, hashKeyOnlyToModObj: typing.Any, hashes: typing.Any, indexKeyToModObj: typing.Any = None, indices: typing.Any = None, version: typing.Any = None, hashNonVersionVals: typing.Any = None, indexNonVersionVals: typing.Any = None) -> None:
+        ...
+    def classify(self, sectionName: str, section: typing.Any, partKeys: typing.Any) -> list:
+        """
+        Classifies which mod objects a particular :class:`IfContentPart` belongs to
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_ where the part belongs in
+        
+        section: :class:`IfTemplate`
+            The `section`_ where the part belongs in
+        
+        partKeys: :class:`IfContentPartColouring`
+            The current state of the `KVPs`_ for the part
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`str`]]
+            The classified mod objects
+        """
+    @property
+    def hashKeyOnlyToModObj(self) -> typing.Any:
+        """
+        Dict[:class:`str`, Tuple[:class:`str`, :class:`str`]]: Mapping for mod objects that are only identified by ``hash`` value
+        """
+    @hashKeyOnlyToModObj.setter
+    def hashKeyOnlyToModObj(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def hashNonVersionVals(self) -> typing.Any:
+        """
+        The filter values used when searching :attr:`hashes`
+        """
+    @hashNonVersionVals.setter
+    def hashNonVersionVals(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def hashes(self) -> typing.Any:
+        """
+        :class:`Hashes`: The assets for the ``hash`` values
+        """
+    @hashes.setter
+    def hashes(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def indexKeyToModObj(self) -> typing.Any:
+        """
+        Dict[:class:`str`, Dict[Tuple[:class:`str`, :class:`str`], Tuple[:class:`str`, :class:`str`]]]: Mapping for mod objects that are identified by both ``hash`` value and their ``match_first_index`` value
+        """
+    @indexKeyToModObj.setter
+    def indexKeyToModObj(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def indexNonVersionVals(self) -> typing.Any:
+        """
+        The filter values used when searching :attr:`indices`
+        """
+    @indexNonVersionVals.setter
+    def indexNonVersionVals(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def indices(self) -> typing.Any:
+        """
+        Optional[:class:`Indices`]: The assets for the ``match_first_index`` values
+        """
+    @indices.setter
+    def indices(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def version(self) -> typing.Any:
+        """
+        Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]: The version of the .ini file
+        """
+    @version.setter
+    def version(self, arg0: typing.Any) -> None:
+        ...
 class GameTypeId:
     """
     
@@ -4578,6 +5958,615 @@ class GameTypeIdTools:
         -------
         :class:`str`
             The name for 'value'
+        """
+class GraphGroupEdit(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Edits the individual :class:`IniSectionGraph` from a group of graphs
+    
+    Parameters
+    ----------
+    edits: List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`]]]]
+        The specific edits to make on the individual graphs :raw-html:`<br />` :raw-html:`<br />`
+    
+        * Each element of the outer list contains the edits for each .ini file
+        * The keys in the dictionary contain the name of the component and the name of the mod object
+        * The values of the dictionary are the individual edits for the corresponding graph
+    
+    trackKeys: Union[:class:`bool`, List[Dict[Tuple[:class:`str`, :class:`str`], :class:`bool`]]]
+        Whether to track the `KVPs`_ in the .ini file for the edits passed into :attr:`edits` :raw-html:`<br />` :raw-html:`<br />`
+    
+        For a :class:`BaseRegEdit`, this class walks the parts itself and hands each :attr:`keyFilters`
+        entry a populated :attr:`SectionIterData.colouring`. For a :class:`BaseIniGraphEdit` -- which
+        walks the graph itself and so never sees a colouring this class built -- the flag is instead
+        **handed down** to that edit's own ``edit``/``editFromIni`` as its ``trackKeys`` argument, for
+        the edit to honour. An edit carrying its own key-tracking setting combines the two (see
+        :class:`RegFillMissing`); one without simply ignores it :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this parameter is a boolean, this flag will be globally used for all graphs. Otherwise, more
+        granular flag setting can be made. The structure of the granular version of the data is as
+        follows: :raw-html:`<br />` :raw-html:`<br />`
+    
+        * Each element of the outer list contains the edits for each .ini file
+        * The keys in the dictionary contain the name of the component and the name of the mod object
+        * The values of the dictionary are the values of the flag
+    
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    keysToTrack: Optional[List[Dict[Tuple[:class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]]
+        Specific keys to track in the .ini file for the edits passed into :attr:`edits` -- handed down
+        to a :class:`BaseIniGraphEdit` the same way :attr:`trackKeys` is :raw-html:`<br />` :raw-html:`<br />`
+    
+        * Each element of the outer list contains the edits for each .ini file
+        * The keys in the dictionary contain the name of the component and the name of the mod object
+        * The values are the keys to track for each graph. If the value is ``None``, then will keep
+          track of all the keys encountered in some :class:`IfContentPart` for that graph
+    
+        :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    keyFilters: Optional[List[Dict[Tuple[:class:`str`, :class:`str`], Union[List[Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]], Callable[[:class:`SectionIterData`], :class:`bool`]]]]]
+        Functions to only process on specific parts of a `section`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+        * Each element of the outer list contains the predicates for each .ini file
+        * The keys are the name of the component and the name of the mod object
+        * The values are functions that retrieve the ranges of valid order indices to process for some
+          :class:`IfContentPart`. A single function (instead of a list) applies to every edit of that graph
+    
+        :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, edits: typing.Any, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, keyFilters: typing.Any = None) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Edits a group of caller/callee graphs
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        Edits a group of caller/callee graphs with state info from 'ini'
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        ini: :class:`IniFile`
+            The associated original .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    @property
+    def edits(self) -> typing.Any:
+        """
+        List[Dict[Tuple[:class:`str`, :class:`str`], List[Union[:class:`BaseIniGraphEdit`, :class:`BaseRegEdit`]]]]:
+        The specific edits to make on the individual graphs
+        """
+    @edits.setter
+    def edits(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def keyFilters(self) -> typing.Any:
+        """
+        List[Dict[Tuple[:class:`str`, :class:`str`], Union[List[Optional[Callable]], Callable]]]: Functions
+        for any :class:`BaseRegEdit` to only process on specific parts of a `section`_
+        """
+    @keyFilters.setter
+    def keyFilters(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        List[Dict[Tuple[:class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]: Specific keys to track
+        in the .ini file for any :class:`BaseRegEdit` passed into :attr:`edits`
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def trackKeys(self) -> typing.Any:
+        """
+        Union[:class:`bool`, List[Dict[Tuple[:class:`str`, :class:`str`], :class:`bool`]]]: Whether to track
+        the `KVPs`_ in the .ini file for any :class:`BaseRegEdit` passed into :attr:`edits`
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg1: typing.Any) -> None:
+        ...
+class GraphGroupRemap(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Remaps the graphs from a group of graphs
+    
+    Parameters
+    ----------
+    remap: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]
+        The remap for the graphs :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The keys of the dictionary are the mod objects to remap from.
+        * The values of the dictionary are the mod objects to remap to.
+        * The tuples include:
+    
+            #. The index of the .ini file for the graph
+            #. The name of the component for the graph
+            #. The name of the mod object for the graph
+            #. An optional rename function if the tuple has 4 values. The rename function takes in the old name of the `section`_
+        
+    """
+    @staticmethod
+    def copyGraph(fromGraph: typing.Any, modObj: typing.Any, newModObj: typing.Any, renameFunc: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Deep-copies 'fromGraph' and renames every `section`_ in the copy
+        
+        Parameters
+        ----------
+        fromGraph: :class:`IniSectionGraph`
+            The graph to copy
+        
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id of the graph being copied from
+        
+        newModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The id of the graph being copied to
+        
+        renameFunc: Optional[Callable[[:class:`str`], :class:`str`]]
+            The rename function to use. When ``None``, falls back to
+            :meth:`IniNamingTools.getObjRemapFixName` against 'modObj'/'newModObj' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to, used by that fallback :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The new, renamed copy
+        """
+    def __init__(self, remap: typing.Any) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Remaps the graphs, building each new graph with :meth:`copyGraph`
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to, handed to :meth:`copyGraph` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after the graphs were remapped
+        """
+    def remapGraphs(self, graphGroups: list, createToGraph: typing.Any) -> list:
+        """
+        Remaps the graphs from a group of graphs
+        
+        .. note::
+            A target whose ``(component, object)`` key is already taken in the destination .ini file's group
+            goes into an **additional** group for that same .ini file (created on demand), rather than
+            overwriting the existing graph
+        
+        .. note::
+            A source .ini file whose original group is left with no graphs at all is dropped entirely
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to remap
+        
+        createToGraph: Callable[[:class:`IniSectionGraph`, Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Callable[[:class:`str`], :class:`str`]]], :class:`IniSectionGraph`]
+            The function used to create the new remapped graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            The function takes in the following parameters:
+        
+            #. The graph to map from
+            #. The id of the graph to map from. The tuple contains the index of the .ini file for the graph, the name of the component and the name of the mod object
+            #. The id of the graph to map to. Note that the index of the .ini file may not correspond to the actual index of which .ini file holds the graph
+            #. An optional rename function
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after the graphs were remapped
+        """
+    @property
+    def remap(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], List[Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]:
+        The remap for the graphs
+        """
+    @remap.setter
+    def remap(self, arg1: typing.Any) -> None:
+        ...
+class GraphInherit(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Merges the graph at 'dst' into the graph at 'src', by inserting consecutive `KVPs`_ into 'src' that
+    reference every root `section`_ of the graph at 'dst'
+    
+    .. note::
+        This only inserts the reference `KVPs`_ into 'src' -- the `sections`_ of 'dst' themselves are
+        left untouched (and still need to be reachable/present elsewhere for the reference to resolve,
+        the same way a plain ``run =`` reference to another `section`_ works)
+    
+    .. note::
+        If either the graph at 'src' or the graph at 'dst' cannot be found, nothing is inserted and the
+        original 'graphGroups' is returned as-is -- no exception is raised
+    
+    Parameters
+    ----------
+    src: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The id of the source :class:`IniSectionGraph` to insert the reference `KVPs`_ into. The tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    dst: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The id of the :class:`IniSectionGraph` to merge into 'src'. Same tuple format as 'src'
+    
+    reg: :class:`str`
+        The name of the register used to reference the root `sections`_ of the graph at 'dst'
+    
+    latest: :class:`bool`
+        Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the front :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    partFilter: Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]
+        The filter used to indicate which areas of some :class:`IfContentPart` within the graph at 'src'
+        are valid to insert the `KVPs`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this value is ``None``, then the `KVPs`_ are instead inserted directly at the very
+        front/back (based on 'latest') of every root `section`_ of the graph at 'src', instead of being
+        filtered through every :class:`IfContentPart` of the graph :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, src: typing.Any, dst: typing.Any, reg: typing.Any, latest: bool = True, partFilter: typing.Any = None) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Inserts the reference `KVPs`_ from the graph at :attr:`dst` into the graph at :attr:`src`
+        
+        With no :attr:`partFilter`, the `KVPs`_ go straight to the very front/back (based on :attr:`latest`)
+        of every root `section`_ of the graph at :attr:`src`. With one, they instead go at the
+        earliest/latest valid index of every :class:`IfContentPart` the filter accepts
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Only ever handed to :attr:`partFilter`
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    @property
+    def dst(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the :class:`IniSectionGraph` to merge
+        into :attr:`src`
+        """
+    @dst.setter
+    def dst(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def latest(self) -> bool:
+        """
+        :class:`bool`: Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the
+        front
+        """
+    @latest.setter
+    def latest(self, arg0: bool) -> None:
+        ...
+    @property
+    def partFilter(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optional[:class:`IniFile`]], :class:`Ranges`]]:
+        The filter used to indicate which areas of some :class:`IfContentPart` within the graph at
+        :attr:`src` are valid to insert the `KVPs`_
+        """
+    @partFilter.setter
+    def partFilter(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def reg(self) -> typing.Any:
+        """
+        :class:`str`: The name of the register used to reference the root `sections`_ of the graph at
+        :attr:`dst`
+        """
+    @reg.setter
+    def reg(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def src(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The id of the source :class:`IniSectionGraph` to
+        insert the reference `KVPs`_ into
+        """
+    @src.setter
+    def src(self, arg1: typing.Any) -> None:
+        ...
+class GraphRemove(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Removes some graphs from a group of graphs
+    
+    .. note::
+        A graph id that names no existing graph (a missing ``(component, object)`` key, or an
+        out-of-range .ini index) is skipped silently -- no exception
+    
+    Parameters
+    ----------
+    graphIds: List[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+        The ids of the graphs to remove. Each tuple contains: :raw-html:`<br />` :raw-html:`<br />`
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+        
+    """
+    def __init__(self, graphIds: typing.Any) -> None:
+        ...
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Removes every graph named by :attr:`graphIds` from 'graphGroups'
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after the graphs were removed
+        """
+    @property
+    def graphIds(self) -> typing.Any:
+        """
+        List[Tuple[:class:`int`, :class:`str`, :class:`str`]]: The ids of the graphs to remove
+        """
+    @graphIds.setter
+    def graphIds(self, arg1: typing.Any) -> None:
+        ...
+class GraphRename(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Renames the `sections`_ of some caller/callee graph of :class:`IniSectionGraph`
+    
+    Parameters
+    ----------
+    renameFunc: Callable[[:class:`str`], :class:`str`]
+        Function used to rename a `section`_. The function takes in the name of the old `section`_ and
+        returns the new name for the `section`_
+        
+    """
+    def __init__(self, renameFunc: typing.Any) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Renames every `section`_ of 'graph' by :attr:`renameFunc`
+        
+        Every ``run =`` reference to a renamed `section`_ is rewritten too, and the graph is rebuilt -- so a
+        rename never leaves a dangling caller/callee edge behind
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            The filter used to indicate the valid order indices to process some :class:`IfContentPart` in
+            the graph. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            The caller's key-tracking default. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            The caller's key-tracking key set. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after every `section`_ was renamed
+        """
+    @property
+    def renameFunc(self) -> typing.Any:
+        """
+        Callable[[:class:`str`], :class:`str`]: Function used to rename a `section`_. The function takes in
+        the name of the old `section`_ and returns the new name for the `section`_
+        """
+    @renameFunc.setter
+    def renameFunc(self, arg1: typing.Any) -> None:
+        ...
+class GraphTools:
+    """
+    
+    Tools for handling with generic directed graphs, represented as adjacency lists (``node -> list of
+    the nodes directly reachable from it``)
+    
+    Nodes can be any hashable value -- these tools have no notion of what a node "is" (a section, an
+    IfContentPart, a plain str, ...); that meaning is entirely up to the caller.
+        
+    """
+    @staticmethod
+    def clampFactsToReachable(facts: collections.abc.Mapping[typing.Any, bool], reachableNodes: collections.abc.Set[typing.Any]) -> dict[typing.Any, bool]:
+        """
+        Forces every fact about a node not in 'reachableNodes' down to False.
+        
+        Parameters
+        ----------
+        facts: Dict[Any, bool]
+            The raw facts to clamp, as returned by runForwardMustFixpoint/runBackwardMustFixpoint.
+        
+        reachableNodes: Set[Any]
+            See getReachableNodes.
+        
+        Returns
+        -------
+        Dict[Any, bool]
+            The clamped facts.
+        """
+    @staticmethod
+    def getReachableNodes(forwardEdges: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], rootNodes: collections.abc.Set[typing.Any]) -> set[typing.Any]:
+        """
+        Computes every node reachable from 'rootNodes', via plain forward graph reachability (BFS/DFS --
+        no dataflow facts involved, just "is there some path here at all").
+        
+        Parameters
+        ----------
+        forwardEdges: Dict[Any, List[Any]]
+            The graph to search, as ``node -> list of the nodes directly reachable from it``.
+        
+        rootNodes: Set[Any]
+            The nodes to start searching from.
+        
+        Returns
+        -------
+        Set[Any]
+            Every node reachable from 'rootNodes' (including 'rootNodes' themselves).
+        """
+    @staticmethod
+    def runBackwardMustFixpoint(forwardEdges: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], backwardEdges: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], localFacts: collections.abc.Mapping[typing.Any, bool]) -> dict[typing.Any, bool]:
+        """
+        The mirror of runForwardMustFixpoint: a backward MUST (very-busy-expressions-style) dataflow
+        analysis over the same kind of graph, computing whether some boolean property is guaranteed to be
+        established somewhere after every node exits.
+        
+        Parameters
+        ----------
+        forwardEdges: Dict[Any, List[Any]]
+            The graph to analyze, as ``node -> list of the nodes that can run directly after it``.
+        
+        backwardEdges: Dict[Any, List[Any]]
+            The reverse of 'forwardEdges'.
+        
+        localFacts: Dict[Any, bool]
+            For every node, whether its own content, by itself, already establishes the property being
+            tracked. A node missing from this dict is treated as False.
+        
+        Returns
+        -------
+        Dict[Any, bool]
+            Every node reachable in the graph structure, mapped to whether the property is guaranteed to
+            be satisfied somewhere after that node exits.
+        """
+    @staticmethod
+    def runForwardMustFixpoint(forwardEdges: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], backwardEdges: collections.abc.Mapping[typing.Any, collections.abc.Sequence[typing.Any]], rootNodes: collections.abc.Set[typing.Any], localFacts: collections.abc.Mapping[typing.Any, tuple[bool, bool]]) -> dict[typing.Any, bool]:
+        """
+        Runs a forward, MUST (available-expressions-style) dataflow analysis over a graph, computing
+        whether some boolean property has been established entering every node -- correctly handling
+        cycles via fixpoint iteration (Kildall's/worklist algorithm).
+        
+        Parameters
+        ----------
+        forwardEdges: Dict[Any, List[Any]]
+            The graph to analyze, as ``node -> list of the nodes that can run directly after it``.
+        
+        backwardEdges: Dict[Any, List[Any]]
+            The reverse of 'forwardEdges'.
+        
+        rootNodes: Set[Any]
+            The nodes that are true entry points of the graph.
+        
+        localFacts: Dict[Any, Tuple[bool, bool]]
+            For every node with content of its own worth examining, a tuple of (touches, localSatisfied).
+            A node missing from this dict is treated as a pure pass-through.
+        
+        Returns
+        -------
+        Dict[Any, bool]
+            Every node reachable in the graph structure, mapped to whether the property is satisfied
+            entering that node.
         """
 class Hash128:
     """
@@ -7383,6 +9372,23 @@ class IniSectionGraph:
     def rootsAreFullyCovered(self, key: typing.Any) -> typing.Any:
         """
         Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`
+        """
+    def toStr(self, autoindent: bool = True) -> str:
+        """
+        Converts all the `sections`_ of this graph to a string, walked outwards from :attr:`roots` using
+        `DFS`_ and joined with blank lines
+        
+        Parameters
+        -----------
+        autoindent: :class:`bool`
+            Whether to compute the proper tab indent for each `section`_
+        
+            **Default**: ``True``
+        
+        Returns
+        --------
+        :class:`str`
+            The string representation
         """
     @property
     def neighbours(self) -> typing.Any:
@@ -10372,6 +12378,258 @@ class RegAdd(BaseRegEdit):
     @vals.setter
     def vals(self, arg1: typing.Any) -> None:
         ...
+class RegFillMissing(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Fills the :class:`IfContentPart`\\s of some caller/callee graph that are missing a particular
+    register
+    
+    Parameters
+    ----------
+    reg: :class:`str`
+        The register to search for
+    
+    fillMissing: Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]
+        How to fill in the :class:`IfContentPart`\\s with their corresponding values :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this argument is a string, will add the following line to: ``reg = fillMissing``
+        If this argument is a list of tuples, will add the `KVPs`_ specified by each tuple into the missing part
+        Otherwise, will modify the missing part according to the specified function
+    
+    fillMode: Optional[:class:`RegFillMissingMode`]
+        What mode used to search and fill the missing register :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``RegFillMissingMode.FillMissing``
+    
+    dependOnDownload: :class:`bool`
+        Whether the editting is dependent on :attr:`IniFile.downloadMode` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    trackKeys: :class:`bool`
+        Whether to keep track of the `KVPs`_ seen so far for colouring while walking the graph, so that
+        the ``partFilter`` given to :meth:`edit` receives a populated
+        :attr:`SectionIterData.colouring` to decide from :raw-html:`<br />` :raw-html:`<br />`
+    
+        When ``False``, that ``colouring`` is ``None`` and a filter can only discriminate on the part
+        or the `section`_ itself :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    keysToTrack: Optional[Set[:class:`str`]]
+        Which keys 'trackKeys' should colour :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this value is ``None``, then **every** key is tracked :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def addCover(graph: typing.Any, reg: typing.Any, fillMissing: typing.Any) -> typing.Any:
+        """
+        Fills a fresh top :class:`IfContentPart` at each of 'graph''s roots, if 'reg' is missing in some
+        :class:`IfContentPart` of 'graph'
+        
+        Nothing is added at all when every root already fully covers 'reg'
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to search
+        
+        reg: :class:`str`
+            The register to search
+        
+        fillMissing: Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]
+            How to modify the parts that are missing the desired register -- the same three shapes
+            :attr:`fillMissing` accepts
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, with its roots covered
+        """
+    @staticmethod
+    def fillMissingGraph(graph: typing.Any, reg: typing.Any, fillMissing: typing.Any) -> typing.Any:
+        """
+        Fills the :class:`IfContentPart`\\s from 'graph' that are missing 'reg'
+        
+        Each part is filled at most once, even when it is reachable from more than one `section`_
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to search
+        
+        reg: :class:`str`
+            The register to search
+        
+        fillMissing: Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]
+            How to modify the parts that are missing the desired register -- the same three shapes
+            :attr:`fillMissing` accepts
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, with its missing parts filled
+        """
+    def __init__(self, reg: typing.Any, fillMissing: typing.Any, fillMode: typing.Any = None, dependOnDownload: bool = False, trackKeys: bool = False, keysToTrack: typing.Any = None) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Fills the parts of 'graph' that are missing :attr:`reg`, by whichever strategy :attr:`fillMode`
+        names -- :meth:`fillMissingGraph` for ``RegFillMissingMode.FillMissing``, :meth:`addCover` for
+        ``RegFillMissingMode.TopdownCover``
+        
+        'partFilter' restricts *which* parts get filled: it is asked once per candidate part, and an empty
+        :class:`Ranges` result skips that one. Under ``RegFillMissingMode.TopdownCover`` it is asked once
+        per root instead, against that root's own first :class:`IfContentPart`. This is the same convention
+        :class:`GraphGroupEdit` already applies to its register edits -- only *which* parts are chosen; a
+        non-empty result's actual ranges are not consulted, since filling a part appends a whole `KVP`_
+        rather than editing occurrences at particular order indices
+        
+        Set :attr:`trackKeys` to give that filter a populated :attr:`SectionIterData.colouring` to decide
+        from, narrowed to :attr:`keysToTrack`
+        
+        .. note::
+            The pure-Python original accepted 'partFilter' and dropped it, so this edit applied to every
+            missing part unconditionally. Honouring it is a deliberate behaviour change; an omitted
+            'partFilter' still fills everything, exactly as before
+        
+        .. note::
+            Under ``RegFillMissingMode.TopdownCover`` the colouring handed to 'partFilter' is empty by
+            construction -- nothing precedes a root -- so :attr:`SectionIterData.sectionName` /
+            :attr:`SectionIterData.section` are the useful discriminators there, not the tracked `KVPs`_.
+            A root `section`_ holding no :class:`IfContentPart` at all is accepted, there being nothing to
+            discriminate on
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Not read here -- only handed to 'partFilter'
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Which parts may be filled -- an empty :class:`Ranges` result skips that part, ``None`` accepts
+            every part :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after editing
+        """
+    def editFromIni(self, graph: typing.Any, ini: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Fills the parts of 'graph' that are missing :attr:`reg`, honouring the download mode 'ini' was read
+        under
+        
+        When :attr:`dependOnDownload` is ``False`` this is just :meth:`edit`. Otherwise
+        ``DownloadMode.Disabled`` skips the edit entirely, and ``DownloadMode.Always`` normalizes the
+        graph's branching structure first, so that a part missing the register on *some* branch is
+        guaranteed to be its own :class:`IfContentPart`
+        
+        .. note::
+            An 'ini' of ``None``, or one carrying no ``downloadMode`` attribute, reads as
+            ``DownloadMode.Normal`` -- the mode under which this behaves identically to
+            :attr:`dependOnDownload` being ``False``
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        ini: Optional[:class:`IniFile`]
+            The associated .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Not read here -- only handed to 'partFilter'
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Which parts may be filled -- an empty :class:`Ranges` result skips that part. Forwarded
+            straight to :meth:`edit` :raw-html:`<br />` :raw-html:`<br />`
+        
+            .. note::
+                The third argument handed to 'partFilter' is always ``None`` rather than 'ini'.
+                :meth:`edit` is reached through genuine Python attribute lookup (so a subclass's own
+                override still wins), and its signature -- inherited from :class:`BaseIniGraphEdit` -- has
+                nowhere to carry an .ini file. A plain C++ caller of the core class does get the real one
+        
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after editing
+        """
+    @property
+    def dependOnDownload(self) -> bool:
+        """
+        :class:`bool`: Whether the editting is dependent on :attr:`IniFile.downloadMode`
+        """
+    @dependOnDownload.setter
+    def dependOnDownload(self, arg1: bool) -> None:
+        ...
+    @property
+    def fillMissing(self) -> typing.Any:
+        """
+        Union[:class:`str`, List[Tuple[:class:`str`, :class:`str`]], Callable[[:class:`IfContentPart`], Any]]: How to
+        fill in the :class:`IfContentPart`\\s with their corresponding values
+        """
+    @fillMissing.setter
+    def fillMissing(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fillMode(self) -> typing.Any:
+        """
+        :class:`RegFillMissingMode`: What mode used to search and fill the missing register
+        """
+    @fillMode.setter
+    def fillMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        Optional[Set[:class:`str`]]: Which keys :attr:`trackKeys` should colour, or ``None`` for every key
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def reg(self) -> typing.Any:
+        """
+        :class:`str`: The register to search for
+        """
+    @reg.setter
+    def reg(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def trackKeys(self) -> bool:
+        """
+        :class:`bool`: Whether to keep track of the `KVPs`_ seen so far for colouring while walking the
+        graph, so that the ``partFilter`` given to :meth:`edit` receives a populated
+        :attr:`SectionIterData.colouring`
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg1: bool) -> None:
+        ...
 class RegNewVals(BaseRegEdit):
     """
     
@@ -10569,6 +12827,539 @@ class RegRemove(BaseRegEdit):
         """
     @removeKeys.setter
     def removeKeys(self, arg1: typing.Any) -> None:
+        ...
+class RegSurroundedAdd(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Adds a `KVP`_ into some caller/callee graph of :class:`IniSectionGraph`, at every location that is
+    `surrounded` by a particular set of registers: after every register specified at 'beforeRegs' has
+    been seen at least once (and accepted by its predicate) and before every register specified at
+    'afterRegs' has been seen at least once (and accepted by its predicate)
+    
+    Parameters
+    ----------
+    addition: Tuple[:class:`str`, :class:`str`]
+        The `KVP`_ to add
+    
+    beforeRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+        The registers that must come before :attr:`addition` (ie. :attr:`addition` gets added after
+        these registers) :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The keys are the names of the registers
+        * The values are the predicates for which particular occurence of the register to accept,
+          taking in the value of the occurence -- ``None`` accepts any occurence
+    
+        This condition is only satisfied once at least one accepted occurence has been seen for
+        **every** key specified in this argument :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    afterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+        The registers that must come after :attr:`addition` -- same format/semantics as
+        :attr:`beforeRegs`, except the condition applies for coming after :attr:`addition` instead of
+        before it :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    latest: :class:`bool`
+        Whether to add :attr:`addition` at the latest valid location within the surrounded window,
+        instead of the earliest one :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    def __init__(self, addition: typing.Any, beforeRegs: typing.Any = None, afterRegs: typing.Any = None, latest: bool = False) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Fills 'graph' with a `surrounded` window insertion of :attr:`addition`, honouring :attr:`latest`
+        for which valid location within each window is chosen
+        
+        .. note::
+            'trackKeys'/'keysToTrack' are the caller's key-tracking defaults, handed down by
+            :class:`BaseIniGraphEdit`'s contract (:class:`GraphGroupEdit` passes its own). This edit builds
+            its own colourings from its own :attr:`beforeRegs`/:attr:`afterRegs`, so it has no use for
+            them -- they are accepted only so the shared call convention keeps working
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit -- only forwarded to 'partFilter'
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Which order indices may be used within a part -- ``None`` accepts every index :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            Unused by this edit. **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            Unused by this edit. **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after editing
+        """
+    @property
+    def addition(self) -> tuple[typing.Any, typing.Any]:
+        """
+        Tuple[:class:`str`, :class:`str`]: The `KVP`_ to add
+        """
+    @addition.setter
+    def addition(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def afterRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers that must come
+        after :attr:`addition`
+        """
+    @afterRegs.setter
+    def afterRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def beforeRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers that must come
+        before :attr:`addition`
+        """
+    @beforeRegs.setter
+    def beforeRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def latest(self) -> bool:
+        """
+        :class:`bool`: Whether to add :attr:`addition` at the latest valid location within the surrounded
+        window, instead of the earliest one
+        """
+    @latest.setter
+    def latest(self, arg0: bool) -> None:
+        ...
+class RemapBlendReplace(BaseResEdit):
+    """
+    
+    This class inherits from :class:`ResReplace`
+    
+    Class that builds the necessary part to replace some Blend.buf file
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``resourceRemapBlend``
+    
+    fixFunc: Optional[Callable[[:class:`RemapBlendResource`], :class:`bool`]]
+        A custom function for fixing the Blend.buf file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resSubType: Optional[:class:`str`]
+        The name of the subtype of the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    fromComp: Optional[:class:`str`]
+        The specific component to remap from :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    toComp: Optional[:class:`str`]
+        The specific component to remap to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resModObj: typing.Any, resType: str = 'resourceRemapBlend', fixFunc: typing.Any = None, resSubType: typing.Any = None, fromComp: typing.Any = None, toComp: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, fixedPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        .. note::
+            The ``type`` of the built resource comes from :attr:`resType`, not from the 'resType' argument
+            -- faithful to the pure-Python original
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource. Unused
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        fixedPath: :class:`str`
+            The file path to the fixed resource
+        
+        modType: :class:`ModType`
+            The type of mod being fixed -- the vertex group remap comes from it
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`RemapBlendResource`
+            The built resource
+        """
+    def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def clear(self: BaseResEdit) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self: BaseResEdit, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self: BaseResEdit, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self: BaseResEdit, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self: BaseResEdit, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def fixFunc(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`RemapBlendResource`], :class:`bool`]]: A custom function for fixing the
+        Blend.buf file
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fromComp(self) -> typing.Any:
+        """
+        Optional[:class:`str`]: The specific component to remap from
+        """
+    @fromComp.setter
+    def fromComp(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resSubType(self) -> typing.Any:
+        """
+        Optional[:class:`str`]: The name of the subtype of the resource
+        """
+    @resSubType.setter
+    def resSubType(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
+    @property
+    def toComp(self) -> typing.Any:
+        """
+        Optional[:class:`str`]: The specific component to remap to
+        """
+    @toComp.setter
+    def toComp(self, arg1: typing.Any) -> None:
         ...
 class RemapBlendResource(RemapIniFixResource):
     """
@@ -11088,6 +13879,1498 @@ class ReplaceList:
         """
         List[Any]: The values to assign positionally
         """
+class ResCreate(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Class that creates the necessary parts for a brand-new fixed resource, building its `sections`_ from
+    scratch rather than from the .ini file's existing ones
+    
+    Parameters
+    ----------
+    resType: :class:`str`
+        The name of the type of resource
+    
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource
+    
+    graphReplaceMode: :class:`IniGraphReplaceMode`
+        What to do when the corresponding :class:`IniSectionGraph` to construct already exists :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``IniGraphReplaceMode.Ignore``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resType: str, resModObj: typing.Any, graphReplaceMode: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`IniResource`
+            The built resource
+        """
+    def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def buildSection(self, sectionName: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Builds a `section`_ for the resource
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name for the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix from
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`IfTemplate`]
+            The generated `section`_
+        """
+    def clear(self: BaseResEdit) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self: BaseResEdit, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self: BaseResEdit, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self: BaseResEdit, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self: BaseResEdit, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
+class ResGroupCollect(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Creates the :class:`IniSectionGraph` for a particular group of resources
+    
+    Where :class:`ResRegCollect` handles one resource at a time, this handles several that belong
+    together and works out which combinations of them can actually co-occur -- two resources belong in
+    the same group only if the conditional branches they live under are simultaneously satisfiable
+    
+    Parameters
+    ----------
+    resGroupTypes: List[:class:`str`]
+        The unique names for the type of resource groups
+    
+    srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]]
+        The different registers that reference the particular resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The outer keys are the mod object for a particular type of resource in a resource group
+        * The inner keys are the location of which :class:`IniSectionGraph` to search for
+        * The values are the source registers
+    
+    resEdits: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, :class:`BaseResEdit`]]
+        Describes how each resource in a resource group should be built :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The outer keys are the mod object for a particular type of resource in a resource group
+        * The inner keys are the names for the type of resource groups
+        * The values are the edits for the type of resource
+    
+    groupedResBuilders: Dict[:class:`str`, :class:`IniGroupedResBuilder`]
+        The builders used to construct a type of grouped resource
+    
+    partPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterQueryData`], :class:`Ranges`]]]]
+        The predicates for which particular order indices to process for some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterQueryData`], :class:`bool`]]]]
+        The predicates to check whether some reference to the resource should be used :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    remaps: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]]
+        Whether to remap the graphs searched from :attr:`srcRegs`. The values follow the same format as
+        :attr:`GraphGroupRemap.remap` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    trackKeys: Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]]
+        Whether to track the `KVPs`_ in the .ini file when searching for particular resources :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this parameter is a boolean, this flag will be globally used for all graphs :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]]
+        Specific keys to track in the .ini file when searching particular resources :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resGroupTypesSameTopology: :class:`bool`
+        A flag used to enable an optimization to reduce the number of `satisfiable (SAT) problems`_
+        needed to be computed when there are multiple types of resource groups. The flag assumes that
+        each resource type for all types of resource groups have the same topology :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    id: Optional[:class:`int`]
+        The unique id for this object. If this value is ``None``, then an id is autogenerated :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, resGroupTypes: typing.Any, srcRegs: typing.Any, resEdits: typing.Any, groupedResBuilders: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None, resGroupTypesSameTopology: bool = False, id: typing.Any = None) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears :attr:`resCalls` and every resource edit's own saved state
+        """
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Collects and groups the references to the resources
+        
+        .. note::
+            With no .ini file there is nothing to build the resources *for*, so this collects and groups but
+            builds nothing -- exactly as the pure-Python original did
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        Collects, groups, replicates and connects the resources for 'ini'
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        ini: :class:`IniFile`
+            The associated original .ini file
+        
+        modType: :class:`ModType`
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    @property
+    def groupedResBuilders(self) -> typing.Any:
+        """
+        Dict[:class:`str`, :class:`IniGroupedResBuilder`]: The builders used to construct a type of grouped
+        resource
+        """
+    @groupedResBuilders.setter
+    def groupedResBuilders(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def id(self) -> int:
+        """
+        :class:`int`: The unique id for this object
+        """
+    @id.setter
+    def id(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]:
+        Specific keys to track in the .ini file when searching particular resources
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def partPredicates(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable]]:
+        The predicates for which particular order indices to process for some :class:`IfContentPart`
+        """
+    @partPredicates.setter
+    def partPredicates(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def remaps(self) -> typing.Any:
+        """
+        Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Tuple]]]: Whether
+        to remap the graphs searched from :attr:`srcRegs`
+        """
+    @remaps.setter
+    def remaps(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resCalls(self) -> typing.Any:
+        """
+        Dict: The calls to each resource, keyed by resource type, then source graph, then `section`_ name,
+        then part id, then order index. The values are ``(resource section name, query)`` tuples
+        
+        .. note::
+            This is scratch state, rebuilt by every :meth:`edit` and cleared again afterwards. Reading it
+            back gives a freshly built ``dict``, not a live view
+        """
+    @property
+    def resEdits(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, :class:`BaseResEdit`]]:
+        Describes how each resource in a resource group should be built
+        """
+    @resEdits.setter
+    def resEdits(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resGroupTypes(self) -> typing.Any:
+        """
+        List[:class:`str`]: The unique names for the type of resource groups
+        """
+    @resGroupTypes.setter
+    def resGroupTypes(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resGroupTypesSameTopology(self) -> bool:
+        """
+        :class:`bool`: Whether each resource type for all types of resource groups have the same topology
+        """
+    @resGroupTypesSameTopology.setter
+    def resGroupTypesSameTopology(self, arg0: bool) -> None:
+        ...
+    @property
+    def resPredicates(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable]]:
+        The predicates to check whether some reference to the resource should be used
+        """
+    @resPredicates.setter
+    def resPredicates(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def srcRegs(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]]:
+        The different registers that reference the particular resource
+        """
+    @srcRegs.setter
+    def srcRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def trackKeys(self) -> typing.Any:
+        """
+        Union[:class:`bool`, Dict]: Whether to track the `KVPs`_ in the .ini file when searching for
+        particular resources
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg1: typing.Any) -> None:
+        ...
+class ResIdentity(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Class to only build the :class:`IniSectionGraph` for the original collected resource
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource
+    
+    createResModel: :class:`bool`
+        Whether to build the models for the resources :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resModObj: typing.Any, createResModel: bool = True) -> None:
+        ...
+    def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def clear(self: BaseResEdit) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self: BaseResEdit, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self: BaseResEdit, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self: BaseResEdit, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self: BaseResEdit, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def createResModel(self) -> bool:
+        """
+        :class:`bool`: Whether to build the models for the resources
+        """
+    @createResModel.setter
+    def createResModel(self, arg0: bool) -> None:
+        ...
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
+class ResRegCollect(BaseIniGraphGroupEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphGroupEdit`
+    
+    Creates the :class:`IniSectionGraph` for a particular resource
+    
+    Parameters
+    ----------
+    srcRegs: Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]
+        The different registers that reference the particular resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys in the dictionary are the location of which :class:`IniSectionGraph` to search for,
+        which contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    resEdits: Dict[:class:`str`, :class:`BaseResEdit`]
+        Describes how a resource should be built :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are the names for the subtype of the resource and the values are the edit for each type
+        of resource
+    
+    partPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]]
+        The predicates for which particular order indices to process for some :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resPredicates: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]]
+        The predicates to check whether some reference to the resource should be used :raw-html:`<br />` :raw-html:`<br />`
+    
+        Each predicate takes in:
+    
+        #. The register name that holds the reference
+        #. The name of the resource reference
+        #. The data that contains info on the part and its `section`_
+    
+        :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    remaps: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Union[Tuple[:class:`int`, :class:`str`, :class:`str`], Tuple[:class:`int`, :class:`str`, :class:`str`, Callable[[:class:`str`], :class:`str`]]]]]]
+        Whether to remap the graphs searched from :attr:`srcRegs`. The values follow the same format as
+        :attr:`GraphGroupRemap.remap` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    trackKeys: Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]
+        Whether to track the `KVPs`_ in the .ini file when searching for particular resources :raw-html:`<br />` :raw-html:`<br />`
+    
+        If this parameter is a boolean, this flag will be globally used for all graphs :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    keysToTrack: Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]]
+        Specific keys to track in the .ini file when searching particular resources. A ``None`` value
+        tracks every key encountered :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, srcRegs: typing.Any, resEdits: typing.Any, partPredicates: typing.Any = None, resPredicates: typing.Any = None, remaps: typing.Any = None, trackKeys: typing.Any = False, keysToTrack: typing.Any = None) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears :attr:`resCalls` and every resource edit's own saved state
+        """
+    def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
+        """
+        Collects and remaps the references to the resource
+        
+        .. note::
+            With no .ini file there is nothing to build the resources *for*, so this collects and remaps but
+            builds nothing -- exactly as the pure-Python original did
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    def editFromIni(self, graphGroups: list, ini: typing.Any, modType: typing.Any, modName: str = '') -> list:
+        """
+        Collects, remaps and builds the resource for 'ini'
+        
+        Parameters
+        ----------
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        ini: :class:`IniFile`
+            The associated original .ini file
+        
+        modType: :class:`ModType`
+            The type of mod to fix
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The same list that was passed in, after editing
+        """
+    @property
+    def keysToTrack(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Optional[Set[:class:`str`]]]: Specific keys to
+        track in the .ini file when searching particular resources
+        """
+    @keysToTrack.setter
+    def keysToTrack(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def partPredicates(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`SectionIterData`], :class:`Ranges`]]:
+        The predicates for which particular order indices to process for some :class:`IfContentPart`
+        """
+    @partPredicates.setter
+    def partPredicates(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def remaps(self) -> typing.Any:
+        """
+        Optional[Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Tuple]]]: Whether
+        to remap the graphs searched from :attr:`srcRegs`
+        """
+    @remaps.setter
+    def remaps(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resCalls(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Dict[:class:`str`, Dict[:class:`int`, Dict[:class:`int`, :class:`str`]]]]:
+        The calls to the resource
+        
+        * The outer keys are the id of the graph the call was found in
+        * The second outer keys are the names of the `sections`_
+        * The third outer keys are the id of the part within the `section`_
+        * The inner keys are the order index the resource call is found at in the part
+        * The values are the names of the resource `sections`_
+        
+        .. note::
+            This is scratch state, rebuilt by every :meth:`edit` and cleared again by :meth:`editFromIni`.
+            Reading it back gives a freshly built ``dict``, not a live view
+        """
+    @property
+    def resEdits(self) -> typing.Any:
+        """
+        Dict[:class:`str`, :class:`BaseResEdit`]: Describes how a resource should be built
+        """
+    @resEdits.setter
+    def resEdits(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resPredicates(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], Callable[[:class:`str`, :class:`str`, :class:`SectionIterData`], :class:`bool`]]:
+        The predicates to check whether some reference to the resource should be used
+        """
+    @resPredicates.setter
+    def resPredicates(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def srcRegs(self) -> typing.Any:
+        """
+        Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`str`]: The different registers that
+        reference the particular resource
+        """
+    @srcRegs.setter
+    def srcRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def trackKeys(self) -> typing.Any:
+        """
+        Union[:class:`bool`, Dict[Tuple[:class:`int`, :class:`str`, :class:`str`], :class:`bool`]]: Whether
+        to track the `KVPs`_ in the .ini file when searching for particular resources
+        """
+    @trackKeys.setter
+    def trackKeys(self, arg1: typing.Any) -> None:
+        ...
+class ResReplace(BaseResEdit):
+    """
+    
+    This class inherits from :class:`BaseResEdit`
+    
+    Class that creates the necessary parts for a fixed resource by building upon the existing
+    :class:`IniSectionGraph` of the original resource
+    
+    Parameters
+    ----------
+    resType: :class:`str`
+        The name of the type of resource
+    
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource
+    
+    graphReplaceMode: :class:`IniGraphReplaceMode`
+        What to do when the corresponding :class:`IniSectionGraph` to construct already exists :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``IniGraphReplaceMode.Ignore``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resType: str, resModObj: typing.Any, graphReplaceMode: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, fixedPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        fixedPath: :class:`str`
+            The file path to the fixed resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`IniFixResource`
+            The built resource
+        """
+    def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def clear(self: BaseResEdit) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self: BaseResEdit, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self: BaseResEdit, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self: BaseResEdit, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self: BaseResEdit, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
 class SectionIterData:
     """
     
@@ -11461,6 +15744,419 @@ class SympyTokenizer(FilteredTokenizer):
         
     """
     def __init__(self, setup: bool = True) -> None:
+        ...
+class TexCreate(BaseResEdit):
+    """
+    
+    This class inherits from :class:`ResCreate`
+    
+    Class that builds the necessary parts to create some new texture file
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    texName: :class:`str`
+        The name for the type of texture
+    
+    texCreator: :class:`TexCreator`
+        The editor for the texture file
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``resourceRemapTexAdd``
+    
+    fixFunc: Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]
+        The custom function for creating the texture :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    @staticmethod
+    def fileAddGraphId(file: str, graphId: str = '') -> str:
+        """
+        Adds the unique id for the :class:`IniSectionGraph` of the resource to the name of the file
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The path to the file to add the id to
+        
+        graphId: :class:`str`
+            The id to add :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file with the id added
+        """
+    @staticmethod
+    def getFileId(modObj: typing.Any, sectionName: str, part: typing.Any, orderInd: typing.SupportsInt | typing.SupportsIndex, file: str) -> str:
+        """
+        Retrieves a unique id for a file within a single .ini file
+        
+        .. note::
+            The returned value is not byte-identical to the one the pure-Python original produced -- it is
+            an opaque, within-one-run dictionary key that is never persisted or written to a file
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+            The mod object holding the newly created :class:`IniSectionGraph` for the resource
+        
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        part: :class:`IfContentPart`
+            The part where the file belongs to
+        
+        orderInd: :class:`int`
+            The specific order index where the file occurs in the part
+        
+        file: :class:`str`
+            The path for the file
+        
+        Returns
+        -------
+        :class:`str`
+            The unique id for the file
+        """
+    def __init__(self, resModObj: typing.Any, texName: str, texCreator: typing.Any, resType: str = 'resourceRemapTexAdd', fixFunc: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`RemapTexAddResource`
+            The built resource
+        """
+    def buildResModels(self: BaseResEdit, graph: typing.Any, ini: typing.Any = None, modType: typing.Any = None, resources: typing.Any = None, resourceFilter: typing.Any = None, modName: str = '', graphId: str = '', resModObj: typing.Any = None) -> None:
+        """
+        Builds and saves the resources, given the :class:`IniSectionGraph` for a resource
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph for the particular resource
+        
+        ini: Optional[:class:`IniFile`]
+            The .ini file to build the resource for
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored, keyed by the unique id for the source file (created
+            from :meth:`getFileId`). If ``None``, the models are appended to :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for -- takes the source file and its
+            assigned id :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resModObj: Optional[Tuple[:class:`int`, :class:`str`, :class:`str`]]
+            The mod object used to create the unique id for the resources :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def buildResources(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', resourceFilter: typing.Any = None, resources: typing.Any = None, copySections: bool = False) -> list:
+        """
+        Builds the :class:`IniSectionGraph` and the corresponding models for the resources
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        resourceFilter: Optional[Callable[[:class:`str`, :class:`str`], :class:`bool`]]
+            A predicate deciding which files to build the resource for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        resources: Optional[Dict[:class:`str`, Deque[:class:`IniResource`]]]
+            Where the built resource models are stored. If ``None``, they are appended to
+            :attr:`IniFile.resources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        List[:class:`IniGraphGroup`]
+            The group of graphs that now includes the newly created graph for the resource
+        
+            .. tip::
+                You can access the newly generated graph using :attr:`resModObj` on the group of graphs
+        """
+    def buildSection(self, sectionName: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Builds a `section`_ for the resource -- a single ``filename =`` `KVP`_ pointing at the ``.dds`` file
+        this edit creates
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name for the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix from
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`IfTemplate`
+            The generated `section`_
+        """
+    def clear(self: BaseResEdit) -> None:
+        """
+        Clears any saved state information
+        """
+    def collectResourceName(self: BaseResEdit, oldResourceName: str, newResourceName: str) -> tuple[str, str]:
+        """
+        Collects the name of the fixed resource `section`_ (used for the 'collectedSections' parameter in
+        :meth:`buildResources`)
+        
+        Parameters
+        ----------
+        oldResourceName: :class:`str`
+            The old name of the resource `section`_
+        
+        newResourceName: :class:`str`
+            The fixed name for the resource `section`_ (created by :meth:`getFixResourceName`)
+        
+        Returns
+        -------
+        Tuple[:class:`str`, :class:`str`]
+            A tuple where the first value is the old resource name and the second is the new resource name
+        """
+    def getFixFile(self: BaseResEdit, file: str, modType: typing.Any = None, modName: str = '', graphId: str = '') -> str:
+        """
+        Retrieves the file path to the fixed resource
+        
+        Parameters
+        ----------
+        file: :class:`str`
+            The file path to the original resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        graphId: :class:`str`
+            The unique id for the :class:`IniSectionGraph` of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The file path to the fixed resource
+        """
+    def getFixResourceName(self: BaseResEdit, resource: str, modType: typing.Any = None, modName: str = '') -> typing.Any:
+        """
+        Retrieves the name of the fixed resource `section`_
+        
+        Parameters
+        ----------
+        resource: :class:`str`
+            The name of the original resource `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The `section`_ name of the fixed resource. ``None`` indicates there was no name change between
+            the original resource and the fixed resource
+        """
+    def getResGraph(self: BaseResEdit, collectedSections: typing.Any, modType: typing.Any, ini: typing.Any, graphGroups: list, modName: str = '', rename: bool = True, copySections: bool = False) -> typing.Any:
+        """
+        Retrieves the particular :class:`IniSectionGraph` for the resource
+        
+        Parameters
+        ----------
+        collectedSections: Dict[:class:`str`, :class:`str`]
+            The target `sections`_ that reference the resource -- the keys are the old names of the
+            `sections`_ and the values are the fixed names
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        ini: Optional[:class:`IniFile`]
+            The associated original .ini file being fixed
+        
+        graphGroups: List[:class:`IniGraphGroup`]
+            The group of graphs to edit for each .ini file
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        rename: :class:`bool`
+            Whether to rename the `sections`_ for the graph :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        copySections: :class:`bool`
+            Whether to make a deep copy of the `sections`_ referenced by the graph of the resource :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`IniSectionGraph`]
+            The retrieved graph
+        """
+    def renameUncollectedSection(self: BaseResEdit, sectionName: str, modType: typing.Any = None, modName: str = '') -> str:
+        """
+        The name an uncollected `section`_ gets renamed to -- :meth:`getFixResourceName`, or the
+        `section`_'s own name when that reports no change
+        
+        Parameters
+        ----------
+        sectionName: :class:`str`
+            The name of the `section`_
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed
+        
+        modName: :class:`str`
+            The name of the mod to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`str`
+            The new name for the `section`_
+        """
+    @property
+    def fixFunc(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`RemapTexAddResource`], :class:`bool`]]: The custom function for creating
+        the texture
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def graphReplaceMode(self) -> typing.Any:
+        """
+        :class:`IniGraphReplaceMode`: What to do when the corresponding :class:`IniSectionGraph` to
+        construct already exists
+        """
+    @graphReplaceMode.setter
+    def graphReplaceMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resModObj(self) -> typing.Any:
+        """
+        Tuple[:class:`int`, :class:`str`, :class:`str`]: The mod object to hold the newly created
+        :class:`IniSectionGraph` for the resource
+        """
+    @resModObj.setter
+    def resModObj(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def resType(self) -> str:
+        """
+        :class:`str`: The name of the type of resource
+        """
+    @resType.setter
+    def resType(self, arg0: str) -> None:
+        ...
+    @property
+    def texCreator(self) -> typing.Any:
+        """
+        :class:`TexCreator`: The editor for the texture file
+        """
+    @texCreator.setter
+    def texCreator(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def texName(self) -> str:
+        """
+        :class:`str`: The name for the type of texture
+        """
+    @texName.setter
+    def texName(self, arg0: str) -> None:
         ...
 class Token:
     """

@@ -17,7 +17,7 @@ from typing import Dict, List, TYPE_CHECKING, Union
 
 ##### LocalImports
 from ....constants.FileSuffixes import FileSuffixes
-from ..iniParsers.BaseIniParser import BaseIniParser
+from ....core import BaseIniParser
 from .BaseIniFixerOld import BaseIniFixerOld
 
 if (TYPE_CHECKING):

@@ -17,12 +17,60 @@ or a ``.ini`` file even is.
 
 :raw-html:`<br />`
 
+BaseIniFixer
+============
+
+.. attributetable:: FixRaidenBoss2.BaseIniFixer
+
+.. autoclass:: FixRaidenBoss2.BaseIniFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseIniGraphEdit
+================
+
+.. attributetable:: FixRaidenBoss2.BaseIniGraphEdit
+
+.. autoclass:: FixRaidenBoss2.BaseIniGraphEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseIniGraphGroupEdit
+=====================
+
+.. attributetable:: FixRaidenBoss2.BaseIniGraphGroupEdit
+
+.. autoclass:: FixRaidenBoss2.BaseIniGraphGroupEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 BaseIniGraphPartEdit
 ====================
 
 .. attributetable:: FixRaidenBoss2.BaseIniGraphPartEdit
 
 .. autoclass:: FixRaidenBoss2.BaseIniGraphPartEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseIniParser
+=============
+
+.. attributetable:: FixRaidenBoss2.BaseIniParser
+
+.. autoclass:: FixRaidenBoss2.BaseIniParser
     :inherited-members:
     :members:
     :private-members:
@@ -47,6 +95,18 @@ BaseRegEdit
 .. attributetable:: FixRaidenBoss2.BaseRegEdit
 
 .. autoclass:: FixRaidenBoss2.BaseRegEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+BaseResEdit
+===========
+
+.. attributetable:: FixRaidenBoss2.BaseResEdit
+
+.. autoclass:: FixRaidenBoss2.BaseResEdit
     :inherited-members:
     :members:
     :private-members:
@@ -705,6 +765,66 @@ GammaFilter
 
 :raw-html:`<br />`
 
+GIMIFixer
+=========
+
+.. attributetable:: FixRaidenBoss2.GIMIFixer
+
+.. autoclass:: FixRaidenBoss2.GIMIFixer
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMIParser
+==========
+
+.. attributetable:: FixRaidenBoss2.GIMIParser
+
+.. autoclass:: FixRaidenBoss2.GIMIParser
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIMISectionClassifier
+=====================
+
+.. attributetable:: FixRaidenBoss2.GIMISectionClassifier
+
+.. autoclass:: FixRaidenBoss2.GIMISectionClassifier
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphGroupEdit
+==============
+
+.. attributetable:: FixRaidenBoss2.GraphGroupEdit
+
+.. autoclass:: FixRaidenBoss2.GraphGroupEdit
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GraphGroupRemap
+===============
+
+.. attributetable:: FixRaidenBoss2.GraphGroupRemap
+
+.. autoclass:: FixRaidenBoss2.GraphGroupRemap
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 GraphInherit
 ============
 
@@ -1029,6 +1149,18 @@ RegAdd
 
 :raw-html:`<br />`
 
+RegFillMissing
+==============
+
+.. attributetable:: FixRaidenBoss2.RegFillMissing
+
+.. autoclass:: FixRaidenBoss2.RegFillMissing
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegNewVals
 ==========
 
@@ -1059,6 +1191,90 @@ RegRemove
 .. attributetable:: FixRaidenBoss2.RegRemove
 
 .. autoclass:: FixRaidenBoss2.RegRemove
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RegSurroundedAdd
+================
+
+.. attributetable:: FixRaidenBoss2.RegSurroundedAdd
+
+.. autoclass:: FixRaidenBoss2.RegSurroundedAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemapBlendReplace
+=================
+
+.. attributetable:: FixRaidenBoss2.RemapBlendReplace
+
+.. autoclass:: FixRaidenBoss2.RemapBlendReplace
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResCreate
+=========
+
+.. attributetable:: FixRaidenBoss2.ResCreate
+
+.. autoclass:: FixRaidenBoss2.ResCreate
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResGroupCollect
+===============
+
+.. attributetable:: FixRaidenBoss2.ResGroupCollect
+
+.. autoclass:: FixRaidenBoss2.ResGroupCollect
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResIdentity
+===========
+
+.. attributetable:: FixRaidenBoss2.ResIdentity
+
+.. autoclass:: FixRaidenBoss2.ResIdentity
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResRegCollect
+=============
+
+.. attributetable:: FixRaidenBoss2.ResRegCollect
+
+.. autoclass:: FixRaidenBoss2.ResRegCollect
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ResReplace
+==========
+
+.. attributetable:: FixRaidenBoss2.ResReplace
+
+.. autoclass:: FixRaidenBoss2.ResReplace
     :inherited-members:
     :members:
     :private-members:
@@ -1115,6 +1331,18 @@ TempControl
 .. attributetable:: FixRaidenBoss2.TempControl
 
 .. autoclass:: FixRaidenBoss2.TempControl
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+TexCreate
+=========
+
+.. attributetable:: FixRaidenBoss2.TexCreate
+
+.. autoclass:: FixRaidenBoss2.TexCreate
     :inherited-members:
     :members:
     :private-members:
@@ -2009,36 +2237,12 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. BaseIniParser
-.. ~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.BaseIniParser
-
-.. .. autoclass:: FixRaidenBoss2.BaseIniParser
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
 .. IniParseBuilder
 .. ~~~~~~~~~~~~~~~~
 
 .. .. attributetable:: FixRaidenBoss2.IniParseBuilder
 
 .. .. autoclass:: FixRaidenBoss2.IniParseBuilder
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. GIMIParser
-.. ~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.GIMIParser
-
-.. .. autoclass:: FixRaidenBoss2.GIMIParser
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:
@@ -2065,36 +2269,12 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. BaseIniFixer
-.. ~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.BaseIniFixer
-
-.. .. autoclass:: FixRaidenBoss2.BaseIniFixer
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
 .. IniFixBuilder
 .. ~~~~~~~~~~~~~
 
 .. .. attributetable:: FixRaidenBoss2.IniFixBuilder
 
 .. .. autoclass:: FixRaidenBoss2.IniFixBuilder
-..     :inherited-members:
-..     :members:
-..     :private-members:
-
-.. :raw-html:`<br />`
-
-.. GIMIFixer
-.. ~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.GIMIFixer
-
-.. .. autoclass:: FixRaidenBoss2.GIMIFixer
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:

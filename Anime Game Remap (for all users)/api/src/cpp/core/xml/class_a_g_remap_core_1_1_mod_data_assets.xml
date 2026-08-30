@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_mod_data_assets" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ModDataAssets</compoundname>
+    <includes refid="_mod_data_assets_8h" local="no">ModDataAssets.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_data_assets_1ad2c2a5c9c47a628a16a1a36f60b54959" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ModDataAssets::ModDataAssets</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ModDataAssets</name>
+        <qualifiedname>AGRemapCore::ModDataAssets::ModDataAssets</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/ModDataAssets.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_data_assets_1ab97d207a3c42dd908cea072acfc33b7d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remaps" kindref="compound">VGRemaps</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; VGRemaps &gt; &amp; AGRemapCore::ModDataAssets::vgRemaps</definition>
+        <argsstring>()</argsstring>
+        <name>vgRemaps</name>
+        <qualifiedname>AGRemapCore::ModDataAssets::vgRemaps</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared :cpp:class:`VGRemaps`, lazily constructed on first access and reused for
+every later call -- what :cpp:member:`ModType::vgRemaps` falls back to
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   This is genuinely **shared**: :cpp:class:`ModAssets` is mutable, so anything adding
+   rows to the table returned here changes it for every :cpp:class:`ModType` that fell
+   back to it. That is the pure-Python behaviour too (its ``ModType`` default is
+   ``ModDataAssets.VGRemaps.value``, not a fresh ``VGRemaps()``). Construct a
+   :cpp:class:`VGRemaps` directly if an independent table is wanted
+</verbatim></para>
+<para><simplesect kind="return"><para>The shared vertex group remap table </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/ModDataAssets.h" line="54" column="42" bodyfile="src/data/ModDataAssets.cpp" bodystart="5" bodyend="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Global, shared asset tables used by the software :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors the pure-Python ``ModDataAssets`` class (``data/ModDataAssets.py``) -- a
+``DeferredEnum`` there, lazily building each table the first time it is accessed.
+#vgRemaps below gets the same lazy, build-once-then-reuse behavior from a C++11 function-local
+``static`` (guaranteed thread-safe, exactly-once initialization), exactly as
+:cpp:class:`GlobalIniClassifiers` and :cpp:class:`GlobalIniRemoveBuilders` do
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Only #vgRemaps is exposed so far, because it is the only one :cpp:class:`ModType` actually
+   falls back to. The pure-Python original also holds ``VertexCounts``, ``PositionEditors``,
+   ``IniParseBuilderArgs`` and ``IniFixBuilderArgs``; the C++ equivalents of the last two live
+   on :cpp:class:`IniParseBuilderData`/:cpp:class:`IniFixBuilderData` instead, and
+   :cpp:class:`ModType` builds its own :cpp:class:`VertexCounts` per instance rather than
+   sharing one. Add entries here as more of them need to be shared
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/ModDataAssets.h" line="32" column="5" bodyfile="include/AGRemapCore/data/ModDataAssets.h" bodystart="32" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_data_assets_1ad2c2a5c9c47a628a16a1a36f60b54959" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDataAssets</scope><name>ModDataAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_data_assets_1ab97d207a3c42dd908cea072acfc33b7d" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDataAssets</scope><name>vgRemaps</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

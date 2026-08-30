@@ -17,12 +17,12 @@ from typing import Type, List, Any, Dict, Optional, Union, Callable, Tuple, TYPE
 ##### EndExtImports
 
 ##### LocalImports
-from ..iniParsers.BaseIniParser import BaseIniParser
+from ....core import BaseIniParser
+from ....core import BaseIniFixer
 from ....tools.Builder import Builder
 
 if (TYPE_CHECKING):
     from ...assets.IniFixBuilderArgs import IniFixBuilderArgs
-    from .BaseIniFixer import BaseIniFixer
 ##### EndLocalImports
 
 

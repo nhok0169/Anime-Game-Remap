@@ -13,22 +13,36 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+#include "AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
 
 
 namespace AGRemapCore {
     IniFile::IniFile(std::optional<std::string> file, std::string txt, std::optional<int> gameTypeId,
-                      std::optional<std::unordered_set<int>> filteredModTypeIds,
-                      std::optional<std::unordered_set<int>> forcedModTypeIds,
+                      std::optional<std::unordered_set<int>> filteredFromModTypeIds,
+                      std::optional<std::unordered_set<int>> forcedFromModTypeIds,
                       std::optional<std::unordered_map<int, ModType>> overrideModTypes,
-                      BaseIniClassifier* iniClassifier):
+                      BaseIniClassifier* iniClassifier,
+                      std::optional<ParseData> parseData,
+                      DownloadMode downloadMode,
+                      std::optional<Version> fromVersion,
+                      std::optional<Version> toVersion,
+                      std::optional<std::unordered_set<std::string>> filteredToModTypeNames):
+        downloadMode(downloadMode),
+        fromVersion(std::move(fromVersion)),
+        toVersion(std::move(toVersion)),
+        filteredToModTypeNames(std::move(filteredToModTypeNames)),
         file_(std::move(file)),
         gameTypeId_(gameTypeId),
-        filteredModTypeIds_(std::move(filteredModTypeIds)),
-        forcedModTypeIds_(std::move(forcedModTypeIds)),
+        filteredFromModTypeIds_(std::move(filteredFromModTypeIds)),
+        forcedFromModTypeIds_(std::move(forcedFromModTypeIds)),
         overrideModTypes_(overrideModTypes.has_value() ? std::move(*overrideModTypes) : std::unordered_map<int, ModType>()),
-        iniClassifier_(iniClassifier != nullptr ? iniClassifier : &GlobalIniClassifiers::classifier()) {
+        iniClassifier_(iniClassifier != nullptr ? iniClassifier : &GlobalIniClassifiers::classifier()),
+        parseData_(std::move(parseData)) {
         // Matches the pure-Python original's own "_setupFileLines" -- a file-backed IniFile isn't
         // read from disk until something actually asks for it (see #readFileLines); a file-less one
         // has no other source of data, so the constructor's 'txt' is used immediately.
@@ -61,59 +75,252 @@ namespace AGRemapCore {
         return modTypes;
     }
 
-    void IniFile::setFixer(BaseIniFixer* fixer) {
-        fixer_ = fixer;
+    const std::optional<IniFile::ParseData>& IniFile::getParseData() const {
+        return parseData_;
     }
 
-    BaseIniFixer* IniFile::getFixer() const {
-        return fixer_;
+    std::optional<IniFile::ParseData>& IniFile::getParseData() {
+        return parseData_;
     }
 
-    std::unordered_map<int, std::vector<IniGraphGroup>> IniFile::parse(bool flushIfTemplates) {
+    void IniFile::clearRead(bool eraseSourceTxt) {
+        // Matches the pure-Python original's own 'clearRead': for a file-less .ini file, fileTxt_ is
+        // the only source of data there is, so it's kept unless the caller explicitly asks for it to
+        // go too.
+        if (!file_.has_value() && !eraseSourceTxt) {
+            return;
+        }
+
+        fileLines_.clear();
+        fileTxt_.clear();
+        fileLinesRead_ = false;
+        isFixed = false;
+    }
+
+    void IniFile::clear(bool eraseSourceTxt) {
+        clearRead(eraseSourceTxt);
+
+        isMod = false;
+        isFixed = false;
+        modTypes.clear();
+        isClassified_ = false;
+
+        ifTemplatesRead_ = false;
+
+        // Order matters: the IfTemplates hold predicates built against z3Ctx_, so they have to go
+        // before it is replaced.
+        sectionIfTemplates_.clear();
+
+        // A fresh context rather than an in-place clear, exactly as the pure-Python original does
+        // ("self._z3Ctx = Z3Context()"). Z3Context is move-assignable but not copyable.
+        z3Ctx_ = Z3Context();
+
+        parseData_.reset();
+
+        // Matches the pure-Python original's own "self._iniParser = None" / "self._iniFixer = None"
+        // in clear(). Both are bound to this file's now-discarded state, so neither can be reused --
+        // the next parse()/fix() builds fresh ones.
+        //
+        // Order matters: a built fixer holds a non-owning pointer into its built parser
+        // (BaseIniFixer::getParser), so the fixers have to go first.
+        builtFixers_.clear();
+        builtParsers_.clear();
+    }
+
+    BaseIniParser<>* IniFile::getParser(int modTypeId, ModType& modType) {
+        // Keyed by the id 'modTypes' filed this ModType under, NOT by ModType::modTypeId -- the
+        // constructor's 'overrideModTypes' argument is free to file a ModType under an id its own
+        // modTypeId doesn't match (the classify tests rely on exactly that), and the parse data
+        // this parser feeds is keyed the same way.
+        auto it = builtParsers_.find(modTypeId);
+        if (it != builtParsers_.end()) {
+            return it->second.get();
+        }
+
+        // The equivalent of the pure-Python original's "_getParser" returning None -- a mod type
+        // with no builder at all simply contributes nothing.
+        if (modType.iniParseBuilder == nullptr) {
+            return nullptr;
+        }
+
+        // The whole point of holding a builder rather than a parser: 'fromVersion' is this file's
+        // own, so two .ini files of the same mod type but different game versions get the parser
+        // each one actually needs. Mirrors the original's
+        // "iniParseBuilder.build(self, modName = ..., version = self.version)".
+        std::shared_ptr<BaseIniParser<>> parser = modType.iniParseBuilder->build(this, modType.name, fromVersion);
+        if (parser == nullptr) {
+            return nullptr;
+        }
+
+        return builtParsers_.emplace(modTypeId, std::move(parser)).first->second.get();
+    }
+
+    const std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>>& IniFile::getFixers(int modTypeId, ModType& modType) {
+        auto it = builtFixers_.find(modTypeId);
+        if (it != builtFixers_.end()) {
+            return it->second;
+        }
+
+        // Cached even when the answer is "none", so a repeat fix() doesn't re-run the lookup. The
+        // empty vector is a legitimate result, not a "not computed yet" marker.
+        std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>> fixers;
+
+        if (modType.iniFixBuilder != nullptr) {
+            // A fixer is built *from the parser*, not from the file -- so a mod type whose parser
+            // could not be built gets no fixers either. That mirrors the pure-Python original's
+            // '_getFixer', which is guarded on "self._iniParser is not None" for exactly this
+            // reason.
+            BaseIniParser<>* parser = getParser(modTypeId, modType);
+            if (parser != nullptr) {
+                // One fixer per target mod: the (fromVersion, fromModName, toVersion) triple is
+                // held fixed and the target mod is the axis fanned out over. filteredToModTypeNames
+                // narrows which targets are built; std::nullopt means all of them.
+                fixers = modType.iniFixBuilder->buildAll(parser, modType.name, fromVersion, toVersion,
+                                                          filteredToModTypeNames);
+            }
+        }
+
+        return builtFixers_.emplace(modTypeId, std::move(fixers)).first->second;
+    }
+
+    std::vector<IniGraphGroup<>> IniFile::parseModType(int modTypeId, ModType& modType) {
+        BaseIniParser<>* parser = getParser(modTypeId, modType);
+        if (parser == nullptr) {
+            return {};
+        }
+
+        // No setIniFile here, unlike the earlier shared-parser design: the builder hands back a
+        // parser already bound to this file.
+        parser->clear();
+        return parser->parse();
+    }
+
+    IniFile::ParseData& IniFile::parse(bool flushIfTemplates) {
         if (!isClassified_) {
             classify();
         }
 
+        // Parsing has now happened, even if it finds nothing -- so the result is always a present
+        // (if possibly empty) optional afterwards. That present-but-empty state is what stops fix()
+        // from re-parsing.
+        ParseData& result = parseData_.emplace();
+
         // The equivalent of the pure-Python original's "if (self.availableType is None): return"
         // -- nothing recognized this .ini file as belonging to any mod, so there's nothing to parse.
         if (modTypes.empty()) {
-            return {};
+            return result;
         }
 
         getIfTemplates(flushIfTemplates);
-
-        std::unordered_map<int, std::vector<IniGraphGroup>> result;
 
         // The pure-Python original has exactly one 'availableType' and so parses exactly once; a
         // C++ IniFile can be classified as several ModTypes at once, so each one's own parser runs
         // and its results are keyed by that mod type's id.
         for (auto& entry : modTypes) {
-            int modTypeId = entry.first;
-            BaseIniParser* parser = entry.second.iniParser.get();
-
-            // The equivalent of the original's "_getParser" returning None -- that mod type simply
-            // contributes no entry, rather than aborting the whole parse.
-            if (parser == nullptr) {
+            if (entry.second.iniParseBuilder == nullptr) {
+                // That mod type simply contributes no entry, rather than aborting the whole parse.
                 continue;
             }
 
-            // A ModType's parser is shared and starts unbound (a ModType describes a kind of mod,
-            // not one specific file), so it has to be pointed at this file before use -- see
-            // ModType::iniParser for the concurrency caveat this implies.
-            parser->setIniFile(this);
-            parser->clear();
-            result.emplace(modTypeId, parser->parse());
+            result.emplace(entry.first, parseModType(entry.first, entry.second));
         }
 
         return result;
     }
 
     std::unordered_map<std::string, std::string> IniFile::fix(bool keepBackup, bool fixOnly, bool hideOrig) {
-        if (fixer_ == nullptr) {
-            return {};
+        if (!isClassified_) {
+            classify();
         }
 
-        return fixer_->fix(keepBackup, fixOnly, hideOrig);
+        std::unordered_map<std::string, std::string> result;
+        if (modTypes.empty()) {
+            return result;
+        }
+
+        if (!parseData_.has_value()) {
+            parseData_.emplace();
+        }
+
+        for (auto& entry : modTypes) {
+            int modTypeId = entry.first;
+            ModType& modType = entry.second;
+
+            // Reuse this mod type's existing parse data when there is some, otherwise parse it now
+            // and cache it, so a later parse()/fix() doesn't redo the work. Done before getFixer()
+            // so the parser it binds to is the same one that produced this data.
+            auto parsedIt = parseData_->find(modTypeId);
+            if (parsedIt == parseData_->end()) {
+                getIfTemplates();
+                parsedIt = parseData_->emplace(modTypeId, parseModType(modTypeId, modType)).first;
+            }
+
+            // One fixer per target mod this source mod fixes to -- Jean, for instance, fixes to both
+            // JeanCN and JeanSea, so both run against the same parse data. An empty list is the
+            // equivalent of the original's "_getFixer" returning None (no fix builder, no parser to
+            // build against, or every target filtered out by filteredToModTypeNames): that mod type
+            // simply contributes nothing rather than aborting the whole fix.
+            const std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>>& fixers =
+                getFixers(modTypeId, modType);
+
+            for (const std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>& fixerEntry : fixers) {
+                if (fixerEntry.second == nullptr) {
+                    continue;
+                }
+
+                BaseIniFixer<>::FixResult modTypeFix =
+                    fixerEntry.second->fix(parsedIt->second, keepBackup, fixOnly, hideOrig);
+
+                // Combine into the running result. A plain overwrite -- see this method's doc
+                // comment on what happens when two fixers target the same file path.
+                for (auto& fixEntry : modTypeFix) {
+                    result[fixEntry.first] = std::move(fixEntry.second);
+                }
+            }
+        }
+
+        return result;
+    }
+
+    std::string IniFile::removeFix(bool parse, bool writeBack) {
+        // The pure-Python original leans on its own "_readLines" decorator for this, per remover;
+        // doing it once up front here is the same guarantee without the decorator machinery.
+        if (!fileLinesRead_) {
+            readFileLines();
+        }
+
+        if (!isClassified_) {
+            classify();
+        }
+
+        // Nothing ran, so the file's content is whatever it already was.
+        std::string result = fileTxt_;
+
+        for (auto& entry : modTypes) {
+            // That mod type simply contributes nothing, rather than aborting the whole removal.
+            if (entry.second.iniRemoveBuilder == nullptr) {
+                continue;
+            }
+
+            // Asked for on every call rather than cached into a builtRemovers_ map the way parsers
+            // and fixers are. That is deliberate, and the one place this diverges from the
+            // pure-Python original (which caches into 'self._iniRemover'): IniRemoveBuilder is a
+            // *flyweight*, so the instance it returns may be shared with other IniFiles, and only
+            // build() re-points it at this file. Calling it every time is what keeps the binding
+            // correct; caching the pointer here would reintroduce the original's stale-binding
+            // hazard for no gain, since a cache hit inside build() is already cheap.
+            std::shared_ptr<BaseIniRemover> remover =
+                entry.second.iniRemoveBuilder->build(this, entry.second.name, fromVersion);
+            if (remover == nullptr) {
+                continue;
+            }
+
+            // The removers chain: each one strips its own mod type's fix out of the same file, so
+            // the last one's return value is the file's final content.
+            result = remover->remove(parse, writeBack);
+        }
+
+        return result;
     }
 
     void IniFile::setFileTxt(std::string txt) {
@@ -204,14 +411,14 @@ namespace AGRemapCore {
 
         modTypes.clear();
 
-        if (forcedModTypeIds_.has_value()) {
+        if (forcedFromModTypeIds_.has_value()) {
             bool isFixedResult = false;
             bool isModResult = false;
             iniClassifier_->checkIsFixedMod(fileLines_, &isFixedResult, &isModResult, gameTypeIdEnum);
             isFixed = isFixedResult;
             isMod = isModResult;
 
-            for (int modTypeId : *forcedModTypeIds_) {
+            for (int modTypeId : *forcedFromModTypeIds_) {
                 std::optional<ModType> modType = getModType(modTypeId);
                 if (modType.has_value()) {
                     modTypes.emplace(modTypeId, *modType);
@@ -230,7 +437,7 @@ namespace AGRemapCore {
 
         for (const auto& entry : stats.modType) {
             int modTypeId = entry.first;
-            if (filteredModTypeIds_.has_value() && !filteredModTypeIds_->contains(modTypeId)) {
+            if (filteredFromModTypeIds_.has_value() && !filteredFromModTypeIds_->contains(modTypeId)) {
                 continue;
             }
 

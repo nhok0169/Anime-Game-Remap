@@ -1,0 +1,1253 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_reg_fill_missing" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegFillMissing</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_reg_fill_missing_8h" local="no">RegFillMissing.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" prot="public">AGRemapCore::RegFillMissing::PartSelection</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1ae837f786b032c9fd7067dbcf56e6c28f" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" kindref="compound">BaseIniGraphEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph this edits.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = typename Base::PartFilter</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate the valid order indices to process for some
+:cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
+matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
+convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
+for that original&apos;s ``partFilter = None``. Identical to
+:cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1aea693172dc3907fa2603ab6182ac53dc" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">Base::IterData</ref></type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::IterData = typename Base::IterData</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" kindref="member">PartFilter</ref> is handed.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a0b3fee01b93b7422c09ef8c68bd2a7db" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" kindref="member">Base::OrderRanges</ref></type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = typename Base::OrderRanges</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices a #PartFilter returns -- ``long long`` because
+that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="61" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a37257b4bb23d8553a8b6de2ab8067760" prot="public" static="no">
+        <type>typename Graph::Section</type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::Section = typename Graph::Section</definition>
+        <argsstring></argsstring>
+        <name>Section</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::Section</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>sections</computeroutput>_ this edit walks over. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a35ed222f4eb735c86827a65c32f27e92" prot="public" static="no">
+        <type>typename Graph::ContentPart</type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = typename Graph::ContentPart</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The parts this edit fills. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a5849733d18ee0ec406d56b11f430ab9d" prot="public" static="no">
+        <type>typename Graph::Colouring</type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::Colouring = typename Graph::Colouring</definition>
+        <argsstring></argsstring>
+        <name>Colouring</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::Colouring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The running `KVP`_ state a \ref PartSelection::partFilter can inspect, when
+\ref trackKeys is on
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = typename Base::KeySet</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::KeySet</qualifiedname>
+        <briefdescription>
+<para>A set of the keys to keep track of for colouring.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="85" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a35ed222f4eb735c86827a65c32f27e92" kindref="member">ContentPart</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::FillMissingFunc = std::function&lt;void(ContentPart&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>FillMissingFunc</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::FillMissingFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How to fill one :cpp:class:`IfContentPart` that is missing \ref reg :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Whether new `KVPs`_ land at the front or the back of a part is **already baked into
+   the function** by the time one of these exists -- see \ref makeFillMissing&apos;s
+   ``toFront``. The pure-Python original decided that per edit, from
+   :cpp:member:`fillMode`, inside its own ``_getFillMissingFunc``; a caller who
+   reassigns \ref fillMode after construction has to rebuild \ref fillMissing to match
+   (which is exactly what the `pybind11`_ layer does, on every single ``edit`` call)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1a1c32e9c060a43ea0dfb6eeeaae4ba0e6" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::reg</qualifiedname>
+        <briefdescription>
+<para>The register to search for. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="174" column="15" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1a505d5747520ec87e7ca01f34f92f5263" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref></type>
+        <definition>FillMissingFunc AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::fillMissing</definition>
+        <argsstring></argsstring>
+        <name>fillMissing</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::fillMissing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+How to fill :cpp:class:`IfContentPart`\\s that are missing \ref reg -- see
+#FillMissingFunc. An empty function makes every mode a no-op
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="183" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ad376f5769818acdfb3d0b187b3b08d67" prot="public" static="no" mutable="no">
+        <type><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" kindref="member">RegFillMissingMode</ref></type>
+        <definition>RegFillMissingMode AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::fillMode</definition>
+        <argsstring></argsstring>
+        <name>fillMode</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::fillMode</qualifiedname>
+        <initializer>= <ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kindref="member">RegFillMissingMode::FillMissing</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What mode is used to search for and fill the missing register :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: :cpp:enumerator:`RegFillMissingMode::FillMissing`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="194" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac2e5ee05e28df2bfdfdbe6cc72731994" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::dependOnDownload</definition>
+        <argsstring></argsstring>
+        <name>dependOnDownload</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::dependOnDownload</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the editing is dependent on :cpp:member:`IniFile::downloadMode` -- see
+\ref editFromIni :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="205" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::trackKeys</definition>
+        <argsstring></argsstring>
+        <name>trackKeys</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::trackKeys</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to track the `KVPs`_ seen so far for colouring while walking the graph, so the
+``partFilter`` handed to \ref edit gets a populated
+:cpp:member:`SectionIterData::colouring` to decide from -- see
+\ref PartSelection::trackKeys :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is **combined with**, not replaced by, the ``trackKeys`` \ref edit is handed by
+   its caller (:cpp:class:`GraphGroupEdit` passes its own down). Either side asking for
+   tracking is enough -- see \ref effectiveTrackKeys
+</verbatim></para>
+<para><bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="223" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="223" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt;</type>
+        <definition>std::optional&lt;KeySet&gt; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::keysToTrack</definition>
+        <argsstring></argsstring>
+        <name>keysToTrack</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::keysToTrack</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which keys \ref trackKeys should colour, or ``std::nullopt`` for **every** key -- see
+\ref PartSelection::keysToTrack :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   When this is set it **overrides** the ``keysToTrack`` \ref edit is handed by its
+   caller; when it is ``std::nullopt`` the caller&apos;s is inherited instead -- see
+   \ref effectiveKeysToTrack
+</verbatim></para>
+<para><bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="239" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a05e9b6d54e9e8a1034cc6444ff327f3f" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::RegFillMissing</definition>
+        <argsstring>(K reg=K(), FillMissingFunc fillMissing={}, RegFillMissingMode fillMode=RegFillMissingMode::FillMissing, bool dependOnDownload=false, bool trackKeys=false, std::optional&lt; KeySet &gt; keysToTrack=std::nullopt)</argsstring>
+        <name>RegFillMissing</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::RegFillMissing</qualifiedname>
+        <param>
+          <type>K</type>
+          <declname>reg</declname>
+          <defval>K()</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref></type>
+          <declname>fillMissing</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" kindref="member">RegFillMissingMode</ref></type>
+          <declname>fillMode</declname>
+          <defval><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kindref="member">RegFillMissingMode::FillMissing</ref></defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>dependOnDownload</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new missing-register-filling edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to search for </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fillMissing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How to fill the parts missing &apos;reg&apos; <ndash/> see <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fillMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What mode used to search and fill the missing register. <bold>Default</bold>: <computeroutput><ref refid="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106ab09082129e5162de4092eba7e8775807" kindref="member">RegFillMissingMode::FillMissing</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dependOnDownload</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the editing is dependent on the .ini file&apos;s download mode. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to track <computeroutput>KVPs</computeroutput>_ for colouring while walking the graph. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which keys to track, or <computeroutput>std::nullopt</computeroutput> for all of them. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="251" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::effectiveTrackKeys</definition>
+        <argsstring>(bool callerTrackKeys) const</argsstring>
+        <name>effectiveTrackKeys</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::effectiveTrackKeys</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>callerTrackKeys</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Combines this edit&apos;s own \ref trackKeys with the one its caller handed down
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Either side asking for tracking is enough (a plain ``||``). A populated colouring is
+strictly more information for a ``partFilter`` than none, and this edit&apos;s own
+``trackKeys`` is a plain ``bool`` whose ``false`` cannot be told apart from &quot;not set&quot; --
+so there is deliberately no way to opt *out* of a caller&apos;s tracking. Turning it off is
+only ever a performance choice; it never changes which parts get filled
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callerTrackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-tracking default handed down by the caller</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether to track keys for this edit </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="300" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
+        <definition>const std::optional&lt; KeySet &gt; &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::effectiveKeysToTrack</definition>
+        <argsstring>(const std::optional&lt; KeySet &gt; &amp;callerKeysToTrack) const</argsstring>
+        <name>effectiveKeysToTrack</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::effectiveKeysToTrack</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>callerKeysToTrack</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Picks between this edit&apos;s own \ref keysToTrack and the one its caller handed down
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This edit&apos;s own set wins when it has one; otherwise the caller&apos;s is inherited. Note that
+``std::nullopt`` on **both** sides still means &quot;every key&quot; once tracking is on -- this
+resolves *which* set to use, not whether the result is narrowing
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>callerKeysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The key-tracking key set handed down by the caller</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The key set to colour with </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="317" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt) override</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::editFromIni</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6">editFromIni</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fills the parts of &apos;graph&apos; missing \ref reg, honouring
+:cpp:member:`IniFile::downloadMode` when \ref dependOnDownload is set :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+With \ref dependOnDownload unset this is just \ref edit. Otherwise
+:cpp:enumerator:`DownloadMode::Disabled` skips the edit entirely, and
+:cpp:enumerator:`DownloadMode::Always` normalizes the graph&apos;s branching structure
+first, so that a part missing the register on *some* branch is guaranteed to be its own
+:cpp:class:`IfContentPart` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``nullptr`` &apos;ini&apos; reads as :cpp:enumerator:`DownloadMode::Normal` -- the mode that
+adds no download-specific behaviour of its own :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike the pure-Python original -- which called ``self.edit(graph, modType,
+   modName = modName)`` with no ``partFilter`` at all -- this **forwards** &apos;partFilter&apos;
+   to \ref edit. Dropping it would silently disable the whole part-selection feature
+   for exactly the callers that supply a filter: :cpp:class:`GraphGroupEdit` routes
+   through ``editFromIni`` (not ``edit``) whenever it has an ``.ini`` file
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file, read for its own download mode, and handed to &apos;partFilter&apos;. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold>. Only handed to &apos;partFilter&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which parts may be filled <ndash/> empty accepts every part. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> combined with <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" kindref="member">trackKeys</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> overridden by <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" kindref="member">keysToTrack</ref> when set. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="409" column="19"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fills the parts of &apos;graph&apos; missing \ref reg, by whichever strategy \ref fillMode names
+-- \ref fillMissingGraph for :cpp:enumerator:`RegFillMissingMode::FillMissing`,
+\ref addCover for :cpp:enumerator:`RegFillMissingMode::TopdownCover` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+&apos;partFilter&apos; restricts *which* parts (or, under
+:cpp:enumerator:`RegFillMissingMode::TopdownCover`, which roots) are filled -- an empty
+:cpp:class:`Ranges` result skips that one. Together with \ref trackKeys /
+\ref keysToTrack it forms the \ref PartSelection this hands down :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original accepted &apos;partFilter&apos; and dropped it, so this edit applied
+   to every missing part unconditionally. Honouring it is a deliberate behaviour
+   change; an omitted/empty filter still fills everything, exactly as before
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix <ndash/> not read here, only handed to &apos;partFilter&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which parts may be filled <ndash/> empty accepts every part. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default <ndash/> combined with <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" kindref="member">trackKeys</ref> via <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" kindref="member">effectiveTrackKeys</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set <ndash/> resolved by <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" kindref="member">effectiveKeysToTrack</ref>. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="442" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref></type>
+        <definition>static FillMissingFunc AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::makeFillMissing</definition>
+        <argsstring>(K reg, V value, bool toFront=false)</argsstring>
+        <name>makeFillMissing</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::makeFillMissing</qualifiedname>
+        <param>
+          <type>K</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>V</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>toFront</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a #FillMissingFunc adding the single `KVP`_ ``reg = value`` to a part
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The value to add for &apos;reg&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toFront</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the <computeroutput>KVP</computeroutput>_ is added to the front of the part instead of the back. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The filler </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="268" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref></type>
+        <definition>static FillMissingFunc AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::makeFillMissing</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; K, V &gt; &gt; kvps, bool toFront=false)</argsstring>
+        <name>makeFillMissing</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::makeFillMissing</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
+          <declname>kvps</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>toFront</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds a #FillMissingFunc adding every `KVP`_ in &apos;kvps&apos; to a part
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>kvps</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>KVPs</computeroutput>_ to add </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toFront</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the <computeroutput>KVPs</computeroutput>_ are added to the front of the part instead of the back. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The filler </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="281" column="36"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>static Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::fillMissingGraph</definition>
+        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={})</argsstring>
+        <name>fillMissingGraph</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::fillMissingGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref> &amp;</type>
+          <declname>fillMissing</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kindref="compound">PartSelection</ref> &amp;</type>
+          <declname>selection</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fills the :cpp:class:`IfContentPart`\\s from &apos;graph&apos; that are missing &apos;reg&apos;
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A part reachable from more than one `section`_ is filled exactly once :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   &apos;selection&apos; narrows *which* of the missing parts actually get filled. A
+   default-constructed &apos;selection&apos; accepts all of them and skips the graph walk
+   entirely, so the no-selection case costs exactly what it did before this parameter
+   existed
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to search, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fillMissing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function to modify the parts that are missing the desired register </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which of the missing parts may be filled. <bold>Default</bold>: accept every part</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, with its missing parts filled </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="342" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>static Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::addCover</definition>
+        <argsstring>(Graph &amp;graph, const K &amp;reg, const FillMissingFunc &amp;fillMissing, const PartSelection &amp;selection={})</argsstring>
+        <name>addCover</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::addCover</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const K &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" kindref="member">FillMissingFunc</ref> &amp;</type>
+          <declname>fillMissing</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection" kindref="compound">PartSelection</ref> &amp;</type>
+          <declname>selection</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fills a fresh top :cpp:class:`IfContentPart` at each of &apos;graph&apos;&apos;s roots, if &apos;reg&apos; is
+missing in some :cpp:class:`IfContentPart` of &apos;graph&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Nothing is added at all when every root already fully covers &apos;reg&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   &apos;selection&apos; narrows *which roots* get covered. Its ``partFilter`` is asked once per
+   root, against that root&apos;s own first :cpp:class:`IfContentPart` (the part
+   :cpp:func:`IfTemplate::addTopContentPart` would reuse or insert before) -- a root
+   with no :cpp:class:`IfContentPart` at all is accepted, there being nothing to
+   discriminate on. The colouring handed over is **empty by construction**: nothing
+   precedes a root, so ``sectionName``/``section`` are the useful discriminators here,
+   not the tracked `KVPs`_
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to search, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The register to search </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fillMissing</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function to modify the parts that are missing the desired register </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>selection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which roots may be covered. <bold>Default</bold>: accept every root</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, with its roots covered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="372" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;::editImpl</definition>
+        <argsstring>(Graph &amp;graph, IniFile *ini, const ModType *modType, const std::string &amp;modName, const PartFilter &amp;partFilter, bool trackKeys, const std::optional&lt; KeySet &gt; &amp;keysToTrack)</argsstring>
+        <name>editImpl</name>
+        <qualifiedname>AGRemapCore::RegFillMissing::editImpl</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared body of \ref edit and \ref editFromIni :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Exists so a ``partFilter`` reached through \ref editFromIni is handed the **real**
+``.ini`` file rather than ``nullptr``: \ref edit&apos;s own signature (inherited from
+:cpp:class:`BaseIniGraphEdit`) has nowhere to carry one, so routing both entry points
+through here is what lets the ``.ini``-aware caller keep it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file, handed to &apos;partFilter&apos;. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix, handed to &apos;partFilter&apos;. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which parts may be filled <ndash/> empty accepts every part </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default, combined with this edit&apos;s own via <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" kindref="member">effectiveTrackKeys</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set, resolved against this edit&apos;s own via <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" kindref="member">effectiveKeysToTrack</ref></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="469" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphEdit`
+
+Fills the :cpp:class:`IfContentPart`\\s of some caller/callee graph that are missing a
+particular register
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="35" bodyend="472"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aee8de30eef8ee5377083a0cc136c040a" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>addCover</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ae837f786b032c9fd7067dbcf56e6c28f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5849733d18ee0ec406d56b11f430ab9d" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Colouring</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a35ed222f4eb735c86827a65c32f27e92" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2e5ee05e28df2bfdfdbe6cc72731994" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>dependOnDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab56a1cae31a17339171eb4b7369a4c47" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aaded3ba4cce6cef2b6de20023850ceb1" prot="private" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>editImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab662ecedf37ce8afb5213bf1e2348b32" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>effectiveKeysToTrack</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac07db5389064c81ba5d8fb38a68353d8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>effectiveTrackKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a505d5747520ec87e7ca01f34f92f5263" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>fillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ac2f376fcae563e7da08534e9086a13c0" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>FillMissingFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aead95cbdb950e99aca4384e1e3eb19be" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>fillMissingGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ad376f5769818acdfb3d0b187b3b08d67" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>fillMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a5b8da1413e84c3588c27723e6fcb7d41" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1aea693172dc3907fa2603ab6182ac53dc" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1ac8560969aee969e922a07fe9aa4474" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>keysToTrack</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a550c8407da76f287025fab9143959a4f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>makeFillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1abb20e4e069fa2f522157a40bdbe2fe29" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>makeFillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a0b3fee01b93b7422c09ef8c68bd2a7db" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab5eea13f019e0c2edd62ad863a11aeef" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1c32e9c060a43ea0dfb6eeeaae4ba0e6" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>reg</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a05e9b6d54e9e8a1034cc6444ff327f3f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>RegFillMissing</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1a37257b4bb23d8553a8b6de2ab8067760" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_fill_missing_1ab9a6a988065723e69cfc492a7511c951" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing</scope><name>trackKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegFillMissing</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

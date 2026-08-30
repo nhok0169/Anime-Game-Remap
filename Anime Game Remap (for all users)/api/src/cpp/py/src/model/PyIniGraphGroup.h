@@ -30,14 +30,11 @@ class PyIniGraphGroup {
         pybind11::object removeGraph(pybind11::object modObj);
 
         // Calls '.toStr(autoindent=autoindent)' on each graph in #graphs and joins the non-empty
-        // results with "\n\n" -- faithful port of the pure-Python original's own toStr(). NOTE: no
-        // real call site anywhere in the live codebase actually calls IniGraphGroup.toStr() (grep-
-        // confirmed), and CppIniSectionGraph's own pybind binding never exposed a toStr() method to
-        // Python in the first place (a pre-existing gap from an earlier, separate migration, not
-        // introduced here) -- so this method is carried forward faithfully but would raise
-        // AttributeError if actually invoked today, exactly like the pure-Python original already
-        // does today against the same real CppIniSectionGraph values. Not "fixed" here since that's
-        // out of this port's scope; flagging it rather than silently leaving it a surprise.
+        // results with "\n\n" -- faithful port of the pure-Python original's own toStr(). This used
+        // to raise AttributeError, because IniSectionGraph had no toStr() binding at all (a gap
+        // left over from that class's own, earlier migration, flagged here at the time rather than
+        // fixed); PyIniSectionGraph.cpp now binds one, so both this and a bare
+        // IniSectionGraph.toStr() work.
         std::string toStr(bool autoindent = true) const;
 };
 

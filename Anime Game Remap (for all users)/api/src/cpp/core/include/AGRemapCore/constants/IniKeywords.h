@@ -94,6 +94,49 @@ namespace AGRemapCore {
             static inline const std::string Run = "run";
 
             /**
+             * @brief
+             @rst
+             The `KVP`_ key holding a `section`_'s model hash -- what
+             :cpp:class:`GIMISectionClassifier` looks a mod object up by
+             @endrst
+             */
+            static inline const std::string Hash = "hash";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key holding the first index of the model a `section`_ draws -- the second
+             half of what :cpp:class:`GIMISectionClassifier` looks a mod object up by, for the mod
+             objects a ``hash`` alone cannot tell apart
+             @endrst
+             */
+            static inline const std::string MatchFirstIndex = "match_first_index";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key naming the file a resource `section`_ points at :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                Classes that edit `KVPs`_ generically take this as a ``K``-typed customization point
+                instead (eg. :cpp:type:`BaseResEdit::ResEditConfig`'s ``filenameKey``), since ``K``
+                is not ``std::string`` in the `pybind11`_ layer. This constant is for the
+                plain-``std::string`` callers, and for keeping the one spelling in one place
+             @endrst
+             */
+            static inline const std::string Filename = "filename";
+
+            /**
+             * @brief
+             @rst
+             The value a `KVP`_ carries to mean "nothing at all" -- a ``filename =`` naming this is
+             a placeholder, not a real resource
+             @endrst
+             */
+            static inline const std::string Null = "null";
+
+            /**
              * @brief The comment marker used to hide (comment out) a previously-fixed original `section`_
              */
             static inline const std::string HideOriginalComment = ";RemapFixHideOrig -->";

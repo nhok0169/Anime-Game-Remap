@@ -16,8 +16,8 @@ class BaseIniFileTest(BaseFileUnitTest):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls._iniClassifier = FRB.IniClassifier()
-        cls._iniClassifierBuilder = FRB.IniClassifierBuilder()
+        cls._iniClassifier = FRB.IniClassifierOld()
+        cls._iniClassifierBuilder = FRB.IniClassifierBuilderOld()
         cls._iniClassifier.build(cls._iniClassifierBuilder)
 
         cls._iniFile = None

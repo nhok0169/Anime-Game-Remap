@@ -1,0 +1,505 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_inherit" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphInherit</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_graph_inherit_8h" local="no">GraphInherit.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1aca0a61df570100303beb522f0ab5910c" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::GraphInherit::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="48" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = typename Base::GraphGroups</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::GraphInherit::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs for each <computeroutput>.ini</computeroutput> file.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" prot="public" static="no">
+        <type>typename Base::GraphId</type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename Base::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::GraphInherit::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Identifies one graph within a #GraphGroups :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original uses a bare ``Tuple[int, str, str]`` here. This is a named
+holder instead, following this subsystem&apos;s own &quot;a named data class beats a positional
+tuple&quot; convention, and reusing :cpp:type:`IniGraphGroup::ModObj` for the two name
+fields rather than restating them
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a041961f8c9f132b1880000706144ee3f" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::GraphInherit::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph held in a group.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="63" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::IterData = SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::GraphInherit::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" kindref="member">PartFilter</ref> is handed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::GraphInherit::OrderRanges</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ranges of valid `KVP`_ order indices a #PartFilter returns -- ``long long``
+because that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="77" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>using AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = std::function&lt;OrderRanges(const IterData&amp;, const ModType*, IniFile*)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::GraphInherit::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate which areas of some :cpp:class:`IfContentPart` within the
+graph at \ref src are valid to insert the `KVPs`_ :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+An empty ``std::function`` stands in for the pure-Python original&apos;s
+``partFilter = None``, which selects the very front/back of every root `section`_
+instead (see \ref edit)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1ae57ce7ca6e7c5fe09a8c4977ff184b7d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::src</definition>
+        <argsstring></argsstring>
+        <name>src</name>
+        <qualifiedname>AGRemapCore::GraphInherit::src</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The id of the source graph to insert the reference `KVPs`_ into
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="99" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a1bf71bfe24dd2aea1c3d429ba9a10103" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" kindref="member">GraphId</ref></type>
+        <definition>GraphId AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::dst</definition>
+        <argsstring></argsstring>
+        <name>dst</name>
+        <qualifiedname>AGRemapCore::GraphInherit::dst</qualifiedname>
+        <briefdescription>
+<para>The id of the graph to merge into <ref refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kindref="compound">src</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="104" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a952f37375e5015ba2b861c81f527d7f6" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::GraphInherit::reg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The name of the register used to reference the root `sections`_ of the graph at
+\ref dst
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="113" column="15" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1aa48c630c95759056c036d9ed81284eef" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::latest</definition>
+        <argsstring></argsstring>
+        <name>latest</name>
+        <qualifiedname>AGRemapCore::GraphInherit::latest</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to insert the `KVPs`_ at the back of the areas to insert, instead of at the
+front
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="122" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a2be93882177ebbd60607b432a1f5b8ec" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" kindref="member">PartFilter</ref></type>
+        <definition>PartFilter AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::partFilter</definition>
+        <argsstring></argsstring>
+        <name>partFilter</name>
+        <qualifiedname>AGRemapCore::GraphInherit::partFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate which areas of some :cpp:class:`IfContentPart` within the
+graph at \ref src are valid to insert the `KVPs`_ -- empty for &quot;no filter&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="131" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_inherit_1a72def427e69d0e63dc3dc7865ce12e7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::GraphInherit</definition>
+        <argsstring>(GraphId src, GraphId dst, K reg, bool latest=true, PartFilter partFilter={})</argsstring>
+        <name>GraphInherit</name>
+        <qualifiedname>AGRemapCore::GraphInherit::GraphInherit</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" kindref="member">GraphId</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" kindref="member">GraphId</ref></type>
+          <declname>dst</declname>
+        </param>
+        <param>
+          <type>K</type>
+          <declname>reg</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>latest</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" kindref="member">PartFilter</ref></type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new graph-inheriting edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the source graph to insert the reference KVPs into </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>dst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The id of the graph to merge into &apos;src&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the register used to reference the root <computeroutput>sections</computeroutput>_ of the graph at &apos;dst&apos; </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>latest</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to insert the KVPs at the back instead of the front. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which areas of a part are valid to insert into <ndash/> empty for &quot;no filter&quot;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="142" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_inherit_1a7dee68f4166fcc35813e215871413ecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::GraphInherit::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Inserts the reference `KVPs`_ from the graph at \ref dst into the graph at \ref src
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+With no \ref partFilter, the `KVPs`_ go straight to the very front/back (based on
+\ref latest) of every root `section`_ of the graph at \ref src. With one, they instead
+go at the earliest/latest valid index of every :cpp:class:`IfContentPart` the filter
+accepts
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix <ndash/> only ever handed to <ref refid="class_a_g_remap_core_1_1_graph_inherit_1a2be93882177ebbd60607b432a1f5b8ec" kindref="member">partFilter</ref>. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="162" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
+
+Merges the graph at &apos;dst&apos; into the graph at &apos;src&apos;, by inserting consecutive `KVPs`_ into
+&apos;src&apos; that reference every root `section`_ of the graph at &apos;dst&apos; :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   This only inserts the reference `KVPs`_ into &apos;src&apos; -- the `sections`_ of &apos;dst&apos; themselves
+   are left untouched (and still need to be reachable/present elsewhere for the reference to
+   resolve, the same way a plain ``run =`` reference to another `section`_ works)
+
+.. note::
+   If either the graph at &apos;src&apos; or the graph at &apos;dst&apos; cannot be found, nothing is inserted and
+   the original ``graphGroups`` is returned as-is -- no exception is raised
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_inherit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphId</label>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphInherit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_inherit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>dst</edgelabel>
+          <edgelabel>src</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="42" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1aca0a61df570100303beb522f0ab5910c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphInherit</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a1bf71bfe24dd2aea1c3d429ba9a10103" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>dst</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a7dee68f4166fcc35813e215871413ecf" prot="public" virt="virtual"><scope>AGRemapCore::GraphInherit</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591" prot="public" virt="virtual"><scope>AGRemapCore::GraphInherit</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a041961f8c9f132b1880000706144ee3f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a72def427e69d0e63dc3dc7865ce12e7b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>GraphInherit</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1aa48c630c95759056c036d9ed81284eef" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>latest</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a2be93882177ebbd60607b432a1f5b8ec" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>partFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1a952f37375e5015ba2b861c81f527d7f6" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>reg</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_inherit_1ae57ce7ca6e7c5fe09a8c4977ff184b7d" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>src</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::GraphInherit</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_b92a30438a15d3d9f8193085ca7b9396" kind="dir">
+    <compoundname>include/AGRemapCore/data</compoundname>
+    <innerfile refid="_hash_data_8h">HashData.h</innerfile>
+    <innerfile refid="_index_data_8h">IndexData.h</innerfile>
+    <innerfile refid="_ini_fix_builder_data_8h">IniFixBuilderData.h</innerfile>
+    <innerfile refid="_ini_parse_builder_data_8h">IniParseBuilderData.h</innerfile>
+    <innerfile refid="_ini_remove_builder_data_8h">IniRemoveBuilderData.h</innerfile>
+    <innerfile refid="_mod_data_assets_8h">ModDataAssets.h</innerfile>
+    <innerfile refid="_vertex_count_data_8h">VertexCountData.h</innerfile>
+    <innerfile refid="_v_g_remap_data_8h">VGRemapData.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/"/>
+  </compounddef>
+</doxygen>

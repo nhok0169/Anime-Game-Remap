@@ -5,8 +5,16 @@
 #include <string>
 #include <vector>
 
+#include "AGRemapCore/model/assets/Hashes.h"
+#include "AGRemapCore/model/assets/Indices.h"
+#include "AGRemapCore/model/assets/VertexCounts.h"
+#include "AGRemapCore/model/assets/VGRemaps.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+#include "AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h"
 
 
 namespace AGRemapCore {
@@ -42,33 +50,98 @@ namespace AGRemapCore {
              @endrst
              * @param name The default name for the type of mod
              * @param aliases Other alternative names for the type of mod
-             * @param iniParser
+             * @param hashes
              @rst
-             The parser used to parse a ``.ini`` file of this type of mod -- see #iniParser
+             The hashes related to the mod and its fix -- see #hashes :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             If this is ``nullptr``, a new, fully-populated :cpp:class:`Hashes` is constructed
+             instead, mirroring the pure-Python original's own
+             ``if (hashes is None): hashes = Hashes()`` fallback :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``nullptr``
+             @endrst
+             * @param indices
+             @rst
+             The indices related to the mod and its fix -- see #indices :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             If this is ``nullptr``, a new, fully-populated :cpp:class:`Indices` is constructed
+             instead, mirroring the pure-Python original's own
+             ``if (indices is None): indices = Indices()`` fallback :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: ``nullptr``
+             @endrst
+             * @param vertexCounts
+             @rst
+             The vertex counts related to the mod -- see #vertexCounts :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             If this is ``nullptr``, a new, fully-populated :cpp:class:`VertexCounts` is constructed
+             instead, mirroring the pure-Python original's own
+             ``if (vertexCounts is None): vertexCounts = VertexCounts()`` fallback
              :raw-html:`<br />` :raw-html:`<br />`
 
-             If this is ``nullptr``, a plain :cpp:class:`BaseIniParser` is constructed instead,
-             mirroring the pure-Python original's own
+             **Default**: ``nullptr``
+             @endrst
+             * @param vgRemaps
+             @rst
+             The vertex group remaps for the mod -- see #vgRemaps :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             If this is ``nullptr``, the **shared** :cpp:func:`ModDataAssets::vgRemaps` is used --
+             *not* a fresh table, unlike #hashes/#indices/#vertexCounts. That mirrors the pure-Python
+             original's own ``if (vgRemaps is None): vgRemaps = ModDataAssets.VGRemaps.value``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``nullptr``
+             @endrst
+             * @param iniParseBuilder
+             @rst
+             The builder that builds the parser for a ``.ini`` file of this type of mod -- see
+             #iniParseBuilder :raw-html:`<br />` :raw-html:`<br />`
+
+             If this is ``nullptr``, a default-constructed :cpp:class:`IniParseBuilder` is used
+             instead, mirroring the pure-Python original's own
              ``if (iniParseBuilder is None): iniParseBuilder = IniParseBuilder(GIMIParser)``
              fallback :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
-             * @param iniFixer
+             * @param iniFixBuilder
              @rst
-             The fixer used to fix a ``.ini`` file of this type of mod -- see #iniFixer
+             The builder that builds the fixer for a ``.ini`` file of this type of mod -- see
+             #iniFixBuilder :raw-html:`<br />` :raw-html:`<br />`
+
+             If this is ``nullptr``, a default-constructed :cpp:class:`IniFixBuilder` is used
+             instead, mirroring the pure-Python original's own ``iniFixBuilder`` fallback
              :raw-html:`<br />` :raw-html:`<br />`
 
-             If this is ``nullptr``, a plain :cpp:class:`BaseIniFixer` bound to #iniParser is
-             constructed instead, mirroring the pure-Python original's own ``iniFixBuilder``
-             fallback :raw-html:`<br />` :raw-html:`<br />`
+             **Default**: ``nullptr``
+             @endrst
+             * @param iniRemoveBuilder
+             @rst
+             The builder that hands out the remover for a ``.ini`` file of this type of mod -- see
+             #iniRemoveBuilder :raw-html:`<br />` :raw-html:`<br />`
+
+             If this is ``nullptr``, :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` is used
+             instead, mirroring the pure-Python original's own
+             ``iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value`` fallback -- note
+             that this is a *shared* builder, not a fresh one per :cpp:class:`ModType`
+             :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``nullptr``
              @endrst
              */
             explicit ModType(int gameTypeId, int modTypeId, const std::string &name, const std::vector<std::string> &aliases = {},
-                              std::shared_ptr<BaseIniParser> iniParser = nullptr,
-                              std::shared_ptr<BaseIniFixer> iniFixer = nullptr);
+                              std::shared_ptr<Hashes> hashes = nullptr,
+                              std::shared_ptr<Indices> indices = nullptr,
+                              std::shared_ptr<VertexCounts> vertexCounts = nullptr,
+                              std::shared_ptr<VGRemaps> vgRemaps = nullptr,
+                              std::shared_ptr<IniParseBuilder> iniParseBuilder = nullptr,
+                              std::shared_ptr<IniFixBuilder> iniFixBuilder = nullptr,
+                              std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder = nullptr);
 
             /**
              * @brief The id for the game this type of mod belongs to
@@ -93,35 +166,172 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The parser used to parse a ``.ini`` file of this type of mod :raw-html:`<br />`
-             :raw-html:`<br />`
+             The hashes related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``ModType.hashes``, including its default: a
+             :cpp:class:`ModType` constructed without one gets a **fully-populated**
+             :cpp:class:`Hashes` (every hash the software ships with), not an empty table
+             :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                The pure-Python original holds an ``IniParseBuilder`` (a *factory*) here, not a
-                parser, so that ``IniFile._getParser`` can build a **fresh** parser per ``.ini``
-                file. This holds a single parser instance instead, so every ``.ini`` file of this
-                mod type shares it -- bind it to the file being worked on with
-                :cpp:func:`BaseIniParser::setIniFile` before use (it is constructed unbound, since
-                a :cpp:class:`ModType` describes a *kind* of mod rather than one specific file).
-                Revisit if per-file parser state is ever needed
+                A ``shared_ptr`` rather than a by-value member, for the same two reasons as
+                #iniParseBuilder: :cpp:class:`ModType` must stay cheap to copy (it is returned by
+                value from :cpp:func:`ModTypeIdTools::getModType` and stored by value in
+                :cpp:member:`IniFile::modTypes`), and copying one must *share* its hashes rather
+                than clone them -- which is also what the pure-Python original does, since its
+                ``self.hashes`` is an ordinary object reference
 
              .. note::
-                A ``shared_ptr`` rather than a ``unique_ptr`` because :cpp:class:`ModType` must stay
-                **copyable** -- :cpp:func:`ModTypeIdTools::getModType` returns one by value, and
-                :cpp:member:`IniFile::modTypes` stores them by value
+                :cpp:class:`Hashes` is mutable (:cpp:func:`ModMappedAssets::addRepoRows`/
+                :cpp:func:`ModMappedAssets::addMap`), so two :cpp:class:`ModType`\\s deliberately
+                handed the *same* ``shared_ptr`` share those mutations. Each one built with the
+                ``nullptr`` default instead gets its own table, matching the original's
+                per-``ModType`` ``Hashes()``
              @endrst
              */
-            std::shared_ptr<BaseIniParser> iniParser;
+            std::shared_ptr<Hashes> hashes;
 
             /**
              * @brief
              @rst
-             The fixer used to fix a ``.ini`` file of this type of mod -- see #iniParser for why
-             this is a shared single instance rather than the pure-Python original's
-             ``IniFixBuilder`` factory
+             The indices related to the mod and its fix :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``ModType.indices``, which likewise lives on the base mod type
+             rather than in a game-specific subclass. Same default as #hashes: a
+             :cpp:class:`ModType` constructed without one gets a **fully-populated**
+             :cpp:class:`Indices` (every index the software ships with), not an empty table
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                A ``shared_ptr``, per-:cpp:class:`ModType` by default and shared on copy, for
+                exactly the reasons spelled out on #hashes -- see that member's two notes
              @endrst
              */
-            std::shared_ptr<BaseIniFixer> iniFixer;
+            std::shared_ptr<Indices> indices;
+
+            /**
+             * @brief
+             @rst
+             The vertex counts related to the mod :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``ModType.vertexCounts``, including its default: a
+             :cpp:class:`ModType` constructed without one gets a **fully-populated**
+             :cpp:class:`VertexCounts`, not an empty table :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Unlike #hashes and #indices this is a :cpp:class:`ModDictAssets` rather than a
+                :cpp:class:`ModMappedAssets`, so it has no ``getMap``/``hasFrom`` -- see
+                :cpp:class:`VertexCounts` for why. Ownership works identically though: a
+                ``shared_ptr``, per-:cpp:class:`ModType` by default and shared on copy
+             @endrst
+             */
+            std::shared_ptr<VertexCounts> vertexCounts;
+
+            /**
+             * @brief
+             @rst
+             The vertex group remaps for the mod -- maps the blend indices of this mod's vertex
+             groups onto another mod's :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors the pure-Python ``ModType.vgRemaps`` :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                **Its default differs from the other three asset tables.** #hashes, #indices and
+                #vertexCounts each get a *fresh* table when not supplied; this one falls back to the
+                single **shared** :cpp:func:`ModDataAssets::vgRemaps`, matching the pure-Python
+                original. So mutating a defaulted ``vgRemaps`` affects every other
+                :cpp:class:`ModType` that also defaulted, whereas mutating a defaulted ``hashes``
+                does not. That asymmetry is deliberate and upstream, not an oversight -- and it
+                matters here because this is much the largest of the tables
+
+             .. note::
+                Otherwise the ownership rules are the same as #hashes: a ``shared_ptr``, shared on
+                copy
+             @endrst
+             */
+            std::shared_ptr<VGRemaps> vgRemaps;
+
+            /**
+             * @brief
+             @rst
+             The builder that builds the parser for a ``.ini`` file of this type of mod
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A *factory*, not a parser, matching the pure-Python original's own
+             ``iniParseBuilder`` attribute: :cpp:func:`IniFile::parse` builds a **fresh** parser per
+             ``.ini`` file from it, passing that file's :cpp:member:`IniFile::version` along, so a
+             mod type can use a different parser for a 4.0-era ``.ini`` file than for a 5.7-era one
+             -- see :cpp:class:`IniParseBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                This used to hold one shared :cpp:class:`BaseIniParser` instance that every
+                ``.ini`` file of this mod type rebound to itself via
+                :cpp:func:`BaseIniParser::setIniFile`. Holding a builder instead removes both
+                problems that caused: the built parser now arrives already bound to its own file,
+                and two :cpp:class:`IniFile`\\s of the same mod type no longer stomp each other's
+                binding
+
+             .. note::
+                A ``shared_ptr`` rather than a ``unique_ptr`` because :cpp:class:`ModType` must stay
+                **copyable** -- :cpp:func:`ModTypeIdTools::getModType` returns one by value, and
+                :cpp:member:`IniFile::modTypes` stores them by value. It also lets every
+                :cpp:class:`ModType` of a game share one builder
+             @endrst
+             */
+            std::shared_ptr<IniParseBuilder> iniParseBuilder;
+
+            /**
+             * @brief
+             @rst
+             The builder that builds the fixer for a ``.ini`` file of this type of mod
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A *factory*, not a fixer, matching the pure-Python original's own ``iniFixBuilder``
+             attribute: :cpp:func:`IniFile::fix` builds a **fresh** fixer per ``.ini`` file from it,
+             passing that file's :cpp:member:`IniFile::version` along, so a mod type can use a
+             different fixer for a 4.0-era ``.ini`` file than for a 5.7-era one -- see
+             :cpp:class:`IniFixBuilder` :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                The built fixer arrives already bound to that file's own built parser (the original
+                builds it as ``iniFixBuilder.build(self._iniParser, ...)``), so nothing rebinds it
+                afterwards and two :cpp:class:`IniFile`\\s of the same mod type no longer stomp each
+                other -- the same problem the #iniParseBuilder conversion removed on the parser side
+
+             .. note::
+                A ``shared_ptr`` for the same reasons as #iniParseBuilder -- :cpp:class:`ModType`
+                must stay copyable, and every :cpp:class:`ModType` of a game shares one builder
+             @endrst
+             */
+            std::shared_ptr<IniFixBuilder> iniFixBuilder;
+
+            /**
+             * @brief
+             @rst
+             The builder that hands out the remover for a ``.ini`` file of this type of mod
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A *factory*, matching the pure-Python original's own ``iniRemoveBuilder`` attribute:
+             :cpp:func:`IniFile::removeFix` asks it for a remover per ``.ini`` file, and it hands
+             one back already bound to that file :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                Unlike #iniParseBuilder and #iniFixBuilder, this is a **flyweight** builder -- it
+                reuses one shared remover instance rather than constructing a fresh one per file,
+                and takes no version into account. Read :cpp:class:`IniRemoveBuilder`'s own warning
+                before assuming it behaves like the other two: in particular the remover it returns
+                stays correctly bound only until that builder's next
+                :cpp:func:`IniRemoveBuilder::build`, so two :cpp:class:`IniFile`\\s sharing a builder
+                must not have their fixes removed concurrently
+
+             .. note::
+                A ``shared_ptr`` for the same reasons as #iniParseBuilder, plus one more that
+                matters here: the flyweight cache lives *on the builder*, so sharing the pointer is
+                what makes several :cpp:class:`ModType`\\s share the cached remover -- which is
+                exactly what :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` relies on
+             @endrst
+             */
+            std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder;
     };
 }
 

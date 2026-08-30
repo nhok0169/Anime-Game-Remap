@@ -95,6 +95,34 @@ corresponding pybind binding/test as a *draft*, not a finished port, even if it'
 CMake source list — re-derive its correctness from the Python original and verify empirically
 before building on top of it, the same as you would for code you're writing fresh.
 
+## The inverse also holds: an **existing `Py*.cpp` binding is a hard contract on the core class's API** — read it before writing or rewriting that core header
+
+The section above warns against trusting an unexercised `core/` file. The opposite mistake is
+cheaper to make and more destructive: writing (or redesigning) a `core/` class **while a binding for
+it already exists on disk**. Bindings in this codebase are sometimes written before, or in the same
+pass as, the core class they wrap — so `py/src/.../PyXxx.h`/`.cpp` can already pin the exact method
+names, arities and typedef shapes the core must provide (`PyRegFillMissing.cpp` calls
+`Core::makeFillMissing(reg, value, toFront)` and treats `Core::FillMissingFunc` as a one-argument
+`std::function`; a core rewrite that renamed those and made the function two-argument compiled
+nowhere).
+
+**Before creating or overwriting anything under `core/include/.../<family>/`:**
+1. `ls py/src/model/strategies/.../<family>/` — if a `PyXxx.h`/`.cpp` pair is there, it is the
+   specification, not a downstream consumer to fix up afterwards.
+2. `git status --short` over `api/src/cpp`, `api/src/py`, `Testing`, and `Docs` — untracked `??`
+   files are prior work that `git` cannot restore for you if you clobber them (unlike a tracked
+   ` M` file, where `git diff` still shows what was there).
+3. Build early rather than at the end. `ninja core` is the cheapest possible inventory of "what
+   already exists and what it expects" — a first build that fails with
+   `'makeFillMissing': is not a member of ...` tells you in one shot that a binding is waiting on a
+   different core API than the one you just wrote.
+
+When the two genuinely disagree, **reshape the core to satisfy the binding**, not the reverse — the
+binding encodes decisions already made against the Python original's observable behaviour (identity
+of stored arguments, which shapes `refresh()` re-derives per call, the `assertIs` contracts in
+`test_Xxx.py`), and those are the expensive things to re-derive. See the "three options for how a
+binding holds a Python-supplied argument" section below for why those choices are rarely free.
+
 ## `std::vector::emplace_back`/`push_back` (or any reallocating mutation) invalidates references into that same vector — even ones taken earlier in the same loop iteration
 
 `const Id& itemId = items[i].first;` followed later in the *same loop body* by
@@ -727,6 +755,46 @@ part.getVals(...)  # this crosses back into Python through the vtable
 When you change an *existing* `IOrderedMultiMap` virtual method's signature, always: (1) update
 both `PyListOMM` copies to match, and (2) explicitly test the trampoline path this way, not just
 the C++-native (`OrderedMultiMap`/`OrderedMultiMapSqrt`-backed) path.
+
+## The same arity trap exists with **no trampoline at all**, via keyword-argument dispatch — and it's the more likely one in this codebase now
+
+The gotcha above is about `PYBIND11_OVERRIDE*` forwarding C++ arguments positionally. There is a
+second, independent version of it that bites classes with **no trampoline whatsoever**, and most of
+this codebase's bound edit base classes (`BaseRegEdit`, `BaseIniGraphEdit`,
+`BaseIniGraphGroupEdit`) are exactly that shape — plain aliases, deliberately trampoline-free,
+because every call originates from Python.
+
+Those classes are driven by a C++ *dispatcher* that calls into Python by attribute lookup with
+keyword arguments — `filter_.attr("edit")(graphObj, modType_, py::arg("modName") = modName, ...)`
+in `PyGraphGroupEdit.cpp`'s `PyPartEdit::editGraph`. **Adding a parameter to the bound base's
+`edit`/`editFromIni` means adding a keyword to that call, and every pre-existing pure-Python
+subclass whose override still has the old parameter list dies immediately** with
+`TypeError: edit() got an unexpected keyword argument 'trackKeys'`. Confirmed hands-on adding
+`trackKeys`/`keysToTrack` to `BaseIniGraphEdit`: it broke `RegSurroundedAdd.edit` (the one
+production subclass) plus five test spies across `test_BaseIniGraphEdit.py`,
+`test_GraphGroupEdit.py`, and `test_RegFillMissing.py` — none of which the C++ compile flagged at
+all, since nothing about it is a C++-level error.
+
+**Do the subclass inventory first, before writing the signature change** — a two-minute grep that
+turns an unbounded surprise into a known edit list:
+```bash
+grep -rn "BaseIniGraphEdit)" --include=*.py "Anime Game Remap (for all users)" Testing
+grep -rn 'def edit(self, graph, modType, modName = "", partFilter = None)' --include=*.py .
+```
+Grep for the *override signature text*, not just the subclass declaration — the spies inside test
+files are the bulk of the hits, are easy to forget, and are exactly what a "does it compile / does
+the feature work" check never exercises.
+
+**Design corollary for the parameter you're adding**: a plain `bool` parameter carrying "the
+caller's default" cannot be told apart from "the subclass explicitly said false", since the
+subclass's own member default is also `false`. Decide deliberately between (a) combining with `||`
+— the caller can turn the behaviour *on*, a subclass can never opt out; correct when the flag is a
+pure performance/observability choice that cannot change results — and (b) making the subclass's
+own member a `std::optional<bool>` so "unset" is expressible; correct when opting out has real
+semantics. `RegFillMissing::effectiveTrackKeys` took (a) deliberately (key tracking only ever adds
+information for a filter to read, so suppressing it could never change which parts get filled); its
+`keysToTrack` needed no such trick, since `std::nullopt` already meant "every key" and doubles as
+"unset".
 
 ## A class whose constructor conditionally calls a virtual `setup()`-style method needs a specific subclassing idiom
 
@@ -1377,3 +1445,76 @@ See `ModTypeId.h`/`.cpp`'s real `_nameDFA`/`_setupNameDFA`/`_nameDFAInitialized`
 version. If you're tempted to reach for a factory-function-returning-by-value for *any* static/
 global of a `unique_ptr`-owning type in this codebase, this is why it won't compile, and this
 in-place-mutation-behind-a-second-static-bool shape is the established fix.
+
+## The `ModAssets` / `ModDictAssets` / `ModMappedAssets` family --- picking the right one, and what `get` can and cannot do
+
+Every version-keyed lookup table in `core/` (`Hashes`, `Indices`, `VertexCounts`, `VGRemaps`, the
+three `Ini*BuilderData` tables) is one of these three. Pick by two questions, in this order:
+
+1. **How many version columns?** One --- `ModDictAssets` (hash on the full non-version key, then a
+   binary search over that key's versions). Two or more --- **`ModAssets`**, which is a linear scan;
+   `ModDictAssets` simply cannot express a second version column. `VGRemaps`
+   (`fromVersion`/`toVersion`) and `IniFixBuilderData` (same) are the two that need it.
+2. **Does it need a fix-from -> fix-to adjacency list** (`getMap`/`hasFrom`)? If yes, `ModMappedAssets`,
+   which wraps a `ModDictAssets`. `Hashes`/`Indices` use it; `VertexCounts` does not (a count is
+   looked up, never remapped), which is why it derives from `ModDictAssets` directly.
+
+**`get` returns a leaf value, never a subtree.** This surprises people, so state it plainly:
+
+- `ModDictAssets::get` **requires the complete non-version key** --- it throws
+  `std::invalid_argument` on a short vector rather than treating it as a prefix, and its element
+  type is a plain `K`, so there is no way to say "any" at a position. A prefix query isn't merely
+  unimplemented, it's inexpressible: `groups_` is hashed on the *whole* key tuple, so nothing can
+  descend a level. The nesting was flattened at construction.
+- `ModAssets::get` **does** accept `std::nullopt` per non-version column as a wildcard --- but it
+  still returns a single `std::optional<T>`. Wildcards there narrow to one hit; they don't collect.
+- For multiple results use **`ModAssets::getAll`**, which returns one entry per distinct combination
+  of the `std::nullopt` columns. Its load-bearing property: **version resolution runs per group, not
+  once globally.** A single global resolve would pick one winning version and silently drop every
+  group with no row at it (`Jean -> JeanSea` has no 5.5 row while `Jean -> JeanCN` does). `get` and
+  `getAll` share `resolveVersionColumns` precisely so the two can't drift.
+- To sweep a table without a query, `ModDictAssets::forEachEntry` visits every row. That's O(rows),
+  but so would any prefix query be without adding a second index.
+
+**Floor-matching does not "miss" below a key's earliest version.** Asking for a version *older* than
+every row for that key returns the **oldest** row, not `std::nullopt`. A mod whose only row is 4.6
+still answers at 4.0. Assertions written expecting a miss there will fail --- this cost a red test.
+
+## Generating a C++ data table from live Python: always script it, then diff it
+
+`core/src/data/*.cpp` tables are mechanically generated by importing the *real* Python module and
+walking it --- never hand-transcribed --- and then verified by dumping both sides and set-diffing.
+Follow that for any new one; the existing headers' `@danger` blocks say so for a reason. Two
+practical notes:
+
+- Row keys use `ModTypeIdTools::getName(ModTypeId::X)`, not string literals, so a registry rename
+  can't silently desync a table. Note `ModTypeId::AyakaSpringbloom` spells the name
+  `"AyakaSpringBloom"` --- capital B. Don't hand-write these; map them from the enum.
+- **Some tables have now deliberately diverged from their still-live Python originals** (the C++
+  `VertexCountData` has a `component` column the Python dict lacks; `IniFixBuilderData` is 4-column
+  in C++ and 2-column in Python). Both copies exist and are live. A naive regeneration from Python
+  would silently *undo* the C++ shape --- the headers carry `@danger` notes saying so, and the
+  Python files carry a matching comment. Read them before regenerating anything.
+
+## `ModType` facts that are easy to get wrong
+
+- **Constructor order is `gameTypeId, modTypeId, name, aliases, hashes, indices, vertexCounts,
+  vgRemaps, iniParseBuilder, iniFixBuilder, iniRemoveBuilder`.** Every caller passes positionally,
+  so inserting a parameter mid-list breaks `GIBuilder` plus 4-5 test files at once. Expect that and
+  budget for it; appending is cheaper when the semantics allow.
+- **Don't subclass `ModType`.** It is held **by value** in five places --- `ModTypeIdTools::_modTypes`
+  / `getModType` / `registerModType`, and `IniFile::modTypes` / `overrideModTypes_` / `getModType` ---
+  plus all 43 `GIBuilder` factories return it by value. Any subclass gets **sliced** and its extra
+  members silently vanish. A `GIModType : ModType` experiment was built and then removed for exactly
+  this. Subclassing only becomes viable once those slots hold `shared_ptr<ModType>`.
+- **The asset members' defaults are not uniform.** `hashes`/`indices`/`vertexCounts` each get a
+  *fresh* fully-populated table when not supplied; `vgRemaps` falls back to the **shared**
+  `ModDataAssets::vgRemaps()`. That asymmetry is upstream (the pure-Python `ModType` defaults to
+  `ModDataAssets.VGRemaps.value`), and it means mutating a defaulted `vgRemaps` affects every other
+  `ModType` that also defaulted. Same story for `iniRemoveBuilder` and
+  `GlobalIniRemoveBuilders::removeBuilder()`.
+- **`ModMappedAssets::fixTo` is declared but never populated** anywhere in the Python package --- the
+  pybind binding deliberately returns an empty set. So `ModType.getModsToFix()` yields nothing, and
+  it is *not* a usable source of from -> to mod relationships. **`VGRemapData` is** --- it is keyed
+  `(fromVersion, fromChar, fromComp, toVersion, toChar, toComp)` and is where `Jean -> {JeanCN,
+  JeanSea}` actually lives.

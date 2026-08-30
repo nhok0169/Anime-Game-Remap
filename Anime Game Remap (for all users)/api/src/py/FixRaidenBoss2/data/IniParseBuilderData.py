@@ -21,8 +21,8 @@ from ..core import ModTypeId, ModTypeIdTools
 from ..constants.TexConsts import TexMetadataNames
 from ..constants.ColourConsts import ColourConsts
 from ..constants.IniConsts import IniKeywords
-from ..model.strategies.iniParsers.BaseIniParser import BaseIniParser
-from ..model.strategies.iniParsers.GIMIParser import GIMIParser
+from ..core import BaseIniParser
+from ..core import GIMIParser
 from ..model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
 from ..model.strategies.texEditors.TexEditor import TexEditor
 from ..model.strategies.texEditors.texFilters.InvertAlphaFilter import InvertAlphaFilter

@@ -14,7 +14,7 @@ namespace py = pybind11;
  @rst
  The `pybind11`_ bound ``Hashes`` class -- unlike :cpp:class:`PyModMappedAssets` (a generic,
  reusable engine), this is one *specific*, pre-populated instance of it: its hash data
- (:cpp:func:`AGRemapPyBind::Data::getHashDataRows`) and non-version index names (``name``,
+ (:cpp:func:`AGRemapCore::Data::getHashDataRows`) and non-version index names (``name``,
  ``type``) are baked in at construction, matching the pure-Python ``Hashes`` class's own
  constructor contract (``model/assets/Hashes.py``, now removed entirely -- see git history)
  exactly: a bare, optional ``map`` is the only real constructor argument :raw-html:`<br />` :raw-html:`<br />`

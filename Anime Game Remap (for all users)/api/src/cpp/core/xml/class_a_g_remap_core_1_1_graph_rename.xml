@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_rename" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphRename</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_graph_rename_8h" local="no">GraphRename.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1abd2135a819ad55bc92052378d1699530" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit" kindref="compound">BaseIniGraphEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::GraphRename::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::GraphRename::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph this edits.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1aeaa5614bdbeb392cd3cb635fabc05523" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
+        <definition>using AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = typename Base::PartFilter</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::GraphRename::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The filter used to indicate the valid order indices to process for some
+:cpp:class:`IfContentPart` in the graph :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mod type and ``.ini`` file arguments are **non-owning, nullable** pointers,
+matching the pure-Python original&apos;s ``Optional[IniFile]`` and this subsystem&apos;s own
+convention for still-pure-Python collaborators -- an empty ``std::function`` stands in
+for that original&apos;s ``partFilter = None``. Identical to
+:cpp:type:`GraphGroupEdit::PartFilter`, which is what actually hands one of these down
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1ac8f42fef4393193341e50b49e5f3a7ae" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
+        <definition>using AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = typename Base::KeySet</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::GraphRename::KeySet</qualifiedname>
+        <briefdescription>
+<para>A set of the keys to keep track of for colouring.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1af918f754397b24e6c609db1d2b2a87b7" prot="public" static="no">
+        <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
+        <definition>using AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::RenameFunc = std::function&lt;std::string(const std::string&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RenameFunc</name>
+        <qualifiedname>AGRemapCore::GraphRename::RenameFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The function used to rename a `section`_ -- it takes in the name of the old `section`_
+and returns the new name for the `section`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="65" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_rename_1a3172484fa2c4b0e71440daed313d69ec" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_rename_1af918f754397b24e6c609db1d2b2a87b7" kindref="member">RenameFunc</ref></type>
+        <definition>RenameFunc AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::renameFunc</definition>
+        <argsstring></argsstring>
+        <name>renameFunc</name>
+        <qualifiedname>AGRemapCore::GraphRename::renameFunc</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The function used to rename a `section`_ -- it takes in the name of the old `section`_
+and returns the new name for the `section`_
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="74" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_rename_1a5ebb5ad906e8ccbd2ec9c607eca23fe8" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::GraphRename</definition>
+        <argsstring>(RenameFunc renameFunc={})</argsstring>
+        <name>GraphRename</name>
+        <qualifiedname>AGRemapCore::GraphRename::GraphRename</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_rename_1af918f754397b24e6c609db1d2b2a87b7" kindref="member">RenameFunc</ref></type>
+          <declname>renameFunc</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput>section</computeroutput>_-renaming edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>renameFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The function used to rename a <computeroutput>section</computeroutput>_ <ndash/> an empty function leaves every name untouched </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="81" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" kindref="member">Graph</ref> &amp;</type>
+        <definition>Graph &amp; AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(Graph &amp;graph, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const PartFilter &amp;partFilter={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::GraphRename::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_graph_rename_1aeaa5614bdbeb392cd3cb635fabc05523" kindref="member">PartFilter</ref> &amp;</type>
+          <declname>partFilter</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_rename_1ac8f42fef4393193341e50b49e5f3a7ae" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renames every `section`_ of &apos;graph&apos; by ``renameFunc`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+An empty ``renameFunc`` is a no-op -- &apos;graph&apos; is handed straight back
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. Unused by this edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. Unused by this edit. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>partFilter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filter for valid order indices. Unused by this edit. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking default. Unused by this edit. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The caller&apos;s key-tracking key set. Unused by this edit. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same graph that was passed in, after every <computeroutput>section</computeroutput>_ was renamed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="101" column="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphEdit`
+
+Renames the `sections`_ of some caller/callee graph of :cpp:class:`IniSectionGraph`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is a thin wrapper over :cpp:func:`IniSectionGraph::rename`, which also rewrites every
+   ``run =`` reference to a renamed `section`_ and rebuilds the graph -- so a rename never
+   leaves a dangling caller/callee edge behind
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_rename"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniGraphPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_rename"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="35" bodyend="104"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1abd2135a819ad55bc92052378d1699530" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphRename</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc" prot="public" virt="virtual"><scope>AGRemapCore::GraphRename</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a8cf7cc52f178d8774155d39261eb55a6" prot="public" virt="virtual"><scope>AGRemapCore::GraphRename</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1a5ebb5ad906e8ccbd2ec9c607eca23fe8" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>GraphRename</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1ac8f42fef4393193341e50b49e5f3a7ae" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1aeaa5614bdbeb392cd3cb635fabc05523" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1af918f754397b24e6c609db1d2b2a87b7" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>RenameFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_rename_1a3172484fa2c4b0e71440daed313d69ec" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>renameFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::GraphRename</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

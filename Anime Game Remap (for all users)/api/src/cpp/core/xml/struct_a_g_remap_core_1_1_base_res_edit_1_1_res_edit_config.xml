@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseResEdit::ResEditConfig</compoundname>
+    <includes refid="_res_edit_8h" local="no">ResEdit.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1a0ac1fcbb45f75b3e0ea8295d5214f0bb" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig::filenameKey</definition>
+        <argsstring></argsstring>
+        <name>filenameKey</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::ResEditConfig::filenameKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> <computeroutput>filename</computeroutput> register key, as a <computeroutput>K</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="99" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ae1e65e103ed20d459126b126aa4e9d6d" prot="public" static="no" mutable="no">
+        <type>std::function&lt; std::string(const V &amp;)&gt;</type>
+        <definition>std::function&lt;std::string(const V&amp;)&gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig::fileOf</definition>
+        <argsstring></argsstring>
+        <name>fileOf</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::ResEditConfig::fileOf</qualifiedname>
+        <briefdescription>
+<para>Converts a <computeroutput>filename =</computeroutput> <computeroutput>KVP</computeroutput>_&apos;s value into the file path it names. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="104" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ab0c553eed0758cde50942c0f42b6ad23" prot="public" static="no" mutable="no">
+        <type>std::function&lt; V(const std::string &amp;)&gt;</type>
+        <definition>std::function&lt;V(const std::string&amp;)&gt; AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig::valOfFile</definition>
+        <argsstring></argsstring>
+        <name>valOfFile</name>
+        <qualifiedname>AGRemapCore::BaseResEdit::ResEditConfig::valOfFile</qualifiedname>
+        <briefdescription>
+<para>The inverse of <ref refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ae1e65e103ed20d459126b126aa4e9d6d" kindref="member">fileOf</ref> <ndash/> builds a <computeroutput>filename =</computeroutput> <computeroutput>KVP</computeroutput>_ value from a file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="109" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The domain customization points a resource edit needs, in the same spirit as
+:cpp:class:`IfTemplateRunConfig` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A ``.ini`` file&apos;s ``filename =`` `KVP`_ is a plain string in a plain C++ caller and a
+``py::str`` in the `pybind11`_ layer, so neither the key nor the ``V`` &lt;-&gt; file-path
+conversion can be hardcoded here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" line="95" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h" bodystart="95" bodyend="110"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1a0ac1fcbb45f75b3e0ea8295d5214f0bb" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit::ResEditConfig</scope><name>filenameKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ae1e65e103ed20d459126b126aa4e9d6d" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit::ResEditConfig</scope><name>fileOf</name></member>
+      <member refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config_1ab0c553eed0758cde50942c0f42b6ad23" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseResEdit::ResEditConfig</scope><name>valOfFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

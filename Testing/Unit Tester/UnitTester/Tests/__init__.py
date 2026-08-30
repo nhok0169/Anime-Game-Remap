@@ -39,15 +39,26 @@ from .test_Hash64 import Hash64Test
 from .test_Hash128 import Hash128Test
 from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
+from .test_GIMIFixerOld import GIMIFixerOldTest
+from .test_BaseIniFixer import BaseIniFixerTest
 from .test_GIMIObjMergeFixer import GIMIObjMergeFixerTest
 from .test_GIMIObjParser import GIMIObjParserTest
 from .test_GIMIObjRegEditFixer import GIMIObjRegEditFixerTest
 from .test_GIMIObjSplitFixer import GIMIObjSplitFixerTest
 from .test_GIMIParser import GIMIParserTest
+from .test_GIMISectionClassifier import GIMISectionClassifierTest
+from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
+from .test_BaseIniGraphEdit import BaseIniGraphEditTest
+from .test_BaseIniGraphGroupEdit import BaseIniGraphGroupEditTest
+from .test_GraphGroupEdit import GraphGroupEditTest
+from .test_BaseResEdit import BaseResEditTest
+from .test_ResEdits import ResEditsTest
+from .test_ResCollects import ResCollectsTest
 from .test_GraphInherit import GraphInheritTest
 from .test_GraphRemove import GraphRemoveTest
 from .test_GraphRename import GraphRenameTest
+from .test_RegFillMissing import RegFillMissingTest
 from .test_IfContentPart import IfContentPartTest
 from .test_IfContentPartColour import IfContentPartColourTest, IfContentPartColourChangeTest
 from .test_IOrderedMultiMap import IOrderedMultiMapTest
@@ -134,6 +145,8 @@ __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
+__all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
 __all__ += ["ModTypeIdDataTest", "CppModTypeTest", "CppGIBuilderTest", "ModTypeIdTest", "CppIniClassifierTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
@@ -153,3 +166,5 @@ __all__ += ["FileStatsTest", "CachedFileStatsTest", "RemapStatsTest", "FileDownl
 __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "RemapIniGroupedResourceTest"]
 __all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
+__all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
+__all__ += ["BaseIniFixerTest", "GIMIFixerOldTest"]

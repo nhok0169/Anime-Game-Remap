@@ -23,7 +23,7 @@ from ....core import IfContentPart
 ##### LocalImports
 from ....constants.IniConsts import IniKeywords
 from .BaseIniFixerOld import BaseIniFixerOld
-from ..iniParsers.GIMIParser import GIMIParser
+from ....core import GIMIParser
 from ....tools.Heading import Heading
 from ....core import IfTemplate
 from ....core import IniSectionGraph

@@ -2,7 +2,16 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_45d32c17809510f48fcbd9b7e6d1b46c" kind="dir">
     <compoundname>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits</compoundname>
+    <innerdir refid="dir_388e0ddb9c255b728adc41c96405b5b5">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits</innerdir>
     <innerfile refid="_base_ini_graph_group_edit_8h">BaseIniGraphGroupEdit.h</innerfile>
+    <innerfile refid="_graph_group_edit_8h">GraphGroupEdit.h</innerfile>
+    <innerfile refid="_graph_group_remap_8h">GraphGroupRemap.h</innerfile>
+    <innerfile refid="_graph_inherit_8h">GraphInherit.h</innerfile>
+    <innerfile refid="_graph_remove_8h">GraphRemove.h</innerfile>
+    <innerfile refid="_i_ini_graph_groups_8h">IIniGraphGroups.h</innerfile>
+    <innerfile refid="_ini_res_edit_context_8h">IniResEditContext.h</innerfile>
+    <innerfile refid="_res_group_collect_8h">ResGroupCollect.h</innerfile>
+    <innerfile refid="_res_reg_collect_8h">ResRegCollect.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

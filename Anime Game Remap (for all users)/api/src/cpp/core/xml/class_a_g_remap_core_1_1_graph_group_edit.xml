@@ -1,0 +1,781 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_graph_group_edit" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GraphGroupEdit</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_graph_group_edit_8h" local="no">GraphGroupEdit.h</includes>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" prot="public">AGRemapCore::GraphGroupEdit::PartEdit</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits" prot="public">AGRemapCore::GraphGroupEdit::IniEdits</innerclass>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PartEditKind</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::PartEditKind</qualifiedname>
+        <enumvalue id="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2a6adf97f83acf6453d4a6a4b1070f3754" prot="public">
+          <name>None</name>
+          <briefdescription>
+<para>Not an edit this class knows how to apply <ndash/> skipped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2a2573a7db158d3ecd891f91a7da8fc536" prot="public">
+          <name>GraphEdit</name>
+          <briefdescription>
+<para>Edits a whole graph at once (the <computeroutput>graphEdits/</computeroutput> family). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2aaa577b25c22d09dd050d5ba301244fa6" prot="public">
+          <name>RegEdit</name>
+          <briefdescription>
+<para>Edits one :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> at a time (the <computeroutput>regEdits/</computeroutput> family). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Which of the two kinds of edit a <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" kindref="compound">PartEdit</ref> is. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="107" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="107" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1ae0bb391a59479208eb08c813a9a4435b" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::Base = BaseIniGraphGroupEdit&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::Base</qualifiedname>
+        <briefdescription>
+<para>The base class this edit derives from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="57" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroups = typename Base::GraphGroups</definition>
+        <argsstring></argsstring>
+        <name>GraphGroups</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::GraphGroups</qualifiedname>
+        <briefdescription>
+<para>The group of graphs for each <computeroutput>.ini</computeroutput> file.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="62" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::Graph = typename Base::Graph</definition>
+        <argsstring></argsstring>
+        <name>Graph</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::Graph</qualifiedname>
+        <briefdescription>
+<para>The type of graph held in a group.    </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="67" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7fe51e0c915889261c77f70545193a87" kindref="member">Base::ModObj</ref></type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::ModObj = typename Base::ModObj</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::ModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The key identifying a graph -- ``(component name, mod object name)``, the direct
+equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="72" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1a6676f22a6124f6d75c226d8c991b2cc8" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::ContentPart = IfContentPart&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>ContentPart</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::ContentPart</qualifiedname>
+        <briefdescription>
+<para>The type of part a register-level edit edits. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="77" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1acefa8b08e8de5580558cd2b42fb12e18" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::IterData = SectionIterData&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>IterData</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::IterData</qualifiedname>
+        <briefdescription>
+<para>The per-part iteration data a <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> is handed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="82" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1a7e68bb221a4b1f227105f71c00e10758" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::OrderRanges = Ranges&lt;long long&gt;</definition>
+        <argsstring></argsstring>
+        <name>OrderRanges</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::OrderRanges</qualifiedname>
+        <briefdescription>
+<para>The ranges of valid <computeroutput>KVP</computeroutput>_ order indices a <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> returns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" prot="public" static="no">
+        <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::KeySet = std::unordered_set&lt;K, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>KeySet</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::KeySet</qualifiedname>
+        <briefdescription>
+<para>The set of <computeroutput>KVP</computeroutput>_ keys to track while iterating, when key tracking is on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="92" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" prot="public" static="no">
+        <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a7e68bb221a4b1f227105f71c00e10758" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1acefa8b08e8de5580558cd2b42fb12e18" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>using AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::PartFilter = std::function&lt;OrderRanges(const IterData&amp;, const ModType*, IniFile*)&gt;</definition>
+        <argsstring></argsstring>
+        <name>PartFilter</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::PartFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Restricts an edit to specific areas of a :cpp:class:`IfContentPart` -- an empty
+``std::function`` means &quot;the whole part&quot;, the equivalent of the pure-Python original&apos;s
+own ``Ranges.createFull()`` default filter
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_group_edit_1a40caca39c437811b9393133b40844f83" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits" kindref="compound">IniEdits</ref> &gt;</type>
+        <definition>std::vector&lt;IniEdits&gt; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::edits</definition>
+        <argsstring></argsstring>
+        <name>edits</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::edits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The edits to make, one entry per ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The pure-Python original splits this across four separate parallel lists
+(``edits``/``keyFilters``/``keysToTrack``/``trackKeys``), each allowed to be a
+different length, with anything past the end falling back to a default. Folding them
+into one entry per ``.ini`` file is equivalent -- only ``edits``&apos;s own length ever
+bounded the iteration
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="262" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_group_edit_1a40d3447c88466aa3f46f9098cbd66b67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::trackKeysIsGlobal</definition>
+        <argsstring></argsstring>
+        <name>trackKeysIsGlobal</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::trackKeysIsGlobal</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether \ref trackKeysGlobal applies to every graph, instead of the per-graph
+``trackKeys`` entries in \ref edits. Matches the pure-Python original&apos;s
+``isinstance(self.trackKeys, bool)`` check
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="272" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_group_edit_1a8b94404fa8ef1a605155908b974d9ec4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::trackKeysGlobal</definition>
+        <argsstring></argsstring>
+        <name>trackKeysGlobal</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::trackKeysGlobal</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>The key-tracking flag used for every graph when <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a40d3447c88466aa3f46f9098cbd66b67" kindref="member">trackKeysIsGlobal</ref> is <computeroutput>true</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="277" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1a4dc16c4bfa91357512e043c3b8805438" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::GraphGroupEdit</definition>
+        <argsstring>(std::vector&lt; IniEdits &gt; edits={}, bool trackKeysIsGlobal=true, bool trackKeysGlobal=false)</argsstring>
+        <name>GraphGroupEdit</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::GraphGroupEdit</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits" kindref="compound">IniEdits</ref> &gt;</type>
+          <declname>edits</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeysIsGlobal</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeysGlobal</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new graph-group edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>edits</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The edits to make, one entry per .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeysIsGlobal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether &apos;trackKeysGlobal&apos; applies to every graph. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeysGlobal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The global key-tracking flag. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="286" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::editFromIni</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>editFromIni</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::editFromIni</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aeb78a73665d2349b841ff4eb54791591">editFromIni</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Edits every graph named in <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a40caca39c437811b9393133b40844f83" kindref="member">edits</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated original .ini file. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="319" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::edit</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;) override</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::edit</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a59f31133ebce97ea9fce0fec632adf2f">edit</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits every graph named in \ref edits, with no ``.ini`` file to draw state from
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graphGroups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The group of graphs to edit for each .ini file, modified in place </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix. <bold>Nullable</bold> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The same groups that were passed in, after editing </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="334" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1a63f9d8c868e98cb72acc6c5135a98f6c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::editSectionGraph</definition>
+        <argsstring>(Graph &amp;graph, const std::vector&lt; PartEdit * &gt; &amp;filters, IniFile *ini, const ModType *modType, const std::string &amp;modName=&quot;&quot;, const std::vector&lt; PartFilter &gt; &amp;keyFilters={}, bool trackKeys=false, const std::optional&lt; KeySet &gt; &amp;keysToTrack=std::nullopt)</argsstring>
+        <name>editSectionGraph</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::editSectionGraph</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" kindref="compound">PartEdit</ref> * &gt; &amp;</type>
+          <declname>filters</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> &gt; &amp;</type>
+          <declname>keyFilters</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Applies &apos;filters&apos; to one graph, grouping consecutive same-kind edits into a single pass
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>graph</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The graph to edit </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The edits to apply, in order </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ini</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The associated .ini file, or <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of mod to fix, or <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod to fix to. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keyFilters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The per-edit part filters. May be shorter than &apos;filters&apos;. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>trackKeys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to track <computeroutput>KVPs</computeroutput>_ while iterating. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keysToTrack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Which keys to track, or <computeroutput>std::nullopt</computeroutput> for all of them. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The edited graph <ndash/> &apos;graph&apos; itself, unless some edit returned a different one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="305" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1a1aac9b61224bda5e87b0a453c1f218d0" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> *</type>
+        <definition>static Graph * AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::filterGroupEdit</definition>
+        <argsstring>(Graph &amp;graph, PartEditKind filterKind, const std::vector&lt; PartEdit * &gt; &amp;filterGroup, IniFile *ini, const ModType *modType, const std::string &amp;modName, const std::vector&lt; PartFilter &gt; &amp;keyFilters, bool trackKeys, const std::optional&lt; KeySet &gt; &amp;keysToTrack)</argsstring>
+        <name>filterGroupEdit</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::filterGroupEdit</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2" kindref="member">PartEditKind</ref></type>
+          <declname>filterKind</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" kindref="compound">PartEdit</ref> * &gt; &amp;</type>
+          <declname>filterGroup</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> &gt; &amp;</type>
+          <declname>keyFilters</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>trackKeys</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" kindref="member">KeySet</ref> &gt; &amp;</type>
+          <declname>keysToTrack</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="337" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1ac848696710fa22a6a40510167ff3450f" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>GraphGroups &amp; AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::editImpl</definition>
+        <argsstring>(GraphGroups &amp;graphGroups, IniFile *ini, const ModType *modType, const std::string &amp;modName)</argsstring>
+        <name>editImpl</name>
+        <qualifiedname>AGRemapCore::GraphGroupEdit::editImpl</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" kindref="member">GraphGroups</ref> &amp;</type>
+          <declname>graphGroups</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>ini</declname>
+        </param>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+          <declname>modType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="342" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniGraphGroupEdit`
+
+Edits the individual :cpp:class:`IniSectionGraph`\\s from a group of graphs :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Each graph is handed a list of edits, which are applied in order. Consecutive edits *of the
+same kind* are applied as one group -- a run of graph-level edits runs straight over the whole
+graph, while a run of register-level edits runs once per :cpp:class:`IfContentPart` the graph
+iterates over (so a single pass over the graph covers the whole run, rather than one pass per
+edit) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The individual edits are reached through #PartEdit rather than through
+   :cpp:class:`BaseIniGraphEdit`/:cpp:class:`BaseRegEdit` pointers, because the two kinds do
+   not share a callable base: their ``edit`` signatures genuinely differ (a whole graph vs. one
+   part). See #PartEdit&apos;s own note
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_group_edit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_group_edit"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="51" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="51" bodyend="343"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>addGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1ae0bb391a59479208eb08c813a9a4435b" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a6676f22a6124f6d75c226d8c991b2cc8" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2" prot="public" virt="virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57" prot="public" virt="virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>editFromIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1ac848696710fa22a6a40510167ff3450f" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>editImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a40caca39c437811b9393133b40844f83" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>edits</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a63f9d8c868e98cb72acc6c5135a98f6c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>editSectionGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a1aac9b61224bda5e87b0a453c1f218d0" prot="private" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>filterGroupEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a4140bb6e6cfe7929c6cd7d278af31ac6" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>getGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a4dc16c4bfa91357512e043c3b8805438" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>GraphGroupEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1adc61121f40813d34a99200c6a159ae9f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1acefa8b08e8de5580558cd2b42fb12e18" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>IterData</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>KeySet</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a7e68bb221a4b1f227105f71c00e10758" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>OrderRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>PartEditKind</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>PartFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a8b94404fa8ef1a605155908b974d9ec4" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>trackKeysGlobal</name></member>
+      <member refid="class_a_g_remap_core_1_1_graph_group_edit_1a40d3447c88466aa3f46f9098cbd66b67" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>trackKeysIsGlobal</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::GraphGroupEdit</scope><name>~BaseIniPartEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

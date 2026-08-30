@@ -2,6 +2,7 @@ pybind11_add_module(core
     src/bindings.cpp
     src/tools/PyAlgo.cpp
     src/tools/PyBiMap.cpp
+    src/tools/PyGraphTools.cpp
     src/tools/PyIntTools.cpp
     src/tools/PyListTools.cpp
     src/tools/PyRanges.cpp
@@ -19,8 +20,6 @@ pybind11_add_module(core
     src/model/assets/PyModAssets.cpp
     src/model/assets/PyHashes.cpp
     src/model/assets/PyIndices.cpp
-    src/data/HashData.cpp
-    src/data/IndexData.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp
@@ -55,6 +54,26 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/regEdits/PyRegNewVals.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemap.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemove.cpp
+    src/model/strategies/iniFixers/graphEdits/PyBaseIniGraphEdit.cpp
+    src/model/strategies/iniFixers/graphEdits/PyGraphRename.cpp
+    src/model/strategies/iniFixers/graphEdits/PyRegFillMissing.cpp
+    src/model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyIniGraphGroups.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupRemap.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyGraphGroupEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyResEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyBlendEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/resEdits/PyTexEdit.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyResRegCollect.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/PyResGroupCollect.cpp
+    src/model/strategies/iniParsers/PyBaseIniParser.cpp
+    src/model/strategies/iniParsers/PyGIMISectionClassifier.cpp
+    src/model/strategies/iniParsers/PyGIMIParser.cpp
+    src/model/strategies/iniFixers/PyBaseIniFixer.cpp
+    src/model/strategies/iniFixers/PyGIMIFixer.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

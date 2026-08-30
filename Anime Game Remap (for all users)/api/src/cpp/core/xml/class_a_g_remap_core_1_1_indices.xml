@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_indices" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Indices</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_mod_mapped_assets" prot="public" virt="non-virtual">AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;</basecompoundref>
+    <includes refid="_indices_8h" local="no">Indices.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_indices_1a3c37c8dfbb2fc3d441d2a9becfa46e30" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Indices::Indices</definition>
+        <argsstring>(std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; map={})</argsstring>
+        <name>Indices</name>
+        <qualifiedname>AGRemapCore::Indices::Indices</qualifiedname>
+        <param>
+          <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+          <declname>map</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new, fully-populated index lookup table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>map</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The initial `adjacency list`_ mapping the indices to fix **from** to the indices to fix
+**to** -- see :cpp:func:`ModMappedAssets::getMap` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: empty
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/Indices.h" line="47" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="38" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The indices related to a mod and its fix -- a :cpp:class:`ModMappedAssets` pre-populated with
+this project&apos;s real index data :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The exact sibling of :cpp:class:`Hashes`; read that class first. Everything there applies here
+too -- a default-constructed ``Indices`` is already fully populated, each instance gets its own
+mutable table, and the pybind layer&apos;s ``PyIndices`` is a separate ``py::object``-keyed class
+sharing only the underlying data (:cpp:func:`Data::getIndexDataRows`) :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The one difference from :cpp:class:`Hashes` is the shape: **4** index columns rather than 3
+   -- ``version`` (the version index, at position 0), ``name``, ``component`` and ``type``.
+   :cpp:class:`ModMappedAssets`&apos;s query methods therefore take **three** non-version values
+   positionally, in that order. ``component`` is frequently the empty string (see
+   ``IndexData``&apos;s own rows), which is a real key value here, not a &quot;missing&quot; marker
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::Indices</label>
+        <link refid="class_a_g_remap_core_1_1_indices"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::Indices</label>
+        <link refid="class_a_g_remap_core_1_1_indices"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::ModDictAssets&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_dict_assets"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ModMappedAssets&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>repo_</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/assets/Indices.h" line="33" column="5" bodyfile="include/AGRemapCore/model/assets/Indices.h" bodystart="33" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>addMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>addRepoRows</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a936849fbb63c5ac026b0f605e9bf4a88" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>get</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a045ec005d9787d97d8acd5fedb84899f" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>getFromAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>getKey</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>getKeyInternal</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af89593939d32cd68d893dae4b22947d9" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>getMap</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>getRepo</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a390fe6691c965210ff4b7682b7cd32b3" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>hasFrom</name></member>
+      <member refid="class_a_g_remap_core_1_1_indices_1a3c37c8dfbb2fc3d441d2a9becfa46e30" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>Indices</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>keys_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>map_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab735cc18f1788a268316d0ed60ae9544" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>ModMappedAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>rebuildKeys</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>replace</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>replaceAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abbf8953ecadf9a2e8dfa5a17e7477823" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>repo_</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>resolveToAssetNames</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

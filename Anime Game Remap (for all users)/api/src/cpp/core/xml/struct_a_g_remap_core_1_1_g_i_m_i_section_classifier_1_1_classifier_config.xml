@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMISectionClassifier::ClassifierConfig</compoundname>
+    <includes refid="_g_i_m_i_section_classifier_8h" local="no">GIMISectionClassifier.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a07b56a405c8db3594756606e94c51ad1" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig::hashKey</definition>
+        <argsstring></argsstring>
+        <name>hashKey</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::ClassifierConfig::hashKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key holding a model hash <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="146" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a94a2119964b82095832534f31ad992c7" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig::matchFirstIndexKey</definition>
+        <argsstring></argsstring>
+        <name>matchFirstIndexKey</name>
+        <qualifiedname>AGRemapCore::GIMISectionClassifier::ClassifierConfig::matchFirstIndexKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key holding a first-drawn index <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" kindref="member">IniKeywords::MatchFirstIndex</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="151" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs, for the same reason
+:cpp:class:`IfTemplateRunConfig` exists: ``K`` is not ``std::string`` for every
+instantiation, so the ``hash``/``match_first_index`` `KVP`_ keys can&apos;t be spelled as
+literals here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="142" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="142" bodyend="152"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a07b56a405c8db3594756606e94c51ad1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::ClassifierConfig</scope><name>hashKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a94a2119964b82095832534f31ad992c7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::ClassifierConfig</scope><name>matchFirstIndexKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

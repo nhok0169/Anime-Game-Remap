@@ -10,7 +10,13 @@ static std::uint64_t DefaultNodeId = 1;
 
 namespace AGRemapCore {
     template class BiMap<std::uint64_t, std::string, std::hash<std::uint64_t>, std::equal_to<std::uint64_t>, StringViewHash, std::equal_to<void>>;
-    template class IncIdGenerator<std::uint64_t>;
+
+    // note: IncIdGenerator<std::uint64_t> is explicitly instantiated in BaseDFA.tpp, and
+    //   BaseAhoCorasickDFA.h pulls in both that and this file -- instantiating it here too is a
+    //   duplicate explicit instantiation in the same translation unit, which MSVC accepts but GCC
+    //   rejects outright ("duplicate explicit instantiation ... [-fpermissive]"), breaking the Linux
+    //   build. A translation unit that includes only this file still gets the type via ordinary
+    //   implicit instantiation, so nothing is lost by leaving it to BaseDFA.tpp.
 
 
     template <typename TrieVal>

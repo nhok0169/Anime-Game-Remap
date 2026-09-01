@@ -1,7 +1,7 @@
 # AI Agent Help Instructions
 
 [![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/login)
-![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-22-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
+![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-23-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
 
 
 <br>
@@ -42,3 +42,4 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A9%F0%9F%93%90%20The%20Register%20Templater-1-%23b45309?style=plastic&labelColor=%23292524)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%95%B8%EF%B8%8F%F0%9F%96%8C%EF%B8%8F%20The%20Graph%20Edit%20Colourist-1-%23d946ef?style=flat-square&labelColor=%233b0764)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8F%AD%F0%9F%97%93%EF%B8%8F%20The%20Strategy%20Foundry-1-%23be123c?style=plastic&labelColor=%23450a0a)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%90%A7%F0%9F%A7%AD%20The%20Penguin%20Pathfinder-1-%230ea5e9?style=flat&labelColor=%23082f49)

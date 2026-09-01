@@ -59,6 +59,14 @@ registered; watch for this specifically when hand-editing a toctree list). If a 
 --keep-going` build reports a *new* warning on `api.rst`/`coreAPI.rst` (or `index.rst`'s toctree
 warnings reappear), treat it as a real regression to fix, not baseline noise to ignore.
 
+**The flip side of that same `rmtree`: `main.py -d` in a shell where `doxygen` isn't resolvable
+deletes all 642 tracked `core/xml` files and doesn't put them back** — the wipe is unconditional
+and runs *before* the `subprocess.run(["doxygen", ...], check=True)` that then raises
+`FileNotFoundError`. Usually caused by a stale `PATH` rather than a missing install. Recover with
+`git checkout -- "…/core/xml"`; see [Setup](../Setup/CLAUDE.md) for the full write-up, including
+why Doxygen **1.17.0** specifically is the version to install (the committed XML carries its
+version stamp).
+
 **Running `doxygen Doxyfile` over a `core/xml/` that already has output in it can silently emit a
 corrupt `index.xml`, which crashes the *next* Sphinx build with a stack trace rather than a
 warning.** `Tools/APIBuilder`'s own `buildDocs()` does `shutil.rmtree(core/xml)` immediately before

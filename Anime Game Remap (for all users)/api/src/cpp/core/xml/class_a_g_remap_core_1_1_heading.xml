@@ -1,0 +1,174 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_heading" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Heading</compoundname>
+    <includes refid="_heading_8h" local="no">Heading.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Heading::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>AGRemapCore::Heading::title</qualifiedname>
+        <briefdescription>
+<para>The title for the heading. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="47" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::Heading::sideLen</definition>
+        <argsstring></argsstring>
+        <name>sideLen</name>
+        <qualifiedname>AGRemapCore::Heading::sideLen</qualifiedname>
+        <briefdescription>
+<para>The number of characters one side of the border of the opening heading has. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="52" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Heading::sideChar</definition>
+        <argsstring></argsstring>
+        <name>sideChar</name>
+        <qualifiedname>AGRemapCore::Heading::sideChar</qualifiedname>
+        <briefdescription>
+<para>The character the border of the heading is drawn with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="57" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Heading::Heading</definition>
+        <argsstring>(std::string title=&quot;&quot;, std::size_t sideLen=0, std::string sideChar=&quot;=&quot;)</argsstring>
+        <name>Heading</name>
+        <qualifiedname>AGRemapCore::Heading::Heading</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>title</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>sideLen</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>sideChar</declname>
+          <defval>&quot;=&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new heading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>title</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The title for the heading. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sideLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many characters one side of <ref refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" kindref="member">open</ref>&apos;s border has. <bold>Default</bold>: <computeroutput>0</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sideChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character the border is drawn with. <bold>Default</bold>: <computeroutput>"="</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="42" column="22" bodyfile="src/tools/Heading.cpp" bodystart="7" bodyend="8"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Heading::open</definition>
+        <argsstring>() const</argsstring>
+        <name>open</name>
+        <qualifiedname>AGRemapCore::Heading::open</qualifiedname>
+        <briefdescription>
+<para>The opening heading <ndash/> line 1 of this class&apos;s own example. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="62" column="25" bodyfile="src/tools/Heading.cpp" bodystart="11" bodyend="20"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Heading::close</definition>
+        <argsstring>() const</argsstring>
+        <name>close</name>
+        <qualifiedname>AGRemapCore::Heading::close</qualifiedname>
+        <briefdescription>
+<para>The closing heading <ndash/> line 3 of this class&apos;s own example. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/Heading.h" line="67" column="25" bodyfile="src/tools/Heading.cpp" bodystart="23" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A heading for pretty printing :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. code-block::
+
+   ======= Title: Fix Raiden Boss 2 =======
+   ...
+   ========================================
+
+Line 1 is #open, line 3 is #close
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A direct port of the pure-Python ``Heading`` (``tools/Heading.py``), which is still the
+   one the `Python`_ side uses -- nothing has been rewired to this yet. It exists because
+   :cpp:class:`RemapIniFixContext` needs to build the very same header/footer with no
+   `Python`_ around, and that boilerplate is defined in terms of a heading
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/Heading.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="32" bodyend="68"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>close</name></member>
+      <member refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>Heading</name></member>
+      <member refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>open</name></member>
+      <member refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>sideChar</name></member>
+      <member refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>sideLen</name></member>
+      <member refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>title</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

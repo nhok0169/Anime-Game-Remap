@@ -76,6 +76,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_hashes" prot="public">AGRemapCore::Hashes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_int" prot="public">AGRemapCore::HashInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hash_tools" prot="public">AGRemapCore::HashTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_heading" prot="public">AGRemapCore::Heading</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public">AGRemapCore::HighlightShadow</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hue_adjust" prot="public">AGRemapCore::HueAdjust</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>
@@ -96,6 +97,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_i_ini_graph_groups" prot="public">AGRemapCore::IIniGraphGroups</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_inc_id_generator" prot="public">AGRemapCore::IncIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_indices" prot="public">AGRemapCore::Indices</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_boiler_plate" prot="public">AGRemapCore::IniBoilerPlate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
@@ -159,6 +161,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public">AGRemapCore::RemapBlendResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_download" prot="public">AGRemapCore::RemapIniDownload</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public">AGRemapCore::RemapIniGroupedResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>

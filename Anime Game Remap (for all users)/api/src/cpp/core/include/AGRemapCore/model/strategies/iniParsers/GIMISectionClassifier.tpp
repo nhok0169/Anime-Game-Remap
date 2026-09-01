@@ -195,11 +195,64 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_map<K, typename GIMISectionClassifier<K, V, KeyHash, KeyEqual>::ModObj, KeyHash, KeyEqual>
+            GIMISectionClassifier<K, V, KeyHash, KeyEqual>::buildDefaultHashKeyOnlyToModObj(const KeyMaker& makeKey) {
+        std::unordered_map<K, ModObj, KeyHash, KeyEqual> result;
+
+        if (!makeKey) {
+            return result;
+        }
+
+        for (const std::pair<const std::string, Data::ModObjKey>& entry : Data::getHashKeyOnlyToModObj()) {
+            result.emplace(makeKey(entry.first), ModObj(entry.second.first, entry.second.second));
+        }
+
+        return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_map<K, typename GIMISectionClassifier<K, V, KeyHash, KeyEqual>::IndexModObjs, KeyHash, KeyEqual>
+            GIMISectionClassifier<K, V, KeyHash, KeyEqual>::buildDefaultIndexKeyToModObj(const KeyMaker& makeKey) {
+        std::unordered_map<K, IndexModObjs, KeyHash, KeyEqual> result;
+
+        if (!makeKey) {
+            return result;
+        }
+
+        for (const std::pair<const std::string, Data::IndexKeyToModObj>& entry : Data::getIndexKeyToModObj()) {
+            IndexModObjs inner;
+
+            for (const std::pair<const Data::ModObjKey, Data::ModObjKey>& innerEntry : entry.second) {
+                // The index key is whatever the Indices table's own last two columns hold, so it
+                // goes through 'makeKey' too -- unlike the mod object it maps to, which is always
+                // a plain pair of std::string.
+                inner.emplace(IndexKey(makeKey(innerEntry.first.first), makeKey(innerEntry.first.second)),
+                              ModObj(innerEntry.second.first, innerEntry.second.second));
+            }
+
+            result.emplace(makeKey(entry.first), std::move(inner));
+        }
+
+        return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::unique_ptr<GIMISectionClassifier<K, V, KeyHash, KeyEqual>> GIMISectionClassifier<K, V, KeyHash, KeyEqual>::buildDefaultClassifier(
             Assets* hashes, Assets* indices, std::optional<Version> version, ClassifierConfig config) {
+        KeyMaker makeKey;
+
+        // Same constraint as defaultConfig's: a K that no .ini keyword can be spelled as has no
+        // way to be made from the hash data table's own std::string keys here -- that
+        // instantiation supplies its own mappings, as the pybind11 layer does.
+        if constexpr (std::is_constructible_v<K, const std::string&>) {
+            makeKey = [](const std::string& key) { return K(key); };
+        }
+
         return std::make_unique<GIMISectionClassifier<K, V, KeyHash, KeyEqual>>(
-            std::unordered_map<K, ModObj, KeyHash, KeyEqual>{}, hashes,
-            std::unordered_map<K, IndexModObjs, KeyHash, KeyEqual>{}, indices, std::move(version), std::move(config));
+            buildDefaultHashKeyOnlyToModObj(makeKey), hashes,
+            buildDefaultIndexKeyToModObj(makeKey), indices, std::move(version), std::move(config));
     }
 
 

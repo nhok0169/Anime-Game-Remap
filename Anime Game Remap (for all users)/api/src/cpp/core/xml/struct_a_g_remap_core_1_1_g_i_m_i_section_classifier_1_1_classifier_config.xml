@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="146" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="147" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="147" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a94a2119964b82095832534f31ad992c7" prot="public" static="no" mutable="no">
         <type>K</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="151" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="152" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="152" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -45,7 +45,7 @@ instantiation, so the ``hash``/``match_first_index`` `KVP`_ keys can&apos;t be s
 literals here
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="142" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="142" bodyend="152"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="143" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="143" bodyend="153"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a07b56a405c8db3594756606e94c51ad1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::ClassifierConfig</scope><name>hashKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config_1a94a2119964b82095832534f31ad992c7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier::ClassifierConfig</scope><name>matchFirstIndexKey</name></member>

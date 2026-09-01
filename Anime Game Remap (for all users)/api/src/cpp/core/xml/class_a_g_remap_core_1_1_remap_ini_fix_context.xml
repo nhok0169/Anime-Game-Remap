@@ -1,0 +1,433 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_ini_fix_context" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniFixContext</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_fix_context" prot="public" virt="non-virtual">AGRemapCore::IniFixContext&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_remap_ini_fix_context_8h" local="no">RemapIniFixContext.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1aec18cf8b4ec45fd4e4ea453b24b0cd6a" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::header</definition>
+        <argsstring></argsstring>
+        <name>header</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::header</qualifiedname>
+        <briefdescription>
+<para>The header this was constructed with, or <computeroutput>std::nullopt</computeroutput> for the default one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="82" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1ac30e4b5c3e6df8d3401e6a3deb7c17ad" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::footer</definition>
+        <argsstring></argsstring>
+        <name>footer</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::footer</qualifiedname>
+        <briefdescription>
+<para>The footer this was constructed with, or <computeroutput>std::nullopt</computeroutput> for the default one. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="87" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1af24002d90d60ea59e7acd9dd89600161" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::RemapIniFixContext</definition>
+        <argsstring>(std::optional&lt; std::string &gt; header=std::nullopt, std::optional&lt; std::string &gt; footer=std::nullopt)</argsstring>
+        <name>RemapIniFixContext</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::RemapIniFixContext</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>header</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>footer</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The whole header line a fix opens with, or ``std::nullopt`` to build the default one
+-- see #getFixHeader :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>footer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The whole footer a fix closes with, or ``std::nullopt`` to build the default one --
+see #getFixFooter :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="76" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1afe4347a64dfea75eb2a128bffb919c83" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>virtual std::optional&lt; std::string &gt; AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::modTypeName</definition>
+        <argsstring>() const</argsstring>
+        <name>modTypeName</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::modTypeName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The name of the mod type the ``.ini`` file was classified as, or ``std::nullopt`` when
+it was never classified (``ini.getFixModTypeName()``) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The one thing the boilerplate needs that this class can&apos;t know for itself. The default
+is &quot;never classified&quot;, which is what an unclassified ``.ini`` file&apos;s boilerplate reads
+as -- a subclass with a mod type overrides it
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Whatever a subclass returns is used as-is apart from having its newlines and tabs
+   stripped, the way the pure-Python original strips them: this text is written into a
+   ``;``-comment, and one stray newline in it would silently turn the rest of the
+   credit into ``.ini`` directives
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="108" column="35"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a9687a0154c1e1b3610ed994361db496f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::modTypeHeadingName</definition>
+        <argsstring>() const</argsstring>
+        <name>modTypeHeadingName</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::modTypeHeadingName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod type name the *heading* uses -- #modTypeName, or ``&quot;GI&quot;`` when there is none
+(``ini.getFixModTypeHeadingname()``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="117" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a8ed2d1fa60bf18fb1b847a793c0bb549" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::headingName</definition>
+        <argsstring>() const</argsstring>
+        <name>headingName</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::headingName</qualifiedname>
+        <briefdescription>
+<para>The title of the heading a fix is wrapped in (<computeroutput>ini.getHeadingName()</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="122" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a410d060f7c292c15311ea50772d789ec" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::getFixHeader</definition>
+        <argsstring>() const</argsstring>
+        <name>getFixHeader</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::getFixHeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The header line a fix opens with -- #header when one was given, otherwise a
+:cpp:class:`Heading` opened around #headingName (``ini.getFixHeader()``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="131" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a0a32eb30f1bb267e70c7c85c250b0042" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::getFixFooter</definition>
+        <argsstring>() const</argsstring>
+        <name>getFixFooter</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::getFixFooter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The footer a fix closes with -- #footer when one was given, otherwise a
+:cpp:class:`Heading` closed to the same width as #getFixHeader
+(``ini.getFixFooter()``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="141" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a27dc46710218d6a3a4d48908e14d04cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::getFixCredit</definition>
+        <argsstring>() const</argsstring>
+        <name>getFixCredit</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::getFixCredit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The credit line written between the header and the fix (``ini.getFixCredit()``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="149" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a59eff8cd80ddf4796bbc1abba4669ab4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::addFixBoilerPlate</definition>
+        <argsstring>(const std::string &amp;fix) const override</argsstring>
+        <name>addFixBoilerPlate</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::addFixBoilerPlate</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_fix_context_1a81d1626f1eb357eb240d33717f47bbcb">addFixBoilerPlate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Wraps &apos;fix&apos; in the header/credit/footer boilerplate that marks it as this software&apos;s
+work (``ini.addFixBoilerPlate(fix = ...)``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The content of the fix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="151" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1a7fc11a395e62cc00dd14356c4ecd567e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>static std::optional&lt; std::string &gt; AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::cleanModTypeName</definition>
+        <argsstring>(const RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt; &amp;ctx)</argsstring>
+        <name>cleanModTypeName</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::cleanModTypeName</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1af24002d90d60ea59e7acd9dd89600161" kindref="member">RemapIniFixContext</ref>&lt; K, V, KeyHash, KeyEqual &gt; &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="157" column="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_context_1afe999716d96acef65186f93830f0c773" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;::replaceAll</definition>
+        <argsstring>(const std::string &amp;txt, const std::string &amp;target, const std::string &amp;replacement)</argsstring>
+        <name>replaceAll</name>
+        <qualifiedname>AGRemapCore::RemapIniFixContext::replaceAll</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>target</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>replacement</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="162" column="32"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+An :cpp:class:`IniFixContext` that already knows how to wrap a fix in this software&apos;s own
+header/credit/footer boilerplate :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:func:`IniFixContext::addFixBoilerPlate` is the one part of that interface whose answer
+doesn&apos;t depend on a real ``.ini`` file at all -- it is the same text for every remap, built
+from a heading and a credit line. Everything else on the interface (the file&apos;s text, its path,
+its log, where its groups live) genuinely does, so this class implements *only* that one
+method and stays abstract: it is a base to inherit from, not a context to use on its own
+
+:raw-html:`&lt;br /&gt;`
+
+The text it builds is the pure-Python ``IniFile.addFixBoilerPlate``&apos;s, exactly:
+:cpp:func:`getFixHeader`, then :cpp:func:`getFixCredit`, then a blank line and the fix, then
+:cpp:func:`getFixFooter` -- so a fix written by a plain C++ caller is byte-for-byte one the
+`Python`_ side would have written, and the still-pure-Python ``IniRemover`` can find it again
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Both halves of the divider can be replaced wholesale through #header/#footer. What can&apos;t
+   is the credit between them -- that is the attribution this software asks for, and a
+   subclass that wants it gone can override #addFixBoilerPlate itself rather than being
+   handed a switch for it
+
+.. note::
+   One deliberate divergence from the pure-Python original: it caches the heading&apos;s title on
+   the ``IniFile`` the first time a header is built and clears it again on every
+   reclassification, so a header built before a ``.ini`` file was classified keeps the
+   pre-classification title afterwards. Here the title is derived from #modTypeName at every
+   call, so it is always current. Within any single #addFixBoilerPlate call the two are
+   identical -- the header and the footer are always built from the same title either way
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::IniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_context"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::IniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_context"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h" bodystart="55" bodyend="163"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a59eff8cd80ddf4796bbc1abba4669ab4" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>addFixBoilerPlate</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a7fc11a395e62cc00dd14356c4ecd567e" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>cleanModTypeName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1afeadfc3df05c19cdfbe26ac99e6cab62" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>disableIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1a804abeaf4c7adbd266c589f7a8de5bdb" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>fileTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ac8d3ec9a200c9f537a62aaae2a170dcf" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>fixedFileExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ad56abaf3932510ad60dc5740fc59c942" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>fixedFilePath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1ac30e4b5c3e6df8d3401e6a3deb7c17ad" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>footer</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a27dc46710218d6a3a4d48908e14d04cb" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>getFixCredit</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a0a32eb30f1bb267e70c7c85c250b0042" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>getFixFooter</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a410d060f7c292c15311ea50772d789ec" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>getFixHeader</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1a8440cb2531e41aee17426e8cc9ecbd56" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>hasIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1aec18cf8b4ec45fd4e4ea453b24b0cd6a" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>header</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a8ed2d1fa60bf18fb1b847a793c0bb549" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>headingName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1af135f9209305e56cf8e2ec4c04f58420" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>hideOriginalSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ac3a69c2e92f593b4a14db2c670049a02" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>log</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1a0f968602d9dbf8ee122cc28c924087ae" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>makeGraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1af0e69c19bc737623eac3cf616bde026d" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>modsToFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a9687a0154c1e1b3610ed994361db496f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>modTypeHeadingName</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1afe4347a64dfea75eb2a128bffb919c83" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>modTypeName</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1af24002d90d60ea59e7acd9dd89600161" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>RemapIniFixContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1afe999716d96acef65186f93830f0c773" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>replaceAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1a007b138b69fe3e0b94e93d331971ee9b" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>setFileTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1afb23b0e6d70476f93a49c104a76b85ea" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>setIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ac6736ecd5a3bf5de357d1932b4dc4b2e" prot="public" virt="pure-virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>writeFixedFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ac2d58821ec28f907490f2ae938388b4d" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniFixContext</scope><name>~IniFixContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

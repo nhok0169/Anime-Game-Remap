@@ -13,6 +13,7 @@
 #include "graphGroupEdits/PyIniGraphGroups.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
+#include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
 
 
 namespace py = pybind11;
@@ -30,11 +31,27 @@ namespace AGRC = AGRemapCore;
  beyond faithfulness for the two that touch the filesystem: this project's test harness patches
  ``builtins.open`` and ``os.path`` at the `Python`_ level, so a ``std::filesystem`` call here would
  silently bypass every one of those mocks
+
+ :raw-html:`<br />`
+
+ .. note::
+    ``addFixBoilerPlate`` is the one method here that does **not** forward to `Python`_. Its base is
+    :cpp:class:`AGRemapCore::RemapIniFixContext` rather than :cpp:class:`AGRemapCore::IniFixContext`
+    itself, and the inherited C++ implementation is the one that runs -- the boilerplate a fix is
+    wrapped in is now owned by `AGRemapCore`, not by the `Python`_ ``IniFile``. It is the same text
+    to the byte either way (:cpp:class:`RemapIniFixContext`'s own tests pin that against output
+    captured from the `Python`_ original), and #modTypeName is what feeds it the name
+
+    :raw-html:`<br />`
+
+    ``IniFile.addFixBoilerPlate`` itself stays -- the still-pure-Python ``MultiModFixer`` calls it
+    directly -- but an ``IniFile`` subclass that overrides it no longer changes what a
+    :cpp:class:`GIMIFixer` writes
  @endrst
  */
-class PyIniFixContext: public AGRC::IniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniFixContext: public AGRC::RemapIniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
     public:
-        using Base = AGRC::IniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::RemapIniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
         using GraphGroups = Base::GraphGroups;
 
         /**
@@ -50,6 +67,7 @@ class PyIniFixContext: public AGRC::IniFixContext<py::object, py::object, PyObje
         py::object ini;
 
         bool hasIni() const override;
+        std::optional<std::string> modTypeName() const override;
         std::vector<std::string> modsToFix() const override;
         std::optional<std::string> fixedFilePath(std::size_t groupInd) const override;
         bool fixedFileExists() const override;
@@ -58,7 +76,6 @@ class PyIniFixContext: public AGRC::IniFixContext<py::object, py::object, PyObje
         void hideOriginalSections() override;
         void disableIni() override;
         void log(const std::string &message) override;
-        std::string addFixBoilerPlate(const std::string &fix) const override;
         void writeFixedFile(const std::string &path, const std::string &content) override;
         void setIsFixed(bool isFixed) override;
         std::unique_ptr<GraphGroups> makeGraphGroups() override;

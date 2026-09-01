@@ -215,16 +215,43 @@ class GIMISectionClassifierTest(BaseUnitTest):
             self.hashes = hashes
             self.indices = indices
 
-    def test_buildDefaultClassifier_emptyMappingsRealAssets(self):
+    def test_buildDefaultClassifier_defaultMappingsRealAssets(self):
         hashes = self._makeHashes()
         indices = self._makeIndices()
         classifier = FRB.GIMISectionClassifier.buildDefaultClassifier(self._FakeModType(hashes, indices), 3.0)
 
-        self.compareDict(classifier.hashKeyOnlyToModObj, {})
-        self.compareDict(classifier.indexKeyToModObj, {})
+        # The default mappings are derived from the whole hash/index data tables, so this asserts
+        # the convention rather than an exact listing -- adding a character to HashData must not
+        # break this test.
+        self.assertGreater(len(classifier.hashKeyOnlyToModObj), 0)
+        self.assertEqual(classifier.hashKeyOnlyToModObj["blend_vb"], ("", "blend_vb"))
+        self.assertEqual(classifier.hashKeyOnlyToModObj["tex_head_diffuse"], ("", "tex_head_diffuse"))
+        self.assertNotIn("ib", classifier.hashKeyOnlyToModObj)
+
+        self.compareList(list(classifier.indexKeyToModObj.keys()), ["ib"])
+        self.assertEqual(classifier.indexKeyToModObj["ib"][("", "head")], ("", "head"))
+        self.assertEqual(classifier.indexKeyToModObj["ib"][("", "body")], ("", "body"))
+
         self.assertIs(classifier.hashes, hashes)
         self.assertIs(classifier.indices, indices)
         self.assertEqual(classifier.version, 3.0)
+
+    def test_buildDefaultClassifier_mappingsAreThisClassifiersOwn(self):
+        first = FRB.GIMISectionClassifier.buildDefaultClassifier(None)
+        second = FRB.GIMISectionClassifier.buildDefaultClassifier(None)
+
+        # Each build gets its own dicts -- callers are expected to add their mod type's own
+        # entries, and must not write through to every other classifier's.
+        first.hashKeyOnlyToModObj["blend_vb"] = ("", "somethingElse")
+        self.assertEqual(second.hashKeyOnlyToModObj["blend_vb"], ("", "blend_vb"))
+
+    def test_buildDefaultClassifier_defaultMappingsClassifyARealHash(self):
+        # The point of the defaults: a classifier built for a mod type resolves that mod type's own
+        # hashes with no further setup.
+        classifier = FRB.GIMISectionClassifier.buildDefaultClassifier(self._FakeModType(self._makeHashes(), self._makeIndices()))
+
+        self.compareList(classifier.classify("SomeSection", None, self._colouring({"hash": [(0, self._BLEND_HASH)]})),
+                         [("", "blend_vb")])
 
     def test_buildDefaultClassifier_noModType_noAssets(self):
         classifier = FRB.GIMISectionClassifier.buildDefaultClassifier(None)

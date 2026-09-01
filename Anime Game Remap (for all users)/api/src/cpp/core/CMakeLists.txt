@@ -26,6 +26,7 @@ add_library(AGRemapCore STATIC
     src/constants/GlobalIniRemoveBuilders.cpp
     src/data/HashData.cpp
     src/data/IndexData.cpp
+    src/data/HashToModObjData.cpp
     src/data/VertexCountData.cpp
     src/data/VGRemapData.cpp
     src/data/ModDataAssets.cpp
@@ -35,6 +36,7 @@ add_library(AGRemapCore STATIC
     src/constants/GlobalIniClassifiers.cpp
     src/model/Version.cpp
     src/model/VersionSet.cpp
+    src/tools/Heading.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/TextTools.cpp

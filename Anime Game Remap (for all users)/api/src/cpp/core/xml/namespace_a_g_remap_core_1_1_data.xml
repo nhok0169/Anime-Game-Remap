@@ -2,6 +2,44 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="namespace_a_g_remap_core_1_1_data" kind="namespace" language="C++">
     <compoundname>AGRemapCore::Data</compoundname>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" prot="public" static="no">
+        <type>std::pair&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::Data::ModObjKey = std::pair&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>ModObjKey</name>
+        <qualifiedname>AGRemapCore::Data::ModObjKey</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A mod object -- the ``(component name, object name)`` pair every mod object in this
+codebase is identified by
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/HashToModObjData.h" line="20" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="20" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1_data_1a374c7430224aaa1a2d0a4b208cd4fc22" prot="public" static="no">
+        <type>std::map&lt; <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref>, <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref> &gt;</type>
+        <definition>using AGRemapCore::Data::IndexKeyToModObj = std::map&lt;ModObjKey, ModObjKey&gt;</definition>
+        <argsstring></argsstring>
+        <name>IndexKeyToModObj</name>
+        <qualifiedname>AGRemapCore::Data::IndexKeyToModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects one ``ib``-suffixed hash type can resolve to, keyed by the last two index
+columns of the :cpp:class:`Indices` row a ``match_first_index`` value matched
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/HashToModObjData.h" line="29" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="func">
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a7f779d0038e3aa9abb64cc0106ab6db0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
@@ -34,6 +72,107 @@ Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` s
         <inbodydescription>
         </inbodydescription>
         <location file="src/data/HashData.cpp" line="11" column="19" bodyfile="src/data/HashData.cpp" bodystart="11" bodyend="1019" declfile="include/AGRemapCore/data/HashData.h" declline="33" declcolumn="27"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a3317564d38bd694ce4c148659cb87521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref></type>
+        <definition>ModObjKey AGRemapCore::Data::parseModObjKey</definition>
+        <argsstring>(const std::string &amp;key)</argsstring>
+        <name>parseModObjKey</name>
+        <qualifiedname>AGRemapCore::Data::parseModObjKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Splits one of :cpp:func:`getHashDataRows`&apos;s innermost keys into the mod object it names
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A key is either ``objName`` or ``compName;objName``. The first form -- currently the only
+one any row uses -- names an object with no component, so it becomes ``(&quot;&quot;, objName)``.
+The second exists for mods whose model is split across several components (Yelan&apos;s skin,
+the WuWa mods), and becomes ``(compName, objName)``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One of the innermost keys of the hash data table</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The mod object that key names </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/HashToModObjData.cpp" line="33" column="11" bodyfile="src/data/HashToModObjData.cpp" bodystart="33" bodyend="41" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="47" declcolumn="19"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a6760ba6de957b61ad5bf0e062fbd6a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref> &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, ModObjKey &gt; &amp; AGRemapCore::Data::getHashKeyOnlyToModObj</definition>
+        <argsstring>()</argsstring>
+        <name>getHashKeyOnlyToModObj</name>
+        <qualifiedname>AGRemapCore::Data::getHashKeyOnlyToModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects a ``hash`` `KVP`_ identifies on its own -- every hash type
+:cpp:func:`getHashDataRows` ships **except** the ``ib``-suffixed ones
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Keys are the innermost keys of the hash data table (``blend_vb``, ``tex_head_diffuse``,
+...); values are what :cpp:func:`parseModObjKey` makes of them. This is the default
+:cpp:member:`GIMISectionClassifier::hashKeyOnlyToModObj`
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Derived from :cpp:func:`getHashDataRows` on first use, not transcribed -- so a hash
+   type added to ``HashData.cpp`` shows up here with no second edit. That is the opposite
+   of how ``HashData.cpp``/``IndexData.cpp`` themselves are maintained, and deliberately
+   so: this table holds no information of its own, only a naming convention applied to
+   theirs
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/HashToModObjData.cpp" line="44" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="44" bodyend="67" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="70" declcolumn="34"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a4dd538eb445ecfc53cda296f9e22c40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::unordered_map&lt; std::string, <ref refid="namespace_a_g_remap_core_1_1_data_1a374c7430224aaa1a2d0a4b208cd4fc22" kindref="member">IndexKeyToModObj</ref> &gt; &amp;</type>
+        <definition>const std::unordered_map&lt; std::string, IndexKeyToModObj &gt; &amp; AGRemapCore::Data::getIndexKeyToModObj</definition>
+        <argsstring>()</argsstring>
+        <name>getIndexKeyToModObj</name>
+        <qualifiedname>AGRemapCore::Data::getIndexKeyToModObj</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod objects a ``hash`` `KVP`_ can only narrow down, needing a ``match_first_index``
+`KVP`_ to tell them apart -- the ``ib``-suffixed hash types, and only those
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Outer keys are the innermost keys of the hash data table whose object name ends in ``ib``;
+the inner maps are keyed by the ``(component, object)`` pair the matched
+:cpp:class:`Indices` row ends with -- which is already a mod object, so it maps to itself.
+This is the default :cpp:member:`GIMISectionClassifier::indexKeyToModObj`
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Derived from :cpp:func:`getHashDataRows` and :cpp:func:`getIndexDataRows` on first use
+   -- see :cpp:func:`getHashKeyOnlyToModObj`&apos;s own note
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/HashToModObjData.cpp" line="70" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="70" bodyend="106" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="91" declcolumn="34"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a77be158216c0ca3c6907e38d4f8c7ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>

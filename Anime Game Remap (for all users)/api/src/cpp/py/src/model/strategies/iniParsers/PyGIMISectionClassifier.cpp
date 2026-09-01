@@ -7,6 +7,8 @@
 
 #include <pybind11/stl.h>
 
+#include "AGRemapCore/data/HashToModObjData.h"
+
 #include "../../PyVersion.h"
 #include "../../assets/PyModDictAssets.h"
 #include "../../assets/PyModMappedAssets.h"
@@ -56,6 +58,38 @@ Core::IndexKey indexKeyFromPy(const py::handle &value) {
     }
 
     return Core::IndexKey(py::reinterpret_borrow<py::object>(asTuple[0]), py::reinterpret_borrow<py::object>(asTuple[1]));
+}
+
+
+// The every-mod-type-shares-them default mappings, in the Python dict form this class keeps them
+// in. Built fresh per call rather than cached in a static py::object: a py::object that outlives
+// the interpreter crashes at shutdown, and these are small enough that it does not matter.
+py::dict defaultHashKeyOnlyToModObj() {
+    py::dict result;
+
+    for (const std::pair<const std::string, AGRC::Data::ModObjKey> &entry : AGRC::Data::getHashKeyOnlyToModObj()) {
+        result[py::str(entry.first)] = modObjToPy(ModObj(entry.second.first, entry.second.second));
+    }
+
+    return result;
+}
+
+
+py::dict defaultIndexKeyToModObj() {
+    py::dict result;
+
+    for (const std::pair<const std::string, AGRC::Data::IndexKeyToModObj> &entry : AGRC::Data::getIndexKeyToModObj()) {
+        py::dict inner;
+
+        for (const std::pair<const AGRC::Data::ModObjKey, AGRC::Data::ModObjKey> &innerEntry : entry.second) {
+            inner[py::make_tuple(py::str(innerEntry.first.first), py::str(innerEntry.first.second))] =
+                modObjToPy(ModObj(innerEntry.second.first, innerEntry.second.second));
+        }
+
+        result[py::str(entry.first)] = std::move(inner);
+    }
+
+    return result;
 }
 
 
@@ -283,10 +317,23 @@ List[Tuple[:class:`str`, :class:`str`]]
             py::object hashes = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("hashes"));
             py::object indices = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("indices"));
 
-            return std::make_unique<PyGIMISectionClassifier>(py::dict(), std::move(hashes), py::dict(), std::move(indices),
+            return std::make_unique<PyGIMISectionClassifier>(defaultHashKeyOnlyToModObj(), std::move(hashes),
+                                                              defaultIndexKeyToModObj(), std::move(indices),
                                                               version, py::none(), py::none());
         }, py::arg("modType"), py::arg("version") = py::none(), py::doc(R"doc(
 Builds the default classifier for the `sections`_
+
+:raw-html:`<br />`
+
+The classifier comes pre-filled with the mod object mappings every mod type shares -- one entry per
+hash type the hash data table ships, named by that hash type's own key (``blend_vb`` becomes
+``("", "blend_vb")``, and a ``compName;objName`` key becomes ``(compName, objName)``). The
+``ib``-suffixed hash types land in :attr:`GIMISectionClassifier.indexKeyToModObj` instead, since a
+``hash`` value alone can't tell those apart; every other one lands in
+:attr:`GIMISectionClassifier.hashKeyOnlyToModObj` :raw-html:`<br />` :raw-html:`<br />`
+
+The mappings are this classifier's own :class:`dict`\s -- editing them to add whatever else a
+particular mod type needs won't write through to any other classifier
 
 Parameters
 ----------
@@ -312,10 +359,23 @@ Returns
             py::object hashes = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("hashes"));
             py::object indices = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("indices"));
 
-            return std::make_unique<PyGIMISectionClassifier>(py::dict(), std::move(hashes), py::dict(), std::move(indices),
+            return std::make_unique<PyGIMISectionClassifier>(defaultHashKeyOnlyToModObj(), std::move(hashes),
+                                                              defaultIndexKeyToModObj(), std::move(indices),
                                                               ini.attr("version"), py::none(), py::none());
         }, py::arg("ini"), py::doc(R"doc(
 Builds the default classifier for the `sections`_ from a .ini file
+
+:raw-html:`<br />`
+
+The classifier comes pre-filled with the mod object mappings every mod type shares -- one entry per
+hash type the hash data table ships, named by that hash type's own key (``blend_vb`` becomes
+``("", "blend_vb")``, and a ``compName;objName`` key becomes ``(compName, objName)``). The
+``ib``-suffixed hash types land in :attr:`GIMISectionClassifier.indexKeyToModObj` instead, since a
+``hash`` value alone can't tell those apart; every other one lands in
+:attr:`GIMISectionClassifier.hashKeyOnlyToModObj` :raw-html:`<br />` :raw-html:`<br />`
+
+The mappings are this classifier's own :class:`dict`\s -- editing them to add whatever else a
+particular mod type needs won't write through to any other classifier
 
 Parameters
 ----------

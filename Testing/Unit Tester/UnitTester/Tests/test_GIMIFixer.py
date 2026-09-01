@@ -199,6 +199,34 @@ class GIMIFixerTest(BaseIniFileTest):
         # leads and this software's own credit block follows.
         self.assertTrue(result[path].startswith(self._iniFile.fileTxt))
 
+    def test_fix_boilerPlateIsBuiltInCppNotByTheIniFile(self):
+        self.create(modsToFix = ["rika"])
+        result = self.parseAndFix()
+        content = result[self._iniFile.filePath.path]
+
+        # ``PyIniFixContext`` inherits ``RemapIniFixContext``'s boilerplate rather than forwarding
+        # to ``IniFile.addFixBoilerPlate``, so this is the C++ text -- byte-identical to what the
+        # .ini file would have built, which is exactly why the swap is safe.
+        modTypeName = self._iniFile.availableType.name
+        side = "-" * 15
+        self.assertIn(f"; {side} {modTypeName} Remap {side}", content)
+        self.assertIn("Albert Gold#2696", content)
+
+    def test_fix_theIniFilesOwnBoilerPlateIsNoLongerConsulted(self):
+        self.create(modsToFix = ["rika"])
+
+        # Replacing the .ini file's own boilerplate no longer changes what the fixer writes. This
+        # is the one deliberate behaviour change from making ``PyIniFixContext`` a
+        # ``RemapIniFixContext``: ``IniFile.addFixBoilerPlate`` is still there and still called by
+        # ``MultiModFixer``, but the fixer does not go through it.
+        self._iniFile.addFixBoilerPlate = lambda fix = "": "SHOULD-NOT-APPEAR"
+
+        result = self.parseAndFix()
+        content = result[self._iniFile.filePath.path]
+
+        self.assertNotIn("SHOULD-NOT-APPEAR", content)
+        self.assertIn("Albert Gold#2696", content)
+
     def test_fix_marksTheIniFileAsFixed(self):
         self.create(modsToFix = ["rika"])
         self._iniFile.parse()

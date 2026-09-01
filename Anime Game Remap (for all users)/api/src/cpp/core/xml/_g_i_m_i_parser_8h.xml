@@ -33,7 +33,7 @@
       <node id="34">
         <label>Algo.tpp</label>
       </node>
-      <node id="104">
+      <node id="105">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
       <node id="77">
@@ -45,10 +45,10 @@
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="103">
+      <node id="104">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="101">
+      <node id="102">
         <label>BiMap.tpp</label>
       </node>
       <node id="49">
@@ -76,6 +76,18 @@
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="81">
+        <label>AGRemapCore/data/HashToModObjData.h</label>
+        <link refid="_hash_to_mod_obj_data_8h"/>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="21">
@@ -184,7 +196,7 @@
         <childnode refid="66" relation="include">
         </childnode>
       </node>
-      <node id="81">
+      <node id="82">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
         <childnode refid="2" relation="include">
@@ -202,7 +214,7 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="83">
+      <node id="84">
         <label>AGRemapCore/model/assets/ModDictAssets.h</label>
         <link refid="_mod_dict_assets_8h"/>
         <childnode refid="2" relation="include">
@@ -217,14 +229,14 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
       </node>
-      <node id="82">
+      <node id="83">
         <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
         <link refid="_mod_mapped_assets_8h"/>
         <childnode refid="2" relation="include">
@@ -241,16 +253,16 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="85">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
         <childnode refid="12" relation="include">
@@ -442,7 +454,7 @@
         <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="89">
         <label>AGRemapCore/model/iniresources/IniResource.h</label>
         <link refid="_ini_resource_8h"/>
         <childnode refid="4" relation="include">
@@ -456,7 +468,7 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="91">
+      <node id="92">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
         <childnode refid="4" relation="include">
@@ -467,14 +479,14 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="94">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="69" relation="include">
@@ -487,10 +499,10 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="95">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
         <childnode refid="69" relation="include">
@@ -504,12 +516,12 @@
         <childnode refid="10" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="93">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
-        <childnode refid="93" relation="include">
-        </childnode>
         <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="95" relation="include">
         </childnode>
       </node>
       <node id="74">
@@ -625,13 +637,13 @@
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
       </node>
       <node id="80">
@@ -655,22 +667,24 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
         <childnode refid="81" relation="include">
         </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
         <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="88">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
         <link refid="_ini_parse_context_8h"/>
         <childnode refid="4" relation="include">
@@ -687,20 +701,20 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
-        </childnode>
         <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="91">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="4" relation="include">
@@ -717,13 +731,13 @@
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
-        </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="96" relation="include">
+        </childnode>
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
       <node id="31">
@@ -738,7 +752,7 @@
         <childnode refid="34" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="101">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="9" relation="include">
@@ -749,7 +763,7 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
       <node id="67">
@@ -784,15 +798,15 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="103">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
-      <node id="95">
+      <node id="96">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
         <childnode refid="6" relation="include">
@@ -960,24 +974,24 @@
         <childnode refid="12" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="98">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="99">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -995,13 +1009,13 @@
         </childnode>
         <childnode refid="20" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
-        </childnode>
         <childnode refid="103" relation="include">
+        </childnode>
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
       <node id="57">
@@ -1020,10 +1034,10 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="105">
+      <node id="106">
         <label>GIMIParser.tpp</label>
       </node>
-      <node id="89">
+      <node id="90">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="70">
@@ -1053,16 +1067,16 @@
       <node id="72">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="96">
+      <node id="97">
         <label>IniParseDownloadData.tpp</label>
       </node>
       <node id="71">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="85">
+      <node id="86">
         <label>ModDictAssets.tpp</label>
       </node>
-      <node id="86">
+      <node id="87">
         <label>ModMappedAssets.tpp</label>
       </node>
       <node id="61">
@@ -1128,7 +1142,7 @@
       <node id="8">
         <label>string</label>
       </node>
-      <node id="99">
+      <node id="100">
         <label>string_view</label>
       </node>
       <node id="13">

@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="class_a_g_remap_core_1_1_ini_fix_context" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::IniFixContext</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_ini_fix_context_8h" local="no">IniFixContext.h</includes>
     <templateparamlist>
       <param>
@@ -249,6 +250,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         <argsstring>(const std::string &amp;fix) const =0</argsstring>
         <name>addFixBoilerPlate</name>
         <qualifiedname>AGRemapCore::IniFixContext::addFixBoilerPlate</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a59eff8cd80ddf4796bbc1abba4669ab4">addFixBoilerPlate</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>fix</declname>
@@ -429,6 +431,18 @@ backup it disables, the text it hides, and the files it writes. All of that live
 </parameterlist>
 </para>
     </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_context"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixContext&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_context"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
     <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixContext.h" line="44" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixContext.h" bodystart="44" bodyend="163"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_context_1a81d1626f1eb357eb240d33717f47bbcb" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniFixContext</scope><name>addFixBoilerPlate</name></member>

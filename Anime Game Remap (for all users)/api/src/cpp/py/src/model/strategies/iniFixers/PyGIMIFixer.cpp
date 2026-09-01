@@ -85,6 +85,19 @@ bool PyIniFixContext::hasIni() const {
 }
 
 
+std::optional<std::string> PyIniFixContext::modTypeName() const {
+    py::object type = modType();
+
+    if (type.is_none()) {
+        return std::nullopt;
+    }
+
+    // Deliberately not guarded: every ModType has a name, and one that doesn't is a programming
+    // error worth surfacing rather than quietly boilerplating the fix as unclassified.
+    return py::str(type.attr("name")).cast<std::string>();
+}
+
+
 py::object PyIniFixContext::modType() const {
     if (!hasIni()) {
         return py::none();
@@ -186,15 +199,6 @@ void PyIniFixContext::log(const std::string &message) {
     if (hasIni()) {
         ini.attr("print")(py::str("log"), py::str(message));
     }
-}
-
-
-std::string PyIniFixContext::addFixBoilerPlate(const std::string &fix) const {
-    if (!hasIni()) {
-        return fix;
-    }
-
-    return py::str(ini.attr("addFixBoilerPlate")(py::arg("fix") = fix)).cast<std::string>();
 }
 
 

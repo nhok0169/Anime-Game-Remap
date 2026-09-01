@@ -3,6 +3,7 @@
   <compounddef id="dir_c1be8d27e7f84178e95f152701110b19" kind="dir">
     <compoundname>src/data</compoundname>
     <innerfile refid="_hash_data_8cpp">HashData.cpp</innerfile>
+    <innerfile refid="_hash_to_mod_obj_data_8cpp">HashToModObjData.cpp</innerfile>
     <innerfile refid="_index_data_8cpp">IndexData.cpp</innerfile>
     <innerfile refid="_ini_fix_builder_data_8cpp">IniFixBuilderData.cpp</innerfile>
     <innerfile refid="_ini_parse_builder_data_8cpp">IniParseBuilderData.cpp</innerfile>

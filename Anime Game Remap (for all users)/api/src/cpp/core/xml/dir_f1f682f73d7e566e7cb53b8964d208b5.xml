@@ -10,6 +10,7 @@
     <innerfile refid="_global_ini_classifiers_8h">GlobalIniClassifiers.h</innerfile>
     <innerfile refid="_global_ini_remove_builders_8h">GlobalIniRemoveBuilders.h</innerfile>
     <innerfile refid="_if_pred_part_type_8h">IfPredPartType.h</innerfile>
+    <innerfile refid="_ini_boiler_plate_8h">IniBoilerPlate.h</innerfile>
     <innerfile refid="_ini_graph_mod_obj_keywords_8h">IniGraphModObjKeywords.h</innerfile>
     <innerfile refid="_ini_graph_replace_mode_8h">IniGraphReplaceMode.h</innerfile>
     <innerfile refid="_ini_keywords_8h">IniKeywords.h</innerfile>

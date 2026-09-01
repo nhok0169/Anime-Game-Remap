@@ -290,6 +290,17 @@ GlobalIniRemoveBuilders
 
 :raw-html:`<br />`
 
+IniBoilerPlate
+--------------
+
+.. cppattributetable:: AGRemapCore::IniBoilerPlate
+
+.. doxygenclass:: AGRemapCore::IniBoilerPlate
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniGraphModObjKeywords
 ----------------------
 
@@ -913,6 +924,17 @@ IniFixContext
     :protected-members:
 
 :raw-html:`<br />`
+
+RemapIniFixContext
+------------------
+
+.. cppattributetable:: AGRemapCore::RemapIniFixContext
+
+.. doxygenclass:: AGRemapCore::RemapIniFixContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
 :raw-html:`<br />`
 
 Ini Parsers
@@ -1473,6 +1495,18 @@ GraphTools
 .. cppattributetable:: AGRemapCore::GraphTools
 
 .. doxygenclass:: AGRemapCore::GraphTools
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+
+Heading
+=======
+
+.. cppattributetable:: AGRemapCore::Heading
+
+.. doxygenclass:: AGRemapCore::Heading
     :members:
     :protected-members:
 

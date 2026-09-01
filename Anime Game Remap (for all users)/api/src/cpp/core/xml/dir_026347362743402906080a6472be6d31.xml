@@ -11,6 +11,7 @@
     <innerfile refid="_g_i_m_i_fixer_8h">GIMIFixer.h</innerfile>
     <innerfile refid="_ini_fix_builder_8h">IniFixBuilder.h</innerfile>
     <innerfile refid="_ini_fix_context_8h">IniFixContext.h</innerfile>
+    <innerfile refid="_remap_ini_fix_context_8h">RemapIniFixContext.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

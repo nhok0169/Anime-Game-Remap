@@ -3,6 +3,7 @@
   <compounddef id="dir_b92a30438a15d3d9f8193085ca7b9396" kind="dir">
     <compoundname>include/AGRemapCore/data</compoundname>
     <innerfile refid="_hash_data_8h">HashData.h</innerfile>
+    <innerfile refid="_hash_to_mod_obj_data_8h">HashToModObjData.h</innerfile>
     <innerfile refid="_index_data_8h">IndexData.h</innerfile>
     <innerfile refid="_ini_fix_builder_data_8h">IniFixBuilderData.h</innerfile>
     <innerfile refid="_ini_parse_builder_data_8h">IniParseBuilderData.h</innerfile>

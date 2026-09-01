@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/data/HashToModObjData.h"
 #include "AGRemapCore/model/IniGraphGroup.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/assets/ModMappedAssets.h"
@@ -263,8 +264,54 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Makes a ``K`` out of one of the hash data table's own ``std::string`` keys -- the one
+             thing #buildDefaultHashKeyOnlyToModObj can't do for itself, since ``K`` is not
+             ``std::string`` for every instantiation (the same reason #ClassifierConfig exists)
+             @endrst
+             */
+            using KeyMaker = std::function<K(const std::string&)>;
+
+            /**
+             * @brief
+             @rst
+             The default #hashKeyOnlyToModObj -- :cpp:func:`Data::getHashKeyOnlyToModObj`, with its
+             keys run through 'makeKey'
+             @endrst
+             *
+             * @param makeKey How to turn a hash data key into a ``K``
+             */
+            static std::unordered_map<K, ModObj, KeyHash, KeyEqual> buildDefaultHashKeyOnlyToModObj(const KeyMaker& makeKey);
+
+            /**
+             * @brief
+             @rst
+             The default #indexKeyToModObj -- :cpp:func:`Data::getIndexKeyToModObj`, with its outer
+             keys and its inner #IndexKey\\s run through 'makeKey'
+             @endrst
+             *
+             * @param makeKey How to turn a hash/index data key into a ``K``
+             */
+            static std::unordered_map<K, IndexModObjs, KeyHash, KeyEqual> buildDefaultIndexKeyToModObj(const KeyMaker& makeKey);
+
+            /**
+             * @brief
+             @rst
              Builds the default classifier -- one that knows every asset the mod type ships with,
-             but starts with no mod-object mapping at all, ready for a caller to fill in
+             mapped by the defaults every mod type shares
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Those mappings cover every hash type the *whole* hash data table ships, not just the
+             ones this mod type owns. That is deliberate and harmless: #classify only ever looks up
+             a key #hashes itself just returned, so a row this mod type doesn't have is never
+             reached
+
+             :raw-html:`<br />`
+
+             .. note::
+                Only an instantiation whose ``K`` can be built straight from a ``std::string`` gets
+                those defaults. Any other (notably the `pybind11`_ layer's ``py::object``) starts
+                empty here and fills them in itself -- exactly as it already has to for
+                #defaultConfig
              @endrst
              *
              * @param hashes The mod type's ``hash`` assets

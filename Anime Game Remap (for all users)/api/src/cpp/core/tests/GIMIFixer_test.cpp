@@ -31,6 +31,7 @@
 // -----------------------------------------------------------------------------
 
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 
 #include <cstdio>
@@ -92,8 +93,12 @@ std::unique_ptr<Section> makeSection(const std::string& name, const std::vector<
 
 // A minimal, in-memory ".ini file" -- the plain-C++ counterpart of the binding layer's
 // PyIniFixContext.
-class TestIniFixContext: public IniFixContext<std::string, std::string> {
+// Deliberately a RemapIniFixContext rather than a bare IniFixContext: addFixBoilerPlate is the one
+// method on the interface a plain C++ caller does *not* have to write for itself, and the fix this
+// file checks should be the one this software really ships.
+class TestIniFixContext: public RemapIniFixContext<std::string, std::string> {
     public:
+        std::optional<std::string> typeName = "Raiden";
         std::string path = "C:/Mods/TestMod/CuteLittleEi.ini";
         bool hasPath = true;
         bool existsOnDisk = false;
@@ -127,9 +132,7 @@ class TestIniFixContext: public IniFixContext<std::string, std::string> {
         void disableIni() override { disabledIni = true; }
         void log(const std::string& message) override { logs.push_back(message); }
 
-        std::string addFixBoilerPlate(const std::string& fix) const override {
-            return "<<<boilerplate>>>\n" + fix;
-        }
+        std::optional<std::string> modTypeName() const override { return typeName; }
 
         void writeFixedFile(const std::string& filePath, const std::string& content) override {
             written[filePath] = content;
@@ -318,7 +321,9 @@ void testFix() {
 
     const std::string& content = ctx.written.at(ctx.path);
     check(content.rfind(originalTxt, 0) == 0, "the .ini file's own text leads the result");
-    check(content.find("<<<boilerplate>>>") != std::string::npos, "the boilerplate is included");
+    check(content.find("; --------------- Raiden Remap ---------------") != std::string::npos,
+          "RemapIniFixContext's real boilerplate header is included");
+    check(content.find("Albert Gold#2696") != std::string::npos, "and its credit line");
     check(content.find("[TextureOverrideblend]") != std::string::npos, "every graph in the group is rendered into it");
     check(content.find("[TextureOverridetestPosition]") != std::string::npos,
           "including the download resource graphs");
@@ -329,6 +334,82 @@ void testFix() {
 
     check(fixer.groupToStr(0).find("[TextureOverrideblend]") != std::string::npos,
           "groupToStr renders the group on its own, without boilerplate or source");
+}
+
+
+// ---------------------------------------------------------------------------------------
+// RemapIniFixContext -- the boilerplate a fix is wrapped in
+// ---------------------------------------------------------------------------------------
+
+// A RemapIniFixContext with nothing but a mod type name -- every other method on the interface is
+// stubbed out, since none of them takes part in building the boilerplate.
+class BoilerPlateCtx: public RemapIniFixContext<std::string, std::string> {
+    public:
+        using RemapIniFixContext<std::string, std::string>::RemapIniFixContext;
+
+        std::optional<std::string> typeName;
+
+        std::optional<std::string> modTypeName() const override { return typeName; }
+
+        bool hasIni() const override { return true; }
+        std::vector<std::string> modsToFix() const override { return {}; }
+        std::optional<std::string> fixedFilePath(std::size_t) const override { return std::nullopt; }
+        bool fixedFileExists() const override { return false; }
+        std::string fileTxt() const override { return ""; }
+        void setFileTxt(std::string) override {}
+        void hideOriginalSections() override {}
+        void disableIni() override {}
+        void log(const std::string&) override {}
+        void writeFixedFile(const std::string&, const std::string&) override {}
+        void setIsFixed(bool) override {}
+        std::unique_ptr<GraphGroups> makeGraphGroups() override { return nullptr; }
+};
+
+
+void testRemapBoilerPlate() {
+    std::printf("\n--- RemapIniFixContext::addFixBoilerPlate ---\n");
+
+    // The three expected strings below are what the real pure-Python IniFile.addFixBoilerPlate
+    // produces for the same three mod type names -- captured from it, not written by hand. This is
+    // the whole point of the class: a fix a plain C++ caller writes has to be one the still-
+    // pure-Python IniRemover can find again, and that means matching to the byte.
+    BoilerPlateCtx named;
+    named.typeName = "Raiden";
+    check(named.addFixBoilerPlate("FIXBODY") == "; --------------- Raiden Remap ---------------\n; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for \"Albert Gold#2696\" and \"Nhok0169\"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\nFIXBODY\n\n; --------------------------------------------",
+          "a classified .ini file's boilerplate matches the pure-Python original's, to the byte");
+
+    BoilerPlateCtx unclassified;
+    check(unclassified.addFixBoilerPlate("FIXBODY") == "; --------------- GI Remap ---------------\n; Mod remapped by Albert Gold#2696 and NK#1321. If you used it to remap your mods pls give credit for \"Albert Gold#2696\" and \"Nhok0169\"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\nFIXBODY\n\n; ----------------------------------------",
+          "so does an unclassified one's -- 'GI' in the heading, 'Mod' in the credit");
+
+    BoilerPlateCtx emptyName;
+    emptyName.typeName = "";
+    // An empty name is a real name, not a missing one: only "never classified" hits the fallbacks,
+    // which is what the original's own `is None` checks do.
+    check(emptyName.addFixBoilerPlate("FIXBODY") == "; --------------- Remap ---------------\n; remapped by Albert Gold#2696 and NK#1321. If you used it to remap your mods pls give credit for \"Albert Gold#2696\" and \"Nhok0169\"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\nFIXBODY\n\n; -------------------------------------",
+          "an empty mod type name is a name, not a missing one");
+
+    check(named.getFixHeader() == "; --------------- Raiden Remap ---------------", "the header is the heading, opened");
+    check(named.getFixFooter() == "\n\n; " + std::string(named.getFixHeader().size() - 2, '-'),
+          "and the footer closes to exactly the width the header opened to, after a blank line");
+
+    BoilerPlateCtx overridden("; MY HEADER", "\n; MY FOOTER");
+    overridden.typeName = "Raiden";
+    check(overridden.getFixHeader() == "; MY HEADER" && overridden.getFixFooter() == "\n; MY FOOTER",
+          "an explicitly given header/footer is used verbatim");
+    check(overridden.addFixBoilerPlate("FIXBODY") == "; MY HEADER" + named.getFixCredit() + "\n\nFIXBODY\n; MY FOOTER",
+          "...including in the boilerplate, whose credit is still the shipped one");
+
+    BoilerPlateCtx headerOnly("; MY HEADER");
+    check(headerOnly.getFixFooter() == unclassified.getFixFooter(),
+          "overriding only the header leaves the default footer alone");
+
+    BoilerPlateCtx dirty;
+    dirty.typeName = "Rai\nden\tX";
+    check(dirty.getFixHeader().find("RaidenX") != std::string::npos
+              && dirty.getFixHeader().find('\n') == std::string::npos
+              && dirty.getFixHeader().find('\t') == std::string::npos,
+          "newlines and tabs are stripped out of the name -- this all lives inside a ';' comment");
 }
 
 
@@ -384,6 +465,7 @@ int main() {
     testGetFix();
     testPrevFixer();
     testFix();
+    testRemapBoilerPlate();
     testFixNoPath();
     testFixHideOrigAndBackup();
 

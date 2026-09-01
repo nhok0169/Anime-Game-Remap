@@ -37,6 +37,8 @@
 //  cext/z3/bin/libz3.dll next to test.exe before running it)
 // -----------------------------------------------------------------------------
 
+#include "AGRemapCore/data/HashData.h"
+#include "AGRemapCore/data/HashToModObjData.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
@@ -45,6 +47,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -255,9 +258,63 @@ void testClassifier() {
     check(noAssets.classify("SomeSection", nullptr, blendOnly).empty(), "a classifier with no hash assets classifies to nothing");
 
     auto built = GIMISectionClassifier<>::buildDefaultClassifier(&hashes, &indices, Version::parse("3.0"));
-    check(built->hashKeyOnlyToModObj.empty() && built->indexKeyToModObj.empty() && built->hashes() == &hashes
-              && built->indices() == &indices && built->version.has_value(),
-          "buildDefaultClassifier keeps the assets and starts with no mappings");
+    check(built->hashes() == &hashes && built->indices() == &indices && built->version.has_value(),
+          "buildDefaultClassifier keeps the assets and the version");
+}
+
+
+// ---------------------------------------------------------------------------------------
+// The default mod object mappings every mod type shares
+// ---------------------------------------------------------------------------------------
+
+void testDefaultModObjMappings() {
+    std::printf("\n--- Data::getHashKeyOnlyToModObj / getIndexKeyToModObj ---\n");
+
+    check(Data::parseModObjKey("blend_vb") == std::make_pair(std::string(""), std::string("blend_vb")),
+          "a bare key names an object with no component");
+    check(Data::parseModObjKey("someComp;head") == std::make_pair(std::string("someComp"), std::string("head")),
+          "a ';'-qualified key names a component and an object");
+    check(Data::parseModObjKey("a;b;c") == std::make_pair(std::string("a"), std::string("b;c")),
+          "only the first ';' separates -- an object name may hold more of them");
+
+    const auto& hashOnly = Data::getHashKeyOnlyToModObj();
+    const auto& indexKeys = Data::getIndexKeyToModObj();
+
+    check(hashOnly.count("blend_vb") == 1 && hashOnly.at("blend_vb") == std::make_pair(std::string(""), std::string("blend_vb")),
+          "a buffer hash type maps to the mod object its own key names");
+    check(hashOnly.count("tex_head_diffuse") == 1 && hashOnly.count("draw_vb") == 1 && hashOnly.count("position_vb") == 1
+              && hashOnly.count("texcoord_vb") == 1,
+          "so does every other non-'ib' hash type the table ships");
+
+    check(hashOnly.count("ib") == 0, "'ib' is the one hash type a hash value alone can't resolve...");
+    check(indexKeys.count("ib") == 1 && indexKeys.size() == 1, "...so it is the only key on the index side");
+
+    const auto& ibModObjs = indexKeys.at("ib");
+    check(ibModObjs.count(std::make_pair(std::string(""), std::string("head"))) == 1
+              && ibModObjs.count(std::make_pair(std::string(""), std::string("body"))) == 1
+              && ibModObjs.count(std::make_pair(std::string(""), std::string("dress"))) == 1
+              && ibModObjs.count(std::make_pair(std::string(""), std::string("extra"))) == 1,
+          "an 'ib' hash reaches every mod object the index table names");
+    check(ibModObjs.at(std::make_pair(std::string(""), std::string("head"))) == std::make_pair(std::string(""), std::string("head")),
+          "an index row already ends in a (component, object) pair, so it maps to itself");
+
+    // Every hash type the table ships lands on exactly one side of the split.
+    std::unordered_set<std::string> allKeys;
+    for (const auto& row : Data::getHashDataRows()) {
+        if (!row.first.empty()) {
+            allKeys.insert(row.first.back());
+        }
+    }
+
+    check(allKeys.size() == hashOnly.size() + indexKeys.size(),
+          "every hash type is on exactly one side of the hash-only/index split");
+
+    // The mappings the classifier is actually handed are these, keyed as K.
+    auto built = GIMISectionClassifier<>::buildDefaultClassifier(nullptr, nullptr);
+    check(built->hashKeyOnlyToModObj.size() == hashOnly.size() && built->indexKeyToModObj.size() == indexKeys.size(),
+          "buildDefaultClassifier hands them straight to the classifier");
+    check(built->indexKeyToModObj.at("ib").size() == ibModObjs.size(),
+          "including the inner index-key mappings");
 }
 
 
@@ -480,6 +537,7 @@ int main() {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
     testClassifier();
+    testDefaultModObjMappings();
     testClassifyByName();
     testParse();
     testSharedDownload();

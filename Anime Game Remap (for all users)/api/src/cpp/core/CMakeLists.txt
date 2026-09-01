@@ -174,6 +174,16 @@ set(PROJECT_SOURCE_DIR ${COMPRESSONATOR_SRC})
 
 if(MSVC)
     add_compile_options(/Zc:strictStrings-)
+elseif(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    # Compressonator's applications/_plugins/common headers (cmp_fileio.h, utilfuncs.h) refer to
+    #   uintmax_t/uint16_t without including <cstdint>. MSVC pulls those in transitively, GCC 13+
+    #   does not, so on Linux they fail with "'uintmax_t' does not name a type" / "'uint16_t' was
+    #   not declared in this scope" -- plus a cascading, misleading "redefinition of 'float
+    #   HalfToFloat'" that is really just the same unparsed declaration seen twice.
+    # Force-including the header fixes it without patching the vendored submodule (whose changes
+    #   this repo can't commit anyway). stdint.h rather than <cstdint> so it stays valid for
+    #   Compressonator's C sources too, and because the code uses these names unqualified.
+    add_compile_options(-include stdint.h)
 endif()
 
 add_subdirectory(

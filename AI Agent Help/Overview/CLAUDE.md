@@ -135,6 +135,40 @@ you've verified locally.
   don't ask about anything the surrounding code, an existing sibling class, or the file's own
   conventions already answer — that's a judgment call to make yourself, and the maintainer's time
   is the scarce thing being spent either way.
+- **This project is no longer Windows-only. It has been built, imported and tested on Linux
+  (WSL2 / Ubuntu 24.04, GCC 13, Python 3.12) as well as Windows** — see
+  [Setup](../Setup/CLAUDE.md)'s Linux section. Most of this documentation predates that and is
+  written from a Windows seat; don't read "the build" as "the Windows build". Three consequences
+  worth knowing before you touch anything build-related:
+  - **The C++ is the portable part; the build glue is not.** `AGRemapCore` and the Cython layer
+    compiled on GCC 13 / C++23 with zero source changes. Every portability bug found was in
+    CMake glue, vendored third-party code, or `APIBuilder` — so when a cross-platform request
+    comes in, look there first rather than at the core.
+  - **`if(WIN32)` blocks in the CMake are the standing hazard.** Several existed with no `else()`
+    at all (the curl TLS backend; the runtime-dependency install), which fails only on the other
+    platform and often only at *runtime*. If you add or edit one, decide explicitly what the
+    non-Windows branch does, even if the answer is "nothing".
+  - **The install directory `api/src/py/FixRaidenBoss2/` is shared by both platforms and is not
+    suffixed**, unlike the build trees. `cleanInstalls()` deletes every `.pyd`/`.so` under `api/`,
+    so a plain build on either OS wipes the other's binaries. Pass `-i`/`--installKeep` on **both**
+    sides when both matter.
+- **Two `APIBuilder` functions destroy state *before* checking their preconditions — know this
+  before running either.** `buildDocs()` (`-d`) `rmtree`s the 642 tracked files in `core/xml` and
+  *then* invokes `doxygen`, so a missing/unresolvable Doxygen leaves them all deleted;
+  `cleanInstalls()` deletes installed binaries before the compile that would replace them, so a
+  failed build leaves you with none rather than with the previous working ones. Neither is a
+  corrupted checkout — recover the first with `git checkout -- ".../core/xml"` and the second by
+  fixing the build. See [Setup](../Setup/CLAUDE.md) for both in full.
+- **Two committed artifacts are coupled to specific tool versions, so an unexplained diff in them
+  is usually your toolchain, not your change**: `core.pyi` is byte-reproducible only with
+  **pybind11 3.0.4**, and `core/xml` carries the **Doxygen 1.17.0** version stamp. Check
+  `pybind11.__version__` / `doxygen --version` before concluding you changed the binding surface or
+  the C++ docs.
+- **Whatever tools `APIBuilder` needs must be on `PATH` in the shell that actually runs it** — it
+  shells out to the bare names `"cmake"` and `"doxygen"`, so pointing at a specific Python
+  interpreter is not enough (notably, running a venv's `bin/python` by absolute path does *not*
+  activate the venv). This one root cause produced three separate confusing failures in a single
+  session. `command -v cmake ninja doxygen` before a build is cheaper than diagnosing it after.
 - This set of files was authored from hands-on, verified work in the C++ core / pybind11 layer
   (the `OrderedMultiMap` / `IfContentPart` / `IfContentPartColouring` subsystem, including a full
   pure-Python-to-C++ migration of the latter — see Architecture's "Two different outcomes for

@@ -268,6 +268,53 @@ test module needs an entry there to be picked up by name. Conventions:
   for a *good* reason (the code was right, the literal was wrong), which is a genuinely confusing
   way to start debugging. Read the fixture helper, then write the literal.
 
+### Read the "Ran N tests" line before the failure count — a *smaller* failure count often means less ran
+
+The suite can degrade silently instead of failing loudly, and the degraded run looks *better* at a
+glance. Confirmed concretely on Linux: when the `orderedset` module can't be imported, mod-type
+registration aborts partway and ~176 parameterised tests are simply never generated.
+
+| | degraded | healthy |
+| --- | --- | --- |
+| `Ran N tests` | 1655 | 1831 |
+| errors | 19 | 73 |
+| runtime | 135.9s | 11.4s |
+
+Read down that table and the broken run is the one that looks healthier. **Always compare the test
+*count* against the baseline first; only then the failures.** A big runtime jump is the other tell
+(there, ~30 failed lazy `pip` installs each shelling out to the network — see
+[Setup](../Setup/CLAUDE.md)'s `orderedset` section; `orderedset` is a dead package that cannot
+build on Python 3.12, so any environment that hasn't got it installed already will hit this).
+
+### Current baselines, per platform
+
+Both from the same commit, same day, so they're directly comparable:
+
+| | Windows (Py 3.13) | Linux (WSL2, Py 3.12) |
+| --- | --- | --- |
+| Tests | 1831 | 1831 |
+| Errors | 73 | 73 |
+| Failures | 6 | 15 |
+
+The **error** count and its breakdown are identical across platforms — so none of the pre-existing
+WIP breakage below is platform-specific, and an error that appears on only one OS is a real signal.
+
+The 9 extra Linux failures are deterministic (identical sets across repeated runs, so not
+`unordered_map` ordering flakiness):
+- **8 are tests hardcoding Windows paths** (`test_IniResource`, `test_IniFixResourceModel`,
+  `test_RemapBlendResource`, `test_RemapTexAddResource`) — asserting against literals like
+  `'C:/mods/EiRemap/EiBlend.buf'`. Test-side assumptions, not product bugs; path resolution itself
+  is correct on Linux.
+- **1 is unexplained and worth treating as a real open question**, not baseline noise:
+  `test_IfTemplateTree.test_nestedAndElifBranches_multiLevelTree` fails `3 != 1` on node part
+  counts. Deterministic per platform but differing between them — the signature of iteration-order
+  dependence over an unordered container, though that remains a hypothesis.
+
+**Rebuild before comparing against these numbers**, and on a checkout shared between Windows and
+Linux remember that a plain build on either OS deletes the other's installed binaries (see
+[Overview](../Overview/CLAUDE.md)) — testing right after the *other* platform's build measures a
+stale or missing extension, not your change.
+
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
 work-in-progress from the maintainer and fail for reasons unrelated to your change. The maintainer

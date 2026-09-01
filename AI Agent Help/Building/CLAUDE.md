@@ -6,6 +6,26 @@ How to compile the C++ core, the pybind11 bindings, and the Cython extensions. S
 native-code change.
 
 ## Prerequisites (Windows/MSVC, the dev environment this file assumes)
+
+> **If you're setting up from a fresh clone, read [Setup](../Setup/CLAUDE.md) first** — it was
+> written from an actual cold-start run and corrects several items in this section (there is no
+> committed `.pyd`, so the Python version isn't pinned by one and 3.13 works fine; Ninja and CMake
+> come with the VS "C++ CMake tools" component rather than being separate installs; `pybind11`
+> must be 3.x, and 3.0.4 specifically to avoid `core.pyi` churn; `-d` needs Doxygen but not
+> PlantUML/Java).
+>
+> **This whole file describes the Windows/MSVC build only.** The project also builds on Linux
+> (WSL2 / Ubuntu 24.04, GCC 13, Ninja, a pip-installed CMake) — that toolchain, its build-folder
+> `lin` suffix convention, and the traps of sharing one checkout between both OSes live in
+> [Setup](../Setup/CLAUDE.md)'s Linux section. Nothing below is Linux-specific, and the MSVC-only
+> details (`vcvarsall.bat`, `/std:c++latest`, `cl` link lines) do not carry over.
+>
+> One rule spans both platforms and is worth internalising before your first build: **`APIBuilder`
+> invokes `cmake` and `doxygen` by bare name**, so they must be on `PATH` *in the shell that runs
+> it* — selecting a particular Python interpreter does not help, and running a venv's
+> `bin/python` by absolute path does not activate that venv. Check with
+> `command -v cmake ninja doxygen` (or `where` on Windows) first.
+
 - Python 3.9 at `py -3` (the committed `.pyd` is `core.cp39-win_amd64.pyd` — building with a
   different Python version produces a differently-named file and won't overwrite the tracked one;
   ask before intentionally changing the pinned dev Python version).

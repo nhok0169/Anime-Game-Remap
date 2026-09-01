@@ -87,23 +87,38 @@ class APIBuilder():
         targetExtensions = {'.so', '.pyd'}
 
         for filePath in basePath.rglob('*'):
-            if filePath.is_file() and filePath.suffix in targetExtensions:
+            # note: is_file() stats the path, and a path the OS refuses to stat raises here rather
+            #   than returning False -- which aborts the entire build before anything is compiled.
+            #   Seen with a symlink created from WSL inside a checkout shared with Windows: it
+            #   lands on the Windows drive as an LX_SYMLINK reparse point that Windows cannot read,
+            #   giving "OSError: [WinError 1920] The file cannot be accessed by the system".
+            #   Anything unreadable is also, by definition, not something worth deleting here.
+            try:
+                isFile = filePath.is_file()
+            except OSError:
+                continue
+
+            if isFile and filePath.suffix in targetExtensions:
 
                 isExcluded = any(
-                    parent.name.startswith(BuildFolder) 
+                    parent.name.startswith(BuildFolder)
                     for parent in filePath.parents
                 )
-                
+
                 if isExcluded:
                     continue
-                    
+
                 filePath.unlink()
 
     def _setupBuildFolders(self):
         if (not self._buildFoldersIsSet):
-            self._preBuildFolder = os.path.join(APITopPreBuildFolderPath, self.preBuildSuffix)
-            self._preInstallFolder = os.path.join(APITopPreInstallFolderPath, self.preInstallSuffix)
-            self._buildFolder = os.path.join(APITopBuildFolderPath, self.buildSuffix)
+            # note: the suffix is concatenated onto the folder name (cbuild + "lin" -> cbuildlin), not
+            #   joined as a subfolder -- this matches removePrefixedFolder's delete target, the
+            #   --buildSuffix/--prebuildSuffix/--preinstallSuffix help text, and the "cannot contain
+            #   slashes" restriction CommandBuilder enforces on suffix names
+            self._preBuildFolder = f"{APITopPreBuildFolderPath}{self.preBuildSuffix}"
+            self._preInstallFolder = f"{APITopPreInstallFolderPath}{self.preInstallSuffix}"
+            self._buildFolder = f"{APITopBuildFolderPath}{self.buildSuffix}"
 
             self._extBuildFolders.z3 = os.path.join(self._preBuildFolder, "z3")
             self._extInstallFolders.z3 = os.path.join(self._preInstallFolder, "z3")

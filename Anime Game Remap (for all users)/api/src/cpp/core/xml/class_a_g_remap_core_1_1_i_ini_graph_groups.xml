@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="class_a_g_remap_core_1_1_i_ini_graph_groups" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::IIniGraphGroups</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" prot="public" virt="non-virtual">AGRemapCore::IniGraphGroupsVec&lt; std::string, std::string &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" prot="public" virt="non-virtual">AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_i_ini_graph_groups_8h" local="no">IIniGraphGroups.h</includes>
     <templateparamlist>
@@ -94,6 +95,7 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         <name>size</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::size</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403">size</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403">size</reimplementedby>
         <briefdescription>
 <para>The number of groups (ie. </para>
         </briefdescription>
@@ -110,6 +112,7 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         <argsstring>(std::size_t groupInd)=0</argsstring>
         <name>insertGroup</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::insertGroup</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912">insertGroup</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912">insertGroup</reimplementedby>
         <param>
           <type>std::size_t</type>
@@ -143,6 +146,7 @@ Inserts a fresh, empty group at &apos;groupInd&apos;, shifting every later group
         <name>removeGroup</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::removeGroup</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6">removeGroup</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6">removeGroup</reimplementedby>
         <param>
           <type>std::size_t</type>
           <declname>groupInd</declname>
@@ -172,6 +176,7 @@ Inserts a fresh, empty group at &apos;groupInd&apos;, shifting every later group
         <argsstring>(std::size_t groupInd) const =0</argsstring>
         <name>modObjs</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::modObjs</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d">modObjs</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d">modObjs</reimplementedby>
         <param>
           <type>std::size_t</type>
@@ -206,6 +211,7 @@ The ``(component name, mod object name)`` key of every graph in the group at
         <name>graphCount</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::graphCount</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9">graphCount</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9">graphCount</reimplementedby>
         <param>
           <type>std::size_t</type>
           <declname>groupInd</declname>
@@ -235,6 +241,7 @@ The ``(component name, mod object name)`` key of every graph in the group at
         <argsstring>(std::size_t groupInd, const ModObj &amp;modObj) const =0</argsstring>
         <name>getGraph</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::getGraph</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6">getGraph</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6">getGraph</reimplementedby>
         <param>
           <type>std::size_t</type>
@@ -337,6 +344,7 @@ The graph to add. Must be one this object already owns (ie. came out of #getGrap
         <argsstring>(std::size_t groupInd, const ModObj &amp;modObj)=0</argsstring>
         <name>removeGraph</name>
         <qualifiedname>AGRemapCore::IIniGraphGroups::removeGraph</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3">removeGraph</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3">removeGraph</reimplementedby>
         <param>
           <type>std::size_t</type>
@@ -587,6 +595,12 @@ interface (#deepcopyGraph / #createGraph), not something a core algorithm does f
         <link refid="class_a_g_remap_core_1_1_i_ini_graph_groups"/>
       </node>
       <node id="2">
+        <label>AGRemapCore::IniGraphGroupsVec&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_graph_groups_vec"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
         <label>AGRemapCore::IniGraphGroupsVec&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_ini_graph_groups_vec"/>
         <childnode refid="1" relation="public-inheritance">

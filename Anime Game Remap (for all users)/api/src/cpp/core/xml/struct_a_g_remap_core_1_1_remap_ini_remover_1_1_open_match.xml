@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match" kind="struct" language="C++" prot="protected">
+    <compoundname>AGRemapCore::RemapIniRemover::OpenMatch</compoundname>
+    <includes refid="_remap_ini_remover_8h" local="no">RemapIniRemover.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1aa60a949f198e69fd877cba994b7c98f3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::OpenMatch::sideChar</definition>
+        <argsstring></argsstring>
+        <name>sideChar</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::OpenMatch::sideChar</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="727" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="727" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1a1068d0e1ab1e02f24fd478f03cf2fa3d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::OpenMatch::minSideChars</definition>
+        <argsstring></argsstring>
+        <name>minSideChars</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::OpenMatch::minSideChars</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="730" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="730" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="724" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="724" bodyend="731"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1a1068d0e1ab1e02f24fd478f03cf2fa3d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::OpenMatch</scope><name>minSideChars</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1aa60a949f198e69fd877cba994b7c98f3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::OpenMatch</scope><name>sideChar</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

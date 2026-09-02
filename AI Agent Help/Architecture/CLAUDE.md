@@ -1409,6 +1409,64 @@ by actually importing the rebuilt module (see [Building](../Building/CLAUDE.md)'
 Bash note), not just by a clean compile/link, since this specific failure mode is invisible to the
 build step entirely.
 
+## `py::arg("x") = <a mutable object>` is pybind11's version of Python's mutable-default-argument bug
+
+A default argument is `py::cast`ed into a Python object **once, at module-init time**, and that one
+object is then handed to every call that omits the argument. If it is mutable, a caller that mutates
+what it was given has silently changed the default for the rest of the process:
+
+```cpp
+// WRONG -- one shared IniRemovalContext for the life of the module.
+.def("remove", ..., py::arg("context") = AGRC::IniRemovalContext())
+
+// WRONG -- same problem, and the shape this most often takes.
+.def(py::init<...>(), py::arg("aliases") = std::vector<std::string>{})
+```
+
+The fix is the same one Python itself needs: **default to `py::none()` and construct a fresh one
+inside the lambda / `py::init` factory.**
+
+```cpp
+.def("remove", [](T &self, ..., py::object context) {
+    AGRC::IniRemovalContext removalContext;             // fresh, per call
+    if (!context.is_none()) {
+        removalContext = context.cast<AGRC::IniRemovalContext>();
+    }
+    return self.remove(..., removalContext);
+}, ..., py::arg("context") = py::none())
+```
+
+This has now bitten in at least three separate subsystems (`iniresources`, `IniGraphGroup`,
+`iniRemovers`), and it is invisible to every automated check the repo has --- it compiles, it
+imports, and it passes any test that only ever calls with the default. **Write a test that mutates
+the object it passed and then calls with the default again**; that is the only thing that catches
+it. (Note the taking-it-as-`py::object` form also sidesteps needing `<pybind11/stl.h>` in that
+translation unit, which is the *other* default-argument trap, documented just above.)
+
+## `std::filesystem::absolute("")` throws on MSVC, so an empty folder path is not a harmless "use the working directory"
+
+`FileService::absPathOfRelPath` and anything else that eventually reaches `std::filesystem::absolute`
+must never be handed an empty string. On MSVC that throws a `std::filesystem::filesystem_error`
+rather than resolving to the current directory --- and since the throw usually escapes a method
+nobody wrapped in a `try`, the process `std::terminate`s and the run dies with **exit code
+`0xC0000409` and no output at all**, which reads like a memory-corruption crash rather than a bad
+argument.
+
+The empty string is easy to reach without noticing: an `IniFile` with no path has an empty folder,
+and so does one whose path is a bare relative file name. Substitute `"."` --- the same working
+directory, spelled in a way `absolute()` accepts:
+
+```cpp
+std::string iniFolder = ctx_->iniFolder();
+if (iniFolder.empty()) {
+    iniFolder = ".";
+}
+```
+
+If you are staring at a silent `0xC0000409` from a standalone test, this is worth ruling out before
+anything else --- alongside the `setvbuf` note in [Building](../Building/CLAUDE.md), since a
+buffered stdout is what hides the progress markers that would otherwise tell you where it died.
+
 ## A static class data member of a non-copyable, non-move-constructible type can't be initialized via `Type Class::member = factoryFunction();`, even for a directly-returned prvalue
 
 Tried to give `ModTypeIdTools::_nameDFA` (a `BaseAhoCorasickDFA<std::unordered_set<int>>` static
@@ -1445,6 +1503,127 @@ See `ModTypeId.h`/`.cpp`'s real `_nameDFA`/`_setupNameDFA`/`_nameDFAInitialized`
 version. If you're tempted to reach for a factory-function-returning-by-value for *any* static/
 global of a `unique_ptr`-owning type in this codebase, this is why it won't compile, and this
 in-place-mutation-behind-a-second-static-bool shape is the established fix.
+
+## The strategy **context seam**: how a C++ strategy reaches a `.ini` file it isn't allowed to know about
+
+This is the load-bearing architectural pattern in `model/strategies/`, and you will meet it the
+moment you touch a parser, fixer, remover or resource edit. Read this before designing anything
+there.
+
+A ported strategy (`GIMIParser`, `GIMIFixer`, `RemapIniRemover`, `ResEdit`) needs a `.ini` file ---
+its text, its `sections`_, where it lives on disk. But `AGRemapCore` must stay Python-free, and the
+*live* `.ini` file is still the pure-Python `IniFile`. So no strategy takes an
+`AGRemapCore::IniFile*`. Each family instead defines a pure-virtual **context interface**, and the
+strategy is written against that:
+
+| Family | Seam interface | Core implementation | pybind11 implementation |
+| --- | --- | --- | --- |
+| `iniParsers/` | `IniParseContext` | `IniFileParseContext` | `PyIniParseContext` |
+| `iniFixers/` | `IniFixContext` | `IniFileFixContext` | `PyIniFixContext` |
+| `iniRemovers/` | `IniRemoveContext` | `IniFileRemoveContext` | `PyIniRemoveContext` |
+| `graphGroupEdits/resEdits/` | `IniResEditContext` | `IniFileResEditContext` | `PyIniResEditContext` |
+
+**Every seam needs both implementations, and they are siblings --- neither derives from the other.**
+The `Py*` one forwards through genuine Python attribute lookup on the caller's `IniFile`; the
+`IniFile*` one is a thin adapter over `AGRemapCore::IniFile*`. If you add a method to a seam, you
+have written half the change until both sides implement it, and the compiler only tells you about
+the C++ half.
+
+Three rules that keep falling out of this:
+
+- **A `Py*` context must forward, not reimplement.** The unit-test harness patches
+  `builtins.open`, `os.path` and `FileService.read` at the *Python* level, so a `std::filesystem`
+  call inside a `Py*` context silently bypasses every one of those mocks. `PyIniFixContext`
+  deliberately calls Python's own `os.path.exists` for exactly this reason.
+- **The core implementation derives what it can rather than demanding new `IniFile` API.** There is
+  no `FilePath` class in `AGRemapCore` and no `folder` accessor; `IniFileRemoveContext::iniFolder()`
+  is just `std::filesystem::path(*iniFile_->getFile()).parent_path()`. Copy that instinct before
+  growing `IniFile`.
+- **Something must own what the seam hands out.** `IniParseContext::graphGroups()` and
+  `IniFixContext::makeGraphGroups()` exist *because* an `IniGraphGroupsVec` is only a **view** over
+  a caller-owned vector --- the context owns the storage. Likewise
+  `IniResEditContext::takeCollectedResources` returns raw `IniResource*` while promising the models
+  stay alive, so both implementations keep a separate keep-alive store (`captureKeepAlive_` / a
+  `py::list`) that `take` never touches.
+
+### `XxxContext` vs `XxxingContext`: two different things wearing near-identical names
+
+`IniRemoveContext` is the seam above. **`IniRemovalContext` is not** --- it is a plain struct of
+*per-call options*, passed by value to `remove()`, that knows nothing about any file. The fixer side
+mirrors it exactly: `IniFixContext` is the seam, **`IniFixingContext`** is the per-call options
+(`isFirstModType` / `isLastModType`). Both option structs are deliberately non-templates, so the
+pybind layer binds each once and hands the same type to every instantiation. When adding a per-call
+knob, put it there, not on the seam.
+
+Those two flags exist because **`AGRemapCore::IniFile::fix()` runs several fixers over one file** ---
+one per mod type it was classified as, and one per target mod each of those fixes to. Anything that
+rewrites the *file* rather than only adding to the fix must happen exactly once: the first mod type
+takes the backup (`keepBackup`), the last one hides the original mod's `sections`_ (`hideOrig`).
+`IniFile::fix` resolves both before its loop, and deliberately only among mod types that actually
+contribute a fixer --- a mod type that runs nothing must not be able to claim the file's first or
+last word.
+
+### State of the core-only pipeline: parse and fix are wired but **inert**, and here is the blocker
+
+`IniFile::removeFix()` works end-to-end for a plain C++ caller. `IniFile::fix()` and `parse()` do
+not, and it is not for lack of contexts:
+
+- `IniParseBuilder::defaultFactory` returns `BaseIniParser<>`, and `IniFixBuilder::defaultFactory`
+  returns `BaseIniFixer<>` --- both do-nothing bases whose `fixImpl` returns `{}`. Compare
+  `IniRemoveBuilder`, whose default builds a real `RemapIniRemover` wrapped in an
+  `IniFileRemoveContext`. Both strategies have `setCtx`, so the wiring itself is a few lines.
+- **The real blocker is that `AGRemapCore` has no section renderer.** `IfTemplate` and
+  `IfContentPart` deliberately have no `toStr` ("what a `section`_ looks like is the caller's
+  business" --- see `GIMIFixer::SectionToStr`), so a default-built `GIMIFixer` would build its
+  groups correctly and then render **empty** fixes. Don't "fix" that by quietly adding an
+  `IfTemplate::toStr`; it is an explicit design decision. Raise it instead.
+
+## Splicing a Python-state-carrying base into a ported class: the `XxxBase` template parameter
+
+When you port a class whose *base* also needs Python-side state, give the derived class a trailing
+template parameter for its own base:
+
+```cpp
+template <typename K, typename V, typename KeyHash, typename KeyEqual,
+          typename FixerBase = BaseIniFixer<K, V, KeyHash, KeyEqual>>
+class GIMIFixer: public FixerBase { ... };
+```
+
+The pybind layer then instantiates it as `GIMIFixer<py::object, ..., PyBaseIniFixer>`, splicing its
+own subclass (which carries `_parser`/`_iniFile`/`_modsToFix` as real `py::object`s) between the
+concrete class and the core base. That makes `py::class_<PyGIMIFixer, PyBaseIniFixer>` genuine C++
+inheritance with no virtual bases. `GIMIParser`/`ParserBase` uses the identical shape.
+
+One trap it creates: those spliced bases take a `py::object` in their constructor, so forwarding
+`nullptr` through the base's constructor turns into a *null* `py::object` rather than an unbound
+pointer. Construct with the base's default constructor and call the setter in the body instead ---
+`GIMIFixer` does `Base()` then `this->setParser(parser)`.
+
+## `cond ? py::none() : someObject` collapses to `py::none` and throws at runtime
+
+A real pybind11 trap, and its error message points nowhere near the cause:
+
+```cpp
+// WRONG -- the common type of the two branches deduces to py::none
+py::object hashes = modType.is_none() ? py::none() : modType.attr("hashes");
+// TypeError: Object of type 'Hashes' is not an instance of 'none'
+```
+
+`py::none`'s converting constructor rejects a real object, so this compiles and fails at runtime.
+Wrap **both** branches:
+
+```cpp
+py::object hashes = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("hashes"));
+```
+
+## `IniFile::getIfTemplates()` is a `tsl::ordered_map`, and that is load-bearing
+
+Not an `std::unordered_map`. `IniParseContext::sectionNames()` documents declaration order as
+required --- the pure-Python original gets it free from `ini.sectionIfTemplates` being a `dict`, and
+a parser both classifies `sections`_ by name and seeds `GIMIParser::buildGlobalGraph`'s target list
+from that order, which the rendered output then inherits. `IniFile::addSection` appends a new name to
+that order, and `removeSection` uses `tsl::ordered_map::erase` (order-preserving) rather than
+`unordered_erase` (swap-with-last). Don't "optimize" either back.
 
 ## The `ModAssets` / `ModDictAssets` / `ModMappedAssets` family --- picking the right one, and what `get` can and cannot do
 

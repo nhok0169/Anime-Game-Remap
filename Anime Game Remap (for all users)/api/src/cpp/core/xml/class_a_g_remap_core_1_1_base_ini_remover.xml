@@ -3,10 +3,28 @@
   <compounddef id="class_a_g_remap_core_1_1_base_ini_remover" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::BaseIniRemover</compoundname>
     <includes refid="_base_ini_remover_8h" local="no">BaseIniRemover.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
     <sectiondef kind="protected-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_remover_1a34e800b25bed61cb7ed3c7138217114a" prot="protected" static="no" mutable="no">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_remover_1a7d693c5f3ab718880b3a884346f9ec7b" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
-        <definition>IniFile* AGRemapCore::BaseIniRemover::iniFile_</definition>
+        <definition>IniFile* AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::iniFile_</definition>
         <argsstring></argsstring>
         <name>iniFile_</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::iniFile_</qualifiedname>
@@ -19,13 +37,13 @@ The ``.ini`` file the fix will be removed from -- non-owning, see the constructo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="105" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="161" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="161" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1aeb3908fdbc6aaf3d98a0bd55c1545d82" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a5beef96e5ea9a8e3bcf3b77e463cf3be" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
-        <definition>AGRemapCore::BaseIniRemover::BaseIniRemover</definition>
+        <definition>AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::BaseIniRemover</definition>
         <argsstring>(IniFile *iniFile=nullptr)</argsstring>
         <name>BaseIniRemover</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::BaseIniRemover</qualifiedname>
@@ -55,9 +73,15 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
 .. note::
    A remover reached through a :cpp:class:`ModType` is never in that state --
    :cpp:member:`ModType::iniRemoveBuilder` hands one back already bound to the caller&apos;s
-   file. Unlike the parser and fixer builders, though, that one is a *flyweight*: the
-   instance may be shared with other files and stays correctly bound only until that
-   builder&apos;s next :cpp:func:`IniRemoveBuilder::build`
+   file, freshly built for it
+
+.. note::
+   :cpp:class:`RemapIniRemover` -- the one concrete remover in this hierarchy -- does **not**
+   read the ``.ini`` file through this pointer at all; it goes through an
+   :cpp:class:`IniRemoveContext` instead, because the ``.ini`` file its real callers
+   hand it is the *`Python`_* ``IniFile``, an unrelated class to
+   :cpp:class:`AGRemapCore::IniFile`. See that class&apos;s own note
+
 :raw-html:`&lt;br /&gt;`
 
 **Default**: ``nullptr``
@@ -69,11 +93,11 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="57" column="22" bodyfile="src/model/strategies/iniRemovers/BaseIniRemover.cpp" bodystart="7" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="91" column="22" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="91" bodyend="91"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a0112edad37638752429736a7ebbad4e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a6661b34d79cbd359d51eb70ae609321f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
-        <definition>virtual AGRemapCore::BaseIniRemover::~BaseIniRemover</definition>
+        <definition>virtual AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::~BaseIniRemover</definition>
         <argsstring>()=default</argsstring>
         <name>~BaseIniRemover</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::~BaseIniRemover</qualifiedname>
@@ -83,11 +107,11 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="59" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="93" column="21"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a7053b293a19edbf5744dd8b4dc403703" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1ae01364afce9b51235717294dee8463b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
-        <definition>IniFile * AGRemapCore::BaseIniRemover::getIniFile</definition>
+        <definition>IniFile * AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::getIniFile</definition>
         <argsstring>() const</argsstring>
         <name>getIniFile</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::getIniFile</qualifiedname>
@@ -98,11 +122,11 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="64" column="21" bodyfile="src/model/strategies/iniRemovers/BaseIniRemover.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="98" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="98" bodyend="100"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1aa61f50d9853382d8a56daf1d3abe8ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a68a6023d3cfd210b8f35328c426b67e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
-        <definition>void AGRemapCore::BaseIniRemover::setIniFile</definition>
+        <definition>virtual void AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::setIniFile</definition>
         <argsstring>(IniFile *iniFile)</argsstring>
         <name>setIniFile</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::setIniFile</qualifiedname>
@@ -115,7 +139,12 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         <detaileddescription>
 <para><verbatim>embed:rst 
 Binds this remover to the ``.ini`` file it should remove fixes from -- non-owning, see
-the constructor
+the constructor :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``virtual`` so a subclass reading the file through a context can rebuild that context
+when the binding changes -- which is exactly what :cpp:func:`RemapIniRemover::setIniFile`
+does, and what lets :cpp:func:`IniRemoveBuilder::build` bind a remover a caller-supplied
+factory handed back unbound
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -130,12 +159,12 @@ the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="75" column="18" bodyfile="src/model/strategies/iniRemovers/BaseIniRemover.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="116" column="26" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="116" bodyend="118"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a88fc349467d68eba2b71e0b6f24e7a76" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a4b89d6402f51d48d562370fd92a5fc05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>std::string</type>
-        <definition>std::string AGRemapCore::BaseIniRemover::remove</definition>
-        <argsstring>(bool parse=false, bool writeBack=true)</argsstring>
+        <definition>virtual std::string AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;::remove</definition>
+        <argsstring>(bool parse=false, bool writeBack=true, IniRemovalContext context=IniRemovalContext())</argsstring>
         <name>remove</name>
         <qualifiedname>AGRemapCore::BaseIniRemover::remove</qualifiedname>
         <param>
@@ -147,6 +176,11 @@ the constructor
           <type>bool</type>
           <declname>writeBack</declname>
           <defval>true</defval>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_ini_removal_context" kindref="compound">IniRemovalContext</ref></type>
+          <declname>context</declname>
+          <defval><ref refid="struct_a_g_remap_core_1_1_ini_removal_context" kindref="compound">IniRemovalContext</ref>()</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -173,7 +207,21 @@ Whether to also parse for the ``*.RemapBlend.buf`` files that need to be removed
 <parametername>writeBack</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Whether to write back the new text content of the .ini file. <bold>Default</bold>: <computeroutput>true</computeroutput></para>
+<para>Whether to write back the new text content of the .ini file. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, and note
+that it is **not** the :cpp:class:`IniRemoveContext` a remover reads its file through
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: a default-constructed one, ie. every option off
+</verbatim></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -183,7 +231,7 @@ Whether to also parse for the ``*.RemapBlend.buf`` files that need to be removed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="95" column="33" bodyfile="src/model/strategies/iniRemovers/BaseIniRemover.cpp" bodystart="17" bodyend="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="146" column="33" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="146" bodyend="151"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -197,14 +245,67 @@ Base class to remove fixes from a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-ht
    ``.ini`` file has been read before a method runs. That is not ported: it is a `Python`_
    decorator mechanism with no C++ equivalent, and the one thing it actually does --
    &quot;read the file first if it hasn&apos;t been read yet&quot; -- is done by
-   :cpp:func:`IniFile::removeFix` before it calls any remover
+   :cpp:func:`IniFile::removeFix` before it calls any remover, and by
+   :cpp:func:`IniRemoveContext::readFileLines` for every other caller
 
 .. note::
    The pure-Python original exposes its ``.ini`` file as a plain public ``iniFile`` attribute.
    This follows :cpp:class:`BaseIniParser`&apos;s convention instead (protected member plus
-   #getIniFile/#setIniFile). :cpp:func:`IniRemoveBuilder::build` is what calls #setIniFile, on
-   every call -- which is how one cached remover serves many ``.ini`` files
-</verbatim> </para>
+   #getIniFile/#setIniFile). :cpp:func:`IniRemoveBuilder::build` is what calls #setIniFile,
+   so a remover reached that way arrives already bound
+
+.. note::
+   This is a class template over the same ``K``/``V``/``KeyHash``/``KeyEqual`` as the
+   :cpp:class:`IfContentPart`\\s the `sections`_ it removes are made of, defaulting to
+   ``&lt;std::string, std::string&gt;``. It has to be, for exactly the reason
+   :cpp:class:`BaseIniParser` gives: the `pybind11`_ layer&apos;s `sections`_ are
+   ``IfTemplate&lt;py::object, py::object, ...&gt;``, so a remover pinned to
+   ``&lt;std::string, std::string&gt;`` would be unreachable from any binding -- and
+   :cpp:class:`RemapIniRemover`, the one concrete remover this base has, is reached from exactly
+   there
+
+.. note::
+   :cpp:class:`IniRemoveBuilder` (and, through it, :cpp:member:`ModType::iniRemoveBuilder` and
+   :cpp:func:`IniFile::removeFix`) deliberately stays pinned to ``BaseIniRemover&lt;&gt;`` rather
+   than becoming a template of its own -- the same call the parser family made, and for the
+   same reason: nothing on the `Python`_ side builds removers through it (the `Python`_ API has
+   its own pure-Python ``IniRemoveBuilder``), so the only instantiation it ever needs is the
+   plain-``std::string`` one
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
     </detaileddescription>
     <collaborationgraph>
       <node id="3">
@@ -212,7 +313,7 @@ Base class to remove fixes from a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-ht
         <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
       </node>
       <node id="1">
-        <label>AGRemapCore::BaseIniRemover</label>
+        <label>AGRemapCore::BaseIniRemover&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_remover"/>
         <childnode refid="2" relation="usage">
           <edgelabel>iniFile_</edgelabel>
@@ -233,14 +334,14 @@ Base class to remove fixes from a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-ht
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="30" bodyend="106"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="58" bodyend="162"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1aeb3908fdbc6aaf3d98a0bd55c1545d82" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>BaseIniRemover</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a7053b293a19edbf5744dd8b4dc403703" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>getIniFile</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a34e800b25bed61cb7ed3c7138217114a" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>iniFile_</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a88fc349467d68eba2b71e0b6f24e7a76" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>remove</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1aa61f50d9853382d8a56daf1d3abe8ef0" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>setIniFile</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a0112edad37638752429736a7ebbad4e6" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>~BaseIniRemover</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a5beef96e5ea9a8e3bcf3b77e463cf3be" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>BaseIniRemover</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1ae01364afce9b51235717294dee8463b9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a7d693c5f3ab718880b3a884346f9ec7b" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a4b89d6402f51d48d562370fd92a5fc05" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>remove</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a68a6023d3cfd210b8f35328c426b67e8" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>setIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a6661b34d79cbd359d51eb70ae609321f" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>~BaseIniRemover</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

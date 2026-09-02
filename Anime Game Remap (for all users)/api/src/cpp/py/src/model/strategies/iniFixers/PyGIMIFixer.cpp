@@ -181,13 +181,6 @@ void PyIniFixContext::setFileTxt(std::string txt) {
 }
 
 
-void PyIniFixContext::hideOriginalSections() {
-    if (hasIni()) {
-        ini.attr("hideOriginalSections")();
-    }
-}
-
-
 void PyIniFixContext::disableIni() {
     if (hasIni()) {
         ini.attr("disIni")();
@@ -388,11 +381,11 @@ py::object PyGIMIFixer::getFixToPy(bool onlyEditObjGraphs) {
 }
 
 
-py::object PyGIMIFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig) {
+py::object PyGIMIFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRC::IniFixingContext fixingCtx) {
     refresh();
 
     ParseData empty;
-    this->fix(empty, keepBackup, fixOnly, hideOrig);
+    this->fix(empty, keepBackup, fixOnly, hideOrig, fixingCtx);
 
     py::dict result;
     const FixTargets &targets = this->fixTargets();
@@ -453,7 +446,8 @@ Fixes the .ini file
 Parameters
 ----------
 keepBackup: :class:`bool`
-    Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    Whether to keep backups for the .ini file. Ignored when ``context.isFirstModType`` is ``False``,
+    since several fixers chain over one .ini file and only the first of them should move it aside :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
 
@@ -463,9 +457,16 @@ fixOnly: :class:`bool`
     **Default**: ``False``
 
 hideOrig: :class:`bool`
-    Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+    Whether to hide the mod for the original character. Ignored when ``context.isLastModType`` is ``False``, since
+    several fixers chain over one .ini file and only the last of them should rewrite it :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``False``
+
+context: Optional[:class:`IniFixingContext`]
+    The per-call options for this fix. If ``None``, a default one is built, which says this
+    fixer is the .ini file's last :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
 
 Returns
 -------

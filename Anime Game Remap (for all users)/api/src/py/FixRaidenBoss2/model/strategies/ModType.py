@@ -21,8 +21,8 @@ from ...tools.DictTools import UnHashableNone
 from ...tools.Heading import Heading
 from ...model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 from ...core import GIMIParser
+from ...core import GIMIFixer
 from ...model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
-from ...model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
 from ...model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 from ...data.ModDataAssets import ModDataAssets
 
@@ -84,7 +84,7 @@ class ModType():
     iniRemoveBuilder: Optional[:class:`IniRemoveBuilder`]
         The builder to build the remover used for .ini files :raw-html:`<br />` :raw-html:`<br />`
 
-        If this value is ``None``, then by default this attribute will be set to **IniRemoveBuilder(:class:`IniRemover`)** :raw-html:`<br />` :raw-html:`<br />`
+        If this value is ``None``, then by default this attribute will be set to **IniRemoveBuilder(:class:`RemapIniRemover`)** :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
@@ -149,7 +149,7 @@ class ModType():
             iniParseBuilder = IniParseBuilder(GIMIParser)
 
         if (iniFixBuilder is None):
-            iniFixBuilder = IniFixBuilder(GIMIFixerOld)
+            iniFixBuilder = IniFixBuilder(GIMIFixer)
 
         if (iniRemoveBuilder is None):
             iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value

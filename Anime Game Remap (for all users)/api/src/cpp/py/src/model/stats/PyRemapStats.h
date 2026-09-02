@@ -15,8 +15,10 @@ class PyRemapStats {
     public:
         PyFileStats blend;
         PyFileStats position;
+        PyFileStats texcoord;
+        PyFileStats buf;
+        PyFileStats other;
         PyFileStats ini;
-        PyFileStats mod;
         PyFileStats texEdit;
         PyFileStats texAdd;
         PyCachedFileStats download;

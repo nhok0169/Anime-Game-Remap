@@ -6,8 +6,10 @@ namespace py = pybind11;
 void PyRemapStats::clear() {
     blend.clear();
     position.clear();
+    texcoord.clear();
+    buf.clear();
+    other.clear();
     ini.clear();
-    mod.clear();
     texEdit.clear();
     texAdd.clear();
     download.clear();
@@ -29,12 +31,20 @@ The file stats for the overall remap process
 :class:`FileStats`: Stats about whether some ``Position.buf`` files got fixed/skipped/removed
         )doc"))
 
-        .def_readwrite("ini", &PyRemapStats::ini, py::doc(R"doc(
-:class:`FileStats`: Stats about whether some .ini files got fixed/skipped/undone
+        .def_readwrite("texcoord", &PyRemapStats::texcoord, py::doc(R"doc(
+:class:`FileStats`: Stats about whether some ``Texcoord.buf`` files got fixed/skipped/removed
         )doc"))
 
-        .def_readwrite("mod", &PyRemapStats::mod, py::doc(R"doc(
-:class:`FileStats`: Stats about whether a mod has been fixed/skipped
+        .def_readwrite("buf", &PyRemapStats::buf, py::doc(R"doc(
+:class:`FileStats`: Stats about whether some other ``.buf`` files got fixed/skipped/removed
+        )doc"))
+
+        .def_readwrite("other", &PyRemapStats::other, py::doc(R"doc(
+:class:`FileStats`: Stats about whether some files of no recognized kind got fixed/skipped/removed
+        )doc"))
+
+        .def_readwrite("ini", &PyRemapStats::ini, py::doc(R"doc(
+:class:`FileStats`: Stats about whether some .ini files got fixed/skipped/undone
         )doc"))
 
         .def_readwrite("texEdit", &PyRemapStats::texEdit, py::doc(R"doc(

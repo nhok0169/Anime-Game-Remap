@@ -4,7 +4,9 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <unordered_set>
 
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
 
 
@@ -14,20 +16,24 @@ namespace AGRemapCore {
      * @brief
      @rst
      An :cpp:class:`IniFixContext` that already knows how to wrap a fix in this software's own
-     header/credit/footer boilerplate :raw-html:`<br />` :raw-html:`<br />`
+     header/credit/footer boilerplate, and how to comment the original mod out of the way
+     :raw-html:`<br />` :raw-html:`<br />`
 
-     :cpp:func:`IniFixContext::addFixBoilerPlate` is the one part of that interface whose answer
-     doesn't depend on a real ``.ini`` file at all -- it is the same text for every remap, built
-     from a heading and a credit line. Everything else on the interface (the file's text, its path,
-     its log, where its groups live) genuinely does, so this class implements *only* that one
-     method and stays abstract: it is a base to inherit from, not a context to use on its own
+     Two of that interface's methods have an answer that doesn't depend on where the ``.ini`` file
+     came from. :cpp:func:`addFixBoilerPlate` needs no ``.ini`` file at all -- it is the same text
+     for every remap, built from a heading and a credit line. :cpp:func:`hideOriginalSections`
+     needs one, but reaches it only through
+     :cpp:func:`IniFixContext::fileTxt`/:cpp:func:`IniFixContext::setFileTxt`, which the interface
+     already has. Everything else on it (the file's path, its log, where its groups live) genuinely
+     does depend on the concrete file, so this class implements only those two and stays abstract:
+     it is a base to inherit from, not a context to use on its own
 
      :raw-html:`<br />`
 
      The text it builds is the pure-Python ``IniFile.addFixBoilerPlate``'s, exactly:
      :cpp:func:`getFixHeader`, then :cpp:func:`getFixCredit`, then a blank line and the fix, then
      :cpp:func:`getFixFooter` -- so a fix written by a plain C++ caller is byte-for-byte one the
-     `Python`_ side would have written, and the still-pure-Python ``IniRemover`` can find it again
+     `Python`_ side would have written, and the still-pure-Python ``RemapIniRemover`` can find it again
 
      :raw-html:`<br />`
 
@@ -148,7 +154,47 @@ namespace AGRemapCore {
              */
             std::string getFixCredit() const;
 
+            /**
+             * @brief
+             @rst
+             What every hidden line is prefixed with :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: :cpp:member:`IniKeywords::HideOriginalComment` (``";RemapFixHideOrig -->"``)
+
+             :raw-html:`<br />`
+
+             .. danger::
+                This has to stay in step with :cpp:member:`RemapIniRemover::hideOriginalComment`.
+                A remover strips exactly what a fixer wrote when a fix is undone, so two different
+                markers leave the ``.ini`` file permanently commented out
+             @endrst
+             */
+            std::string hideOriginalComment = IniKeywords::HideOriginalComment;
+
             std::string addFixBoilerPlate(const std::string& fix) const override;
+
+            /**
+             * @brief
+             @rst
+             Comments out every line of the named `sections`_, in place on
+             :cpp:func:`IniFixContext::fileTxt` :raw-html:`<br />` :raw-html:`<br />`
+
+             A `section`_ owns every line from its own ``[Header]`` down to the line before the
+             next one, trailing blank lines included -- the same line ranges the pure-Python
+             ``IniFile.commentSectionOptions`` walks
+
+             :raw-html:`<br />`
+
+             .. note::
+                Header lines are recognized, and their names read, with
+                :cpp:func:`IniFile::isSectionHeaderLine`/:cpp:func:`IniFile::getSectionNameFromLine`
+                rather than by a second implementation of those two rules. The coupling is the
+                point: the names being matched here came out of `sections`_
+                :cpp:func:`IniFile::getIfTemplates` cut on exactly those boundaries, so re-deriving
+                them differently is how the two would silently stop agreeing
+             @endrst
+             */
+            void hideOriginalSections(const std::unordered_set<std::string>& sectionNames) override;
 
         private:
             // modTypeName with the newlines and tabs taken out -- see modTypeName's own note.

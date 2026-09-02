@@ -24,7 +24,7 @@ namespace AGRemapCore {
         on the heading, it is never written into a ``.ini`` file -- ``IniFile._setType`` clears the
         title on every construction and every reclassification, so the title a fix is actually
         wrapped in is always the derived :cpp:func:`RemapIniFixContext::headingName`. The literal
-        is a *regular expression* used by the still-pure-Python ``IniRemover`` to find a fix again
+        is a *regular expression* used by :cpp:class:`RemapIniRemover` to find a fix again
         later, and belongs with that class rather than with this one
      @endrst
      */

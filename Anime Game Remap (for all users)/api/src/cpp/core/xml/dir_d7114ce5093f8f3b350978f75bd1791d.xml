@@ -3,7 +3,11 @@
   <compounddef id="dir_d7114ce5093f8f3b350978f75bd1791d" kind="dir">
     <compoundname>include/AGRemapCore/model/strategies/iniRemovers</compoundname>
     <innerfile refid="_base_ini_remover_8h">BaseIniRemover.h</innerfile>
+    <innerfile refid="_ini_file_remove_context_8h">IniFileRemoveContext.h</innerfile>
+    <innerfile refid="_ini_removal_context_8h">IniRemovalContext.h</innerfile>
     <innerfile refid="_ini_remove_builder_8h">IniRemoveBuilder.h</innerfile>
+    <innerfile refid="_ini_remove_context_8h">IniRemoveContext.h</innerfile>
+    <innerfile refid="_remap_ini_remover_8h">RemapIniRemover.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

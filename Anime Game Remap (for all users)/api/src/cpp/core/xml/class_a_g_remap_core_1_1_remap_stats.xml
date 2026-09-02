@@ -42,6 +42,67 @@ software on a prior run
         </inbodydescription>
         <location file="include/AGRemapCore/model/stats/RemapStats.h" line="39" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="39" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::texcoord</definition>
+        <argsstring></argsstring>
+        <name>texcoord</name>
+        <qualifiedname>AGRemapCore::RemapStats::texcoord</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``Texcoord.buf`` files got fixed/skipped/removed -- a removed
+``Texcoord.buf`` file refers to a ``RemapTexcoord.buf`` file previously made by this
+software on a prior run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="49" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::buf</definition>
+        <argsstring></argsstring>
+        <name>buf</name>
+        <qualifiedname>AGRemapCore::RemapStats::buf</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some ``.buf`` files that are *not* one of the three specific kinds
+above got fixed/skipped/removed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The catch-all for the ``.buf`` half of :cpp:func:`RemapIniRemover::classifyResource` -- a
+``.buf`` resource inside a fix whose `section`_ name names no particular element
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="61" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
+        <definition>FileStats AGRemapCore::RemapStats::other</definition>
+        <argsstring></argsstring>
+        <name>other</name>
+        <qualifiedname>AGRemapCore::RemapStats::other</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Stats about whether some file of no recognized kind at all got fixed/skipped/removed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The final catch-all of :cpp:func:`RemapIniRemover::classifyResource` -- neither a download,
+nor a ``.dds``, nor a ``.buf``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="73" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
         <definition>FileStats AGRemapCore::RemapStats::ini</definition>
@@ -62,22 +123,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="52" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="52" bodyend="-1"/>
-      </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a8b44ab79c41339bd816e30a0a290eac6" prot="public" static="no" mutable="no">
-        <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
-        <definition>FileStats AGRemapCore::RemapStats::mod</definition>
-        <argsstring></argsstring>
-        <name>mod</name>
-        <qualifiedname>AGRemapCore::RemapStats::mod</qualifiedname>
-        <briefdescription>
-<para>Stats about whether a mod has been fixed/skipped. </para>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="57" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="57" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="86" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
@@ -92,7 +138,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="62" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="62" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="91" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref></type>
@@ -107,7 +153,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="67" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="96" column="23" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref></type>
@@ -122,7 +168,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="72" column="29" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="72" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="101" column="29" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="101" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -139,7 +185,7 @@ Stats about whether some .ini files got fixed/skipped/undone :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="77" column="18" bodyfile="src/model/stats/RemapStats.cpp" bodystart="5" bodyend="13"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="106" column="18" bodyfile="src/model/stats/RemapStats.cpp" bodystart="5" bodyend="15"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -167,26 +213,30 @@ Mirrors the pure-Python ``RemapStats`` class (``model/stats/RemapStats.py``)
         <link refid="class_a_g_remap_core_1_1_remap_stats"/>
         <childnode refid="2" relation="usage">
           <edgelabel>blend</edgelabel>
+          <edgelabel>buf</edgelabel>
           <edgelabel>ini</edgelabel>
-          <edgelabel>mod</edgelabel>
+          <edgelabel>other</edgelabel>
           <edgelabel>position</edgelabel>
           <edgelabel>texAdd</edgelabel>
           <edgelabel>texEdit</edgelabel>
+          <edgelabel>texcoord</edgelabel>
         </childnode>
         <childnode refid="3" relation="usage">
           <edgelabel>download</edgelabel>
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/stats/RemapStats.h" line="18" column="5" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="18" bodyend="78"/>
+    <location file="include/AGRemapCore/model/stats/RemapStats.h" line="18" column="5" bodyfile="include/AGRemapCore/model/stats/RemapStats.h" bodystart="18" bodyend="107"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>buf</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a239da2dc2417d4cbd3bc0be21efe1990" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>download</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>ini</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_stats_1a8b44ab79c41339bd816e30a0a290eac6" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>mod</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>other</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>position</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texcoord</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapStats</scope><name>texEdit</name></member>
     </listofallmembers>
   </compounddef>

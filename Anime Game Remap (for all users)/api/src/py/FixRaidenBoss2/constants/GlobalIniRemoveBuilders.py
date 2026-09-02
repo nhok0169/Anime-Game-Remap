@@ -11,9 +11,12 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import RemapIniRemover
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
-from ..model.strategies.iniRemovers.IniRemover import IniRemover
 from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
@@ -31,5 +34,11 @@ class GlobalIniRemoveBuilders(DeferredEnum):
         The builder to dynamically create modules that remove fixes from the .ini file
     """
 
-    RemoveBuilder = (lambda: IniRemoveBuilder(IniRemover), )
+    RemoveBuilder = (lambda: IniRemoveBuilder(RemapIniRemover), )
+    """
+    .. note::
+        The :class:`RemapIniRemover` built here is the **C++** one (``FixRaidenBoss2.core.RemapIniRemover``),
+        not the pure-Python class of the same name. The two find the fix by genuinely different
+        rules -- see that class's own documentation -- so what a removal leaves behind differs
+    """
 ##### EndScript

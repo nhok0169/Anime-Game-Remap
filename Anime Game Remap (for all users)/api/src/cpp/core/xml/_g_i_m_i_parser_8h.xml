@@ -29,6 +29,8 @@
     <includes refid="_ini_parse_download_data_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</includes>
     <includes refid="_base_aho_corasick_d_f_a_8h" local="yes">AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</includes>
     <includes local="yes">GIMIParser.tpp</includes>
+    <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
+    <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
@@ -1173,6 +1175,24 @@
         <label>vector</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
+        <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
+        <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_parser" prot="public">AGRemapCore::GIMIParser</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_download_targets" prot="public">AGRemapCore::GIMIParser::DownloadTargets</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config" prot="public">AGRemapCore::GIMIParser::ParserConfig</innerclass>

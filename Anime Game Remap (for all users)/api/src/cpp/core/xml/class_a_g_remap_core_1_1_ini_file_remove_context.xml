@@ -1,0 +1,428 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_file_remove_context" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFileRemoveContext</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_remove_context" prot="public" virt="non-virtual">AGRemapCore::IniRemoveContext&lt; std::string, std::string &gt;</basecompoundref>
+    <includes refid="_ini_file_remove_context_8h" local="no">IniFileRemoveContext.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_remove_context_1ac6fc30f53a53ee16ea5ca0079279aa4f" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::IniFileRemoveContext::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::iniFile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="75" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a3b13bae947474f5dfb358f18ac5ef16a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFileRemoveContext::IniFileRemoveContext</definition>
+        <argsstring>(IniFile *iniFile=nullptr)</argsstring>
+        <name>IniFileRemoveContext</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::IniFileRemoveContext</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Wraps one .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file to remove the fix from -- non-owning, and it must outlive this
+context. ``nullptr`` makes every method here answer as if there were no ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="54" column="22" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="12" bodyend="12"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a294440c113624997e4fbe950b1593438" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile * AGRemapCore::IniFileRemoveContext::getIniFile</definition>
+        <argsstring>() const</argsstring>
+        <name>getIniFile</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::getIniFile</qualifiedname>
+        <briefdescription>
+<para>The .ini file this wraps, or <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="59" column="21" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="15" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a85847711b0e0ac4298d0ce54f4579e56" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFileRemoveContext::hasIni</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasIni</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::hasIni</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a5655f4d3688f3e24528cbc93352713a3">hasIni</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``false`` stands in for the pure-Python original&apos;s ``ini = None``, and makes
+:cpp:func:`RemapIniRemover::remove` a no-op
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="61" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="20" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a62bcdcc60fbcda07868763e2c5168773" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFileRemoveContext::iniFolder</definition>
+        <argsstring>() const override</argsstring>
+        <name>iniFolder</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::iniFolder</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a5b92d37e4bd1f0e7b9e62ae911493400">iniFolder</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder the ``.ini`` file lives in (the equivalent of the pure-Python original&apos;s
+``ini.folder``), or an empty string when it has none :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Every path :cpp:func:`RemapIniRemover::getRemovedResources` hands back is resolved against
+this -- see that method&apos;s own note on what an empty answer means
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="62" column="25" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="25" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a2d5fb0c81accacc2ec1aee66e2462713" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::IniFileRemoveContext::version</definition>
+        <argsstring>() const override</argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::version</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1ac76656178d93119ae76fadf62bb20305">version</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game version the ``.ini`` file was written for (``ini.version``), or
+``std::nullopt`` for &quot;the latest&quot; -- what #modTypeHashes is searched at
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="63" column="27" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="34" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1af9acaf1bde537ae7d3caf6f02c2eeb98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_context_1a7ad19c6c3790253dfb0050663c4ef76e" kindref="member">Assets</ref> * &gt;</type>
+        <definition>std::vector&lt; IniFileRemoveContext::Assets * &gt; AGRemapCore::IniFileRemoveContext::modTypeHashes</definition>
+        <argsstring>() const override</argsstring>
+        <name>modTypeHashes</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::modTypeHashes</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1ac71dc98afca7a877db39a20b7b41528f">modTypeHashes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``hash`` assets of every :cpp:class:`ModType` the ``.ini`` file was classified as.
+Borrowed, not owned; may be empty :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A **vector**, unlike :cpp:func:`IniParseContext::modTypeHashes`, because an
+:cpp:class:`AGRemapCore::IniFile` can carry several mod types at once and
+:cpp:func:`IniFile::removeFix` hands the same file to each one&apos;s remover in turn
+without telling any of them which one it is acting for. The pure-Python ``IniFile``,
+whose ``availableType`` is singular, simply returns a one-element (or empty) vector
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="64" column="25" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="43" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a9e36233a1aab416cfeb2afe84a58d78c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::IniFileRemoveContext::readFileLines</definition>
+        <argsstring>() override</argsstring>
+        <name>readFileLines</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::readFileLines</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a1c2bac9d534d586fcdbab0463ef4af00">readFileLines</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The text lines of the ``.ini`` file, reading it from disk first if that has not
+happened yet -- the equivalent of the pure-Python original&apos;s ``_readLines`` decorator
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Each line keeps its own trailing newline, except possibly the last
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="65" column="25" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="66" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a6e47b3fc10e161dc815fcd886abd2ee8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_remove_context_1a30f234dbf2b0b99edfea3096efcfb46b" kindref="member">Section</ref> * &gt;</type>
+        <definition>std::unordered_map&lt; std::string, IniFileRemoveContext::Section * &gt; AGRemapCore::IniFileRemoveContext::sectionIfTemplates</definition>
+        <argsstring>() const override</argsstring>
+        <name>sectionIfTemplates</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::sectionIfTemplates</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a639aafa2056e064c701842c8c2706af7">sectionIfTemplates</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of the
+pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="66" column="32" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="79" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1a494ac6db1713e89137ac7a6eb2fefdd5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFileRemoveContext::fileTxt</definition>
+        <argsstring>() const override</argsstring>
+        <name>fileTxt</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::fileTxt</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a6911082458ea808b5b935d503d4efb29">fileTxt</reimplements>
+        <briefdescription>
+<para>The text content of the <computeroutput>.ini</computeroutput> file (<computeroutput>ini.fileTxt</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="67" column="25" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="95" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1ad51c5be2a6b1c792931b69192db4a7b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileRemoveContext::setFileTxt</definition>
+        <argsstring>(std::string txt) override</argsstring>
+        <name>setFileTxt</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::setFileTxt</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a46b9a6c0379a96892b787ce7eeb88af6">setFileTxt</reimplements>
+        <param>
+          <type>std::string</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>The text content of the <computeroutput>.ini</computeroutput> file (<computeroutput>ini.fileTxt</computeroutput>).    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new text content </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="68" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="104" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1adc67df217560951bf36e96fa414af879" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFileRemoveContext::write</definition>
+        <argsstring>() override</argsstring>
+        <name>write</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::write</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a4311c377d0187fd9130b54df125f3604">write</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Writes the ``.ini`` file&apos;s current text content out (``ini.write()``) and returns what
+was written
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="69" column="25" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="113" bodyend="119"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1af9b265d790bd1e00c78994123a5a7552" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileRemoveContext::clearRead</definition>
+        <argsstring>() override</argsstring>
+        <name>clearRead</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::clearRead</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a0192f492d2d19536d990e56fe771288d">clearRead</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Drops the read text/lines so the next read comes from disk again
+(``ini.clearRead()``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="70" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="122" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_remove_context_1ab3d2c18bbbdb97fde166714e2fc59b20" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileRemoveContext::setIsFixed</definition>
+        <argsstring>(bool isFixed) override</argsstring>
+        <name>setIsFixed</name>
+        <qualifiedname>AGRemapCore::IniFileRemoveContext::setIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_remove_context_1a6cc4430e8d26196ec6d21c667f2314fc">setIsFixed</reimplements>
+        <param>
+          <type>bool</type>
+          <declname>isFixed</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Records that the ``.ini`` file no longer holds a fix (``ini._isFixed = False``)
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The removing counterpart of :cpp:func:`IniFixContext::setIsFixed`, and the same note
+applies: :cpp:class:`AGRemapCore::IniFile` owns that flag through
+:cpp:func:`IniFile::classify` and does not let a remover write it, so a plain C++
+implementation of this is free to do nothing. The `Python`_ ``IniFile`` uses the flag
+the pure-Python original&apos;s way, and its implementation does clear it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The pure-Python original also sets ``ini._hideOriginalReplaced = True`` here. That
+   is deliberately **not** on this interface: the only thing that flag does is let
+   ``IniFile.getSectionOptions`` skip stripping the hide-original comment from lines
+   that might still carry it -- and by the time this is called
+   :cpp:func:`RemapIniRemover::remove` has already stripped every one of them out of the
+   text, so the strip it would skip is a no-op either way
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>isFixed</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the .ini file still holds a fix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="71" column="18" bodyfile="src/model/strategies/iniRemovers/IniFileRemoveContext.cpp" bodystart="131" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class implements :cpp:class:`IniRemoveContext` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The plain-C++ :cpp:class:`IniRemoveContext` -- an :cpp:class:`AGRemapCore::IniFile` behind that
+interface, so a caller with a real C++ ``.ini`` file needs no context of its own
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is what makes :cpp:func:`IniFile::removeFix` work: the remover
+:cpp:func:`RemapIniRemover::factory` builds wraps the ``IniFile*`` it is handed in one of these, and
+rebuilds it whenever :cpp:func:`RemapIniRemover::setIniFile` re-points it -- which the
+:cpp:class:`IniRemoveBuilder` does on every :cpp:func:`IniRemoveBuilder::build`
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   The `pybind11`_ layer has its own implementation instead (``PyIniRemoveContext``), which
+   forwards to a `Python`_ ``IniFile`` through real attribute lookup. Neither derives from the
+   other -- they are two implementations of one interface, exactly as
+   :cpp:class:`IniParseContext` has
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IniFileRemoveContext</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file_remove_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniRemoveContext&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_remove_context"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniFileRemoveContext</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file_remove_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniRemoveContext&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_remove_context"/>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" line="39" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h" bodystart="39" bodyend="76"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a7ad19c6c3790253dfb0050663c4ef76e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>Assets</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1af9b265d790bd1e00c78994123a5a7552" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>clearRead</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a494ac6db1713e89137ac7a6eb2fefdd5" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>fileTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a294440c113624997e4fbe950b1593438" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a85847711b0e0ac4298d0ce54f4579e56" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>hasIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1ac6fc30f53a53ee16ea5ca0079279aa4f" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a3b13bae947474f5dfb358f18ac5ef16a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>IniFileRemoveContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a62bcdcc60fbcda07868763e2c5168773" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>iniFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1af9acaf1bde537ae7d3caf6f02c2eeb98" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>modTypeHashes</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a9e36233a1aab416cfeb2afe84a58d78c" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>readFileLines</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a30f234dbf2b0b99edfea3096efcfb46b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a6e47b3fc10e161dc815fcd886abd2ee8" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>sectionIfTemplates</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1ad51c5be2a6b1c792931b69192db4a7b0" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>setFileTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1ab3d2c18bbbdb97fde166714e2fc59b20" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>setIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1a2d5fb0c81accacc2ec1aee66e2462713" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>version</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_remove_context_1adc67df217560951bf36e96fa414af879" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>write</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_context_1afdd36f95e5b50367179227b7ab5d293b" prot="public" virt="virtual"><scope>AGRemapCore::IniFileRemoveContext</scope><name>~IniRemoveContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

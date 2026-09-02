@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/constants</compoundname>
     <innerfile refid="_download_mode_8h">DownloadMode.h</innerfile>
     <innerfile refid="_file_ext_8h">FileExt.h</innerfile>
+    <innerfile refid="_file_prefixes_8h">FilePrefixes.h</innerfile>
     <innerfile refid="_game_type_8h">GameType.h</innerfile>
     <innerfile refid="_game_type_id_8h">GameTypeId.h</innerfile>
     <innerfile refid="_g_i_builder_8h">GIBuilder.h</innerfile>

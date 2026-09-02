@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniRemover::ResourceType</compoundname>
+    <includes refid="_remap_ini_remover_8h" local="no">RemapIniRemover.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a7b99008e5701b9b45b5c078a324fdeb8" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Download</definition>
+        <argsstring></argsstring>
+        <name>Download</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Download</qualifiedname>
+        <initializer>= &quot;download&quot;</initializer>
+        <briefdescription>
+<para>A file the fix downloaded <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kindref="member">RemapStats::download</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="262" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="262" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a98318607bc3303adc8545adf6369b78f" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::TexAdd</definition>
+        <argsstring></argsstring>
+        <name>TexAdd</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::TexAdd</qualifiedname>
+        <initializer>= &quot;texAdd&quot;</initializer>
+        <briefdescription>
+<para>A texture file the fix created from nothing <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kindref="member">RemapStats::texAdd</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="267" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="267" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1adcd3155145488b97234515139bc0711e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::TexEdit</definition>
+        <argsstring></argsstring>
+        <name>TexEdit</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::TexEdit</qualifiedname>
+        <initializer>= &quot;texEdit&quot;</initializer>
+        <briefdescription>
+<para>A texture file the fix edited a copy of <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" kindref="member">RemapStats::texEdit</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="272" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="272" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a9ed1f895117392920a8cfbffcf0db841" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Blend</definition>
+        <argsstring></argsstring>
+        <name>Blend</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Blend</qualifiedname>
+        <initializer>= &quot;blend&quot;</initializer>
+        <briefdescription>
+<para>A remapped <computeroutput>Blend.buf</computeroutput> <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" kindref="member">RemapStats::blend</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="277" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="277" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a9344d276b27878d30eae6308a7aeaa7c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Position</definition>
+        <argsstring></argsstring>
+        <name>Position</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Position</qualifiedname>
+        <initializer>= &quot;position&quot;</initializer>
+        <briefdescription>
+<para>A remapped <computeroutput>Position.buf</computeroutput> <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" kindref="member">RemapStats::position</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="282" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="282" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a6b9e9fe4a9bb2e09c15df8842ef5c92b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Texcoord</definition>
+        <argsstring></argsstring>
+        <name>Texcoord</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Texcoord</qualifiedname>
+        <initializer>= &quot;texcoord&quot;</initializer>
+        <briefdescription>
+<para>A remapped <computeroutput>Texcoord.buf</computeroutput> <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" kindref="member">RemapStats::texcoord</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="287" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="287" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a27c01d03e75a64aa7595fc424b435893" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Buf</definition>
+        <argsstring></argsstring>
+        <name>Buf</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Buf</qualifiedname>
+        <initializer>= &quot;buf&quot;</initializer>
+        <briefdescription>
+<para>Any other <computeroutput>.buf</computeroutput> <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" kindref="member">RemapStats::buf</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="292" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="292" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a40f5b7cc1e52883ec7500deed45bc9df" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::Other</definition>
+        <argsstring></argsstring>
+        <name>Other</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::Other</qualifiedname>
+        <initializer>= &quot;other&quot;</initializer>
+        <briefdescription>
+<para>Anything else at all <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" kindref="member">RemapStats::other</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="297" column="53" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1abbada580bc759d3a88dfe1aeb6d3d2fa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::ResourceType::ResourceType</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ResourceType</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::ResourceType::ResourceType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="257" column="21"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The kinds a removed resource is sorted into by #classifyResource :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Every one of these is also the name of a :cpp:class:`RemapStats` member, and that is the
+point: they are the keys of #getRemovedResources, so a caller can hand each bucket
+straight to the matching :cpp:func:`FileStats::addRemoved` without a lookup table of its
+own. :cpp:member:`RemapStats::ini` is the one member with no kind here -- the ``.ini``
+file is not a resource inside itself
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="254" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="254" bodyend="298"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a9ed1f895117392920a8cfbffcf0db841" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a27c01d03e75a64aa7595fc424b435893" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Buf</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a7b99008e5701b9b45b5c078a324fdeb8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Download</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a40f5b7cc1e52883ec7500deed45bc9df" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Other</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a9344d276b27878d30eae6308a7aeaa7c" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1abbada580bc759d3a88dfe1aeb6d3d2fa" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>ResourceType</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a98318607bc3303adc8545adf6369b78f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>TexAdd</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1a6b9e9fe4a9bb2e09c15df8842ef5c92b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>Texcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1_1_resource_type_1adcd3155145488b97234515139bc0711e" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::ResourceType</scope><name>TexEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

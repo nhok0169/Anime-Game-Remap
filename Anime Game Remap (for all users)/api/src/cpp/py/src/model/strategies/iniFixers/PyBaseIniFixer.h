@@ -3,6 +3,8 @@
 
 #include <pybind11/pybind11.h>
 
+#include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
+
 #include "../../iftemplate/PyIfContentPart.h"  // reuses PyObjectHash/PyObjectEqual
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
 
@@ -84,10 +86,11 @@ class PyBaseIniFixer: public PyBaseIniFixerCore {
          * @param keepBackup Whether to keep backups for the .ini file
          * @param fixOnly Whether to only fix the .ini file without undoing any fixes
          * @param hideOrig Whether to hide the mod for the original character
+         * @param fixingCtx The per-call options for this fix -- see :cpp:class:`AGRemapCore::IniFixingContext`
          *
          * @return A ``Dict[Union[str, int], str]``, or ``None``
          */
-        virtual py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig);
+        virtual py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRemapCore::IniFixingContext fixingCtx);
 };
 
 
@@ -117,10 +120,21 @@ void bindBaseIniFixerCommonMethods(PyClass &cls, const char *fixDoc) {
            self.clear();
        }, py::doc(R"doc(Resets any saved states within the fixer)doc"))
 
-       .def("fix", [](T &self, bool keepBackup, bool fixOnly, bool hideOrig) {
-           return self.fixToPy(keepBackup, fixOnly, hideOrig);
+       .def("fix", [](T &self, bool keepBackup, bool fixOnly, bool hideOrig, py::object context) {
+           // Taken as a py::object defaulting to None, and NOT as
+           // py::arg("context") = AGRemapCore::IniFixingContext(): a default argument is built once
+           // at binding time and shared by every call that omits it, so a mutable one is pybind's
+           // version of Python's mutable-default-argument bug -- a caller that flipped
+           // 'isLastModType' on the object it was handed would silently change what every later
+           // defaulted call does. A fresh one per call, here.
+           AGRemapCore::IniFixingContext fixingCtx;
+           if (!context.is_none()) {
+               fixingCtx = context.cast<AGRemapCore::IniFixingContext>();
+           }
+
+           return self.fixToPy(keepBackup, fixOnly, hideOrig, fixingCtx);
        }, py::arg("keepBackup") = true, py::arg("fixOnly") = false, py::arg("hideOrig") = false,
-          py::doc(fixDoc));
+          py::arg("context") = py::none(), py::doc(fixDoc));
 }
 
 

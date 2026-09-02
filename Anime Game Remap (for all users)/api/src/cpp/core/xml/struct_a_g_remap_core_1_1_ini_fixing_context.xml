@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_fixing_context" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFixingContext</compoundname>
+    <includes refid="_ini_fixing_context_8h" local="no">IniFixingContext.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1ad8b8403bdf2111a6ae76cd8901565b08" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFixingContext::isFirstModType</definition>
+        <argsstring></argsstring>
+        <name>isFirstModType</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::isFirstModType</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether this fixer is running for the **first** :cpp:class:`ModType` of the ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The mirror image of #isLastModType, and there for the same reason: several fixers chain over
+one ``.ini`` file, so anything that touches the file itself rather than only the fix has to
+happen exactly once. :cpp:func:`GIMIFixer::fixImpl` uses this for its ``keepBackup`` pass --
+disabling the existing ``.ini`` file as a backup is the whole file&apos;s business, and doing it
+again on a later mod type would be backing up a file the first pass already moved aside
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **Default**: ``true``, for the same reason #isLastModType&apos;s is -- a fixer driven directly
+   is the only one, so it is both the first and the last
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="51" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFixingContext::isLastModType</definition>
+        <argsstring></argsstring>
+        <name>isLastModType</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::isLastModType</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether this fixer is running for the **last** :cpp:class:`ModType` of the ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+One ``.ini`` file can be fixed by several fixers in turn -- one per mod type it was
+classified as, and one per target mod each of those fixes to (see
+:cpp:func:`IniFile::fix`). They chain over the same file, so anything that rewrites the
+file&apos;s own text rather than only adding to the fix has to happen exactly once, at the end.
+:cpp:func:`GIMIFixer::fixImpl` uses this for its ``hideOrig`` pass for that reason: hiding
+the original mod&apos;s `sections`_ is the whole file&apos;s business, not one mod type&apos;s
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **Default**: ``true``, so a fixer driven directly -- one fixer, one call, no chain --
+   behaves as though it were the only one, which it is. It is the *chaining* caller that
+   has to say otherwise, and :cpp:func:`IniFile::fix` is the one that does
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="73" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a5c6f94f70afb769b63eff888f8b5c259" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFixingContext::IniFixingContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>IniFixingContext</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::IniFixingContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="75" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFixingContext::IniFixingContext</definition>
+        <argsstring>(bool isFirstModType, bool isLastModType)</argsstring>
+        <name>IniFixingContext</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::IniFixingContext</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>isFirstModType</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>isLastModType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new set of fixing options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>isFirstModType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="struct_a_g_remap_core_1_1_ini_fixing_context_1ad8b8403bdf2111a6ae76cd8901565b08" kindref="member">isFirstModType</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>isLastModType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" kindref="member">isLastModType</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="86" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="86" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The per-call knobs a caller hands to :cpp:func:`BaseIniFixer::fix` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Not to be confused with** :cpp:class:`IniFixContext`, which is a different thing wearing a
+near-identical name. That one is the ``.ini`` **file** behind an interface -- long-lived, bound
+once, and how a fixer reads and rewrites its file. This one is a plain bag of options describing
+*this particular fix*, is passed by value on every call, and knows nothing about any file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fixing counterpart of :cpp:class:`IniRemovalContext`, and it is that pair of names
+(``IniRemoveContext`` / ``IniRemovalContext``) this one follows :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Deliberately a plain struct rather than an interface: nothing here needs to be answered by
+asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Not a template, unlike almost everything else in this family, and it does not need to be --
+   it holds no `KVP`_ keys, `sections`_ or values. That is what lets the `pybind11`_ layer bind
+   it once and hand the same type to every fixer instantiation
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="32" bodyend="88"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a5c6f94f70afb769b63eff888f8b5c259" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1ad8b8403bdf2111a6ae76cd8901565b08" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>isFirstModType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>isLastModType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

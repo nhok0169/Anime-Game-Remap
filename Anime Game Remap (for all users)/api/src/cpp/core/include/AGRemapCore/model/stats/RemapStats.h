@@ -41,6 +41,40 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Stats about whether some ``Texcoord.buf`` files got fixed/skipped/removed -- a removed
+             ``Texcoord.buf`` file refers to a ``RemapTexcoord.buf`` file previously made by this
+             software on a prior run
+             @endrst
+             */
+            FileStats texcoord;
+
+            /**
+             * @brief
+             @rst
+             Stats about whether some ``.buf`` files that are *not* one of the three specific kinds
+             above got fixed/skipped/removed :raw-html:`<br />` :raw-html:`<br />`
+
+             The catch-all for the ``.buf`` half of :cpp:func:`RemapIniRemover::classifyResource` -- a
+             ``.buf`` resource inside a fix whose `section`_ name names no particular element
+             @endrst
+             */
+            FileStats buf;
+
+            /**
+             * @brief
+             @rst
+             Stats about whether some file of no recognized kind at all got fixed/skipped/removed
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The final catch-all of :cpp:func:`RemapIniRemover::classifyResource` -- neither a download,
+             nor a ``.dds``, nor a ``.buf``
+             @endrst
+             */
+            FileStats other;
+
+            /**
+             * @brief
+             @rst
              Stats about whether some .ini files got fixed/skipped/undone :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -50,11 +84,6 @@ namespace AGRemapCore {
              @endrst
              */
             FileStats ini;
-
-            /**
-             * @brief Stats about whether a mod has been fixed/skipped
-             */
-            FileStats mod;
 
             /**
              * @brief Stats about whether an existing texture file has been edited/removed

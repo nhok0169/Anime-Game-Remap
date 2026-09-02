@@ -23,7 +23,7 @@ from ..core import RemappedKeyData, KeyRemapData, ModTypeId, ModTypeIdTools
 from ..constants.Colours import Colours
 from ..constants.IniConsts import IniKeywords, IniComments
 from ..model.strategies.iniFixers.BaseIniFixerOld import BaseIniFixerOld
-from ..model.strategies.iniFixers.GIMIFixerOld import GIMIFixerOld
+from ..core import GIMIFixer
 from ..model.strategies.iniFixers.GIMIObjRegEditFixerOld import GIMIObjRegEditFixer
 from ..model.strategies.iniFixers.GIMIObjMergeFixerOld import GIMIObjMergeFixer
 from ..model.strategies.iniFixers.GIMIObjSplitFixerOld import GIMIObjSplitFixer
@@ -126,7 +126,7 @@ class IniFixBuilderFuncs():
 
     @classmethod
     def giDefault(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:
-        return (GIMIFixerOld, [], {})
+        return (GIMIFixer, [], {})
     
     @classmethod
     def amber4_0(cls) -> Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]:

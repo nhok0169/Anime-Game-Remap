@@ -5,8 +5,10 @@ namespace AGRemapCore {
     void RemapStats::clear() {
         blend.clear();
         position.clear();
+        texcoord.clear();
+        buf.clear();
+        other.clear();
         ini.clear();
-        mod.clear();
         texEdit.clear();
         texAdd.clear();
         download.clear();

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_prefixes" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FilePrefixes</compoundname>
+    <includes refid="_file_prefixes_8h" local="no">FilePrefixes.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FilePrefixes::BackupFilePrefix</definition>
+        <argsstring></argsstring>
+        <name>BackupFilePrefix</name>
+        <qualifiedname>AGRemapCore::FilePrefixes::BackupFilePrefix</qualifiedname>
+        <initializer>= &quot;RemapBKUP&quot;</initializer>
+        <briefdescription>
+<para>What a disabled (backed-up) file&apos;s name is prefixed with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="28" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Prefixes this software puts on the files it renames :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A **partial** port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
+   -- only the member :cpp:func:`IniFile::disableIni` needs is here. The two
+   ``OldBackupFilePrefix`` members belong to recognizing backups an *older* version of this
+   software left behind, which nothing in C++ does yet. Same rule as :cpp:class:`IniKeywords`:
+   add members as later-ported subsystems need them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="22" bodyend="29"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>BackupFilePrefix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

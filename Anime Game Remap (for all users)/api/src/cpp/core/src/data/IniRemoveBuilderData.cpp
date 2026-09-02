@@ -9,9 +9,10 @@
 
 
 namespace AGRemapCore {
-    // Every generator is a stub for now -- see IniParseBuilderFuncs' own warning. They are
-    // written out one-per-method rather than collapsed into a single shared stub so that each
-    // can be filled in independently, and so the table below reads exactly like the
+    // Every generator resolves the same way -- to RemapIniRemover, the only concrete remover there
+    // is, which is also the only one the pure-Python side has. They are written out one-per-method
+    // rather than collapsed into a single shared function so that any one of them can later be
+    // pointed somewhere else independently, and so the table below reads exactly like the
     // pure-Python original's.
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::amber4_0() { return IniRemoveBuilder::defaultFactory(); }
     IniRemoveBuilder::Factory IniRemoveBuilderFuncs::amberCN4_0() { return IniRemoveBuilder::defaultFactory(); }

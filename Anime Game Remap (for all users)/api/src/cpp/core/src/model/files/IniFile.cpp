@@ -2,11 +2,14 @@
 
 #include <cctype>
 #include <fstream>
+#include <filesystem>
 #include <sstream>
 #include <stdexcept>
 #include <utility>
 #include <variant>
 
+#include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/GameTypeId.h"
 #include "AGRemapCore/constants/GlobalIniClassifiers.h"
 #include "AGRemapCore/constants/IniKeywords.h"
@@ -16,7 +19,10 @@
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
+#include "AGRemapCore/constants/GlobalIniRemoveBuilders.h"
 #include "AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
+#include "AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
 
@@ -110,6 +116,12 @@ namespace AGRemapCore {
         // Order matters: the IfTemplates hold predicates built against z3Ctx_, so they have to go
         // before it is replaced.
         sectionIfTemplates_.clear();
+
+        // The pure-Python original's clear() ends with clearModels(), which empties ini.resources
+        // and ini.fileDownloads among others. Same thing here -- and see getResources' own danger
+        // note on what that does to a resource edit still holding pointers into them.
+        resources_.clear();
+        fileDownloads_.clear();
 
         // A fresh context rather than an in-place clear, exactly as the pure-Python original does
         // ("self._z3Ctx = Z3Context()"). Z3Context is move-assignable but not copyable.
@@ -242,6 +254,20 @@ namespace AGRemapCore {
             parseData_.emplace();
         }
 
+        // Split in two on purpose. A fixer has to be told whether its mod type is the file's first
+        // and/or its last (see IniFixingContext) -- the first takes the backup, the last hides the
+        // original mod -- and "which mod types actually contribute a fixer" is not knowable without
+        // asking every one of them first. So this pass parses and builds, and the pass below fixes.
+        //
+        // Safe to separate because nothing in the first pass depends on the second: parsing works
+        // off the section templates read once up front, not off the file on disk, so a fix moving
+        // that file aside or writing next to it cannot change what a later mod type parses.
+        //
+        // The pointers below are into two unordered_maps that keep growing here, which is fine --
+        // std::unordered_map only invalidates *iterators* on rehash, never references to elements.
+        using Fixers = std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>>;
+        std::vector<std::pair<std::vector<IniGraphGroup<>>*, const Fixers*>> pending;
+
         for (auto& entry : modTypes) {
             int modTypeId = entry.first;
             ModType& modType = entry.second;
@@ -260,16 +286,43 @@ namespace AGRemapCore {
             // equivalent of the original's "_getFixer" returning None (no fix builder, no parser to
             // build against, or every target filtered out by filteredToModTypeNames): that mod type
             // simply contributes nothing rather than aborting the whole fix.
-            const std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>>& fixers =
-                getFixers(modTypeId, modType);
+            const Fixers& fixers = getFixers(modTypeId, modType);
 
+            bool contributes = false;
             for (const std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>& fixerEntry : fixers) {
+                if (fixerEntry.second != nullptr) {
+                    contributes = true;
+                    break;
+                }
+            }
+
+            // Left out of 'pending' entirely rather than carried and skipped: a mod type that runs
+            // nothing must not be able to claim the file's first or last word.
+            if (contributes) {
+                pending.emplace_back(&parsedIt->second, &fixers);
+            }
+        }
+
+        // "First" and "last" are iteration order over an unordered_map, which is arbitrary but
+        // stable for a given container, and that is all this needs: the fixers chain over the same
+        // file, so which mod type takes the backup and which one hides matters only in that exactly
+        // one of them does each.
+        //
+        // Both flags are per *mod type*, so a mod type fixing to several target mods gives all of
+        // its fixers the same answer -- they write to the same path anyway, and the last of them
+        // wins there.
+        std::size_t pendingCount = pending.size();
+
+        for (std::size_t i = 0; i < pendingCount; ++i) {
+            IniFixingContext fixingCtx(i == 0, i + 1 == pendingCount);
+
+            for (const std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>& fixerEntry : *pending[i].second) {
                 if (fixerEntry.second == nullptr) {
                     continue;
                 }
 
                 BaseIniFixer<>::FixResult modTypeFix =
-                    fixerEntry.second->fix(parsedIt->second, keepBackup, fixOnly, hideOrig);
+                    fixerEntry.second->fix(*pending[i].first, keepBackup, fixOnly, hideOrig, fixingCtx);
 
                 // Combine into the running result. A plain overwrite -- see this method's doc
                 // comment on what happens when two fixers target the same file path.
@@ -281,6 +334,156 @@ namespace AGRemapCore {
 
         return result;
     }
+
+    std::vector<std::string> IniFile::getSectionNames() {
+        std::vector<std::string> result;
+
+        // getIfTemplates rather than sectionIfTemplates_ directly: this has to read the file first
+        // if it has not been read, exactly as that method does.
+        const auto& sections = getIfTemplates();
+        result.reserve(sections.size());
+
+        // A tsl::ordered_map, so this really is declaration order -- see getSectionNames' own note.
+        for (const auto& entry : sections) {
+            result.push_back(entry.first);
+        }
+
+        return result;
+    }
+
+
+    IfTemplate<std::string, std::string>* IniFile::getSection(const std::string& name) {
+        const auto& sections = getIfTemplates();
+        auto it = sections.find(name);
+
+        if (it == sections.end()) {
+            return nullptr;
+        }
+
+        return it->second.get();
+    }
+
+
+    IfTemplate<std::string, std::string>* IniFile::addSection(const std::string& name,
+                                                              std::unique_ptr<IfTemplate<std::string, std::string>> section) {
+        // Read first, so adding to an unread file doesn't get overwritten by a later read.
+        getIfTemplates();
+
+        IfTemplate<std::string, std::string>* result = section.get();
+
+        auto it = sectionIfTemplates_.find(name);
+        if (it != sectionIfTemplates_.end()) {
+            // Assigned rather than erased-and-reinserted: tsl::ordered_map keeps an existing key
+            // where it already was, which is what "replacing" should mean here.
+            it.value() = std::move(section);
+            return result;
+        }
+
+        sectionIfTemplates_.emplace(name, std::move(section));
+        return result;
+    }
+
+
+    void IniFile::removeSection(const std::string& name) {
+        getIfTemplates();
+
+        // tsl::ordered_map::erase keeps the surviving keys in order (unlike unordered_erase, which
+        // swaps the last one into the hole) -- and that order is load-bearing here.
+        sectionIfTemplates_.erase(name);
+    }
+
+
+    const std::vector<std::unique_ptr<IniResource>>& IniFile::getFileDownloads() const {
+        return fileDownloads_;
+    }
+
+
+    std::vector<std::unique_ptr<IniResource>>& IniFile::getFileDownloads() {
+        return fileDownloads_;
+    }
+
+
+    std::optional<std::string> IniFile::disableIni(bool makeCopy) {
+        if (!file_.has_value()) {
+            return std::nullopt;
+        }
+
+        std::filesystem::path path(*file_);
+        std::error_code err;
+
+        if (!std::filesystem::exists(path, err) || err) {
+            return std::nullopt;
+        }
+
+        // Prefix on the name and a .txt extension, matching FileService.disableFile exactly -- the
+        // extension change is what stops a mod loader from reading it as a .ini file at all.
+        std::filesystem::path backup = path.parent_path() /
+            (FilePrefixes::BackupFilePrefix + path.stem().string() + FileExt::Txt);
+
+        std::filesystem::rename(path, backup, err);
+        if (err) {
+            return std::nullopt;
+        }
+
+        if (makeCopy) {
+            std::filesystem::copy_file(backup, path, std::filesystem::copy_options::overwrite_existing, err);
+        }
+
+        return backup.string();
+    }
+
+
+    const std::vector<std::unique_ptr<IniResource>>& IniFile::getResources() const {
+        return resources_;
+    }
+
+
+    std::vector<std::unique_ptr<IniResource>>& IniFile::getResources() {
+        return resources_;
+    }
+
+
+    Z3Context* IniFile::getZ3Ctx() {
+        return &z3Ctx_;
+    }
+
+
+    std::string IniFile::getFolder() const {
+        if (!file_.has_value()) {
+            return "";
+        }
+
+        // The same derivation every core-side context already does for its own iniFolder() -- see
+        // IniFileRemoveContext::iniFolder.
+        return std::filesystem::path(*file_).parent_path().string();
+    }
+
+
+    bool IniFile::getIsMod() const {
+        return isMod;
+    }
+
+
+    bool IniFile::getIsFixed() const {
+        return isFixed;
+    }
+
+
+    void IniFile::setIsFixed(bool newIsFixed) {
+        isFixed = newIsFixed;
+    }
+
+
+    const ModType* IniFile::getAvailableType() const {
+        if (modTypes.empty()) {
+            return nullptr;
+        }
+
+        // First in iteration order -- arbitrary but stable, and only meaningful at all when there
+        // is exactly one. See this method's own danger note.
+        return &modTypes.begin()->second;
+    }
+
 
     std::string IniFile::removeFix(bool parse, bool writeBack) {
         // The pure-Python original leans on its own "_readLines" decorator for this, per remover;
@@ -296,20 +499,52 @@ namespace AGRemapCore {
         // Nothing ran, so the file's content is whatever it already was.
         std::string result = fileTxt_;
 
+        // Which mod type gets the last word, resolved before the loop rather than inside it. Every
+        // pass but that one asks RemapIniRemover's strict question ("is this section mine?"); the last
+        // one is handed IniRemovalContext::ignoreModType and sweeps up whatever is still standing --
+        // see that member for why the strict rule alone would leave debris behind forever.
+        //
+        // "Last" is iteration order over an unordered_map, which is arbitrary but stable for a given
+        // container, and that is all this needs: the passes chain over the same file, so which one
+        // draws the sweep matters only in that exactly one does and it goes last.
+        ModType* sweeper = nullptr;
+        for (auto& entry : modTypes) {
+            if (entry.second.iniRemoveBuilder != nullptr) {
+                sweeper = &entry.second;
+            }
+        }
+
+        // An unclassified file has no mod type to ask, so it falls back to the global builder for
+        // one sweeping pass -- the pure-Python original's own "availableType is None" branch in
+        // _getRemover. Being the only pass makes it the last one, hence the sweep.
+        //
+        // Deliberately keyed on "no mod types at all" rather than on "no mod type offered a
+        // remover": a ModType whose iniRemoveBuilder was explicitly nulled is saying it has nothing
+        // to contribute here, and overriding that with the global remover would be ignoring it.
+        if (modTypes.empty()) {
+            const std::shared_ptr<IniRemoveBuilder>& fallback = GlobalIniRemoveBuilders::removeBuilder();
+            if (fallback == nullptr) {
+                return result;
+            }
+
+            std::shared_ptr<BaseIniRemover<>> remover = fallback->build(this, "", fromVersion);
+            if (remover == nullptr) {
+                return result;
+            }
+
+            return remover->remove(parse, writeBack, IniRemovalContext(true));
+        }
+
         for (auto& entry : modTypes) {
             // That mod type simply contributes nothing, rather than aborting the whole removal.
             if (entry.second.iniRemoveBuilder == nullptr) {
                 continue;
             }
 
-            // Asked for on every call rather than cached into a builtRemovers_ map the way parsers
-            // and fixers are. That is deliberate, and the one place this diverges from the
-            // pure-Python original (which caches into 'self._iniRemover'): IniRemoveBuilder is a
-            // *flyweight*, so the instance it returns may be shared with other IniFiles, and only
-            // build() re-points it at this file. Calling it every time is what keeps the binding
-            // correct; caching the pointer here would reintroduce the original's stale-binding
-            // hazard for no gain, since a cache hit inside build() is already cheap.
-            std::shared_ptr<BaseIniRemover> remover =
+            // Built fresh per call rather than cached into a builtRemovers_ map the way parsers
+            // and fixers are -- see removeFix's own doc comment. Nothing here reads the remover
+            // back afterwards, so there is nothing to keep.
+            std::shared_ptr<BaseIniRemover<>> remover =
                 entry.second.iniRemoveBuilder->build(this, entry.second.name, fromVersion);
             if (remover == nullptr) {
                 continue;
@@ -317,7 +552,7 @@ namespace AGRemapCore {
 
             // The removers chain: each one strips its own mod type's fix out of the same file, so
             // the last one's return value is the file's final content.
-            result = remover->remove(parse, writeBack);
+            result = remover->remove(parse, writeBack, IniRemovalContext(&entry.second == sweeper));
         }
 
         return result;
@@ -346,6 +581,38 @@ namespace AGRemapCore {
 
         fileLinesRead_ = true;
     }
+
+    std::string IniFile::write(std::optional<std::string> txt) {
+        // A file-less .ini file has nowhere to write to, so 'txt' is simply adopted as the new
+        // content instead -- the pure-Python original's own first branch.
+        if (!file_.has_value()) {
+            if (txt.has_value()) {
+                setFileTxt(std::move(*txt));
+            }
+
+            return fileTxt_;
+        }
+
+        // Deliberately NOT routed through setFileTxt: the original only updates its in-memory text
+        // on the file-less branch above, so a caller writing an explicit 'txt' to a real path
+        // leaves getFileTxt() alone. See this method's own note in the header.
+        const std::string& content = txt.has_value() ? *txt : fileTxt_;
+
+        // Binary mode, matching readFromDisk's own: the newline normalization this class does is
+        // its own (see readFromDisk), so letting the OS re-translate a written newline back into a
+        // carriage-return pair here would make a written-then-read round trip lossy on Windows and
+        // not on Linux.
+        std::ofstream out(*file_, std::ios::binary | std::ios::trunc);
+        if (!out) {
+            throw std::runtime_error("Unable to open file for writing: " + *file_);
+        }
+
+        out.write(content.data(), static_cast<std::streamsize>(content.size()));
+        out.close();
+
+        return content;
+    }
+
 
     void IniFile::readFromDisk(const std::string& path) {
         std::ifstream file(path, std::ios::binary);
@@ -588,7 +855,7 @@ namespace AGRemapCore {
          * after readIfTemplates had already walked the whole file once just to find those boundaries).
          */
         void finalizeSection(SectionAccum& accum,
-                             std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& sectionIfTemplates,
+                             tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& sectionIfTemplates,
                              const std::optional<std::string>& file,
                              Z3Context& z3Ctx) {
             if (!accum.pendingKvpText.empty()) {
@@ -674,7 +941,7 @@ namespace AGRemapCore {
         }
     }
 
-    const std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& IniFile::readIfTemplates() {
+    const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& IniFile::readIfTemplates() {
         if (!fileLinesRead_) {
             readFileLines();
         }
@@ -738,7 +1005,7 @@ namespace AGRemapCore {
         return sectionIfTemplates_;
     }
 
-    const std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& IniFile::getIfTemplates(bool flush) {
+    const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& IniFile::getIfTemplates(bool flush) {
         if (!ifTemplatesRead_ || flush) {
             readIfTemplates();
         }

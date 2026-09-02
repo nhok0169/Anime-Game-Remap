@@ -10,10 +10,10 @@
       <node id="37">
         <label>Algo.tpp</label>
       </node>
-      <node id="78">
+      <node id="79">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="77">
+      <node id="78">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="43">
@@ -387,7 +387,9 @@
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -415,6 +417,10 @@
         </childnode>
       </node>
       <node id="76">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+      </node>
+      <node id="77">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="4" relation="include">
@@ -425,7 +431,7 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="77" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
       </node>
       <node id="35">

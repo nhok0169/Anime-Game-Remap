@@ -6,6 +6,7 @@
 
 #include "RemapIniFixContext.h"
 #include "AGRemapCore/constants/IniBoilerPlate.h"
+#include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/tools/Heading.h"
 
 
@@ -93,6 +94,51 @@ namespace AGRemapCore {
 
         std::string result = replaceAll(IniBoilerPlate::Credit, IniBoilerPlate::ModTypeNameReplaceStr, modTypeName);
         return replaceAll(result, IniBoilerPlate::ShortModTypeNameReplaceStr, shortModTypeName);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    void RemapIniFixContext<K, V, KeyHash, KeyEqual>::hideOriginalSections(const std::unordered_set<std::string>& sectionNames) {
+        if (sectionNames.empty()) {
+            return;
+        }
+
+        std::string txt = this->fileTxt();
+        std::string result;
+        result.reserve(txt.size());
+
+        // Whether the section the walk is currently inside of is one being hidden. It stays on
+        // until the *next* header line, which is what makes a hidden section own the blank lines
+        // trailing it -- the pure-Python original's ranges do the same.
+        bool hiding = false;
+        std::size_t lineStart = 0;
+
+        while (lineStart < txt.size()) {
+            std::size_t lineEnd = txt.find('\n', lineStart);
+            bool lastLine = lineEnd == std::string::npos;
+            std::string line = lastLine ? txt.substr(lineStart) : txt.substr(lineStart, lineEnd - lineStart);
+
+            if (IniFile::isSectionHeaderLine(line)) {
+                hiding = sectionNames.count(IniFile::getSectionNameFromLine(line)) != 0;
+            }
+
+            if (hiding) {
+                result += hideOriginalComment;
+            }
+
+            result += line;
+
+            if (lastLine) {
+                break;
+            }
+
+            // The loop condition is '<', not '<=', deliberately: a text ending in a newline has no
+            // trailing empty line to comment, and prefixing one would leave a stray marker behind.
+            result += '\n';
+            lineStart = lineEnd + 1;
+        }
+
+        this->setFileTxt(std::move(result));
     }
 
 

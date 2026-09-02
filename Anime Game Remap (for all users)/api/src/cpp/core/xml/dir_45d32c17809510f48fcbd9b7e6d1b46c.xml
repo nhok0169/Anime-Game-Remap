@@ -9,6 +9,7 @@
     <innerfile refid="_graph_inherit_8h">GraphInherit.h</innerfile>
     <innerfile refid="_graph_remove_8h">GraphRemove.h</innerfile>
     <innerfile refid="_i_ini_graph_groups_8h">IIniGraphGroups.h</innerfile>
+    <innerfile refid="_ini_file_res_edit_context_8h">IniFileResEditContext.h</innerfile>
     <innerfile refid="_ini_res_edit_context_8h">IniResEditContext.h</innerfile>
     <innerfile refid="_res_group_collect_8h">ResGroupCollect.h</innerfile>
     <innerfile refid="_res_reg_collect_8h">ResRegCollect.h</innerfile>

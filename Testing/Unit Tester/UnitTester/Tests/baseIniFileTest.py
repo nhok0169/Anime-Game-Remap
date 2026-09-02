@@ -302,6 +302,10 @@ class BaseIniFileTest(BaseFileUnitTest):
     def setUp(self):
         super().setUp()
         self.maxDiff = None
-        self.patch("src.py.FixRaidenBoss2.FileService.read", side_effect = lambda file, fileCode, postProcessor: self._iniTxtLines)
+        # A *copy* per read, the way the real FileService.read hands back a fresh list. Handing out
+        # the one class-level list makes it shared state: IniFile._commentSection edits the lines it
+        # was given in place, so one test running with hideOrig = True would leave every later test
+        # in the class reading an already-commented .ini file.
+        self.patch("src.py.FixRaidenBoss2.FileService.read", side_effect = lambda file, fileCode, postProcessor: list(self._iniTxtLines))
         self.patch("builtins.open", new_callable=mock.mock_open())
         self.patch("src.py.FixRaidenBoss2.FileService.disableFile", side_effect = lambda file, filePrefix = FRB.FilePrefixes.BackupFilePrefix.value: self.disableFile(filePrefix = filePrefix))

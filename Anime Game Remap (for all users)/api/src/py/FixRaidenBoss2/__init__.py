@@ -156,6 +156,7 @@ from .core import GIMISectionClassifier
 from .core import GIMIParser
 from .core import BaseIniFixer
 from .core import GIMIFixer
+from .core import IniFixingContext
 
 # --- Cython -----
 from .CyDictTools import CyDictTools
@@ -283,8 +284,9 @@ from .model.strategies.iniParsers.GIMIObjParserOld import GIMIObjParser
 
 from .model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 
-from .model.strategies.iniRemovers.BaseIniRemover import BaseIniRemover
-from .model.strategies.iniRemovers.IniRemover import IniRemover
+from .core import BaseIniRemover
+from .core import IniRemovalContext
+from .core import RemapIniRemover
 from .model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
 from .model.strategies.texEditors.pixelTransforms.BasePixelTransform import BasePixelTransform
@@ -381,7 +383,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "BaseIniParser", "GIMISectionClassifier", "GIMIParser", "BaseIniFixer", "GIMIFixer",
+           "BaseIniParser", "GIMISectionClassifier", "GIMIParser", "BaseIniFixer", "GIMIFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -401,7 +403,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseIniGraphPartEdit", "BaseIniPartEdit", "RegSurroundedAddOld", "BaseIniFixerOld", "GIMIFixerOld", "GIMIObjMergeFixer", "GIMIObjRegEditFixer", "GIMIObjReplaceFixer", "GIMIObjSplitFixer", "IniFixBuilder", "MultiModFixer",
            "BaseRegEditFilter", "RegEditFilter", "OldRegNewVals", "RegRemapOld", "RegRemoveOld", "RegTexAdd", "RegTexEdit",
            "GIMIObjParser", "IniParseBuilder",
-           "BaseIniRemover", "IniRemover", "IniRemoveBuilder",
+           "BaseIniRemover", "IniRemovalContext", "RemapIniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",

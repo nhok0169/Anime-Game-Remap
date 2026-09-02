@@ -100,7 +100,9 @@ class TaggedFixer: public BaseIniFixer<> {
         int fixCount = 0;
 
     protected:
-        FixResult fixImpl(ParseData&, bool, bool, bool, bool, bool) override {
+        // The 7th parameter (IniFixingContext) was added to BaseIniFixer::fixImpl after this
+        // file was written; nothing builds core/tests/*, so it went unnoticed until a rebuild.
+        FixResult fixImpl(ParseData&, bool, bool, bool, bool, bool, IniFixingContext) override {
             ++fixCount;
             return {};
         }
@@ -318,8 +320,8 @@ void testModTypeFallbacks() {
     check(bare.iniFixBuilder != nullptr, "a ModType with no fix builder gets a default-constructed IniFixBuilder");
     check(bare.iniFixBuilder->getBuilderArgs() == nullptr, "that fallback builder is the fixed-factory flavour");
 
-    // The remover has its own (flyweight-shaped) builder -- covered properly in
-    // IniRemoveBuilder_test.cpp; just checked here for the ModType fallback's sake.
+    // The remover has its own builder -- covered properly in IniRemoveBuilder_test.cpp; just
+    // checked here for the ModType fallback's sake.
     check(bare.iniRemoveBuilder != nullptr, "a ModType with no remove builder still gets one");
 
     ModType copy = bare;

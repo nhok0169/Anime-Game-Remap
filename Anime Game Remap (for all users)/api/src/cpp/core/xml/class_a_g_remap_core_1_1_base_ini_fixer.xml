@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" prot="public" static="no">
         <type>std::unordered_map&lt; std::string, std::string &gt;</type>
@@ -53,7 +53,7 @@ path each one should be written to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="77" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_fixer_1a569d00b6d3dd14f43c155142efb365d1" prot="public" static="no">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
@@ -76,7 +76,7 @@ what every ``graphEdits``/``graphGroupEdits`` filter does), and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="92" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="92" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -93,7 +93,7 @@ what every ``graphEdits``/``graphGroupEdits`` filter does), and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="192" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="192" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="197" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="197" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_ini_fixer_1a210340a6e84f9380b47551a74f22376a" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -108,7 +108,7 @@ what every ``graphEdits``/``graphGroupEdits`` filter does), and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="197" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="197" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="202" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="202" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -159,7 +159,7 @@ This is a non-owning pointer to a parser owned elsewhere -- it must outlive this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="118" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="119" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a4d5d2d56656fdebfd26279ee938d9268" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -173,7 +173,7 @@ This is a non-owning pointer to a parser owned elsewhere -- it must outlive this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="120" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="121" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a8cbae05dceca6b18c3219e5a53cb9f2a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a1a5749071c486801449764380763ed38" kindref="member">Parser</ref> *</type>
@@ -188,7 +188,7 @@ This is a non-owning pointer to a parser owned elsewhere -- it must outlive this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="125" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="126" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1abd689255cefbfadf26a621f500cc8f2b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -220,7 +220,7 @@ it -- non-owning, see the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="136" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="137" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a3a88a261d86685075127d37f1ea8baf1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -235,7 +235,7 @@ it -- non-owning, see the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="141" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="142" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a010aaa6cb4d8118dd6374dfe605e90c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -251,12 +251,12 @@ it -- non-owning, see the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="146" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="147" column="26"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a378be9bc5331f5e241a8cea02f205af3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a5d4809bf96b9113d6ade66d66ae4dddd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" kindref="member">FixResult</ref></type>
         <definition>FixResult AGRemapCore::BaseIniFixer&lt; K, V, KeyHash, KeyEqual &gt;::fix</definition>
-        <argsstring>(ParseData &amp;parseData, bool keepBackup=true, bool fixOnly=false, bool hideOrig=false)</argsstring>
+        <argsstring>(ParseData &amp;parseData, bool keepBackup=true, bool fixOnly=false, bool hideOrig=false, IniFixingContext fixingCtx=IniFixingContext())</argsstring>
         <name>fix</name>
         <qualifiedname>AGRemapCore::BaseIniFixer::fix</qualifiedname>
         <param>
@@ -277,6 +277,11 @@ it -- non-owning, see the constructor
           <type>bool</type>
           <declname>hideOrig</declname>
           <defval>false</defval>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></type>
+          <declname>fixingCtx</declname>
+          <defval><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref>()</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -318,7 +323,15 @@ they aren&apos;t part of this public entry point. Override #fixImpl, not this
 <parametername>hideOrig</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Whether to hide the mod for the original character. <bold>Default</bold>: <computeroutput>false</computeroutput></para>
+<para>Whether to hide the mod for the original character. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixingCtx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The per-call options for this fix <ndash/> see :cpp:class:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></computeroutput>. <bold>Default</bold>: a default-constructed one</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -328,14 +341,14 @@ they aren&apos;t part of this public entry point. Override #fixImpl, not this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="166" column="23"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="168" column="23"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a0c01c54313e5cc1a810b3451a2fb1a63" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_fixer_1a9b94163ded2744b293891417b83ff6ac" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" kindref="member">FixResult</ref></type>
         <definition>virtual FixResult AGRemapCore::BaseIniFixer&lt; K, V, KeyHash, KeyEqual &gt;::fixImpl</definition>
-        <argsstring>(ParseData &amp;parseData, bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate, bool withSrc)</argsstring>
+        <argsstring>(ParseData &amp;parseData, bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx)</argsstring>
         <name>fixImpl</name>
         <qualifiedname>AGRemapCore::BaseIniFixer::fixImpl</qualifiedname>
         <param>
@@ -361,6 +374,10 @@ they aren&apos;t part of this public entry point. Override #fixImpl, not this
         <param>
           <type>bool</type>
           <declname>withSrc</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></type>
+          <declname>fixingCtx</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -415,7 +432,15 @@ matching that original&apos;s ``pass``
 <parametername>withSrc</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Whether to include the .ini file&apos;s original content in the result</para>
+<para>Whether to include the .ini file&apos;s original content in the result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixingCtx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The per-call options for this fix <ndash/> see :cpp:class:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></computeroutput></para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -425,7 +450,7 @@ matching that original&apos;s ``pass``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="187" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="191" column="31"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -537,12 +562,12 @@ Base class to fix a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&g
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="62" bodyend="198"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" line="63" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h" bodystart="63" bodyend="203"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a9fe632e981ceafa3c4375a32a5313abe" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>BaseIniFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a010aaa6cb4d8118dd6374dfe605e90c7" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>clear</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a378be9bc5331f5e241a8cea02f205af3" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fix</name></member>
-      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a0c01c54313e5cc1a810b3451a2fb1a63" prot="protected" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fixImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a5d4809bf96b9113d6ade66d66ae4dddd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a9b94163ded2744b293891417b83ff6ac" prot="protected" virt="virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>fixImpl</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>FixResult</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a3a88a261d86685075127d37f1ea8baf1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>getIniFile</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_fixer_1a8cbae05dceca6b18c3219e5a53cb9f2a" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniFixer</scope><name>getParser</name></member>

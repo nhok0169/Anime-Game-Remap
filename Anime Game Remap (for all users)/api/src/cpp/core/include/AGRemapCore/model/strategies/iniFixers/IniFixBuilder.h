@@ -39,12 +39,12 @@ namespace AGRemapCore {
         is still ``None``
 
      .. note::
-        These builders are deliberately **not** folded into a shared class template with
-        :cpp:class:`IniParseBuilder`. The third member of the family, the pure-Python
-        ``IniRemoveBuilder``, is not this shape at all -- it derives from ``FlyweightBuilder``, has
-        no version dimension, and carries ``cache``/``id`` flyweight semantics instead -- so a
-        template spanning just these two would abstract over a coincidence rather than a real
-        family
+        These builders are deliberately **not** folded into a shared class template, even though
+        all three of them (:cpp:class:`IniParseBuilder`, this, and :cpp:class:`IniRemoveBuilder`)
+        now share a shape. Their #Factory signatures, #ArgsRepo key shapes and #build parameter
+        lists all differ, so what is common between them is the two-flavour *structure* rather than
+        anything a template could actually carry -- and the pure-Python originals are three
+        unrelated classes, one of which (``IniRemoveBuilder``) is not even this shape
      @endrst
      */
     class IniFixBuilder {

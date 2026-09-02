@@ -67,6 +67,19 @@ and runs *before* the `subprocess.run(["doxygen", ...], check=True)` that then r
 why Doxygen **1.17.0** specifically is the version to install (the committed XML carries its
 version stamp).
 
+**The wipe itself can silently fail, producing exactly that corrupt state.** On Windows,
+`rm -rf core/xml` sometimes reports `Device or resource busy` for a handful of files (an indexer or
+a still-open handle) and removes the rest — leaving a near-empty directory that Doxygen then fills
+in *without* a valid `index.xml`. The next Sphinx build reports ~100 `Cannot find file:
+.../core/xml/index.xml` warnings, which look like a broken `.rst` edit but are not. **Check the
+directory is actually empty before running Doxygen**, and just retry the removal if it isn't:
+
+```bash
+rm -rf core/xml; ls core/xml 2>/dev/null | wc -l   # must print 0
+doxygen Doxyfile
+ls core/xml/index.xml                              # must exist afterwards
+```
+
 **Running `doxygen Doxyfile` over a `core/xml/` that already has output in it can silently emit a
 corrupt `index.xml`, which crashes the *next* Sphinx build with a stack trace rather than a
 warning.** `Tools/APIBuilder`'s own `buildDocs()` does `shutil.rmtree(core/xml)` immediately before

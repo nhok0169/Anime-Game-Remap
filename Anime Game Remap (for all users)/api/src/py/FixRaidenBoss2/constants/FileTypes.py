@@ -76,4 +76,26 @@ class FileTypes(Enum):
     """
     RemapDL download files
     """
+
+    Texcoord = f"Texcoord{FileExt.Buf.value}"
+    """
+    Texcoord.buf files
+    """
+
+    RemapTexcoord = f"Remap{Texcoord}"
+    """
+    RemapTexcoord.buf files created by this fix
+    """
+
+    RemapBuf = f"Remap*{FileExt.Buf.value}"
+    """
+    Any other .buf file created by this fix -- the catch-all for the .buf half of
+    :meth:`RemapIniRemover.classifyResource`
+    """
+
+    RemapOther = "Remap file"
+    """
+    A file of no recognized kind created by this fix -- the final catch-all of
+    :meth:`RemapIniRemover.classifyResource`
+    """
 ##### EndScript

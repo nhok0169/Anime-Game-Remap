@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan" kind="struct" language="C++" prot="protected">
+    <compoundname>AGRemapCore::RemapIniRemover::FileScan</compoundname>
+    <includes refid="_remap_ini_remover_8h" local="no">RemapIniRemover.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a742fc10f32d30725ec567c3af6d22874" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_section_span" kindref="compound">SectionSpan</ref> &gt;</type>
+        <definition>std::vector&lt;SectionSpan&gt; AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::FileScan::sections</definition>
+        <argsstring></argsstring>
+        <name>sections</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::FileScan::sections</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="719" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="719" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a3f8c8c0d28adb75cc5adea7a9965bc8f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_span" kindref="compound">BoilerPlateSpan</ref> &gt;</type>
+        <definition>std::vector&lt;BoilerPlateSpan&gt; AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::FileScan::boilerPlates</definition>
+        <argsstring></argsstring>
+        <name>boilerPlates</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::FileScan::boilerPlates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="720" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="720" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="718" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="718" bodyend="721"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a3f8c8c0d28adb75cc5adea7a9965bc8f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::FileScan</scope><name>boilerPlates</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan_1a742fc10f32d30725ec567c3af6d22874" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::FileScan</scope><name>sections</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

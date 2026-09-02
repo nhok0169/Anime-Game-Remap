@@ -21,18 +21,18 @@ namespace AGRemapCore {
         **This class has no pure-Python counterpart**, unlike its
         :cpp:class:`IniParseBuilderFuncs`/:cpp:class:`IniFixBuilderFuncs` siblings. There is no
         ``IniRemoveBuilderData.py`` and no ``IniRemoveBuilderArgs.py``; the whole Python package
-        constructs exactly one ``IniRemoveBuilder(IniRemover)``, globally, in
+        constructs exactly one ``IniRemoveBuilder(RemapIniRemover)``, globally, in
         ``constants/GlobalIniRemoveBuilders.py``, with no per-mod or per-version variation at
         all. This table exists so per-mod removers *can* be expressed in C++ when they are
         needed -- do not treat its method names as mirroring anything upstream
 
      .. warning::
-        **Every method here is currently a stub**: they all return
-        :cpp:func:`IniRemoveBuilder::defaultFactory`, which builds a plain
-        :cpp:class:`BaseIniRemover`. No concrete C++ remover (the equivalent of the pure-Python
-        ``IniRemover``) has been ported yet, so today every row resolves the same way. Fill them
-        in one at a time as concrete removers land, without touching
-        :cpp:class:`IniRemoveBuilderData` or anything downstream
+        **Every method here is currently the same**: they all return
+        :cpp:func:`IniRemoveBuilder::defaultFactory`, which builds an :cpp:class:`RemapIniRemover`.
+        That is not a placeholder any more -- it is the real remover, and it is the only one
+        there is, exactly as on the `Python`_ side where every mod type shares one. The rows
+        exist so a mod that eventually needs its *own* remover can be given one here, without
+        touching :cpp:class:`IniRemoveBuilderData` or anything downstream
 
      .. note::
         The method names follow the ``<mod><version>`` convention the other two tables use, and

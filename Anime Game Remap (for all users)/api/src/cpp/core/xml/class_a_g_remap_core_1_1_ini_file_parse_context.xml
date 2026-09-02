@@ -1,0 +1,712 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ini_file_parse_context" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniFileParseContext</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public" virt="non-virtual">AGRemapCore::IniParseContext&lt; std::string, std::string &gt;</basecompoundref>
+    <includes refid="_ini_file_parse_context_8h" local="no">IniFileParseContext.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a8144a2c6f550008cdbd0a7b4f606c251" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" kindref="compound">IniGraphGroupsVec</ref>&lt; std::string, std::string &gt;</type>
+        <definition>using AGRemapCore::IniFileParseContext::Groups = IniGraphGroupsVec&lt;std::string, std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>Groups</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::Groups</qualifiedname>
+        <briefdescription>
+<para>The kind of group storage this owns. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" prot="private" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile* AGRemapCore::IniFileParseContext::iniFile_</definition>
+        <argsstring></argsstring>
+        <name>iniFile_</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::iniFile_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="126" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt;int&gt; AGRemapCore::IniFileParseContext::modTypeId_</definition>
+        <argsstring></argsstring>
+        <name>modTypeId_</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::modTypeId_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="127" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;IniGraphGroup&lt;std::string, std::string&gt; &gt; AGRemapCore::IniFileParseContext::groupStorage_</definition>
+        <argsstring></argsstring>
+        <name>groupStorage_</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::groupStorage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="131" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8144a2c6f550008cdbd0a7b4f606c251" kindref="member">Groups</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Groups&gt; AGRemapCore::IniFileParseContext::groups_</definition>
+        <argsstring></argsstring>
+        <name>groups_</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::groups_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="132" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a543ea53fed3bc3126a1eb148b108671a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniFileParseContext::IniFileParseContext</definition>
+        <argsstring>(IniFile *iniFile=nullptr, std::optional&lt; int &gt; modTypeId=std::nullopt)</argsstring>
+        <name>IniFileParseContext</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::IniFileParseContext</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+          <declname>iniFile</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; int &gt;</type>
+          <declname>modTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Wraps one .ini file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file being parsed -- non-owning, and it must outlive this context.
+``nullptr`` makes every method here answer as if there were no ``.ini`` file
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Which of the ``.ini`` file&apos;s mod types is being parsed for, or ``std::nullopt`` for
+none -- what #modTypeName, #modTypeHashes and #modTypeIndices answer from
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="75" column="22" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="23" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a1a502556a6a163acb19f5b8747b45cdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
+        <definition>IniFile * AGRemapCore::IniFileParseContext::getIniFile</definition>
+        <argsstring>() const</argsstring>
+        <name>getIniFile</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::getIniFile</qualifiedname>
+        <briefdescription>
+<para>The .ini file this wraps, or <computeroutput>nullptr</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="80" column="21" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1afcbd034a53856833154cdf02ff419474" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; int &gt; &amp;</type>
+        <definition>const std::optional&lt; int &gt; &amp; AGRemapCore::IniFileParseContext::getModTypeId</definition>
+        <argsstring>() const</argsstring>
+        <name>getModTypeId</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::getModTypeId</qualifiedname>
+        <briefdescription>
+<para>Which mod type this is parsing for <ndash/> see the constructor. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="85" column="33" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="41" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1af9068f46eb11519224371912b78b8413" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileParseContext::setModTypeId</definition>
+        <argsstring>(std::optional&lt; int &gt; modTypeId)</argsstring>
+        <name>setModTypeId</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::setModTypeId</qualifiedname>
+        <param>
+          <type>std::optional&lt; int &gt;</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+<para>Which mod type this is parsing for <ndash/> see the constructor.    </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type to parse for, or <computeroutput>std::nullopt</computeroutput> for none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="92" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1ab56f8e655ab3aa3d2ba453e87cba3d69" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt; IniGraphGroup&lt; std::string, std::string &gt; &gt; AGRemapCore::IniFileParseContext::takeGroups</definition>
+        <argsstring>()</argsstring>
+        <name>takeGroups</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::takeGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Hands back every group built so far and leaves this context empty, so it can be reused
+for another parse :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The groups own their graphs, so what comes back stays valid after this context goes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="103" column="25" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="51" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a3e46dcd39e3dd14e777ed02b0a1017c6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFileParseContext::hasIni</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasIni</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::hasIni</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1aa981ad30cca74933ba2acc7e221dccbe">hasIni</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+``false`` stands in for the pure-Python original&apos;s ``ini = None``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="105" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1aceddecc7c13839b2f6bdec90e8bddc98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFileParseContext::iniFolder</definition>
+        <argsstring>() const override</argsstring>
+        <name>iniFolder</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::iniFolder</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1ababa11d3a1a89d24364804b7c30fa566">iniFolder</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder the ``.ini`` file lives in (the equivalent of the pure-Python original&apos;s
+``ini.folder``), or an empty string when there is no ``.ini`` file
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="106" column="25" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="65" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1af67ea7f7e261510b817949918cb750bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::IniFileParseContext::version</definition>
+        <argsstring>() const override</argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::version</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1aa7787f73716af90d5bfb49d288a2b822">version</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The game version the ``.ini`` file was written for (``ini.version``), or
+``std::nullopt`` for &quot;the latest&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="107" column="27" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="75" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1ab8fa6ae22665e6cebfea181b09b6096c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" kindref="member">DownloadMode</ref></type>
+        <definition>DownloadMode AGRemapCore::IniFileParseContext::downloadMode</definition>
+        <argsstring>() const override</argsstring>
+        <name>downloadMode</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::downloadMode</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1aac6ae74227ff98aaf8ebae70a5a088a9">downloadMode</reimplements>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> file&apos;s download policy (<computeroutput>ini.downloadMode</computeroutput>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="108" column="26" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="84" bodyend="90"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a1976ab06871ea3d80ec89ecfc8e9a7a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
+        <definition>Z3Context * AGRemapCore::IniFileParseContext::z3Ctx</definition>
+        <argsstring>() const override</argsstring>
+        <name>z3Ctx</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::z3Ctx</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a071c8ac14ca55ae444a7e1465a5bdee5">z3Ctx</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The one `Z3`_ context this ``.ini`` file owns (``ini._z3Ctx``), or ``nullptr``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+There is deliberately one context per ``.ini`` file, not one per
+:cpp:class:`IniSectionGraph` -- every graph built here borrows this one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="109" column="23" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="93" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a78e865c8fc0679154578bf60b59c6b52" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kindref="member">Section</ref> * &gt;</type>
+        <definition>std::unordered_map&lt; std::string, IniFileParseContext::Section * &gt; AGRemapCore::IniFileParseContext::sectionIfTemplates</definition>
+        <argsstring>() const override</argsstring>
+        <name>sectionIfTemplates</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::sectionIfTemplates</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1ab0d4ce77e4311bf8537ac9fc17736d1d">sectionIfTemplates</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every `section`_ parsed out of the ``.ini`` file, keyed by name -- the equivalent of
+the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="110" column="32" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a5d06f9ec667c0984b524336189bbdf5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::IniFileParseContext::sectionNames</definition>
+        <argsstring>() const override</argsstring>
+        <name>sectionNames</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::sectionNames</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1aa242ecc89cd82f510270e6da35df7f96">sectionNames</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of every `section`_, **in the order the ``.ini`` file declared them**
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Separate from #sectionIfTemplates specifically because that one is an
+``std::unordered_map`` and this order is load-bearing: the pure-Python original
+iterates ``ini.sectionIfTemplates`` (a `Python`_ ``dict``, ie. insertion-ordered) both
+to classify `sections`_ by name and to seed :cpp:func:`GIMIParser::buildGlobalGraph`&apos;s
+target list, and the rendered output of every graph built from it inherits that order
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="111" column="25" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="118" bodyend="126"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a2b4c1031067a6822716243f699b29978" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kindref="member">Section</ref> *</type>
+        <definition>IniFileParseContext::Section * AGRemapCore::IniFileParseContext::getSection</definition>
+        <argsstring>(const std::string &amp;name) const override</argsstring>
+        <name>getSection</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::getSection</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a5d1f569b018f7a5cdd7333cf2c4d2df2">getSection</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>The <computeroutput>section</computeroutput>_ named &apos;name&apos;, or <computeroutput>nullptr</computeroutput> if the <computeroutput>.ini</computeroutput> file has none. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ to look up </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="112" column="21" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="129" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a3253e0db16b43ce7112787600cb11751" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kindref="member">Section</ref> *</type>
+        <definition>IniFileParseContext::Section * AGRemapCore::IniFileParseContext::addSection</definition>
+        <argsstring>(const std::string &amp;name, std::unique_ptr&lt; Section &gt; section) override</argsstring>
+        <name>addSection</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::addSection</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" kindref="member">Section</ref> &gt;</type>
+          <declname>section</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="113" column="21" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="138" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1adb9dc7a146225cd8cf86e6761da104c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileParseContext::removeSection</definition>
+        <argsstring>(const std::string &amp;name) override</argsstring>
+        <name>removeSection</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::removeSection</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1ae147fe00938f7ba4beb1e030cada59cd">removeSection</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Removes the <computeroutput>section</computeroutput>_ named &apos;name&apos; from the <computeroutput>.ini</computeroutput> file, if there is one. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the <computeroutput>section</computeroutput>_ to remove </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="114" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="150" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1ac3adfc1a8a735f247dba16754998a358" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileParseContext::addFileDownload</definition>
+        <argsstring>(std::unique_ptr&lt; IniResource &gt; download) override</argsstring>
+        <name>addFileDownload</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::addFileDownload</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a3725b8d549ae8922c9eaa327bd4464b4">addFileDownload</reimplements>
+        <param>
+          <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt;</type>
+          <declname>download</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Records one file the ``.ini`` file needs downloaded -- the equivalent of the
+pure-Python original&apos;s ``ini.fileDownloads.append(...)``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>download</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The download to record </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="115" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="159" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1aaa0d1ad9555cb15c313d7ea9c568c57c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFileParseContext::hasModType</definition>
+        <argsstring>() const override</argsstring>
+        <name>hasModType</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::hasModType</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a59774b4c7af7e1c989f2183700d9bf36">hasModType</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the ``.ini`` file was classified as some mod type at all (``ini.availableType
+is not None``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="116" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="187" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a2ce12d1033f69de0cbe5710af63aca3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::IniFileParseContext::modTypeName</definition>
+        <argsstring>() const override</argsstring>
+        <name>modTypeName</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::modTypeName</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a6c2fd248f3bbdf026276740db6dc7672">modTypeName</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The name of the mod type the ``.ini`` file was classified as
+(``ini.availableType.name``), or an empty string when there is none -- exactly the
+pure-Python original&apos;s own
+``modTypeName = &quot;&quot; if (modType is None) else modType.name``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="117" column="25" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="192" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a2be7baa85470498766aa68d5a77b965c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref> *</type>
+        <definition>IniFileParseContext::Assets * AGRemapCore::IniFileParseContext::modTypeHashes</definition>
+        <argsstring>() const override</argsstring>
+        <name>modTypeHashes</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::modTypeHashes</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1">modTypeHashes</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod type&apos;s ``hash`` assets (``ini.availableType.hashes``), or ``nullptr`` when the
+``.ini`` file was not classified. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="118" column="20" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="202" bodyend="209"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1ab123a80a89cc09c638c0a0242bb4ba9f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref> *</type>
+        <definition>IniFileParseContext::Assets * AGRemapCore::IniFileParseContext::modTypeIndices</definition>
+        <argsstring>() const override</argsstring>
+        <name>modTypeIndices</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::modTypeIndices</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738">modTypeIndices</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The mod type&apos;s ``match_first_index`` assets (``ini.availableType.indices``), or
+``nullptr`` when the ``.ini`` file was not classified. Borrowed, not owned
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="119" column="20" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="212" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a43682ba1db942be5c28d7321f2d11ae9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref> &amp;</type>
+        <definition>IniFileParseContext::GraphGroups &amp; AGRemapCore::IniFileParseContext::graphGroups</definition>
+        <argsstring>() override</argsstring>
+        <name>graphGroups</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::graphGroups</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1">graphGroups</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where every graph a parser builds lives -- see this class&apos;s own note on why graph
+creation is here rather than in the parser
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="120" column="25" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="222" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1ac4d23f0eb9fda01284b46dfcb99d24ae" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
+        <definition>const ModType * AGRemapCore::IniFileParseContext::modType</definition>
+        <argsstring>() const</argsstring>
+        <name>modType</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::modType</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="124" column="27" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="169" bodyend="184"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_parse_context_1a8c8508aa17495a02bd7e2a2ea8eab5ed" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::IniFileParseContext::rebuildGroups</definition>
+        <argsstring>()</argsstring>
+        <name>rebuildGroups</name>
+        <qualifiedname>AGRemapCore::IniFileParseContext::rebuildGroups</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="134" column="18" bodyfile="src/model/strategies/iniParsers/IniFileParseContext.cpp" bodystart="29" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class implements :cpp:class:`IniParseContext` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The plain-C++ :cpp:class:`IniParseContext` -- an :cpp:class:`AGRemapCore::IniFile` behind that
+interface, so a caller with a real C++ ``.ini`` file needs no context of its own. The parsing
+counterpart of :cpp:class:`IniFileRemoveContext`, and built to the same shape
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is what lets :cpp:func:`IniParseBuilder::defaultFactory` build a real
+:cpp:class:`GIMIParser` rather than the do-nothing :cpp:class:`BaseIniParser`
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   It owns the group storage every graph a parser builds lives in, and hands it out through
+   #graphGroups. That is the whole reason a parser needs a context to build graphs at all --
+   see :cpp:class:`IniParseContext`&apos;s own note. #takeGroups is how a caller gets them out
+   afterwards
+
+.. note::
+   The `pybind11`_ layer has its own implementation instead (``PyIniParseContext``), which
+   forwards to a `Python`_ ``IniFile`` through real attribute lookup. Neither derives from the
+   other -- they are two implementations of one interface
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::IniFileParseContext</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file_parse_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniParseContext&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_parse_context"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>AGRemapCore::BaseIniClassifier</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_classifier"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniFile</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>iniClassifier_</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>z3Ctx_</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::IniFileParseContext</label>
+        <link refid="class_a_g_remap_core_1_1_ini_file_parse_context"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>iniFile_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::IniParseContext&lt; std::string, std::string &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_ini_parse_context"/>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::Z3Context</label>
+        <link refid="class_a_g_remap_core_1_1_z3_context"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" line="47" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h" bodystart="47" bodyend="135"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac3adfc1a8a735f247dba16754998a358" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>addFileDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a3253e0db16b43ce7112787600cb11751" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>addSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a3d9a15c1ce7e3d914975988767e86573" prot="public" virt="pure-virtual" ambiguityscope="AGRemapCore::IniParseContext&lt; std::string, std::string &gt;::"><scope>AGRemapCore::IniFileParseContext</scope><name>addSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>Assets</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab8fa6ae22665e6cebfea181b09b6096c" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>downloadMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a1a502556a6a163acb19f5b8747b45cdd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>getIniFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1afcbd034a53856833154cdf02ff419474" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>getModTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2b4c1031067a6822716243f699b29978" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>getSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a351a2eba86af3714f5459a227f02bc87" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a43682ba1db942be5c28d7321f2d11ae9" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>graphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8144a2c6f550008cdbd0a7b4f606c251" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>Groups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>groups_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>groupStorage_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a3e46dcd39e3dd14e777ed02b0a1017c6" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>hasIni</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1aaa0d1ad9555cb15c313d7ea9c568c57c" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>hasModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>iniFile_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a543ea53fed3bc3126a1eb148b108671a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>IniFileParseContext</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1aceddecc7c13839b2f6bdec90e8bddc98" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>iniFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac4d23f0eb9fda01284b46dfcb99d24ae" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>modType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2be7baa85470498766aa68d5a77b965c" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>modTypeHashes</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>modTypeId_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab123a80a89cc09c638c0a0242bb4ba9f" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>modTypeIndices</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2ce12d1033f69de0cbe5710af63aca3f" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>modTypeName</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8c8508aa17495a02bd7e2a2ea8eab5ed" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>rebuildGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1adb9dc7a146225cd8cf86e6761da104c9" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>removeSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a2e1b4ada0f5bd8aaf5d1f6167cd6e250" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a78e865c8fc0679154578bf60b59c6b52" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>sectionIfTemplates</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5d06f9ec667c0984b524336189bbdf5b" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>sectionNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1af9068f46eb11519224371912b78b8413" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>setModTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab56f8e655ab3aa3d2ba453e87cba3d69" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>takeGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1af67ea7f7e261510b817949918cb750bf" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>version</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a1976ab06871ea3d80ec89ecfc8e9a7a7" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>z3Ctx</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a99dc4e121ca85b55ff65fa4a87504726" prot="public" virt="virtual"><scope>AGRemapCore::IniFileParseContext</scope><name>~IniParseContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

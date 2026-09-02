@@ -75,6 +75,10 @@
 #include "model/strategies/iniParsers/PyGIMIParser.h"
 #include "model/strategies/iniFixers/PyBaseIniFixer.h"
 #include "model/strategies/iniFixers/PyGIMIFixer.h"
+#include "model/strategies/iniRemovers/PyBaseIniRemover.h"
+#include "model/strategies/iniFixers/PyIniFixingContext.h"
+#include "model/strategies/iniRemovers/PyIniRemovalContext.h"
+#include "model/strategies/iniRemovers/PyRemapIniRemover.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -280,4 +284,11 @@ PYBIND11_MODULE(core, m) {
     // ----- iniFixers (full replacement of the pure-Python BaseIniFixer/GIMIFixer pair) -----
     initCppBaseIniFixer(m);
     initCppGIMIFixer(m); // must come after initCppBaseIniFixer (registers its base), initCppGIMIParser (what it fixes from) and initCppResEdit (its pyCoreModule() is how the package's own constants are reached)
+
+    // ----- iniRemovers (the C++ RemapIniRemover reached through an IniRemoveContext -- see that
+    //       interface's own note on why a remover can't just take an AGRemapCore::IniFile*) -----
+    initCppIniFixingContext(m);
+    initCppIniRemovalContext(m);
+    initCppBaseIniRemover(m);
+    initCppRemapIniRemover(m); // must come after initCppBaseIniRemover (registers its base), initCppIfTemplate (the sections it reads) and initCppIniResource (the resources it collects)
 }

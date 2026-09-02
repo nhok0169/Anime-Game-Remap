@@ -16,7 +16,7 @@ namespace AGRemapCore {
 
      Mirrors the pure-Python ``GlobalIniRemoveBuilders`` class
      (``constants/GlobalIniRemoveBuilders.py``) -- a ``DeferredEnum`` there, lazily building its one
-     ``IniRemoveBuilder(IniRemover)`` the first time it's accessed. #removeBuilder below gets the
+     ``IniRemoveBuilder(RemapIniRemover)`` the first time it's accessed. #removeBuilder below gets the
      same lazy, build-once-then-reuse behavior from a C++11 function-local ``static`` (guaranteed
      thread-safe, exactly-once initialization), exactly as :cpp:class:`GlobalIniClassifiers` does
      :raw-html:`<br />` :raw-html:`<br />`
@@ -27,14 +27,15 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        Because the returned builder is shared *and* caches (see :cpp:class:`IniRemoveBuilder`),
-        every :cpp:class:`ModType` that falls back to it ends up sharing **one** remover instance,
-        rebound per :cpp:func:`IniRemoveBuilder::build` call. That is the pure-Python behavior too
+        The *builder* is shared by every :cpp:class:`ModType` that falls back to it, but the
+        **removers** are not: :cpp:func:`IniRemoveBuilder::build` constructs a fresh one per call,
+        bound to that caller's ``.ini`` file. The pure-Python original shares one remover instead --
+        see :cpp:class:`IniRemoveBuilder`'s own warning for why that was not mirrored
 
      .. note::
         The builder returned here wraps :cpp:func:`IniRemoveBuilder::defaultFactory`, so it produces
-        a bare :cpp:class:`BaseIniRemover` rather than the pure-Python original's real
-        ``IniRemover`` -- no concrete C++ remover has been ported yet
+        a real :cpp:class:`RemapIniRemover` -- the same thing the pure-Python original's
+        ``IniRemoveBuilder(RemapIniRemover)`` produces
      @endrst
      */
     class GlobalIniRemoveBuilders {

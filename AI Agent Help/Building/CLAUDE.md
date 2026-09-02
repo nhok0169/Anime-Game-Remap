@@ -217,6 +217,33 @@ need the full `main.py -d` cycle every time:
   it prints for a handful of pre-existing signatures are baseline noise, not your change failing;
   check that the classes you added actually appear in `core.pyi` instead.
 
+## Run the pybind11 link in the **background** --- a foreground timeout kills it mid-link and leaves you a half-built tree
+
+`ninja core` recompiles fast but the final `Linking CXX shared module ... core.cp39-win_amd64.pyd`
+step alone can take well over ten minutes on this machine. If the tool call running it hits its
+timeout, the link is killed: the log stops after the last `Building CXX object` line, `.obj` files
+are all present, and **no `.pyd` is produced** --- so a `cp` of the build output afterwards silently
+installs the *previous* build and you test stale code.
+
+Two habits that avoid it:
+
+- Launch long builds with `run_in_background`, then poll the log for the terminal line rather than
+  blocking on the command:
+  ```bash
+  until grep -qE "Linking CXX shared module|FAILED|ninja: build stopped" "$LOG"; do sleep 25; done
+  grep -E "error C|FAILED" "$LOG" | head
+  ```
+- **Check for that line before copying the `.pyd`.** "No `error C` in the log" is not the same as
+  "the build finished" --- a killed build has no errors either. If the log's last line is a
+  `Building CXX object`, re-run the build; ninja will pick up where it stopped.
+
+When only `AGRemapCore.lib` is needed (a standalone `core/tests/*.cpp` run, or a pure-core change
+you are not yet testing from Python), build just that target --- it is a fraction of the time:
+
+```bash
+ninja AGRemapCore    # instead of: ninja core
+```
+
 ## Verifying a build/binding change in Python directly
 Don't just trust that it compiled — a pybind11 registration typo (wrong base class, wrong
 holder, wrong constructor signature) fails at import/runtime, not compile time. This applies
@@ -350,6 +377,26 @@ actual crash point, actively misleading you about where the fault is. Fix: add
 crash-repro/diagnostic `.cpp` — this one line converts stdout to fully unbuffered, so every line
 before the crash is guaranteed to actually reach the file. This is cheap enough to just always add
 to a throwaway repro `main()`, rather than debugging it only after getting bitten once.
+
+**The Bash tool's heredocs eat backslash escapes, which silently corrupts any patch script that
+writes C++ or Python string literals.** A `<<'PY' ... PY` block is quoted against *variable*
+expansion, not against backslash processing on the way in --- so a `"\n"` you wrote inside the
+heredoc arrives in the file as a real, literal newline. In a `.cpp` that surfaces as a wall of
+`error C2001: newline in string literal` (pointing at lines you never touched, since every following
+line shifts); in a `.py` it usually just produces wrong output with no error at all. This has been
+hit repeatedly, across multiple sessions, and costs a full write-diagnose-repair cycle every time.
+
+Two reliable ways around it, in order of preference:
+
+1. **Write the patch script to the scratchpad with the `Write` tool and run it by path.** The
+   `Write` tool does no escape processing, so what you typed is what lands on disk. This is the
+   default --- it also gives you a re-runnable artifact if the patch needs a second pass.
+2. If you must inline it, build the escapes at runtime rather than writing them literally:
+   `BS = chr(92); NL = BS + "n"`, then concatenate.
+
+The same applies to `\t`, `\\`, and `\"`. Note this is a *different* failure from the PowerShell
+one below --- different tool, different mechanism --- so avoiding one does not protect you from the
+other.
 
 **Constructing a PowerShell command string with `-c "..."`/`Invoke-Expression`, then having
 PowerShell itself re-parse a path containing this repo's own directory name, breaks**: `"Anime Game

@@ -33,20 +33,22 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename BaseIniFixer<K, V, KeyHash, KeyEqual>::FixResult
-    BaseIniFixer<K, V, KeyHash, KeyEqual>::fix(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig) {
-        return fixImpl(parseData, keepBackup, fixOnly, hideOrig, true, true);
+    BaseIniFixer<K, V, KeyHash, KeyEqual>::fix(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig,
+                                                IniFixingContext fixingCtx) {
+        return fixImpl(parseData, keepBackup, fixOnly, hideOrig, true, true, fixingCtx);
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename BaseIniFixer<K, V, KeyHash, KeyEqual>::FixResult
     BaseIniFixer<K, V, KeyHash, KeyEqual>::fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig,
-                                                    bool withBoilerPlate, bool withSrc) {
+                                                    bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx) {
         (void)parseData;
         (void)keepBackup;
         (void)fixOnly;
         (void)hideOrig;
         (void)withBoilerPlate;
         (void)withSrc;
+        (void)fixingCtx;
         return {};
     }
 }

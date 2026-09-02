@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniRemover::RemoverConfig</compoundname>
+    <includes refid="_remap_ini_remover_8h" local="no">RemapIniRemover.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1ab1ffb6f43a87647072a727199b0279ae" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::RemoverConfig::hashKey</definition>
+        <argsstring></argsstring>
+        <name>hashKey</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::RemoverConfig::hashKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key whose value decides whether a candidate is a target <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="159" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1aeb04a889350d9b0c20519f1cdd005e64" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::RemoverConfig::filenameKey</definition>
+        <argsstring></argsstring>
+        <name>filenameKey</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::RemoverConfig::filenameKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key that makes a removed <computeroutput>section</computeroutput>_ a resource <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1ae7b06e4f9664f4c634630000ace95bc6" kindref="member">IniKeywords::Filename</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="164" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1a8f78684f8e98125c533c54be1a3e5d13" prot="public" static="no" mutable="no">
+        <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
+        <definition>IfTemplateRunConfig&lt;K, V&gt; AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::RemoverConfig::runConfig</definition>
+        <argsstring></argsstring>
+        <name>runConfig</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::RemoverConfig::runConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The domain customization points the :cpp:class:`IniSectionGraph` uses
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Its :cpp:member:`IfTemplateRunConfig::sectionNameOf` doubles as this class&apos;s
+``V``-to-``std::string`` conversion -- for reading a ``filename`` value as a path,
+and for testing whether a `KVP`_ value names a `section`_ in #buildReferences.
+That is exactly what it already means (&quot;the `section`_ name this value refers to&quot;),
+and it saves carrying a second, identical converter
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="179" column="37" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs, for the same reason
+:cpp:class:`IfTemplateRunConfig` and ``GIMISectionClassifier::ClassifierConfig`` exist:
+``K`` is not ``std::string`` for every instantiation, so the `KVP`_ keys this looks up
+cannot be spelled as literals here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="155" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="155" bodyend="180"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1aeb04a889350d9b0c20519f1cdd005e64" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::RemoverConfig</scope><name>filenameKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1ab1ffb6f43a87647072a727199b0279ae" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::RemoverConfig</scope><name>hashKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1a8f78684f8e98125c533c54be1a3e5d13" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::RemoverConfig</scope><name>runConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

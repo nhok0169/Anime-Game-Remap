@@ -26,12 +26,14 @@ These files were authored from hands-on, verified work in five subsystems: the C
 dataflow-analysis-based graph edits (see **Ini Graph Editing**), — separately, later — the
 Compressonator-backed C++ port of the texture-editing pipeline (see **Texture Editing**), and,
 later still, the full pure-Python-to-C++ replacement of the `iniFixers/regEdits/` family (see
-**Architecture** for the porting patterns it produced), and — most recently — the `ModType` strategy
+**Architecture** for the porting patterns it produced), then the `ModType` strategy
 / asset layer: its three `Ini*Builder`s and `Ini*BuilderData` tables, its four asset attributes
 (`hashes`/`indices`/`vertexCounts`/`vgRemaps`), and the `ModAssets`/`ModDictAssets`/
-`ModMappedAssets` lookup family underneath them (see **Architecture**'s last three sections) — each
-file says so where relevant, so treat claims about less-explored subsystems as a starting point to
-verify, not gospel.
+`ModMappedAssets` lookup family underneath them (see **Architecture**'s last three sections), and
+— most recently — the `iniRemovers/` family: a from-scratch C++ `RemapIniRemover` (a reachability-based
+replacement, not a port), its `IniRemoveContext`/`IniRemovalContext` seams, and the full deletion of
+the pure-Python `RemapIniRemover`/`BaseIniRemover` — each file says so where relevant, so treat claims
+about less-explored subsystems as a starting point to verify, not gospel.
 
 **A "port this pure-Python class to C++" request is a well-trodden path here, not a one-off.**
 Several have landed already, and the accumulated conventions are load-bearing — read
@@ -39,6 +41,17 @@ Several have landed already, and the accumulated conventions are load-bearing �
 after it on templating for pybind reach, still-pure-Python collaborator types, and how a binding
 holds a Python-supplied argument) *before* writing the first header, and **Testing**'s note on
 reading the class's existing `test_Xxx.py` as a behavioural contract before designing the binding.
+
+**If your task touches `model/strategies/` at all — a parser, fixer, remover or resource edit —
+read Architecture's "The strategy context seam" section first.** It is the one architectural pattern
+you cannot work around: a C++ strategy never holds an `AGRemapCore::IniFile*`, it holds a
+pure-virtual context interface with **two** implementations (a `Py*` one that forwards to the
+still-pure-Python `IniFile`, and an `IniFileXxx*` one that wraps the C++ one). Adding a method to a
+seam is half-done until both sides implement it, and only one of those halves is a compile error.
+That section also records why `AGRemapCore::IniFile::fix()`/`parse()` are still inert for a
+plain-C++ caller (their builders' default factories return do-nothing bases, and core has no section
+renderer by deliberate design) — don't rediscover that as a bug, and don't "fix" it by adding an
+`IfTemplate::toStr`.
 
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)
@@ -57,3 +70,10 @@ suite proves *no regression*, not *new code covered*. **Testing**'s "C++-only wo
 the Python suite" section covers what to write instead, and **Building**'s standalone-test sections
 cover how to compile it — including the static-lib link line you'll need the moment a test touches
 `IniFile::parse`/`fix`.
+
+**The flip side of that, and the single easiest way to leave a mess behind: `core/tests/*.cpp` are
+built by nothing.** Change a core class's shape — make it a template, add a parameter to a `virtual`,
+rename a method — and every test file mentioning it stops compiling, with no build, no CI and no
+Python test failing to tell you. One sat broken for several sessions this way. Before you call a
+`core/` interface change done, `grep -rl <the changed name> core/tests/` and rebuild every hit; see
+**Testing**'s note for the full story.

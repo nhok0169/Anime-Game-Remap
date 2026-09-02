@@ -21,28 +21,28 @@
       <node id="46">
         <label>Algo.tpp</label>
       </node>
-      <node id="100">
+      <node id="102">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="87">
+      <node id="88">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="86">
+      <node id="87">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="52">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="99">
+      <node id="101">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="97">
+      <node id="99">
         <label>BiMap.tpp</label>
       </node>
       <node id="61">
         <label>CallGraph.tpp</label>
       </node>
-      <node id="92">
+      <node id="94">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="2" relation="include">
@@ -71,9 +71,9 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
       </node>
       <node id="34">
@@ -529,15 +529,15 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
-        </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
         <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -553,10 +553,12 @@
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="89">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="12" relation="include">
@@ -581,6 +583,10 @@
         </childnode>
       </node>
       <node id="85">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+      </node>
+      <node id="86">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="12" relation="include">
@@ -591,10 +597,10 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="90">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="12" relation="include">
@@ -609,20 +615,26 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
-      </node>
-      <node id="90">
-        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
-        <link refid="_base_ini_remover_8h"/>
-        <childnode refid="3" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
       </node>
       <node id="91">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
+        <link refid="_ini_removal_context_8h"/>
+      </node>
+      <node id="93">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
@@ -631,13 +643,11 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
       </node>
       <node id="44">
@@ -652,7 +662,7 @@
         <childnode refid="46" relation="include">
         </childnode>
       </node>
-      <node id="96">
+      <node id="98">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="4" relation="include">
@@ -663,7 +673,7 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
       <node id="79">
@@ -698,12 +708,12 @@
         <childnode refid="47" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="100">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
       <node id="40">
@@ -864,24 +874,24 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="95">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="96">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
@@ -899,13 +909,13 @@
         </childnode>
         <childnode refid="33" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
         <childnode refid="40" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
       </node>
       <node id="69">
@@ -1023,7 +1033,7 @@
       <node id="3">
         <label>string</label>
       </node>
-      <node id="95">
+      <node id="97">
         <label>string_view</label>
       </node>
       <node id="29">

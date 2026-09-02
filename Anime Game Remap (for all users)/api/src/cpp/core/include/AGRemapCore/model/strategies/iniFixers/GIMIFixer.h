@@ -7,8 +7,11 @@
 #include <optional>
 #include <string>
 #include <type_traits>
+#include <unordered_set>
 #include <vector>
 
+#include "AGRemapCore/constants/IniGraphModObjKeywords.h"
+#include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/IniGraphGroup.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
@@ -309,6 +312,44 @@ namespace AGRemapCore {
              */
             std::string groupToStr(std::size_t groupInd) const;
 
+            /**
+             * @brief
+             @rst
+             The names of every `section`_ this fix touched -- what
+             :cpp:func:`IniFixContext::hideOriginalSections` is handed when ``hideOrig`` is on
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The `sections`_ of every command graph in every group, which is exactly the set the
+             fix rewrites: comment those out and the original mod stops being displayed, leaving
+             only the remap. Empty until #graphGroups has been built
+
+             :raw-html:`<br />`
+
+             .. note::
+                Two kinds of graph are left out:
+
+                * the download-resource ones. Their `sections`_ are the resources the mod objects
+                  *point at* rather than the commands the fix replaces -- and a graph keyed under
+                  :cpp:member:`IniGraphModObjKeywords::Download` also holds `sections`_ this
+                  software synthesized, which the original ``.ini`` file has no line of to comment
+                  out in the first place
+                * any whose mod object carries :cpp:member:`IniKeywords::Remap` in *either* half of
+                  its ``(component, object)`` name, matched anywhere in it and case-insensitively.
+                  That is the same convention
+                  :cpp:func:`GIMIParser::classifyByTextureOverrideName` uses to refuse to classify
+                  a `section`_ this software already wrote: such a mod object is the *output* of a
+                  remap, not part of the original mod, so hiding it would hide the fix
+
+             .. note::
+                The pure-Python original collects the same thing while it renders, straight into
+                the ``.ini`` file's own ``_remappedSectionNames`` -- and only for the *blend*
+                command graph, because that was the only chain it ever rewrote. Reading it off the
+                built groups instead keeps the ``.ini`` file out of it and covers every mod object
+                this fixer actually fixed
+             @endrst
+             */
+            std::unordered_set<std::string> touchedSectionNames() const;
+
         protected:
 
             /**
@@ -327,7 +368,7 @@ namespace AGRemapCore {
             virtual void applyGraphGroupEdits(const std::string& modName);
 
             FixResult fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig,
-                               bool withBoilerPlate, bool withSrc) override;
+                               bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx) override;
 
             /**
              * @brief The ``.ini`` file being fixed -- borrowed, see the constructor

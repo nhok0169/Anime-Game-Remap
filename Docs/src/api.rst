@@ -1023,6 +1023,18 @@ Indices
 
 :raw-html:`<br />`
 
+IniFixingContext
+================
+
+.. attributetable:: FixRaidenBoss2.IniFixingContext
+
+.. autoclass:: FixRaidenBoss2.IniFixingContext
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniSectionGraph
 ===============
 
@@ -2373,12 +2385,12 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. IniRemover
+.. RemapIniRemover
 .. ~~~~~~~~~~~~
 
-.. .. attributetable:: FixRaidenBoss2.IniRemover
+.. .. attributetable:: FixRaidenBoss2.RemapIniRemover
 
-.. .. autoclass:: FixRaidenBoss2.IniRemover
+.. .. autoclass:: FixRaidenBoss2.RemapIniRemover
 ..     :inherited-members:
 ..     :members:
 ..     :private-members:

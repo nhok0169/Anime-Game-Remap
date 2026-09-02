@@ -4,6 +4,7 @@
     <compoundname>IniBoilerPlate.h</compoundname>
     <includes local="no">cstddef</includes>
     <includes local="no">string</includes>
+    <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/constants/IniBoilerPlate.h</label>
@@ -20,6 +21,24 @@
         <label>string</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/constants/IniBoilerPlate.h</label>
+        <link refid="_ini_boiler_plate_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
+        <link refid="_remap_ini_remover_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
+        <link refid="_ini_remove_builder_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_ini_boiler_plate" prot="public">AGRemapCore::IniBoilerPlate</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>

@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniParser', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBaseIniGraphPartEdit', 'CppBaseIniPartEdit', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifier', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniDownloadModel', 'IniFixResource', 'IniFixResourceModel', 'IniGraphGroup', 'IniGroupedResource', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseDFA', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniParser', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBaseIniGraphPartEdit', 'CppBaseIniPartEdit', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifier', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniDownloadModel', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniRemovalContext', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseDFA:
     pass
 class BaseIniFixer:
@@ -24,7 +24,7 @@ class BaseIniFixer:
         """
         Resets any saved states within the fixer
         """
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False) -> typing.Any:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False, context: typing.Any = None) -> typing.Any:
         """
         Fixes the .ini file
         
@@ -41,9 +41,15 @@ class BaseIniFixer:
             **Default**: ``False``
         
         hideOrig: :class:`bool`
-            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+            Whether to hide the mod for the original character. :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``False``
+        
+        context: Optional[:class:`IniFixingContext`]
+            The per-call options for this fix. If ``None``, a default one is built, which says this
+            fixer is the .ini file's last :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
         
         Returns
         -------
@@ -344,6 +350,53 @@ class BaseIniParser:
         """
     @_modsToFix.setter
     def _modsToFix(self, arg0: typing.Any) -> None:
+        ...
+class BaseIniRemover:
+    """
+    
+    Base class to remove fixes from a .ini file
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to remove the fix from
+        
+    """
+    def __init__(self, iniFile: typing.Any = None) -> None:
+        ...
+    def remove(self, parse: bool = False, writeBack: bool = True, context: typing.Any = None) -> str:
+        """
+        Removes the fix from the .ini file
+        
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to also parse for the .*RemapBlend.buf files that need to be removed :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        context: :class:`IniRemovalContext`
+            The per-call options for this removal :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, which means a default-constructed one
+        
+        Returns
+        -------
+        :class:`str`
+            The new content of the .ini file
+        """
+    @property
+    def iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that the fix will be removed from
+        """
+    @iniFile.setter
+    def iniFile(self, arg0: typing.Any) -> None:
         ...
 class BaseRegEdit(CppBaseIniGraphPartEdit):
     """
@@ -5225,14 +5278,15 @@ class GIMIFixer(BaseIniFixer):
         """
         Resets any saved states within the fixer
         """
-    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False) -> typing.Any:
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False, context: typing.Any = None) -> typing.Any:
         """
         Fixes the .ini file
         
         Parameters
         ----------
         keepBackup: :class:`bool`
-            Whether to keep backups for the .ini file :raw-html:`<br />` :raw-html:`<br />`
+            Whether to keep backups for the .ini file. Ignored when ``context.isFirstModType`` is ``False``,
+            since several fixers chain over one .ini file and only the first of them should move it aside :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``True``
         
@@ -5242,9 +5296,16 @@ class GIMIFixer(BaseIniFixer):
             **Default**: ``False``
         
         hideOrig: :class:`bool`
-            Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+            Whether to hide the mod for the original character. Ignored when ``context.isLastModType`` is ``False``, since
+            several fixers chain over one .ini file and only the last of them should rewrite it :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``False``
+        
+        context: Optional[:class:`IniFixingContext`]
+            The per-call options for this fix. If ``None``, a default one is built, which says this
+            fixer is the .ini file's last :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
         
         Returns
         -------
@@ -5771,6 +5832,18 @@ class GIMISectionClassifier:
         """
         Builds the default classifier for the `sections`_
         
+        :raw-html:`<br />`
+        
+        The classifier comes pre-filled with the mod object mappings every mod type shares -- one entry per
+        hash type the hash data table ships, named by that hash type's own key (``blend_vb`` becomes
+        ``("", "blend_vb")``, and a ``compName;objName`` key becomes ``(compName, objName)``). The
+        ``ib``-suffixed hash types land in :attr:`GIMISectionClassifier.indexKeyToModObj` instead, since a
+        ``hash`` value alone can't tell those apart; every other one lands in
+        :attr:`GIMISectionClassifier.hashKeyOnlyToModObj` :raw-html:`<br />` :raw-html:`<br />`
+        
+        The mappings are this classifier's own :class:`dict`\\s -- editing them to add whatever else a
+        particular mod type needs won't write through to any other classifier
+        
         Parameters
         ----------
         modType: :class:`ModType`
@@ -5790,6 +5863,18 @@ class GIMISectionClassifier:
     def buildDefaultClassifierFromIni(ini: typing.Any) -> GIMISectionClassifier:
         """
         Builds the default classifier for the `sections`_ from a .ini file
+        
+        :raw-html:`<br />`
+        
+        The classifier comes pre-filled with the mod object mappings every mod type shares -- one entry per
+        hash type the hash data table ships, named by that hash type's own key (``blend_vb`` becomes
+        ``("", "blend_vb")``, and a ``compName;objName`` key becomes ``(compName, objName)``). The
+        ``ib``-suffixed hash types land in :attr:`GIMISectionClassifier.indexKeyToModObj` instead, since a
+        ``hash`` value alone can't tell those apart; every other one lands in
+        :attr:`GIMISectionClassifier.hashKeyOnlyToModObj` :raw-html:`<br />` :raw-html:`<br />`
+        
+        The mappings are this classifier's own :class:`dict`\\s -- editing them to add whatever else a
+        particular mod type needs won't write through to any other classifier
         
         Parameters
         ----------
@@ -8979,6 +9064,70 @@ class IniFixResourceModel(IniResourceModel):
     @origPaths.setter
     def origPaths(self, arg1: dict | None) -> None:
         ...
+class IniFixingContext:
+    """
+    
+    The per-call options handed to :meth:`BaseIniFixer.fix`
+    
+    .. note::
+        Not to be confused with the .ini file a fixer writes through, despite the near-identical name.
+        This is a plain bag of options describing *one particular fix* and knows nothing about any file
+    
+    Parameters
+    ----------
+    isFirstModType: :class:`bool`
+        Whether this fixer is running for the first :class:`ModType` of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+    
+    isLastModType: :class:`bool`
+        Whether this fixer is running for the last :class:`ModType` of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, isFirstModType: bool = True, isLastModType: bool = True) -> None:
+        ...
+    @property
+    def isFirstModType(self) -> bool:
+        """
+        :class:`bool`: Whether this fixer is running for the first :class:`ModType` of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+        The mirror image of :attr:`IniFixingContext.isLastModType`, and there for the same reason: several
+        fixers chain over one .ini file, so anything that touches the file itself rather than only the fix
+        has to happen exactly once :raw-html:`<br />` :raw-html:`<br />`
+        
+        :meth:`GIMIFixer.fix` uses it to gate ``keepBackup`` -- disabling the existing .ini file as a backup
+        is the whole file's business, and a later mod type doing it again would be backing up a file the
+        first pass already moved aside. The condition it gates is otherwise unchanged: ``keepBackup`` still
+        also needs ``fixOnly`` and an .ini file that already exists on disk :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Default**: ``True``, so a fixer driven directly -- the only one, hence both the first and the last
+        -- backs up as it always did
+        """
+    @isFirstModType.setter
+    def isFirstModType(self, arg0: bool) -> None:
+        ...
+    @property
+    def isLastModType(self) -> bool:
+        """
+        :class:`bool`: Whether this fixer is running for the last :class:`ModType` of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+        One .ini file can be fixed by several fixers in turn -- one per mod type it was classified as, and
+        one per target mod each of those fixes to. They chain over the same file, so anything that rewrites
+        the file's own text rather than only adding to the fix has to happen exactly once, at the end :raw-html:`<br />` :raw-html:`<br />`
+        
+        :meth:`GIMIFixer.fix` uses it for its ``hideOrig`` pass for that reason: commenting out the original
+        mod's `sections`_ is the whole file's business, not one mod type's. With this ``False``, ``hideOrig``
+        is ignored :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Default**: ``True``, so a fixer driven directly -- one fixer, one call, no chain -- behaves as
+        though it were the only one, which it is. It is the *chaining* caller that has to say otherwise, and
+        :class:`IniFile` is the one that does
+        """
+    @isLastModType.setter
+    def isLastModType(self, arg0: bool) -> None:
+        ...
 class IniGraphGroup:
     """
     
@@ -9157,6 +9306,48 @@ class IniGroupedResource:
         """
     @resources.setter
     def resources(self, arg0: dict) -> None:
+        ...
+class IniRemovalContext:
+    """
+    
+    The per-call options handed to :meth:`BaseIniRemover.remove`
+    
+    .. note::
+        Not to be confused with the .ini file a remover reads through, despite the near-identical name.
+        This is a plain bag of options describing *one particular removal* and knows nothing about any
+        file
+    
+    Parameters
+    ----------
+    ignoreModType: :class:`bool`
+        Whether to remove the fix without asking which :class:`ModType` it belongs to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+        
+    """
+    def __init__(self, ignoreModType: bool = False) -> None:
+        ...
+    @property
+    def ignoreModType(self) -> bool:
+        """
+        :class:`bool`: Whether to remove the fix without asking which :class:`ModType` it belongs to :raw-html:`<br />` :raw-html:`<br />`
+        
+        :meth:`RemapIniRemover.remove` normally treats a candidate `section`_ as this software's own output only
+        when it carries this software's marker -- either it sits inside the fix boilerplate, or some
+        reachable colouring state gives its ``hash`` `KVP`_ a value belonging to one of the .ini file's mod
+        types. That second half is what recognizes the ``Remap``-named leftovers *outside* the boilerplate :raw-html:`<br />` :raw-html:`<br />`
+        
+        With this set, the hash half is skipped and **every** candidate is taken -- every `section`_ inside
+        the boilerplate plus every ``Remap``-named `section`_ outside it, whoever they belong to. That is
+        what the pure-Python ``RemapIniRemover`` this replaced always did :raw-html:`<br />` :raw-html:`<br />`
+        
+        :class:`IniFile` asks for it on its **last** mod type, so that every earlier pass takes only what it
+        can prove is its own and the final pass clears whatever is still standing. Without it, a leftover
+        carrying no usable ``hash`` would survive every pass -- the exact debris an interrupted or partly
+        undone fix leaves behind
+        """
+    @ignoreModType.setter
+    def ignoreModType(self, arg0: bool) -> None:
         ...
 class IniResource:
     """
@@ -13551,6 +13742,92 @@ class RemapIniGroupedResource(IniGroupedResource, RemapIniResourceMixin):
         """
         Constructs a new group of resources to fix -- see :class:`IniGroupedResource`'s constructor for the parameters
         """
+class RemapIniRemover(BaseIniRemover):
+    """
+    
+    This class inherits from :class:`BaseIniRemover`
+    
+    Class for removing the fixes from .ini files, by reachability rather than by name
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to remove the fix from
+        
+    """
+    def __init__(self, iniFile: typing.Any = None) -> None:
+        ...
+    def getRemovedResources(self) -> typing.Any:
+        """
+        Every resource the last :meth:`RemapIniRemover.remove` took out with the `sections`_ that declared it
+        
+        Returns
+        -------
+        Dict[:class:`str`, List[:class:`IniResource`]]
+            The removed resources, keyed by the type of resource -- one of ``"blend"``, ``"position"``,
+            ``"texcoord"``, ``"buf"``, ``"texEdit"``, ``"texAdd"``, ``"download"`` or ``"other"``, each of
+            which names a :class:`RemapStats` attribute
+        """
+    def getRemovedSectionNames(self) -> list[str]:
+        """
+        Every `section`_ name the last :meth:`RemapIniRemover.remove` deleted
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The names of the removed `sections`_, in the order the .ini file declared them
+        """
+    def getTargetSectionNames(self) -> list[str]:
+        """
+        The `sections`_ the last :meth:`RemapIniRemover.remove` treated as this software's own output
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The names of the target `sections`_, in the order the .ini file declared them
+        """
+    def remove(self, parse: bool = False, writeBack: bool = True, context: typing.Any = None) -> str:
+        """
+        Removes the fix from the .ini file
+        
+        The fix is whatever the fix boilerplate surrounds, plus any ``Remap``-named leftovers outside it
+        that carry one of the mod type's hashes -- together with everything those reference and everything
+        that references them.
+        
+        Pass a :class:`IniRemovalContext` with ``ignoreModType`` set to drop the hash question and take
+        every ``Remap``-named leftover regardless of whose it is.
+        
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Ignored -- the resources that went with the removed `sections`_ are always collected, and are
+            available from :meth:`RemapIniRemover.getRemovedResources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        context: :class:`IniRemovalContext`
+            The per-call options for this removal :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, which means a default-constructed one -- ie. the strict rule above
+        
+        Returns
+        -------
+        :class:`str`
+            The new content of the .ini file
+        """
+    @property
+    def iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that the fix will be removed from
+        """
+    @iniFile.setter
+    def iniFile(self, arg0: typing.Any) -> None:
+        ...
 class RemapIniResource(IniResource, RemapIniResourceMixin):
     """
     
@@ -13671,6 +13948,14 @@ class RemapStats:
     def blend(self, arg0: FileStats) -> None:
         ...
     @property
+    def buf(self) -> FileStats:
+        """
+        :class:`FileStats`: Stats about whether some other ``.buf`` files got fixed/skipped/removed
+        """
+    @buf.setter
+    def buf(self, arg0: FileStats) -> None:
+        ...
+    @property
     def download(self) -> CachedFileStats:
         """
         :class:`CachedFileStats`: Stats about whether some downloaded mod files have been recently downloaded/removed
@@ -13687,12 +13972,12 @@ class RemapStats:
     def ini(self, arg0: FileStats) -> None:
         ...
     @property
-    def mod(self) -> FileStats:
+    def other(self) -> FileStats:
         """
-        :class:`FileStats`: Stats about whether a mod has been fixed/skipped
+        :class:`FileStats`: Stats about whether some files of no recognized kind got fixed/skipped/removed
         """
-    @mod.setter
-    def mod(self, arg0: FileStats) -> None:
+    @other.setter
+    def other(self, arg0: FileStats) -> None:
         ...
     @property
     def position(self) -> FileStats:
@@ -13717,6 +14002,14 @@ class RemapStats:
         """
     @texEdit.setter
     def texEdit(self, arg0: FileStats) -> None:
+        ...
+    @property
+    def texcoord(self) -> FileStats:
+        """
+        :class:`FileStats`: Stats about whether some ``Texcoord.buf`` files got fixed/skipped/removed
+        """
+    @texcoord.setter
+    def texcoord(self, arg0: FileStats) -> None:
         ...
 class RemapTexAddResource(RemapIniResource):
     """

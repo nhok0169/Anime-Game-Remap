@@ -15,9 +15,12 @@
 from typing import Type, List, Any, Dict, TYPE_CHECKING, Optional, Hashable
 ##### EndExtImports
 
+##### CppLocalImports
+from ....core import BaseIniRemover
+##### EndCppLocalImports
+
 ##### LocalImports
 from ....tools.FlyweightBuilder import FlyweightBuilder
-from .BaseIniRemover import BaseIniRemover
 
 if (TYPE_CHECKING):
     from ...files.IniFile import IniFile

@@ -57,14 +57,14 @@ namespace AGRemapCore {
          * The remove-side counterpart, over IniRemoveBuilderData's table.
          *
          * Unlike the other two this has no pure-Python equivalent -- the original hands every mod
-         * type the single global IniRemoveBuilder(IniRemover) instead (which is still what
+         * type the single global IniRemoveBuilder(RemapIniRemover) instead (which is still what
          * ModType's own null-fallback supplies, see GlobalIniRemoveBuilders). Using a table here is
          * a deliberate extension so a per-mod remover can be expressed when one exists; every row
          * is a stub today, so behaviour is identical to the global builder's.
          *
-         * Note this is a *different* builder instance from GlobalIniRemoveBuilders::removeBuilder(),
-         * and therefore has its own flyweight cache -- deliberate, since a table-backed builder
-         * caches per mod name while the global one caches under a single id.
+         * Note this is a *different* builder instance from GlobalIniRemoveBuilders::removeBuilder():
+         * that one is the fixed-factory flavour, this one is table-backed. Neither caches, so the
+         * only difference between them is which factory a given mod name resolves to.
          */
         const std::shared_ptr<IniRemoveBuilder>& giIniRemoveBuilder() {
             static const std::shared_ptr<IniRemoveBuilder> builder =

@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/IniGraphGroup.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 
 
@@ -160,10 +161,12 @@ namespace AGRemapCore {
              * @param keepBackup Whether to keep backups for the .ini file. **Default**: ``true``
              * @param fixOnly Whether to only fix the .ini file without undoing any fixes. **Default**: ``false``
              * @param hideOrig Whether to hide the mod for the original character. **Default**: ``false``
+             * @param fixingCtx The per-call options for this fix -- see :cpp:class:`IniFixingContext`. **Default**: a default-constructed one
              *
              * @return The new content of the fixed .ini file(s), keyed by file path
              */
-            FixResult fix(ParseData& parseData, bool keepBackup = true, bool fixOnly = false, bool hideOrig = false);
+            FixResult fix(ParseData& parseData, bool keepBackup = true, bool fixOnly = false, bool hideOrig = false,
+                           IniFixingContext fixingCtx = IniFixingContext());
 
         protected:
 
@@ -181,10 +184,12 @@ namespace AGRemapCore {
              * @param hideOrig Whether to hide the mod for the original character
              * @param withBoilerPlate Whether to include the surrounding boilerplate in the result
              * @param withSrc Whether to include the .ini file's original content in the result
+             * @param fixingCtx The per-call options for this fix -- see :cpp:class:`IniFixingContext`
              *
              * @return The new content of the fixed .ini file(s), keyed by file path
              */
-            virtual FixResult fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate, bool withSrc);
+            virtual FixResult fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate,
+                                       bool withSrc, IniFixingContext fixingCtx);
 
             /**
              * @brief The associated parser to retrieve data for the fix -- non-owning, see the constructor

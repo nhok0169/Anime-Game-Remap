@@ -85,7 +85,10 @@ add_library(AGRemapCore STATIC
     src/model/files/PositionFile.cpp
     src/model/strategies/iniParsers/IniParseBuilder.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
-    src/model/strategies/iniRemovers/BaseIniRemover.cpp
+    src/model/strategies/iniFixers/IniFileFixContext.cpp
+    src/model/strategies/iniParsers/IniFileParseContext.cpp
+    src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp
+    src/model/strategies/iniRemovers/IniFileRemoveContext.cpp
     src/model/strategies/iniRemovers/IniRemoveBuilder.cpp
     src/model/strategies/iniFixers/BaseIniPartEdit.cpp
     src/model/files/IniFile.cpp

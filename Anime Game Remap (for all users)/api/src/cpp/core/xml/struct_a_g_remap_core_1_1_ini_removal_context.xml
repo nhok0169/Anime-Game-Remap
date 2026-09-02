@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_ini_removal_context" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::IniRemovalContext</compoundname>
+    <includes refid="_ini_removal_context_8h" local="no">IniRemovalContext.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniRemovalContext::ignoreModType</definition>
+        <argsstring></argsstring>
+        <name>ignoreModType</name>
+        <qualifiedname>AGRemapCore::IniRemovalContext::ignoreModType</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether to remove the fix without asking which :cpp:class:`ModType` it belongs to
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:func:`RemapIniRemover::remove` normally makes a candidate `section`_ a *target* only when
+it carries this software&apos;s own marker -- either it sits inside the fix boilerplate, or some
+:cpp:class:`IfContentPartColouring` state gives its ``hash`` `KVP`_ a value belonging to one
+of the ``.ini`` file&apos;s mod types. That second half is what recognizes the ``Remap``-named
+leftovers *outside* the boilerplate :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+With this set, the hash half is skipped entirely and **every** candidate is a target -- ie.
+every `section`_ inside the boilerplate plus every ``Remap``-named `section`_ outside it,
+whoever they belong to. That is what the pure-Python ``IniRemover.py`` this replaced always
+did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The reason that last-one-sweeps rule exists: the strict rule can only recognize a
+   leftover whose ``hash`` it can attribute, and a ``Remap``-named `section`_ outside the
+   boilerplate carrying no ``hash`` at all (or one no mod type of this ``.ini`` file owns)
+   would otherwise be left behind forever -- the exact debris an interrupted or partly
+   undone fix leaves. Running the strict rule for every mod type but the last lets each one
+   take only what it can prove is its own, and then lets the final pass clear whatever is
+   still standing :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="59" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a27902a2a5e409888c4180af7d9f0f8f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemovalContext::IniRemovalContext</definition>
+        <argsstring>()=default</argsstring>
+        <name>IniRemovalContext</name>
+        <qualifiedname>AGRemapCore::IniRemovalContext::IniRemovalContext</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="61" column="9"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a38d3a46a2e81c6a2e4683d104d9d0d8c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::IniRemovalContext::IniRemovalContext</definition>
+        <argsstring>(bool ignoreModType)</argsstring>
+        <name>IniRemovalContext</name>
+        <qualifiedname>AGRemapCore::IniRemovalContext::IniRemovalContext</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>ignoreModType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new set of removal options. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ignoreModType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" kindref="member">ignoreModType</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="68" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="68" bodyend="68"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The per-call knobs a caller hands to :cpp:func:`BaseIniRemover::remove` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Not to be confused with** :cpp:class:`IniRemoveContext`, which is a different thing wearing a
+near-identical name. That one is the ``.ini`` **file** behind an interface -- long-lived, bound
+once, and how a remover reads and rewrites its file. This one is a plain bag of options
+describing *this particular removal*, is passed by value on every call, and knows nothing about
+any file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Deliberately a plain struct rather than an interface: nothing here needs to be answered by
+asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Not a template, unlike almost everything else in this family, and it does not need to be --
+   it holds no `KVP`_ keys, `sections`_ or values. That is what lets the `pybind11`_ layer bind
+   it once and hand the same type to every remover instantiation
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="28" bodyend="69"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>ignoreModType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a27902a2a5e409888c4180af7d9f0f8f2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a38d3a46a2e81c6a2e4683d104d9d0d8c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -277,25 +277,22 @@ A *factory*, matching the pure-Python original&apos;s own ``iniRemoveBuilder`` a
 :cpp:func:`IniFile::removeFix` asks it for a remover per ``.ini`` file, and it hands
 one back already bound to that file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-.. warning::
-   Unlike #iniParseBuilder and #iniFixBuilder, this is a **flyweight** builder -- it
-   reuses one shared remover instance rather than constructing a fresh one per file,
-   and takes no version into account. Read :cpp:class:`IniRemoveBuilder`&apos;s own warning
-   before assuming it behaves like the other two: in particular the remover it returns
-   stays correctly bound only until that builder&apos;s next
-   :cpp:func:`IniRemoveBuilder::build`, so two :cpp:class:`IniFile`\\s sharing a builder
-   must not have their fixes removed concurrently
+.. note::
+   This behaves like #iniParseBuilder and #iniFixBuilder -- a fresh remover per
+   :cpp:func:`IniRemoveBuilder::build`, bound to the caller&apos;s file and nobody else&apos;s.
+   Its pure-Python original is a ``FlyweightBuilder`` that shares one instance instead;
+   see :cpp:class:`IniRemoveBuilder`&apos;s own warning for why that was not mirrored
 
 .. note::
-   A ``shared_ptr`` for the same reasons as #iniParseBuilder, plus one more that
-   matters here: the flyweight cache lives *on the builder*, so sharing the pointer is
-   what makes several :cpp:class:`ModType`\\s share the cached remover -- which is
-   exactly what :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` relies on
+   A ``shared_ptr`` for the same reasons as #iniParseBuilder: several
+   :cpp:class:`ModType`\\s share one builder (notably every one falling back to
+   :cpp:func:`GlobalIniRemoveBuilders::removeBuilder`), and a builder is immutable once
+   constructed, so sharing it is free
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="334" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="334" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="331" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="331" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -546,7 +543,7 @@ Meant to carry the full C++-side representation of a mod type -- contrast with t
 The Python-side ``ModType`` is meant to build itself using this data.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/ModType.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="32" bodyend="335"/>
+    <location file="include/AGRemapCore/model/strategies/ModType.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="32" bodyend="332"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>aliases</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>gameTypeId</name></member>

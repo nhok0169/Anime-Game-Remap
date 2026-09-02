@@ -58,7 +58,7 @@ namespace AGRemapCore {
         // Mirrors the pure-Python original's own
         // "iniRemoveBuilder = GlobalIniRemoveBuilders.RemoveBuilder.value" default. Note this is
         // the *shared* global builder rather than a fresh one, so every ModType that falls back
-        // here also shares its flyweight cache -- deliberate, and what the original does too.
+        // here shares one builder instance -- deliberate, and what the original does too.
         if (this->iniRemoveBuilder == nullptr) {
             this->iniRemoveBuilder = GlobalIniRemoveBuilders::removeBuilder();
         }

@@ -1,3 +1,5 @@
+import os
+import re
 import sys
 from ordered_set import OrderedSet
 
@@ -246,6 +248,180 @@ class GIMIFixerTest(BaseIniFileTest):
         self.compareList(self._fixer.graphGroups, [])
         self._fixer.fix()
         self.assertEqual(len(self._fixer.graphGroups), 1)
+
+    # =========================== hideOrig =====================================
+
+    def _hiddenHeaderPattern(self, sectionName):
+        # The comment goes in front of the *whole* line, indentation included, so a hidden section
+        # header reads ";RemapFixHideOrig -->                    [Name]".
+        comment = FRB.IniKeywords.HideOriginalComment.value
+        return re.compile(re.escape(comment) + r"[ 	]*\[" + re.escape(sectionName) + r"\]")
+
+    def _touchedSections(self):
+        result = set()
+        for modObj in self._parser.commandGraphs:
+            result.update(self._parser.commandGraphs[modObj].sections.keys())
+        return result
+
+    def _sectionsInTheOriginalTxt(self, sectionNames):
+        # A parser synthesizes a "...RemapFix" section for a mod object the .ini file has none of,
+        # and that lands in the command graphs too. There is no original line of it to comment out,
+        # so hiding one is a no-op rather than a miss.
+        origTxt = self._iniFile.fileTxt
+        return {name for name in sectionNames if re.search(r"^[ 	]*\[" + re.escape(name) + r"\]", origTxt, re.MULTILINE)}
+
+    def test_fix_hideOrig_commentsOutTheSectionsTheFixTouched(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        touched = self._sectionsInTheOriginalTxt(self._touchedSections())
+        self.assertTrue(touched)
+
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+
+        # Every command section the fix rewrote is commented out inside it, so the original mod
+        # stops being displayed and only the remap shows.
+        for sectionName in touched:
+            self.assertRegex(content, self._hiddenHeaderPattern(sectionName))
+
+    def test_fix_hideOrig_leavesEveryOtherSectionAlone(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        touched = self._touchedSections()
+        untouched = self._sectionsInTheOriginalTxt(set(self._iniFile.sectionIfTemplates) - touched)
+        self.assertTrue(untouched)
+
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+
+        # A fix can carry a register over verbatim, still pointing at one of the original mod's own
+        # resource sections -- commenting those out would break the fix itself.
+        for sectionName in untouched:
+            self.assertNotRegex(content, self._hiddenHeaderPattern(sectionName))
+
+    def _assertRemapKeyedGraphIsNotHidden(self, remapModObj):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        # Re-key the real blend graph under a mod object naming itself a remap. commandGraphs is
+        # the parser's own live dict, so this is the same graph, just relabelled.
+        graphs = self._parser.commandGraphs
+        graph = graphs.pop(("", "blend"))
+        graphs[remapModObj] = graph
+
+        sections = self._sectionsInTheOriginalTxt(set(graph.sections.keys()))
+        self.assertTrue(sections)
+
+        content = self._iniFile.fix(hideOrig = True)[self._iniFile.filePath.path]
+
+        for sectionName in sections:
+            self.assertNotRegex(content, self._hiddenHeaderPattern(sectionName))
+
+    def test_fix_hideOrig_ignoresAGraphWhoseObjectNameIsARemap(self):
+        # A mod object naming itself a remap is this software's own output, not part of the
+        # original mod -- hiding it would hide the fix.
+        self._assertRemapKeyedGraphIsNotHidden(("", "blendRemapBlend"))
+
+    def test_fix_hideOrig_ignoresAGraphWhoseComponentNameIsARemap(self):
+        # Either half of the (component, object) name counts, and the match is case-insensitive.
+        self._assertRemapKeyedGraphIsNotHidden(("someremapcomp", "blend"))
+
+    def test_fix_hideOrig_isSkippedWhenThisIsNotTheLastModType(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        touched = self._sectionsInTheOriginalTxt(self._touchedSections())
+        self.assertTrue(touched)
+
+        # Several fixers chain over one .ini file -- one per mod type it was classified as -- and
+        # only the last of them may rewrite the file. See IniFixingContext.isLastModType.
+        content = self._fixer.fix(hideOrig = True, context = FRB.IniFixingContext(isLastModType = False))
+        content = content[self._iniFile.filePath.path]
+
+        self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
+
+        # ...and it still produced its own fix.
+        self.assertIn("Albert Gold#2696", content)
+
+    def test_fix_defaultContext_saysThisIsTheFirstAndLastModType(self):
+        # A fixer driven directly is the only one, so it is both -- hideOrig and keepBackup both
+        # have to work with no context given.
+        default = FRB.IniFixingContext()
+        self.assertTrue(default.isFirstModType)
+        self.assertTrue(default.isLastModType)
+
+    def test_fixingContext_flagsAreIndependentlySettable(self):
+        context = FRB.IniFixingContext(isFirstModType = False, isLastModType = True)
+        self.assertFalse(context.isFirstModType)
+        self.assertTrue(context.isLastModType)
+
+        context.isFirstModType = True
+        self.assertTrue(context.isFirstModType)
+
+    def test_fix_keepBackup_isSkippedWhenThisIsNotTheFirstModType(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+        self._pretendTheIniFileIsOnDisk()
+
+        disabled = []
+        self._iniFile.disIni = lambda makeCopy = False: disabled.append(makeCopy)
+
+        # Only the first mod type's fixer moves the .ini file aside; a later one would be backing up
+        # a file the first pass already moved. See IniFixingContext.isFirstModType.
+        self._fixer.fix(keepBackup = True, fixOnly = True,
+                        context = FRB.IniFixingContext(isFirstModType = False, isLastModType = True))
+
+        self.compareList(disabled, [])
+
+    def _pretendTheIniFileIsOnDisk(self):
+        # keepBackup only does anything for an .ini file that already exists, and the fixer asks
+        # Python's own os.path.exists for that. Narrowed to this .ini file's path so the rest of the
+        # fix still sees the real filesystem.
+        realExists = os.path.exists
+        iniPath = self._iniFile.filePath.path
+        self.patch("os.path.exists", side_effect = lambda path: True if path == iniPath else realExists(path))
+
+    def test_fix_keepBackup_isTakenWhenThisIsTheFirstModType(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+        self._pretendTheIniFileIsOnDisk()
+
+        disabled = []
+        self._iniFile.disIni = lambda makeCopy = False: disabled.append(makeCopy)
+
+        self._fixer.fix(keepBackup = True, fixOnly = True,
+                        context = FRB.IniFixingContext(isFirstModType = True, isLastModType = True))
+
+        self.assertEqual(len(disabled), 1)
+
+    def test_fix_defaultContext_saysThisIsTheLastModType(self):
+        # A fixer driven directly is the only one, so hideOrig has to work with no context given.
+        self.assertTrue(FRB.IniFixingContext().isLastModType)
+
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        touched = self._sectionsInTheOriginalTxt(self._touchedSections())
+        content = self._fixer.fix(hideOrig = True)[self._iniFile.filePath.path]
+
+        for sectionName in touched:
+            self.assertRegex(content, self._hiddenHeaderPattern(sectionName))
+
+    def test_fix_hideOrig_leavesTheIniFilesOwnTextAlone(self):
+        self.create(modsToFix = ["rika"])
+        self._iniFile.parse()
+
+        before = self._iniFile.fileTxt
+        self._iniFile.fix(hideOrig = True)
+
+        # Only the copy that went into the fix was commented out.
+        self.assertEqual(self._iniFile.fileTxt, before)
+
+    def test_fix_withoutHideOrig_nothingIsCommentedOut(self):
+        self.create(modsToFix = ["rika"])
+        content = self.parseAndFix()[self._iniFile.filePath.path]
+
+        self.assertNotIn(FRB.IniKeywords.HideOriginalComment.value, content)
 
     # =========================== groupToStr =====================================
 

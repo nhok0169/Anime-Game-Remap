@@ -315,20 +315,17 @@ namespace AGRemapCore {
              :cpp:func:`IniFile::removeFix` asks it for a remover per ``.ini`` file, and it hands
              one back already bound to that file :raw-html:`<br />` :raw-html:`<br />`
 
-             .. warning::
-                Unlike #iniParseBuilder and #iniFixBuilder, this is a **flyweight** builder -- it
-                reuses one shared remover instance rather than constructing a fresh one per file,
-                and takes no version into account. Read :cpp:class:`IniRemoveBuilder`'s own warning
-                before assuming it behaves like the other two: in particular the remover it returns
-                stays correctly bound only until that builder's next
-                :cpp:func:`IniRemoveBuilder::build`, so two :cpp:class:`IniFile`\\s sharing a builder
-                must not have their fixes removed concurrently
+             .. note::
+                This behaves like #iniParseBuilder and #iniFixBuilder -- a fresh remover per
+                :cpp:func:`IniRemoveBuilder::build`, bound to the caller's file and nobody else's.
+                Its pure-Python original is a ``FlyweightBuilder`` that shares one instance instead;
+                see :cpp:class:`IniRemoveBuilder`'s own warning for why that was not mirrored
 
              .. note::
-                A ``shared_ptr`` for the same reasons as #iniParseBuilder, plus one more that
-                matters here: the flyweight cache lives *on the builder*, so sharing the pointer is
-                what makes several :cpp:class:`ModType`\\s share the cached remover -- which is
-                exactly what :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` relies on
+                A ``shared_ptr`` for the same reasons as #iniParseBuilder: several
+                :cpp:class:`ModType`\\s share one builder (notably every one falling back to
+                :cpp:func:`GlobalIniRemoveBuilders::removeBuilder`), and a builder is immutable once
+                constructed, so sharing it is free
              @endrst
              */
             std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder;

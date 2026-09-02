@@ -59,6 +59,7 @@
         <argsstring>() const =0</argsstring>
         <name>iniFolder</name>
         <qualifiedname>AGRemapCore::IniResEditContext::iniFolder</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1af1a270a66a5cf618b36989ddcfc1e9d3">iniFolder</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -77,6 +78,7 @@ The folder the ``.ini`` file lives in (the equivalent of the pure-Python origina
         <argsstring>(const std::string &amp;fileKey, std::unique_ptr&lt; IniResource &gt; resource)=0</argsstring>
         <name>storeResource</name>
         <qualifiedname>AGRemapCore::IniResEditContext::storeResource</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae934d7baf983e940891a156f71667cdb">storeResource</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>fileKey</declname>
@@ -124,6 +126,7 @@ and a resource edit itself never reads a built model back
         <argsstring>()=0</argsstring>
         <name>beginCollectingResources</name>
         <qualifiedname>AGRemapCore::IniResEditContext::beginCollectingResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aa91f615f42a1b79b6aeeac5d862c0c4c">beginCollectingResources</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -147,6 +150,7 @@ file. Everything captured stays owned by the implementation
         <argsstring>()=0</argsstring>
         <name>takeCollectedResources</name>
         <qualifiedname>AGRemapCore::IniResEditContext::takeCollectedResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a88f080825ac48f4a3cc22634fa9b5fee">takeCollectedResources</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -165,6 +169,7 @@ the order they were built, and clears the capture buffer
         <argsstring>()=0</argsstring>
         <name>endCollectingResources</name>
         <qualifiedname>AGRemapCore::IniResEditContext::endCollectingResources</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae77672b27b05c1c106b3617240113c89">endCollectingResources</reimplementedby>
         <briefdescription>
 <para>Stops capturing <ndash/> later models go to the <computeroutput>.ini</computeroutput> file again. </para>
         </briefdescription>
@@ -180,6 +185,7 @@ the order they were built, and clears the capture buffer
         <argsstring>() const =0</argsstring>
         <name>hasIni</name>
         <qualifiedname>AGRemapCore::IniResEditContext::hasIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a296e3a167176a1b6f28368fbe43d7bae">hasIni</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -201,6 +207,7 @@ resource-edit paths check before doing anything at all
         <argsstring>() const =0</argsstring>
         <name>sectionIfTemplates</name>
         <qualifiedname>AGRemapCore::IniResEditContext::sectionIfTemplates</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1af5e2a67da58fe463caaf30f8de3eaa8b">sectionIfTemplates</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -219,6 +226,7 @@ the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
         <argsstring>() const =0</argsstring>
         <name>z3Ctx</name>
         <qualifiedname>AGRemapCore::IniResEditContext::z3Ctx</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ac2961cf575eb3d7e55d24bdf8f5822f0">z3Ctx</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

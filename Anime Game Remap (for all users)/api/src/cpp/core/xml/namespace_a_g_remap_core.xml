@@ -50,6 +50,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_stats" prot="public">AGRemapCore::FileStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
@@ -102,10 +103,15 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_file" prot="public">AGRemapCore::IniFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_fix_context" prot="public">AGRemapCore::IniFileFixContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_parse_context" prot="public">AGRemapCore::IniFileParseContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_remove_context" prot="public">AGRemapCore::IniFileRemoveContext</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_file_res_edit_context" prot="public">AGRemapCore::IniFileResEditContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder" prot="public">AGRemapCore::IniFixBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_data" prot="public">AGRemapCore::IniFixBuilderData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs" prot="public">AGRemapCore::IniFixBuilderFuncs</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_context" prot="public">AGRemapCore::IniFixContext</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_fixing_context" prot="public">AGRemapCore::IniFixingContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public">AGRemapCore::IniFixResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_fix_resource_model" prot="public">AGRemapCore::IniFixResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_graph_group" prot="public">AGRemapCore::IniGraphGroup</innerclass>
@@ -119,9 +125,11 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_builder_funcs" prot="public">AGRemapCore::IniParseBuilderFuncs</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_context" prot="public">AGRemapCore::IniParseContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_parse_download_data" prot="public">AGRemapCore::IniParseDownloadData</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_ini_removal_context" prot="public">AGRemapCore::IniRemovalContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder" prot="public">AGRemapCore::IniRemoveBuilder</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_data" prot="public">AGRemapCore::IniRemoveBuilderData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs" prot="public">AGRemapCore::IniRemoveBuilderFuncs</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_remove_context" prot="public">AGRemapCore::IniRemoveContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_res_edit_context" prot="public">AGRemapCore::IniResEditContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource" prot="public">AGRemapCore::IniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_resource_model" prot="public">AGRemapCore::IniResourceModel</innerclass>
@@ -164,6 +172,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public">AGRemapCore::RemapIniFixResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource" prot="public">AGRemapCore::RemapIniGroupedResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_ini_remover" prot="public">AGRemapCore::RemapIniRemover</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public">AGRemapCore::RemapIniResourceMixin</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>

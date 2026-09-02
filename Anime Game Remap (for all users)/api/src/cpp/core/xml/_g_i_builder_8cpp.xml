@@ -22,22 +22,22 @@
       <node id="47">
         <label>Algo.tpp</label>
       </node>
-      <node id="102">
+      <node id="104">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="88">
+      <node id="89">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="87">
+      <node id="88">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="53">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="101">
+      <node id="103">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="99">
+      <node id="101">
         <label>BiMap.tpp</label>
       </node>
       <node id="62">
@@ -49,7 +49,7 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="94">
+      <node id="96">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="12" relation="include">
@@ -57,12 +57,12 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="103">
+      <node id="105">
         <label>AGRemapCore/constants/GlobalIniRemoveBuilders.h</label>
         <link refid="_global_ini_remove_builders_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
       <node id="68">
@@ -73,7 +73,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="95">
         <label>AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
         <childnode refid="12" relation="include">
@@ -86,33 +86,33 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
-      <node id="104">
+      <node id="106">
         <label>AGRemapCore/data/IniFixBuilderData.h</label>
         <link refid="_ini_fix_builder_data_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
-        <childnode refid="89" relation="include">
-        </childnode>
-      </node>
-      <node id="105">
-        <label>AGRemapCore/data/IniParseBuilderData.h</label>
-        <link refid="_ini_parse_builder_data_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="107">
+        <label>AGRemapCore/data/IniParseBuilderData.h</label>
+        <link refid="_ini_parse_builder_data_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
+        </childnode>
+      </node>
+      <node id="108">
         <label>AGRemapCore/data/IniRemoveBuilderData.h</label>
         <link refid="_ini_remove_builder_data_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
       <node id="35">
@@ -568,15 +568,15 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
-        </childnode>
-        <childnode refid="86" relation="include">
-        </childnode>
         <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="87" relation="include">
         </childnode>
         <childnode refid="91" relation="include">
         </childnode>
         <childnode refid="92" relation="include">
+        </childnode>
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -592,10 +592,12 @@
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="89" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="90">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="11" relation="include">
@@ -620,6 +622,10 @@
         </childnode>
       </node>
       <node id="86">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+      </node>
+      <node id="87">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="11" relation="include">
@@ -630,10 +636,10 @@
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="91">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="11" relation="include">
@@ -648,20 +654,26 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
-        </childnode>
-      </node>
-      <node id="91">
-        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
-        <link refid="_base_ini_remover_8h"/>
-        <childnode refid="5" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
       <node id="92">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
+        </childnode>
+      </node>
+      <node id="93">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
+        <link refid="_ini_removal_context_8h"/>
+      </node>
+      <node id="94">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -670,13 +682,11 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
       </node>
       <node id="45">
@@ -691,7 +701,7 @@
         <childnode refid="47" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="100">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="8" relation="include">
@@ -702,7 +712,7 @@
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
       </node>
       <node id="80">
@@ -737,12 +747,12 @@
         <childnode refid="48" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="102">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
       <node id="41">
@@ -903,24 +913,24 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="95">
+      <node id="97">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="52" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="96">
+      <node id="98">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
@@ -938,13 +948,13 @@
         </childnode>
         <childnode refid="34" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="41" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
       <node id="70">
@@ -968,17 +978,17 @@
         <link refid="_g_i_builder_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
-        </childnode>
-        <childnode refid="103" relation="include">
-        </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="107" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -990,13 +1000,13 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
-        </childnode>
-        <childnode refid="86" relation="include">
-        </childnode>
         <childnode refid="90" relation="include">
         </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
         <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
         </childnode>
       </node>
       <node id="83">
@@ -1098,7 +1108,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="97">
+      <node id="99">
         <label>string_view</label>
       </node>
       <node id="29">
@@ -1194,14 +1204,14 @@
 <codeline lineno="57"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>The<sp/>remove-side<sp/>counterpart,<sp/>over<sp/>IniRemoveBuilderData&apos;s<sp/>table.</highlight></codeline>
 <codeline lineno="58"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
 <codeline lineno="59"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Unlike<sp/>the<sp/>other<sp/>two<sp/>this<sp/>has<sp/>no<sp/>pure-Python<sp/>equivalent<sp/>--<sp/>the<sp/>original<sp/>hands<sp/>every<sp/>mod</highlight></codeline>
-<codeline lineno="60"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>type<sp/>the<sp/>single<sp/>global<sp/>IniRemoveBuilder(IniRemover)<sp/>instead<sp/>(which<sp/>is<sp/>still<sp/>what</highlight></codeline>
+<codeline lineno="60"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>type<sp/>the<sp/>single<sp/>global<sp/>IniRemoveBuilder(RemapIniRemover)<sp/>instead<sp/>(which<sp/>is<sp/>still<sp/>what</highlight></codeline>
 <codeline lineno="61"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>ModType&apos;s<sp/>own<sp/>null-fallback<sp/>supplies,<sp/>see<sp/>GlobalIniRemoveBuilders).<sp/>Using<sp/>a<sp/>table<sp/>here<sp/>is</highlight></codeline>
 <codeline lineno="62"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>a<sp/>deliberate<sp/>extension<sp/>so<sp/>a<sp/>per-mod<sp/>remover<sp/>can<sp/>be<sp/>expressed<sp/>when<sp/>one<sp/>exists;<sp/>every<sp/>row</highlight></codeline>
 <codeline lineno="63"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>is<sp/>a<sp/>stub<sp/>today,<sp/>so<sp/>behaviour<sp/>is<sp/>identical<sp/>to<sp/>the<sp/>global<sp/>builder&apos;s.</highlight></codeline>
 <codeline lineno="64"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
-<codeline lineno="65"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Note<sp/>this<sp/>is<sp/>a<sp/>*different*<sp/>builder<sp/>instance<sp/>from<sp/>GlobalIniRemoveBuilders::removeBuilder(),</highlight></codeline>
-<codeline lineno="66"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>and<sp/>therefore<sp/>has<sp/>its<sp/>own<sp/>flyweight<sp/>cache<sp/>--<sp/>deliberate,<sp/>since<sp/>a<sp/>table-backed<sp/>builder</highlight></codeline>
-<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>caches<sp/>per<sp/>mod<sp/>name<sp/>while<sp/>the<sp/>global<sp/>one<sp/>caches<sp/>under<sp/>a<sp/>single<sp/>id.</highlight></codeline>
+<codeline lineno="65"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Note<sp/>this<sp/>is<sp/>a<sp/>*different*<sp/>builder<sp/>instance<sp/>from<sp/>GlobalIniRemoveBuilders::removeBuilder():</highlight></codeline>
+<codeline lineno="66"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>that<sp/>one<sp/>is<sp/>the<sp/>fixed-factory<sp/>flavour,<sp/>this<sp/>one<sp/>is<sp/>table-backed.<sp/>Neither<sp/>caches,<sp/>so<sp/>the</highlight></codeline>
+<codeline lineno="67"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>only<sp/>difference<sp/>between<sp/>them<sp/>is<sp/>which<sp/>factory<sp/>a<sp/>given<sp/>mod<sp/>name<sp/>resolves<sp/>to.</highlight></codeline>
 <codeline lineno="68"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IniRemoveBuilder&gt;&amp;<sp/>giIniRemoveBuilder()<sp/>{</highlight></codeline>
 <codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;IniRemoveBuilder&gt;<sp/>builder<sp/>=</highlight></codeline>

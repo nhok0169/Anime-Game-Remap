@@ -6,6 +6,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h"
@@ -101,9 +102,30 @@ namespace AGRemapCore {
             virtual void setFileTxt(std::string txt) = 0;
 
             /**
-             * @brief Comments out the `sections`_ of the original mod (``ini.hideOriginalSections()``)
+             * @brief
+             @rst
+             Comments out the original mod's `sections`_ so only the remapped mod is displayed
+             (``ini.hideOriginalSections()``) :raw-html:`<br />` :raw-html:`<br />`
+
+             Which `sections`_ those are is the *fixer's* answer, not the ``.ini`` file's: they are
+             the ones the fix it just built actually touched. The pure-Python original splits the
+             same two halves across two objects -- its ``GIMIFixer`` fills the ``.ini`` file's
+             ``_remappedSectionNames`` as it renders, and ``ini.hideOriginalSections()`` then
+             comments out whatever ended up in there -- so an implementation of this that forwards
+             to a `Python`_ ``IniFile`` fills that set first
+
+             :raw-html:`<br />`
+
+             .. note::
+                'sectionNames' never holds a resource `section`_, only the ``run =`` command chains
+                the fix replaces. That is deliberate and load-bearing: a fix can carry a register
+                over verbatim, pointing at one of the original mod's own resource `sections`_, and
+                commenting that out would break the very fix this is protecting
+             @endrst
+             *
+             * @param sectionNames The names of the `sections`_ to comment out
              */
-            virtual void hideOriginalSections() = 0;
+            virtual void hideOriginalSections(const std::unordered_set<std::string>& sectionNames) = 0;
 
             /**
              * @brief Disables the existing ``.ini`` file, keeping it as a backup (``ini.disIni()``)

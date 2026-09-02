@@ -72,7 +72,7 @@ from .test_IfTemplateTree import IfTemplateTreeTest
 from .test_IniClassifier import IniClassifierTest
 from .test_IniFile import IniFileTest
 from .test_IniFixResourceModel import IniFixResourceModelTest
-from .test_IniRemover import IniRemoverTest
+from .test_RemapIniRemover import RemapIniRemoverTest
 from .test_IniSectionGraph import IniSectionGraphTest
 from .test_IntTools import IntToolsTest
 from .test_ListTools import ListToolsTest
@@ -140,7 +140,7 @@ from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest"]
-__all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "IniRemoverTest"]
+__all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest"]
 __all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]

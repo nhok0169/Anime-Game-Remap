@@ -58,12 +58,18 @@ inline AGRemapCore::CachedFileStats toCppCachedFileStats(const PyCachedFileStats
     return result;
 }
 
+// The two classes carry exactly the same members again: the eight file kinds
+// RemapIniRemover::classifyResource sorts a removed resource into, plus 'ini'. The 'mod' member both
+// used to have (a mod-FOLDER fixed/skipped tally, never a file kind) is gone from both sides.
+
 inline AGRemapCore::RemapStats toCppRemapStats(const PyRemapStats &py) {
     AGRemapCore::RemapStats result;
     result.blend = toCppFileStats(py.blend);
     result.position = toCppFileStats(py.position);
+    result.texcoord = toCppFileStats(py.texcoord);
+    result.buf = toCppFileStats(py.buf);
+    result.other = toCppFileStats(py.other);
     result.ini = toCppFileStats(py.ini);
-    result.mod = toCppFileStats(py.mod);
     result.texEdit = toCppFileStats(py.texEdit);
     result.texAdd = toCppFileStats(py.texAdd);
     result.download = toCppCachedFileStats(py.download);
@@ -85,8 +91,10 @@ inline void copyBackCachedFileStats(const AGRemapCore::CachedFileStats &src, PyC
 inline void copyBackRemapStats(const AGRemapCore::RemapStats &src, PyRemapStats &dst) {
     copyBackFileStats(src.blend, dst.blend);
     copyBackFileStats(src.position, dst.position);
+    copyBackFileStats(src.texcoord, dst.texcoord);
+    copyBackFileStats(src.buf, dst.buf);
+    copyBackFileStats(src.other, dst.other);
     copyBackFileStats(src.ini, dst.ini);
-    copyBackFileStats(src.mod, dst.mod);
     copyBackFileStats(src.texEdit, dst.texEdit);
     copyBackFileStats(src.texAdd, dst.texAdd);
     copyBackCachedFileStats(src.download, dst.download);

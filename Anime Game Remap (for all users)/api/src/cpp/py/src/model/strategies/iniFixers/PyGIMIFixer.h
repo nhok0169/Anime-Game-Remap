@@ -5,6 +5,7 @@
 #include <memory>
 #include <optional>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include <pybind11/pybind11.h>
@@ -35,18 +36,23 @@ namespace AGRC = AGRemapCore;
  :raw-html:`<br />`
 
  .. note::
-    ``addFixBoilerPlate`` is the one method here that does **not** forward to `Python`_. Its base is
-    :cpp:class:`AGRemapCore::RemapIniFixContext` rather than :cpp:class:`AGRemapCore::IniFixContext`
-    itself, and the inherited C++ implementation is the one that runs -- the boilerplate a fix is
-    wrapped in is now owned by `AGRemapCore`, not by the `Python`_ ``IniFile``. It is the same text
-    to the byte either way (:cpp:class:`RemapIniFixContext`'s own tests pin that against output
-    captured from the `Python`_ original), and #modTypeName is what feeds it the name
+    ``addFixBoilerPlate`` and ``hideOriginalSections`` are the two methods here that do **not**
+    forward to `Python`_. This class's base is :cpp:class:`AGRemapCore::RemapIniFixContext` rather
+    than :cpp:class:`AGRemapCore::IniFixContext` itself, and those two inherited C++
+    implementations are the ones that run -- the boilerplate a fix is wrapped in, and the
+    commenting-out of the mod it replaces, belong to `AGRemapCore` now rather than to the `Python`_
+    ``IniFile``. Both produce what the `Python`_ original did, to the byte: #modTypeName feeds the
+    first, and the second reaches the ``.ini`` file only through #fileTxt/#setFileTxt, which do
+    still forward
 
     :raw-html:`<br />`
 
-    ``IniFile.addFixBoilerPlate`` itself stays -- the still-pure-Python ``MultiModFixer`` calls it
-    directly -- but an ``IniFile`` subclass that overrides it no longer changes what a
-    :cpp:class:`GIMIFixer` writes
+    ``IniFile.addFixBoilerPlate``/``IniFile.hideOriginalSections`` themselves stay -- the
+    still-pure-Python ``MultiModFixer`` and the deprecated ``GIMIObj*Fixer``\s call them directly
+    -- but an ``IniFile`` subclass that overrides either no longer changes what a
+    :cpp:class:`GIMIFixer` writes. Nothing fills the ``.ini`` file's own ``_remappedSectionNames``
+    any more either: which `sections`_ to hide is
+    :cpp:func:`AGRemapCore::GIMIFixer::touchedSectionNames`'s answer, handed straight to the context
  @endrst
  */
 class PyIniFixContext: public AGRC::RemapIniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
@@ -73,7 +79,6 @@ class PyIniFixContext: public AGRC::RemapIniFixContext<py::object, py::object, P
         bool fixedFileExists() const override;
         std::string fileTxt() const override;
         void setFileTxt(std::string txt) override;
-        void hideOriginalSections() override;
         void disableIni() override;
         void log(const std::string &message) override;
         void writeFixedFile(const std::string &path, const std::string &content) override;
@@ -176,7 +181,7 @@ class PyGIMIFixer: public PyGIMIFixerCore {
 
         FixTargets getFix(ParseData &parseData, bool onlyEditObjGraphs) override;
         void applyGraphGroupEdits(const std::string &modName) override;
-        py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig) override;
+        py::object fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRC::IniFixingContext fixingCtx) override;
 };
 
 

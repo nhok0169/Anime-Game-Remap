@@ -31,6 +31,8 @@
 // -----------------------------------------------------------------------------
 
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 
@@ -40,6 +42,7 @@
 #include <optional>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -128,7 +131,16 @@ class TestIniFixContext: public RemapIniFixContext<std::string, std::string> {
         bool fixedFileExists() const override { return existsOnDisk; }
         std::string fileTxt() const override { return txt; }
         void setFileTxt(std::string newTxt) override { txt = std::move(newTxt); }
-        void hideOriginalSections() override { hidOriginalSections = true; txt = "; hidden\n"; }
+        std::unordered_set<std::string> hiddenSectionNames;
+
+        // Records, then hands over to RemapIniFixContext's own implementation -- the commenting is
+        // core's job now, and this test asserts on what that produced rather than on a stand-in.
+        void hideOriginalSections(const std::unordered_set<std::string>& sectionNames) override {
+            hidOriginalSections = true;
+            hiddenSectionNames = sectionNames;
+            RemapIniFixContext<std::string, std::string>::hideOriginalSections(sectionNames);
+        }
+
         void disableIni() override { disabledIni = true; }
         void log(const std::string& message) override { logs.push_back(message); }
 
@@ -176,13 +188,21 @@ GIMIFixer<>::FixerConfig fixerConfig() {
 }
 
 
-// One group holding two named, empty-ish graphs -- stands in for what GIMIParser::parse hands back.
+// How many graphs makeParsedGroup puts in its group. Named so the assertions that just count them
+// don't have to be edited every time a case is added below.
+constexpr std::size_t parsedGraphCount = 4;
+
+
+// One group holding four named, empty-ish graphs -- stands in for what GIMIParser::parse hands back.
 Group makeParsedGroup(TestIniFixContext& ctx, Z3Context& z3Ctx,
                        std::vector<std::unique_ptr<Section>>& sectionStorage) {
     (void)ctx;
     Group group;
 
-    for (const ModObj& modObj : {ModObj("", "blend"), ModObj(IniGraphModObjKeywords::Download, "testPosition")}) {
+    // 'blend' is the original mod's own; the Download one and the two carrying the 'remap'
+    // keyword are all things this software wrote, and must never be hidden.
+    for (const ModObj& modObj : {ModObj("", "blend"), ModObj(IniGraphModObjKeywords::Download, "testPosition"),
+                                  ModObj("", "blendRemapBlend"), ModObj("someRemapComp", "texcoord")}) {
         std::string sectionName = "TextureOverride" + modObj.second;
         sectionStorage.push_back(makeSection(sectionName, {{"vb1", "ResourceFoo"}}, &z3Ctx));
 
@@ -243,7 +263,7 @@ void testGetFix() {
     GIMIFixer<>::FixTargets targets = fixer.getFix(parseData, false);
 
     check(fixer.graphGroups() != nullptr && fixer.graphGroups()->size() == 1, "getFix builds exactly one group");
-    check(fixer.graphGroups()->graphCount(0) == 2, "the group holds every graph the parse data had");
+    check(fixer.graphGroups()->graphCount(0) == parsedGraphCount, "the group holds every graph the parse data had");
     check(fixer.graphGroups()->getGraph(0, ModObj("", "blend")) != parseData[0].getGraph(ModObj("", "blend")),
           "the fixer's graphs are copies, so editing them leaves the parse data alone");
     check(fixer.graphGroups()->getGraph(0, ModObj(IniGraphModObjKeywords::Download, "testPosition")) != nullptr,
@@ -290,7 +310,7 @@ void testPrevFixer() {
 
     check(prevEdit.calls == std::vector<std::string>{"Raiden"}, "the previous fixer runs its own edit pass first");
     check(ownEdit.calls == std::vector<std::string>{"Raiden"}, "this fixer then runs its own over the same groups");
-    check(fixer.graphGroups() != nullptr && fixer.graphGroups()->graphCount(0) == 2,
+    check(fixer.graphGroups() != nullptr && fixer.graphGroups()->graphCount(0) == parsedGraphCount,
           "this fixer ends up holding the groups");
     check(prev.graphGroups() == nullptr, "the previous fixer is left empty after handing them over");
 }
@@ -357,7 +377,7 @@ class BoilerPlateCtx: public RemapIniFixContext<std::string, std::string> {
         bool fixedFileExists() const override { return false; }
         std::string fileTxt() const override { return ""; }
         void setFileTxt(std::string) override {}
-        void hideOriginalSections() override {}
+        void hideOriginalSections(const std::unordered_set<std::string>&) override {}
         void disableIni() override {}
         void log(const std::string&) override {}
         void writeFixedFile(const std::string&, const std::string&) override {}
@@ -371,8 +391,8 @@ void testRemapBoilerPlate() {
 
     // The three expected strings below are what the real pure-Python IniFile.addFixBoilerPlate
     // produces for the same three mod type names -- captured from it, not written by hand. This is
-    // the whole point of the class: a fix a plain C++ caller writes has to be one the still-
-    // pure-Python IniRemover can find again, and that means matching to the byte.
+    // the whole point of the class: a fix a plain C++ caller writes has to be one
+    // RemapIniRemover can find again, and that means matching to the byte.
     BoilerPlateCtx named;
     named.typeName = "Raiden";
     check(named.addFixBoilerPlate("FIXBODY") == "; --------------- Raiden Remap ---------------\n; Raiden remapped by Albert Gold#2696 and NK#1321. If you used it to remap your Raiden mods pls give credit for \"Albert Gold#2696\" and \"Nhok0169\"\n; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support\n\nFIXBODY\n\n; --------------------------------------------",
@@ -444,15 +464,83 @@ void testFixHideOrigAndBackup() {
     GIMIFixer<>::ParseData parseData;
     parseData.push_back(makeParsedGroup(ctx, z3Ctx, sections));
 
+    // The two sections makeParsedGroup builds graphs for, as the .ini file would really hold
+    // them: one a mod object's command chain, one a download resource.
+    ctx.txt = "[TextureOverrideblend]\nvb1 = ResourceFoo\n\n[TextureOverridetestPosition]\nvb0 = ResourceBar\n";
     std::string originalTxt = ctx.txt;
+
     GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
 
     fixer.fix(parseData, true, true, true);
 
     check(ctx.hidOriginalSections, "hideOrig comments out the original sections");
-    check(ctx.txt == originalTxt, "and the .ini file's own text is put back afterwards");
+    check(ctx.hiddenSectionNames == std::unordered_set<std::string>{"TextureOverrideblend"},
+          "and hides exactly the sections the fix touched -- the command graphs' own");
+    check(ctx.hiddenSectionNames.count("TextureOverridetestPosition") == 0,
+          "a download resource graph's sections are not hidden -- the fix still points at them");
+    check(ctx.hiddenSectionNames.count("TextureOverrideblendRemapBlend") == 0,
+          "nor are a mod object's whose object name carries the 'remap' keyword");
+    check(ctx.hiddenSectionNames.count("TextureOverridetexcoord") == 0,
+          "nor one whose *component* name carries it -- either half counts");
+
+    const std::string& hidden = fixer.fixedContents().empty() ? ctx.txt : ctx.written.at(ctx.path);
+    check(hidden.find(IniKeywords::HideOriginalComment + "[TextureOverrideblend]") != std::string::npos,
+          "the original mod's own section really is commented out in what was written");
+    check(hidden.find("\n[TextureOverridetestPosition]") != std::string::npos,
+          "and the resource section it points at is left alone");
+
+    check(ctx.txt == originalTxt, "the .ini file's own text is put back afterwards");
     check(ctx.disabledIni, "keepBackup + fixOnly over an existing file disables the old one first");
     check(!ctx.logs.empty(), "and says so in the log");
+
+    // Several fixers chain over one .ini file, and only the last mod type's may rewrite it -- see
+    // IniFixingContext::isLastModType.
+    TestIniFixContext notLastCtx;
+    notLastCtx.txt = ctx.txt;
+    std::vector<std::unique_ptr<Section>> notLastSections;
+
+    GIMIFixer<>::ParseData notLastParseData;
+    notLastParseData.push_back(makeParsedGroup(notLastCtx, z3Ctx, notLastSections));
+
+    GIMIFixer<> notLastFixer(nullptr, &notLastCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+    notLastCtx.existsOnDisk = true;
+    notLastFixer.fix(notLastParseData, true, true, true, IniFixingContext(false, false));
+
+    check(!notLastCtx.hidOriginalSections, "a fixer told it isn't the last mod type doesn't hide at all");
+    check(notLastCtx.written.at(notLastCtx.path).find(IniKeywords::HideOriginalComment) == std::string::npos,
+          "so nothing it wrote is commented out");
+    check(notLastCtx.written.at(notLastCtx.path).find("[TextureOverrideblend]") != std::string::npos,
+          "and it still writes its own fix");
+
+    // The mirror image: the backup belongs to whichever mod type goes first, so a later one must
+    // not move the .ini file aside a second time -- see IniFixingContext::isFirstModType.
+    check(!notLastCtx.disabledIni, "and a fixer told it isn't the first mod type takes no backup");
+
+    TestIniFixContext firstCtx;
+    firstCtx.existsOnDisk = true;
+    std::vector<std::unique_ptr<Section>> firstSections;
+
+    GIMIFixer<>::ParseData firstParseData;
+    firstParseData.push_back(makeParsedGroup(firstCtx, z3Ctx, firstSections));
+
+    GIMIFixer<> firstFixer(nullptr, &firstCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+    firstFixer.fix(firstParseData, true, true, true, IniFixingContext(true, false));
+
+    check(firstCtx.disabledIni, "the first mod type's fixer does take it...");
+    check(!firstCtx.hidOriginalSections, "...and still doesn't hide, not being the last");
+
+    // The condition the flag gates is otherwise the pure-Python original's, untouched.
+    TestIniFixContext noFixOnlyCtx;
+    noFixOnlyCtx.existsOnDisk = true;
+    std::vector<std::unique_ptr<Section>> noFixOnlySections;
+
+    GIMIFixer<>::ParseData noFixOnlyParseData;
+    noFixOnlyParseData.push_back(makeParsedGroup(noFixOnlyCtx, z3Ctx, noFixOnlySections));
+
+    GIMIFixer<> noFixOnlyFixer(nullptr, &noFixOnlyCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+    noFixOnlyFixer.fix(noFixOnlyParseData, true, false, false, IniFixingContext(true, true));
+
+    check(!noFixOnlyCtx.disabledIni, "being first is not enough on its own -- fixOnly still has to be on");
 }
 
 }

@@ -74,6 +74,10 @@ pybind11_add_module(core
     src/model/strategies/iniParsers/PyGIMIParser.cpp
     src/model/strategies/iniFixers/PyBaseIniFixer.cpp
     src/model/strategies/iniFixers/PyGIMIFixer.cpp
+    src/model/strategies/iniRemovers/PyBaseIniRemover.cpp
+    src/model/strategies/iniFixers/PyIniFixingContext.cpp
+    src/model/strategies/iniRemovers/PyIniRemovalContext.cpp
+    src/model/strategies/iniRemovers/PyRemapIniRemover.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
     src/tools/hashing/PyHashTools.cpp

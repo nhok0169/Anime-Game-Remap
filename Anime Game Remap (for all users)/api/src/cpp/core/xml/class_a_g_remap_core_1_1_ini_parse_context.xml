@@ -113,6 +113,7 @@ the same type, so one hasher genuinely serves both
         <argsstring>() const =0</argsstring>
         <name>hasIni</name>
         <qualifiedname>AGRemapCore::IniParseContext::hasIni</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a3e46dcd39e3dd14e777ed02b0a1017c6">hasIni</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -133,6 +134,7 @@ Whether there is a real ``.ini`` file behind this context :raw-html:`&lt;br /&gt
         <argsstring>() const =0</argsstring>
         <name>iniFolder</name>
         <qualifiedname>AGRemapCore::IniParseContext::iniFolder</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1aceddecc7c13839b2f6bdec90e8bddc98">iniFolder</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -151,6 +153,7 @@ The folder the ``.ini`` file lives in (the equivalent of the pure-Python origina
         <argsstring>() const =0</argsstring>
         <name>version</name>
         <qualifiedname>AGRemapCore::IniParseContext::version</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1af67ea7f7e261510b817949918cb750bf">version</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -169,6 +172,7 @@ The game version the ``.ini`` file was written for (``ini.version``), or
         <argsstring>() const =0</argsstring>
         <name>downloadMode</name>
         <qualifiedname>AGRemapCore::IniParseContext::downloadMode</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab8fa6ae22665e6cebfea181b09b6096c">downloadMode</reimplementedby>
         <briefdescription>
 <para>The <computeroutput>.ini</computeroutput> file&apos;s download policy (<computeroutput>ini.downloadMode</computeroutput>). </para>
         </briefdescription>
@@ -184,6 +188,7 @@ The game version the ``.ini`` file was written for (``ini.version``), or
         <argsstring>() const =0</argsstring>
         <name>z3Ctx</name>
         <qualifiedname>AGRemapCore::IniParseContext::z3Ctx</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a1976ab06871ea3d80ec89ecfc8e9a7a7">z3Ctx</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -205,6 +210,7 @@ There is deliberately one context per ``.ini`` file, not one per
         <argsstring>() const =0</argsstring>
         <name>sectionIfTemplates</name>
         <qualifiedname>AGRemapCore::IniParseContext::sectionIfTemplates</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a78e865c8fc0679154578bf60b59c6b52">sectionIfTemplates</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -223,6 +229,7 @@ the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
         <argsstring>() const =0</argsstring>
         <name>sectionNames</name>
         <qualifiedname>AGRemapCore::IniParseContext::sectionNames</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5d06f9ec667c0984b524336189bbdf5b">sectionNames</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -247,6 +254,7 @@ target list, and the rendered output of every graph built from it inherits that 
         <argsstring>(const std::string &amp;name) const =0</argsstring>
         <name>getSection</name>
         <qualifiedname>AGRemapCore::IniParseContext::getSection</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2b4c1031067a6822716243f699b29978">getSection</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -325,6 +333,7 @@ until the `section`_ is replaced or removed
         <argsstring>(const std::string &amp;name)=0</argsstring>
         <name>removeSection</name>
         <qualifiedname>AGRemapCore::IniParseContext::removeSection</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1adb9dc7a146225cd8cf86e6761da104c9">removeSection</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>name</declname>
@@ -354,6 +363,7 @@ until the `section`_ is replaced or removed
         <argsstring>(std::unique_ptr&lt; IniResource &gt; download)=0</argsstring>
         <name>addFileDownload</name>
         <qualifiedname>AGRemapCore::IniParseContext::addFileDownload</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac3adfc1a8a735f247dba16754998a358">addFileDownload</reimplementedby>
         <param>
           <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt;</type>
           <declname>download</declname>
@@ -386,6 +396,7 @@ pure-Python original&apos;s ``ini.fileDownloads.append(...)``
         <argsstring>() const =0</argsstring>
         <name>hasModType</name>
         <qualifiedname>AGRemapCore::IniParseContext::hasModType</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1aaa0d1ad9555cb15c313d7ea9c568c57c">hasModType</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -404,6 +415,7 @@ is not None``)
         <argsstring>() const =0</argsstring>
         <name>modTypeName</name>
         <qualifiedname>AGRemapCore::IniParseContext::modTypeName</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2ce12d1033f69de0cbe5710af63aca3f">modTypeName</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -424,6 +436,7 @@ pure-Python original&apos;s own
         <argsstring>() const =0</argsstring>
         <name>modTypeHashes</name>
         <qualifiedname>AGRemapCore::IniParseContext::modTypeHashes</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2be7baa85470498766aa68d5a77b965c">modTypeHashes</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -442,6 +455,7 @@ The mod type&apos;s ``hash`` assets (``ini.availableType.hashes``), or ``nullptr
         <argsstring>() const =0</argsstring>
         <name>modTypeIndices</name>
         <qualifiedname>AGRemapCore::IniParseContext::modTypeIndices</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab123a80a89cc09c638c0a0242bb4ba9f">modTypeIndices</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -460,6 +474,7 @@ The mod type&apos;s ``match_first_index`` assets (``ini.availableType.indices``)
         <argsstring>()=0</argsstring>
         <name>graphGroups</name>
         <qualifiedname>AGRemapCore::IniParseContext::graphGroups</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a43682ba1db942be5c28d7321f2d11ae9">graphGroups</reimplementedby>
         <briefdescription>
         </briefdescription>
         <detaileddescription>

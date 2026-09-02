@@ -13,6 +13,7 @@
 
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/model/IniGraphGroup.h"
+#include "AGRemapCore/model/iniresources/IniResource.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -22,6 +23,7 @@
 
 namespace AGRemapCore {
 
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     class BaseIniRemover;
 
     /**
@@ -315,6 +317,102 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Replaces the text content of the ``.ini`` file, re-splitting it into #getFileLines
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The split is the same one `Python`_'s ``str.splitlines(keepends = True)`` does --
+             every resulting line keeps its own trailing newline, except possibly the last one if
+             'txt' does not end with one :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                In-memory only -- nothing reaches disk until #write is called. This is deliberately
+                the *text* counterpart of #readFileLines rather than a full invalidation: the
+                parsed `sections`_ (#getIfTemplates) and the classification results are **not**
+                recomputed, so a caller that rewrites the text and then wants either of those
+                refreshed has to ask for it (#getIfTemplates with ``flush = true``, or #clear)
+
+             .. note::
+                Public specifically so a :cpp:class:`BaseIniRemover` can hand back the text it
+                stripped a fix out of -- see :cpp:func:`RemapIniRemover::remove`. Unlike a fixer (which
+                writes *new* files and reaches the ``.ini`` file through
+                :cpp:class:`IniFixContext`), a remover edits the one file it was handed, in place,
+                and :cpp:class:`BaseIniRemover` holds that file directly
+             @endrst
+             *
+             * @param txt The new text content of the .ini file
+             */
+            void setFileTxt(std::string txt);
+
+            /**
+             * @brief
+             @rst
+             Writes the ``.ini`` file's text content back to disk -- the C++ counterpart of the
+             pure-Python ``IniFile.write`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Mirrors that original's three-way behaviour exactly:
+
+             #. A ``.ini`` file with no path (#getFile is ``std::nullopt``) writes nothing. If 'txt'
+                was given it becomes the new #getFileTxt first (via #setFileTxt); either way the
+                current #getFileTxt is what comes back
+             #. Otherwise ``txt`` -- or #getFileTxt when 'txt' is ``std::nullopt`` -- is written to
+                #getFile and returned
+             #. Note the asymmetry, which is the original's and is kept on purpose: writing an
+                explicit 'txt' to a ``.ini`` file that *has* a path does **not** update #getFileTxt,
+                only the file on disk
+             @endrst
+             *
+             * @param txt The text to write. **Default**: ``std::nullopt``, meaning #getFileTxt
+             *
+             * @return The text that was written to the .ini file
+             *
+             * @throws std::runtime_error if #getFile holds a file path that cannot be opened for writing
+             */
+            std::string write(std::optional<std::string> txt = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             Whether 'line' looks like a ``[SectionName]`` header -- after skipping leading
+             whitespace, starts with ``[`` and has a ``]`` somewhere after it :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Mirrors the pure-Python original's own ``_sectionPattern``
+             (``re.compile(r"^\s*\[.*\]")``) :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Public because it is the *definition* of a `section`_ boundary this class parses by,
+                and a :cpp:class:`BaseIniRemover` deleting `sections`_ out of #getFileLines has to
+                cut on exactly the same boundaries #getIfTemplates was built from -- see
+                :cpp:func:`RemapIniRemover::remove`. Re-deriving it there would be a silent correctness
+                coupling waiting to drift
+             @endrst
+             *
+             * @param line The line to test
+             */
+            static bool isSectionHeaderLine(const std::string& line);
+
+            /**
+             * @brief
+             @rst
+             Extracts the `section`_ name out of a ``[SectionName]`` header line -- the substring
+             between the first ``[`` and the last ``]``, trimmed of surrounding whitespace
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Falls back to a partial extraction when only one bracket is present, and to the whole
+             trimmed line when neither is. Mirrors the deprecated pure-Python
+             ``IniClassifierOld.getSectionName`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Public for the same reason as #isSectionHeaderLine -- the name this returns is the key
+             #getIfTemplates files that `section`_ under
+             @endrst
+             *
+             * @param line The header line to read the name out of
+             */
+            static std::string getSectionNameFromLine(const std::string& line);
+
+            /**
+             * @brief
+             @rst
              Classifies the .ini file, determining #isMod, #isFixed, and #modTypes -- reads the
              .ini file first via #readFileLines if it hasn't been read yet (same "read on first use"
              behavior as the pure-Python original's own ``classify``) :raw-html:`<br />`
@@ -373,14 +471,102 @@ namespace AGRemapCore {
              *
              * @return The parsed :cpp:class:`IfTemplate`\\s, keyed by `section`_ name
              */
-            const std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& getIfTemplates(bool flush = false);
+            const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& getIfTemplates(bool flush = false);
+
+            /**
+             * @brief
+             @rst
+             The name of every `section`_, in the order the ``.ini`` file declared them
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             That order is load-bearing rather than cosmetic -- see
+             :cpp:func:`IniParseContext::sectionNames`, which this answers. It is also why
+             #getIfTemplates is a ``tsl::ordered_map`` and not an ``std::unordered_map``: the
+             pure-Python original gets the same guarantee for free from ``ini.sectionIfTemplates``
+             being a `Python`_ ``dict``
+
+             :raw-html:`<br />`
+
+             .. note::
+                Reads the ``.ini`` file if it has not been read yet, exactly as #getIfTemplates does
+             @endrst
+             */
+            std::vector<std::string> getSectionNames();
+
+            /**
+             * @brief The `section`_ named 'name', or ``nullptr`` when there is none
+             *
+             * @param name The name to look up
+             */
+            IfTemplate<std::string, std::string>* getSection(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             Adds a `section`_, replacing any already stored under 'name' :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             This file takes ownership; the returned pointer is borrowed and stays valid until the
+             `section`_ is replaced or removed. A *new* name is appended to the declaration order
+             #getSectionNames reports, which is what a parser synthesizing a `section`_ needs
+             @endrst
+             *
+             * @param name The name to store it under
+             * @param section The `section`_ to add
+             *
+             * @return The added `section`_
+             */
+            IfTemplate<std::string, std::string>* addSection(const std::string& name,
+                                                              std::unique_ptr<IfTemplate<std::string, std::string>> section);
+
+            /**
+             * @brief Removes the `section`_ named 'name', if there is one
+             *
+             * @param name The name to remove
+             */
+            void removeSection(const std::string& name);
+
+            /**
+             * @brief
+             @rst
+             Every file download recorded for this ``.ini`` file -- the equivalent of the
+             pure-Python original's ``ini.fileDownloads``, and **owned** here :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Filled by a parser through :cpp:func:`IniParseContext::addFileDownload`. Emptied by
+             #clear, with the same danger #getResources carries
+             @endrst
+             */
+            const std::vector<std::unique_ptr<IniResource>>& getFileDownloads() const;
+
+            /**
+             * @copydoc getFileDownloads() const
+             */
+            std::vector<std::unique_ptr<IniResource>>& getFileDownloads();
+
+            /**
+             * @brief
+             @rst
+             Renames this ``.ini`` file aside as a backup, the way the pure-Python original's
+             ``ini.disIni()`` does :raw-html:`<br />` :raw-html:`<br />`
+
+             The file keeps its folder and gains the ``RemapBKUP`` prefix and a ``.txt`` extension,
+             so a mod loader stops seeing it as a ``.ini`` file at all. Does nothing when there is
+             no path, or nothing at that path
+             @endrst
+             *
+             * @param makeCopy Whether to leave a copy of the disabled file back at the original path. **Default**: ``false``
+             *
+             * @return Where the file was moved to, or ``std::nullopt`` if nothing was moved
+             */
+            std::optional<std::string> disableIni(bool makeCopy = false);
 
             /**
              * @brief Parses all the :cpp:class:`IfTemplate`\\s for the .ini file -- see #getIfTemplates for the cached version
              *
              * @return The parsed :cpp:class:`IfTemplate`\\s, keyed by `section`_ name
              */
-            const std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& readIfTemplates();
+            const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& readIfTemplates();
 
             /**
              * @brief
@@ -558,8 +744,7 @@ namespace AGRemapCore {
                 the analogue of the original's ``self._iniFixer`` -- a second #fix reuses the same
                 fixer rather than building another. Each is built already bound to this file's own
                 parser, so nothing is rebound and two :cpp:class:`IniFile`\\s of the same mod type
-                do not interfere -- unlike the removers, which are flyweights and *are* shared
-                (see #removeFix)
+                do not interfere
 
              .. note::
                 This classifies the file first if needed, so it can be called without a preceding
@@ -601,25 +786,36 @@ namespace AGRemapCore {
                 independent per-mod-type results
 
              .. note::
-                Also unlike #parse and #fix, the remover is **not** cached on this file. Its builder
-                is a flyweight that may hand the same instance to several :cpp:class:`IniFile`\\s and
-                only re-points it at the caller on each :cpp:func:`IniRemoveBuilder::build`, so
-                asking every time is what keeps the binding correct. This is a deliberate divergence
-                from the pure-Python original, which caches into ``self._iniRemover`` and can
-                therefore act through a remover another file has since rebound
+                Exactly one of those passes -- whichever runs **last** -- is given
+                :cpp:member:`IniRemovalContext::ignoreModType`, so it takes every `section`_ the fix
+                boilerplate surrounds and every ``Remap``-named leftover outside it, whether or not
+                it can be attributed to a mod type. Every earlier pass asks the strict question and
+                takes only what is provably its own. Without that final sweep, a leftover carrying no
+                usable ``hash`` would survive every pass -- see that member's own note. #getModTypes
+                is unordered, so *which* mod type draws the sweep is arbitrary; that only ever
+                matters if a caller is inspecting the removers rather than the file
 
              .. note::
-                :cpp:func:`BaseIniRemover::remove` returns ``""`` in its base (unported) form, so
-                this returns ``""`` too once any remover has run. It returns the file's current text
-                unchanged when nothing ran at all -- no mod types, or none with a remove builder
+                Unlike #parse and #fix, the remover is **not** cached on this file -- this asks
+                :cpp:func:`IniRemoveBuilder::build` for a fresh one on every call. Nothing here
+                needs it to survive the call (unlike a parser, whose parse data #fix reads back),
+                and a remover holds a non-owning :cpp:class:`IniFile` pointer, so not keeping one
+                is one fewer lifetime to reason about. The pure-Python original caches into
+                ``self._iniRemover`` instead, because its ``Mod`` reads
+                ``ini._iniRemover.getRemovedResources()`` back afterwards
 
              .. note::
-                Unlike the pure-Python original's ``_getRemover``, an **unclassified** ``.ini`` file
-                does not fall back to :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` here -- it
-                simply returns its text unchanged. That fallback exists only as
-                :cpp:class:`ModType`'s own null-default. Wire it in here too if the unclassified
-                case should really strip fixes, once a concrete C++ remover exists to make that
-                meaningful
+                An **unclassified** ``.ini`` file -- one with no #getModTypes at all -- falls back to
+                :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` for a single pass, which is what
+                the pure-Python original's ``_getRemover`` does in its own ``availableType is None``
+                branch. That pass is the only one, and so the last one, and so it sweeps
+
+             .. note::
+                That fallback is keyed on having no mod types, **not** on none of them offering a
+                remover. A :cpp:class:`ModType` whose :cpp:member:`ModType::iniRemoveBuilder` is
+                ``nullptr`` is saying it has nothing to contribute to a removal, and this takes it at
+                its word: a file whose every mod type says that is left untouched rather than swept
+                by the global remover
 
              .. note::
                 Reads the file first if it hasn't been read yet, which is what the pure-Python
@@ -632,6 +828,103 @@ namespace AGRemapCore {
              * @return The new content of the .ini file
              */
             std::string removeFix(bool parse = false, bool writeBack = true);
+
+            /**
+             * @brief
+             @rst
+             Every resource model built for this ``.ini`` file -- the equivalent of the pure-Python
+             original's ``ini.resources``, and **owned** here :raw-html:`<br />` :raw-html:`<br />`
+
+             Filled by a resource edit through :cpp:func:`IniResEditContext::storeResource`; see
+             :cpp:class:`IniFileResEditContext`, which is what puts them here. Nothing in this class
+             reads them back -- they are for the caller
+
+             :raw-html:`<br />`
+
+             .. danger::
+                #clear empties this, and a :cpp:class:`ResEdit` identifies models it has already
+                built by raw pointer. Clearing a ``.ini`` file mid-edit therefore dangles every one
+                of them. The pure-Python original has the same shape and gets away with it only
+                because `Python`_ refcounts
+             @endrst
+             */
+            const std::vector<std::unique_ptr<IniResource>>& getResources() const;
+
+            /**
+             * @copydoc getResources() const
+             */
+            std::vector<std::unique_ptr<IniResource>>& getResources();
+
+            /**
+             * @brief
+             @rst
+             The one `Z3`_ context this ``.ini`` file owns -- the equivalent of the pure-Python
+             original's ``ini._z3Ctx`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Never ``nullptr``, and the address is stable for this object's lifetime: #clear
+             *replaces the value* rather than reseating anything, so a context holding this pointer
+             stays valid across one (though every predicate built against the old contents does not)
+             @endrst
+             */
+            Z3Context* getZ3Ctx();
+
+            /**
+             * @brief
+             @rst
+             The folder the ``.ini`` file lives in, or an empty string when it has no path -- the
+             equivalent of the pure-Python original's ``ini.folder`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Derived from #getFile rather than stored. There is deliberately no ``FilePath`` object
+             in this class: ``ini.filePath.path`` is #getFile, and everything else the original's
+             ``FilePath`` offered is a ``std::filesystem`` call away
+             @endrst
+             */
+            std::string getFolder() const;
+
+            /**
+             * @brief
+             @rst
+             Whether the ``.ini`` file belongs to a mod, as of the last #classify (``ini.isModIni``)
+             @endrst
+             */
+            bool getIsMod() const;
+
+            /**
+             * @brief
+             @rst
+             Whether the ``.ini`` file has already been fixed (``ini._isFixed``)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             #classify owns this, and a fixer is not supposed to set it --
+             :cpp:func:`IniFixContext::setIsFixed` is a no-op in both of its implementations for
+             that reason. #setIsFixed exists only because the still-pure-Python ``MultiModFixer``
+             writes ``ini._isFixed`` directly while driving several fixers by hand
+             @endrst
+             */
+            bool getIsFixed() const;
+
+            /**
+             * @copydoc getIsFixed() const
+             *
+             * @param newIsFixed Whether the .ini file has been fixed
+             */
+            void setIsFixed(bool newIsFixed);
+
+            /**
+             * @brief
+             @rst
+             The one :cpp:class:`ModType` this ``.ini`` file was classified as, or ``nullptr`` when
+             it was classified as none -- the nearest equivalent of the pure-Python original's
+             ``ini.availableType`` :raw-html:`<br />` :raw-html:`<br />`
+
+             .. danger::
+                Unlike the original, an :cpp:class:`IniFile` here can hold **more than one** mod
+                type, and this returns the first in iteration order when it does. Use
+                #getModTypes whenever "all of them" is the right answer -- which it usually is, and
+                is why :cpp:func:`fix` iterates rather than asking this
+             @endrst
+             */
+            const ModType* getAvailableType() const;
 
         protected:
 
@@ -658,13 +951,15 @@ namespace AGRemapCore {
             std::unordered_map<int, ModType> modTypes;
 
         private:
+            std::vector<std::unique_ptr<IniResource>> resources_;
+            std::vector<std::unique_ptr<IniResource>> fileDownloads_;
+
             bool isClassified_ = false;
 
             // There is deliberately no parser_/fixer_ member: both are *built* per file, per mod
             // type, from the ModType's own builders, and this file owns the ones it built -- see
-            // builtParsers_/builtFixers_. Removers are the exception -- their builder is a
-            // flyweight that owns its own cache, so removeFix() asks it every time rather than
-            // caching here (see removeFix's doc comment).
+            // builtParsers_/builtFixers_. Removers are not cached at all -- removeFix() builds one
+            // per call and lets it go (see removeFix's doc comment).
             std::optional<ParseData> parseData_;
 
             // The parser built for each classified ModType, keyed the same way modTypes/parseData_
@@ -722,7 +1017,7 @@ namespace AGRemapCore {
             BaseIniClassifier* iniClassifier_;
 
             bool ifTemplatesRead_ = false;
-            std::unordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>> sectionIfTemplates_;
+            tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>> sectionIfTemplates_;
 
             // Shared by every IfTemplate #readIfTemplates produces -- see #getIfTemplates' own doc
             // comment for why this needs to be shared rather than one-fresh-context-per-section.
@@ -733,27 +1028,11 @@ namespace AGRemapCore {
             // result into fileTxt_/fileLines_/fileLinesRead_.
             void readFromDisk(const std::string& path);
 
-            // Splits 'txt' into lines the same way Python's str.splitlines(keepends = True) does --
-            // each returned line retains its own trailing "\n", except possibly the last line if
-            // 'txt' doesn't end with one. Stores the result into fileTxt_/fileLines_/fileLinesRead_.
-            void setFileTxt(std::string txt);
-
             // Resolves 'modTypeId' to an actual ModType -- overrideModTypes_ takes precedence,
             // falling back to the global registry (ModTypeIdTools::getModType) otherwise.
             // std::nullopt if 'modTypeId' isn't in overrideModTypes_ and isn't registered globally
             // either.
             std::optional<ModType> getModType(int modTypeId) const;
-
-            // Whether 'line' looks like a "[SectionName]" header -- after skipping leading
-            // whitespace, starts with '[' and has a ']' somewhere after it. Mirrors the pure-Python
-            // original's own '_sectionPattern' (re.compile(r"^\s*\[.*\]")).
-            static bool isSectionHeaderLine(const std::string& line);
-
-            // Extracts the section name from a "[SectionName]" header line -- the substring between
-            // the first '[' and the last ']' (falling back to a partial extraction if only one
-            // bracket is present, or the whole trimmed line if neither is), trimmed of surrounding
-            // whitespace. Mirrors the deprecated pure-Python IniClassifierOld.getSectionName.
-            static std::string getSectionNameFromLine(const std::string& line);
 
             // Whether 'line' looks like an if/elif/else/endif conditional line -- after skipping
             // leading whitespace, starts with one of those 4 keywords (case-sensitive, matching the

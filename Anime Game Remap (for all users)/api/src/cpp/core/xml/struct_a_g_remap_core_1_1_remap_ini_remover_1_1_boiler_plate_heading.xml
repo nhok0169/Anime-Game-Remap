@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapIniRemover::BoilerPlateHeading</compoundname>
+    <includes refid="_remap_ini_remover_8h" local="no">RemapIniRemover.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::BoilerPlateHeading::titleSuffix</definition>
+        <argsstring></argsstring>
+        <name>titleSuffix</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::BoilerPlateHeading::titleSuffix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What an opening line&apos;s title has to end with -- ``&quot;Remap&quot;`` for
+``IniBoilerPlate.DefaultHeading``&apos;s ``&quot;.*Remap&quot;``, ``&quot;Boss Fix&quot;`` for
+``OldHeading``&apos;s ``&quot;.*Boss Fix&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="228" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="228" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1adde8e0134635f9f97d84826d475877cf" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::BoilerPlateHeading::sideLen</definition>
+        <argsstring></argsstring>
+        <name>sideLen</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::BoilerPlateHeading::sideLen</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_boiler_plate_1a65e5438e4cac2949b11aa48155e1bf72" kindref="member">IniBoilerPlate::DefaultHeadingSideLen</ref></initializer>
+        <briefdescription>
+<para>How many characters one side of the heading&apos;s border has. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="233" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a8351b23d7eecffc3e3efa7ed47c11398" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::BoilerPlateHeading::sideChar</definition>
+        <argsstring></argsstring>
+        <name>sideChar</name>
+        <qualifiedname>AGRemapCore::RemapIniRemover::BoilerPlateHeading::sideChar</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_boiler_plate_1a4239c3b265fb158360ee2c19d3d39d2c" kindref="member">IniBoilerPlate::DefaultHeadingSideChar</ref></initializer>
+        <briefdescription>
+<para>The character the heading&apos;s border is drawn with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="238" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One flavour of fix boilerplate this recognizes -- the C++ stand-in for one arm of the
+pure-Python original&apos;s ``_fixRemovalPattern`` alternation :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A boilerplate region opens on a line *starting* ``&quot;; &quot; + side + &quot; &quot; + &lt;title&gt; + &quot; &quot; +
+side`` (where ``side`` is #sideChar repeated #sideLen times) whose ``&lt;title&gt;`` ends
+with #titleSuffix, and closes on the next line reading ``&quot;; &quot;`` followed by nothing but
+#sideChar -- at least ``2 * (sideLen + 1) + title.size() - 2`` of them, which is the
+same lower bound the original&apos;s ``close()[:-2] + &quot;(-)*&quot;`` imposes :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   &quot;Starting&quot;, not &quot;reading exactly&quot;, and the ``&lt;title&gt;`` match is greedy -- both
+   because the original&apos;s pattern is neither anchored at the end nor applied per line.
+   A heading this software really did write,
+   ``&quot;; --------------- Raiden Boss Fix -----------------&quot;``, has 15 ``-`` on its left
+   border and 17 on its right; a whole-line match would reject it
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="219" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="219" bodyend="239"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a8351b23d7eecffc3e3efa7ed47c11398" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::BoilerPlateHeading</scope><name>sideChar</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1adde8e0134635f9f97d84826d475877cf" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::BoilerPlateHeading</scope><name>sideLen</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::BoilerPlateHeading</scope><name>titleSuffix</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

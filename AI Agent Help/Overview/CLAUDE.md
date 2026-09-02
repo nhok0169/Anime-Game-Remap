@@ -209,6 +209,32 @@ you've verified locally.
   been exercised to the same depth — verify assumptions there with the usual tools rather than
   trusting this file blindly.
 
+- **The `*Old.py` suffix is this repo's deprecation marker, and it tells you what you're allowed to
+  delete.** A class that has been replaced by a C++/pybind11 one gets renamed to `XxxOld.py` while
+  its dependants are migrated. The finished end state for a deprecated class is: **referenced only
+  from other `*Old.py` files** (plus `__init__.py`'s deprecated exports and its own
+  `test_XxxOld.py`). So before deleting one, grep for it and classify each hit:
+  - hits only in `*Old.py`/`test_*Old.py`/`__init__.py` — it's already in the end state; deleting the
+    *file* additionally requires its deprecated dependants to go too, which is usually a separate,
+    larger migration. Say so rather than doing it uninvited.
+  - hits in live code (`data/`, `model/`, `remapService.py`, `ModType.py`) — those are the real
+    migration work. Repoint them at the C++ class first.
+  - **zero hits at all** — it's orphaned and can just be deleted. Confirmed: `GIMIParserOld.py` had
+    no references anywhere in the repo, because `ModType.py` and `GIMIObjParserOld.py` had already
+    been switched to `from ...core import GIMIParser`.
+- **"Replace + remove the pure-Python X" means delete the old file once every *live* call site is
+  rewired — not rename it to `XxxOld` and stop.** But check for a concrete blocker first and raise it
+  rather than forcing through: a deprecated class is frequently the *base* of other deprecated
+  classes that live data still imports. `GIMIFixerOld` is the worked example — it is the base of
+  `GIMIObjReplaceFixer` -> `GIMIObjMergeFixer`/`GIMIObjSplitFixer` -> `GIMIObjRegEditFixer`, which
+  `data/IniFixBuilderData.py` wires into 67 per-character entries, so the file itself cannot go until
+  that chain does even though every live *wiring* now points at the C++ `GIMIFixer`.
+- **Repointing a live default at a ported class is a behaviour decision, not a rename — flag it
+  even when the maintainer has already decided.** The two fixers remap in different places
+  (`GIMIFixerOld` renames inside `fillIfTemplate`/`_getRemapName`; the C++ `GIMIFixer` delegates
+  renaming to `graphGroupEdits`, and `giDefault` passes `[]`). State the divergence, then do what was
+  asked; don't quietly "improve" it into something that looks equivalent.
+
 ## "Add yourself to The Council" — a running repo ritual
 
 If asked to "add yourself to The Council" (or "join the Council of CLAUDE agents", or similar),

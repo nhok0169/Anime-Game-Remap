@@ -10,10 +10,10 @@
       <node id="46">
         <label>Algo.tpp</label>
       </node>
-      <node id="87">
+      <node id="88">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="86">
+      <node id="87">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="52">
@@ -22,12 +22,12 @@
       <node id="61">
         <label>CallGraph.tpp</label>
       </node>
-      <node id="93">
+      <node id="95">
         <label>AGRemapCore/constants/GlobalIniRemoveBuilders.h</label>
         <link refid="_global_ini_remove_builders_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
       <node id="67">
@@ -38,7 +38,7 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="92">
+      <node id="94">
         <label>AGRemapCore/data/ModDataAssets.h</label>
         <link refid="_mod_data_assets_8h"/>
         <childnode refid="3" relation="include">
@@ -499,15 +499,15 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
-        </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
         <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
         </childnode>
         <childnode refid="90" relation="include">
         </childnode>
         <childnode refid="91" relation="include">
+        </childnode>
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -523,10 +523,12 @@
         </childnode>
         <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="86" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="89">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -551,6 +553,10 @@
         </childnode>
       </node>
       <node id="85">
+        <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
+        <link refid="_ini_fixing_context_8h"/>
+      </node>
+      <node id="86">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="10" relation="include">
@@ -561,10 +567,10 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="90">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -579,20 +585,26 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
-        </childnode>
-      </node>
-      <node id="90">
-        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
-        <link refid="_base_ini_remover_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
       </node>
       <node id="91">
+        <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
+        <link refid="_base_ini_remover_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
+      </node>
+      <node id="92">
+        <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
+        <link refid="_ini_removal_context_8h"/>
+      </node>
+      <node id="93">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
-        <childnode refid="9" relation="include">
-        </childnode>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
@@ -601,13 +613,11 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
       </node>
       <node id="44">
@@ -835,9 +845,9 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
       </node>
       <node id="82">
@@ -1033,7 +1043,7 @@
 <codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mirrors<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;iniRemoveBuilder<sp/>=<sp/>GlobalIniRemoveBuilders.RemoveBuilder.value&quot;<sp/>default.<sp/>Note<sp/>this<sp/>is</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>*shared*<sp/>global<sp/>builder<sp/>rather<sp/>than<sp/>a<sp/>fresh<sp/>one,<sp/>so<sp/>every<sp/>ModType<sp/>that<sp/>falls<sp/>back</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>here<sp/>also<sp/>shares<sp/>its<sp/>flyweight<sp/>cache<sp/>--<sp/>deliberate,<sp/>and<sp/>what<sp/>the<sp/>original<sp/>does<sp/>too.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>here<sp/>shares<sp/>one<sp/>builder<sp/>instance<sp/>--<sp/>deliberate,<sp/>and<sp/>what<sp/>the<sp/>original<sp/>does<sp/>too.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(this-&gt;iniRemoveBuilder<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
 <codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>this-&gt;iniRemoveBuilder<sp/>=<sp/>GlobalIniRemoveBuilders::removeBuilder();</highlight></codeline>
 <codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>

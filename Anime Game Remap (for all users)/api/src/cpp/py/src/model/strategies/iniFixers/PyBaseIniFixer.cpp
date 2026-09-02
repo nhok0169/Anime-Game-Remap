@@ -14,9 +14,9 @@ PyBaseIniFixer::PyBaseIniFixer(py::object parser):
 }
 
 
-py::object PyBaseIniFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig) {
+py::object PyBaseIniFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AGRemapCore::IniFixingContext fixingCtx) {
     ParseData empty;
-    fix(empty, keepBackup, fixOnly, hideOrig);
+    fix(empty, keepBackup, fixOnly, hideOrig, fixingCtx);
     return py::none();
 }
 
@@ -51,9 +51,15 @@ fixOnly: :class:`bool`
     **Default**: ``False``
 
 hideOrig: :class:`bool`
-    Whether to hide the mod for the original character :raw-html:`<br />` :raw-html:`<br />`
+    Whether to hide the mod for the original character. :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``False``
+
+context: Optional[:class:`IniFixingContext`]
+    The per-call options for this fix. If ``None``, a default one is built, which says this
+    fixer is the .ini file's last :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
 
 Returns
 -------

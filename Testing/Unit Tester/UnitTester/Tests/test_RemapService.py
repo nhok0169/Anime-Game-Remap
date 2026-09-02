@@ -123,8 +123,6 @@ class RemapServiceTest(BaseFileUnitTest):
         self._log = "logging"
         self.setupRemapService()
 
-        self._remapService.stats.mod.fixed = set([f"{i}" for i in range(60)])
-        self._remapService.stats.mod.skipped =  {"Out, damned spot!": KeyError("out, I say!")}
         self._remapService.stats.blend.fixed = {"Fair is foul and foul is fair"}
         self._remapService.stats.blend.skippedByMods =  {"I am in blood": {"Stepped in so far that, should I wade no more,": KeyError("Returning were as tedious as go o'er.")}}
         self._remapService.stats.blend.skipped = {"Das Wasser ist Blut... Blut...": KeyError("Blut... Blut...")}
@@ -137,7 +135,6 @@ class RemapServiceTest(BaseFileUnitTest):
 
         self._remapService.clear(clearLog = False)
 
-        self.compareFileStats(self._remapService.stats.mod, FRB.FileStats())
         self.compareFileStats(self._remapService.stats.blend, FRB.FileStats())
         self.compareFileStats(self._remapService.stats.ini, FRB.FileStats())
         self.compareSet(self._remapService.stats.blend.visitedAtRemoval, set())
@@ -395,7 +392,6 @@ class RemapServiceTest(BaseFileUnitTest):
             self._remapService.clear()
             self._remapService.stats.ini.fixed = test[2]
             self._remapService.stats.ini.skipped = test[3]
-            self._remapService.stats.mod.skipped = test[4]
             self._remapService.stats.blend.updateRemoved(test[5])
             self._removedRemapBlends = test[6]
             self._remapService.stats.position.updateRemoved(test[7])
@@ -421,11 +417,9 @@ class RemapServiceTest(BaseFileUnitTest):
                 self.assertIn(ini, resultSkippedInis)
                 self.assertEqual(type(resultSkippedInis[ini]), type(expectedSkippedInis[ini]))
 
-            expectedSkippedMods = test[12]
-            resultSkippedMods = self._remapService.stats.mod.skipped
-            self.assertEqual(len(resultSkippedMods), len(expectedSkippedMods))
-            for skippedMod in expectedSkippedMods:
-                self.assertIn(skippedMod, resultSkippedMods)
-                self.assertEqual(type(resultSkippedMods[skippedMod]), type(expectedSkippedMods[skippedMod]))
+            # test[4] and test[12] (the per-mod skipped tally this used to seed and assert) are
+            # left in the test data but no longer read: RemapStats has no 'mod' member any more, and
+            # fixMod no longer records one. The .ini-level skips asserted just above cover the same
+            # failures -- the mod-level entry was itself derived from the first of them.
 
     # ====================================================================

@@ -119,6 +119,28 @@ one, pin it explicitly rather than hoping; there's no APIBuilder flag for it, so
 `cbuild/` by hand with `-DPython_EXECUTABLE=...` or make the intended interpreter the highest
 version visible.
 
+**Corollary that costs an hour if you miss it: do not invoke a bare `python`.** On Windows that
+frequently resolves to the Microsoft-Store/`WindowsApps` shim, which is a *different* interpreter
+with a *different* `site-packages` from the one CMake built against. Importing the package through
+it fails with
+
+```
+ValueError: numpy.dtype size changed, may indicate binary incompatibility.
+            Expected 96 from C header, got 88 from PyObject
+```
+
+raised from inside `CyDictTools` --- which looks exactly like a broken Cython build, and sends you
+rebuilding something that was never broken. It is just the wrong `numpy` (2.x on the shim, 1.26.4
+where the build happened). **The interpreter CMake selected is the only one that can import this
+package**; read it out of `cbuild/CMakeCache.txt` (grep `_Python_EXECUTABLE` --- note the leading
+underscore, it is an `INTERNAL` entry) or off the `-- Found Python:` line a configure prints, and
+drive everything --- tests, `pybind11_stubgen`, Sphinx, throwaway probe
+scripts --- through that absolute path. `py -3` is fine only when it resolves to that same one.
+
+This also applies to a script that *itself* re-launches Python: a helper run under the shim inherits
+its environment, so `subprocess.run([<correct python>, ...])` from inside it can still fail. Run the
+helper with the correct interpreter in the first place.
+
 Whichever you choose needs its **development files** present (`include/Python.h` and
 `libs/pythonXY.lib`) — `COMPONENTS Development` in `src/cy/CMakeLists.txt` requires the full
 development component, not just `Development.Module`. A standard python.org installer ships these;

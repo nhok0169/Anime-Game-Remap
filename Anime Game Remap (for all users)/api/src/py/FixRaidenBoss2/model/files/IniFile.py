@@ -21,6 +21,8 @@ from typing import List, Dict, Optional, Set, Callable, Any, Union, Tuple, Type
 ##### EndExtImports
 
 ##### CppLocalImports
+from ...core import BaseIniRemover
+from ...core import IniRemovalContext
 from ...core import IfContentPart
 from ...core import IfPredPart
 from ...core import Z3Context
@@ -53,7 +55,6 @@ from ...core import IniDownloadModel
 from ..Version import Version
 from ...core import BaseIniParser
 from ...core import BaseIniFixer
-from ..strategies.iniRemovers.BaseIniRemover import BaseIniRemover
 from ..strategies.texEditors.BaseTexEditor import BaseTexEditor
 from ..iniparserdicts.KeepAllDict import KeepAllDict
 from ...tools.files.FilePath import FilePath
@@ -1837,7 +1838,17 @@ class IniFile(File):
         """
 
         self._getRemover()
-        return self._iniRemover.remove(parse = parse, writeBack = writeBack)
+
+        # ignoreModType, always, and that is not a shortcut. An IniFile has one availableType and so
+        # runs exactly one remover, which makes it both the first and the *last* pass -- and the last
+        # pass is the one that sweeps. See IniRemovalContext.ignoreModType: the strict rule can only
+        # recognize a leftover whose hash it can attribute to a mod type, so anything else (a
+        # Remap-named section carrying no hash at all, or one belonging to a mod type this file was
+        # not classified as) would be left behind forever with nothing else coming along to take it.
+        # AGRemapCore's own IniFile, which can carry several mod types at once, is the one that gets
+        # to run the strict rule for real -- once per mod type, sweeping only on the last.
+        return self._iniRemover.remove(parse = parse, writeBack = writeBack,
+                                       context = IniRemovalContext(ignoreModType = True))
     
     def _getRemover(self) -> BaseIniRemover:
         """

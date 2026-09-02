@@ -15,7 +15,7 @@
 ##### ExtImports
 import os
 import shutil
-from typing import Optional, List, Set, Union, Dict, Callable, Any
+from typing import Optional, List, Set, Union, Dict, Callable, Any, Tuple
 ##### EndExtImports
 
 ##### CppLocalImports
@@ -193,6 +193,24 @@ class Mod(Model):
     remapTextures: List[:class:`str`]
         The *remapFix*.dds files found for the mod
     """
+    # The human-readable name for each kind of resource a fix removal orphans, used only in the
+    # "Removing previous X at ..." log line. Keyed by RemapIniRemover.getRemovedResources' own keys; a
+    # kind with no entry here falls back to FileTypes.Default.
+    _RemovedResourceFileTypes = {
+        "blend": FileTypes.RemapBlend.value,
+        "position": FileTypes.RemapPosition.value,
+        "texcoord": FileTypes.RemapTexcoord.value,
+        "buf": FileTypes.RemapBuf.value,
+
+        # Both halves of the texture split are RemapTex.dds files -- what differs is whether the fix
+        # created the file or edited a copy of one, which is not something the log line says.
+        "texEdit": FileTypes.RemapTexture.value,
+        "texAdd": FileTypes.RemapTexture.value,
+
+        "download": FileTypes.RemapDownload.value,
+        "other": FileTypes.RemapOther.value
+    }
+
     def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
                  forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, remappedTypes: Optional[Set[str]] = None,
                  downloadMode: DownloadMode = DownloadMode.Normal):
@@ -544,15 +562,12 @@ class Mod(Model):
 
         self._removeFileType("backupInis", lambda file: f"Removing the backup ini, {os.path.basename(file)}")
 
-    def _removeIniResources(self, ini: IniFile, result: Set[str], resourceName: str, resourceStats: FileStats, getPathsToRemove: Callable[[IniFile], List[str]]) -> bool:
+    def _removeIniResources(self, result: Set[str], resourceName: str, resourceStats: FileStats, paths: List[str]) -> bool:
         """
-        Removes a particular type of resource from a .ini file
+        Removes a particular type of resource that a .ini file's fix left behind
 
         Parameters
         ----------
-        ini: :class:`IniFile`
-            The particular .ini file to be processed
-
         result: Set[:class:`str`]
             The resultant paths to the resources that got removed
 
@@ -562,8 +577,13 @@ class Mod(Model):
         resourceStats: :class:`FileStats`
             The associated statistical data for the resource type
 
-        getPathsToRemove: Callable[[:class:`IniFile`], List[:class:`str`]]
-            The function to file paths to remove for a particular type of resource
+        paths: List[:class:`str`]
+            The file paths to remove :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                These come from :meth:`RemapIniRemover.getRemovedResources` -- the `sections`_ the
+                removal actually deleted -- rather than from the .ini file's own resource models.
+                See :meth:`Mod._removeIniFix`
 
         Returns
         -------
@@ -571,7 +591,6 @@ class Mod(Model):
             Whether there was a file that was attempted to be removed
         """
 
-        paths = getPathsToRemove(ini)
         hasRemovedResource = False
 
         for path in paths:
@@ -607,9 +626,55 @@ class Mod(Model):
 
         return list(result)
     
-    def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedRemapBlends: Set[str], removedRemapPositions: Set[str], 
-                      removedTextures: Set[str], removedDownloads: Set[str], undoedInis: Set[str],
+    def _removeIniFix(self, ini: IniFile, remapStats: RemapStats, removedResources: Dict[str, Set[str]], undoedInis: Set[str],
                       keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> bool:
+        """
+        Removes the fix from a single .ini file, and every resource that fix left behind
+
+        Parameters
+        ----------
+        ini: :class:`IniFile`
+            The particular .ini file to be processed
+
+        remapStats: :class:`RemapStats`
+            The stats for the remap process
+
+        removedResources: Dict[:class:`str`, Set[:class:`str`]]
+            The resultant paths to the resources that got removed, keyed by the type of resource
+            :raw-html:`<br />` :raw-html:`<br />`
+
+            The keys are :meth:`RemapIniRemover.getRemovedResources`' own, each of which names a
+            :class:`RemapStats` attribute
+
+        undoedInis: Set[:class:`str`]
+            The resultant paths to the .ini files that had their fix removed
+
+        keepBackups: :class:`bool`
+            Whether to create or keep RemapBKUP.txt files in the mod :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        fixOnly: :class:`bool`
+            Whether to not undo any changes created in the .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        readAllInis: :class:`bool`
+            Whether to remove the .ini fix from all the .ini files encountered :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``False``
+
+        writeBackInis: :class:`bool`
+            Whether to write back the changes to the .ini files :raw-html:`<br />` :raw-html:`<br />`
+
+            **Default**: ``True``
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the .ini file had its fix removed
+        """
+
         iniFilesUndoed = False
         iniFullPath = None
         iniHasErrors = False
@@ -633,23 +698,64 @@ class Mod(Model):
             if (not iniFilesUndoed):
                 iniFilesUndoed = True
 
-        # remove only the remap blends that have not been recently created
-        self._removeIniResources(ini, removedRemapBlends, FileTypes.RemapBlend.value, remapStats.blend, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapBlendModels.values())))
+        # remove the files the removal actually orphaned, one bucket per type of resource
+        #
+        # This used to be four hard-coded calls reading the .ini file's own resource models
+        # (remapBlendModels / remapPositionModels / getTexAddModels() / fileDownloadModels), which
+        # only the pure-Python IniRemover ever populated. The remover now hands back every file it
+        # orphaned, already sorted into the kinds RemapStats is named after, so this is a loop rather
+        # than a list -- and a kind added on the C++ side needs no change here at all.
+        for resType, paths in self._getRemovedResourcePaths(ini).items():
+            resourceStats = getattr(remapStats, resType, None)
 
-        # remove only the remap positions that have not been recently created
-        self._removeIniResources(ini, removedRemapPositions, FileTypes.Position.value, remapStats.position, lambda iniFile: self._getIniFixResourceFixPaths(list(iniFile.remapPositionModels.values())))
+            # A resource kind with no matching RemapStats attribute is dropped rather than raising:
+            # the two are kept in step deliberately (see RemapIniRemover.ResourceType), so this only fires
+            # if a custom remover invents a kind of its own.
+            if (resourceStats is None):
+                continue
 
-        # remove only the remap texture files that have not been recently created
-        self._removeIniResources(ini, removedTextures, FileTypes.RemapTexture.value, remapStats.texAdd, lambda iniFile: self._getIniFixResourceFixPaths(iniFile.getTexAddModels()))
+            if (resType not in removedResources):
+                removedResources[resType] = set()
 
-        # remove only the download files that have not been recently created
-        downloadsRemoved = self._removeIniResources(ini, removedDownloads, FileTypes.RemapDownload.value, remapStats.download, lambda iniFile: self._getIniSrcResourcePaths(list(iniFile.fileDownloadModels.values())))
-        if (downloadsRemoved):
-            self.print("space")
+            resourcesRemoved = self._removeIniResources(removedResources[resType], self._RemovedResourceFileTypes.get(resType, FileTypes.Default.value),
+                                                        resourceStats, paths)
+
+            if (resourcesRemoved and resType == "download"):
+                self.print("space")
 
         return iniFilesUndoed
 
-    def removeFix(self, remapStats: RemapStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> List[Set[str]]:
+    def _getRemovedResourcePaths(self, ini: IniFile) -> Dict[str, List[str]]:
+        """
+        Retrieves the files orphaned by the last fix removal on a .ini file, keyed by the type of resource
+
+        Parameters
+        ----------
+        ini: :class:`IniFile`
+            The .ini file that just had its fix removed
+
+        Returns
+        -------
+        Dict[:class:`str`, List[:class:`str`]]
+            The full paths to the orphaned files, keyed by the type of resource
+        """
+
+        remover = ini._iniRemover
+
+        # getattr rather than a bare call: every remover the software itself builds is the C++
+        # RemapIniRemover (see GlobalIniRemoveBuilders), but a ModType is free to carry a remover of its
+        # own, and one that doesn't collect resources simply contributes none.
+        getRemovedResources = getattr(remover, "getRemovedResources", None)
+        if (getRemovedResources is None):
+            return {}
+
+        result = {}
+        for resType, resources in getRemovedResources().items():
+            result[resType] = [resource.srcPath for resource in resources]
+
+        return result
+
+    def removeFix(self, remapStats: RemapStats, keepBackups: bool = True, fixOnly: bool = False, readAllInis: bool = False, writeBackInis: bool = True) -> Tuple[Set[str], Dict[str, Set[str]]]:
         """
         Removes any previous changes done by this module's fix
 
@@ -680,39 +786,40 @@ class Mod(Model):
 
         Returns
         -------
-        [Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`], Set[:class:`str`]]
-            The removed files that have their fix removed, where the types of files for the return value is based on the list below:
+        Tuple[Set[:class:`str`], Dict[:class:`str`, Set[:class:`str`]]]
+            #. The .ini files that had their fix removed
+            #. The other files that got deleted, keyed by the type of resource :raw-html:`<br />` :raw-html:`<br />`
 
-            #. .ini files with their fix removed
-            #. RemapBlend.buf files that got deleted
-            #. RemapPosition.buf files that got deleted
-            #. RemapTex.dds files that got deleted
-            #. Download files that got deleted
+            .. note::
+                The second element replaces what used to be four further positional entries
+                (``RemapBlend.buf``, ``RemapPosition.buf``, ``RemapTex.dds`` and download files).
+                Its keys are :meth:`RemapIniRemover.getRemovedResources`' own -- ``"blend"``,
+                ``"position"``, ``"texcoord"``, ``"buf"``, ``"texEdit"``, ``"texAdd"``,
+                ``"download"``, ``"other"`` -- and each one names a :class:`RemapStats` attribute,
+                so a caller can hand each bucket straight to the matching
+                :meth:`FileStats.updateRemoved`. A kind nothing was found for is simply absent
         """
 
-        removedRemapBlends = set()
-        removedRemapPositions = set()
-        removedTextures = set()
-        removedDownloads = set()
+        removedResources = {}
         undoedInis = set()
         undoedRemapCopies = set()
 
         for iniPath in self.inis:
             ini = self.inis[iniPath]
 
-            iniFileUndoed = self._removeIniFix(ini, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedInis,
+            iniFileUndoed = self._removeIniFix(ini, remapStats, removedResources, undoedInis,
                                                keepBackups = keepBackups, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
-            
+
             if (not iniFileUndoed or iniPath not in self.groupedRemapCopies):
                 continue
-            
+
             # remove the remap copies associated to the .ini file
             remapCopiesRemoved = False
             for remapCopyPath in self.groupedRemapCopies[iniPath]:
                 remapCopy = self.remapCopies[remapCopyPath]
                 remapCopy.classify()
 
-                self._removeIniFix(remapCopy, remapStats, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads, undoedRemapCopies,
+                self._removeIniFix(remapCopy, remapStats, removedResources, undoedRemapCopies,
                                    keepBackups = False, fixOnly = fixOnly, readAllInis = readAllInis, writeBackInis = writeBackInis)
 
                 if (remapCopy.file is None):
@@ -724,14 +831,14 @@ class Mod(Model):
                     pass
                 else:
                     self.print("log", f"Removing the .ini remap copy, {os.path.basename(remapCopy.file)}")
-                    
+
                     if (not remapCopiesRemoved):
                         remapCopiesRemoved = True
 
             if (remapCopiesRemoved):
                 self.print("space")
 
-        return [undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads]
+        return (undoedInis, removedResources)
 
     @classmethod
     def blendCorrection(cls, blendFile: Union[str, bytes], modType: ModType, modToFix: str, 

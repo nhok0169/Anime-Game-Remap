@@ -250,6 +250,17 @@ DownloadMode
 
 :raw-html:`<br />`
 
+FilePrefixes
+------------
+
+.. cppattributetable:: AGRemapCore::FilePrefixes
+
+.. doxygenclass:: AGRemapCore::FilePrefixes
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 GameTypeId
 ----------
 
@@ -533,6 +544,17 @@ IniGraphGroupsVec
 .. cppattributetable:: AGRemapCore::IniGraphGroupsVec
 
 .. doxygenclass:: AGRemapCore::IniGraphGroupsVec
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFileResEditContext
+---------------------
+
+.. cppattributetable:: AGRemapCore::IniFileResEditContext
+
+.. doxygenclass:: AGRemapCore::IniFileResEditContext
     :members:
     :protected-members:
 
@@ -887,6 +909,23 @@ ModTypeIdData
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+Ini Files
+=========
+
+:raw-html:`<br />`
+
+IniFile
+-------
+
+.. cppattributetable:: AGRemapCore::IniFile
+
+.. doxygenclass:: AGRemapCore::IniFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Ini Fixers
 ==========
 
@@ -914,12 +953,34 @@ GIMIFixer
 
 :raw-html:`<br />`
 
+IniFileFixContext
+-----------------
+
+.. cppattributetable:: AGRemapCore::IniFileFixContext
+
+.. doxygenclass:: AGRemapCore::IniFileFixContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 IniFixContext
 -------------
 
 .. cppattributetable:: AGRemapCore::IniFixContext
 
 .. doxygenclass:: AGRemapCore::IniFixContext
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFixingContext
+----------------
+
+.. cppattributetable:: AGRemapCore::IniFixingContext
+
+.. doxygenstruct:: AGRemapCore::IniFixingContext
     :members:
     :protected-members:
 
@@ -981,6 +1042,17 @@ GIMISectionClassifier
 .. cppattributetable:: AGRemapCore::GIMISectionClassifier
 
 .. doxygenclass:: AGRemapCore::GIMISectionClassifier
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+IniFileParseContext
+-------------------
+
+.. cppattributetable:: AGRemapCore::IniFileParseContext
+
+.. doxygenclass:: AGRemapCore::IniFileParseContext
     :members:
     :protected-members:
 

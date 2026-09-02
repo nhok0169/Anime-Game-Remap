@@ -2,6 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_8755b04416a59baf944b19571b466c40" kind="dir">
     <compoundname>src/model/strategies/iniParsers</compoundname>
+    <innerfile refid="_ini_file_parse_context_8cpp">IniFileParseContext.cpp</innerfile>
     <innerfile refid="_ini_parse_builder_8cpp">IniParseBuilder.cpp</innerfile>
     <briefdescription>
     </briefdescription>

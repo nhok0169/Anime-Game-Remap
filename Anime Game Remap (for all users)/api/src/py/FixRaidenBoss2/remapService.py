@@ -705,14 +705,19 @@ class RemapService():
 
         # undo any previous fixes
         if (not self.fixOnly):
-            undoedInis, removedRemapBlends, removedRemapPositions, removedTextures, removedDownloads = mod.removeFix(self.stats,
-                                                                                                                     keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
-                                                                                                                     readAllInis = self.readAllInis, writeBackInis = self.undoOnly)
-            self.stats.blend.updateRemoved(removedRemapBlends)
-            self.stats.position.updateRemoved(removedRemapPositions)
+            undoedInis, removedResources = mod.removeFix(self.stats,
+                                                          keepBackups = self.keepBackups, fixOnly = self.fixOnly, 
+                                                          readAllInis = self.readAllInis, writeBackInis = self.undoOnly)
             self.stats.ini.updateUndoed(undoedInis)
-            self.stats.texAdd.updateRemoved(removedTextures)
-            self.stats.download.updateRemoved(removedDownloads)
+
+            # One bucket per kind of resource, rather than the four hard-coded ones this used to
+            # unpack. Every key of 'removedResources' names a RemapStats attribute -- that is exactly
+            # why RemapIniRemover.ResourceType's members are spelled the way they are -- so a kind added
+            # on the C++ side lands in the right stats with no change here.
+            for resType, removedPaths in removedResources.items():
+                resourceStats = getattr(self.stats, resType, None)
+                if (resourceStats is not None):
+                    resourceStats.updateRemoved(removedPaths)
 
         # clear the temporary models only used for undoing the fix
         if (not self.undoOnly):
@@ -721,7 +726,6 @@ class RemapService():
                 ini.clearModels()
 
         result = False
-        firstIniException = None
         inisLen = len(mod.inis)
 
         i = 0
@@ -736,12 +740,6 @@ class RemapService():
                 self.logger.handleException(e)
                 self.stats.ini.addSkipped(iniFullPath, e)
 
-                if (firstIniException is None):
-                    firstIniException = e
-
-            if (firstIniException is None and iniFullPath in self.stats.ini.skipped):
-                firstIniException = self.stats.ini.skipped[iniFullPath]
-
             result = (result or iniIsFixed)
 
             if (not iniIsFixed):
@@ -753,9 +751,6 @@ class RemapService():
 
             self.stats.ini.addFixed(iniFullPath)
             i += 1
-
-        if (not result and firstIniException is not None):
-            self.stats.mod.addSkipped(mod.path, firstIniException, modFolder = mod.path)
 
         return result
     
@@ -853,13 +848,8 @@ class RemapService():
         self.reportSkippedAsset(f"{FileTypes.Ini.value}s", self.stats.ini.skipped, lambda file: self.logger.getBulletStr(f"{file}:\n\t{Heading(type(self.stats.ini.skipped[file]).__name__, 3, '-').open()}\n\t{self.stats.ini.skipped[file]}\n\n"))
         self.reportSkippedAsset(f"{FileTypes.Blend.value} files", self.stats.blend.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.blend))
         self.reportSkippedAsset(f"{FileTypes.Position.value}, files", self.stats.position.skippedByMods, lambda dir: self.warnSkippedIniResource(dir, self.stats.position))
-        self.reportSkippedAsset("mods", self.stats.mod.skipped, lambda dir: self.logger.getBulletStr(f"{dir}:\n\t{Heading(type(self.stats.mod.skipped[dir]).__name__, 3, '-').open()}\n\t{self.stats.mod.skipped[dir]}\n\n"))
 
     def reportSummary(self):
-        skippedMods = len(self.stats.mod.skipped)
-        fixedMods = len(self.stats.mod.fixed)
-        foundMods = fixedMods + skippedMods
-
         fixedBlends = len(self.stats.blend.fixed)
         skippedBlends = len(self.stats.blend.skipped)
         removedRemapBlends = len(self.stats.blend.removed)
@@ -893,7 +883,6 @@ class RemapService():
         self.logger.openHeading("Summary", sideLen = 10)
         self.logger.space()
         
-        modFixMsg = ""
         blendFixMsg = ""
         positionFixMsg = ""
         iniFixMsg = ""
@@ -907,7 +896,6 @@ class RemapService():
         removedDownloadMsg = ""
 
         if (not self.undoOnly):
-            modFixMsg = f"Out of {foundMods} found mods, fixed {fixedMods} mods and skipped {skippedMods} mods"
             iniFixMsg = f"Out of the {foundInis} {FileTypes.Ini.value}s within the found mods, fixed {fixedInis} {FileTypes.Ini.value}s and skipped {skippedInis} {FileTypes.Ini.value}s"
             blendFixMsg = f"Out of the {foundBlends} {FileTypes.Blend.value} files within the found mods, fixed {fixedBlends} {FileTypes.Blend.value} files and skipped {skippedBlends} {FileTypes.Blend.value} files"
 
@@ -922,8 +910,6 @@ class RemapService():
 
             if (foundDownloads > 0):
                 downloadMsg = f"Out of {foundDownloads} download requests within the found mods, downloaded {downloadedFiles} files, copied {cachedDownloadedFiles} files from existing downloads and skipped {skippedDownloads} downloads"
-        else:
-            modFixMsg = f"Out of {foundMods} found mods, remove fix from {fixedMods} mods and skipped {skippedMods} mods"
 
         if (not self.fixOnly and undoedInis > 0):
             undoedInisMsg = f"Removed fix from up to {undoedInis} {FileTypes.Ini.value}s"
@@ -944,7 +930,6 @@ class RemapService():
             removedDownloadMsg = f"Removed {removedDownloads} old {FileTypes.RemapDownload.value} files"
 
 
-        self.logger.bulletPoint(modFixMsg)
         if (iniFixMsg):
             self.logger.bulletPoint(iniFixMsg)
 
@@ -1062,7 +1047,6 @@ class RemapService():
     
         while (dirs):
             path = dirs.pop()
-            fixedMod = False
 
             # skip if the directory has already been visited
             if (path in visitedDirs):
@@ -1085,11 +1069,9 @@ class RemapService():
             
             # fix the mod
             try:
-                fixedMod = self.fixMod(mod, flushIfTemplates = False)
+                self.fixMod(mod, flushIfTemplates = False)
             except Exception as e:
                 self.logger.handleException(e)
-                if (mod.inis):
-                    self.stats.mod.addSkipped(path, e, modFolder = path)
 
             # get all the folders that could potentially be other mods
             modDirs = []
@@ -1119,10 +1101,6 @@ class RemapService():
                     dirs.append(dir)
                 visitingDirs.add(dir)
 
-            # increment the count of mods found
-            if (fixedMod):
-                self.stats.mod.addFixed(path)
-
             visitingDirs.remove(path)
             visitedDirs.add(path)
 
@@ -1149,7 +1127,13 @@ class RemapService():
                 self.createLog()
                 raise e from e
         else:
-            noErrors = bool(not self.stats.mod.skipped and not self.stats.blend.skippedByMods)
+            # 'stats.mod' is gone, so the mod-folder skip tally can no longer be consulted here.
+            # 'stats.ini.skipped' is the nearest surviving signal and covers the same ground for the
+            # main path: the per-mod skip this used to read was itself recorded *from* the first
+            # entry in 'stats.ini.skipped'. The one case no longer reflected in this banner is a
+            # mod that failed before any of its .ini files were reached -- that exception is still
+            # logged through handleException, it just no longer suppresses this message.
+            noErrors = bool(not self.stats.ini.skipped and not self.stats.blend.skippedByMods)
 
             if (noErrors):
                 self.logger.space()

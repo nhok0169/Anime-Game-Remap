@@ -315,6 +315,52 @@ Linux remember that a plain build on either OS deletes the other's installed bin
 [Overview](../Overview/CLAUDE.md)) — testing right after the *other* platform's build measures a
 stale or missing extension, not your change.
 
+### Compare failure *identities* against the baseline, not just the counts
+
+"6 failures / 73 errors, same as before" is a weaker claim than it looks: a change can fix one test
+and break another and leave the totals untouched. Print the names and diff those:
+
+```powershell
+$o = py -3 main.py 2>&1
+$o | Select-String -Pattern "^(Ran |FAILED|OK)"
+$o | Select-String -Pattern "^FAIL: " | ForEach-Object { $_.ToString() }
+$o | Select-String -Pattern "^ERROR: " | ForEach-Object { ($_.ToString() -split "\(")[1] } | Sort-Object -Unique
+```
+
+Also expect the **total** to drift as you add tests, so don't treat a changed "Ran N" as a red flag
+on its own --- reconcile it against what you added. And when a number you quoted earlier no longer
+matches, re-measure rather than assuming: an earlier figure in a long session is easy to quote
+stale.
+
+### The harness's mocks hand out **shared mutable state** --- one test can poison the rest of its class
+
+`baseIniFileTest.setUp` patches `FileService.read` to return the class-level `_iniTxtLines` list.
+`IniFile._commentSection` edits the lines it is given **in place**, so before this was fixed, a
+single test running `fix(hideOrig = True)` left every later test in that class reading an
+already-commented `.ini` file --- and because tests run alphabetically, which tests broke depended
+on their names. The patch now returns `list(self._iniTxtLines)`, matching what a real
+`FileService.read` does.
+
+The general lesson, which applies to any new mock you add here: **if production code may mutate what
+a mock returns, return a fresh copy per call.** A mock that hands out one shared object is shared
+state between tests, and the symptom (a test that passes alone and fails in the suite) reads like a
+product bug rather than a harness one.
+
+Two related traps already documented elsewhere in this file, worth re-linking mentally: a class that
+becomes C++-backed stops honouring the Python-level `os.path`/`open` mocks entirely, and a
+`Py*` strategy context must forward to Python for exactly that reason (see
+[Architecture](../Architecture/CLAUDE.md)'s context-seam section).
+
+### A C++-side behaviour swap can show **zero** test delta and still be unverified
+
+When you repoint something live at a ported class, check whether any *passing* test actually covers
+that path before calling the suite evidence. Confirmed the hard way: repointing
+`ModType.__init__` and `IniFixBuilderData.giDefault` from `GIMIFixerOld` to the C++ `GIMIFixer`
+moved not a single test, because every class exercising the default fix path
+(`test_ModType`, `test_Mod`, `test_RemapService`, `test_MultiModFixer`, `test_GIMIFixerOld`) was
+already in the known-broken error list. Say so plainly in the write-up rather than reporting an
+unchanged baseline as a pass.
+
 ### Known-broken/WIP test modules — don't chase these as regressions
 **Not every test module in `Tests/` is finished/passing right now** — some are known
 work-in-progress from the maintainer and fail for reasons unrelated to your change. The maintainer
@@ -428,6 +474,25 @@ static-lib fallback for anything touching `IniFile::parse`/`fix`).
 in `core/CMakeLists.txt`, no CTest target, not run by `main.py` and not run by CI. They execute only
 when a human or an agent compiles them. If you add one, say so explicitly when reporting --- a reader
 will otherwise reasonably assume it runs somewhere automatically.
+
+**Because nothing builds them, they rot silently --- and the damage is done by changes to
+`core/`, not by changes to the tests.** Make a core class a template, add a parameter to a `virtual`,
+rename a method, and every `core/tests/*.cpp` that mentions it stops compiling. Nothing tells you:
+not the CMake build, not CI, not the Python suite. Confirmed the expensive way ---
+`IniRemoveBuilder_test.cpp` sat uncompilable for several sessions after `BaseIniRemover` became a
+class template, still saying `public BaseIniRemover` / `std::shared_ptr<BaseIniRemover>`, and was
+only noticed when an unrelated change happened to rebuild it.
+
+**So make this part of finishing any `core/` interface change, not an optional extra:**
+
+```bash
+grep -rl "<the name you changed>" "Anime Game Remap (for all users)/api/src/cpp/core/tests/"
+```
+
+and rebuild every file that comes back (see [Building](../Building/CLAUDE.md)'s static-lib recipe).
+That grep is the only "build" those files ever get. It is cheap, and it is the difference between
+leaving the next agent a working test suite and leaving them a landmine --- one that will look like
+*their* change broke it.
 
 **A failed compile leaves the previous `test.exe` on disk, and re-running it prints `ALL PASSED` from
 the stale binary.** This bites hardest right after renaming something several test files reference:

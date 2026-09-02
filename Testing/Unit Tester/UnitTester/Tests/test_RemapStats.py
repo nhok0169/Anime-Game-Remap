@@ -21,7 +21,10 @@ class RemapStatsTest(BaseUnitTest):
         self.stats = FRB.RemapStats()
 
     def test_defaultConstruction_subStatsAreCorrectTypes(self):
-        for name in ("blend", "position", "ini", "mod", "texEdit", "texAdd"):
+        # Every file kind RemapIniRemover.classifyResource sorts a removed resource into, plus 'ini'.
+        # 'mod' used to be here too -- it was a mod-FOLDER tally rather than a file kind, and was
+        # removed along with the reporting that consumed it.
+        for name in ("blend", "position", "texcoord", "buf", "other", "ini", "texEdit", "texAdd"):
             self.assertIsInstance(getattr(self.stats, name), FRB.FileStats)
 
         self.assertIsInstance(self.stats.download, FRB.CachedFileStats)
@@ -37,15 +40,17 @@ class RemapStatsTest(BaseUnitTest):
     def test_clear_clearsEverySubStat(self):
         self.stats.blend.addFixed("a")
         self.stats.position.addFixed("b")
-        self.stats.ini.addFixed("c")
-        self.stats.mod.addFixed("d")
-        self.stats.texEdit.addFixed("e")
-        self.stats.texAdd.addFixed("f")
-        self.stats.download.addHit("g")
+        self.stats.texcoord.addFixed("c")
+        self.stats.buf.addFixed("d")
+        self.stats.other.addFixed("e")
+        self.stats.ini.addFixed("f")
+        self.stats.texEdit.addFixed("g")
+        self.stats.texAdd.addFixed("h")
+        self.stats.download.addHit("i")
 
         self.stats.clear()
 
-        for name in ("blend", "position", "ini", "mod", "texEdit", "texAdd"):
+        for name in ("blend", "position", "texcoord", "buf", "other", "ini", "texEdit", "texAdd"):
             self.compareSet(getattr(self.stats, name).fixed, set())
         self.compareSet(self.stats.download.hit, set())
 

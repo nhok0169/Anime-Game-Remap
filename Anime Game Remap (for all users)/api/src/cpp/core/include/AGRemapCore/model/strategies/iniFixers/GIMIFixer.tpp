@@ -1,12 +1,36 @@
 #ifndef AGRemapCore_GIMIFixer_TPP
 #define AGRemapCore_GIMIFixer_TPP
 
+#include <cctype>
+#include <string_view>
 #include <utility>
 
 #include "GIMIFixer.h"
+#include "AGRemapCore/constants/IniKeywords.h"
 
 
 namespace AGRemapCore {
+    namespace GIMIFixerDetail {
+        // The same ASCII-only lowercasing GIMIParserDetail does, for the same reason: mod object
+        // and section names are ASCII in every real mod, and full Unicode case folding would be a
+        // much heavier dependency for no gain.
+        inline std::string toLowerAscii(std::string_view txt) {
+            std::string result(txt);
+            for (char& c : result) {
+                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
+            }
+            return result;
+        }
+
+        // Whether 'txt' names something this software already wrote. Matched anywhere in the name
+        // rather than as a suffix, and case-insensitively -- the same convention
+        // GIMIParser::classifyByTextureOverrideName uses to refuse to classify its own output.
+        inline bool hasRemapKeyword(const std::string& txt) {
+            return toLowerAscii(txt).find(toLowerAscii(IniKeywords::Remap)) != std::string::npos;
+        }
+    }
+
+
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::GIMIFixer(typename Core::Parser* parser, Context* ctx,
                                                               std::vector<GroupEdit*> graphGroupEdits,
@@ -180,30 +204,87 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
+    std::unordered_set<std::string> GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::touchedSectionNames() const {
+        std::unordered_set<std::string> result;
+        if (graphGroups_ == nullptr) {
+            return result;
+        }
+
+        std::size_t groupCount = graphGroups_->size();
+
+        for (std::size_t groupInd = 0; groupInd < groupCount; ++groupInd) {
+            for (const ModObj& modObj : graphGroups_->modObjs(groupInd)) {
+                if (modObj.first == IniGraphModObjKeywords::Download) {
+                    continue;
+                }
+
+                // A mod object either half of whose name carries the 'remap' keyword is one this
+                // software wrote rather than one the original mod shipped -- see this method's
+                // own note.
+                if (GIMIFixerDetail::hasRemapKeyword(modObj.first) || GIMIFixerDetail::hasRemapKeyword(modObj.second)) {
+                    continue;
+                }
+
+                Graph* graph = graphGroups_->getGraph(groupInd, modObj);
+                if (graph == nullptr) {
+                    continue;
+                }
+
+                for (const auto& section : graph->sections()) {
+                    result.insert(section.first);
+                }
+            }
+        }
+
+        return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     typename GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::FixResult
     GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::fixImpl(ParseData& parseData, bool keepBackup, bool fixOnly, bool hideOrig,
-                                                            bool withBoilerPlate, bool withSrc) {
+                                                            bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx) {
         FixResult result;
         if (ctx_ == nullptr) {
             return result;
         }
 
-        // The .ini file's own text, saved before hiding the original sections rewrites it, and put
-        // back at the end. The pure-Python original saves 'self._fileTxt' here -- an attribute no
-        // fixer ever sets -- see this class's own note.
-        std::string uncommentedTxt;
-        if (hideOrig) {
-            uncommentedTxt = ctx_->fileTxt();
-            ctx_->hideOriginalSections();
-        }
+        // Only the first mod type's fixers take the backup, for the mirror image of the reason only
+        // the last one hides: disabling the existing .ini file moves it aside on disk, and a later
+        // pass doing it again would be backing up a file the first pass already moved. The
+        // pure-Python original never had to say so -- one .ini file, one fixer, one pass -- which is
+        // why IniFixingContext::isFirstModType defaults to true.
+        bool backingUp = keepBackup && fixingCtx.isFirstModType;
 
-        if (keepBackup && fixOnly && ctx_->fixedFileExists()) {
+        if (backingUp && fixOnly && ctx_->fixedFileExists()) {
             ctx_->log("Cleaning up and disabling the OLD STINKY ini");
             ctx_->disableIni();
         }
 
         fixTargets_ = getFix(parseData, false);
         fixedContents_.clear();
+
+        // Hiding comes *after* the fix is built, not before: which sections to comment out is
+        // #touchedSectionNames, and there is nothing to read that off until the groups exist. The
+        // pure-Python original orders it the same way for the same reason -- its own fixer fills
+        // the .ini file's '_remappedSectionNames' while rendering, and only then does
+        // 'ini.hideOriginalSections()' run over whatever landed in there.
+        //
+        // The .ini file's own text is saved first and put back at the end, so hiding only ever
+        // affects the copy that goes into the fix.
+        //
+        // Only the last mod type's fixers do it, too. Several fixers chain over one .ini file -- one
+        // per mod type it was classified as, and one per target mod each of those fixes to -- and
+        // hiding rewrites the *file's* text rather than only adding to this fixer's own output. Doing
+        // it on every pass would have each one hide the original for a fix that a later pass then
+        // overwrites; see IniFixingContext::isLastModType.
+        bool hiding = hideOrig && fixingCtx.isLastModType;
+
+        std::string uncommentedTxt;
+        if (hiding) {
+            uncommentedTxt = ctx_->fileTxt();
+            ctx_->hideOriginalSections(touchedSectionNames());
+        }
 
         std::string srcTxt = ctx_->fileTxt();
 
@@ -231,7 +312,7 @@ namespace AGRemapCore {
             result[*target] = content;
         }
 
-        if (hideOrig) {
+        if (hiding) {
             ctx_->setFileTxt(std::move(uncommentedTxt));
         }
 

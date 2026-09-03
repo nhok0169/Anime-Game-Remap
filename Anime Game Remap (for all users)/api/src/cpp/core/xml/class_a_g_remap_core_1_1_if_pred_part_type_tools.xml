@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="55" column="32" bodyfile="src/constants/IfPredPartType.cpp" bodystart="37" bodyend="46"/>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="55" column="32" bodyfile="src/constants/IfPredPartType.cpp" bodystart="8" bodyend="17"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_part_type_tools_1a7268c424766322f01538e4bd0032d060" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" kindref="member">IfPredPartType</ref> &gt;</type>
@@ -75,7 +75,7 @@ Retrieves the :cpp:enum:`IfPredPartType` for an :cpp:class:`IfPredPart` :raw-htm
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="75" column="34" bodyfile="src/constants/IfPredPartType.cpp" bodystart="48" bodyend="70"/>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="75" column="34" bodyfile="src/constants/IfPredPartType.cpp" bodystart="19" bodyend="47"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

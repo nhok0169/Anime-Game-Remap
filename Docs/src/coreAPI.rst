@@ -2040,6 +2040,12 @@ Z3Predicate
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _Python: https://www.python.org/
 .. _Python's str.strip: https://docs.python.org/3/library/stdtypes.html#str.strip
+.. _Python's str.lstrip: https://docs.python.org/3/library/stdtypes.html#str.lstrip
+.. _Python's str.rstrip: https://docs.python.org/3/library/stdtypes.html#str.rstrip
+.. _Python's str.lower: https://docs.python.org/3/library/stdtypes.html#str.lower
+.. _Python's str.isspace: https://docs.python.org/3/library/stdtypes.html#str.isspace
+.. _Unicode: https://en.wikipedia.org/wiki/Unicode
+.. _utf8proc: https://juliastrings.github.io/utf8proc/
 .. _CRTP: https://en.wikipedia.org/wiki/Curiously_recurring_template_pattern
 .. _pybind11: https://pybind11.readthedocs.io/en/stable/
 .. _tsl::ordered_map: https://github.com/Tessil/ordered-map

@@ -2,48 +2,16 @@
 #define AGRemapCore_GIMIParser_TPP
 
 #include <algorithm>
-#include <cctype>
 #include <type_traits>
 
 #include "AGRemapCore/model/IniNamingTools.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
 
 #include "GIMIParser.h"
 
 
 namespace AGRemapCore {
-    namespace GIMIParserDetail {
-        // Same ASCII-only lowercasing IfPredPart/IfPredPartType already use file-locally -- .ini
-        // section names and mod object names are ASCII in every real mod, and full Unicode case
-        // folding would be a much heavier dependency for no gain.
-        inline std::string toLowerAscii(std::string_view txt) {
-            std::string result(txt);
-            for (char& c : result) {
-                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-            }
-            return result;
-        }
-
-        inline std::string_view stripAscii(std::string_view txt) {
-            std::size_t start = 0;
-            std::size_t end = txt.size();
-
-            while (start < end && std::isspace(static_cast<unsigned char>(txt[start]))) {
-                ++start;
-            }
-            while (end > start && std::isspace(static_cast<unsigned char>(txt[end - 1]))) {
-                --end;
-            }
-
-            return txt.substr(start, end - start);
-        }
-
-        inline bool endsWith(const std::string& txt, const std::string& suffix) {
-            return txt.size() >= suffix.size() && txt.compare(txt.size() - suffix.size(), suffix.size(), suffix) == 0;
-        }
-    }
-
-
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::ParserConfig GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::defaultConfig() {
         ParserConfig result{};
@@ -254,11 +222,11 @@ namespace AGRemapCore {
 
         std::unordered_map<std::string, std::optional<ModObj>> data;
         for (const ModObj& modObj : modObjs) {
-            data[GIMIParserDetail::toLowerAscii(modObj.first + modObj.second)] = modObj;
+            data[StringTools::toLower(modObj.first + modObj.second)] = modObj;
         }
 
         // std::nullopt marks the "this section was written by us" keyword -- see NameClassifier.
-        data[GIMIParserDetail::toLowerAscii(IniKeywords::Remap)] = std::nullopt;
+        data[StringTools::toLower(IniKeywords::Remap)] = std::nullopt;
 
         nameClassifier_ = std::make_unique<NameClassifier>(data);
         nameClassifierModObjs_ = modObjs;
@@ -279,10 +247,10 @@ namespace AGRemapCore {
         const std::vector<ModObj>& targetModObjs = (modObjs == nullptr) ? parser.modObjs() : *modObjs;
         NameClassifier& classifier = parser.nameClassifier(targetModObjs);
 
-        static const std::string textureOverrideKey = GIMIParserDetail::toLowerAscii(IniKeywords::TextureOverride);
-        static const std::string remapKey = GIMIParserDetail::toLowerAscii(IniKeywords::Remap);
+        static const std::string textureOverrideKey = StringTools::toLower(IniKeywords::TextureOverride);
+        static const std::string remapKey = StringTools::toLower(IniKeywords::Remap);
 
-        std::string cleanedSectionName = GIMIParserDetail::toLowerAscii(GIMIParserDetail::stripAscii(sectionName));
+        std::string cleanedSectionName = StringTools::toLower(StringTools::strip(sectionName));
         if (cleanedSectionName.rfind(textureOverrideKey, 0) != 0) {
             return result;
         }
@@ -300,7 +268,7 @@ namespace AGRemapCore {
         // specific mod object wins" deterministically instead.
         std::vector<std::string> matched;
         for (const auto& entry : found) {
-            if (GIMIParserDetail::endsWith(cleanedSectionName, entry.first)) {
+            if (StringTools::endsWith(cleanedSectionName, entry.first)) {
                 matched.push_back(entry.first);
             }
         }

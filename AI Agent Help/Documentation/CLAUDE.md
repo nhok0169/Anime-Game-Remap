@@ -761,3 +761,28 @@ reopened) survives untouched.
   trailing letters) — this exact bug was found in four `IniSectionGraph` docstrings the moment
   that class was made live, so don't assume existing docstrings in a still-commented class are
   already correct; check before/while making anything newly live.
+
+## Anonymous namespaces churn `core/xml` file *names*, not just contents
+
+Doxygen names the XML for an anonymous namespace by a hash of its contents
+(`namespace_a_g_remap_core_1_1_0d<40 digits>.xml`), so touching *anything* inside a
+`namespace { ... }` block in a `.cpp` --- deleting a file-local helper, renaming one --- produces a
+`D` (old hash) plus a `??` (new hash) pair in `git status` under `core/xml`, alongside the usual
+`M` churn. Confirmed 2026-09-03 after removing the ASCII helpers from `IfPredPart.cpp`/
+`IfPredPartType.cpp`/`IniClassifier.cpp`/`ModType.cpp`: 91 `M`, 2 `D`, 1 `??`. That is correct
+output, not a broken run; just make sure a `git add` of the directory picks up the deletions and the
+new file, not only the modifications. The tracked count is also no longer the "642 files" quoted
+elsewhere in these docs --- the same regeneration wrote **708** XML files, all of which parse. The
+regenerate-and-validate one-liner that worked, run from the Bash tool in the background:
+```bash
+cd "<core>" && rm -rf xml && doxygen Doxyfile > doxygen.log 2>&1 && ls xml/index.xml && \
+py -3 -c "import glob, xml.etree.ElementTree as ET; [ET.parse(p) for p in glob.glob('xml/*.xml')]; print('ok')"
+```
+Doxygen writes LF, so `git diff --stat` on the result is prefaced by one `LF will be replaced by
+CRLF` warning per file; that is `core.autocrlf` talking, not a problem.
+
+Related: reference-style rst links used in header doc comments (`` `Unicode`_ ``, `` `utf8proc`_ ``,
+`` `Python's str.lower`_ ``, ...) resolve only if `Docs/src/coreAPI.rst` defines the target in its
+link block near the bottom, and Doxygen will not tell you when one is missing --- `TextTools.h` had
+been using two undefined ones. Targets are case-insensitive in rst, so `` `Grapheme`_ `` already
+resolves to the existing `_grapheme` entry; don't add a second.

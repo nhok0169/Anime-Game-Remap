@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
-  <compounddef id="namespace_a_g_remap_core_1_1_0d113172064314307233013164312257100125277274160071" kind="namespace" language="C++">
-    <compoundname>AGRemapCore::@113172064314307233013164312257100125277274160071</compoundname>
+  <compounddef id="namespace_a_g_remap_core_1_1_0d360342111041161010011206277123100245145227345103" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@360342111041161010011206277123100245145227345103</compoundname>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/constants/IfPredPartType.cpp" line="10" column="5"/>
+    <location file="src/tools/StringTools.cpp" line="11" column="5"/>
   </compounddef>
 </doxygen>

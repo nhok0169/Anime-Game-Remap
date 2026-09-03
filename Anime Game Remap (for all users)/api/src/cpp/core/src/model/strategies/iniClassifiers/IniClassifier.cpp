@@ -1,7 +1,6 @@
 #include "AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h"
 
 #include <algorithm>
-#include <cctype>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -15,12 +14,10 @@ namespace AGRemapCore {
         // Section-name keyword matching is case-insensitive, so both ends go through here: what
         // addGIModType registers, and what readSectionName looks up. Lowering only one side matches
         // nothing -- and does it silently, since an unmatched keyword just means "not this mod
-        // type".
-        std::string toLowerAscii(std::string_view text) {
-            std::string result(text);
-            std::transform(result.begin(), result.end(), result.begin(),
-                           [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
-            return result;
+        // type". Lowered by grapheme through StringTools, so a non-ASCII keyword or section name
+        // is folded the same way on both ends too.
+        std::string toLower(std::string_view text) {
+            return StringTools::toLower(text);
         }
     }
 
@@ -212,28 +209,23 @@ namespace AGRemapCore {
 
         // "hash[whitespace*]=[value]"
         if (line.starts_with(hashPrefix)) {
-            size_t pos = hashPrefix.size();
-            while (pos < line.size() && std::isspace(static_cast<unsigned char>(line[pos]))) {
-                pos++;
-            }
+            // Whitespace is skipped by grapheme through StringTools (so Unicode whitespace between
+            // "hash" and "=" is tolerated, the way the pure-Python original's regex \s* was).
+            std::string_view rest = StringTools::lstrip(std::string_view(line).substr(hashPrefix.size()));
 
-            if (pos < line.size() && line[pos] == '=') {
-                pos++;
+            if (rest.starts_with('=')) {
+                rest.remove_prefix(1);
 
                 // The value runs up to (but excludes) a trailing .ini comment, if any -- e.g.
                 // "hash = deadbeef ; some comment" should only capture "deadbeef", not the comment.
-                size_t end = pos;
-                while (end < line.size() && line[end] != ';' && line[end] != '#') {
-                    end++;
-                }
+                std::string_view value = rest.substr(0, rest.find_first_of(";#"));
 
                 // A hash inside a "Remap"-named section is a fix-added redirect to some other mod
                 // type this .ini was already fixed to (e.g. a JeanCN/JeanSea RemapFix section
                 // inside an already-fixed Jean .ini) -- it shouldn't count toward classification,
                 // or the result would wrongly include those other mod types too.
                 if (!currentSectionIsRemap) {
-                    std::string_view hashValue = StringTools::strip(std::string_view(line).substr(pos, end - pos));
-                    readHash(hashValue, stats);
+                    readHash(StringTools::strip(value), stats);
                 }
 
                 return;
@@ -371,10 +363,10 @@ namespace AGRemapCore {
         // write "[textureoverride...]" -- so folding only the keyword lookup below and leaving
         // these prefix checks exact would accept a mod type's keyword while rejecting the very
         // section it appeared in.
-        std::string lowerSectionName = toLowerAscii(sectionName);
-        static const std::string lowerTextureOverride = toLowerAscii(IniKeywords::TextureOverride);
-        static const std::string lowerShaderOverride = toLowerAscii(IniKeywords::ShaderOverride);
-        static const std::string lowerRemap = toLowerAscii(IniKeywords::Remap);
+        std::string lowerSectionName = toLower(sectionName);
+        static const std::string lowerTextureOverride = toLower(IniKeywords::TextureOverride);
+        static const std::string lowerShaderOverride = toLower(IniKeywords::ShaderOverride);
+        static const std::string lowerRemap = toLower(IniKeywords::Remap);
 
         // Tracks which section readLine is currently inside, for its own hash-skipping purposes --
         // updated unconditionally, before anything below (including #checkHasTextureOverride) has a
@@ -505,7 +497,7 @@ namespace AGRemapCore {
         for (const std::string& rawKeyword : sectionKeywords) {
             // Lowered once, here, so every downstream use of it -- the match DFA, the
             // GameTypeId predicate's lookup table, and the state id -- agrees on one spelling.
-            std::string keyword = toLowerAscii(rawKeyword);
+            std::string keyword = toLower(rawKeyword);
 
             sectionKeywordsDFA.add(keyword, gameTypeIdSet);
             keywordGameTypeIds[keyword].insert(static_cast<int>(GameTypeId::GI));

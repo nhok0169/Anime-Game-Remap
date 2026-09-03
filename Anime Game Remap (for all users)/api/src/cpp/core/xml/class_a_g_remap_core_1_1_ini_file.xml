@@ -1104,7 +1104,7 @@ Retrieves all the :cpp:class:`IfTemplate`\\s for the .ini file, keyed by `sectio
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="503" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1087" bodyend="1092"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="503" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1063" bodyend="1068"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ac058e61a99a2b776d58e5a9ee3809ff3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1342,7 +1342,7 @@ no path, or nothing at that path
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="598" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="1023" bodyend="1085"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="598" column="36" bodyfile="src/model/files/IniFile.cpp" bodystart="999" bodyend="1061"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a0e756b77c6b71dcaa5d1e269bd49766c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -2101,7 +2101,7 @@ Mirrors the pure-Python original&apos;s own ``_sectionPattern``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="421" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="968" bodyend="979"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="421" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="955" bodyend="958"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1ae452cb997094150f4ee0f9035e3d4830" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -2141,7 +2141,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="440" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="981" bodyend="997"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="440" column="32" bodyfile="src/model/files/IniFile.cpp" bodystart="960" bodyend="976"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -2265,7 +2265,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1119" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="999" bodyend="1017"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1119" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="978" bodyend="993"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_1a26d02514ce0c6d14406cad224201f03a" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -2283,7 +2283,7 @@ Public for the same reason as #isSectionHeaderLine -- the name this returns is t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/IniFile.h" line="1129" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="1019" bodyend="1021"/>
+        <location file="include/AGRemapCore/model/files/IniFile.h" line="1129" column="25" bodyfile="src/model/files/IniFile.cpp" bodystart="995" bodyend="997"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

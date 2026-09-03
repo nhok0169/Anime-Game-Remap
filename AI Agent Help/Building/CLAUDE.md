@@ -63,6 +63,19 @@ native-code change.
     `cmd //c "$(cygpath -w "$SP/build_core.bat")"`. The error message reads like a missing file, so
     it's easy to waste time re-checking that the `.bat` was written correctly when the path form is
     the actual problem.
+  - **The simplest route that is confirmed to work (2026-09-03) is to skip the Bash tool for the
+    launch entirely and use the PowerShell tool:**
+    `cmd /c "C:\...\scratchpad\build_core.bat" 2>&1 | Out-File -Encoding utf8 <log>` with
+    `run_in_background: true` for a `ninja` build, or in the foreground with a long timeout for a
+    standalone `cl` test compile. Two failure modes to recognise on sight, both of which *report
+    success*: a hand-typed Windows path given to the Bash tool's `cmd //c` (even with doubled
+    backslashes) arrives as `'C:UsersAlexX...build_core.bat' is not recognized` -- the batch never
+    ran, and the harness still says exit 0 -- and PowerShell's
+    `Start-Process cmd.exe -ArgumentList '/c', '"<bat>" > <log>'` returns a PID immediately but never
+    writes the log. In both cases the *old* `.pyd` stays installed, and every test you run afterwards
+    is quietly exercising stale code. Check `core.cp313-win_amd64.pyd`'s mtime before trusting any
+    result. Data point for pacing: after touching `StringTools.h` (included by most of the core),
+    `ninja core` plus the link plus the copy took about 4 minutes end to end.
 
 ## `api/extern/*` are git submodules — empty in a fresh `git worktree`
 
@@ -152,7 +165,7 @@ py -3 main.py -d
 
 `py -3 main.py` (no `-d`) is the normal edit-compile-test build: it compiles `AGRemapCore`, the
 `core` pybind11 module and the Cython extensions, **and runs CMake's install step**, which is what
-copies `core.cp39-win_amd64.pyd` into `api/src/py/FixRaidenBoss2/`. You never have to stage that
+copies `core.cp313-win_amd64.pyd` into `api/src/py/FixRaidenBoss2/`. You never have to stage that
 file by hand.
 
 - No `-e` flag = `dev` env mode: builds `AGRemapCore`, the `core` pybind11 module, and the
@@ -219,8 +232,8 @@ need the full `main.py -d` cycle every time:
   Cannot open include file: 'optional'`/`'vector'` — misleading, since it looks like a missing
   header rather than a missing dev-environment, but it's really just `cl.exe` running with no
   `INCLUDE` env var set). **This bypasses APIBuilder's install step** — copy the freshly-built
-  `.pyd` out yourself before testing: `cbuild/src/cpp/py/core.cp39-win_amd64.pyd` →
-  `api/src/py/FixRaidenBoss2/core.cp39-win_amd64.pyd` (and `cbuild/src/cy/cython/Cy*.pyd` →
+  `.pyd` out yourself before testing: `cbuild/src/cpp/py/core.cp313-win_amd64.pyd` →
+  `api/src/py/FixRaidenBoss2/core.cp313-win_amd64.pyd` (and `cbuild/src/cy/cython/Cy*.pyd` →
   the same destination, if a Cython change is also in play). Don't assume every worktree has a
   `cbuild/` to reuse this way — it's an opportunistic shortcut, not the normal path; fall back to
   `main.py` (which configures one from scratch if needed) when there isn't one already there.
@@ -244,7 +257,7 @@ need the full `main.py -d` cycle every time:
 
 ## Run the pybind11 link in the **background** --- a foreground timeout kills it mid-link and leaves you a half-built tree
 
-`ninja core` recompiles fast but the final `Linking CXX shared module ... core.cp39-win_amd64.pyd`
+`ninja core` recompiles fast but the final `Linking CXX shared module ... core.cp313-win_amd64.pyd`
 step alone can take well over ten minutes on this machine. If the tool call running it hits its
 timeout, the link is killed: the log stops after the last `Building CXX object` line, `.obj` files
 are all present, and **no `.pyd` is produced** --- so a `cp` of the build output afterwards silently
@@ -649,8 +662,8 @@ standalone `core/tests/*.cpp` executables, which link the static lib rather than
 # so keep a one-shot .bat that calls vcvarsall and then ninja
 cd <repo-root>/cbuild && ninja
 ```
-Then copy `cbuild/src/cpp/py/core.cp39-win_amd64.pyd` over
-`api/src/py/FixRaidenBoss2/core.cp39-win_amd64.pyd` yourself, because nothing else will.
+Then copy `cbuild/src/cpp/py/core.cp313-win_amd64.pyd` over
+`api/src/py/FixRaidenBoss2/core.cp313-win_amd64.pyd` yourself, because nothing else will.
 
 If you also need the stub by hand:
 ```bash

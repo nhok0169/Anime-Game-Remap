@@ -452,7 +452,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found</para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -495,7 +495,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found</para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -538,7 +538,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found</para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -590,7 +590,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found</para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_</para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -647,7 +647,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found </para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_ </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -709,7 +709,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found </para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_ </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -771,7 +771,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found </para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_ </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -842,7 +842,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 <parametername>resultInd</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The pointer to store the starting index of where the keyword was found </para>
+<para>The pointer to store the starting index of where the keyword was found, counted in <computeroutput>graphemes</computeroutput>_ </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -932,7 +932,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The found keyword </para>
+<simplesect kind="return"><para>The found keywords, and the starting index (counted in <computeroutput>graphemes</computeroutput>_) of each </para>
 </simplesect>
 </para>
         </detaileddescription>
@@ -995,7 +995,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The found keyword    </para>
+<simplesect kind="return"><para>The found keywords, and the starting index (counted in <computeroutput>graphemes</computeroutput>_) of each    </para>
 </simplesect>
 </para>
         </detaileddescription>

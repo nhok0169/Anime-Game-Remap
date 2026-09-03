@@ -19,9 +19,6 @@
       <node id="48">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="1">
         <label>include/AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
@@ -837,6 +834,9 @@
         </childnode>
         <childnode refid="69" relation="include">
         </childnode>
+      </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="82">
         <label>Generator.tpp</label>

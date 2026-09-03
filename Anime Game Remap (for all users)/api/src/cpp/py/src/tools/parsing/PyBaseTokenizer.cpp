@@ -8,6 +8,7 @@
 
 #include "AGRemapCore/tools/parsing/BaseTokenizer.h"
 #include "AGRemapCore/tools/parsing/SyntaxErr.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
@@ -20,8 +21,15 @@ namespace {
     // ord(endChar)) that these are always single-character strings -- not something a bare
     // 'char' parameter could accept directly from an arbitrary Python str argument.
     char parseASCIIChar(const std::string &name, const std::string &value) {
-        if (value.size() != 1) {
+        // Counted in graphemes first, so the error tells a non-ASCII single character (eg. "é" or an
+        // emoji -- one character to the caller, several bytes here) apart from genuinely
+        // multi-character input. Both are rejected, since the DFA's ASCII range transitions are
+        // keyed by single bytes.
+        if (AGRC::StringTools::countGrapheme(value) != 1) {
             throw py::value_error(name + " must be a single character, got '" + value + "'");
+        }
+        if (value.size() != 1 || static_cast<unsigned char>(value[0]) >= 0x80) {
+            throw py::value_error(name + " must be a single ASCII character, got '" + value + "'");
         }
         return value[0];
     }

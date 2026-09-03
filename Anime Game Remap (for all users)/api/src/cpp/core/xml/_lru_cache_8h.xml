@@ -10,9 +10,6 @@
     <includes local="yes">LruCache.tpp</includes>
     <includedby refid="_version_set_8h" local="yes">include/AGRemapCore/model/VersionSet.h</includedby>
     <incdepgraph>
-      <node id="9">
-        <label>Cache.tpp</label>
-      </node>
       <node id="6">
         <label>AGRemapCore/tools/caches/Cache.h</label>
         <link refid="_cache_8h"/>
@@ -46,6 +43,9 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+      </node>
+      <node id="9">
+        <label>Cache.tpp</label>
       </node>
       <node id="10">
         <label>LruCache.tpp</label>

@@ -1,6 +1,5 @@
 #include "AGRemapCore/model/iftemplate/IfPredPart.h"
 
-#include <cctype>
 #include <memory>
 
 #include "AGRemapCore/model/iftemplate/IfPredParser.h"
@@ -19,32 +18,6 @@
 namespace AGRemapCore {
 
     namespace {
-        // Same plain-ASCII lowercasing convention as IfPredPartTypeTools.cpp (see its own
-        // comment) -- duplicated locally rather than shared, since it's a handful of lines and
-        // this codebase has no existing "private shared helper" header for this kind of thing
-        // outside of the Z3-specific pimpl internals.
-        bool startsWithAscii(std::string_view txt, std::string_view prefix) {
-            return txt.size() >= prefix.size() && txt.substr(0, prefix.size()) == prefix;
-        }
-
-        std::string toLowerAscii(std::string_view txt) {
-            std::string result(txt);
-            for (char& c : result) {
-                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-            }
-
-            return result;
-        }
-
-        std::string_view lstripAscii(std::string_view txt) {
-            size_t start = 0;
-            while (start < txt.size() && std::isspace(static_cast<unsigned char>(txt[start]))) {
-                ++start;
-            }
-
-            return txt.substr(start);
-        }
-
         // Removes 'keyword' from 'src', but only if 'keyword' (case-insensitive) is the first
         // non-whitespace text in 'src' -- mirrors the pure-Python original's own
         // 'regex.sub(r"(?<=(^\s*))" + keyword, "", src, flags=re.IGNORECASE, count=1)'. Leading
@@ -52,40 +25,40 @@ namespace AGRemapCore {
         // word-boundary check after the keyword (matches IfPredPartTypeTools::getType's own
         // equally permissive prefix check -- not a bug, a deliberate consistency between
         // classification and stripping).
+        //
+        // Whitespace and case go through StringTools, by grapheme: the candidate keyword is the
+        // first few *graphemes* of the remaining text, lowered for the comparison only, and the
+        // splice is done on the original bytes of that span -- lowering can change a character's
+        // byte length, so cutting 'keyword.size()' bytes out of 'src' would not be safe.
         std::string stripLeadingKeyword(const std::string& src, std::string_view keyword) {
-            size_t i = 0;
-            while (i < src.size() && std::isspace(static_cast<unsigned char>(src[i]))) {
-                ++i;
-            }
+            std::string_view rest = StringTools::lstrip(src);
+            std::string_view candidate = StringTools::firstGraphemes(rest, StringTools::countGrapheme(keyword));
 
-            if (!startsWithAscii(toLowerAscii(std::string_view(src).substr(i)), keyword)) {
+            if (!StringTools::equalsIgnoreCase(candidate, keyword)) {
                 return src;
             }
 
-            return src.substr(0, i) + src.substr(i + keyword.size());
+            size_t leadingLen = src.size() - rest.size();
+            return src.substr(0, leadingLen) + std::string(rest.substr(candidate.size()));
         }
 
         // Removes 'keyword' from 'src', but only if 'keyword' (case-insensitive) is immediately
         // followed by nothing but trailing whitespace to the end of 'src' -- mirrors the
         // pure-Python original's own 'keyword + r"(?=(\s*$))"'. Only one position in 'src' can
         // ever satisfy that lookahead (the one right before the final run of trailing whitespace),
-        // so this is an exact, not approximate, port.
+        // so this is an exact, not approximate, port. Same grapheme-wise handling as
+        // stripLeadingKeyword.
         std::string stripTrailingKeyword(const std::string& src, std::string_view keyword) {
-            size_t end = src.size();
-            while (end > 0 && std::isspace(static_cast<unsigned char>(src[end - 1]))) {
-                --end;
-            }
+            std::string_view head = StringTools::rstrip(src);
+            size_t keywordLen = StringTools::countGrapheme(keyword);
+            std::string_view candidate = StringTools::lastGraphemes(head, keywordLen);
 
-            if (end < keyword.size()) {
+            if (StringTools::countGrapheme(candidate) != keywordLen || !StringTools::equalsIgnoreCase(candidate, keyword)) {
                 return src;
             }
 
-            size_t start = end - keyword.size();
-            if (toLowerAscii(std::string_view(src).substr(start, keyword.size())) != keyword) {
-                return src;
-            }
-
-            return src.substr(0, start) + src.substr(start + keyword.size());
+            size_t start = head.size() - candidate.size();
+            return src.substr(0, start) + src.substr(start + candidate.size());
         }
 
         IfPredTokenizer& sharedTokenizer() {
@@ -167,10 +140,10 @@ namespace AGRemapCore {
             return result;
         }
 
-        std::string cleanedSrc = toLowerAscii(lstripAscii(src));
+        std::string cleanedSrc = StringTools::toLower(StringTools::lstrip(src));
         std::string elseKeyword = IfPredPartTypeTools::getName(IfPredPartType::Else);
 
-        if (startsWithAscii(cleanedSrc, elseKeyword)) {
+        if (StringTools::startsWith(cleanedSrc, elseKeyword)) {
             std::string result = stripLeadingKeyword(src, elseKeyword);
             return stripLeadingKeyword(result, IfPredPartTypeTools::getName(IfPredPartType::If));
         }
@@ -221,7 +194,7 @@ namespace AGRemapCore {
     std::string IfPredPart::toStr(const std::optional<std::string>& linePrefix) const {
         std::string result = src;
         if (linePrefix.has_value()) {
-            result = *linePrefix + std::string(lstripAscii(result));
+            result = *linePrefix + std::string(StringTools::lstrip(result));
         }
 
         if (result.empty()) {

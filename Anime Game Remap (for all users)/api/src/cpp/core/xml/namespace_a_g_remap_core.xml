@@ -1060,7 +1060,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="30" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="30" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="27" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="27" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -1075,7 +1075,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="31" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="31" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="28" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="28" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">

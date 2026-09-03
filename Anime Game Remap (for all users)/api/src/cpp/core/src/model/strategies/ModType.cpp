@@ -1,13 +1,12 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 
-#include <algorithm>
-#include <cctype>
 #include <set>
 #include <utility>
 
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/tools/Heading.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 #include "AGRemapCore/data/ModDataAssets.h"
 
@@ -72,24 +71,15 @@ namespace AGRemapCore {
     }
 
 
-    namespace {
-        std::string toLowerAscii(const std::string& text) {
-            std::string result(text);
-            std::transform(result.begin(), result.end(), result.begin(),
-                           [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
-            return result;
-        }
-    }
-
     bool ModType::isName(const std::string& name) const {
-        const std::string lowered = toLowerAscii(name);
-
-        if (toLowerAscii(this->name) == lowered) {
+        // Case-insensitive by grapheme through StringTools (the pure-Python original's own
+        // '.lower()' comparison on a Unicode str), so a non-ASCII name or alias compares correctly.
+        if (StringTools::equalsIgnoreCase(this->name, name)) {
             return true;
         }
 
         for (const std::string& alias : aliases) {
-            if (toLowerAscii(alias) == lowered) {
+            if (StringTools::equalsIgnoreCase(alias, name)) {
                 return true;
             }
         }

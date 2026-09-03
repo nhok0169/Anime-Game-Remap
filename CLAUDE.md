@@ -66,13 +66,28 @@ implements `write`/`read` -- from Python or C++, both are reached through the tr
 is deliberately *not* a binding of the core `Logger`, and `Model.print` forwards kwargs by name, so
 `py::arg` names must match the old Python parameter names exactly.
 
-**Three repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
+**Text handling in the C++ core is grapheme-aware, and the maintainer wants it kept that way
+(2026-09-03).** Every file-local `toLowerAscii`/`stripAscii`/`std::isspace`-loop helper that had
+accumulated in `model/` was deleted in favour of `AGRemapCore::StringTools` (`strip`/`lstrip`/
+`rstrip`/`isSpace`/`toLower`/`firstGraphemes`/`lastGraphemes`/`startsWith`/`endsWith`/
+`equalsIgnoreCase`/`endsWithIgnoreCase`/`countGrapheme`, all utf8proc-backed, all per grapheme). If a
+new feature needs whitespace, case, or a character index, use those or `GraphemeRange`; byte-wise
+`find`/`substr` against ASCII *delimiters* (`[`, `=`, `;`, `\n`) are fine. Indices this library hands
+out are grapheme indices, and a byte cursor and a grapheme cursor must be separate variables --- see
+**Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
+deliberately left byte-wise, and the hand-built test that covers it.
+
+**Four repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
 reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
 return + `ef`), so write patch scripts with the Write tool and run them by path; (3) the dev Python is
 **3.13** (`core.cp313-win_amd64.pyd`) and `vcvarsall.bat` lives under `Program Files (x86)\Microsoft
-Visual Studio\18\BuildTools` on this machine -- see **Building**'s prerequisites for the exact lines.
+Visual Studio\18\BuildTools` on this machine -- see **Building**'s prerequisites for the exact lines;
+(4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes
+stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
+place for your tests. Launch build/test batch files from the **PowerShell** tool with
+`cmd /c "<full path>"` instead, and verify by the `.pyd`'s mtime (see **Building**).
 
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)

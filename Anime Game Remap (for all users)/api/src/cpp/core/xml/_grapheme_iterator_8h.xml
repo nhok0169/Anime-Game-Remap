@@ -28,7 +28,7 @@
         <link refid="_grapheme_iterator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -40,20 +40,32 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="3">
+        <label>src/model/IniNamingTools.cpp</label>
+        <link refid="_ini_naming_tools_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/tools/IntTools.cpp</label>
         <link refid="_int_tools_8cpp"/>
       </node>
-      <node id="6">
+      <node id="5">
+        <label>src/tools/StringTools.cpp</label>
+        <link refid="_string_tools_8cpp"/>
+      </node>
+      <node id="8">
         <label>src/tools/grapheme/GraphemeIterator.cpp</label>
         <link refid="_grapheme_iterator_8cpp"/>
       </node>
-      <node id="4">
+      <node id="6">
         <label>src/tools/grapheme/GraphemeRange.cpp</label>
         <link refid="_grapheme_range_8cpp"/>
       </node>
-      <node id="5">
+      <node id="7">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
       </node>

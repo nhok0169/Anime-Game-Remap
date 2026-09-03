@@ -214,7 +214,7 @@ Parses a raw version string according to the `PEP 440`_ grammar
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="57" column="34" bodyfile="src/model/Version.cpp" bodystart="221" bodyend="444"/>
+        <location file="include/AGRemapCore/model/Version.h" line="57" column="34" bodyfile="src/model/Version.cpp" bodystart="223" bodyend="441"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -249,7 +249,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="69" column="22" bodyfile="src/model/Version.cpp" bodystart="193" bodyend="198"/>
+        <location file="include/AGRemapCore/model/Version.h" line="69" column="22" bodyfile="src/model/Version.cpp" bodystart="195" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a95ecbfea7eb7ac920e24b25519809c95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -280,7 +280,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="79" column="17" bodyfile="src/model/Version.cpp" bodystart="468" bodyend="494"/>
+        <location file="include/AGRemapCore/model/Version.h" line="79" column="17" bodyfile="src/model/Version.cpp" bodystart="465" bodyend="491"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a545e630bbd7e15faa5c8269ba17f9dc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -298,7 +298,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="81" column="13" bodyfile="src/model/Version.cpp" bodystart="496" bodyend="496"/>
+        <location file="include/AGRemapCore/model/Version.h" line="81" column="13" bodyfile="src/model/Version.cpp" bodystart="493" bodyend="493"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1adfb988021455a451c00b4b9e161e1f49" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -316,7 +316,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="82" column="13" bodyfile="src/model/Version.cpp" bodystart="497" bodyend="497"/>
+        <location file="include/AGRemapCore/model/Version.h" line="82" column="13" bodyfile="src/model/Version.cpp" bodystart="494" bodyend="494"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a5cb8a3c608d3970377ed33de7ccb38d5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -334,7 +334,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="83" column="18" bodyfile="src/model/Version.cpp" bodystart="498" bodyend="498"/>
+        <location file="include/AGRemapCore/model/Version.h" line="83" column="18" bodyfile="src/model/Version.cpp" bodystart="495" bodyend="495"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a402b18bdcfcb02bbe7a40c5efd8460a4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -352,7 +352,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="84" column="18" bodyfile="src/model/Version.cpp" bodystart="499" bodyend="499"/>
+        <location file="include/AGRemapCore/model/Version.h" line="84" column="18" bodyfile="src/model/Version.cpp" bodystart="496" bodyend="496"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a4390ada0b46e62954ebafbb02d40c7d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -370,7 +370,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="85" column="18" bodyfile="src/model/Version.cpp" bodystart="500" bodyend="500"/>
+        <location file="include/AGRemapCore/model/Version.h" line="85" column="18" bodyfile="src/model/Version.cpp" bodystart="497" bodyend="497"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad3eea608ab896b71b9174e2274689f82" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -388,7 +388,7 @@ common case (equivalent to ``Version::parse(...)`` on the same dotted-numeric st
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="86" column="18" bodyfile="src/model/Version.cpp" bodystart="501" bodyend="501"/>
+        <location file="include/AGRemapCore/model/Version.h" line="86" column="18" bodyfile="src/model/Version.cpp" bodystart="498" bodyend="498"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1abe24f2d8a0b83aaa7533591628daab6a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -406,7 +406,7 @@ Converts the version back into its normalized, round-trippable string form (matc
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="95" column="25" bodyfile="src/model/Version.cpp" bodystart="503" bodyend="544"/>
+        <location file="include/AGRemapCore/model/Version.h" line="95" column="25" bodyfile="src/model/Version.cpp" bodystart="500" bodyend="541"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a2ace03a6d58c281a3086f45ec099708f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -421,7 +421,7 @@ Converts the version back into its normalized, round-trippable string form (matc
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="100" column="27" bodyfile="src/model/Version.cpp" bodystart="546" bodyend="548"/>
+        <location file="include/AGRemapCore/model/Version.h" line="100" column="27" bodyfile="src/model/Version.cpp" bodystart="543" bodyend="545"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1aa142adff3acf02cee3ebcb6b173c90b1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::uint64_t &gt; &amp;</type>
@@ -441,7 +441,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="111" column="31" bodyfile="src/model/Version.cpp" bodystart="550" bodyend="552"/>
+        <location file="include/AGRemapCore/model/Version.h" line="111" column="31" bodyfile="src/model/Version.cpp" bodystart="547" bodyend="549"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a2d088047113d4d36125f1d4bac30f956" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; std::pair&lt; std::string, std::uint64_t &gt; &gt; &amp;</type>
@@ -456,7 +456,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="117" column="33" bodyfile="src/model/Version.cpp" bodystart="554" bodyend="556"/>
+        <location file="include/AGRemapCore/model/Version.h" line="117" column="33" bodyfile="src/model/Version.cpp" bodystart="551" bodyend="553"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1adee466e46190f628fb02633929a66612" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::uint64_t &gt;</type>
@@ -471,7 +471,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="122" column="27" bodyfile="src/model/Version.cpp" bodystart="558" bodyend="560"/>
+        <location file="include/AGRemapCore/model/Version.h" line="122" column="27" bodyfile="src/model/Version.cpp" bodystart="555" bodyend="557"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ada0f211c3b3e9926d2abad6c7c1cecc0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::uint64_t &gt;</type>
@@ -486,7 +486,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="127" column="27" bodyfile="src/model/Version.cpp" bodystart="562" bodyend="564"/>
+        <location file="include/AGRemapCore/model/Version.h" line="127" column="27" bodyfile="src/model/Version.cpp" bodystart="559" bodyend="561"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a535da351bd7506741e77f17b073ddbe0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -502,7 +502,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="133" column="27" bodyfile="src/model/Version.cpp" bodystart="566" bodyend="579"/>
+        <location file="include/AGRemapCore/model/Version.h" line="133" column="27" bodyfile="src/model/Version.cpp" bodystart="563" bodyend="576"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a0aabc3bbf1310c5270f03c233d128452" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -517,7 +517,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="138" column="18" bodyfile="src/model/Version.cpp" bodystart="581" bodyend="583"/>
+        <location file="include/AGRemapCore/model/Version.h" line="138" column="18" bodyfile="src/model/Version.cpp" bodystart="578" bodyend="580"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a9b1c7d5e3ea2972aed78706256dc1726" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -532,7 +532,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="143" column="18" bodyfile="src/model/Version.cpp" bodystart="585" bodyend="587"/>
+        <location file="include/AGRemapCore/model/Version.h" line="143" column="18" bodyfile="src/model/Version.cpp" bodystart="582" bodyend="584"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a656d1edd9f16fb8fd4247337a7316c51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -547,7 +547,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="148" column="18" bodyfile="src/model/Version.cpp" bodystart="589" bodyend="591"/>
+        <location file="include/AGRemapCore/model/Version.h" line="148" column="18" bodyfile="src/model/Version.cpp" bodystart="586" bodyend="588"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad20dae91c357a13d70b8a9d988e8abbc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -562,7 +562,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="153" column="27" bodyfile="src/model/Version.cpp" bodystart="593" bodyend="595"/>
+        <location file="include/AGRemapCore/model/Version.h" line="153" column="27" bodyfile="src/model/Version.cpp" bodystart="590" bodyend="592"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a566f60e9a091100ea99d928f05726270" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -577,7 +577,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="158" column="27" bodyfile="src/model/Version.cpp" bodystart="597" bodyend="599"/>
+        <location file="include/AGRemapCore/model/Version.h" line="158" column="27" bodyfile="src/model/Version.cpp" bodystart="594" bodyend="596"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a17de1e44574cf3e177250fefea69744a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -592,7 +592,7 @@ comparison rather than comparing this directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="163" column="27" bodyfile="src/model/Version.cpp" bodystart="601" bodyend="603"/>
+        <location file="include/AGRemapCore/model/Version.h" line="163" column="27" bodyfile="src/model/Version.cpp" bodystart="598" bodyend="600"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1ad1236cdab0a899eb52ac57ae45bcdc0a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -610,7 +610,7 @@ The public portion of the version -- #toString without the local segment (mirror
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="172" column="25" bodyfile="src/model/Version.cpp" bodystart="605" bodyend="609"/>
+        <location file="include/AGRemapCore/model/Version.h" line="172" column="25" bodyfile="src/model/Version.cpp" bodystart="602" bodyend="606"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1afb39cd2c5665e629ad40132dc43e058a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -628,7 +628,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="181" column="25" bodyfile="src/model/Version.cpp" bodystart="611" bodyend="627"/>
+        <location file="include/AGRemapCore/model/Version.h" line="181" column="25" bodyfile="src/model/Version.cpp" bodystart="608" bodyend="624"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -662,7 +662,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="225" column="17" bodyfile="src/model/Version.cpp" bodystart="446" bodyend="466"/>
+        <location file="include/AGRemapCore/model/Version.h" line="225" column="17" bodyfile="src/model/Version.cpp" bodystart="443" bodyend="463"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a11473067fac141a7aa7d417567ff8b06" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -676,7 +676,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="226" column="25" bodyfile="src/model/Version.cpp" bodystart="629" bodyend="664"/>
+        <location file="include/AGRemapCore/model/Version.h" line="226" column="25" bodyfile="src/model/Version.cpp" bodystart="626" bodyend="661"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -696,7 +696,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="223" column="32" bodyfile="src/model/Version.cpp" bodystart="200" bodyend="206"/>
+        <location file="include/AGRemapCore/model/Version.h" line="223" column="32" bodyfile="src/model/Version.cpp" bodystart="202" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_1a44b5e2bf4022b51a6d124a64b4c6a138" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -718,7 +718,7 @@ segment (mirrors `packaging.version.Version`_&apos;s ``.base_version``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="224" column="24" bodyfile="src/model/Version.cpp" bodystart="208" bodyend="219"/>
+        <location file="include/AGRemapCore/model/Version.h" line="224" column="24" bodyfile="src/model/Version.cpp" bodystart="210" bodyend="221"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

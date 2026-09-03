@@ -14,7 +14,7 @@ namespace AGRemapCore {
         return m_text.substr(m_pos, m_next - m_pos);
     }
 
-    GraphemeIterator& GraphemeIterator::operator++() { 
+    GraphemeIterator& GraphemeIterator::operator++() {
         m_pos = m_next;
 
         if (m_pos < m_text.size()) {
@@ -44,6 +44,14 @@ namespace AGRemapCore {
                 m_text.size() - offset,
                 &prev_cp);
 
+        // A byte that is not valid UTF-8 (utf8proc reports a negative length for it) becomes a
+        // 1-byte grapheme of its own. Adding the negative length to 'offset' instead, as this used
+        // to, walked the iterator backwards over malformed input.
+        if (len <= 0) {
+            m_next = offset + 1;
+            return;
+        }
+
         offset += len;
 
         while (offset < m_text.size()) {
@@ -51,6 +59,10 @@ namespace AGRemapCore {
                 reinterpret_cast<const utf8proc_uint8_t*>(m_text.data()) + offset,
                 m_text.size() - offset,
                 &curr_cp);
+
+            // Same rule as above: a malformed byte always starts a new grapheme.
+            if (len <= 0)
+                break;
 
             if (utf8proc_grapheme_break_stateful(prev_cp, curr_cp, &m_state))
                 break;

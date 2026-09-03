@@ -43,7 +43,13 @@
 //      /I <core>/include /I <utf8proc-src> ^
 //      IniNamingTools_test.cpp <utf8proc-src>/utf8proc.c ^
 //      <core>/src/tools/TextTools.cpp <core>/src/model/IniNamingTools.cpp ^
+//      <core>/src/tools/StringTools.cpp <core>/src/tools/StringHash.cpp ^
+//      <core>/src/tools/grapheme/GraphemeIterator.cpp <core>/src/tools/grapheme/GraphemeRange.cpp ^
 //      /Fe:test.exe
+//
+// (IniNamingTools's case-insensitive matching goes through the grapheme-aware StringTools now,
+//  hence the StringTools/StringHash/grapheme sources on that line -- see
+//  StringTools_grapheme_test.cpp for the non-ASCII coverage of that path.)
 //
 // (g++/clang++ equivalent: swap /std:c++latest /EHsc /I /Fe: for
 //  -std=c++23 -I ... -o test.exe, and -DUTF8PROC_STATIC likely isn't needed)

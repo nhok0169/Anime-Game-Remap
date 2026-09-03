@@ -529,7 +529,7 @@ that this is a *shared* builder, not a fresh one per :cpp:class:`ModType`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="146" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="18" bodyend="72"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="146" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="17" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ab293ef707209c7c00a703728ddc8a9a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -564,7 +564,7 @@ pure-Python original&apos;s own ``isName``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="353" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="84" bodyend="98"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="353" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="74" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a839dc152e85bbaf69e506885f3ea45eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -592,7 +592,7 @@ The names of the mods this mod type can be fixed onto :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="371" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="100" bodyend="124"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="371" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="90" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a053254c5865f1b39ba2a9e1683651bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; int &gt;</type>
@@ -630,7 +630,7 @@ type has no row for it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="388" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="126" bodyend="139"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="388" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="116" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad0de2f5252c8c84c48e6e00e0e403e32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &gt;</type>
@@ -716,7 +716,7 @@ matching how the pure-Python original simply omits the key
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="405" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="141" bodyend="153"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="405" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="131" bodyend="143"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a521fa433e2e2b94c70f182c568873dc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -734,7 +734,7 @@ matching how the pure-Python original simply omits the key
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="416" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="155" bodyend="179"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="416" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="145" bodyend="169"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a7efb7c18eec1a75d4724a64c6a8eef93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -796,7 +796,7 @@ Returns nothing, also matching the original: the fix it produces is written out 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="433" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="181" bodyend="188"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="433" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="171" bodyend="178"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -859,7 +859,7 @@ wanted -- see :cpp:func:`ModMappedAssets::hasFrom`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="190" bodyend="203"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="180" bodyend="193"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

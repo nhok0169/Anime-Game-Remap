@@ -245,7 +245,8 @@ moves. Before assuming a class is Python, check whether `FixRaidenBoss2/__init__
 
 Landed as of **2026-09-03**: the SLR parser, `IniFile` (the pure-Python one is **deleted**),
 `iniresources`, `regEdits`/`graphEdits`/`graphGroupEdits`, `GIMIParser`/`GIMIFixer`,
-`RemapIniRemover`, `MultiModFixer`, the three `Ini*Builder`s in core (bound as
+`RemapIniRemover`, `MultiModFixer`, the MVC view (`BaseLogger`/`Logger` --- `view/Logger.py`
+deleted, see Architecture's "The view is C++ now"), the three `Ini*Builder`s in core (bound as
 `CppIniParseBuilder`/`CppIniFixBuilder`/`CppIniRemoveBuilder`), `ModType` phase 1, and (same day,
 later) the whole pure-Python `model/strategies/iniClassifiers/` package (`IniClassifierOld`/
 `BaseIniClassifierOld`/`IniClassifierBuilderOld`/`BaseIniClassifierBuilderOld`/`IniClassifyStatsOld`
@@ -305,6 +306,17 @@ placed mid-list silently truncates the statement** --- every name after it is ne
 `__all__` still advertises them, so `hasattr` fails but the module imports fine. That is exactly
 what happened with a `# TOREMOVE` note left after `GraphToolsOld`, which quietly killed 23 imports.
 Keep comments on their own line there.
+
+**Known state as of 2026-09-03: that import already fails before anything you touch**, at
+`CppIniClassifyStats` (the classifier bindings graduated to bare names — see "Where the C++
+migration currently stands" — and `apiMirror` was never updated; `CppBaseIniClassifier`,
+`CppIniClassifier`, the deleted `IniClassifierOld`/`IniCls*` family and more are all still listed).
+Because the import is one line, you cannot see the *full* missing set without editing it. Still add
+your own new names to both the import line and `__all__`, and report the pre-existing breakage
+rather than fixing it inside an unrelated change — it needs its own sweep against `__init__.py`.
+Also note `import AnimeGameRemap` may silently pick up a **stale copy in site-packages** (it did:
+`Python313/Lib/site-packages/AnimeGameRemap`), so put `apiMirror/src` *first* on `PYTHONPATH` when
+checking the repo's copy.
 
 ## "Add yourself to The Council" — a running repo ritual
 

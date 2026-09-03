@@ -3067,14 +3067,24 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
+.. BaseLogger
+.. ~~~~~~~~~~
+
+.. .. attributetable:: FixRaidenBoss2.BaseLogger
+
+.. .. autoclass:: FixRaidenBoss2.BaseLogger
+..     :members:
+
+.. :raw-html:`<br />`
+
 .. Logger
 .. ~~~~~~
 
 .. .. attributetable:: FixRaidenBoss2.Logger
 
 .. .. autoclass:: FixRaidenBoss2.Logger
+..     :inherited-members:
 ..     :members:
-..     :private-members:
 
 .. :raw-html:`<br />`
 

@@ -9,6 +9,7 @@
     <includedby refid="_if_pred_part_type_8cpp" local="yes">src/constants/IfPredPartType.cpp</includedby>
     <includedby refid="_if_pred_part_8cpp" local="yes">src/model/iftemplate/IfPredPart.cpp</includedby>
     <includedby refid="_ini_classifier_8cpp" local="yes">src/model/strategies/iniClassifiers/IniClassifier.cpp</includedby>
+    <includedby refid="_heading_8cpp" local="yes">src/tools/Heading.cpp</includedby>
     <includedby refid="_string_tools_8cpp" local="yes">src/tools/StringTools.cpp</includedby>
     <includedby refid="_base_tokenizer_8cpp" local="yes">src/tools/parsing/BaseTokenizer.cpp</includedby>
     <includedby refid="_parse_context_8cpp" local="yes">src/tools/parsing/ParseContext.cpp</includedby>
@@ -54,6 +55,8 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/constants/IfPredPartType.cpp</label>
@@ -68,14 +71,18 @@
         <link refid="_ini_classifier_8cpp"/>
       </node>
       <node id="5">
+        <label>src/tools/Heading.cpp</label>
+        <link refid="_heading_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/tools/StringTools.cpp</label>
         <link refid="_string_tools_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/tools/parsing/BaseTokenizer.cpp</label>
         <link refid="_base_tokenizer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/tools/parsing/ParseContext.cpp</label>
         <link refid="_parse_context_8cpp"/>
       </node>

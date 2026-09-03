@@ -6,6 +6,7 @@
     <innerdir refid="dir_b92a30438a15d3d9f8193085ca7b9396">include/AGRemapCore/data</innerdir>
     <innerdir refid="dir_e253fc737fd26520fa518b4295da2866">include/AGRemapCore/model</innerdir>
     <innerdir refid="dir_067fdac686df85c6c242b72face67be5">include/AGRemapCore/tools</innerdir>
+    <innerdir refid="dir_5b19de6b0f65de17ef4f2279d39d7fe4">include/AGRemapCore/view</innerdir>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -42,7 +42,7 @@
       <node id="99">
         <label>BiMap.tpp</label>
       </node>
-      <node id="63">
+      <node id="61">
         <label>CallGraph.tpp</label>
       </node>
       <node id="94">
@@ -946,6 +946,9 @@
         </childnode>
         <childnode refid="69" relation="include">
         </childnode>
+      </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="82">
         <label>Generator.tpp</label>

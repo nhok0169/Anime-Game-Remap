@@ -24,6 +24,7 @@ from ..core import CachedFileStats
 from ..core import RemapStats
 from ..core import BlendFile
 from ..core import PositionFile
+from ..core import BaseLogger
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -49,7 +50,6 @@ from ..core import IniTexModel
 from ..core import IniDownloadModel
 from .Version import Version
 from .strategies.texEditors.BaseTexEditor import BaseTexEditor
-from ..view.Logger import Logger
 ##### EndLocalImports
 
 
@@ -89,7 +89,7 @@ class Mod(Model):
 
         **Default**: ``None``
 
-    logger: Optional[:class:`Logger`]
+    logger: Optional[:class:`BaseLogger`]
         The logger used to pretty print messages :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
@@ -170,7 +170,7 @@ class Mod(Model):
     _forcedType: Optional[:class:`ModType`]
         The type of mod to forcibly assume for some .ini file
 
-    logger: Optional[:class:`Logger`]
+    logger: Optional[:class:`BaseLogger`]
         The logger used to pretty print messages
 
     inis: Dict[:class:`str`, :class:`IniFile`]
@@ -210,7 +210,7 @@ class Mod(Model):
         "other": FileTypes.RemapOther.value
     }
 
-    def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[Logger] = None, types: Optional[Set[ModType]] = None, 
+    def __init__(self, path: Optional[str] = None, files: Optional[List[str]] = None, logger: Optional[BaseLogger] = None, types: Optional[Set[ModType]] = None, 
                  forcedType: Optional[ModType] = None, defaultType: Optional[ModType] = None, version: Optional[Union[str, float, VersionType]] = None, remappedTypes: Optional[Set[str]] = None,
                  downloadMode: DownloadMode = DownloadMode.Normal):
         super().__init__(logger = logger)

@@ -1754,8 +1754,9 @@ What follows from that, in rough order of how easy it is to trip over:
   (`ModTypeIdTools`), so `GlobalModTypes::registerAll()` must have run. The pure-Python `ModType`
   carries no id of its own --- bridge by name:
   `int(ModTypeIdTools.findByName(modType.name))`. That is what `Mod._modTypeIds` does.
-- **Several constructor keywords have no C++ equivalent.** `logger` is simply gone (a separate
-  change owns logging). `version` split into `fromVersion`/`toVersion`. `modTypes`/`forcedModType`
+- **Several constructor keywords have no C++ equivalent.** `logger` is simply gone --- logging is
+  the view's job, and the view is C++ now too (see "The view is C++ now" below); nothing in
+  `AGRemapCore` takes a logger yet. `version` split into `fromVersion`/`toVersion`. `modTypes`/`forcedModType`
   became `filteredFromModTypeIds`/`forcedFromModTypeIds`, `modsToFix` became
   `filteredToModTypeIds`, `defaultModType` became `defaultModTypeId`. The last two have **no
   constructor parameter at all** --- assign them after construction.
@@ -1846,3 +1847,54 @@ When a task says "remove the old X", read those markers before deciding scope. T
   module's init function.)
 - a core class with **no pybind binding at all** --- the pure-Python one is still the only thing
   Python can reach, however complete the C++ side looks.
+
+## The view is C++ now: `BaseLogger` / `Logger` (`core/.../view/`, bound as `BaseLogger` / `Logger`)
+
+The pure-Python `view/Logger.py` was **deleted outright** on 2026-09-03 (matching the `IniFile` port,
+not the older `...Old` rename convention) and replaced by an abstract `AGRemapCore::BaseLogger` plus
+two concrete sinks. The split is the point of the port, so know it before touching either:
+
+- **`BaseLogger` owns every bit of formatting and bookkeeping** (prefix, heading stack, `.txt`
+  transcript, `verbose`/`logTxt`/`includePrefix`) and funnels each rendered line through two pure
+  virtuals, `write(message)` and `read(desc)`. Every higher-level method (`log`, `openHeading`,
+  `error`, `list`, `input`, ...) is *also* virtual, so a future GUI/backend view can override at the
+  structured level and never see the text. `handleException` is deliberately **not** virtual --- it
+  is a formatter that ends in `error()`, and keeping it non-virtual avoids the two-overload arity trap
+  a Python override would hit.
+- **The Python-facing `Logger` is *not* a binding of `AGRemapCore::Logger`.** The core `Logger` is
+  the `std::ostream`/`std::istream` console view for a plain C++ consumer. The bound `Logger` is
+  `PyLogger` (`py/src/view/PyLogger.h`), whose `write`/`read` call `builtins.print`/`builtins.input`
+  looked up *per call* --- the same "a `Py*` seam forwards to Python, it never reimplements" rule as
+  the strategy contexts. Two reasons, both real: `std::cout` and `sys.stdout` are separately
+  buffered and interleave out of order, and the unit tester captures output by patching
+  `builtins.print`/`builtins.input` (`py::print` would bypass that --- it writes to `sys.stdout`
+  directly).
+- **One trampoline template serves both bound classes**: `PyBindLoggerT<LoggerBase>`
+  (`PyBaseLogger.h`), instantiated for `AGRemapCore::BaseLogger` (abstract) and `PyLogger`
+  (concrete). `std::is_abstract_v<LoggerBase>` decides whether a missing Python override of
+  `write`/`read` raises or falls through to the base. Both registrations use `py::smart_holder`, and
+  the derived one is `py::class_<PyLogger, AGRC::BaseLogger, PyBindLogger, py::smart_holder>`.
+  `super().log(...)` inside a Python override works because pybind11's `get_override` detects the
+  call is coming from the override's own frame and falls through to the C++ base --- no special
+  handling needed, but `test_BaseLogger.py` pins it.
+- **`BaseLogger.headings` is a list of `(title, sideLen, headingChar)` tuples, not `Heading`
+  objects.** `AGRemapCore::Heading` has no pybind binding: the pure-Python `tools/Heading.py` still
+  has three live users outside the logger (`IniConsts`, `ModTypes`, `ModType`), so binding it is a
+  separate port with its own call-site sweep. If that lands, this property is the one place to revisit.
+- **`Heading::close()` now counts graphemes (`StringTools::countGrapheme`), not bytes** --- a
+  non-ASCII title from Python would otherwise render a closing line wider than its opening one.
+  This is deliberately *stricter* than the Python original's `len()` (code points): a combining
+  mark or emoji ZWJ sequence counts as one column. It also means `Heading.cpp` now pulls in the
+  `StringTools`/grapheme/utf8proc cone, so a standalone test touching it needs those sources.
+- **`py::arg` names on the bound view are load-bearing.** `Model.print(funcName, *args, **kwargs)`
+  reaches the logger by `getattr` and forwards keyword arguments by name (`self.logger.openHeading(
+  "Summary", sideLen = 10)` in `remapService.py`), so a binding that renames a parameter breaks call
+  sites the C++ compiler never sees. Keep the exact Python parameter names (`txt`, `sideLen`,
+  `headingChar`, `lst`, `transform`, `desc`, ...) when porting anything `Model.print` can reach.
+- `handleException` is bound twice on purpose: `(exception)` builds the message in Python
+  (`type(e).__name__`, `str(e)`, `traceback.format_exc()` looked up per call so `mock.patch` works)
+  and `(exceptionType, message, traceback = "")` is the C++-shaped overload for errors that arrive
+  without a live exception object. pybind11 resolves them by arity.
+- The core console view has a standalone `core/tests/Logger_test.cpp` (needs only three core `.cpp`
+  files plus the `StringTools`/grapheme/`utf8proc` cone since `Heading::close` counts graphemes; the
+  recipe is in its header); everything reachable from Python is in `test_Logger.py`/`test_BaseLogger.py`.

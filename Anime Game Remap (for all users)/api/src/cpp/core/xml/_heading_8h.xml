@@ -4,6 +4,8 @@
     <compoundname>Heading.h</compoundname>
     <includes local="no">cstddef</includes>
     <includes local="no">string</includes>
+    <includedby refid="_base_logger_8h" local="yes">include/AGRemapCore/view/BaseLogger.h</includedby>
+    <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
     <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
     <includedby refid="_heading_8cpp" local="yes">src/tools/Heading.cpp</includedby>
     <incdepgraph>
@@ -28,16 +30,18 @@
         <link refid="_heading_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
       </node>
       <node id="2">
-        <label>src/model/strategies/ModType.cpp</label>
-        <link refid="_mod_type_8cpp"/>
-      </node>
-      <node id="3">
         <label>src/tools/Heading.cpp</label>
         <link refid="_heading_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/view/BaseLogger.cpp</label>
+        <link refid="_base_logger_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/view/Logger.cpp</label>
+        <link refid="_logger_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_heading" prot="public">AGRemapCore::Heading</innerclass>
@@ -56,24 +60,24 @@
 <codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32" refid="class_a_g_remap_core_1_1_heading" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" kindref="member">Heading</ref><sp/>{</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" kindref="member">Heading</ref>(std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" kindref="member">title</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" kindref="member">sideLen</ref><sp/>=<sp/>0,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" kindref="member">sideChar</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;=&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="47" refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" kindref="member">title</ref>;</highlight></codeline>
-<codeline lineno="48"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52" refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" kindref="member">sideLen</ref>;</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57" refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" kindref="member">sideChar</ref>;</highlight></codeline>
-<codeline lineno="58"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" kindref="member">open</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="63"><highlight class="normal"></highlight></codeline>
-<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" kindref="member">close</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="69"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="33" refid="class_a_g_remap_core_1_1_heading" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" kindref="member">Heading</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" kindref="member">Heading</ref>(std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" kindref="member">title</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" kindref="member">sideLen</ref><sp/>=<sp/>0,<sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" kindref="member">sideChar</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;=&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a2ce410810384fac2d51aa12792538e75" kindref="member">title</ref>;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" kindref="member">sideLen</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" kindref="member">sideChar</ref>;</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" kindref="member">open</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" kindref="member">close</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/tools/Heading.h"/>
   </compounddef>

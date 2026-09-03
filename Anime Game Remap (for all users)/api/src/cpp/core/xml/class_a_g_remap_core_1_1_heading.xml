@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="47" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="48" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="48" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_heading_1ab03412bfc75f992b52c08711c5be3a68" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="52" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="52" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="53" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_heading_1add5571b77bc9c3aa8828abd8d787ca12" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="57" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="57" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="58" column="25" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="58" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -105,7 +105,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="42" column="22" bodyfile="src/tools/Heading.cpp" bodystart="7" bodyend="8"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="43" column="22" bodyfile="src/tools/Heading.cpp" bodystart="9" bodyend="10"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_heading_1a85baf15045ea56a626b73495a2193eb7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="62" column="25" bodyfile="src/tools/Heading.cpp" bodystart="11" bodyend="20"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="63" column="25" bodyfile="src/tools/Heading.cpp" bodystart="13" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -135,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Heading.h" line="67" column="25" bodyfile="src/tools/Heading.cpp" bodystart="23" bodyend="38"/>
+        <location file="include/AGRemapCore/tools/Heading.h" line="68" column="25" bodyfile="src/tools/Heading.cpp" bodystart="25" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -155,13 +155,14 @@ Line 1 is #open, line 3 is #close
 :raw-html:`&lt;br /&gt;`
 
 .. note::
-   A direct port of the pure-Python ``Heading`` (``tools/Heading.py``), which is still the
-   one the `Python`_ side uses -- nothing has been rewired to this yet. It exists because
-   :cpp:class:`RemapIniFixContext` needs to build the very same header/footer with no
-   `Python`_ around, and that boilerplate is defined in terms of a heading
+   A direct port of the pure-Python ``Heading`` (``tools/Heading.py``), which is still what
+   the `Python`_ side&apos;s constants (``IniConsts``, ``ModTypes``) use -- this class has no
+   `pybind11`_ binding of its own. It exists because :cpp:class:`RemapIniFixContext` needs
+   to build the very same header/footer with no `Python`_ around, and because
+   :cpp:class:`BaseLogger` renders its heading stack with it
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/Heading.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="32" bodyend="68"/>
+    <location file="include/AGRemapCore/tools/Heading.h" line="33" column="5" bodyfile="include/AGRemapCore/tools/Heading.h" bodystart="33" bodyend="69"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_heading_1a4d844f7573879ffb898c6b9d25d71ef6" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>close</name></member>
       <member refid="class_a_g_remap_core_1_1_heading_1ab0ac9c5f9c87a35f642bab58881d3a58" prot="public" virt="non-virtual"><scope>AGRemapCore::Heading</scope><name>Heading</name></member>

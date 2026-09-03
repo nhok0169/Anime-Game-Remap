@@ -1501,6 +1501,39 @@ TransparencyAdjustFilter
 :raw-html:`<br />`
 :raw-html:`<br />`
 
+View
+****
+
+The *view* of the project's MVC architecture -- how the remap reports its progress, headings, lists
+and errors back to the user, and asks for input. One abstract base owns all of the formatting; a
+concrete view only decides where the rendered lines go (the console here, a window or a socket to
+a frontend app elsewhere). Contrast with `Model`_ above, which never displays anything itself.
+
+:raw-html:`<br />`
+
+BaseLogger
+==========
+
+.. cppattributetable:: AGRemapCore::BaseLogger
+
+.. doxygenclass:: AGRemapCore::BaseLogger
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+Logger
+======
+
+.. cppattributetable:: AGRemapCore::Logger
+
+.. doxygenclass:: AGRemapCore::Logger
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
 Tools
 *****
 

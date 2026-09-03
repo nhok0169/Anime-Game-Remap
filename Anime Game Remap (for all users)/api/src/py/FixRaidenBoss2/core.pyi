@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseBufEditor:
     """
     
@@ -556,6 +556,322 @@ class BaseIniRemover(CppBaseIniRemover):
         """
     @iniFile.setter
     def iniFile(self, arg0: typing.Any) -> None:
+        ...
+class BaseLogger:
+    """
+    
+    Base class for the *view* of the project's MVC architecture -- everything the remap reports back to the user
+    (progress messages, headings, lists, errors, prompts) goes through one of these :raw-html:`<br />` :raw-html:`<br />`
+    
+    This class owns all of the *formatting* and *bookkeeping* (the prefix, the heading stack, the ``.txt`` log
+    transcript, the verbosity flags) and funnels every rendered line through exactly two abstract methods,
+    :meth:`write` and :meth:`read`, which a subclass implements for wherever the output actually needs to go:
+    
+    * :class:`Logger` writes through ``print``/``input`` -- the console (CLI) view
+    * a GUI, or a backend server that needs to forward the messages to a frontend app, subclasses this and
+      implements :meth:`write`/:meth:`read` for its own transport instead
+    
+    Every higher-level method (:meth:`log`, :meth:`openHeading`, :meth:`error`, ...) can also be overridden, so a
+    view that wants *structured* events rather than pre-rendered text (e.g. a backend telling a frontend
+    "a heading opened", not "here is a line of ``=`` characters") can override at that level instead and never see
+    the text rendering at all. The defaults render text and route it through :meth:`log`, so overriding just
+    :meth:`write` is enough for any plain text sink :raw-html:`<br />` :raw-html:`<br />`
+    
+    .. note::
+        A subclass written in Python is fully supported -- its overrides are reached both from Python callers
+        and from C++ code holding the logger through this base class
+    
+    Parameters
+    ----------
+    prefix: :class:`str`
+        line that is printed before any message is printed out :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ""
+    
+    logTxt: :class:`bool`
+        Whether to log all the printed messages into a .txt file once the fix is done :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    verbose: :class:`bool`
+        Whether to print out output :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    DefaultHeadingChar: typing.ClassVar[str] = '='
+    DefaultHeadingSideLen: typing.ClassVar[int] = 2
+    ErrorHeader: typing.ClassVar[str] = '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
+    @staticmethod
+    def getBulletStr(txt: str) -> str:
+        """
+        Creates the string for an item in an unordered list
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+        
+        Returns
+        -------
+        :class:`str`
+            The text formatted as an item in an unordered list
+        """
+    @staticmethod
+    def getNumberedStr(txt: str, num: typing.SupportsInt | typing.SupportsIndex) -> str:
+        """
+        Creates the string for an ordered list
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+        
+        num: :class:`int`
+            The number we want to print out before the text for the ordered list
+        
+        Returns
+        -------
+        :class:`str`
+            The text formatted as an item in an ordered list
+        """
+    def __init__(self, prefix: str = '', logTxt: bool = False, verbose: bool = True) -> None:
+        ...
+    def box(self, message: str, header: str) -> None:
+        """
+        Prints the message to be sandwiched by the text defined in the argument, ``header``
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out. Printed one line at a time
+        
+        header: :class:`str`
+            The string that we want to sandwich our message against
+        """
+    def bulletPoint(self, txt: str) -> None:
+        """
+        Prints out an item in an unordered list
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+        """
+    def clear(self) -> None:
+        """
+        Clears out any saved text from the logger
+        """
+    def closeHeading(self) -> None:
+        """
+        Prints out a closing heading that corresponds to a previous opening heading printed (see line 3 of the example at :class:`Heading`)
+        """
+    def error(self, message: str) -> None:
+        """
+        Prints an error message :raw-html:`<br />` :raw-html:`<br />`
+        
+        An error is always displayed, even when :attr:`verbose` is ``False`` -- unless the messages are being logged to a
+        .txt file (:attr:`logTxt`), in which case the current verbosity is respected and the error only ends up in
+        :attr:`loggedTxt`
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+        """
+    def getStr(self, message: str) -> str:
+        """
+        Retrieves the string to be printed out by the logger
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+        
+        Returns
+        -------
+        :class:`str`
+            The transformed text that the logger prints out
+        """
+    @typing.overload
+    def handleException(self, exception: typing.Any) -> None:
+        """
+        Prints the message for an error
+        
+        Parameters
+        ----------
+        exception: :class:`BaseException`
+            The error we want to handle
+        """
+    @typing.overload
+    def handleException(self, exceptionType: str, message: str, traceback: str = '') -> None:
+        """
+        Prints the message for an error, from its already-separated parts -- for an error that did not come from a live
+        exception object (e.g. one reported by another process, or by the C++ core) :raw-html:`<br />` :raw-html:`<br />`
+        
+        Renders the same text as the overload above and hands it to :meth:`error`
+        
+        Parameters
+        ----------
+        exceptionType: :class:`str`
+            The name of the type of the error
+        
+        message: :class:`str`
+            The error's own message
+        
+        traceback: :class:`str`
+            Where the error came from, if known :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ""
+        """
+    def input(self, desc: str) -> str:
+        """
+        Handles user input from the console
+        
+        Parameters
+        ----------
+        desc: :class:`str`
+            The question/description being asked to the user for input
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant input the user entered
+        """
+    def list(self, lst: collections.abc.Sequence[str], transform: typing.Any = None) -> None:
+        """
+        Prints out an ordered list
+        
+        Parameters
+        ----------
+        lst: List[:class:`str`]
+            The list of messages we want to print out
+        
+        transform: Optional[Callable[[:class:`str`], :class:`str`]]
+            A function used to do any processing on each message in the list of messages
+        
+            If this parameter is ``None``, then the list of message will not go through any type of processing :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        """
+    def log(self, message: str) -> None:
+        """
+        Regularly prints text onto the console
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The message we want to print out
+        """
+    def openHeading(self, txt: str, sideLen: typing.SupportsInt | typing.SupportsIndex = 2, headingChar: str = '=') -> None:
+        """
+        Prints out an opening heading
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The message we want to print out
+        
+        sideLen: :class:`int`
+            How many characters we want for the side border of the heading :raw-html:`<br />`
+            (see line 1 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: 2
+        
+        headingChar: :class:`str`
+            The type of character used to print the side border of the heading :raw-html:`<br />`
+            (see line 3 of the example at :class:`Heading`) :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: "="
+        """
+    def read(self, desc: str) -> str:
+        """
+        Asks the user for a line of input :raw-html:`<br />` :raw-html:`<br />`
+        
+        The raw source :meth:`input` ends up in, matching the builtin ``input(desc)``: ``desc`` is displayed *without* a
+        trailing newline, then one line is read back :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Abstract** -- a subclass must implement this
+        
+        Parameters
+        ----------
+        desc: :class:`str`
+            The question/description being asked to the user for input
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant input the user entered
+        """
+    def space(self) -> None:
+        """
+        Prints out a space
+        """
+    def split(self) -> None:
+        """
+        Prints out a new line, if anything has been logged since :attr:`prefix` was last set
+        """
+    def waitExit(self) -> None:
+        """
+        Prints the message used when the script finishes running, and waits for the user to press ENTER
+        """
+    def write(self, message: str) -> None:
+        """
+        Writes one already-rendered message to wherever this view displays output :raw-html:`<br />` :raw-html:`<br />`
+        
+        The raw sink every printing method ends up in. Only called when :attr:`verbose` is ``True``. A ``message`` is a single
+        line without its trailing newline -- the sink adds whatever line ending it needs (matching ``print``) :raw-html:`<br />` :raw-html:`<br />`
+        
+        **Abstract** -- a subclass must implement this
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The rendered message to display
+        """
+    @property
+    def headings(self) -> list[tuple[str, int, str]]:
+        """
+        List[Tuple[:class:`str`, :class:`int`, :class:`str`]]: The stack of headings that have been opened (by calling :meth:`openHeading`), but have not been closed yet (have not called :meth:`closeHeading` yet) :raw-html:`<br />` :raw-html:`<br />`
+        
+        Each heading is a ``(title, sideLen, headingChar)`` tuple, innermost (most recently opened) last. A fresh copy on every access
+        """
+    @property
+    def includePrefix(self) -> bool:
+        """
+        :class:`bool`: Whether to include the prefix string when printing out a message
+        """
+    @includePrefix.setter
+    def includePrefix(self, arg0: bool) -> None:
+        ...
+    @property
+    def logTxt(self) -> bool:
+        """
+        :class:`bool`: Whether to log all the printed messages into a .txt file once the fix is done
+        """
+    @logTxt.setter
+    def logTxt(self, arg0: bool) -> None:
+        ...
+    @property
+    def loggedTxt(self) -> str:
+        """
+        :class:`str`: The text to be logged into a .txt file
+        """
+    @property
+    def prefix(self) -> str:
+        """
+        :class:`str`: The line of text that is printed before any message is printed out
+        """
+    @prefix.setter
+    def prefix(self, arg1: str) -> None:
+        ...
+    @property
+    def verbose(self) -> bool:
+        """
+        :class:`bool`: Whether to print out output
+        """
+    @verbose.setter
+    def verbose(self, arg0: bool) -> None:
         ...
 class BaseRegEdit(BaseIniGraphPartEdit):
     """
@@ -10441,171 +10757,6 @@ class KeyRemapData:
     def keepKeyWithoutRemap(self) -> bool:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
-        """
-class ModAssets:
-    """
-    
-    Class to handle assets of any type for a mod where retrieval is based on some keys where 1 or more
-    of the keys refer to some versioning
-    
-    :raw-html:`<br />`
-    
-    .. tip::
-        If the assets have more than 1 column that refers to some version, use this data structure.
-        Otherwise if your asset has only 1 column that refers to some version, it is recommended to use
-        :class:`ModDictAssets` instead, since that uses a hash based access instead of a linear scan
-        
-    """
-    NameKey: typing.ClassVar[str] = 'name'
-    ValueKey: typing.ClassVar[str] = 'value'
-    VersionKey: typing.ClassVar[str] = 'version'
-    def __copy__(self) -> ModAssets:
-        ...
-    def __deepcopy__(self, memo: dict) -> ModAssets:
-        ...
-    def __init__(self, repo: typing.Any, indices: typing.Any = None, versionIndices: typing.Any = None, valueCol: typing.Any = None, **kwargs) -> None:
-        """
-        Constructs a new asset lookup table
-        
-        :raw-html:`<br />`
-        
-        .. note::
-            Any extra keyword argument is accepted and ignored, matching the pure-Python original this
-            replaced (whose own constructor ended in ``**kwargs``)
-        
-        Parameters
-        ----------
-        repo: Union[List[Tuple[List[Any], Any]], dict]
-            The original source for the assets -- either an already-flattened list of ``(indexVals, value)``
-            tuples, or a nested dict exactly ``len(indices)`` levels deep
-        
-        indices: Optional[List[:class:`str`]]
-            The names of the index columns to query to retrieve the main content of the asset
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            If this value is ``None``, then will set 2 index columns by the names "version" and "name"
-        
-            **Default**: ``None``
-        
-        versionIndices: Optional[Set[:class:`str`]]
-            The names of the index columns that refer to some version -- any name not also in 'indices' is
-            ignored :raw-html:`<br />` :raw-html:`<br />`
-        
-            If this value is ``None``, then will set an index to the name "version"
-        
-            **Default**: ``None``
-        
-        valueCol: Optional[:class:`str`]
-            Unused by the lookup (rows already carry their own value, rather than one being selected by
-            column name) -- kept for constructor-signature backward compatibility
-        
-            **Default**: ``None``
-        
-        Raises
-        ------
-        :class:`KeyError`
-            If 'indices' contains a duplicate name
-        
-        :class:`ValueError`
-            If 'repo' is a dict that isn't nested exactly ``len(indices)`` levels deep
-        """
-    def __len__(self) -> int:
-        """
-        The total number of rows currently in the table
-        """
-    def addRows(self, rows: typing.Any) -> None:
-        """
-        Adds new rows to the table (an addition beyond the pure-Python original, which has no
-        incremental-add capability at all) -- overwrites the value of any row whose full key already exists
-        
-        Parameters
-        ----------
-        rows: Union[List[Tuple[List[Any], Any]], dict]
-            The rows to add, in the same shape as the constructor's own 'repo' argument
-        """
-    def clone(self) -> ModAssets:
-        """
-        Creates an independent copy of this table
-        
-        Returns
-        -------
-        :class:`ModAssets`
-            The copied table
-        """
-    def get(self, nonVersionVals: typing.Any, versionVals: typing.Any = None, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
-        """
-        Retrieves the corresponding asset
-        
-        Parameters
-        ----------
-        nonVersionVals: Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]
-            The values of the index columns that do not reference a version -- a bare value (taken as the
-            first such column), a positional list, or a dict keyed by index name. A column left
-            unspecified matches anything there
-        
-        versionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
-            The values of the index columns that reference a version, in the same accepted shapes
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            .. note::
-                If the value for a particular version column is ``None``, then will get the latest version
-                for that column -- among the rows still matching everything resolved before it, since
-                version columns are resolved sequentially in index order
-        
-            **Default**: ``None``
-        
-        errorOnNotFound: :class:`bool`
-            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``True``
-        
-        default: Any
-            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Raises
-        ------
-        :class:`KeyError`
-            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is
-            set to ``True``
-        
-        Returns
-        -------
-        Any
-            Either the found asset, or the value specified from 'default' if 'errorOnNotFound' is set to
-            ``False``
-        """
-    @property
-    def indices(self) -> list[str]:
-        """
-        List[:class:`str`]: The names of the index columns to query to retrieve the main content of an asset
-        """
-    @property
-    def nonVersionColumnCount(self) -> int:
-        """
-        :class:`int`: The number of non-version columns
-        """
-    @property
-    def totalIndices(self) -> int:
-        """
-        :class:`int`: The total number of index columns
-        """
-    @property
-    def valueCol(self) -> str:
-        """
-        :class:`str`: Unused by the lookup -- see the constructor's own note
-        """
-    @property
-    def versionColumnCount(self) -> int:
-        """
-        :class:`int`: The number of version columns
-        """
-    @property
-    def versionIndices(self) -> set:
-        """
-        Set[:class:`str`]: The names of the index columns that refer to some version
         """
 class ModDictAssets:
     """

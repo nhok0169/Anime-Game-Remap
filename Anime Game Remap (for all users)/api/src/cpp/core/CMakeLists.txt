@@ -38,6 +38,8 @@ add_library(AGRemapCore STATIC
     src/model/Version.cpp
     src/model/VersionSet.cpp
     src/tools/Heading.cpp
+    src/view/BaseLogger.cpp
+    src/view/Logger.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
     src/tools/TextTools.cpp

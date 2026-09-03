@@ -24,9 +24,6 @@
       <node id="43">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="52">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="58">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -835,6 +832,12 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
+<<<<<<< HEAD
+=======
+      <node id="52">
+        <label>CallGraph.tpp</label>
+      </node>
+>>>>>>> 240ed1ee2387dcc854a6200f9c4d8b736d5f7fd4
       <node id="90">
         <label>GIMIFixer.tpp</label>
       </node>

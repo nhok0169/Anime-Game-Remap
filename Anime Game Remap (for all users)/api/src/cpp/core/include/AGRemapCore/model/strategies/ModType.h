@@ -2,13 +2,17 @@
 #define AGRemapCore_ModType_H
 
 #include <memory>
+#include <optional>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/assets/Indices.h"
 #include "AGRemapCore/model/assets/VertexCounts.h"
 #include "AGRemapCore/model/assets/VGRemaps.h"
+#include "AGRemapCore/model/iftemplate/IfContentPartColour.h"
+#include "AGRemapCore/tools/Ranges.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
@@ -18,6 +22,11 @@
 
 
 namespace AGRemapCore {
+
+    // Declared rather than included: IniFile.h includes this header, so the dependency can only
+    // run the other way from ModType.cpp.
+    class IniFile;
+
 
     /**
      * @brief
@@ -329,6 +338,120 @@ namespace AGRemapCore {
              @endrst
              */
             std::shared_ptr<IniRemoveBuilder> iniRemoveBuilder;
+
+            /**
+             * @brief Determines whether this mod type goes by some name
+             @rst
+             Compared case-insensitively against #name and every entry in #aliases, matching the
+             pure-Python original's own ``isName``
+             @endrst
+             *
+             * @param name The name to check
+             *
+             * @return Whether this mod type goes by 'name'
+             */
+            bool isName(const std::string& name) const;
+
+            /**
+             * @brief
+             @rst
+             The names of the mods this mod type can be fixed onto :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. warning::
+                **Deliberately not bug-compatible with the pure-Python original.** That one unions
+                ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never
+                populates anywhere, so it returns an empty set for every mod type, always. This
+                reads the remap targets that actually exist
+                (:cpp:func:`ModMappedAssets::getMap`), which is what the name promises
+             @endrst
+             *
+             * @return The names of the mods to fix to
+             */
+            std::unordered_set<std::string> getModsToFix() const;
+
+            /**
+             * @brief The number of vertices for this mod
+             *
+             * @param version
+             @rst
+             The game version wanted, or ``std::nullopt`` for the latest
+             @endrst
+             *
+             * @return
+             @rst
+             The vertex count for this mod as a whole -- the ``component`` index column is queried
+             as ``""``, which is what every shipped row carries -- or ``std::nullopt`` if this mod
+             type has no row for it
+             @endrst
+             */
+            std::optional<int> getVertexCount(const std::optional<Version>& version = std::nullopt) const;
+
+            /**
+             * @brief The vertex group remap for fixing this mod type onto another
+             *
+             * @param modName The name of the mod being fixed onto
+             * @param fromVersion The version being fixed from, or ``std::nullopt`` for the latest
+             * @param toVersion The version being fixed to, or ``std::nullopt`` for the latest
+             * @param fromComp
+             @rst
+             The component being fixed from. ``std::nullopt`` leaves the column unconstrained,
+             matching how the pure-Python original simply omits the key
+             @endrst
+             * @param toComp The component being fixed onto, with the same ``std::nullopt`` meaning
+             *
+             * @return The remap, or ``std::nullopt`` if the table has no matching row
+             */
+            std::optional<VGRemap> getVGRemap(const std::string& modName,
+                                               const std::optional<Version>& fromVersion = std::nullopt,
+                                               const std::optional<Version>& toVersion = std::nullopt,
+                                               const std::optional<std::string>& fromComp = std::nullopt,
+                                               const std::optional<std::string>& toComp = std::nullopt) const;
+
+            /**
+             * @brief The help text describing this mod type, as the CLI prints it
+             *
+             * @return The help text
+             */
+            std::string getHelpStr() const;
+
+            /**
+             * @brief
+             @rst
+             Fixes a ``.ini`` file, but **only if that file was classified as this mod type** --
+             a no-op otherwise, exactly as the pure-Python original is :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Returns nothing, also matching the original: the fix it produces is written out by
+             :cpp:func:`IniFile::fix` rather than handed back. Call that directly to see it
+             @endrst
+             *
+             * @param iniFile The ``.ini`` file to fix
+             * @param keepBackup Whether to keep a backup copy of the original ``.ini`` file
+             * @param fixOnly Whether to only fix without removing any previous fix
+             */
+            void fixIni(IniFile& iniFile, bool keepBackup = true, bool fixOnly = false) const;
+
+            /**
+             * @brief
+             @rst
+             The valid ranges of order indices within an :cpp:class:`IfContentPart` whose ``hash``
+             values belong to this mod type
+             @endrst
+             *
+             * @param partColours The current states of the ``IfContentPart``
+             * @param version The version the hashes should come from, or ``std::nullopt`` for any
+             * @param nonVersionVals
+             @rst
+             Values for the non-version index columns, used to narrow which instance of a hash is
+             wanted -- see :cpp:func:`ModMappedAssets::hasFrom`
+             @endrst
+             *
+             * @return The valid ranges of indices
+             */
+            Ranges<long long> getHashRanges(const IfContentPartColouring<std::string, std::string>& partColours,
+                                             const std::optional<Version>& version = std::nullopt,
+                                             const std::vector<std::optional<std::string>>& nonVersionVals = {}) const;
     };
 }
 

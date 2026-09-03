@@ -33,17 +33,17 @@ const AGRC::Ranges<long long>* PyPartRanges::get() const {
 
 
 void initCppBaseRegEdit(pybind11::module_ &m) {
-    // Registered under Cpp-prefixed names (unlike BaseRegEdit itself, below) because the bare
-    // 'BaseIniPartEdit'/'BaseIniGraphPartEdit' names are still held by live pure-Python classes
-    // -- see Architecture/CLAUDE.md's Cpp-prefix rule. They exist here purely so BaseRegEdit's
+    // These carry the bare 'BaseIniPartEdit'/'BaseIniGraphPartEdit' names: the pure-Python classes
+    // that used to hold them are deleted, so the Cpp- prefix these were first registered under is
+    // no longer needed (see Architecture/CLAUDE.md's Cpp-prefix rule). They exist so BaseRegEdit's
     // real C++ inheritance chain is also real at the pybind11 level (isinstance/attribute
     // inheritance, and 'clear' below). BaseIniGraphEdit/BaseIniGraphGroupEdit are registered
     // against these same two bases by their own bindings.
-    py::class_<AGRC::BaseIniPartEdit, py::smart_holder>(m, "CppBaseIniPartEdit", R"doc(
+    py::class_<AGRC::BaseIniPartEdit, py::smart_holder>(m, "BaseIniPartEdit", R"doc(
 Base class for a filter that edits some part of a `.ini` file
 
 .. note::
-    The pure-Python original also declares ``edit``/``editFromIni`` here, as
+    The deleted pure-Python original also declared ``edit``/``editFromIni`` here, as
     ``(*args, modType, modName = "", **kwargs) -> Any``. That signature has no C++ equivalent --
     every subclass takes genuinely different arguments and returns a different type -- so each
     subclass family declares its own **typed** ``edit``/``editFromIni`` pair instead (see
@@ -57,13 +57,13 @@ Clears any saved state information. No-op by default
         )doc"));
 
 
-    py::class_<AGRC::BaseIniGraphPartEdit, AGRC::BaseIniPartEdit, py::smart_holder>(m, "CppBaseIniGraphPartEdit", R"doc(
-This class inherits from :class:`CppBaseIniPartEdit`
+    py::class_<AGRC::BaseIniGraphPartEdit, AGRC::BaseIniPartEdit, py::smart_holder>(m, "BaseIniGraphPartEdit", R"doc(
+This class inherits from :class:`BaseIniPartEdit`
 
 Base class for a filter that edits some part of a caller/callee graph (:class:`IniSectionGraph`)
 within a `.ini` file
 
-Adds nothing of its own over :class:`CppBaseIniPartEdit` -- exactly like the pure-Python original,
+Adds nothing of its own over :class:`BaseIniPartEdit` -- exactly like the pure-Python original,
 this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
     )doc")
 
@@ -71,7 +71,7 @@ this exists purely to mark the graph-editing half of the edit hierarchy apart fr
 
 
     py::class_<PyBaseRegEdit, AGRC::BaseIniGraphPartEdit, py::smart_holder>(m, "BaseRegEdit", R"doc(
-This class inherits from :class:`CppBaseIniGraphPartEdit`
+This class inherits from :class:`BaseIniGraphPartEdit`
 
 Base class for a filter that edits some registers within an :class:`IfContentPart`
     )doc")

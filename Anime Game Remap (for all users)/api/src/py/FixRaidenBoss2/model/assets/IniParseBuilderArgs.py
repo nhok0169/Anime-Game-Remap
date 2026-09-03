@@ -17,7 +17,6 @@ from typing import Callable, List, Dict, Any, Tuple, Optional
 ##### EndExtImports
 
 ##### LocalImports
-from ...data.IniParseBuilderData import IniParseBuilderData
 from ...core import BaseIniParser
 from .ModAssets import ModAssets
 ##### EndLocalImports
@@ -50,8 +49,11 @@ class IniParseBuilderArgs(ModAssets[Callable[[], Tuple[BaseIniParser, List[Any],
     """
 
     def __init__(self, repo: Optional[Dict[str, Dict[str, Callable[[], Tuple[BaseIniParser, List[Any], Dict[str, Any]]]]]] = None):
+        # UNLINKED: the per-character argument table this used to default to lives at
+        # data/IniParseBuilderData.py.txt -- kept as reference, but no longer importable, so
+        # every builder now falls back to its own default factory until a replacement table lands.
         if (repo is None):
-            repo = IniParseBuilderData
+            repo = {}
 
         super().__init__(repo)
 ##### EndScript

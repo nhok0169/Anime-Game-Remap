@@ -8,15 +8,15 @@
 #include "../PyVersion.h"
 
 
-template class AGRC::ModMappedAssets<py::object, py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual>;
+template class AGRC::ModMappedAssets<std::string, std::string>;
 
 PyObjectMap convertMap(const py::dict &mapDict) {
     PyObjectMap result;
     for (auto item : mapDict) {
-        py::object key = py::reinterpret_borrow<py::object>(item.first);
-        std::vector<py::object> vals;
+        std::string key = py::str(item.first).cast<std::string>();
+        std::vector<std::string> vals;
         for (auto v : py::reinterpret_borrow<py::object>(item.second)) {
-            vals.push_back(py::reinterpret_borrow<py::object>(v));
+            vals.push_back(py::str(v).cast<std::string>());
         }
         result.emplace(std::move(key), std::move(vals));
     }
@@ -32,23 +32,23 @@ namespace {
     // alternative to the pure-Python original's UnHashableNone sentinel class, safe here
     // since every real index value in this project's actual data is a plain string/number
     // and None is never itself a legitimate index value.
-    std::vector<std::optional<py::object>> convertNonVersionValsFilter(const py::object &raw) {
+    std::vector<std::optional<std::string>> convertNonVersionValsFilter(const py::object &raw) {
         if (raw.is_none()) {
             return {};
         }
-        std::vector<std::optional<py::object>> result;
+        std::vector<std::optional<std::string>> result;
         for (auto item : raw) {
             py::object obj = py::reinterpret_borrow<py::object>(item);
             if (obj.is_none()) {
                 result.push_back(std::nullopt);
             } else {
-                result.push_back(std::move(obj));
+                result.push_back(py::str(obj).cast<std::string>());
             }
         }
         return result;
     }
 
-    py::tuple toPyTuple(const std::vector<py::object> &vals) {
+    py::tuple toPyTuple(const std::vector<std::string> &vals) {
         py::tuple result(vals.size());
         for (std::size_t i = 0; i < vals.size(); ++i) {
             result[i] = vals[i];
@@ -56,13 +56,13 @@ namespace {
         return result;
     }
 
-    std::vector<py::object> toVector(const py::object &raw) {
-        std::vector<py::object> result;
+    std::vector<std::string> toVector(const py::object &raw) {
+        std::vector<std::string> result;
         if (raw.is_none()) {
             return result;
         }
         for (auto item : raw) {
-            result.push_back(py::reinterpret_borrow<py::object>(item));
+            result.push_back(py::str(item).cast<std::string>());
         }
         return result;
     }
@@ -74,7 +74,7 @@ namespace {
     // toWildcardList and PyModMappedAssets::nonVersionIndexNames. Without it (nonVersionIndexNames
     // unset -- any other/generic ModMappedAssets use), behaves exactly as before: an
     // already-positional list, or None for "no filtering at all".
-    std::vector<std::optional<py::object>> resolveNonVersionValsFilter(const PyModMappedAssets &self, const py::object &raw) {
+    std::vector<std::optional<std::string>> resolveNonVersionValsFilter(const PyModMappedAssets &self, const py::object &raw) {
         if (self.nonVersionIndexNames.has_value()) {
             return toWildcardList(raw, *self.nonVersionIndexNames);
         }
@@ -150,21 +150,21 @@ rows: Union[List[Tuple[List[Any], Any]], dict]
     **Default**: ``[]``
         )doc"))
 
-        .def("get", [](const PyModMappedAssets &self, const std::vector<py::object> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
+        .def("get", [](const PyModMappedAssets &self, const std::vector<std::string> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> parsedVersion = parseVersionArg(version);
-            std::optional<py::object> result = self.get(nonVersionVals, parsedVersion, false);
+            std::optional<std::string> result = self.get(nonVersionVals, parsedVersion, false);
             if (!result.has_value()) {
                 if (errorOnNotFound) {
                     throw py::key_error("No matching asset found for the given non-version values");
                 }
                 return py::none();
             }
-            return *result;
+            return py::cast(*result);
         }, py::arg("nonVersionVals"), py::arg("version") = py::none(), py::arg("errorOnNotFound") = true, py::doc(R"doc(
 Retrieves the corresponding asset -- forwards directly to :attr:`repo`'s own :meth:`ModDictAssets.get`
         )doc"))
 
-        .def("hasFrom", [](const PyModMappedAssets &self, const py::object &asset, const py::object &version, const py::object &nonVersionVals) {
+        .def("hasFrom", [](const PyModMappedAssets &self, const std::string &asset, const py::object &version, const py::object &nonVersionVals) {
             return self.hasFrom(asset, parseVersionArg(version), resolveNonVersionValsFilter(self, nonVersionVals));
         }, py::arg("asset"), py::arg("version") = py::none(), py::arg("nonVersionVals") = py::none(), py::doc(R"doc(
 Determines whether 'asset' exists in the assets to map from
@@ -188,7 +188,7 @@ nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]
     **Default**: ``None``
         )doc"))
 
-        .def("getKey", [](const PyModMappedAssets &self, const py::object &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, bool errorOnNotFound) -> py::object {
+        .def("getKey", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, bool errorOnNotFound) -> py::object {
             auto result = self.getKey(asset, parseVersionArg(fromVersion), resolveNonVersionValsFilter(self, fromNonVersionVals), false);
             if (!result.has_value()) {
                 if (errorOnNotFound) {
@@ -235,7 +235,7 @@ Optional[Tuple[Any, ...]]
     like GIMIParser rely on; see the C++ core's own note on this)
         )doc"))
 
-        .def("replace", [](const PyModMappedAssets &self, const py::object &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const py::object &toAssetName, bool errorOnNotFound) -> py::object {
+        .def("replace", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const std::string &toAssetName, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);
             auto filter = resolveNonVersionValsFilter(self, fromNonVersionVals);
@@ -246,8 +246,8 @@ Optional[Tuple[Any, ...]]
             // only ever re-derive the first path, silently losing errorOnNotFound coverage for
             // the second (a real mistake caught during development, not a hypothetical one).
             try {
-                std::optional<py::object> result = self.replace(asset, from, filter, to, toAssetName, errorOnNotFound);
-                return result.has_value() ? *result : py::none();
+                std::optional<std::string> result = self.replace(asset, from, filter, to, toAssetName, errorOnNotFound);
+                return result.has_value() ? py::cast(*result) : py::object(py::none());
             } catch (const std::out_of_range &e) {
                 throw py::key_error(e.what());
             }
@@ -291,7 +291,7 @@ Any
     The replacement asset, or ``None`` if none is found
         )doc"))
 
-        .def("replaceAll", [](const PyModMappedAssets &self, const py::object &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const py::object &toAssetNames, bool errorOnNotFound) -> py::dict {
+        .def("replaceAll", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const py::object &toAssetNames, bool errorOnNotFound) -> py::dict {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);
             auto filter = resolveNonVersionValsFilter(self, fromNonVersionVals);
@@ -301,7 +301,7 @@ Any
                 auto result = self.replaceAll(asset, from, filter, to, toVector(toAssetNames), errorOnNotFound);
                 py::dict pyResult;
                 for (const auto &entry : result) {
-                    pyResult[entry.first] = entry.second;
+                    pyResult[py::cast(entry.first)] = py::cast(entry.second);
                 }
                 return pyResult;
             } catch (const std::out_of_range &e) {
@@ -362,7 +362,7 @@ method), matching the pure-Python original's contract exactly (real callers, e.g
             auto wildcards = toWildcardList(indexVals, *self.nonVersionIndexNames);
             py::list result(wildcards.size());
             for (std::size_t i = 0; i < wildcards.size(); ++i) {
-                result[i] = wildcards[i].has_value() ? *wildcards[i] : py::none();
+                result[i] = wildcards[i].has_value() ? py::cast(*wildcards[i]) : py::object(py::none());
             }
             return result;
         }, py::arg("indexVals"), py::doc(R"doc(
@@ -430,7 +430,7 @@ populates it anywhere
         .def_property_readonly("map", [](const PyModMappedAssets &self) {
             py::dict result;
             for (const auto &entry : self.getMap()) {
-                result[entry.first] = py::cast(entry.second);
+                result[py::cast(entry.first)] = py::cast(entry.second);
             }
             return result;
         }, py::doc(R"doc(Dict[Any, List[Any]]: The adjacency list mapping assets to fix from to assets to fix to)doc"));

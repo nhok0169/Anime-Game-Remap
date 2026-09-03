@@ -55,7 +55,7 @@ namespace AGRemapCore {
             return nullptr;
         }
 
-        const std::unordered_map<int, ModType>& modTypes = iniFile_->getModTypes();
+        const tsl::ordered_map<int, ModType>& modTypes = iniFile_->getModTypes();
         auto it = modTypes.find(*modTypeId_);
 
         if (it == modTypes.end()) {

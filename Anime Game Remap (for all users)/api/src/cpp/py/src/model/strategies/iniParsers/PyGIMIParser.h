@@ -34,9 +34,9 @@ namespace AGRC = AGRemapCore;
  ``editCommands`` hands to an edit and reads back out
  @endrst
  */
-class PyIniParseContext: public AGRC::IniParseContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> {
     public:
-        using Base = AGRC::IniParseContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::IniParseContext<std::string, std::string>;
         using Section = Base::Section;
         using Graph = Base::Graph;
         using GraphGroups = Base::GraphGroups;
@@ -134,9 +134,9 @@ class PyIniParseContext: public AGRC::IniParseContext<py::object, py::object, Py
  :cpp:class:`AGRemapCore::IniParseDownloadData`'s own note
  @endrst
  */
-class PyIniParseDownloadData: public AGRC::IniParseDownloadData<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniParseDownloadData: public AGRC::IniParseDownloadData<std::string, std::string> {
     public:
-        using Base = AGRC::IniParseDownloadData<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::IniParseDownloadData<std::string, std::string>;
         using Section = Base::Section;
         using ContentPart = Base::ContentPart;
         using Context = Base::Context;
@@ -155,8 +155,8 @@ class PyIniParseDownloadData: public AGRC::IniParseDownloadData<py::object, py::
 
         std::string name() const override;
         bool refToSection() const override;
-        void addToPart(ContentPart &part, const py::object &key, const py::object &val) override;
-        void addToSection(Section &section, const py::object &key, const py::object &val) override;
+        void addToPart(ContentPart &part, const std::string &key, const std::string &val) override;
+        void addToSection(Section &section, const std::string &key, const std::string &val) override;
         Section* createResSection(const std::string &sectionName, Context &ctx) override;
         void addFileDownload(Context &ctx, const std::string &iniFolder) override;
 };
@@ -165,7 +165,7 @@ class PyIniParseDownloadData: public AGRC::IniParseDownloadData<py::object, py::
 /**
  * @brief The core :cpp:class:`AGRemapCore::GIMIParser` specialization this binds
  */
-using PyGIMIParserCore = AGRC::GIMIParser<py::object, py::object, PyObjectHash, PyObjectEqual, PyBaseIniParser>;
+using PyGIMIParserCore = AGRC::GIMIParser<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniParser>;
 
 
 /**

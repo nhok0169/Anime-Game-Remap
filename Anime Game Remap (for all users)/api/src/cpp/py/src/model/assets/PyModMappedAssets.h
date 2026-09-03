@@ -25,7 +25,7 @@ namespace AGRC = AGRemapCore;
  *      the exact same ``Optional[Dict[Any, List[Any]]]`` -> internal-map conversion for its own
  *      ``map`` argument)
  */
-using PyObjectMap = std::unordered_map<py::object, std::vector<py::object>, PyObjectHash, PyObjectEqual>;
+using PyObjectMap = std::unordered_map<std::string, std::vector<std::string>>;
 
 /**
  * @brief Converts a Python ``Dict[Any, List[Any]]`` into #PyObjectMap
@@ -35,7 +35,7 @@ PyObjectMap convertMap(const py::dict &mapDict);
 
 // K, T, and the asset value hash/equal are all bound as 'py::object'/PyObjectHash/PyObjectEqual
 // -- see PyModDictAssets.h's (and, further back, PyOrderedMultiMap.h's) comment for why.
-extern template class AGRC::ModMappedAssets<py::object, py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual>;
+extern template class AGRC::ModMappedAssets<std::string, std::string>;
 
 
 /**
@@ -52,9 +52,9 @@ extern template class AGRC::ModMappedAssets<py::object, py::object, PyObjectHash
     on as ``ModMappedAssetsOld`` (``model/assets/ModMappedAssetsOld.py``)
  @endrst
  */
-class PyModMappedAssets: public AGRC::ModMappedAssets<py::object, py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual> {
+class PyModMappedAssets: public AGRC::ModMappedAssets<std::string, std::string> {
     public:
-        using Base = AGRC::ModMappedAssets<py::object, py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::ModMappedAssets<std::string, std::string>;
         using Base::Base;
 
         /**

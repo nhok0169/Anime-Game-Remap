@@ -14,7 +14,7 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief The core :cpp:class:`AGRemapCore::GIMISectionClassifier` specialization this binds
  */
-using PyGIMISectionClassifierCore = AGRC::GIMISectionClassifier<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyGIMISectionClassifierCore = AGRC::GIMISectionClassifier<std::string, std::string>;
 
 
 /**

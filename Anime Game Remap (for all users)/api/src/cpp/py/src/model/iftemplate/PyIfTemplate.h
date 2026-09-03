@@ -21,14 +21,14 @@ namespace AGRC = AGRemapCore;
  :raw-html:`<br />`
 
  .. note::
-    ``AGRC::IfTemplateRunConfig<py::object, py::object>::runKey``/``sectionNameOf`` (see
+    ``AGRC::IfTemplateRunConfig<std::string, std::string>::runKey``/``sectionNameOf`` (see
     ``IfTemplate.h``) are always ``py::str("run")`` and a plain ``py::object::cast<std::string>()``
     here -- these `.ini`_-domain customization points exist so the generic core stays
     `Python`_-free, not so `Python`_ callers ever need to supply them themselves; this binding
     builds one internally and never exposes it as a constructor parameter.
  @endrst
  */
-using PyIfTemplate = AGRC::IfTemplate<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyIfTemplate = AGRC::IfTemplate<std::string, std::string>;
 
 
 void initCppIfTemplate(pybind11::module_ &m);

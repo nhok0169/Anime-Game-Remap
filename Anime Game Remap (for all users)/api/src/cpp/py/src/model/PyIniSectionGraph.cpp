@@ -21,11 +21,12 @@ namespace AGRC = AGRemapCore;
 
 namespace {
 
-AGRC::IfTemplateRunConfig<py::object, py::object> makeRunConfig() {
-    return AGRC::IfTemplateRunConfig<py::object, py::object>{
-        py::cast(std::string("run")),
-        [](const py::object &v) { return v.cast<std::string>(); },
-        [](const std::string &name) { return py::cast(name); }
+AGRC::IfTemplateRunConfig<std::string, std::string> makeRunConfig() {
+    return AGRC::IfTemplateRunConfig<std::string, std::string>{
+        "run",
+        // Both conversions are the identity now that a .ini KVP value *is* a std::string.
+        [](const std::string &v) { return v; },
+        [](const std::string &name) { return name; }
     };
 }
 
@@ -307,15 +308,15 @@ newGraphs: List[:class:`IniSectionGraph`]
             return result;
         }, py::arg("memo"))
 
-        .def("isKeyFullyCover", [](PyIniSectionGraph &self, const py::object &key) {
+        .def("isKeyFullyCover", [](PyIniSectionGraph &self, const std::string &key) {
             return py::cast(self.isKeyFullyCover(key));
         }, py::arg("key"), py::doc(R"doc(Determines whether a key fully covers all the conditional branches of a `section`_)doc"))
 
-        .def("rootsAreFullyCovered", [](PyIniSectionGraph &self, const py::object &key) {
+        .def("rootsAreFullyCovered", [](PyIniSectionGraph &self, const std::string &key) {
             return py::cast(self.rootsAreFullyCovered(key));
         }, py::arg("key"), py::doc(R"doc(Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`)doc"))
 
-        .def("getKeyMissingParts", [](PyIniSectionGraph &self, const py::object &key) {
+        .def("getKeyMissingParts", [](PyIniSectionGraph &self, const std::string &key) {
             auto result = self.getKeyMissingParts(key);
             py::dict pyResult;
             for (auto &entry : result) {
@@ -426,9 +427,9 @@ Returns
         )doc"))
 
         .def_static("iterSectsByContentPart", [](const py::dict &sections, const py::list &roots, int states, bool colour, py::object colourKeys) {
-            std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+            std::optional<std::unordered_set<std::string>> keys;
             if (!colourKeys.is_none()) {
-                keys = colourKeys.cast<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>>();
+                keys = colourKeys.cast<std::unordered_set<std::string>>();
             }
             auto gen = PyIniSectionGraph::iterSectsByContentPart(parseSections(sections), parseNames(roots), makeRunConfig(), states, colour, keys);
             return PyGeneratorIterator<PySectionIterData>(std::move(gen), iterDataToPy);
@@ -436,9 +437,9 @@ Returns
     py::doc(R"doc(An iterator that iterates through all :class:`IfContentPart` of the `sections`_ using `DFS`_)doc"))
 
         .def("iterByContentPart", [](PyIniSectionGraph &self, int states, bool colour, py::object colourKeys) {
-            std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+            std::optional<std::unordered_set<std::string>> keys;
             if (!colourKeys.is_none()) {
-                keys = colourKeys.cast<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>>();
+                keys = colourKeys.cast<std::unordered_set<std::string>>();
             }
             auto gen = self.iterByContentPart(states, colour, keys);
             return PyGeneratorIterator<PySectionIterData>(std::move(gen), iterDataToPy);
@@ -462,9 +463,9 @@ Returns
                 }
             }
 
-            std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+            std::optional<std::unordered_set<std::string>> keys;
             if (!colourKeys.is_none()) {
-                keys = colourKeys.cast<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>>();
+                keys = colourKeys.cast<std::unordered_set<std::string>>();
             }
 
             auto gen = self.iterByQuery(std::move(parsedQueryPath), simplify, states, colour, keys);
@@ -489,9 +490,9 @@ the conditional logical predicate that each :class:`IfContentPart` resides in
                 }
             }
 
-            std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+            std::optional<std::unordered_set<std::string>> keys;
             if (!colourKeys.is_none()) {
-                keys = colourKeys.cast<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>>();
+                keys = colourKeys.cast<std::unordered_set<std::string>>();
             }
 
             auto gen = self.iterByQuery(std::move(parsedQueryPath), simplify, states, colour, keys);

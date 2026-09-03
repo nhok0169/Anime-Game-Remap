@@ -315,6 +315,36 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The key one group's fix is filed under in the result of :cpp:func:`BaseIniFixer::fix`
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Choosing this is the fixer's job, not the ``.ini`` file's.** Where a fix gets
+             *written* and what it is *keyed by* are two different questions:
+             :cpp:func:`IniFixContext::fixedFilePath` answers the first and legitimately has no
+             answer for an ``.ini`` file built from raw text, but the second always has one. This
+             used to conflate them, so a text-only ``.ini`` file silently fixed to an empty map --
+             the fix was produced and then dropped for want of a key :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The default is the fixed file path when there is one, and the group index otherwise --
+             unique per group either way. Override to key by something else
+             @endrst
+             *
+             * @param groupInd Which group is being filed
+             * @param fixedFilePath
+             @rst
+             Where that group will be written, or ``std::nullopt`` when there is nowhere -- see
+             :cpp:func:`IniFixContext::fixedFilePath`
+             @endrst
+             *
+             * @return The key to file this group's fix under -- never empty
+             */
+            virtual std::string fixKey(std::size_t groupInd,
+                                        const std::optional<std::string>& fixedFilePath) const;
+
+            /**
+             * @brief
+             @rst
              The names of every `section`_ this fix touched -- what
              :cpp:func:`IniFixContext::hideOriginalSections` is handed when ``hideOrig`` is on
              :raw-html:`<br />` :raw-html:`<br />`

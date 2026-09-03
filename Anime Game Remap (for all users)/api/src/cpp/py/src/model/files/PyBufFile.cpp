@@ -72,30 +72,43 @@ namespace {
         }
     }
 
-    AGRC::BufFile::Filter parseFilter(const py::function &filter) {
-        return [filter](const AGRC::BufLineData &data, long long startInd, double lineInd, long long lineSize) {
-            py::gil_scoped_acquire gil;
-            py::object result = filter(data, startInd, lineInd, lineSize);
-            return result.cast<AGRC::BufLineData>();
-        };
+}
+
+
+AGRC::BufFile::Filter parseFilter(const py::function &filter) {
+    return [filter](const AGRC::BufLineData &data, long long startInd, double lineInd, long long lineSize) {
+        py::gil_scoped_acquire gil;
+        py::object result = filter(data, startInd, lineInd, lineSize);
+        return result.cast<AGRC::BufLineData>();
+    };
+}
+
+std::vector<AGRC::BufFile::Filter> parseFilters(const std::vector<py::function> &filters) {
+    std::vector<AGRC::BufFile::Filter> result;
+    result.reserve(filters.size());
+    for (const auto &filter : filters) {
+        result.push_back(parseFilter(filter));
+    }
+    return result;
+}
+
+py::object fixResultToPy(const AGRC::BufFile::FixResult &result) {
+    if (std::holds_alternative<std::string>(result)) {
+        return py::cast(std::get<std::string>(result));
+    }
+    return vecToPyByteArray(std::get<AGRC::ByteVec>(result));
+}
+
+
+AGRC::BufFile::FixResult pyToFixResult(const py::object &result) {
+    if (py::isinstance<py::str>(result)) {
+        return AGRC::BufFile::FixResult(result.cast<std::string>());
     }
 
-    std::vector<AGRC::BufFile::Filter> parseFilters(const std::vector<py::function> &filters) {
-        std::vector<AGRC::BufFile::Filter> result;
-        result.reserve(filters.size());
-        for (const auto &filter : filters) {
-            result.push_back(parseFilter(filter));
-        }
-        return result;
-    }
-
-    py::object fixResultToPy(const AGRC::BufFile::FixResult &result) {
-        if (std::holds_alternative<std::string>(result)) {
-            return py::cast(std::get<std::string>(result));
-        }
-        return vecToPyByteArray(std::get<AGRC::ByteVec>(result));
-    }
-
+    py::buffer buf = result.cast<py::buffer>();
+    py::buffer_info info = buf.request();
+    const auto *data = static_cast<const std::uint8_t*>(info.ptr);
+    return AGRC::BufFile::FixResult(AGRC::ByteVec(data, data + info.size));
 }
 
 

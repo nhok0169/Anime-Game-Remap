@@ -31,13 +31,13 @@ namespace AGRC = AGRemapCore;
  C++ member
  @endrst
  */
-class PyGraphGroupEdit: public AGRC::GraphGroupEdit<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyGraphGroupEdit: public AGRC::GraphGroupEdit<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::GraphGroupEdit<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::GraphGroupEdit<std::string, std::string>;
 
         /**
          * @brief The exact Python object given for ``edits``

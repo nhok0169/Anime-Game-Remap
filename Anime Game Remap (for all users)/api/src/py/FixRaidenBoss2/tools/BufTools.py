@@ -50,10 +50,9 @@ class BufTools():
         ----------
         bufFile: :class:`CppBufFile`
             The .buf file to convert. Only needs :attr:`~CppBufFile.data`, :attr:`~CppBufFile.bytesPerLine`,
-            and :meth:`~CppBufFile.decodeLine` -- :class:`BufFile`/:class:`BlendFile`/:class:`PositionFile`
-            and their C++-backed counterparts (:class:`CppBufFile`/:class:`CppBlendFile`/
-            :class:`CppPositionFile`) are all real subclasses of :class:`CppBufFile`, so any of them
-            work here
+            and :meth:`~CppBufFile.decodeLine` -- :class:`BufFile` (the pure-Python subclass) and
+            :class:`BlendFile`/:class:`PositionFile` (both real subclasses of :class:`CppBufFile`
+            in their own right) all work here
 
         Returns
         -------

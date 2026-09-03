@@ -19,9 +19,9 @@ namespace {
 // variant caster being available at all.
 PyIfContentPartColouring::StateValue parseStateValue(const py::object &value) {
     if (py::isinstance<py::list>(value)) {
-        return PyIfContentPartColouring::StateValue(value.cast<std::vector<std::pair<long long, py::object>>>());
+        return PyIfContentPartColouring::StateValue(value.cast<std::vector<std::pair<long long, std::string>>>());
     }
-    return PyIfContentPartColouring::StateValue(py::object(value));
+    return PyIfContentPartColouring::StateValue(py::str(value).cast<std::string>());
 }
 
 std::optional<PyIfContentPartColouring::StateValue> parseOptionalStateValue(const py::object &value) {
@@ -32,10 +32,10 @@ std::optional<PyIfContentPartColouring::StateValue> parseOptionalStateValue(cons
 }
 
 py::object stateValueToPy(const PyIfContentPartColouring::StateValue &value) {
-    if (std::holds_alternative<py::object>(value)) {
-        return std::get<py::object>(value);
+    if (std::holds_alternative<std::string>(value)) {
+        return py::cast(std::get<std::string>(value));
     }
-    return py::cast(std::get<std::vector<std::pair<long long, py::object>>>(value));
+    return py::cast(std::get<std::vector<std::pair<long long, std::string>>>(value));
 }
 
 py::object optionalStateValueToPy(const std::optional<PyIfContentPartColouring::StateValue> &value) {
@@ -45,8 +45,8 @@ py::object optionalStateValueToPy(const std::optional<PyIfContentPartColouring::
     return stateValueToPy(*value);
 }
 
-std::vector<std::pair<py::object, py::object>> itemsAsTuples(const PyIfContentPartColouring &self) {
-    std::vector<std::pair<py::object, py::object>> result;
+std::vector<std::pair<std::string, py::object>> itemsAsTuples(const PyIfContentPartColouring &self) {
+    std::vector<std::pair<std::string, py::object>> result;
     for (const auto &entry : self.items()) {
         result.emplace_back(entry.first, stateValueToPy(entry.second));
     }
@@ -57,7 +57,7 @@ std::vector<std::pair<py::object, py::object>> itemsAsTuples(const PyIfContentPa
 
 
 void initCppIfContentPartColour(pybind11::module_ &m) {
-    py::class_<PyIfContentPartColourChange>(m, "IfContentPartColourChange", R"doc(
+    py::class_<PyIfContentPartColourChange> changeCls(m, "IfContentPartColourChange", R"doc(
 Class to store the change in state of a particular key for a :class:`IfContentPartColouring`
 
 Parameters
@@ -68,8 +68,9 @@ old: Optional[Any]
     from the current :class:`IfContentPart`, each paired with its index of occurrence) :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``, meaning the key didn't exist beforehand
-        )doc")
+        )doc");
 
+    changeCls
         .def(py::init([](const py::object &old) {
             return std::make_unique<PyIfContentPartColourChange>(parseOptionalStateValue(old));
         }), py::arg("old") = py::none())
@@ -83,21 +84,7 @@ old: Optional[Any]
 
         .def("__copy__", &PyIfContentPartColourChange::clone, py::doc(R"doc(Creates a copy of this change record (equivalent to :meth:`clone`); supports ``copy.copy()``)doc"))
         .def("__deepcopy__", [](PyIfContentPartColourChange &self, py::dict) { return self.clone(); }, py::arg("memo"),
-    py::doc(R"doc(Creates a copy of this change record (equivalent to :meth:`clone`); supports ``copy.deepcopy()``)doc"))
-
-        .def("restore", &PyIfContentPartColourChange::restore<py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual>,
-             py::arg("colouring"), py::arg("key"),
-    py::doc(R"doc(
-Restores the old value for a particular key within ``colouring``
-
-Parameters
-----------
-colouring: :class:`IfContentPartColouring`
-    The colouring to restore a value within
-
-key: Any
-    The key to restore -- if ``key`` isn't currently in ``colouring``, this has no effect
-        )doc"));
+    py::doc(R"doc(Creates a copy of this change record (equivalent to :meth:`clone`); supports ``copy.deepcopy()``)doc"));
 
 
     py::class_<PyIfContentPartColouring>(m, "IfContentPartColouring", R"doc(
@@ -156,7 +143,7 @@ src: Optional[Dict[Any, Any]]
             auto instance = std::make_unique<PyIfContentPartColouring>();
             if (!src.is_none()) {
                 for (auto item : src.cast<py::dict>()) {
-                    py::object key = py::reinterpret_borrow<py::object>(item.first);
+                    std::string key = py::str(item.first).cast<std::string>();
                     py::object value = py::reinterpret_borrow<py::object>(item.second);
                     instance->set(key, parseStateValue(value));
                 }
@@ -178,7 +165,7 @@ src: Optional[Dict[Any, Any]]
 
         .def("empty", &PyIfContentPartColouring::empty, py::doc(R"doc(Checks whether no keys are currently tracked)doc"))
 
-        .def("get", [](const PyIfContentPartColouring &self, const py::object &key, const py::object &defaultVal) {
+        .def("get", [](const PyIfContentPartColouring &self, const std::string &key, const py::object &defaultVal) {
             auto val = self.get(key);
             if (!val.has_value()) {
                 return defaultVal;
@@ -187,7 +174,7 @@ src: Optional[Dict[Any, Any]]
         }, py::arg("key"), py::arg("default") = py::none(),
     py::doc(R"doc(Retrieves the current state for 'key', or 'default' if not tracked)doc"))
 
-        .def("__getitem__", [](const PyIfContentPartColouring &self, const py::object &key) {
+        .def("__getitem__", [](const PyIfContentPartColouring &self, const std::string &key) {
             try {
                 return stateValueToPy(self.at(key));
             } catch (const std::out_of_range&) {
@@ -195,18 +182,18 @@ src: Optional[Dict[Any, Any]]
             }
         }, py::arg("key"), py::doc(R"doc(Retrieves the current state for 'key'; raises :class:`KeyError` if not tracked)doc"))
 
-        .def("set", [](PyIfContentPartColouring &self, const py::object &key, const py::object &value) {
+        .def("set", [](PyIfContentPartColouring &self, const std::string &key, const py::object &value) {
             self.set(key, parseStateValue(value));
         }, py::arg("key"), py::arg("value"), py::doc(R"doc(Sets the current state for 'key', inserting it if not already tracked)doc"))
 
-        .def("__setitem__", [](PyIfContentPartColouring &self, const py::object &key, const py::object &value) {
+        .def("__setitem__", [](PyIfContentPartColouring &self, const std::string &key, const py::object &value) {
             self.set(key, parseStateValue(value));
         }, py::arg("key"), py::arg("value"), py::doc(R"doc(Sets the current state for 'key', inserting it if not already tracked)doc"))
 
         .def("erase", &PyIfContentPartColouring::erase, py::arg("key"),
     py::doc(R"doc(Removes the current state for 'key', if any; returns whether 'key' was actually tracked)doc"))
 
-        .def("__delitem__", [](PyIfContentPartColouring &self, const py::object &key) {
+        .def("__delitem__", [](PyIfContentPartColouring &self, const std::string &key) {
             if (!self.erase(key)) {
                 throw py::key_error(py::str(key));
             }
@@ -340,8 +327,8 @@ Set[Any]
         )doc"))
 
         .def("getRanges", [](const PyIfContentPartColouring &self,
-                              const std::optional<std::unordered_map<py::object, bool, PyObjectHash, PyObjectEqual>> &keysExists,
-                              const std::optional<std::unordered_map<py::object, PyIfContentPartColouring::Filter, PyObjectHash, PyObjectEqual>> &keyFilters,
+                              const std::optional<std::unordered_map<std::string, bool>> &keysExists,
+                              const std::optional<std::unordered_map<std::string, PyIfContentPartColouring::Filter>> &keyFilters,
                               bool existsRequireAll, bool filtersRequireAll, bool globalRequireAll, bool includeKeyDefs) {
             AGRC::Ranges<long long> result = self.getRanges(keysExists, keyFilters, existsRequireAll, filtersRequireAll, globalRequireAll, includeKeyDefs);
             return PyRanges<long long>(result.ranges, false);
@@ -394,5 +381,24 @@ Returns
 -------
 :class:`Ranges`
     The valid ranges that satisfy the specified conditions
+        )doc"));
+
+    // Registered only now that IfContentPartColouring exists: pybind11 bakes a def()'s signature
+    // string at registration time, so declaring this alongside the rest of IfContentPartColourChange
+    // rendered 'colouring' as a raw C++ template name -- which pybind11_stubgen then split on its
+    // commas into a run of bogus 'std' parameters in core.pyi.
+    changeCls.def("restore", &PyIfContentPartColourChange::restore<std::string, std::hash<std::string>, std::equal_to<std::string>,
+                                                                  std::hash<std::string>, std::equal_to<std::string>>,
+             py::arg("colouring"), py::arg("key"),
+    py::doc(R"doc(
+Restores the old value for a particular key within ``colouring``
+
+Parameters
+----------
+colouring: :class:`IfContentPartColouring`
+    The colouring to restore a value within
+
+key: :class:`str`
+    The key to restore -- if ``key`` isn't currently in ``colouring``, this has no effect
         )doc"));
 }

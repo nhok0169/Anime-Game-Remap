@@ -130,50 +130,51 @@ class CppIfContentPartTest(BaseUnitTest):
     def _makePart(self, items=None, depth=0):
         if items is None:
             items = self._items
-        return FRB.IfContentPart(depth=depth, content=FRB.OrderedMultiMap(list(items)).asInterface())
+        return FRB.IfContentPart.buildFromOrder(list(items), depth = depth)
 
     # ================================================
     # ========== construction / backing choice =======
 
-    def test_backedByOrderedMultiMap_entriesMatch(self):
-        part = FRB.IfContentPart(depth=1, content=FRB.OrderedMultiMap(self._items).asInterface())
+    def test_buildFromOrder_entriesMatch(self):
+        part = FRB.IfContentPart.buildFromOrder(self._items, depth = 1)
         self.compareList(part.entries(), self._items)
         self.assertEqual(part.depth, 1)
 
-    def test_backedByOrderedMultiMapSqrt_entriesMatch(self):
-        part = FRB.IfContentPart(depth=1, content=FRB.OrderedMultiMapSqrt(self._items).asInterface())
-        self.compareList(part.entries(), self._items)
-
-    def test_backedByPurePythonImplementation_entriesMatch(self):
-        pyomm = PyListOMM()
-        for key, value in self._items:
-            pyomm.insert(key, value)
-
-        part = FRB.IfContentPart(depth=3, content = pyomm)
+    def test_srcDict_entriesMatch(self):
+        # The other way to seed a part -- key -> [(orderIndex, value)], one entry per occurrence.
+        part = FRB.IfContentPart({"hash": [(0, "abc123")], "vb0": [(1, "ResourceX"), (2, "ResourceY")]}, depth = 3)
         self.compareList(part.entries(), self._items)
         self.assertEqual(part.depth, 3)
 
-        # mutating through IfContentPart really does cross back into the Python object
-        part.addKVP("newKey", "newVal")
-        self.compareList(part.entries(), self._items + [("newKey", "newVal")])
+    def test_content_suppliedOrderedMultiMap_rejected(self):
+        # An IfContentPart always uses its own backing store now -- an IOrderedMultiMap of the
+        # instantiation it holds isn't bound to Python at all, so a supplied 'content' is
+        # rejected rather than silently ignored, which would be the worse failure.
+        with self.assertRaises(ValueError):
+            FRB.IfContentPart(content = FRB.OrderedMultiMap(self._items).asInterface())
 
-    def test_backedByPurePythonImplementation_getValsWithRanges_callsThroughTrampolineCorrectly(self):
-        # Regression guard: getVals()/getValsWithInds() gaining a 'ranges' parameter changed
-        # IOrderedMultiMap.getAll()/getAllWithInds()'s arity -- a pure-Python override with the
-        # old 2-param signature would fail on *every* call (not just ones using ranges), since
-        # PYBIND11_OVERRIDE_PURE forwards all 3 args positionally regardless of what the
-        # Python method declares. This part's own 'vb0' occurs at true positions 1, 2.
+    def test_content_suppliedPurePythonImplementation_rejected(self):
         pyomm = PyListOMM()
         for key, value in self._items:
             pyomm.insert(key, value)
 
-        part = FRB.IfContentPart(content=pyomm)
+        with self.assertRaises(ValueError):
+            FRB.IfContentPart(content = pyomm)
+
+    def test_content_suppliedToBuildFromOrder_rejected(self):
+        with self.assertRaises(ValueError):
+            FRB.IfContentPart.buildFromOrder(self._items, content = FRB.OrderedMultiMap().asInterface())
+
+    def test_getValsWithRanges_filtersByTruePosition(self):
+        # Regression guard for getVals()/getValsWithInds()'s 'ranges' parameter. This part's own
+        # 'vb0' occurs at true positions 1, 2.
+        part = self._makePart()
         self.compareList(part.getVals("vb0"), ["ResourceX", "ResourceY"])
         self.compareList(part.getVals("vb0", ranges=FRB.Ranges([(1, 2)])), ["ResourceX"])
         self.compareList(part.getValsWithInds("vb0", ranges=FRB.Ranges([(2, 3)])), [(2, "ResourceY")])
 
     def test_depth_defaultsToZero(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface())
+        part = FRB.IfContentPart()
         self.assertEqual(part.depth, 0)
 
     def test_content_omitted_defaultsToEmptyOrderedMultiMap(self):
@@ -211,14 +212,11 @@ class CppIfContentPartTest(BaseUnitTest):
     # ================================================
     # ================== content ======================
 
-    def test_content_exposesUnderlyingInterface(self):
+    def test_content_notExposed(self):
+        # The backing store is an implementation detail now -- reaching it would hand out an
+        # IOrderedMultiMap instantiation that has no Python binding at all.
         part = self._makePart()
-        self.assertIsInstance(part.content, FRB.IOrderedMultiMap)
-        self.compareList(part.content.entries(), self._items)
-
-        # mutating via .content affects the part too -- it's the same underlying object
-        part.content.insert("viaContent", "x")
-        self.compareList(part.entries(), self._items + [("viaContent", "x")])
+        self.assertFalse(hasattr(part, "content"))
 
     # ================================================
     # ================ insert family ==================
@@ -251,13 +249,13 @@ class CppIfContentPartTest(BaseUnitTest):
         self.compareList(part.entries(), [("a", "1"), ("b", "2")] + self._items)
 
     def test_addKVPsByInds_insertedAtOriginalPositions(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1"), ("a", "2")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("a", "0"), ("a", "1"), ("a", "2")])
         count = part.addKVPsByInds({0: ("x", "x0"), 2: ("y", "y2")})
         self.assertEqual(count, 2)
         self.compareList(part.entries(), [("x", "x0"), ("a", "0"), ("a", "1"), ("y", "y2"), ("a", "2")])
 
     def test_addKVPsByInds_withRanges_onlyInRangeInserted(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("a", "0"), ("a", "1")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("a", "0"), ("a", "1")])
         count = part.addKVPsByInds({0: ("x", "x0"), 1: ("y", "y1")}, ranges=FRB.Ranges([(1, 2)]))
         self.assertEqual(count, 1)
         self.compareList(part.entries(), [("a", "0"), ("y", "y1"), ("a", "1")])
@@ -321,12 +319,12 @@ class CppIfContentPartTest(BaseUnitTest):
     # ================= bulk edits =====================
 
     def test_reorder_swapsEntries(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("x", "0"), ("y", "1"), ("z", "2")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("x", "0"), ("y", "1"), ("z", "2")])
         part.reorder({0: 2, 2: 0})
         self.compareList(part.entries(), [("z", "2"), ("y", "1"), ("x", "0")])
 
     def test_remapKeys_bareKeyList_alwaysFiresInPlace(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("hash", "abc")])
         part.remapKeys({"hash": ["newHash"]})
         self.compareList(part.entries(), [("newHash", "abc")])
 
@@ -374,7 +372,7 @@ class CppIfContentPartTest(BaseUnitTest):
 
     def test_empty_emptyAndNonEmptyParts(self):
         self.assertFalse(self._makePart().empty())
-        self.assertTrue(FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface()).empty())
+        self.assertTrue(FRB.IfContentPart().empty())
 
     def test_getVals_returnsAllValuesForKey(self):
         part = self._makePart()
@@ -597,13 +595,13 @@ class CppIfContentPartTest(BaseUnitTest):
     # =================== toStr ========================
 
     def test_toStr_formatsAsKeyValueLines(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("hash", "abc"), ("vb0", "res")])
         self.assertEqual(part.toStr(), "hash = abc\nvb0 = res")
 
     def test_toStr_withLinePrefix_prefixesEveryLine(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap([("hash", "abc"), ("vb0", "res")]).asInterface())
+        part = FRB.IfContentPart.buildFromOrder([("hash", "abc"), ("vb0", "res")])
         self.assertEqual(part.toStr(linePrefix="  "), "  hash = abc\n  vb0 = res")
 
     def test_toStr_emptyPart_emptyString(self):
-        part = FRB.IfContentPart(content=FRB.OrderedMultiMap().asInterface())
+        part = FRB.IfContentPart()
         self.assertEqual(part.toStr(), "")

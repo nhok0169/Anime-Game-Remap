@@ -7,7 +7,7 @@
                                         // list of bounds" resolver every reg edit already uses)
 
 
-PyGraphInherit::PyGraphInherit(py::object srcObj, py::object dstObj, py::object reg, bool latest, py::object partFilterObj):
+PyGraphInherit::PyGraphInherit(py::object srcObj, py::object dstObj, std::string reg, bool latest, py::object partFilterObj):
     Core(GraphId(), GraphId(), std::move(reg), latest, {}),
     srcObj(std::move(srcObj)), dstObj(std::move(dstObj)), partFilterObj(std::move(partFilterObj)) {}
 
@@ -91,7 +91,7 @@ partFilter: Optional[Callable[[:class:`SectionIterData`, :class:`ModType`, Optio
     // py::init(factory) rather than py::init<...>(): the core class owns std::function members, and
     // a factory returning a unique_ptr avoids ever needing to move-construct the class itself --
     // see PyRegAdd.cpp's identical note.
-    cls.def(py::init([](py::object src, py::object dst, py::object reg, bool latest, py::object partFilter) {
+    cls.def(py::init([](py::object src, py::object dst, std::string reg, bool latest, py::object partFilter) {
         return std::make_unique<PyGraphInherit>(std::move(src), std::move(dst), std::move(reg), latest, std::move(partFilter));
     }), py::arg("src"), py::arg("dst"), py::arg("reg"), py::arg("latest") = true, py::arg("partFilter") = py::none());
 

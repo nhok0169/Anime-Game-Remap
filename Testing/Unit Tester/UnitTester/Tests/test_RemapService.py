@@ -58,22 +58,22 @@ class RemapServiceTest(BaseFileUnitTest):
         return [self._undoedInis, self._removedRemapBlends, self._removedRemapPositions, self._removedTextures, self._removedDownloads]
 
     def setupLog(self):
-        self.patch("src.FixRaidenBoss2.Logger.log", side_effect = lambda message: self.log(message))
+        self.patch("src.py.FixRaidenBoss2.Logger.log", side_effect = lambda message: self.log(message))
 
     def getMockLog(self) -> mock.MagicMock:
-        return self.patches["src.FixRaidenBoss2.Logger.log"]
+        return self.patches["src.py.FixRaidenBoss2.Logger.log"]
     
     def setupFixIni(self):
-        self.patch("src.FixRaidenBoss2.RemapService.fixIni", side_effect = lambda ini, mod, flushIfTemplates: self.fixIni(ini))
+        self.patch("src.py.FixRaidenBoss2.RemapService.fixIni", side_effect = lambda ini, mod, flushIfTemplates: self.fixIni(ini))
 
     def getMockFixIni(self) -> mock.MagicMock:
-        return self.patches["src.FixRaidenBoss2.RemapService.fixIni"]
+        return self.patches["src.py.FixRaidenBoss2.RemapService.fixIni"]
     
     def setupRemoveFix(self):
-        self.patch("src.FixRaidenBoss2.Mod.removeFix", side_effect = lambda remapStats, keepBackups, fixOnly, readAllInis, writeBackInis: self.removeFix())
+        self.patch("src.py.FixRaidenBoss2.Mod.removeFix", side_effect = lambda remapStats, keepBackups, fixOnly, readAllInis, writeBackInis: self.removeFix())
 
     def getMockRemoveFix(self) -> mock.MagicMock:
-        return self.patches["src.FixRaidenBoss2.Mod.removeFix"]
+        return self.patches["src.py.FixRaidenBoss2.Mod.removeFix"]
 
     def setupRemapService(self):
         self._remapService = FRB.RemapService(path = self._path, keepBackups = self._keepBackups, fixOnly = self._fixOnly, undoOnly = self._undoOnly,
@@ -82,12 +82,12 @@ class RemapServiceTest(BaseFileUnitTest):
         
     def setUp(self):
         super().setUp()
-        self.patch("src.FixRaidenBoss2.Mod.correctBlend", side_effect = lambda fileStats, iniPaths, fixOnly = False: self.correctBlend(fileStats))
+        self.patch("src.py.FixRaidenBoss2.Mod.correctBlend", side_effect = lambda fileStats, iniPaths, fixOnly = False: self.correctBlend(fileStats))
 
     # ====================== path.setter =================================
 
-    @mock.patch("src.FixRaidenBoss2.RemapService.clear")
-    @mock.patch("src.FixRaidenBoss2.RemapService._setupModPath")
+    @mock.patch("src.py.FixRaidenBoss2.RemapService.clear")
+    @mock.patch("src.py.FixRaidenBoss2.RemapService._setupModPath")
     def test_givenPath_pathSet(self, m_setupModPath, m_clear):
         self.setupRemapService()
 
@@ -146,7 +146,7 @@ class RemapServiceTest(BaseFileUnitTest):
     # ====================================================================
     # ====================== _setupModPath ===============================
 
-    @mock.patch("src.FixRaidenBoss2.FilePathConsts.DefaultPath")
+    @mock.patch("src.py.FixRaidenBoss2.FilePathConsts.DefaultPath")
     def test_noPath_setDefaultPath(self, m_defaultPath):
         m_defaultPath.return_value = self.absPath
         self.setupRemapService()
@@ -310,7 +310,7 @@ class RemapServiceTest(BaseFileUnitTest):
         self.assertEqual(result, True)
         self.assertGreaterEqual(self.getMockLog().call_count, 2)
 
-    @mock.patch("src.FixRaidenBoss2.IniFile.fix")
+    @mock.patch("src.py.FixRaidenBoss2.IniFile.fix")
     def test_differentInisToFix_inisFixed(self, m_fix):
         self.setupLog()
         self.setupRemapService()
@@ -354,8 +354,8 @@ class RemapServiceTest(BaseFileUnitTest):
     # ====================================================================
     # ====================== fixMod ======================================
 
-    @mock.patch("src.FixRaidenBoss2.Mod.removeBackupInis")
-    @mock.patch("src.FixRaidenBoss2.IniFile.classify", side_effect = lambda: True)
+    @mock.patch("src.py.FixRaidenBoss2.Mod.removeBackupInis")
+    @mock.patch("src.py.FixRaidenBoss2.IniFile.classify", side_effect = lambda: True)
     def test_differentMods_modsFixed(self, m_classify, m_removeBackupInis):
         self.setupLog()
         self.setupFixIni()

@@ -14,8 +14,8 @@ class BaseRegEditTest(BaseUnitTest):
 
     def test_inheritance_derivesFromTheGraphPartEditBases(self):
         edit = FRB.BaseRegEdit()
-        self.assertIsInstance(edit, FRB.CppBaseIniGraphPartEdit)
-        self.assertIsInstance(edit, FRB.CppBaseIniPartEdit)
+        self.assertIsInstance(edit, FRB.BaseIniGraphPartEdit)
+        self.assertIsInstance(edit, FRB.BaseIniPartEdit)
 
     def test_inheritance_everyConcreteRegEditIsABaseRegEdit(self):
         for edit in [FRB.RegAdd([]), FRB.RegNewVals({}), FRB.RegRemap({}), FRB.RegRemove({})]:

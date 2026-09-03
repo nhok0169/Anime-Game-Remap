@@ -62,7 +62,8 @@ namespace AGRemapCore {
              ``nullptr``, since :cpp:class:`BaseIniFixer` allows an unbound fixer
              @endrst
              */
-            using Factory = std::function<std::shared_ptr<BaseIniFixer<>>(BaseIniParser<>*)>;
+            using Factory = std::function<std::shared_ptr<BaseIniFixer<>>(BaseIniParser<>*,
+                                                                            const std::string&)>;
 
             /**
              * @brief
@@ -99,8 +100,14 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The #Factory used when nothing else supplies one -- constructs a plain
-             :cpp:class:`BaseIniFixer` bound to the given parser :raw-html:`<br />` :raw-html:`<br />`
+             The #Factory used when nothing else supplies one -- constructs a
+             :cpp:class:`GIMIFixer` over an :cpp:class:`IniFileFixContext`, rendering through
+             :cpp:func:`renderIfTemplate` :raw-html:`<br />` :raw-html:`<br />`
+
+             A ``GIMIFixer`` and not a bare :cpp:class:`BaseIniFixer`, matching the pure-Python
+             ``ModType.__init__``'s own ``IniFixBuilder(GIMIFixer)`` default. It is handed a
+             renderer because a ``GIMIFixer`` without one builds its groups correctly and then
+             renders **nothing** -- see :cpp:type:`GIMIFixer::SectionToStr` :raw-html:`<br />` :raw-html:`<br />`
 
              Stands in for the pure-Python original's ``IniFixBuilder(GIMIFixer)`` default. It is
              the *base* class rather than a ``GIMIFixer`` simply because no concrete C++ fixer has
@@ -244,7 +251,7 @@ namespace AGRemapCore {
              * @param filteredToModNames
              @rst
              If given, only target mods whose name is in this set are built -- the
-             :cpp:member:`IniFile::filteredToModTypeNames` filter :raw-html:`<br />`
+             :cpp:member:`IniFile::filteredToModTypeIds` filter (resolved to names by :cpp:func:`IniFile::getFixers` before it reaches here) :raw-html:`<br />`
              :raw-html:`<br />`
 
              ``std::nullopt`` (the default) means **no filtering**: every target mod the table lists

@@ -102,6 +102,127 @@ std::vector<std::pair<long long, std::pair<py::object, py::object>>> parseInsert
     return result;
 }
 
+// ---------------------------------------------------------------------------------------
+// The .ini-domain counterparts -- see PyIOrderedMultiMap.h's own note on why only these three
+// need one. They accept exactly the same Python values as the generic versions above (including
+// bound CppKeyRemapData/CppRemappedKeyData/ReplaceList/ReplaceIf instances, which stay
+// py::object-typed and singly bound) and build std::string-typed structures out of them.
+// ---------------------------------------------------------------------------------------
+
+namespace {
+
+std::string asIniKey(const py::handle &value) {
+    return py::str(value).cast<std::string>();
+}
+
+PyIniIOrderedMultiMap::KeyRemapList parseIniKeyRemapList(const py::object &value) {
+    PyIniIOrderedMultiMap::KeyRemapList list;
+    for (py::handle elemH : value) {
+        py::object elem = py::reinterpret_borrow<py::object>(elemH);
+
+        if (!py::isinstance<PyRemappedKeyData>(elem)) {
+            list.emplace_back(asIniKey(elem));
+            continue;
+        }
+
+        // Rebuilt rather than cast: the bound RemappedKeyData is py::object-typed, and its
+        // 'check' is an std::function over py::object. Re-wrapping that as one over std::string
+        // is the whole conversion -- pybind11 already turned the caller's Python callable into
+        // an std::function once, so this just adapts the signature.
+        const PyRemappedKeyData &src = elem.cast<const PyRemappedKeyData&>();
+        std::optional<AGRC::RemappedKeyData<std::string, std::string>::CheckPredicate> check;
+
+        if (src.check().has_value()) {
+            auto inner = *src.check();
+            check = [inner](const std::string &key, const std::string &val) {
+                return inner(py::cast(key), py::cast(val));
+            };
+        }
+
+        list.emplace_back(AGRC::RemappedKeyData<std::string, std::string>(
+            asIniKey(src.key()), check, src.toInd()));
+    }
+
+    return list;
+}
+
+}
+
+
+std::vector<std::pair<std::string, PyIniIOrderedMultiMap::KeyRemapValue>> parseIniKeyRemap(const py::dict &keyRemap) {
+    std::vector<std::pair<std::string, PyIniIOrderedMultiMap::KeyRemapValue>> result;
+    result.reserve(keyRemap.size());
+
+    for (auto item : keyRemap) {
+        std::string key = asIniKey(item.first);
+        py::object value = py::reinterpret_borrow<py::object>(item.second);
+
+        if (py::isinstance<PyKeyRemapData>(value)) {
+            const PyKeyRemapData &data = value.cast<const PyKeyRemapData&>();
+            result.emplace_back(std::move(key),
+                AGRC::KeyRemapData<std::string, std::string>(
+                    parseIniKeyRemapList(py::cast(data.remappedKeys())), data.keepKeyWithoutRemap()));
+            continue;
+        }
+
+        if (!py::isinstance<py::list>(value) && !py::isinstance<py::tuple>(value)) {
+            throw py::type_error(
+                "remapKeys(): each keyRemap value must be a KeyRemapData instance, or a "
+                "list/tuple mixing bare keys and RemappedKeyData instances");
+        }
+
+        result.emplace_back(std::move(key), parseIniKeyRemapList(value));
+    }
+
+    return result;
+}
+
+
+std::vector<std::pair<std::string, PyIniIOrderedMultiMap::ReplaceSpec>> parseIniReplaceVals(const py::dict &newVals) {
+    std::vector<std::pair<std::string, PyIniIOrderedMultiMap::ReplaceSpec>> result;
+    result.reserve(newVals.size());
+
+    for (auto item : newVals) {
+        std::string key = asIniKey(item.first);
+        py::object value = py::reinterpret_borrow<py::object>(item.second);
+
+        if (py::isinstance<PyReplaceList>(value)) {
+            std::vector<std::string> vals;
+            for (const py::object &v : value.cast<PyReplaceList>().values()) {
+                vals.push_back(asIniKey(v));
+            }
+            result.emplace_back(std::move(key), std::move(vals));
+        } else if (py::isinstance<PyReplaceIf>(value)) {
+            PyReplaceIf spec = value.cast<PyReplaceIf>();
+            // Predicate is already an std::function<bool(const py::object&)> -- pybind11 built
+            // it from the caller's Python callable once, so this only adapts the signature.
+            PyReplaceIf::Predicate predicate = spec.predicate();
+            AGRC::IOrderedMultiMap<std::string, std::string>::Predicate wrapped =
+                [predicate](const std::string &v) { return predicate(py::cast(v)); };
+            result.emplace_back(std::move(key), std::make_pair(asIniKey(spec.value()), std::move(wrapped)));
+        } else {
+            result.emplace_back(std::move(key), asIniKey(value));
+        }
+    }
+
+    return result;
+}
+
+
+std::vector<std::pair<long long, std::pair<std::string, std::string>>> parseIniInsertAllAtItems(const py::dict &items) {
+    std::vector<std::pair<long long, std::pair<std::string, std::string>>> result;
+    result.reserve(items.size());
+
+    for (auto item : items) {
+        long long index = item.first.cast<long long>();
+        auto kv = item.second.cast<std::pair<std::string, std::string>>();
+        result.emplace_back(index, std::move(kv));
+    }
+
+    return result;
+}
+
+
 std::vector<std::pair<long long, long long>> parseOrderMap(const py::dict &orderMap) {
     std::vector<std::pair<long long, long long>> result;
     result.reserve(orderMap.size());

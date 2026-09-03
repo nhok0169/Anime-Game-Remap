@@ -11,7 +11,7 @@
 
 namespace {
 
-using PyResRegCollectCore = AGRC::ResRegCollect<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyResRegCollectCore = AGRC::ResRegCollect<std::string, std::string>;
 
 
 // Turns one Python remap target -- a (iniIndex, component, object) tuple, optionally with a rename
@@ -58,7 +58,7 @@ void PyResRegCollect::refresh() {
     if (!srcRegsObj.is_none()) {
         for (auto item : srcRegsObj.cast<py::dict>()) {
             srcRegs.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                      py::reinterpret_borrow<py::object>(item.second));
+                                      py::str(item.second).cast<std::string>());
         }
     }
 
@@ -102,7 +102,7 @@ void PyResRegCollect::refresh() {
             }
 
             resPredicates.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                            [predicate](const py::object &reg, const py::object &val, const IterData &iterData) {
+                                            [predicate](const std::string &reg, const std::string &val, const IterData &iterData) {
                 return predicate(reg, val, py::cast(&iterData, py::return_value_policy::reference)).cast<bool>();
             });
         }
@@ -136,12 +136,12 @@ void PyResRegCollect::refresh() {
     if (!keysToTrackObj.is_none()) {
         for (auto item : keysToTrackObj.cast<py::dict>()) {
             py::object keysObj = py::reinterpret_borrow<py::object>(item.second);
-            std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+            std::optional<std::unordered_set<std::string>> keys;
 
             if (!keysObj.is_none()) {
-                std::unordered_set<py::object, PyObjectHash, PyObjectEqual> parsedKeys;
+                std::unordered_set<std::string> parsedKeys;
                 for (auto keyItem : keysObj) {
-                    parsedKeys.insert(py::reinterpret_borrow<py::object>(keyItem));
+                    parsedKeys.insert(py::cast<std::string>(keyItem));
                 }
                 keys = std::move(parsedKeys);
             }

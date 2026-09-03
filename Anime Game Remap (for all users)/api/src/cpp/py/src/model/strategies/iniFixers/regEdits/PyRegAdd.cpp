@@ -13,7 +13,7 @@ PyRegAdd::PyRegAdd(py::object valsObj, bool latest): Core({}, latest), valsObj(s
 
 void PyRegAdd::refresh(const py::object &modType) {
     (void)modType;
-    vals = py::cast<std::vector<std::pair<py::object, py::object>>>(valsObj);
+    vals = py::cast<std::vector<std::pair<std::string, std::string>>>(valsObj);
 }
 
 

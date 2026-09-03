@@ -115,7 +115,7 @@ PyResGroupCollect::PyResGroupCollect(py::object resGroupTypes, py::object srcReg
 
     // The section-name -> V conversion the spliced-in call sites need; the same shape
     // IfTemplateRunConfig's own valOfSectionName has.
-    this->valOfSectionName = [](const std::string &name) { return py::cast(name); };
+    this->valOfSectionName = [](const std::string &name) { return name; };
 
     refresh(nullptr);
 }
@@ -147,10 +147,10 @@ void PyResGroupCollect::refresh(PyIniResEditContext *ctx) {
 
     if (!srcRegsObj.is_none()) {
         for (auto outer : srcRegsObj.cast<py::dict>()) {
-            ByGraph<py::object> inner;
+            ByGraph<std::string> inner;
             for (auto item : py::reinterpret_borrow<py::object>(outer.second).cast<py::dict>()) {
                 inner.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                        py::reinterpret_borrow<py::object>(item.second));
+                                        py::str(item.second).cast<std::string>());
             }
 
             srcRegs.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(outer.first)), std::move(inner));
@@ -217,7 +217,7 @@ void PyResGroupCollect::refresh(PyIniResEditContext *ctx) {
                 }
 
                 inner.insert_or_assign(parseGraphId(py::reinterpret_borrow<py::object>(item.first)),
-                                        [predicate](const py::object &reg, const py::object &val, const IterQueryData &iterData) {
+                                        [predicate](const std::string &reg, const std::string &val, const IterQueryData &iterData) {
                     return predicate(reg, val, py::cast(&iterData, py::return_value_policy::reference)).cast<bool>();
                 });
             }
@@ -255,16 +255,16 @@ void PyResGroupCollect::refresh(PyIniResEditContext *ctx) {
 
     if (!keysToTrackObj.is_none()) {
         for (auto outer : keysToTrackObj.cast<py::dict>()) {
-            ByGraph<std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>>> inner;
+            ByGraph<std::optional<std::unordered_set<std::string>>> inner;
 
             for (auto item : py::reinterpret_borrow<py::object>(outer.second).cast<py::dict>()) {
                 py::object keysObj = py::reinterpret_borrow<py::object>(item.second);
-                std::optional<std::unordered_set<py::object, PyObjectHash, PyObjectEqual>> keys;
+                std::optional<std::unordered_set<std::string>> keys;
 
                 if (!keysObj.is_none()) {
-                    std::unordered_set<py::object, PyObjectHash, PyObjectEqual> parsedKeys;
+                    std::unordered_set<std::string> parsedKeys;
                     for (auto keyItem : keysObj) {
-                        parsedKeys.insert(py::reinterpret_borrow<py::object>(keyItem));
+                        parsedKeys.insert(py::cast<std::string>(keyItem));
                     }
                     keys = std::move(parsedKeys);
                 }

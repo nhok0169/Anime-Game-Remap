@@ -57,6 +57,14 @@ namespace AGRemapCore {
              * @return The resultant stripped text
              */
             [[nodiscard]] static std::string_view strip(std::string_view txt);
+
+            /**
+             * @brief Erases every occurrence of 'target' from 'txt', in place
+             *
+             * @param txt The string to erase from
+             * @param target The substring to erase. Erasing the empty string is a no-op
+             */
+            static void eraseAll(std::string& txt, std::string_view target);
     };
 }
 

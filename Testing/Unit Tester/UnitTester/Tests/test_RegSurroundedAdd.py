@@ -29,7 +29,7 @@ _Z3CTX = FRB.Z3Context()  # shared across every IfPredPart built in this test fi
 
 
 # RegSurroundedAdd is now C++-backed (see AI Agent Help/IniGraphEditing/CLAUDE.md) -- unlike the
-# pure-Python original (RegSurroundedAddOld), its private helpers (_buildKeyFilters,
+# pure-Python original (RegSurroundedAddOld, since deleted), its private helpers (_buildKeyFilters,
 # _getSatisfiedRange, _keysExistSomewhere, _pickInsertInd, ...) aren't bound and so aren't
 # separately testable here. Every one of those helpers is exercised indirectly, and exhaustively,
 # through the public edit() tests below -- which is also all a caller (whether pure Python or C++)

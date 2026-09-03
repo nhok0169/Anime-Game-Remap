@@ -18,15 +18,24 @@ void PyRegNewVals::refresh(const py::object &modType) {
     // Everything else about the dispatch is identical to it, marker classes included.
     py::dict src = py::cast<py::dict>(valsObj);
 
-    std::vector<std::pair<py::object, NewValSpec>> result;
+    auto toIniVals = [](const std::vector<py::object> &raw) {
+        std::vector<std::string> out;
+        out.reserve(raw.size());
+        for (const py::object &v : raw) {
+            out.push_back(py::str(v).cast<std::string>());
+        }
+        return out;
+    };
+
+    std::vector<std::pair<std::string, NewValSpec>> result;
     result.reserve(src.size());
 
     for (auto item : src) {
-        py::object key = py::reinterpret_borrow<py::object>(item.first);
+        std::string key = py::str(item.first).cast<std::string>();
         py::object value = py::reinterpret_borrow<py::object>(item.second);
 
         if (py::isinstance<PyReplaceList>(value)) {
-            result.emplace_back(std::move(key), NewValSpec(value.cast<PyReplaceList>().values()));
+            result.emplace_back(std::move(key), NewValSpec(toIniVals(value.cast<PyReplaceList>().values())));
             continue;
         }
 
@@ -37,15 +46,15 @@ void PyRegNewVals::refresh(const py::object &modType) {
             // with this class's own wider argument list. 'modType' is captured rather than read
             // from the ModTypePredicate's own parameter; see PyRegNewVals::refresh's doc comment.
             py::object predicate = spec.predicateObj();
-            ModTypePredicate boundPredicate = [predicate, modType](const py::object &oldValue, const AGRC::ModType *) {
-                return predicate(oldValue, modType).cast<bool>();
+            ModTypePredicate boundPredicate = [predicate, modType](const std::string &oldValue, const AGRC::ModType *) {
+                return predicate(py::cast(oldValue), modType).cast<bool>();
             };
 
-            result.emplace_back(std::move(key), NewValSpec(std::pair<py::object, ModTypePredicate>(spec.value(), std::move(boundPredicate))));
+            result.emplace_back(std::move(key), NewValSpec(std::pair<std::string, ModTypePredicate>(py::str(spec.value()).cast<std::string>(), std::move(boundPredicate))));
             continue;
         }
 
-        result.emplace_back(std::move(key), NewValSpec(std::move(value)));
+        result.emplace_back(std::move(key), NewValSpec(py::str(value).cast<std::string>()));
     }
 
     vals = std::move(result);

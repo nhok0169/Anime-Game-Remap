@@ -119,7 +119,9 @@ std::string tagOf(const std::shared_ptr<BaseIniParser<>>& parser) {
 }
 
 IniParseBuilder::Factory taggedFactory(std::string tag) {
-    return [tag](IniFile* iniFile) {
+    // The Factory takes the mod type id too now, so the default parser's context can answer
+    // modTypeName/hasModType. Ignored here -- this fake only records which factory ran.
+    return [tag](IniFile* iniFile, std::optional<int>) {
         return std::make_shared<TaggedParser>(iniFile, tag);
     };
 }
@@ -250,7 +252,7 @@ void testCapturedStateIsShared() {
     // are constructed once and shared across every build, while the parser itself is fresh each
     // time. Here the shared counter stands in for such an argument object.
     auto shared = std::make_shared<int>(0);
-    auto repo = makeArgsRepo({{{"4.0", "Amber"}, [shared](IniFile* iniFile) {
+    auto repo = makeArgsRepo({{{"4.0", "Amber"}, [shared](IniFile* iniFile, std::optional<int>) {
         ++(*shared);
         return std::make_shared<TaggedParser>(iniFile, "amber4_0");
     }}});
@@ -282,7 +284,9 @@ class TestableIniFile: public IniFile {
     public:
         using IniFile::IniFile;
 
-        const std::unordered_map<int, ModType>& testModTypes() const { return modTypes; }
+        // modTypes is a tsl::ordered_map now -- insertion order is load-bearing for which mod type
+    // takes the .ini file's backup (see IniFile::fix).
+    const tsl::ordered_map<int, ModType>& testModTypes() const { return modTypes; }
 };
 
 // What a factory recorded each time IniFile asked it to build something. Observing the built
@@ -299,7 +303,7 @@ void testIniFileUsesTheBuilder() {
 
     auto log = std::make_shared<std::vector<BuildRecord>>();
     auto loggingFactory = [log](std::string tag) {
-        return IniParseBuilder::Factory{[log, tag](IniFile* iniFile) {
+        return IniParseBuilder::Factory{[log, tag](IniFile* iniFile, std::optional<int>) {
             auto parser = std::make_shared<TaggedParser>(iniFile, tag);
             log->push_back(BuildRecord{tag, iniFile, parser.get()});
             return parser;

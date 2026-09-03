@@ -10,25 +10,28 @@ from .test_RemapIniResource import RemapIniResourceTest, RemapIniDownloadTest
 from .test_RemapBlendResource import RemapBlendResourceTest
 from .test_RemapTexAddResource import RemapTexAddResourceTest
 from .test_IniGraphGroup import IniGraphGroupTest
+from .test_BaseBufEditor import BaseBufEditorTest
 from .test_BaseSLR1Parser import SLR1ParserTest
 from .test_BaseTokenizer import BaseTokenizerTest
 from .test_BinaryFile import BinaryFileTest
 from .test_BlendFile import BlendFileTest
 from .test_BufDataType import BufDataTypeTest
+from .test_BufEditor import BufEditorTest
 from .test_BufElementType import BufElementTypeTest
 from .test_BufFile import BufFileTest
 from .test_BufTools import BufToolsTest
 from .test_CallGraph import CallGraphTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
-from .test_CppBlendFile import CppBlendFileTest
 from .test_CppBufFile import CppBufFileTest
 from .test_CppGIBuilder import CppGIBuilderTest
 from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
-from .test_CppIniClassifier import CppIniClassifierTest
+from .test_IniFile import IniFileTest
+from .test_ModTypeRemaps import ModTypeRemapsTest
+from .test_CppModTypeMethods import CppModTypeMethodsTest
+from .test_CppMultiModFixer import CppMultiModFixerTest
 from .test_CppModType import CppModTypeTest
-from .test_CppPositionFile import CppPositionFileTest
 from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
@@ -39,13 +42,9 @@ from .test_Hash64 import Hash64Test
 from .test_Hash128 import Hash128Test
 from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
-from .test_GIMIFixerOld import GIMIFixerOldTest
 from .test_BaseIniFixer import BaseIniFixerTest
-from .test_GIMIObjMergeFixer import GIMIObjMergeFixerTest
-from .test_GIMIObjParser import GIMIObjParserTest
-from .test_GIMIObjRegEditFixer import GIMIObjRegEditFixerTest
-from .test_GIMIObjSplitFixer import GIMIObjSplitFixerTest
 from .test_GIMIParser import GIMIParserTest
+from .test_CppIniBuilders import CppIniParseBuilderTest, CppIniFixBuilderTest, CppIniRemoveBuilderTest
 from .test_GIMISectionClassifier import GIMISectionClassifierTest
 from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
@@ -70,7 +69,6 @@ from .test_IfTemplate import IfTemplateTest
 from .test_IfTemplateNode import IfTemplateNodeTest
 from .test_IfTemplateTree import IfTemplateTreeTest
 from .test_IniClassifier import IniClassifierTest
-from .test_IniFile import IniFileTest
 from .test_IniFixResourceModel import IniFixResourceModelTest
 from .test_RemapIniRemover import RemapIniRemoverTest
 from .test_IniSectionGraph import IniSectionGraphTest
@@ -87,7 +85,6 @@ from .test_ModType import ModTypeTest
 from .test_ModTypeId import ModTypeIdTest
 from .test_ModTypeIdData import ModTypeIdDataTest
 from .test_ModTypes import ModTypesTest
-from .test_MultiModFixer import MultiModFixerTest
 from .test_OrderedMultiMap import OrderedMultiMapTest
 from .test_OrderedMultiMapSqrt import OrderedMultiMapSqrtTest
 from .test_OrderedMultiMapCrossCheck import OrderedMultiMapCrossCheckTest
@@ -139,24 +136,24 @@ from .test_TexEditor import TexEditorTest
 from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "CppModTypeMethodsTest", "CppMultiModFixerTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest"]
-__all__ += ["GIMIObjParserTest", "GIMIObjMergeFixerTest", "GIMIObjSplitFixerTest", "MultiModFixerTest", "GIMIObjRegEditFixerTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
-__all__ += ["ModTypeIdDataTest", "CppModTypeTest", "CppGIBuilderTest", "ModTypeIdTest", "CppIniClassifierTest"]
+__all__ += ["ModTypeIdDataTest", "CppModTypeTest", "CppGIBuilderTest", "ModTypeIdTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
 __all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
-__all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "CppBlendFileTest", "CppPositionFileTest", "BufToolsTest"]
+__all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
 __all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest"]
+__all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]
 __all__ += ["CppBasePixelTransformTest", "CppCorrectGammaTest", "CppColourReplaceTest", "CppHighlightShadowTest", "CppInvertAlphaTest", "CppTempControlTest", "CppTintTransformTest", "CppTransparencyTest"]
@@ -167,4 +164,5 @@ __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "
 __all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
 __all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
-__all__ += ["BaseIniFixerTest", "GIMIFixerOldTest"]
+__all__ += ["CppIniParseBuilderTest", "CppIniFixBuilderTest", "CppIniRemoveBuilderTest"]
+__all__ += ["BaseIniFixerTest"]

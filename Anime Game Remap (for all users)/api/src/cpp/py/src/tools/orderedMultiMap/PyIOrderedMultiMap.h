@@ -160,6 +160,55 @@ std::vector<std::pair<long long, std::pair<py::object, py::object>>> parseInsert
 std::vector<std::pair<long long, long long>> parseOrderMap(const py::dict &orderMap);
 
 
+/**
+ * @brief
+ @rst
+ The ``.ini``-domain interface a :cpp:class:`AGRC::IfContentPart` is built over :raw-html:`<br />`
+ :raw-html:`<br />`
+
+ A ``.ini`` file's `KVPs`_ are ``std::string`` -> ``std::string``, so every ``.ini`` class is
+ instantiated that way, while the general-purpose ``CppOrderedMultiMap`` stays ``py::object``-keyed.
+ This alias names the interface of the former. It is deliberately **not** bound to `Python`_ -- see
+ ``PyIfContentPart``'s dropped ``content`` property
+ @endrst
+ */
+using PyIniIOrderedMultiMap = AGRC::IOrderedMultiMap<std::string, std::string>;
+
+
+/**
+ * @brief
+ @rst
+ The ``.ini``-domain counterparts of :cpp:func:`parseKeyRemap`/:cpp:func:`parseReplaceVals`/
+ :cpp:func:`parseInsertAllAtItems` :raw-html:`<br />` :raw-html:`<br />`
+
+ These three take the *same* `Python`_ values as their generic siblings -- including bound
+ ``CppKeyRemapData``/``CppRemappedKeyData``/``ReplaceList``/``ReplaceIf`` instances, which stay
+ ``py::object``-typed and singly-bound -- and build the ``std::string``-typed structures the
+ ``.ini`` classes need. Converting here is what keeps those four value types from each needing a
+ second bound copy
+
+ :raw-html:`<br />`
+
+ .. note::
+    The remaining helpers need no counterpart. ``parseRanges``/``parseOrderMap`` are already
+    key/value-agnostic (``RangeSpec`` is a ``std::vector<Ranges<long long>::Range>``);
+    ``parseKeyRemapList`` is generic-only; and ``parseRemoveKeys`` is ``.ini``-only, so it was
+    simply narrowed in place
+ @endrst
+ */
+std::vector<std::pair<std::string, PyIniIOrderedMultiMap::KeyRemapValue>> parseIniKeyRemap(const py::dict &keyRemap);
+
+/**
+ * @copydoc parseIniKeyRemap
+ */
+std::vector<std::pair<std::string, PyIniIOrderedMultiMap::ReplaceSpec>> parseIniReplaceVals(const py::dict &newVals);
+
+/**
+ * @copydoc parseIniKeyRemap
+ */
+std::vector<std::pair<long long, std::pair<std::string, std::string>>> parseIniInsertAllAtItems(const py::dict &items);
+
+
 void initCppIOrderedMultiMap(pybind11::module_ &m);
 
 #endif

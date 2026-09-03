@@ -19,7 +19,7 @@ namespace AGRC = AGRemapCore;
 // K and T are both bound as 'py::object' -- see PyOrderedMultiMap.h's comment (this file's
 // established precedent) for why PyObjectHash/PyObjectEqual are plugged in as the KeyHash/
 // KeyEqual template args rather than specializing std::hash<py::object> globally.
-extern template class AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual>;
+extern template class AGRC::ModDictAssets<std::string, std::string>;
 
 
 /**
@@ -41,9 +41,9 @@ extern template class AGRC::ModDictAssets<py::object, py::object, PyObjectHash, 
     C++ code calls back into
  @endrst
  */
-class PyModDictAssets: public AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyModDictAssets: public AGRC::ModDictAssets<std::string, std::string> {
     public:
-        using Base = AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::ModDictAssets<std::string, std::string>;
         using Base::Base;
 
         /**
@@ -68,7 +68,7 @@ class PyModDictAssets: public AGRC::ModDictAssets<py::object, py::object, PyObje
  :cpp:class:`PyModMappedAssets`'s ``addRepoRows``/``addMap``
  @endrst
  */
-std::vector<AGRC::Row<py::object, py::object>> convertRows(const std::vector<std::pair<std::vector<py::object>, py::object>> &rows);
+std::vector<AGRC::Row<std::string, std::string>> convertRows(const std::vector<std::pair<std::vector<std::string>, std::string>> &rows);
 
 /**
  * @brief
@@ -87,7 +87,7 @@ std::vector<AGRC::Row<py::object, py::object>> convertRows(const std::vector<std
  * @throws py::value_error If 'repo' is not nested exactly 'totalIndices' levels deep (a level
  *      that isn't a ``dict`` where one is expected, or a ``dict`` where a leaf value is expected)
  */
-std::vector<AGRC::Row<py::object, py::object>> flattenNestedDict(const py::dict &repo, std::size_t totalIndices);
+std::vector<AGRC::Row<std::string, std::string>> flattenNestedDict(const py::dict &repo, std::size_t totalIndices);
 
 /**
  * @brief
@@ -102,7 +102,7 @@ std::vector<AGRC::Row<py::object, py::object>> flattenNestedDict(const py::dict 
  up front
  @endrst
  */
-std::vector<AGRC::Row<py::object, py::object>> convertRowsOrNestedDict(const py::object &rowsOrNestedDict, std::size_t totalIndices);
+std::vector<AGRC::Row<std::string, std::string>> convertRowsOrNestedDict(const py::object &rowsOrNestedDict, std::size_t totalIndices);
 
 /**
  * @brief
@@ -136,7 +136,7 @@ std::vector<AGRC::Row<py::object, py::object>> convertRowsOrNestedDict(const py:
  pure-Python original exactly
  @endrst
  */
-std::vector<std::optional<py::object>> toWildcardList(const py::object &raw, const std::vector<std::string> &indexNames);
+std::vector<std::optional<std::string>> toWildcardList(const py::object &raw, const std::vector<std::string> &indexNames);
 
 void initCppModDictAssets(pybind11::module_ &m);
 

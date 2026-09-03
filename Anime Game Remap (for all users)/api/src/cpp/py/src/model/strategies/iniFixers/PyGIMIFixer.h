@@ -55,9 +55,9 @@ namespace AGRC = AGRemapCore;
     :cpp:func:`AGRemapCore::GIMIFixer::touchedSectionNames`'s answer, handed straight to the context
  @endrst
  */
-class PyIniFixContext: public AGRC::RemapIniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniFixContext: public AGRC::RemapIniFixContext<std::string, std::string> {
     public:
-        using Base = AGRC::RemapIniFixContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::RemapIniFixContext<std::string, std::string>;
         using GraphGroups = Base::GraphGroups;
 
         /**
@@ -95,7 +95,7 @@ class PyIniFixContext: public AGRC::RemapIniFixContext<py::object, py::object, P
 /**
  * @brief The core :cpp:class:`AGRemapCore::GIMIFixer` specialization this binds
  */
-using PyGIMIFixerCore = AGRC::GIMIFixer<py::object, py::object, PyObjectHash, PyObjectEqual, PyBaseIniFixer>;
+using PyGIMIFixerCore = AGRC::GIMIFixer<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniFixer>;
 
 
 /**

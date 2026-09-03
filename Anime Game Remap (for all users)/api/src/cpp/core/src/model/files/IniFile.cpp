@@ -4,6 +4,7 @@
 #include <fstream>
 #include <filesystem>
 #include <sstream>
+#include <unordered_set>
 #include <stdexcept>
 #include <utility>
 #include <variant>
@@ -37,11 +38,11 @@ namespace AGRemapCore {
                       DownloadMode downloadMode,
                       std::optional<Version> fromVersion,
                       std::optional<Version> toVersion,
-                      std::optional<std::unordered_set<std::string>> filteredToModTypeNames):
+                      std::optional<std::unordered_set<int>> filteredToModTypeIds):
         downloadMode(downloadMode),
         fromVersion(std::move(fromVersion)),
         toVersion(std::move(toVersion)),
-        filteredToModTypeNames(std::move(filteredToModTypeNames)),
+        filteredToModTypeIds(std::move(filteredToModTypeIds)),
         file_(std::move(file)),
         gameTypeId_(gameTypeId),
         filteredFromModTypeIds_(std::move(filteredFromModTypeIds)),
@@ -77,7 +78,7 @@ namespace AGRemapCore {
         return isClassified_;
     }
 
-    const std::unordered_map<int, ModType>& IniFile::getModTypes() const {
+    const tsl::ordered_map<int, ModType>& IniFile::getModTypes() const {
         return modTypes;
     }
 
@@ -120,8 +121,7 @@ namespace AGRemapCore {
         // The pure-Python original's clear() ends with clearModels(), which empties ini.resources
         // and ini.fileDownloads among others. Same thing here -- and see getResources' own danger
         // note on what that does to a resource edit still holding pointers into them.
-        resources_.clear();
-        fileDownloads_.clear();
+        clearModels();
 
         // A fresh context rather than an in-place clear, exactly as the pure-Python original does
         // ("self._z3Ctx = Z3Context()"). Z3Context is move-assignable but not copyable.
@@ -159,7 +159,10 @@ namespace AGRemapCore {
         // own, so two .ini files of the same mod type but different game versions get the parser
         // each one actually needs. Mirrors the original's
         // "iniParseBuilder.build(self, modName = ..., version = self.version)".
-        std::shared_ptr<BaseIniParser<>> parser = modType.iniParseBuilder->build(this, modType.name, fromVersion);
+        // 'modTypeId' rather than modType.modTypeId: the id this ModType was FILED under, which
+        // overrideModTypes is free to make differ -- see this method's own note above.
+        std::shared_ptr<BaseIniParser<>> parser =
+            modType.iniParseBuilder->build(this, modType.name, fromVersion, modTypeId);
         if (parser == nullptr) {
             return nullptr;
         }
@@ -185,10 +188,27 @@ namespace AGRemapCore {
             BaseIniParser<>* parser = getParser(modTypeId, modType);
             if (parser != nullptr) {
                 // One fixer per target mod: the (fromVersion, fromModName, toVersion) triple is
-                // held fixed and the target mod is the axis fanned out over. filteredToModTypeNames
+                // held fixed and the target mod is the axis fanned out over. filteredToModTypeIds
                 // narrows which targets are built; std::nullopt means all of them.
+                //
+                // The filter is held as ids but IniFixBuilder's table is keyed by mod NAME, so it
+                // is resolved here rather than there -- id -> name is an exact switch
+                // (ModTypeIdTools::getName), whereas name -> id would have to go through the
+                // fuzzy, maximal-match findByName. An id no ModTypeId recognizes simply
+                // contributes no name, which is what makes it match nothing.
+                std::optional<std::unordered_set<std::string>> filteredToModNames;
+                if (filteredToModTypeIds.has_value()) {
+                    filteredToModNames.emplace();
+                    for (int toModTypeId : *filteredToModTypeIds) {
+                        std::optional<ModTypeId> resolved = ModTypeIdTools::getEnum(toModTypeId);
+                        if (resolved.has_value()) {
+                            filteredToModNames->insert(ModTypeIdTools::getName(*resolved));
+                        }
+                    }
+                }
+
                 fixers = modType.iniFixBuilder->buildAll(parser, modType.name, fromVersion, toVersion,
-                                                          filteredToModTypeNames);
+                                                          filteredToModNames);
             }
         }
 
@@ -234,7 +254,10 @@ namespace AGRemapCore {
                 continue;
             }
 
-            result.emplace(entry.first, parseModType(entry.first, entry.second));
+            // tsl::ordered_map hands out const values through its iterators -- it keeps them in a
+            // contiguous vector and will not let one be mutated behind the hash index. at() is the
+            // mutable accessor, and the strategies below take a ModType&.
+            result.emplace(entry.first, parseModType(entry.first, modTypes.at(entry.first)));
         }
 
         return result;
@@ -270,7 +293,8 @@ namespace AGRemapCore {
 
         for (auto& entry : modTypes) {
             int modTypeId = entry.first;
-            ModType& modType = entry.second;
+            // See parseData()'s note: at() is tsl::ordered_map's mutable accessor.
+            ModType& modType = modTypes.at(entry.first);
 
             // Reuse this mod type's existing parse data when there is some, otherwise parse it now
             // and cache it, so a later parse()/fix() doesn't redo the work. Done before getFixer()
@@ -284,7 +308,7 @@ namespace AGRemapCore {
             // One fixer per target mod this source mod fixes to -- Jean, for instance, fixes to both
             // JeanCN and JeanSea, so both run against the same parse data. An empty list is the
             // equivalent of the original's "_getFixer" returning None (no fix builder, no parser to
-            // build against, or every target filtered out by filteredToModTypeNames): that mod type
+            // build against, or every target filtered out by filteredToModTypeIds): that mod type
             // simply contributes nothing rather than aborting the whole fix.
             const Fixers& fixers = getFixers(modTypeId, modType);
 
@@ -443,6 +467,41 @@ namespace AGRemapCore {
     }
 
 
+    void IniFile::clearModels() {
+        resources_.clear();
+        fileDownloads_.clear();
+    }
+
+
+    std::vector<std::string> IniFile::getReferencedFolders() const {
+        // Insertion-ordered rather than an unordered_set: the pure-Python original uses an
+        // OrderedSet here, and the result feeds a user-facing listing of the folders a mod
+        // touches -- a shuffled one would read as nondeterministic output.
+        std::vector<std::string> result;
+        std::unordered_set<std::string> seen;
+
+        auto addFrom = [&result, &seen](const std::vector<std::unique_ptr<IniResource>>& resources) {
+            for (const std::unique_ptr<IniResource>& resource : resources) {
+                if (resource == nullptr) {
+                    continue;
+                }
+
+                // 'srcPath' is already absolute -- IniResource's constructor resolves it against
+                // the .ini file's own folder -- so no second resolution is needed here.
+                std::string folder = std::filesystem::path(resource->srcPath).parent_path().string();
+                if (seen.insert(folder).second) {
+                    result.push_back(std::move(folder));
+                }
+            }
+        };
+
+        addFrom(resources_);
+        addFrom(fileDownloads_);
+
+        return result;
+    }
+
+
     Z3Context* IniFile::getZ3Ctx() {
         return &z3Ctx_;
     }
@@ -476,12 +535,27 @@ namespace AGRemapCore {
 
     const ModType* IniFile::getAvailableType() const {
         if (modTypes.empty()) {
-            return nullptr;
+            // Nothing classified -- fall back to defaultModTypeId, which is the whole point of it.
+            return resolveDefaultModType();
         }
 
         // First in iteration order -- arbitrary but stable, and only meaningful at all when there
         // is exactly one. See this method's own danger note.
         return &modTypes.begin()->second;
+    }
+
+
+    const ModType* IniFile::resolveDefaultModType() const {
+        if (!defaultModTypeId.has_value()) {
+            return nullptr;
+        }
+
+        if (defaultModTypeCachedId_ != defaultModTypeId) {
+            defaultModType_ = getModType(*defaultModTypeId);
+            defaultModTypeCachedId_ = defaultModTypeId;
+        }
+
+        return defaultModType_.has_value() ? &(*defaultModType_) : nullptr;
     }
 
 
@@ -510,7 +584,8 @@ namespace AGRemapCore {
         ModType* sweeper = nullptr;
         for (auto& entry : modTypes) {
             if (entry.second.iniRemoveBuilder != nullptr) {
-                sweeper = &entry.second;
+                // See parseData()'s note: at() is tsl::ordered_map's mutable accessor.
+                sweeper = &modTypes.at(entry.first);
             }
         }
 
@@ -712,6 +787,14 @@ namespace AGRemapCore {
             if (modType.has_value()) {
                 modTypes.emplace(modTypeId, *modType);
             }
+        }
+
+        // Mirrors the pure-Python original's own '_isModIni' expression: a filter was supplied and
+        // nothing survived it, so this is not a mod of any type the caller cares about -- unless a
+        // fallback type stands in, in which case the classifier's own answer is kept.
+        if (!defaultModTypeId.has_value() && modTypes.empty()
+                && filteredFromModTypeIds_.has_value() && !filteredFromModTypeIds_->empty()) {
+            isMod = false;
         }
 
         isClassified_ = true;
@@ -934,11 +1017,7 @@ namespace AGRemapCore {
     }
 
     void IniFile::stripHideOriginalComment(std::string& line) {
-        const std::string& marker = IniKeywords::HideOriginalComment;
-        size_t pos;
-        while ((pos = line.find(marker)) != std::string::npos) {
-            line.erase(pos, marker.size());
-        }
+        StringTools::eraseAll(line, IniKeywords::HideOriginalComment);
     }
 
     const tsl::ordered_map<std::string, std::unique_ptr<IfTemplate<std::string, std::string>>>& IniFile::readIfTemplates() {

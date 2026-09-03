@@ -72,6 +72,17 @@ Buf Files
 
 :raw-html:`<br />`
 
+BaseBufEditor
+-------------
+
+.. cppattributetable:: AGRemapCore::BaseBufEditor
+
+.. doxygenclass:: AGRemapCore::BaseBufEditor
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 BinaryFile
 ----------
 
@@ -122,6 +133,17 @@ BufDataType
 .. cppattributetable:: AGRemapCore::BufDataType
 
 .. doxygenclass:: AGRemapCore::BufDataType
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+BufEditor
+---------
+
+.. cppattributetable:: AGRemapCore::BufEditor
+
+.. doxygenclass:: AGRemapCore::BufEditor
     :members:
     :protected-members:
 
@@ -296,6 +318,17 @@ GlobalIniRemoveBuilders
 .. cppattributetable:: AGRemapCore::GlobalIniRemoveBuilders
 
 .. doxygenclass:: AGRemapCore::GlobalIniRemoveBuilders
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+GlobalModTypes
+--------------
+
+.. cppattributetable:: AGRemapCore::GlobalModTypes
+
+.. doxygenclass:: AGRemapCore::GlobalModTypes
     :members:
     :protected-members:
 
@@ -948,6 +981,17 @@ GIMIFixer
 .. cppattributetable:: AGRemapCore::GIMIFixer
 
 .. doxygenclass:: AGRemapCore::GIMIFixer
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+MultiModFixer
+-------------
+
+.. cppattributetable:: AGRemapCore::MultiModFixer
+
+.. doxygenclass:: AGRemapCore::MultiModFixer
     :members:
     :protected-members:
 

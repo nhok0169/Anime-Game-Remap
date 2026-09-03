@@ -45,13 +45,18 @@ reading the class's existing `test_Xxx.py` as a behavioural contract before desi
 **If your task touches `model/strategies/` at all — a parser, fixer, remover or resource edit —
 read Architecture's "The strategy context seam" section first.** It is the one architectural pattern
 you cannot work around: a C++ strategy never holds an `AGRemapCore::IniFile*`, it holds a
-pure-virtual context interface with **two** implementations (a `Py*` one that forwards to the
-still-pure-Python `IniFile`, and an `IniFileXxx*` one that wraps the C++ one). Adding a method to a
-seam is half-done until both sides implement it, and only one of those halves is a compile error.
-That section also records why `AGRemapCore::IniFile::fix()`/`parse()` are still inert for a
-plain-C++ caller (their builders' default factories return do-nothing bases, and core has no section
-renderer by deliberate design) — don't rediscover that as a bug, and don't "fix" it by adding an
-`IfTemplate::toStr`.
+pure-virtual context interface with **two** implementations (a `Py*` one reached from Python, and an
+`IniFileXxx*` one that wraps the C++ `IniFile`). Adding a method to a seam is half-done until both
+sides implement it, and only one of those halves is a compile error.
+
+**`IniFile` is the C++ class now — the pure-Python `model/files/IniFile.py` was deleted on
+2026-09-03**, so any older note describing a "still-pure-Python `IniFile`" (including inside doc
+comments) is stale. `AGRemapCore::IniFile::parse()`/`fix()` are **live** for a plain C++ caller too;
+the old "they are inert" warning is likewise obsolete, though its one surviving half still holds:
+core deliberately has no section renderer, so don't add an `IfTemplate::toStr` — the renderer is
+handed in as a callback (`AGRemapCore::renderIfTemplate`). Architecture's "`IniFile` is the C++
+class now" section covers what changed in its constructor and which ~33 methods moved out to the
+strategies rather than disappearing.
 
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)

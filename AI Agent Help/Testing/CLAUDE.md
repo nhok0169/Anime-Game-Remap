@@ -310,6 +310,50 @@ The 9 extra Linux failures are deterministic (identical sets across repeated run
   counts. Deterministic per platform but differing between them — the signature of iteration-order
   dependence over an unordered container, though that remains a hypothesis.
 
+### The numbers above are a *snapshot*, and the migration moves them constantly
+
+As of **2026-09-03** the Windows suite is **1859 tests / 0 failures / 105 errors**. Do not treat
+that as a target either — read the count, then classify. The 105 are two unrelated pre-existing
+groups, and knowing which is which saves re-deriving it:
+
+- **~83 — the `baseIniFileTest.py` fixture.** That file is the shared base for eight test modules
+  (`test_GIMIFixer`, `test_GIMIParser`, `test_RemapIniRemover`, `test_ResRegCollect`,
+  `test_ResGroupCollect`, `test_GraphGroupRemap`, `baseIniObjTest`, and its own). Its `setUpClass`
+  used to construct a pure-Python `IniClassifierOld`/`IniClassifierBuilderOld` pair, then
+  `createIniFile` built **pure-Python `ModType`s** carrying per-version `Hashes`/`Indices` maps and
+  registered them into it via **regexes**. **As of 2026-09-03 that whole pure-Python
+  `model/strategies/iniClassifiers/` package (and the live `constants/GlobalIniClassifiers.py`
+  module that depended on it) has been deleted outright** — nothing on the live `.ini`
+  classification path ever used it (`Mod.py` constructs `IniFile` with no `iniClassifier` argument,
+  which already defaulted to the C++ `GlobalIniClassifiers::classifier()` singleton), so deleting it
+  was a pure cleanup, not a functional change. But `baseIniFileTest.py` itself was never updated off
+  the deleted classes, so its `setUpClass` now fails immediately with
+  `AttributeError: module 'src.py.FixRaidenBoss2' has no attribute 'IniClassifierOld'` instead of
+  getting partway through and failing later on old constructor keywords — a different symptom of the
+  same still-open, still out-of-scope root cause: `CppModType` exposes no
+  `hashes`/`indices`/`vertexCounts`/`vgRemaps` at all, `IniClassifier.addGIModType` (graduated from
+  `CppIniClassifier` to the bare name once the Python original was deleted — see
+  [Architecture](../Architecture/CLAUDE.md)) takes plain keyword sets rather than regexes, and there
+  is no C++ `IniClassifierBuilder`. **Fixing these is the ModType/classifier migration, not whatever
+  you are doing** — unless that *is* your task, in which case these eight modules are your
+  acceptance criteria. Re-verify the exact current failure/error count before trusting the "~83"
+  figure — a `setUpClass` failure errors out every test in the class at once, which may shift the
+  total from what it was when individual test methods used to fail deeper in the call stack.
+- **22 — `test_RemapService`, `AttributeError: HardTexDriven`.** `remapService.py` and
+  `controller/CommandBuilder.py` reference `DownloadMode.HardTexDriven`, but the enum defines only
+  `Always`/`Disabled`/`Normal` on both the Python and C++ sides. A genuine unimplemented mode; do
+  not invent the enum member to make the tests pass.
+
+### `mock.patch` targets are `src.py.FixRaidenBoss2`, not `src.FixRaidenBoss2`
+
+The Unit Tester imports the package as `src.py.FixRaidenBoss2`, so that is the prefix every
+`mock.patch("...")` string needs. Around 21 of them across `test_RemapService`, `test_Mod`,
+`test_CppTrie` and `test_DFA` had the shorter form and produced
+`ModuleNotFoundError: No module named 'src.FixRaidenBoss2'`. Worth knowing not just for the fix but
+for the shape of the bug: **a wrong patch target masks whatever error is underneath it**. Correcting
+these did not change the error count at all — it swapped 22 `ModuleNotFoundError`s for the 22
+`HardTexDriven` ones above, which were the real problem all along.
+
 **Rebuild before comparing against these numbers**, and on a checkout shared between Windows and
 Linux remember that a plain build on either OS deletes the other's installed binaries (see
 [Overview](../Overview/CLAUDE.md)) — testing right after the *other* platform's build measures a
@@ -429,18 +473,16 @@ just re-run it (`py -3 main.py SomeTestClass -v`) rather than trusting this snap
   this bug, plus a few hardcoded alias-list spot checks) — this is fine to do in a throwaway
   verification script even while it stays unsafe to depend on in the committed suite.
 
-- **`test_IniClassifier.py` tests a different, older, pure-Python `IniClassifier`/
-  `IniClassifierBuilder` pair — not any new C++-backed classifier work.** The live pure-Python
-  original has already been renamed to `IniClassifierOld`/`IniClassifierBuilderOld`
-  (`model/strategies/iniClassifiers/`), but `test_IniClassifier.py` still constructs
-  `FRB.IniClassifier(...)` by its old bare name, which no longer exists —
-  `AttributeError: module 'src.py.FixRaidenBoss2' has no attribute 'IniClassifier'`, one of the
-  pre-existing errors in the count above. If you're asked to test "the classifier" and it turns out
-  to mean the new C++ `AGRemapCore::IniClassifier`/`CppIniClassifier` pybind binding (see
-  [Architecture](../Architecture/CLAUDE.md)'s note on that class having gone unbound to Python for a
-  long stretch), the right file is the separate `test_CppIniClassifier.py` — don't edit
-  `test_IniClassifier.py` for that work, and don't be misled by the name collision into thinking
-  the new classifier already has coverage just because a same-named test file exists.
+- **`test_IniClassifier.py` used to test a different, older, pure-Python `IniClassifier`/
+  `IniClassifierBuilder` pair, with a name collision against the new C++-backed classifier's own
+  test file — that collision is resolved now, don't trust an older note describing it as live.** As
+  of 2026-09-03 the whole pure-Python `model/strategies/iniClassifiers/` package (the
+  `IniClassifierOld`/`IniClassifierBuilderOld`/etc. deprecated classes this file used to test) has
+  been deleted outright, and the C++-backed classifier's binding graduated from `CppIniClassifier`
+  to the bare `IniClassifier` name (see [Architecture](../Architecture/CLAUDE.md)). `test_IniClassifier.py`
+  now IS the test file for the C++-backed classifier — `test_CppIniClassifier.py` was renamed into
+  it (replacing the old broken file at that path) rather than living alongside it. If you're asked
+  to test "the classifier," this is the one file, no name-collision trap to route around anymore.
 
 **`test_RegSurroundedAdd`, `test_IniSectionGraph`, `test_IfTemplate`, `test_IfTemplateNode`,
 `test_IfTemplateTree`, `test_CallGraph`, and `test_SectionIterData` are *not* on this list** — all

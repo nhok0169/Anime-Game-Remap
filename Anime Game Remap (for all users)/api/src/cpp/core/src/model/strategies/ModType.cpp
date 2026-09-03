@@ -1,6 +1,13 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 
+#include <algorithm>
+#include <cctype>
+#include <set>
 #include <utility>
+
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/tools/Heading.h"
 
 #include "AGRemapCore/data/ModDataAssets.h"
 
@@ -62,5 +69,136 @@ namespace AGRemapCore {
         if (this->iniRemoveBuilder == nullptr) {
             this->iniRemoveBuilder = GlobalIniRemoveBuilders::removeBuilder();
         }
+    }
+
+
+    namespace {
+        std::string toLowerAscii(const std::string& text) {
+            std::string result(text);
+            std::transform(result.begin(), result.end(), result.begin(),
+                           [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+            return result;
+        }
+    }
+
+    bool ModType::isName(const std::string& name) const {
+        const std::string lowered = toLowerAscii(name);
+
+        if (toLowerAscii(this->name) == lowered) {
+            return true;
+        }
+
+        for (const std::string& alias : aliases) {
+            if (toLowerAscii(alias) == lowered) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    std::unordered_set<std::string> ModType::getModsToFix() const {
+        // See the header's warning: the pure-Python original reads two never-populated 'fixTo'
+        // sets and so always answers "none". These are the targets the remap tables actually hold,
+        // keyed by this mod type's own name.
+        std::unordered_set<std::string> result;
+
+        auto addFrom = [this, &result](const auto& assets) {
+            if (assets == nullptr) {
+                return;
+            }
+
+            const auto& map = assets->getMap();
+            auto it = map.find(name);
+            if (it == map.end()) {
+                return;
+            }
+
+            result.insert(it->second.begin(), it->second.end());
+        };
+
+        addFrom(hashes);
+        addFrom(indices);
+
+        return result;
+    }
+
+    std::optional<int> ModType::getVertexCount(const std::optional<Version>& version) const {
+        if (vertexCounts == nullptr) {
+            return std::nullopt;
+        }
+
+        // Two non-version columns, name then component -- VertexCounts' own class note. The
+        // pure-Python original passes only the name because its ModAssets.get pads; ModDictAssets
+        // requires both, and "" is the component every shipped row carries (a real key value, not
+        // a "missing" marker), so it is what a caller wanting a mod's overall count passes.
+        //
+        // errorOnNotFound = false: the pure-Python original leaves its own default in place and so
+        // raises for a mod type with no row, which is not a useful way to say "unknown" in C++.
+        return vertexCounts->get({name, ""}, version, false);
+    }
+
+    std::optional<VGRemap> ModType::getVGRemap(const std::string& modName, const std::optional<Version>& fromVersion,
+                                                const std::optional<Version>& toVersion,
+                                                const std::optional<std::string>& fromComp,
+                                                const std::optional<std::string>& toComp) const {
+        if (vgRemaps == nullptr) {
+            return std::nullopt;
+        }
+
+        // VGRemaps' four non-version columns are, in order: fromChar, fromComp, toChar, toComp
+        // (see its own class note). A std::nullopt leaves that column unconstrained, which is what
+        // the pure-Python original expresses by simply leaving the key out of its dict.
+        return vgRemaps->get({name, fromComp, modName, toComp}, {fromVersion, toVersion}, false);
+    }
+
+    std::string ModType::getHelpStr() const {
+        Heading modTypeHeading(name, 8, "-");
+
+        std::string result = modTypeHeading.open();
+        result += "\n\nname: " + name;
+
+        if (!aliases.empty()) {
+            // Sorted, matching the original -- the help text is user-facing, so a stable order
+            // matters more than the order the aliases happen to be declared in.
+            std::set<std::string> sortedAliases(aliases.begin(), aliases.end());
+
+            std::string aliasStr;
+            for (const std::string& alias : sortedAliases) {
+                if (!aliasStr.empty()) {
+                    aliasStr += ", ";
+                }
+                aliasStr += alias;
+            }
+
+            result += "\naliases: " + aliasStr;
+        }
+
+        result += "\n\n" + modTypeHeading.close();
+        return result;
+    }
+
+    void ModType::fixIni(IniFile& iniFile, bool keepBackup, bool fixOnly) const {
+        const ModType* iniModType = iniFile.getAvailableType();
+        if (iniModType == nullptr || iniModType->name != name) {
+            return;
+        }
+
+        iniFile.fix(keepBackup, fixOnly);
+    }
+
+    Ranges<long long> ModType::getHashRanges(const IfContentPartColouring<std::string, std::string>& partColours,
+                                              const std::optional<Version>& version,
+                                              const std::vector<std::optional<std::string>>& nonVersionVals) const {
+        std::unordered_map<std::string, bool> keysExists;
+        keysExists.emplace(IniKeywords::Hash, true);
+
+        std::unordered_map<std::string, IfContentPartColouring<std::string, std::string>::Filter> keyFilters;
+        keyFilters.emplace(IniKeywords::Hash,
+                           [this, &version, &nonVersionVals](std::optional<long long>, const std::string& value) {
+            return hashes != nullptr && hashes->hasFrom(value, version, nonVersionVals);
+        });
+
+        return partColours.getRanges(keysExists, keyFilters);
     }
 }

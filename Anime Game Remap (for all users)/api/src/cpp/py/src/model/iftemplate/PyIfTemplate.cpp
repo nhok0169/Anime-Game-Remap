@@ -17,11 +17,12 @@ namespace AGRC = AGRemapCore;
 namespace {
 
 // Shared '.ini' domain customization -- see PyIfTemplate.h's own top-level note.
-AGRC::IfTemplateRunConfig<py::object, py::object> makeRunConfig() {
-    return AGRC::IfTemplateRunConfig<py::object, py::object>{
-        py::cast(std::string("run")),
-        [](const py::object &v) { return v.cast<std::string>(); },
-        [](const std::string &name) { return py::cast(name); }
+AGRC::IfTemplateRunConfig<std::string, std::string> makeRunConfig() {
+    return AGRC::IfTemplateRunConfig<std::string, std::string>{
+        "run",
+        // Both conversions are the identity now that a .ini KVP value *is* a std::string.
+        [](const std::string &v) { return v; },
+        [](const std::string &name) { return name; }
     };
 }
 
@@ -279,7 +280,7 @@ Dict[:class:`int`, Any]
         }, py::return_value_policy::reference_internal,
     py::doc(R"doc(Adds a new :class:`IfContentPart` at the root of this :class:`IfTemplate`, if needed)doc"))
 
-        .def("addKVPsToFront", [](PyIfTemplate &self, const std::vector<std::pair<py::object, py::object>> &kvps) {
+        .def("addKVPsToFront", [](PyIfTemplate &self, const std::vector<std::pair<std::string, std::string>> &kvps) {
             self.addKVPsToFront(kvps);
         }, py::arg("kvps"), py::doc(R"doc(Adds some KVPs to the top of this :class:`IfTemplate`)doc"))
 
@@ -291,7 +292,7 @@ Dict[:class:`int`, Any]
         }, py::return_value_policy::reference_internal,
     py::doc(R"doc(Adds a new :class:`IfContentPart` at the very end of this :class:`IfTemplate`, if needed)doc"))
 
-        .def("addKVPsToBack", [](PyIfTemplate &self, const std::vector<std::pair<py::object, py::object>> &kvps) {
+        .def("addKVPsToBack", [](PyIfTemplate &self, const std::vector<std::pair<std::string, std::string>> &kvps) {
             self.addKVPsToBack(kvps);
         }, py::arg("kvps"), py::doc(R"doc(Adds some KVPs to the bottom of this :class:`IfTemplate`)doc"))
 
@@ -364,7 +365,7 @@ Returns
         )doc"))
 
         .def_static("build", [](const py::list &rawParts, std::string name, py::object ctx, py::object z3Ctx) {
-            std::vector<std::pair<int, std::variant<std::string, tsl::ordered_map<py::object, std::vector<std::pair<long long, py::object>>, PyObjectHash, PyObjectEqual>>>> parsed;
+            std::vector<std::pair<int, std::variant<std::string, tsl::ordered_map<std::string, std::vector<std::pair<long long, std::string>>>>>> parsed;
             parsed.reserve(rawParts.size());
 
             for (auto item : rawParts) {
@@ -378,10 +379,10 @@ Returns
                 }
 
                 py::dict srcDict = rawPart.cast<py::dict>();
-                tsl::ordered_map<py::object, std::vector<std::pair<long long, py::object>>, PyObjectHash, PyObjectEqual> src;
+                tsl::ordered_map<std::string, std::vector<std::pair<long long, std::string>>> src;
                 for (auto srcItem : srcDict) {
-                    py::object key = py::reinterpret_borrow<py::object>(srcItem.first);
-                    auto vals = py::reinterpret_borrow<py::object>(srcItem.second).cast<std::vector<std::pair<long long, py::object>>>();
+                    std::string key = py::str(srcItem.first).cast<std::string>();
+                    auto vals = py::reinterpret_borrow<py::object>(srcItem.second).cast<std::vector<std::pair<long long, std::string>>>();
                     src[key] = std::move(vals);
                 }
                 parsed.emplace_back(lineNo, std::move(src));

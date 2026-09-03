@@ -13,21 +13,21 @@ namespace AGRC = AGRemapCore;
 
 
 void initCppIniClassifier(pybind11::module_ &m) {
-    // 'Cpp'-prefixed -- matches the same temporary "wrapper-outcome-1" naming CppBaseIniClassifier/
-    // CppIniClassifyStats already use (see PyIniClassifyStats.cpp's own comment) while this new
-    // C++-backed classifier is built and verified in isolation. The live pure-Python original has
-    // already been renamed to 'IniClassifierOld' (model/strategies/iniClassifiers/IniClassifierOld.py)
-    // in preparation for this class's eventual bare-named replacement, but that migration isn't
-    // finished yet -- nothing currently occupies the bare 'IniClassifier' name.
+    // Registered under the bare 'IniClassifier' name -- the pure-Python original
+    // ('IniClassifierOld.py', along with the rest of the deprecated
+    // model/strategies/iniClassifiers/ package) has been deleted outright, so this graduates out
+    // of the temporary 'Cpp'-prefixed wrapper-outcome-1 naming per Architecture/CLAUDE.md's "Two
+    // different outcomes for porting a class" checklist, same as BaseIniClassifier/IniClassifyStats
+    // right alongside it.
     //
-    // Real pybind11 inheritance from AGRC::BaseIniClassifier (registered as "CppBaseIniClassifier"
+    // Real pybind11 inheritance from AGRC::BaseIniClassifier (registered as "BaseIniClassifier"
     // in initCppBaseIniClassifier, which must run before this function -- see bindings.cpp): this
-    // means classify()/clear() are inherited from CppBaseIniClassifier's own bindings and don't
+    // means classify()/clear() are inherited from BaseIniClassifier's own bindings and don't
     // need to be rebound here -- IniClassifier's C++ overrides are reached automatically through
     // ordinary virtual dispatch, the same as any real C++ base/derived pair (see
     // Architecture/CLAUDE.md's "To give a Python-bound class real inheritance..." note).
-    py::class_<AGRC::IniClassifier, AGRC::BaseIniClassifier>(m, "CppIniClassifier", R"doc(
-This class inherits from :class:`CppBaseIniClassifier`
+    py::class_<AGRC::IniClassifier, AGRC::BaseIniClassifier>(m, "IniClassifier", R"doc(
+This class inherits from :class:`BaseIniClassifier`
 
 Class to help classify the type of mod given the mod's .ini files
 

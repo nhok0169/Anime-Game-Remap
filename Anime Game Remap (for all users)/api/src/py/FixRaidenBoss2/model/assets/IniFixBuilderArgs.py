@@ -17,8 +17,7 @@ from typing import Callable, Any, Tuple, Dict, List, Optional, TYPE_CHECKING
 ##### EndExtImports
 
 ##### LocalImports
-from ...data.IniFixBuilderData import IniFixBuilderData
-from ..strategies.iniFixers.BaseIniFixerOld import BaseIniFixerOld
+from ...core import BaseIniFixer
 from .ModAssets import ModAssets
 
 if (TYPE_CHECKING):
@@ -27,7 +26,7 @@ if (TYPE_CHECKING):
 
 
 ##### Script
-class IniFixBuilderArgs(ModAssets[Callable[["IniFixBuilder"], Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]]]):
+class IniFixBuilderArgs(ModAssets[Callable[["IniFixBuilder"], Tuple[BaseIniFixer, List[Any], Dict[str, Any]]]]):
     """
     This class inherits from :class:`ModAssets`
     
@@ -52,9 +51,12 @@ class IniFixBuilderArgs(ModAssets[Callable[["IniFixBuilder"], Tuple[BaseIniFixer
         **Default**: ``None``
     """
 
-    def __init__(self, repo: Optional[Dict[str, Dict[str, Callable[["IniFixBuilder"], Tuple[BaseIniFixerOld, List[Any], Dict[str, Any]]]]]] = None):
+    def __init__(self, repo: Optional[Dict[str, Dict[str, Callable[["IniFixBuilder"], Tuple[BaseIniFixer, List[Any], Dict[str, Any]]]]]] = None):
+        # UNLINKED: the per-character argument table this used to default to lives at
+        # data/IniFixBuilderData.py.txt -- kept as reference, but no longer importable, so
+        # every builder now falls back to its own default factory until a replacement table lands.
         if (repo is None):
-            repo = IniFixBuilderData
+            repo = {}
 
         super().__init__(repo)
 ##### EndScript

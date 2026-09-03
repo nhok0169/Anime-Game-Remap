@@ -107,7 +107,7 @@ Creates the blend file -- a fresh copy of the stored blend elements is cloned in
 
 Returns
 -------
-:class:`CppBlendFile`
+:class:`BlendFile`
     The created blend file
         )doc"))
 

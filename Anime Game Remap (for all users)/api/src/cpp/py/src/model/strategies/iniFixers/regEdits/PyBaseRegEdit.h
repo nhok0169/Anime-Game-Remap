@@ -30,7 +30,7 @@ namespace AGRC = AGRemapCore;
  method lookup before anything reaches C++
  @endrst
  */
-using PyBaseRegEdit = AGRC::BaseRegEdit<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseRegEdit = AGRC::BaseRegEdit<std::string, std::string>;
 
 
 /**

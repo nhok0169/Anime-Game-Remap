@@ -48,7 +48,7 @@ std::optional<PyRegSurroundedAdd::Core::KeySet> parseKeysToTrack(const py::objec
 
     PyRegSurroundedAdd::Core::KeySet result;
     for (auto key : keysToTrack) {
-        result.insert(py::reinterpret_borrow<py::object>(key));
+        result.insert(py::str(key).cast<std::string>());
     }
 
     return result;
@@ -57,13 +57,13 @@ std::optional<PyRegSurroundedAdd::Core::KeySet> parseKeysToTrack(const py::objec
 }
 
 
-std::pair<py::object, py::object> parseAddition(const py::object &additionObj) {
+std::pair<std::string, std::string> parseAddition(const py::object &additionObj) {
     py::sequence seq = additionObj.cast<py::sequence>();
     if (seq.size() < 2) {
         throw py::type_error("A RegSurroundedAdd 'addition' must be a (key, value) tuple");
     }
 
-    return {py::reinterpret_borrow<py::object>(seq[0]), py::reinterpret_borrow<py::object>(seq[1])};
+    return {py::str(seq[0]).cast<std::string>(), py::str(seq[1]).cast<std::string>()};
 }
 
 
@@ -75,7 +75,7 @@ PyRegSurroundedAdd::Core::RegMap parseRegMap(const py::object &regsObj) {
 
     py::dict regs = regsObj.cast<py::dict>();
     for (auto item : regs) {
-        py::object reg = py::reinterpret_borrow<py::object>(item.first);
+        std::string reg = py::str(item.first).cast<std::string>();
         py::object pred = py::reinterpret_borrow<py::object>(item.second);
 
         // None (or anything non-callable) means "accept any value" -- an empty Predicate, matching
@@ -85,8 +85,8 @@ PyRegSurroundedAdd::Core::RegMap parseRegMap(const py::object &regsObj) {
             continue;
         }
 
-        result[reg] = [pred](const py::object &val) {
-            return pred(val).cast<bool>();
+        result[reg] = [pred](const std::string &val) {
+            return pred(py::cast(val)).cast<bool>();
         };
     }
 

@@ -17,7 +17,7 @@ PyIniSectionGraph &parseGraphArg(const py::object &graph) {
 
 void initCppBaseIniGraphEdit(pybind11::module_ &m) {
     py::class_<PyBaseIniGraphEdit, AGRC::BaseIniGraphPartEdit, py::smart_holder>(m, "BaseIniGraphEdit", R"doc(
-This class inherits from :class:`CppBaseIniGraphPartEdit`
+This class inherits from :class:`BaseIniGraphPartEdit`
 
 Base class for a filter that edits some caller/callee graph of :class:`IniSectionGraph`
     )doc")

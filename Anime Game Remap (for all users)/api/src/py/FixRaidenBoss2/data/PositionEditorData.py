@@ -15,10 +15,12 @@
 from typing import List, Dict, Any
 ##### EndExtImports
 
+##### CppLocalImports
+from ..core import ModTypeId, ModTypeIdTools, BufEditor
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..constants.BufTypeNames import BufElementNames
-from ..core import ModTypeId, ModTypeIdTools
-from ..model.strategies.bufEditors.BufEditor import BufEditor
 ##### EndLocalImports
 
 ##### Script

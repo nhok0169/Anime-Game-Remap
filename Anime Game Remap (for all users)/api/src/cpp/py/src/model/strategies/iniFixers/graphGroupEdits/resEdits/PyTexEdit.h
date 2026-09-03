@@ -24,7 +24,7 @@ namespace AGRC = AGRemapCore;
  :cpp:class:`AGRemapCore::TexCreate`'s own note)
  @endrst
  */
-class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<py::object, py::object, PyObjectHash, PyObjectEqual>> {
+class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<std::string, std::string>> {
     public:
 
         /**
@@ -58,6 +58,53 @@ class PyTexCreate: public PyResCreateMixin<AGRC::TexCreate<py::object, py::objec
 };
 
 
+/**
+ * @brief
+ @rst
+ The `pybind11`_-facing ``TexReplace`` -- builds a real :class:`RemapTexEditResource` per edited
+ texture :raw-html:`<br />` :raw-html:`<br />`
+
+ Lives here rather than in the core class for the same reason :cpp:class:`PyTexCreate` does: the
+ resource carries the caller's own `Python`_ :class:`TexEditor`
+ @endrst
+ */
+class PyTexReplace: public PyResEditMixin<AGRC::TexReplace<std::string, std::string>> {
+    public:
+
+        /**
+         * @brief The exact Python :class:`TexEditor` given -- the editor for the texture file
+         */
+        py::object texEditor;
+
+        /**
+         * @brief
+         @rst
+         A custom `Python`_ function for editing the texture, or ``None``. Kept as the exact object
+         given, for the same identity reason ``PyRemapBlendReplace::fixFunc`` is
+         @endrst
+         */
+        py::object fixFunc;
+
+        /**
+         * @brief Constructs a new texture-editing resource edit
+         *
+         * @param resModObj The Python tuple id of the mod object holding the resource's graph
+         * @param texEditor The Python :class:`TexEditor` for the texture file
+         * @param resType The name of the type of resource
+         * @param fixFunc A custom Python function for editing the texture, or ``None``
+         * @param resSubType The name of the subtype of the resource, or ``None``
+         */
+        PyTexReplace(py::object resModObj, py::object texEditor, std::string resType, py::object fixFunc,
+                      const py::object &resSubType);
+
+        py::object pySelf() const override;
+        void buildResModel(const std::string &resType, const std::string &srcPath, const std::string &fixedPath,
+                            const std::string &modName, const std::string &fileKey, Context &ctx) override;
+};
+
+
 void initCppTexCreate(pybind11::module_ &m);
+
+void initCppTexReplace(pybind11::module_ &m);
 
 #endif

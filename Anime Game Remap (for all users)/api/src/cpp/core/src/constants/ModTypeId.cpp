@@ -325,6 +325,307 @@ namespace AGRemapCore {
         return it->second;
     }
 
+    std::vector<ModTypeId> ModTypeIdTools::getHashRemapTargets(ModTypeId value) {
+        // Transcribed mechanically from the pure-Python GIBuilder's 43 per-character
+        // "Hashes(map = {...})" arguments, not retyped by hand -- see
+        // core/tests/ModTypeRemaps_test.cpp, which pins every row.
+        //
+        // A switch rather than a static map so that adding a ModTypeId and forgetting its targets
+        // is at least visible here in one place, next to getName's own switch over the same enum.
+        switch (value) {
+            case ModTypeId::Amber:
+                return {ModTypeId::AmberCN};
+
+            case ModTypeId::AmberCN:
+                return {ModTypeId::Amber};
+
+            case ModTypeId::Arlecchino:
+                return {ModTypeId::ArlecchinoBoss};
+
+            case ModTypeId::Ayaka:
+                return {ModTypeId::AyakaSpringbloom};
+
+            case ModTypeId::AyakaSpringbloom:
+                return {ModTypeId::Ayaka};
+
+            case ModTypeId::Barbara:
+                return {ModTypeId::BarbaraSummertime};
+
+            case ModTypeId::BarbaraSummertime:
+                return {ModTypeId::Barbara};
+
+            case ModTypeId::CherryHuTao:
+                return {ModTypeId::HuTao};
+
+            case ModTypeId::Diluc:
+                return {ModTypeId::DilucFlamme};
+
+            case ModTypeId::DilucFlamme:
+                return {ModTypeId::Diluc};
+
+            case ModTypeId::Fischl:
+                return {ModTypeId::FischlHighness};
+
+            case ModTypeId::FischlHighness:
+                return {ModTypeId::Fischl};
+
+            case ModTypeId::Ganyu:
+                return {ModTypeId::GanyuTwilight};
+
+            case ModTypeId::GanyuTwilight:
+                return {ModTypeId::Ganyu};
+
+            case ModTypeId::HuTao:
+                return {ModTypeId::CherryHuTao};
+
+            case ModTypeId::Jean:
+                return {ModTypeId::JeanCN, ModTypeId::JeanSea};
+
+            case ModTypeId::JeanCN:
+                return {ModTypeId::Jean, ModTypeId::JeanSea};
+
+            case ModTypeId::JeanSea:
+                return {ModTypeId::Jean, ModTypeId::JeanCN};
+
+            case ModTypeId::Kaeya:
+                return {ModTypeId::KaeyaSailwind};
+
+            case ModTypeId::KaeyaSailwind:
+                return {ModTypeId::Kaeya};
+
+            case ModTypeId::Keqing:
+                return {ModTypeId::KeqingOpulent};
+
+            case ModTypeId::KeqingOpulent:
+                return {ModTypeId::Keqing};
+
+            case ModTypeId::Kirara:
+                return {ModTypeId::KiraraBoots};
+
+            case ModTypeId::KiraraBoots:
+                return {ModTypeId::Kirara};
+
+            case ModTypeId::Klee:
+                return {ModTypeId::KleeBlossomingStarlight};
+
+            case ModTypeId::KleeBlossomingStarlight:
+                return {ModTypeId::Klee};
+
+            case ModTypeId::Lisa:
+                return {ModTypeId::LisaStudent};
+
+            case ModTypeId::LisaStudent:
+                return {ModTypeId::Lisa};
+
+            case ModTypeId::Mona:
+                return {ModTypeId::MonaCN};
+
+            case ModTypeId::MonaCN:
+                return {ModTypeId::Mona};
+
+            case ModTypeId::Nilou:
+                return {ModTypeId::NilouBreeze};
+
+            case ModTypeId::NilouBreeze:
+                return {ModTypeId::Nilou};
+
+            case ModTypeId::Ningguang:
+                return {ModTypeId::NingguangOrchid};
+
+            case ModTypeId::NingguangOrchid:
+                return {ModTypeId::Ningguang};
+
+            case ModTypeId::Raiden:
+                return {ModTypeId::RaidenBoss};
+
+            case ModTypeId::Rosaria:
+                return {ModTypeId::RosariaCN};
+
+            case ModTypeId::RosariaCN:
+                return {ModTypeId::Rosaria};
+
+            case ModTypeId::Shenhe:
+                return {ModTypeId::ShenheFrostFlower};
+
+            case ModTypeId::ShenheFrostFlower:
+                return {ModTypeId::Shenhe};
+
+            case ModTypeId::Xiangling:
+                return {ModTypeId::XianglingCheer};
+
+            case ModTypeId::XianglingCheer:
+                return {ModTypeId::Xiangling};
+
+            case ModTypeId::Xingqiu:
+                return {ModTypeId::XingqiuBamboo};
+
+            case ModTypeId::XingqiuBamboo:
+                return {ModTypeId::Xingqiu};
+            // Every remaining ModTypeId remaps onto nothing. That covers the two boss ids
+            // (RaidenBoss, ArlecchinoBoss), which are only ever remap *targets* -- GIBuilder has
+            // no factory for either.
+            default:
+                return {};
+        }
+    }
+
+
+    std::vector<ModTypeId> ModTypeIdTools::getIndexRemapTargets(ModTypeId value) {
+        // Identical to the hash targets for all but one mod type: Raiden remaps by hash only. Its
+        // pure-Python factory passes a bare "Indices()" with no map at all, where every other
+        // factory passes the same map to both -- verified against the live Python runtime rather
+        // than read off the source, since a missing map and an empty one look alike in a diff.
+        if (value == ModTypeId::Raiden) {
+            return {};
+        }
+
+        return getHashRemapTargets(value);
+    }
+
+
+    std::vector<std::string> ModTypeIdTools::getSectionKeywords(ModTypeId value) {
+        // Transcribed mechanically from the pure-Python IniClassifierBuilderOld's 43
+        // addGIModType(...) calls -- specifically the KEYS of each call's keyword dict. The
+        // regexes those keys map to are deliberately not carried over: they exist to disambiguate
+        // overlapping names ("amber" must not match "ambercn"), and IniClassifier's own maximal
+        // match already does that. See core/tests/IniClassifierPopulation_test.cpp.
+        switch (value) {
+            case ModTypeId::Amber:
+                return {"amber"};
+
+            case ModTypeId::AmberCN:
+                return {"ambercn"};
+
+            case ModTypeId::Arlecchino:
+                return {"arlecchino"};
+
+            case ModTypeId::Ayaka:
+                return {"ayaka"};
+
+            case ModTypeId::AyakaSpringbloom:
+                return {"ayakaspringbloom"};
+
+            case ModTypeId::Barbara:
+                return {"barbara"};
+
+            case ModTypeId::BarbaraSummertime:
+                return {"barbarasummertime"};
+
+            case ModTypeId::CherryHuTao:
+                return {"cherryhutao", "hutaocherry"};
+
+            case ModTypeId::Diluc:
+                return {"diluc"};
+
+            case ModTypeId::DilucFlamme:
+                return {"dilucflamme"};
+
+            case ModTypeId::Fischl:
+                return {"fischl"};
+
+            case ModTypeId::FischlHighness:
+                return {"fischlhighness"};
+
+            case ModTypeId::Ganyu:
+                return {"ganyu"};
+
+            case ModTypeId::GanyuTwilight:
+                return {"ganyutwilight"};
+
+            case ModTypeId::HuTao:
+                return {"hutao"};
+
+            case ModTypeId::Jean:
+                return {"jean"};
+
+            case ModTypeId::JeanCN:
+                return {"jeancn"};
+
+            case ModTypeId::JeanSea:
+                return {"jeansea"};
+
+            case ModTypeId::Kaeya:
+                return {"kaeya"};
+
+            case ModTypeId::KaeyaSailwind:
+                return {"kaeyasailwind"};
+
+            case ModTypeId::Keqing:
+                return {"keqing"};
+
+            case ModTypeId::KeqingOpulent:
+                return {"keqingopulent"};
+
+            case ModTypeId::Kirara:
+                return {"kirara"};
+
+            case ModTypeId::KiraraBoots:
+                return {"kiraraboots"};
+
+            case ModTypeId::Klee:
+                return {"klee"};
+
+            case ModTypeId::KleeBlossomingStarlight:
+                return {"kleeblossomingstarlight"};
+
+            case ModTypeId::Lisa:
+                return {"lisa"};
+
+            case ModTypeId::LisaStudent:
+                return {"lisastudent"};
+
+            case ModTypeId::Mona:
+                return {"mona"};
+
+            case ModTypeId::MonaCN:
+                return {"monacn"};
+
+            case ModTypeId::Nilou:
+                return {"nilou"};
+
+            case ModTypeId::NilouBreeze:
+                return {"niloubreeze"};
+
+            case ModTypeId::Ningguang:
+                return {"ningguang"};
+
+            case ModTypeId::NingguangOrchid:
+                return {"ningguangorchid"};
+
+            case ModTypeId::Raiden:
+                return {"raiden", "shogun"};
+
+            case ModTypeId::Rosaria:
+                return {"rosaria"};
+
+            case ModTypeId::RosariaCN:
+                return {"rosariacn"};
+
+            case ModTypeId::Shenhe:
+                return {"shenhe"};
+
+            case ModTypeId::ShenheFrostFlower:
+                return {"shenhefrostflower"};
+
+            case ModTypeId::Xiangling:
+                return {"xiangling"};
+
+            case ModTypeId::XianglingCheer:
+                return {"xianglingcheer", "xianglingnewyear"};
+
+            case ModTypeId::Xingqiu:
+                return {"xingqiu"};
+
+            case ModTypeId::XingqiuBamboo:
+                return {"xingqiubamboo"};
+            // The two target-only ids (RaidenBoss, ArlecchinoBoss) have no keywords: nothing
+            // classifies a .ini file AS them, they are only ever what a mod is remapped ONTO.
+            default:
+                return {};
+        }
+    }
+
+
     void ModTypeIdTools::registerModType(const ModType &modType) {
         _modTypes.insert_or_assign(modType.modTypeId, modType);
 

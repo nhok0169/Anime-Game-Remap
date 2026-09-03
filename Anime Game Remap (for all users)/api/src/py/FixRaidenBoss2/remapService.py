@@ -41,7 +41,7 @@ from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
 from .model.strategies.ModType import ModType
 from .model.Mod import Mod
-from .model.files.IniFile import IniFile
+from .core import IniFile
 from .model.Version import Version
 from .tools.files.FileService import FileService
 from .tools.Heading import Heading

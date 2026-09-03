@@ -11,7 +11,7 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-using PyIniSectionGraphCore = AGRC::IniSectionGraph<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyIniSectionGraphCore = AGRC::IniSectionGraph<std::string, std::string>;
 
 
 /**

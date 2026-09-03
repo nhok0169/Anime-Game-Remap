@@ -72,7 +72,7 @@ namespace AGRemapCore {
              :cpp:class:`BaseIniParser` allows an unbound parser
              @endrst
              */
-            using Factory = std::function<std::shared_ptr<BaseIniParser<>>(IniFile*)>;
+            using Factory = std::function<std::shared_ptr<BaseIniParser<>>(IniFile*, std::optional<int>)>;
 
             /**
              * @brief
@@ -210,6 +210,19 @@ namespace AGRemapCore {
 
              **Default**: ``std::nullopt``
              @endrst
+             * @param modTypeId
+             @rst
+             Which of the ``.ini`` file's mod types the parser is being built for -- handed straight
+             to the #Factory, and what lets #defaultFactory's context answer
+             :cpp:func:`IniParseContext::modTypeName` and
+             :cpp:func:`IniParseContext::hasModType` :raw-html:`<br />` :raw-html:`<br />`
+
+             This is the id the mod type was **filed under**, which need not equal its own
+             ``modTypeId`` -- see :cpp:func:`IniFile::getParser` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: ``std::nullopt``, meaning the parser is built for no particular mod type
+             @endrst
              *
              * @throws std::out_of_range If #getErrorOnNotFound is ``true`` and 'modName' has no row
              *      at any version
@@ -217,7 +230,8 @@ namespace AGRemapCore {
              * @return The built parser -- never ``nullptr``
              */
             std::shared_ptr<BaseIniParser<>> build(IniFile* iniFile, const std::string& modName,
-                                                  const std::optional<Version>& version = std::nullopt) const;
+                                                  const std::optional<Version>& version = std::nullopt,
+                                                  std::optional<int> modTypeId = std::nullopt) const;
 
         private:
             // Empty exactly when builderArgs_ is set -- the two flavours are mutually exclusive,

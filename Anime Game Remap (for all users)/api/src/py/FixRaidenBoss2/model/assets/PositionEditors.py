@@ -16,10 +16,13 @@
 from typing import Dict, Optional, Union
 ##### EndExtImports
 
+##### CppLocalImports
+from ...core import BaseBufEditor
+##### EndCppLocalImports
+
 ##### LocalImports
 from ...constants.GenericTypes import VersionType
 from ...data.PositionEditorData import PositionEditorData
-from ..strategies.bufEditors.BaseBufEditor import BaseBufEditor
 from .ModAssets import ModAssets
 ##### EndLocalImports
 

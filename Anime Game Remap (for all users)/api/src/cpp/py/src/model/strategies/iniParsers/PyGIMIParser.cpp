@@ -67,12 +67,13 @@ py::list makeInitialGroups() {
 PyGIMIParserCore::ParserConfig makeParserConfig() {
     PyGIMIParserCore::ParserConfig result{};
     result.classifier = PyGIMISectionClassifier::makeConfig();
-    result.runConfig = AGRC::IfTemplateRunConfig<py::object, py::object>{
-        py::cast(AGRC::IniKeywords::Run),
-        [](const py::object &value) { return py::str(value).cast<std::string>(); },
-        [](const std::string &name) { return py::cast(name); }
+    result.runConfig = AGRC::IfTemplateRunConfig<std::string, std::string>{
+        AGRC::IniKeywords::Run,
+        // Both directions are the identity now that a .ini KVP value *is* a std::string.
+        [](const std::string &value) { return value; },
+        [](const std::string &name) { return name; }
     };
-    result.valOfSectionName = [](const std::string &name) { return py::cast(name); };
+    result.valOfSectionName = [](const std::string &name) { return name; };
     return result;
 }
 
@@ -358,12 +359,12 @@ bool PyIniParseDownloadData::refToSection() const {
 }
 
 
-void PyIniParseDownloadData::addToPart(ContentPart &part, const py::object &key, const py::object &val) {
+void PyIniParseDownloadData::addToPart(ContentPart &part, const std::string &key, const std::string &val) {
     downloadData.attr("addToPart")(py::cast(&part, py::return_value_policy::reference), key, val);
 }
 
 
-void PyIniParseDownloadData::addToSection(Section &section, const py::object &key, const py::object &val) {
+void PyIniParseDownloadData::addToSection(Section &section, const std::string &key, const std::string &val) {
     downloadData.attr("addToSection")(py::cast(&section, py::return_value_policy::reference), key, val);
 }
 
@@ -428,9 +429,9 @@ void PyGIMIParser::refresh() {
     if (keysToTrackObj.is_none()) {
         this->keysToTrack = std::nullopt;
     } else {
-        std::unordered_set<py::object, PyObjectHash, PyObjectEqual> parsedKeys;
+        std::unordered_set<std::string> parsedKeys;
         for (auto item : keysToTrackObj) {
-            parsedKeys.insert(py::reinterpret_borrow<py::object>(item));
+            parsedKeys.insert(py::str(item).cast<std::string>());
         }
         this->keysToTrack = std::move(parsedKeys);
     }
@@ -463,7 +464,7 @@ void PyGIMIParser::refresh() {
 
             for (auto regItem : py::reinterpret_borrow<py::object>(item.second).cast<py::dict>()) {
                 auto adapter = std::make_unique<PyIniParseDownloadData>(py::reinterpret_borrow<py::object>(regItem.second));
-                inner[py::reinterpret_borrow<py::object>(regItem.first)] = adapter.get();
+                inner[py::str(regItem.first)] = adapter.get();
                 downloadAdapters_.push_back(std::move(adapter));
             }
         }
@@ -566,7 +567,7 @@ void PyGIMIParser::clear() {
 
 
 void initCppGIMIParser(pybind11::module_ &m) {
-    auto cls = py::class_<PyGIMIParser, PyBaseIniParser>(m, "GIMIParser", R"doc(
+    auto cls = py::class_<PyGIMIParser, PyBaseIniParser, py::smart_holder>(m, "GIMIParser", R"doc(
 This class inherits from :class:`BaseIniParser`
 
 Parses a .ini file used by a ``GIMI``-style importer
@@ -760,7 +761,7 @@ Dict[Tuple[:class:`str`, :class:`str`], :class:`IniSectionGraph`]: The caller/ca
             for (const auto &modObjEntry : self.downloadResourceGraphs()) {
                 py::dict inner;
                 for (const auto &regEntry : modObjEntry.second) {
-                    inner[regEntry.first] = self.ctxImpl.groups.graphToPy(regEntry.second);
+                    inner[py::str(regEntry.first)] = self.ctxImpl.groups.graphToPy(regEntry.second);
                 }
                 result[modObjToPy(modObjEntry.first)] = inner;
             }
@@ -855,7 +856,7 @@ List[:class:`IniGraphGroup`]
                         targets.add(py::cast(part, py::return_value_policy::reference));
                     }
 
-                    inner[regEntry.first] = targets;
+                    inner[py::str(regEntry.first)] = targets;
                 }
 
                 result[modObjToPy(modObjEntry.first)] = inner;
@@ -892,7 +893,7 @@ Dict[Tuple[:class:`str`, :class:`str`], Dict[:class:`str`, Union[Set[:class:`IfC
                         }
                     }
 
-                    needs[modObj][py::reinterpret_borrow<py::object>(regItem.first)] = std::move(targets);
+                    needs[modObj][py::str(regItem.first).cast<std::string>()] = std::move(targets);
                 }
             }
 

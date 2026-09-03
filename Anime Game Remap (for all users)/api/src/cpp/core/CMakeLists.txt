@@ -34,6 +34,7 @@ add_library(AGRemapCore STATIC
     src/data/IniFixBuilderData.cpp
     src/data/IniRemoveBuilderData.cpp
     src/constants/GlobalIniClassifiers.cpp
+    src/constants/GlobalModTypes.cpp
     src/model/Version.cpp
     src/model/VersionSet.cpp
     src/tools/Heading.cpp
@@ -55,6 +56,7 @@ add_library(AGRemapCore STATIC
     src/tools/hashing/HashTools.cpp
     src/tools/idGenerator/UuidIdGenerator.cpp
     src/model/iftemplate/IfTemplatePart.cpp
+    src/model/iftemplate/IfTemplateRender.cpp
     src/model/iftemplate/SympyParser.cpp
     src/model/iftemplate/IfPredParser.cpp
     src/model/iftemplate/IfPredZ3Generator.cpp
@@ -83,6 +85,8 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/strategies/bufEditors/BaseBufEditor.cpp
+    src/model/strategies/bufEditors/BufEditor.cpp
     src/model/strategies/iniParsers/IniParseBuilder.cpp
     src/model/strategies/iniFixers/IniFixBuilder.cpp
     src/model/strategies/iniFixers/IniFileFixContext.cpp

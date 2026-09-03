@@ -39,7 +39,7 @@ namespace AGRC = AGRemapCore;
     transfer, not a Python-specific quirk.
  @endrst
  */
-using PyIfContentPart = AGRC::IfContentPart<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyIfContentPart = AGRC::IfContentPart<std::string, std::string>;
 
 
 /**
@@ -55,7 +55,7 @@ using PyIfContentPart = AGRC::IfContentPart<py::object, py::object, PyObjectHash
  *
  * @return The equivalent vector of (key, optional check) pairs, in dict iteration order
  */
-std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys);
+std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys);
 
 
 void initCppIfContentPart(pybind11::module_ &m);

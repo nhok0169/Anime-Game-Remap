@@ -27,13 +27,13 @@ namespace AGRC = AGRemapCore;
     ``someEdit.removeKeys["a"] is thePredicateYouPassed``
  @endrst
  */
-class PyRegRemove: public AGRC::RegRemove<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegRemove: public AGRC::RegRemove<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegRemove<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegRemove<std::string, std::string>;
 
         /**
          * @brief

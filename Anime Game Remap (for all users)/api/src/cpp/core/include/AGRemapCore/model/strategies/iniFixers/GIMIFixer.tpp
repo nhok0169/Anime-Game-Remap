@@ -173,6 +173,19 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
+    std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::fixKey(
+            std::size_t groupInd, const std::optional<std::string>& fixedFilePath) const {
+        if (fixedFilePath.has_value()) {
+            return *fixedFilePath;
+        }
+
+        // No file to write to -- an .ini file built from raw text. The fix still exists and still
+        // needs a key, so fall back to the group index, which is unique per group.
+        return std::to_string(groupInd);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::groupToStr(std::size_t groupInd) const {
         std::string result;
         if (graphGroups_ == nullptr || !config_.sectionToStr) {
@@ -301,15 +314,14 @@ namespace AGRemapCore {
 
             fixedContents_.push_back(content);
 
+            // Two separate questions, and only the first can be unanswerable: an .ini file built
+            // from raw text has nowhere to write, but its fix still belongs in the result.
             const std::optional<std::string>& target = fixTargets_[i];
-            if (!target.has_value()) {
-                // No path to key it by, and nothing to write to -- reachable only for an .ini file
-                // that was constructed from raw text. #fixedContents still holds the content.
-                continue;
+            if (target.has_value()) {
+                ctx_->writeFixedFile(*target, content);
             }
 
-            ctx_->writeFixedFile(*target, content);
-            result[*target] = content;
+            result[fixKey(i, target)] = content;
         }
 
         if (hiding) {

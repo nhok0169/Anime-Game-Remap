@@ -35,7 +35,7 @@ py::tuple graphIdToPy(const PyBaseIniGraphGroupEdit::GraphId &id) {
 
 void initCppBaseIniGraphGroupEdit(pybind11::module_ &m) {
     auto cls = py::class_<PyBaseIniGraphGroupEdit, AGRC::BaseIniPartEdit, py::smart_holder>(m, "BaseIniGraphGroupEdit", R"doc(
-This class inherits from :class:`CppBaseIniPartEdit`
+This class inherits from :class:`BaseIniPartEdit`
 
 Base class for a filter that edits a group of caller/callee graphs across many .ini files
     )doc")

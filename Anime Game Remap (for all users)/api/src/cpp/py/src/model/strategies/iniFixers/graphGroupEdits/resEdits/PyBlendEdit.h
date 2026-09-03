@@ -24,7 +24,7 @@ namespace AGRC = AGRemapCore;
  than in the core class (see :cpp:class:`AGRemapCore::RemapBlendReplace`'s own note)
  @endrst
  */
-class PyRemapBlendReplace: public PyResEditMixin<AGRC::RemapBlendReplace<py::object, py::object, PyObjectHash, PyObjectEqual>> {
+class PyRemapBlendReplace: public PyResEditMixin<AGRC::RemapBlendReplace<std::string, std::string>> {
     public:
 
         /**

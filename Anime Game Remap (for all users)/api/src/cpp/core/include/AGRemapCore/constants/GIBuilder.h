@@ -2,6 +2,7 @@
 #define AGRemapCore_GIBuilder_H
 
 #include "AGRemapCore/model/strategies/ModType.h"
+#include <vector>
 
 
 namespace AGRemapCore {
@@ -233,6 +234,21 @@ namespace AGRemapCore {
              * @brief Creates the :cpp:class:`ModType` for XingqiuBamboo
              */
             static ModType xingqiuBamboo();
+
+            /**
+             * @brief
+             @rst
+             Every :cpp:class:`ModType` this builder knows how to make, freshly built on each call
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The counterpart to the pure-Python ``ModTypes.getAll()`` (``constants/ModTypes.py``).
+             Note this is *not* the same set as :cpp:enum:`ModTypeId`'s members: the two boss ids
+             (``RaidenBoss``, ``ArlecchinoBoss``) are only ever remap targets and have no factory
+             @endrst
+             *
+             * @return All 43 GI mod types
+             */
+            static std::vector<ModType> all();
     };
 }
 

@@ -48,11 +48,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Resets #modTypeIdDistribution and #savedWuWaModTypeIds (transient, per-classification
-             state that must not leak into a later, unrelated call), reads through 'iniTxt' line by
-             line via :cpp:func:`readLine`, then adds whichever :cpp:enum:`ModTypeId`\\s ended up
-             with the highest count in #modTypeIdDistribution to the result's ``modType`` -- ties
-             are all included, sorted in ascending order
+             Resets #modTypeIdDistribution, #savedWuWaModTypeIds, and #currentSectionIsRemap
+             (transient, per-classification state that must not leak into a later, unrelated call),
+             reads through 'iniTxt' line by line via :cpp:func:`readLine`, then adds whichever
+             :cpp:enum:`ModTypeId`\\s ended up with the highest count in #modTypeIdDistribution to
+             the result's ``modType`` -- ties are all included, sorted in ascending order
              @endrst
              */
             IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
@@ -63,9 +63,9 @@ namespace AGRemapCore {
              * @brief
              @rst
              Same as :cpp:func:`classify`, except it resets #modTypeIdDistribution/
-             #savedWuWaModTypeIds and reads through 'iniTxt' line by line via :cpp:func:`readLine`
-             the exact same way, but returns ``true`` immediately, without reading any further
-             lines, the moment ``stats.isMod`` first becomes ``true`` -- cheaper than
+             #savedWuWaModTypeIds/#currentSectionIsRemap and reads through 'iniTxt' line by line via
+             :cpp:func:`readLine` the exact same way, but returns ``true`` immediately, without
+             reading any further lines, the moment ``stats.isMod`` first becomes ``true`` -- cheaper than
              :cpp:func:`classify` when only this yes/no answer is needed, since it never runs the
              tie-breaking #modTypeIdDistribution pass and can stop reading partway through the file
              @endrst
@@ -142,7 +142,7 @@ namespace AGRemapCore {
              mod types were registered yet -- i.e. #stateDFA back to its initial state (see the
              constructor's doc comment) and #hashGameTypeIds, #modTypes, #sectionKeywordsDFA,
              #keywordGameTypeIds, #modTypeIdDistribution, #savedWuWaModTypeIds, and
-             #acceptModTypeIds all emptied
+             #acceptModTypeIds all emptied, and #currentSectionIsRemap reset to ``false``
              @endrst
              */
             void clear() override;
@@ -251,6 +251,26 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Whether the `section`_ currently being read (the most recent one seen by
+             :cpp:func:`readSectionName`) has the substring ``Remap`` in its name :raw-html:`<br />` :raw-html:`<br />`
+
+             Updated unconditionally at the top of every :cpp:func:`readSectionName` call (so it
+             always reflects the *actual* most recent `section`_, regardless of
+             #checkHasTextureOverride), and consulted by :cpp:func:`readLine` to skip reading a
+             ``hash =`` `KVP`_ found inside such a `section`_ -- a previously-fixed .ini file has
+             its fix-added `sections`_ (redirecting to whichever mod(s) it was fixed to) named with
+             ``Remap`` in them, and their hashes shouldn't count toward classification, or an
+             already-fixed Jean mod (fixed to also cover JeanCN/JeanSea) would misclassify as all
+             three instead of just Jean :raw-html:`<br />` :raw-html:`<br />`
+
+             ``false`` before any `section`_ has been seen yet in the current read
+             @endrst
+             */
+            bool currentSectionIsRemap = false;
+
+            /**
+             * @brief
+             @rst
              Identifies which :cpp:enum:`ModTypeId`\\s an accepting `DFA`_ state (a ``accept<ModTypeId>``
              or ``save<ModTypeId>`` state in #stateDFA) is associated with :raw-html:`<br />` :raw-html:`<br />`
 
@@ -276,11 +296,21 @@ namespace AGRemapCore {
              Reads a single line in a .ini file, mutating 'stats' with whatever the line reveals
              about the classification of the .ini file :raw-html:`<br />` :raw-html:`<br />`
 
-             Does a high-level read of 'line' (already stripped of leading/trailing whitespace by
-             the caller), then delegates the actual work to whichever subfunction below applies:
+             If 'line' starts with :cpp:member:`IniKeywords::HideOriginalComment`, that prefix is
+             stripped and the remainder is read via a recursive call to this same method, as if it
+             had been the original line all along -- a previously-fixed .ini file has its original
+             `section`_ commented out this way (every line of it, including the `section`_ header,
+             individually prefixed), and the classifier still needs to see through that to correctly
+             identify the original mod :raw-html:`<br />` :raw-html:`<br />`
+
+             Otherwise, does a high-level read of 'line' (already stripped of leading/trailing
+             whitespace by the caller, or by the recursive call above), then delegates the actual
+             work to whichever subfunction below applies:
 
              * If 'line' starts with ``hash``, any amount of whitespace, then ``=``, the value part
-               after the ``=`` is passed to :cpp:func:`readHash`
+               after the ``=`` is passed to :cpp:func:`readHash` -- unless #currentSectionIsRemap is
+               ``true``, in which case the hash is skipped entirely (not passed to
+               :cpp:func:`readHash` at all)
              * If 'line' starts with ``$\\WWMIv1``, :cpp:func:`markWuWa` is called
              * If 'line' starts with a `section`_ header (``[X]``, where ``X`` contains none of
                ``[``, ``]``, or a .ini comment character), ``X`` is passed to
@@ -349,6 +379,13 @@ namespace AGRemapCore {
              whatever the section name reveals about the classification of the .ini file
              :raw-html:`<br />` :raw-html:`<br />`
 
+             #currentSectionIsRemap is updated (to whether 'sectionName' has the substring
+             ``Remap``) unconditionally, before anything else in this method -- same reasoning as
+             the ``stats.isMod`` check right below: it must reflect the *actual* most recent
+             `section`_ regardless of #checkHasTextureOverride, since :cpp:func:`readLine` consults
+             it for every ``hash =`` line, not just ones inside `sections`_ this method goes on to
+             fully process :raw-html:`<br />` :raw-html:`<br />`
+
              If 'sectionName' starts with ``TextureOverride`` or ``ShaderOverride``, ``stats.isMod``
              is set to ``true`` -- this check runs unconditionally, before #checkHasTextureOverride
              is considered, so a ``ShaderOverride`` `section`_ is still recognized as belonging to a
@@ -359,9 +396,15 @@ namespace AGRemapCore {
              starts with ``TextureOverride`` :raw-html:`<br />` :raw-html:`<br />`
 
              If 'sectionName' contains the substring ``Remap``, ``stats.isFixed`` is set to
-             ``true`` :raw-html:`<br />` :raw-html:`<br />`
+             ``true`` and this method returns immediately, without searching 'sectionName' for a
+             registered keyword or counting any match toward #modTypeIdDistribution -- same
+             reasoning as :cpp:func:`readLine`'s ``hash =`` skip for a `section`_ whose name
+             contains ``Remap``: a section-keyword match there is a fix-added redirect to some
+             other :cpp:enum:`ModTypeId` this .ini was already fixed to (e.g. a ``JeanCN``/
+             ``JeanSea`` ``RemapFix`` `section`_ inside an already-fixed ``Jean`` .ini), and
+             shouldn't count either :raw-html:`<br />` :raw-html:`<br />`
 
-             Searches 'sectionName' for the maximal registered keyword via #sectionKeywordsDFA --
+             Otherwise, searches 'sectionName' for the maximal registered keyword via #sectionKeywordsDFA --
              if 'gameTypeId' has a value, only keywords registered under that
              :cpp:enum:`GameTypeId` (see #keywordGameTypeIds) are considered. Does nothing if no
              keyword is found :raw-html:`<br />` :raw-html:`<br />`

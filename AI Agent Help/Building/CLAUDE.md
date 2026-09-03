@@ -130,6 +130,23 @@ From `Tools/APIBuilder`:
 ```bash
 py -3 main.py -d
 ```
+
+> **The entry point is `main.py`, and nothing else is.** `Tools/APIBuilder/APIBuilder/` is a
+> package, not a CLI: `py -3 -m APIBuilder.APIBuilder <flags>` **exits 0 having built nothing**,
+> and `py -3 APIBuilder/APIBuilder.py` dies on `attempted relative import with no known parent
+> package`. The silent one cost a full session — a stale `.pyd` kept serving old bindings while
+> every "build" reported success, and the failure only surfaced hours later when a rename made a
+> symbol genuinely disappear. **Verify a build by the `.pyd`'s mtime, never by its exit code.**
+>
+> Related trap: `-pb`/`-pi` are `--makePreBuild`/`--makePreInstall`, which are about *external
+> dependencies* (z3, Compressonator). They are not "build the project" flags, and passing one
+> instead of running a plain `main.py` builds none of your code.
+
+`py -3 main.py` (no `-d`) is the normal edit-compile-test build: it compiles `AGRemapCore`, the
+`core` pybind11 module and the Cython extensions, **and runs CMake's install step**, which is what
+copies `core.cp39-win_amd64.pyd` into `api/src/py/FixRaidenBoss2/`. You never have to stage that
+file by hand.
+
 - No `-e` flag = `dev` env mode: builds `AGRemapCore`, the `core` pybind11 module, and the
   Cython extensions, then installs everything into `api/src/py/FixRaidenBoss2/` (default
   `--installFolder`).
@@ -604,3 +621,22 @@ until both lines were added by hand. Don't assume "the file exists and looks don
 reachable as `FRB.Xxx`" — grep `__init__.py` for the class name (both the import line and its
 `__all__` entry) before relying on it, especially when completing a stub whose sibling classes
 were registered at a different time than the stub itself was scaffolded.
+
+## Manual fallback: `ninja` directly
+Only when you deliberately want to skip the install step (e.g. rebuilding just to run the
+standalone `core/tests/*.cpp` executables, which link the static lib rather than the `.pyd`):
+```bash
+# from a shell where vcvarsall.bat x64 has already been called -- tool shells do not persist it,
+# so keep a one-shot .bat that calls vcvarsall and then ninja
+cd <repo-root>/cbuild && ninja
+```
+Then copy `cbuild/src/cpp/py/core.cp39-win_amd64.pyd` over
+`api/src/py/FixRaidenBoss2/core.cp39-win_amd64.pyd` yourself, because nothing else will.
+
+If you also need the stub by hand:
+```bash
+PYTHONPATH=<api/src/py> py -3 -m pybind11_stubgen FixRaidenBoss2.core -o <api/src/py> --root-suffix ""
+```
+**Run that from Bash, not PowerShell** — PowerShell swallows the empty-string argument and
+stubgen fails with `--root-suffix: expected one argument`. Check `pybind11.__version__` is 3.0.4
+first or the regenerated stub churns against the committed one.

@@ -76,7 +76,7 @@ void initCppBlendFile(pybind11::module_ &m) {
     }
     blendFileErrorsParentPackage() = parentPackage;
 
-    py::class_<AGRC::BlendFile, AGRC::BufFile, py::smart_holder>(m, "CppBlendFile", R"doc(
+    py::class_<AGRC::BlendFile, AGRC::BufFile, py::smart_holder>(m, "BlendFile", R"doc(
 This class inherits from :class:`CppBufFile`
 
 Used for handling ``Blend.buf`` files

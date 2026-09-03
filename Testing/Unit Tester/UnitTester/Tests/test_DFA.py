@@ -219,7 +219,7 @@ class DFATest(BaseUnitTest):
     ## TODO: explictely test the "addTransitions" function instead of just testing whether
     #   "addTransition" is called since that the DFA is all implemented in C++   
     ##
-    # @mock.patch("src.FixRaidenBoss2.DFA.addTransition")
+    # @mock.patch("src.py.FixRaidenBoss2.DFA.addTransition")
     # def test_differentGroupsofTransitionsToAdd_calledAddTransition(self, m_addTransition):
     #     tests = [["outer1", "skip1", "outer4", 1],
     #              ["outer1", lambda keyword: keyword == "a", "outer4", 1],

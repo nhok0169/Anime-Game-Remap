@@ -18,7 +18,7 @@ namespace AGRC = AGRemapCore;
  is built on
  @endrst
  */
-using PyBaseIniRemoverCore = AGRC::BaseIniRemover<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseIniRemoverCore = AGRC::BaseIniRemover<std::string, std::string>;
 
 
 /**

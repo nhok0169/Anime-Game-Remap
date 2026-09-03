@@ -58,7 +58,7 @@ void initCppPositionFile(pybind11::module_ &m) {
     }
     positionFileErrorsParentPackage() = parentPackage;
 
-    py::class_<AGRC::PositionFile, AGRC::BufFile, py::smart_holder>(m, "CppPositionFile", R"doc(
+    py::class_<AGRC::PositionFile, AGRC::BufFile, py::smart_holder>(m, "PositionFile", R"doc(
 This class inherits from :class:`CppBufFile`
 
 Used for handling ``Position.buf`` files

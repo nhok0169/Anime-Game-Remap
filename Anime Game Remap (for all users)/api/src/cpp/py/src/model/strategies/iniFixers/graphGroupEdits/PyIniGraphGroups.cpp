@@ -11,11 +11,12 @@ namespace {
 
 // The same run configuration PyIniSectionGraph's own constructor binding builds -- duplicated here
 // rather than shared, matching how PyIniSectionGraph.cpp already keeps it file-local.
-AGRC::IfTemplateRunConfig<py::object, py::object> makeRunConfig() {
-    return AGRC::IfTemplateRunConfig<py::object, py::object>{
-        py::cast(std::string("run")),
-        [](const py::object &v) { return v.cast<std::string>(); },
-        [](const std::string &name) { return py::cast(name); }
+AGRC::IfTemplateRunConfig<std::string, std::string> makeRunConfig() {
+    return AGRC::IfTemplateRunConfig<std::string, std::string>{
+        "run",
+        // Both conversions are the identity now that a .ini KVP value *is* a std::string.
+        [](const std::string &v) { return v; },
+        [](const std::string &name) { return name; }
     };
 }
 

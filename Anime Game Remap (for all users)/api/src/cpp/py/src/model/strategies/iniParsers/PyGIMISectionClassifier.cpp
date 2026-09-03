@@ -44,20 +44,29 @@ py::tuple modObjToPy(const ModObj &modObj) {
 }
 
 
-// The two-element key of the inner indexKeyToModObj dicts -- an (component, object) tuple, but of
-// whatever the Indices table's own last two index columns hold, so kept as py::object rather than
-// narrowed to std::string like a mod object key is.
+// The two-element key of the inner indexKeyToModObj dicts -- a (component, object) tuple, read out
+// of the Indices table's own last two index columns. A missing half becomes the empty string, which
+// is what the core's own IndexKeyEqual compares against and what no real index row ever holds.
+std::string indexKeyPartFromPy(const py::handle &value) {
+    if (value.is_none()) {
+        return {};
+    }
+
+    return py::str(value).cast<std::string>();
+}
+
+
 Core::IndexKey indexKeyFromPy(const py::handle &value) {
     if (!py::isinstance<py::tuple>(value)) {
-        return Core::IndexKey(py::none(), py::none());
+        return Core::IndexKey(std::string(), std::string());
     }
 
     py::tuple asTuple = py::reinterpret_borrow<py::tuple>(value);
     if (asTuple.size() < 2) {
-        return Core::IndexKey(py::none(), py::none());
+        return Core::IndexKey(std::string(), std::string());
     }
 
-    return Core::IndexKey(py::reinterpret_borrow<py::object>(asTuple[0]), py::reinterpret_borrow<py::object>(asTuple[1]));
+    return Core::IndexKey(indexKeyPartFromPy(asTuple[0]), indexKeyPartFromPy(asTuple[1]));
 }
 
 
@@ -106,7 +115,7 @@ PyModMappedAssets* assetsOf(const py::object &raw) {
 // own '_convertNonVersionVals'. That is exactly PyModMappedAssets::nonVersionIndexNames +
 // toWildcardList -- and a generic table that never got any index names has nothing to normalize
 // against, so it filters on nothing at all.
-std::vector<std::optional<py::object>> convertNonVersionVals(PyModMappedAssets *assets, const py::object &raw) {
+std::vector<std::optional<std::string>> convertNonVersionVals(PyModMappedAssets *assets, const py::object &raw) {
     if (assets == nullptr || !assets->nonVersionIndexNames.has_value()) {
         return {};
     }
@@ -119,8 +128,8 @@ std::vector<std::optional<py::object>> convertNonVersionVals(PyModMappedAssets *
 
 PyGIMISectionClassifier::Core::ClassifierConfig PyGIMISectionClassifier::makeConfig() {
     Core::ClassifierConfig result{};
-    result.hashKey = py::cast(AGRC::IniKeywords::Hash);
-    result.matchFirstIndexKey = py::cast(AGRC::IniKeywords::MatchFirstIndex);
+    result.hashKey = AGRC::IniKeywords::Hash;
+    result.matchFirstIndexKey = AGRC::IniKeywords::MatchFirstIndex;
     return result;
 }
 
@@ -157,7 +166,7 @@ void PyGIMISectionClassifier::refresh() {
     hashKeyOnlyToModObj.clear();
     if (!hashKeyOnlyToModObjObj.is_none()) {
         for (auto item : hashKeyOnlyToModObjObj.cast<py::dict>()) {
-            hashKeyOnlyToModObj[py::reinterpret_borrow<py::object>(item.first)] = modObjFromPy(item.second);
+            hashKeyOnlyToModObj[py::cast<std::string>(item.first)] = modObjFromPy(item.second);
         }
     }
 
@@ -170,7 +179,7 @@ void PyGIMISectionClassifier::refresh() {
                 inner[indexKeyFromPy(innerItem.first)] = modObjFromPy(innerItem.second);
             }
 
-            indexKeyToModObj[py::reinterpret_borrow<py::object>(item.first)] = std::move(inner);
+            indexKeyToModObj[py::cast<std::string>(item.first)] = std::move(inner);
         }
     }
 }

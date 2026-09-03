@@ -15,7 +15,7 @@ void PyRegRemap::refresh(const py::object &modType) {
 
     // parseKeyRemap (PyIOrderedMultiMap.h) is the exact same helper IfContentPart.remapKeys' own
     // binding uses, so a CppKeyRemapData/CppRemappedKeyData value works here identically.
-    keyRemap = parseKeyRemap(py::cast<py::dict>(keyRemapObj));
+    keyRemap = parseIniKeyRemap(py::cast<py::dict>(keyRemapObj));
 }
 
 

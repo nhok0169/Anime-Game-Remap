@@ -110,7 +110,7 @@ class ModTest(BaseFileUnitTest):
         self._parseIniFiles = []
         self._parseIniInd = 0
 
-        self.patch("src.FixRaidenBoss2.FileService.getPath", side_effect = lambda path: self._modPath)
+        self.patch("src.py.FixRaidenBoss2.FileService.getPath", side_effect = lambda path: self._modPath)
 
     def createMod(self):
         self._mod = FRB.Mod(self._modPath, files = self._modFiles, types = self._modTypes, defaultType = self._defaultModType)
@@ -289,8 +289,8 @@ class ModTest(BaseFileUnitTest):
         self.compareSet(resultRemovedTextures, set())
         self.compareSet(resultRemovedDownloads, set())
 
-    @mock.patch("src.FixRaidenBoss2.IniFile.parse")
-    @mock.patch("src.FixRaidenBoss2.IniFile.removeFix")
+    @mock.patch("src.py.FixRaidenBoss2.IniFile.parse")
+    @mock.patch("src.py.FixRaidenBoss2.IniFile.removeFix")
     def test_differentInis_inisUndoedRemapsRemoved(self, m_removeFix, m_parse):
         self._modTypes = None
         self._flattendDirItems = list(map(lambda path: self.osPathJoin(self.absPath, path[2:]), self._flattendDirItems))
@@ -479,7 +479,7 @@ class ModTest(BaseFileUnitTest):
         self.compareSet(resultFixedBlends, set())
         self.compareDict(resultSkippedBlends, {})
 
-    @mock.patch("src.FixRaidenBoss2.Mod.blendCorrection")
+    @mock.patch("src.py.FixRaidenBoss2.Mod.blendCorrection")
     def test_differentBlends_correctUnVisitedBlends(self, m_blendCorrection):
         m_blendCorrection.side_effect = lambda blendFile, modType, modToFix, fixedBlendFile, version: self.blendCorrection(blendFile, modType, modToFix, fixedBlendFile = fixedBlendFile, version = version)
 

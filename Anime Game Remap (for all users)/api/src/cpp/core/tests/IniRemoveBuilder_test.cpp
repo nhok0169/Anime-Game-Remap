@@ -314,7 +314,9 @@ class TestableIniFile: public IniFile {
     public:
         using IniFile::IniFile;
 
-        const std::unordered_map<int, ModType>& testModTypes() const { return modTypes; }
+        // modTypes is a tsl::ordered_map now -- insertion order decides which mod type takes
+        // the .ini file's backup and which hides the original (see IniFile::fix).
+        const tsl::ordered_map<int, ModType>& testModTypes() const { return modTypes; }
 };
 
 void testIniFileUsesTheBuilder() {

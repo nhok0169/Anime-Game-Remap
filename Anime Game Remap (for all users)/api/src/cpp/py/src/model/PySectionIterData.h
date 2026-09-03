@@ -15,8 +15,8 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief The `pybind11`_-facing names for `AGRC::SectionIterData`/`AGRC::SectionIterQueryData`\\<py::object, py::object\\>. Plain aliases, not subclasses.
  */
-using PySectionIterData = AGRC::SectionIterData<py::object, py::object, PyObjectHash, PyObjectEqual>;
-using PySectionIterQueryData = AGRC::SectionIterQueryData<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PySectionIterData = AGRC::SectionIterData<std::string, std::string>;
+using PySectionIterQueryData = AGRC::SectionIterQueryData<std::string, std::string>;
 
 
 void initCppSectionIterData(pybind11::module_ &m);

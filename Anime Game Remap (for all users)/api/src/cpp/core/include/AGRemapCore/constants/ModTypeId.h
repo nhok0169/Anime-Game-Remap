@@ -5,6 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/constants/GameTypeId.h"
@@ -361,6 +362,73 @@ namespace AGRemapCore {
              @endrst
              */
             static void clear();
+
+            /**
+             * @brief
+             @rst
+             The mod types a given mod type's **hashes** can be remapped onto :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             This is the remap graph itself -- what the software is for. It mirrors the ``map``
+             argument the pure-Python ``GIBuilder`` passes to each mod type's ``Hashes``
+             (``constants/GIBuilder.py``), lifted out of the 43 individual factories and into one
+             table so a target can be named by :cpp:enum:`ModTypeId` rather than by a bare string
+
+             .. note::
+                Two :cpp:enum:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- appear only
+                ever as *targets* here and are never a source, which is why
+                :cpp:class:`GIBuilder` has no factory for them
+             @endrst
+             *
+             * @param value The mod type to look up the remap targets of
+             *
+             * @return The mod types 'value' remaps onto, or an empty list if it remaps onto none
+             */
+            static std::vector<ModTypeId> getHashRemapTargets(ModTypeId value);
+
+            /**
+             * @brief
+             @rst
+             The mod types a given mod type's **indices** can be remapped onto :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Identical to :cpp:func:`getHashRemapTargets` for every mod type but one -- see that
+             function for the shape, and this one's implementation for the exception
+             @endrst
+             *
+             * @param value The mod type to look up the remap targets of
+             *
+             * @return The mod types 'value' remaps onto, or an empty list if it remaps onto none
+             */
+            static std::vector<ModTypeId> getIndexRemapTargets(ModTypeId value);
+
+            /**
+             * @brief
+             @rst
+             The `section`_-name keywords that identify a mod type when classifying a ``.ini`` file
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Lowercased, and matched **maximally** (longest wins) by
+             :cpp:func:`IniClassifier::readSectionName`. That is what disambiguates an overlapping
+             pair without any extra machinery: a `section`_ named ``TextureOverrideAmberCNBody``
+             matches ``ambercn`` rather than ``amber``, because the longer keyword wins
+
+             .. note::
+                The pure-Python ``IniClassifierBuilderOld`` reaches the same result a different
+                way -- one compiled regex per keyword carrying a negative lookahead
+                (``(amber)((?!cn).)*``). Only the keywords carry over; the regexes do not, because
+                maximal matching already encodes what they were disambiguating
+
+             Most mod types have exactly one keyword. Three carry a second alias-like spelling
+             (``CherryHuTao``, ``Raiden``, ``XianglingCheer``), and the two target-only ids have
+             none at all
+             @endrst
+             *
+             * @param value The mod type to look up the `section`_-name keywords of
+             *
+             * @return The keywords identifying 'value', or an empty list if it has none
+             */
+            static std::vector<std::string> getSectionKeywords(ModTypeId value);
 
         private:
             static std::unordered_map<int, ModType> _modTypes;

@@ -19,13 +19,13 @@ namespace AGRC = AGRemapCore;
  (see that class's note)
  @endrst
  */
-class PyRegNewVals: public AGRC::RegNewVals<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegNewVals: public AGRC::RegNewVals<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegNewVals<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegNewVals<std::string, std::string>;
 
         /**
          * @brief

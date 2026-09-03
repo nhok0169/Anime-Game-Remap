@@ -31,7 +31,7 @@ namespace AGRC = AGRemapCore;
     here, never sliced by value.
  @endrst
  */
-using PyIfTemplateTree = AGRC::IfTemplateTree<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyIfTemplateTree = AGRC::IfTemplateTree<std::string, std::string>;
 
 
 void initCppIfTemplateTree(pybind11::module_ &m);

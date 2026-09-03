@@ -40,9 +40,9 @@ PyBaseResEditCore::ResEditConfig makeResEditConfig() {
     // "filename" is the .ini register naming a resource's file (IniKeywords.Filename). The
     // conversions are the same shape IfTemplateRunConfig uses for its own 'run =' values.
     return PyBaseResEditCore::ResEditConfig{
-        py::cast(std::string("filename")),
-        [](const py::object &value) { return py::str(value).cast<std::string>(); },
-        [](const std::string &file) { return py::cast(file); }
+        std::string("filename"),
+        [](const std::string &value) { return value; },
+        [](const std::string &file) { return file; }
     };
 }
 
@@ -248,7 +248,7 @@ void PyBaseResEdit::buildResModel(const std::string &resType, const std::string 
 // ---------------------------------------------------------------------------------------
 
 PyResIdentity::PyResIdentity(py::object resModObj, bool createResModel):
-    PyResEditMixin<AGRC::ResIdentity<py::object, py::object, PyObjectHash, PyObjectEqual>>(
+    PyResEditMixin<AGRC::ResIdentity<std::string, std::string>>(
         PyBaseResEditCore::GraphId(), makeResEditConfig(), createResModel) {
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = py::none();
@@ -276,7 +276,7 @@ void PyResIdentity::buildResModel(const std::string &resType, const std::string 
 // ---------------------------------------------------------------------------------------
 
 PyResReplace::PyResReplace(std::string resType, py::object resModObj, py::object graphReplaceMode):
-    PyResEditMixin<AGRC::ResReplace<py::object, py::object, PyObjectHash, PyObjectEqual>>(
+    PyResEditMixin<AGRC::ResReplace<std::string, std::string>>(
         std::move(resType), PyBaseResEditCore::GraphId(), makeResEditConfig(), parseGraphReplaceMode(graphReplaceMode)) {
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = std::move(graphReplaceMode);
@@ -302,7 +302,7 @@ void PyResReplace::buildResModel(const std::string &resType, const std::string &
 // ---------------------------------------------------------------------------------------
 
 PyResCreate::PyResCreate(std::string resType, py::object resModObj, py::object graphReplaceMode):
-    PyResCreateMixin<AGRC::ResCreate<py::object, py::object, PyObjectHash, PyObjectEqual>>(
+    PyResCreateMixin<AGRC::ResCreate<std::string, std::string>>(
         std::move(resType), PyBaseResEditCore::GraphId(), makeResEditConfig(), parseGraphReplaceMode(graphReplaceMode)) {
     resModObjObj = std::move(resModObj);
     graphReplaceModeObj = std::move(graphReplaceMode);

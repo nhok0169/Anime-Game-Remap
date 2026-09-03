@@ -33,13 +33,13 @@ class BaseIniGraphEditTest(BaseUnitTest):
     # ================= inheritance ===================
 
     def test_isSubclassOfTheGraphPartEditBases(self):
-        self.assertTrue(issubclass(FRB.BaseIniGraphEdit, FRB.CppBaseIniGraphPartEdit))
-        self.assertTrue(issubclass(FRB.BaseIniGraphEdit, FRB.CppBaseIniPartEdit))
+        self.assertTrue(issubclass(FRB.BaseIniGraphEdit, FRB.BaseIniGraphPartEdit))
+        self.assertTrue(issubclass(FRB.BaseIniGraphEdit, FRB.BaseIniPartEdit))
 
     def test_construct_noArgs_isInstanceOfItsBases(self):
         edit = FRB.BaseIniGraphEdit()
         self.assertIsInstance(edit, FRB.BaseIniGraphEdit)
-        self.assertIsInstance(edit, FRB.CppBaseIniGraphPartEdit)
+        self.assertIsInstance(edit, FRB.BaseIniGraphPartEdit)
 
     def test_clear_inheritedFromBaseIniPartEdit_isANoOp(self):
         edit = FRB.BaseIniGraphEdit()

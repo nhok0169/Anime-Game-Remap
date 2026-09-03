@@ -111,6 +111,78 @@ namespace AGRemapCore {
             // advance the counter -- see its own note on why it is deliberately not pure.
             mutable int texInd_ = 0;
     };
+    /**
+     * @brief
+     @rst
+     This class inherits from :cpp:class:`ResReplace`
+
+     Class that builds the necessary part to **edit** an existing texture file :raw-html:`<br />`
+     :raw-html:`<br />`
+
+     The counterpart to :cpp:class:`TexCreate` in this same file, and the texture analogue of
+     :cpp:class:`RemapBlendReplace`: an edit has an original resource to build its fixed name on,
+     which is exactly what separates a :cpp:class:`ResReplace` from a :cpp:class:`ResCreate`. The
+     resource model it stands for is a :cpp:class:`RemapTexEditResource` (``srcPath`` **and**
+     ``fixedPath``), not a :cpp:class:`RemapTexAddResource` :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        Like :cpp:class:`RemapBlendReplace`, this **does not override**
+        :cpp:func:`BaseResEdit::buildResModel` -- the texture editor that does the work reaches
+        this class from the `Python`_ side, so the `pybind11`_ layer overrides it to build a real
+        :cpp:class:`RemapTexEditResource`. A plain C++ caller wanting the same must override it
+        too; all the naming here works either way
+     @endrst
+     *
+     * @tparam K The type of the keys stored in a referenced :cpp:class:`IfContentPart`
+     * @tparam V The type of the values stored in a referenced :cpp:class:`IfContentPart`
+     * @tparam KeyHash A hasher for ``K``. Defaults to ``std::hash<K>``
+     * @tparam KeyEqual An equality comparator for ``K``. Defaults to ``std::equal_to<K>``
+     */
+    template <typename K = std::string, typename V = std::string, typename KeyHash = std::hash<K>, typename KeyEqual = std::equal_to<K>>
+    class TexReplace: public ResReplace<K, V, KeyHash, KeyEqual> {
+        public:
+            using Base = ResReplace<K, V, KeyHash, KeyEqual>;
+            using GraphId = typename Base::GraphId;
+            using ResEditConfig = typename Base::ResEditConfig;
+
+            /**
+             * @brief The name of the subtype of the resource, folded into every fixed name
+             */
+            std::optional<std::string> resSubType;
+
+            /**
+             * @brief Constructs a new texture-editing resource edit
+             *
+             * @param resModObj The mod object to hold the newly created graph for the resource
+             * @param config The domain customization points this instance uses
+             * @param resType The name of the type of resource. **Default**: ``"resourceRemapTexEdit"``
+             * @param resSubType The name of the subtype of the resource. **Default**: none
+             */
+            TexReplace(GraphId resModObj, ResEditConfig config, std::string resType = "resourceRemapTexEdit",
+                        std::optional<std::string> resSubType = std::nullopt);
+
+            /**
+             * @brief
+             @rst
+             The fixed name for a texture resource, built from the **original** resource's name --
+             the difference that makes this a :cpp:class:`ResReplace`. :cpp:class:`TexCreate`
+             discards its 'resource' argument because a newly created texture has no original to
+             build on
+             @endrst
+             */
+            std::optional<std::string> getFixResourceName(const std::string& resource, const std::string& modName = "") const override;
+
+            /**
+             * @brief The fixed file path for an edited texture
+             */
+            std::string getFixFile(const std::string& file, const std::string& modName = "",
+                                    const std::string& graphId = "") const override;
+
+            /**
+             * @brief 'modName' capitalized, extended by ef resSubType when there is one
+             */
+            std::string subTypedModName(const std::string& modName) const;
+    };
 }
 
 #include "TexEdit.tpp"

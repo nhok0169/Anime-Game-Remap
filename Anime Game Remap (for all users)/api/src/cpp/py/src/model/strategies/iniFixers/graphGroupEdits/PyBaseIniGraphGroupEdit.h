@@ -26,7 +26,7 @@ namespace AGRC = AGRemapCore;
  `Python`_ method lookup before anything reaches C++
  @endrst
  */
-using PyBaseIniGraphGroupEdit = AGRC::BaseIniGraphGroupEdit<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseIniGraphGroupEdit = AGRC::BaseIniGraphGroupEdit<std::string, std::string>;
 
 
 /**

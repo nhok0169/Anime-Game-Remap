@@ -24,6 +24,7 @@
 #include "model/assets/PyIndices.h"
 #include "constants/PyGameTypeId.h"
 #include "constants/PyModTypeId.h"
+#include "constants/PyGlobalModTypes.h"
 #include "constants/PyGIBuilder.h"
 #include "model/strategies/PyModTypeIdData.h"
 #include "model/strategies/PyModType.h"
@@ -73,12 +74,16 @@
 #include "model/strategies/iniParsers/PyBaseIniParser.h"
 #include "model/strategies/iniParsers/PyGIMISectionClassifier.h"
 #include "model/strategies/iniParsers/PyGIMIParser.h"
+#include "model/strategies/iniParsers/PyIniParseBuilder.h"
 #include "model/strategies/iniFixers/PyBaseIniFixer.h"
 #include "model/strategies/iniFixers/PyGIMIFixer.h"
+#include "model/strategies/iniFixers/PyMultiModFixer.h"
+#include "model/strategies/iniFixers/PyIniFixBuilder.h"
 #include "model/strategies/iniRemovers/PyBaseIniRemover.h"
 #include "model/strategies/iniFixers/PyIniFixingContext.h"
 #include "model/strategies/iniRemovers/PyIniRemovalContext.h"
 #include "model/strategies/iniRemovers/PyRemapIniRemover.h"
+#include "model/strategies/iniRemovers/PyIniRemoveBuilder.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
 #include "tools/hashing/PyHashTools.h"
@@ -89,10 +94,13 @@
 #include "model/buffers/PyBufUnorm.h"
 #include "model/buffers/PyBufElementType.h"
 #include "model/files/PyBinaryFile.h"
+#include "model/files/PyIniFile.h"
 #include "model/files/PyBufFile.h"
 #include "model/PyVGRemap.h"
 #include "model/files/PyBlendFile.h"
 #include "model/files/PyPositionFile.h"
+#include "model/strategies/bufEditors/PyBaseBufEditor.h"
+#include "model/strategies/bufEditors/PyBufEditor.h"
 #include "model/textures/PyColour.h"
 #include "model/textures/PyColourRange.h"
 #include "model/files/PyTextureFile.h"
@@ -162,7 +170,13 @@ PYBIND11_MODULE(core, m) {
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
+    // Ahead of CppModType, whose getVGRemap returns one: pybind11 bakes a def()'s signature
+    // string at registration time, so an unregistered return type renders as a raw C++ name.
+    // PyVGRemap.cpp depends on nothing else here, so this is just an ordering choice.
+    initCppVGRemap(m);
+
     initCppModType(m);
+    initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
     initCppGIBuilder(m); // must come after initCppModType (its methods return CppModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
@@ -191,7 +205,7 @@ PYBIND11_MODULE(core, m) {
 
     // ----- iniFixers/regEdits (full replacement of the pure-Python regEdits package -- see
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
-    initCppBaseRegEdit(m); // registers CppBaseIniPartEdit/CppBaseIniGraphPartEdit/BaseRegEdit; must come after initCppIfContentPart (its edit signatures take one) and initCppRanges (partRanges)
+    initCppBaseRegEdit(m); // registers BaseIniPartEdit/BaseIniGraphPartEdit/BaseRegEdit; must come after initCppIfContentPart (its edit signatures take one) and initCppRanges (partRanges)
     initCppRegAdd(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegNewVals(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
@@ -199,14 +213,14 @@ PYBIND11_MODULE(core, m) {
 
     // ----- iniFixers/graphEdits (full replacement of the pure-Python graphEdits package -- see
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
-    initCppBaseIniGraphEdit(m); // must come after initCppBaseRegEdit (registers CppBaseIniGraphPartEdit, its base) and initCppIniSectionGraph (the type it edits)
+    initCppBaseIniGraphEdit(m); // must come after initCppBaseRegEdit (registers BaseIniGraphPartEdit, its base) and initCppIniSectionGraph (the type it edits)
     initCppGraphRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
 
     // ----- iniFixers/graphGroupEdits (full replacement of the pure-Python graphGroupEdits
     // package -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
-    initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers CppBaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
+    initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)
     initCppGraphGroupRemap(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
@@ -214,6 +228,7 @@ PYBIND11_MODULE(core, m) {
     initCppResEdit(m); // must come after initCppIniResource/initCppIniFixResource (the models it builds) and initCppIniSectionGraph/initCppIfTemplate
     initCppRemapBlendReplace(m); // must come after initCppResEdit (registers its base) and initCppRemapBlendResource (the model it builds)
     initCppTexCreate(m); // must come after initCppResEdit (registers its base) and initCppRemapTexAddResource/initCppTexCreator (the model it builds)
+    initCppTexReplace(m); // same ordering needs as initCppTexCreate above
     initCppResRegCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppResEdit (its resEdits values)
     initCppResGroupCollect(m); // must come after initCppBaseIniGraphGroupEdit (registers its base), initCppResEdit and initCppIniGroupedResource (the groups it builds)
     initCppHash64(m);
@@ -227,9 +242,10 @@ PYBIND11_MODULE(core, m) {
     initCppBufElementType(m); // must come after initCppBufType and initCppBufDataType (constructor takes CppBufDataType instances)
     initCppBinaryFile(m);
     initCppBufFile(m); // must come after initCppBinaryFile/initCppBufElementType (registers its base / constructor arg type)
-    initCppVGRemap(m);
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
+    initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)
+    initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
     initCppColour(m);
     initCppColourRange(m); // must come after initCppColour (constructor arg type)
     initCppTextureFile(m);
@@ -274,6 +290,7 @@ PYBIND11_MODULE(core, m) {
     initCppRemapIniDownload(m); // must come after initCppRemapIniResource (registers its base) and initCppFileDownload (constructor takes ownership of a FileDownload instance)
     initCppRemapBlendResource(m); // must come after initCppRemapIniFixResource (registers its base); VGRemap/BufElementType already registered above
     initCppRemapTexAddResource(m); // must come after initCppRemapIniResource (registers its base); CppTexCreator already registered above
+    initCppRemapTexEditResource(m); // must come after initCppRemapIniResource (registers its base); CppTexEditor likewise
 
     // ----- iniParsers (full replacement of the pure-Python BaseIniParser/GIMIParser pair --
     // see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
@@ -284,6 +301,7 @@ PYBIND11_MODULE(core, m) {
     // ----- iniFixers (full replacement of the pure-Python BaseIniFixer/GIMIFixer pair) -----
     initCppBaseIniFixer(m);
     initCppGIMIFixer(m); // must come after initCppBaseIniFixer (registers its base), initCppGIMIParser (what it fixes from) and initCppResEdit (its pyCoreModule() is how the package's own constants are reached)
+    initCppMultiModFixer(m); // must come after initCppBaseIniFixer (registers its base)
 
     // ----- iniRemovers (the C++ RemapIniRemover reached through an IniRemoveContext -- see that
     //       interface's own note on why a remover can't just take an AGRemapCore::IniFile*) -----
@@ -291,4 +309,21 @@ PYBIND11_MODULE(core, m) {
     initCppIniRemovalContext(m);
     initCppBaseIniRemover(m);
     initCppRemapIniRemover(m); // must come after initCppBaseIniRemover (registers its base), initCppIfTemplate (the sections it reads) and initCppIniResource (the resources it collects)
+
+    // Registered after CppModType, BaseIniClassifier, CppVersion, IfTemplate and IniResource:
+    // every one of them appears in one of this class's own def() signatures, and pybind11 bakes
+    // those strings at def() time -- see PyIfContentPartColour.cpp's note on what an unregistered
+    // type there does to the signature (and to core.pyi).
+    initCppIniFile(m);
+
+    // These three must come after BOTH their strategy base (their factory returns one) and
+    // initCppIniFile: build() takes a IniFile, and pybind11 bakes a def()'s signature
+    // string at registration time -- registering earlier renders it as a raw C++ name and
+    // corrupts core.pyi.
+    initCppIniParseBuilder(m);
+    initCppIniFixBuilder(m);
+    initCppIniRemoveBuilder(m);
+
+    // CppModType::fixIni takes a IniFile, so it can only be bound now that one exists.
+    initCppModTypeLateBindings(m);
 }

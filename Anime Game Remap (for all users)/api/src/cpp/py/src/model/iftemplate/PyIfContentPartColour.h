@@ -23,7 +23,7 @@ namespace AGRC = AGRemapCore;
  no virtual method here to adapt, so nothing needs a C++-level wrapper.
  @endrst
  */
-using PyIfContentPartColourChange = AGRC::IfContentPartColourChange<py::object>;
+using PyIfContentPartColourChange = AGRC::IfContentPartColourChange<std::string>;
 
 /**
  * @brief
@@ -35,7 +35,7 @@ using PyIfContentPartColourChange = AGRC::IfContentPartColourChange<py::object>;
  itself plugs them in for `KeyHash`/`KeyEqual`.
  @endrst
  */
-using PyIfContentPartColouring = AGRC::IfContentPartColouring<py::object, py::object, PyObjectHash, PyObjectEqual, PyObjectHash, PyObjectEqual>;
+using PyIfContentPartColouring = AGRC::IfContentPartColouring<std::string, std::string>;
 
 
 void initCppIfContentPartColour(pybind11::module_ &m);

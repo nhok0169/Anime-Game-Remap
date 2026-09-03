@@ -333,7 +333,9 @@ class TestableIniFile: public IniFile {
     public:
         using IniFile::IniFile;
 
-        const std::unordered_map<int, ModType>& testModTypes() const { return modTypes; }
+        // modTypes is a tsl::ordered_map now -- insertion order decides which mod type takes
+        // the .ini file's backup and which hides the original (see IniFile::fix).
+        const tsl::ordered_map<int, ModType>& testModTypes() const { return modTypes; }
 };
 
 // What a fix factory recorded each time IniFile asked it to build. Observing built fixers this way
@@ -349,7 +351,9 @@ void testIniFileUsesTheBuilder() {
 
     auto log = std::make_shared<std::vector<BuildRecord>>();
     auto loggingFactory = [log](std::string tag) {
-        return IniFixBuilder::Factory{[log, tag](BaseIniParser<>* parser) {
+        // The Factory takes the target mod now, so the default fixer can tell its GIMIFixer which
+        // mod it is fixing onto. Ignored here -- this fake only records which factory ran.
+        return IniFixBuilder::Factory{[log, tag](BaseIniParser<>* parser, const std::string&) {
             auto fixer = std::make_shared<TaggedFixer>(parser, tag);
             log->push_back(BuildRecord{tag, parser, fixer.get()});
             return fixer;
@@ -422,7 +426,7 @@ void testNoParserMeansNoFixer() {
     std::printf("\n== no parser, no fixer ==\n");
 
     auto log = std::make_shared<std::vector<BuildRecord>>();
-    auto repo = makeArgsRepo({row("Amber", "4.0", "AmberCN", IniFixBuilder::Factory{[log](BaseIniParser<>* parser) {
+    auto repo = makeArgsRepo({row("Amber", "4.0", "AmberCN", IniFixBuilder::Factory{[log](BaseIniParser<>* parser, const std::string&) {
         auto fixer = std::make_shared<TaggedFixer>(parser, "amber4_0");
         log->push_back(BuildRecord{"amber4_0", parser, fixer.get()});
         return fixer;

@@ -19,7 +19,7 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief The core class the `pybind11`_-facing ``ResGroupCollect`` wraps
  */
-using PyResGroupCollectCore = AGRC::ResGroupCollect<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyResGroupCollectCore = AGRC::ResGroupCollect<std::string, std::string>;
 
 
 /**

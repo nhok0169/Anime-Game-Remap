@@ -12,7 +12,7 @@ void initCppModTypeIdData(pybind11::module_ &m) {
     // disambiguate from; see Documentation/CLAUDE.md's naming-pitfall section /
     // Architecture/CLAUDE.md's 'Cpp' prefix rule.
     py::class_<AGRC::ModTypeIdData>(m, "ModTypeIdData", R"doc(
-Cheap data for a type of mod, held by an ini classifier (e.g. :class:`CppBaseIniClassifier`)
+Cheap data for a type of mod, held by an ini classifier (e.g. :class:`BaseIniClassifier`)
 
 Not meant to be a full representation of a mod type on its own -- the Python-side :class:`ModType`
 is meant to build its own richer representation from this data

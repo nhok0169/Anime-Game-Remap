@@ -176,6 +176,24 @@ always get reprocessed regardless of cache state), but reach for `-E` specifical
 you're chasing doesn't make sense against the file it's reported against (see the next paragraph),
 or you need the actual full-site total rather than "whatever happened to already be stale."
 
+**The full-site baseline, measured 2026-09-03 with a wiped `build/html/.doctrees`, is 25 WARNING
+lines**, distributed like this — compare per file, since the total alone hides a swap:
+
+| File | Warnings |
+| --- | --- |
+| `apiExamples.rst` | 12 |
+| `tutorial.rst` | 9 |
+| intersphinx (network, "failed to reach any of the inventories") | 2 |
+| `commandOpts.rst` | 1 |
+| `findVertexGroupRemap.rst` | 1 |
+| **`api.rst` / `coreAPI.rst`** | **0** |
+
+That last row is the one that matters: the two generated-API files should stay at zero, so any
+warning naming either of them is yours. Note the trap this table exists to prevent — an
+*incremental* build after touching one `.rst` file reports as few as 2 warnings, which looks like a
+dramatic improvement and is really just the cache. Do not report a warning count from an
+incremental build; wipe `.doctrees` (or pass `-E`) whenever you are quoting a number.
+
 **Sphinx's incremental cache is keyed off the `.rst` file's own content, not the compiled module it
 autodocuments — editing only a pybind11 docstring (no `.rst` text change) is invisible to a plain
 incremental build.** After moving/changing methods on a pybind11-bound class (a C++ recompile,

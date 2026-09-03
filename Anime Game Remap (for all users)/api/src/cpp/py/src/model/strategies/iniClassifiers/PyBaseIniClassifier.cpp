@@ -22,7 +22,7 @@ void initCppBaseIniClassifier(pybind11::module_ &m) {
     // (AGRC::IniClassifyStats) is itself directly registered, so there's no more base-type-in-
     // return-position gotcha to route around with a lambda, unlike the earlier py::object-template
     // version of this file.
-    py::class_<AGRC::BaseIniClassifier>(m, "CppBaseIniClassifier", R"doc(
+    py::class_<AGRC::BaseIniClassifier>(m, "BaseIniClassifier", R"doc(
 Base class to help classify the type of mod given the mod's .ini files
     )doc")
 
@@ -51,7 +51,7 @@ gameTypeId: Optional[:class:`GameTypeId`]
 
 Returns
 -------
-:class:`CppIniClassifyStats`
+:class:`IniClassifyStats`
     The stats about the classification of the .ini file
         )doc"))
 

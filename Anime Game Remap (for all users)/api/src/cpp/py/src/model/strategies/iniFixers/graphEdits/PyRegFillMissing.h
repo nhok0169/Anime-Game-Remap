@@ -75,13 +75,13 @@ AGRC::DownloadMode parseIniDownloadMode(const py::object &ini);
  instantiation's ``K`` is one
  @endrst
  */
-class PyRegFillMissing: public AGRC::RegFillMissing<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegFillMissing: public AGRC::RegFillMissing<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegFillMissing<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegFillMissing<std::string, std::string>;
 
         /**
          * @brief
@@ -141,7 +141,7 @@ class PyRegFillMissing: public AGRC::RegFillMissing<py::object, py::object, PyOb
          * @param trackKeys Whether to track `KVPs`_ for colouring while walking the graph
          * @param keysToTrackObj Which keys to track, or ``None`` for all of them
          */
-        PyRegFillMissing(py::object regObj, py::object fillMissingObj, py::object fillModeObj, bool dependOnDownload,
+        PyRegFillMissing(std::string regObj, py::object fillMissingObj, py::object fillModeObj, bool dependOnDownload,
                           bool trackKeys, py::object keysToTrackObj);
 
         /**
@@ -177,7 +177,7 @@ class PyRegFillMissing: public AGRC::RegFillMissing<py::object, py::object, PyOb
  * @param reg The register to add, for the ``str`` shape
  * @param toFront Whether the `KVPs`_ are added to the front of the part instead of the back
  */
-PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillMissing, const py::object &reg, bool toFront);
+PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillMissing, const std::string &reg, bool toFront);
 
 
 /**

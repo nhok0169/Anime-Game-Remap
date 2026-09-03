@@ -159,9 +159,9 @@ Optional[:class:`IfContentPart`]
     The found part if available
         )doc"))
 
-        .def("getKeyVal", [](PyIfTemplateNode &self, const py::object &key) -> py::object {
-            std::optional<py::object> result = self.getKeyVal(key);
-            return result.has_value() ? *result : py::none();
+        .def("getKeyVal", [](PyIfTemplateNode &self, const std::string &key) -> py::object {
+            std::optional<std::string> result = self.getKeyVal(key);
+            return result.has_value() ? py::cast(*result) : py::object(py::none());
         }, py::arg("key"),
     py::doc(R"doc(
 Retrieves the latest value that corresponds to 'key'
@@ -196,7 +196,7 @@ List[List[Tuple[:class:`int`, :class:`str`]]]
     * The tuple contains the order index an occurence of the `KVP`_ appears in the part and the corresponding value for the `KVP`_
         )doc"))
 
-        .def("getKeyMissingPart", [](PyIfTemplateNode &self, const py::object &key) {
+        .def("getKeyMissingPart", [](PyIfTemplateNode &self, const std::string &key) {
             auto result = self.getKeyMissingPart(key);
             return py::make_tuple(
                 result.first == nullptr ? py::object(py::none()) : py::cast(result.first, py::return_value_policy::reference),

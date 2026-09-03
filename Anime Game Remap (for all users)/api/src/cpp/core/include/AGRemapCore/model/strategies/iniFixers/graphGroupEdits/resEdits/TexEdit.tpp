@@ -60,6 +60,43 @@ namespace AGRemapCore {
     int TexCreate<K, V, KeyHash, KeyEqual>::texInd() const {
         return texInd_;
     }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    TexReplace<K, V, KeyHash, KeyEqual>::TexReplace(GraphId resModObj, ResEditConfig config, std::string resType,
+                                                     std::optional<std::string> resSubType):
+        Base(std::move(resType), std::move(resModObj), std::move(config)), resSubType(std::move(resSubType)) {}
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::string TexReplace<K, V, KeyHash, KeyEqual>::subTypedModName(const std::string& modName) const {
+        std::string result = TextTools::capitalize(modName);
+        if (resSubType.has_value()) {
+            result += TextTools::capitalize(*resSubType);
+        }
+
+        return result;
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::optional<std::string> TexReplace<K, V, KeyHash, KeyEqual>::getFixResourceName(const std::string& resource,
+                                                                                         const std::string& modName) const {
+        return IniNamingTools::getRemapTexResourceName(resource, subTypedModName(modName));
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::string TexReplace<K, V, KeyHash, KeyEqual>::getFixFile(const std::string& file, const std::string& modName,
+                                                                 const std::string& graphId) const {
+        (void)modName;
+
+        std::string result = IniNamingTools::getFixedTexFile(file);
+        if (graphId.empty()) {
+            return result;
+        }
+
+        return Base::fileAddGraphId(result, graphId);
+    }
 }
 
 #endif

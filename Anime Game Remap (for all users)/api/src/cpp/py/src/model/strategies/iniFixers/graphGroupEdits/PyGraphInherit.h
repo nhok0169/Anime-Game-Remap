@@ -27,13 +27,13 @@ namespace AGRC = AGRemapCore;
  start of every ``edit`` (see #refresh)
  @endrst
  */
-class PyGraphInherit: public AGRC::GraphInherit<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyGraphInherit: public AGRC::GraphInherit<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::GraphInherit<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::GraphInherit<std::string, std::string>;
 
         /**
          * @brief The exact Python tuple given for ``src``
@@ -62,7 +62,7 @@ class PyGraphInherit: public AGRC::GraphInherit<py::object, py::object, PyObject
          * @param latest Whether to insert the KVPs at the back instead of the front
          * @param partFilterObj The Python filter callable, or ``None``
          */
-        PyGraphInherit(py::object srcObj, py::object dstObj, py::object reg, bool latest, py::object partFilterObj);
+        PyGraphInherit(py::object srcObj, py::object dstObj, std::string reg, bool latest, py::object partFilterObj);
 
         /**
          * @brief

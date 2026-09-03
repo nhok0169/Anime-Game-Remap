@@ -33,7 +33,7 @@ namespace AGRC = AGRemapCore;
     guarantees one wrapper per live C++ pointer under the default holder).
  @endrst
  */
-using PyCallGraph = AGRC::CallGraph<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyCallGraph = AGRC::CallGraph<std::string, std::string>;
 
 
 void initCppCallGraph(pybind11::module_ &m);

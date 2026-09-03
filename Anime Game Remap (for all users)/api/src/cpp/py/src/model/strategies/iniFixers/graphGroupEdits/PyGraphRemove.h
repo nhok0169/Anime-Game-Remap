@@ -25,13 +25,13 @@ namespace AGRC = AGRemapCore;
  is re-derived from it at the start of every ``edit`` (see #refresh)
  @endrst
  */
-class PyGraphRemove: public AGRC::GraphRemove<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyGraphRemove: public AGRC::GraphRemove<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::GraphRemove<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::GraphRemove<std::string, std::string>;
 
         /**
          * @brief

@@ -82,22 +82,22 @@ AGRC::DownloadMode parseIniDownloadMode(const py::object &ini) {
 }
 
 
-PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillMissing, const py::object &reg, bool toFront) {
+PyRegFillMissing::Core::FillMissingFunc parseFillMissing(const py::object &fillMissing, const std::string &reg, bool toFront) {
     // The isinstance checks are deliberately str-then-list, in that order, matching the
     // pure-Python original's own _getFillMissingFunc chain.
     if (py::isinstance<py::str>(fillMissing)) {
-        return PyRegFillMissing::Core::makeFillMissing(reg, fillMissing, toFront);
+        return PyRegFillMissing::Core::makeFillMissing(reg, py::str(fillMissing).cast<std::string>(), toFront);
     }
 
     if (py::isinstance<py::list>(fillMissing)) {
-        std::vector<std::pair<py::object, py::object>> kvps;
+        std::vector<std::pair<std::string, std::string>> kvps;
         for (auto item : fillMissing) {
             py::sequence kvp = py::reinterpret_borrow<py::object>(item).cast<py::sequence>();
             if (kvp.size() < 2) {
                 throw py::type_error("Every entry of a 'fillMissing' list must be a (key, value) tuple");
             }
 
-            kvps.emplace_back(py::reinterpret_borrow<py::object>(kvp[0]), py::reinterpret_borrow<py::object>(kvp[1]));
+            kvps.emplace_back(py::str(kvp[0]).cast<std::string>(), py::str(kvp[1]).cast<std::string>());
         }
 
         return PyRegFillMissing::Core::makeFillMissing(std::move(kvps), toFront);
@@ -124,7 +124,7 @@ std::optional<PyRegFillMissing::Core::KeySet> parseKeysToTrack(const py::object 
 
     PyRegFillMissing::Core::KeySet result;
     for (auto key : keysToTrack) {
-        result.insert(py::reinterpret_borrow<py::object>(key));
+        result.insert(py::str(key).cast<std::string>());
     }
 
     return result;
@@ -180,7 +180,7 @@ PyRegFillMissing::Core::PartFilter parsePartFilter(const py::object &partFilter,
 }
 
 
-PyRegFillMissing::PyRegFillMissing(py::object regObj, py::object fillMissingObj, py::object fillModeObj, bool dependOnDownload,
+PyRegFillMissing::PyRegFillMissing(std::string regObj, py::object fillMissingObj, py::object fillModeObj, bool dependOnDownload,
                                     bool trackKeys, py::object keysToTrackObj):
     Core(std::move(regObj)), fillMissingObj(std::move(fillMissingObj)), keysToTrackObj(std::move(keysToTrackObj)) {
 
@@ -271,7 +271,7 @@ keysToTrack: Optional[Set[:class:`str`]]
     // py::init(factory) rather than py::init<...>(): the core class owns std::function members
     // through its own and its base's typedefs, and a factory returning a unique_ptr avoids ever
     // needing to move-construct the class itself -- see PyGraphRemove.cpp's identical note.
-    cls.def(py::init([](py::object reg, py::object fillMissing, py::object fillMode, bool dependOnDownload,
+    cls.def(py::init([](std::string reg, py::object fillMissing, py::object fillMode, bool dependOnDownload,
                         bool trackKeys, py::object keysToTrack) {
         return std::make_unique<PyRegFillMissing>(std::move(reg), std::move(fillMissing), std::move(fillMode),
                                                    dependOnDownload, trackKeys, std::move(keysToTrack));
@@ -280,7 +280,7 @@ keysToTrack: Optional[Set[:class:`str`]]
 
     cls.def_property("reg", [](const PyRegFillMissing &self) {
         return self.reg;
-    }, [](PyRegFillMissing &self, py::object reg) {
+    }, [](PyRegFillMissing &self, std::string reg) {
         self.reg = std::move(reg);
     }, py::doc(R"doc(
 :class:`str`: The register to search for
@@ -329,7 +329,7 @@ graph, so that the ``partFilter`` given to :meth:`edit` receives a populated
 Optional[Set[:class:`str`]]: Which keys :attr:`trackKeys` should colour, or ``None`` for every key
     )doc"));
 
-    cls.def_static("fillMissingGraph", [](py::object graph, const py::object &reg, const py::object &fillMissing) {
+    cls.def_static("fillMissingGraph", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
         PyRegFillMissing::Core::fillMissingGraph(parsedGraph, reg, parseFillMissing(fillMissing, reg, false));
         return graph;
@@ -356,7 +356,7 @@ Returns
     The same graph that was passed in, with its missing parts filled
     )doc"));
 
-    cls.def_static("addCover", [](py::object graph, const py::object &reg, const py::object &fillMissing) {
+    cls.def_static("addCover", [](py::object graph, const std::string &reg, const py::object &fillMissing) {
         PyIniSectionGraph &parsedGraph = parseGraphArg(graph);
         PyRegFillMissing::Core::addCover(parsedGraph, reg, parseFillMissing(fillMissing, reg, true));
 

@@ -11,8 +11,8 @@ namespace {
 
 // items()'s Item isn't itself pybind-castable (a plain aggregate, not tuple-shaped) -- copied
 // out into plain tuples, same treatment as PyIOrderedMultiMap.cpp's own items()/__iter__.
-std::vector<std::tuple<py::object, py::object, size_t, size_t>> itemsAsTuples(const PyIfContentPart &self) {
-    std::vector<std::tuple<py::object, py::object, size_t, size_t>> result;
+std::vector<std::tuple<std::string, std::string, size_t, size_t>> itemsAsTuples(const PyIfContentPart &self) {
+    std::vector<std::tuple<std::string, std::string, size_t, size_t>> result;
     for (const auto &item : self.items()) {
         result.emplace_back(item.key, item.value, item.occurrenceIndex, item.orderIndex);
     }
@@ -21,14 +21,14 @@ std::vector<std::tuple<py::object, py::object, size_t, size_t>> itemsAsTuples(co
 
 // 'src' constructor parameter: Dict[key, List[Tuple[index, value]]] -- one entry per occurrence
 // of that key. Each value is cast wholesale via <pybind11/stl.h> rather than iterated by hand,
-// matching how parseInsertAllAtItems()/parseOrderMap() (PyIOrderedMultiMap.cpp) cast dict values
+// matching how parseIniInsertAllAtItems()/parseOrderMap() (PyIOrderedMultiMap.cpp) cast dict values
 // directly where the target shape is already something stl.h knows how to build.
-std::vector<std::pair<py::object, std::vector<std::pair<long long, py::object>>>> parseSrc(const py::dict &src) {
-    std::vector<std::pair<py::object, std::vector<std::pair<long long, py::object>>>> result;
+std::vector<std::pair<std::string, std::vector<std::pair<long long, std::string>>>> parseSrc(const py::dict &src) {
+    std::vector<std::pair<std::string, std::vector<std::pair<long long, std::string>>>> result;
     result.reserve(src.size());
     for (auto item : src) {
-        py::object key = py::reinterpret_borrow<py::object>(item.first);
-        auto indexedVals = item.second.cast<std::vector<std::pair<long long, py::object>>>();
+        std::string key = py::str(item.first).cast<std::string>();
+        auto indexedVals = item.second.cast<std::vector<std::pair<long long, std::string>>>();
         result.emplace_back(std::move(key), std::move(indexedVals));
     }
     return result;
@@ -55,11 +55,11 @@ std::optional<size_t> parseId(const py::object &id) {
 // above): PyRegRemove.cpp reuses it verbatim, exactly the way PyIOrderedMultiMap.h already
 // shares parseRanges/parseKeyRemap/parseReplaceVals with this file -- see that header's own
 // note about keeping dict-parsing helpers in one place instead of duplicating them per binding.
-std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys) {
-    std::vector<std::pair<py::object, std::optional<PyIfContentPart::RemoveKeyCheck>>> result;
+std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> parseRemoveKeys(const py::dict &keys) {
+    std::vector<std::pair<std::string, std::optional<PyIfContentPart::RemoveKeyCheck>>> result;
     result.reserve(keys.size());
     for (auto item : keys) {
-        py::object key = py::reinterpret_borrow<py::object>(item.first);
+        std::string key = py::str(item.first).cast<std::string>();
         py::object value = py::reinterpret_borrow<py::object>(item.second);
 
         std::optional<PyIfContentPart::RemoveKeyCheck> check = std::nullopt;
@@ -202,15 +202,18 @@ id: Optional[:class:`int`]
         )doc")
 
         .def(py::init([](const py::object &src, int depth, const py::object &content, const py::object &id) {
-            std::unique_ptr<PyIOrderedMultiMap> actualContent;
-            if (content.is_none()) {
-                // No implementation specified -- default to wrapping a fresh CppOrderedMultiMap
-                // (the list-backed OrderedMultiMap), matching how CppOrderedMultiMap() itself
-                // constructs an empty map with no arguments.
-                actualContent = std::make_unique<AGRC::OrderedMultiMapListAdapter<py::object, py::object, PyObjectHash, PyObjectEqual>>();
-            } else {
-                actualContent = content.cast<std::unique_ptr<PyIOrderedMultiMap>>();
+            // Always this class's own now. An IfContentPart holds std::string KVPs (a .ini file
+            // has no others), and the IOrderedMultiMap of *that* instantiation is deliberately not
+            // bound to Python -- only the generic CppOrderedMultiMap is. A caller can therefore no
+            // longer supply one: 'content' stays in the signature and is rejected rather than
+            // silently ignored, which would be the worse failure.
+            if (!content.is_none()) {
+                throw py::value_error("'content' is no longer supported: an IfContentPart always uses its own backing store");
             }
+
+            // Always a fresh CppOrderedMultiMap (the list-backed OrderedMultiMap), matching how
+            // CppOrderedMultiMap() itself constructs an empty map with no arguments.
+            auto actualContent = std::make_unique<AGRC::OrderedMultiMapListAdapter<std::string, std::string>>();
 
             auto actualId = parseId(id);
 
@@ -225,21 +228,25 @@ id: Optional[:class:`int`]
             // OrderedMultiMapAdapter::insertAllAt() itself builds a tsl::ordered_map from a flat
             // vector) since <pybind11/stl.h> has no caster for tsl::ordered_map directly.
             auto parsed = parseSrc(src.cast<py::dict>());
-            tsl::ordered_map<py::object, std::vector<std::pair<long long, py::object>>, PyObjectHash, PyObjectEqual>
+            tsl::ordered_map<std::string, std::vector<std::pair<long long, std::string>>>
                 actualSrc(std::make_move_iterator(parsed.begin()), std::make_move_iterator(parsed.end()));
 
             return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent), actualId);
         }), py::arg("src") = py::none(), py::arg("depth") = 0, py::arg("content") = py::none(), py::arg("id") = py::none())
 
         .def_static("buildFromOrder", [](const py::object &src, int depth, const py::object &content, const py::object &id) {
-            std::unique_ptr<PyIOrderedMultiMap> actualContent;
-            if (content.is_none()) {
-                actualContent = std::make_unique<AGRC::OrderedMultiMapListAdapter<py::object, py::object, PyObjectHash, PyObjectEqual>>();
-            } else {
-                actualContent = content.cast<std::unique_ptr<PyIOrderedMultiMap>>();
+            // Always this class's own now. An IfContentPart holds std::string KVPs (a .ini file
+            // has no others), and the IOrderedMultiMap of *that* instantiation is deliberately not
+            // bound to Python -- only the generic CppOrderedMultiMap is. A caller can therefore no
+            // longer supply one: 'content' stays in the signature and is rejected rather than
+            // silently ignored, which would be the worse failure.
+            if (!content.is_none()) {
+                throw py::value_error("'content' is no longer supported: an IfContentPart always uses its own backing store");
             }
 
-            auto actualSrc = src.cast<std::vector<std::pair<py::object, py::object>>>();
+            auto actualContent = std::make_unique<AGRC::OrderedMultiMapListAdapter<std::string, std::string>>();
+
+            auto actualSrc = src.cast<std::vector<std::pair<std::string, std::string>>>();
             return std::make_unique<PyIfContentPart>(actualSrc, depth, std::move(actualContent), parseId(id));
         }, py::arg("src"), py::arg("depth") = 0, py::arg("content") = py::none(), py::arg("id") = py::none(),
     py::doc(R"doc(
@@ -278,11 +285,6 @@ Returns
 
         .def_property("depth", &PyIfContentPart::depth, &PyIfContentPart::setDepth,
     py::doc(R"doc(:class:`int`: The depth this part is within the owning `IfTemplate`)doc"))
-
-        .def_property_readonly("content", [](PyIfContentPart &self) -> PyIOrderedMultiMap& {
-            return self.content();
-        }, py::return_value_policy::reference_internal,
-    py::doc(R"doc(:class:`IOrderedMultiMap`: The backing ordered-multimap implementation directly, for operations this class doesn't itself wrap)doc"))
 
         .def("clone", &PyIfContentPart::clone, py::arg("newId") = false,
     py::doc(R"doc(
@@ -324,7 +326,7 @@ Returns
     py::doc(R"doc(Inserts a batch of KVPs at the beginning, in the order given)doc"))
 
         .def("addKVPsByInds", [](PyIfContentPart &self, const py::dict &kvps, bool sortIndices, const py::object &ranges) {
-            return self.addKVPsByInds(parseInsertAllAtItems(kvps), sortIndices, parseRanges(ranges));
+            return self.addKVPsByInds(parseIniInsertAllAtItems(kvps), sortIndices, parseRanges(ranges));
         }, py::arg("kvps"), py::arg("sortIndices") = true, py::arg("ranges") = py::none(),
     py::doc(R"doc(Bulk indexed insert of KVPs; see :meth:`CppOrderedMultiMap.insertAllAt` for the full semantics)doc"))
 
@@ -335,7 +337,7 @@ Returns
         }, py::arg("pos"), py::arg("ranges") = py::none(),
     py::doc(R"doc(Removes the KVP currently at position 'pos')doc"))
 
-        .def("removeKey", [](PyIfContentPart &self, const py::object &key, const py::object &ranges,
+        .def("removeKey", [](PyIfContentPart &self, const std::string &key, const py::object &ranges,
                               const std::optional<PyIfContentPart::RemoveKeyCheck> &check) {
             return self.removeKey(key, parseRanges(ranges), check);
         }, py::arg("key"), py::arg("ranges") = py::none(), py::arg("check") = py::none(),
@@ -396,12 +398,12 @@ Returns
     py::doc(R"doc(Reorders existing KVPs in place; see :meth:`CppOrderedMultiMap.reorder` for the full semantics)doc"))
 
         .def("remapKeys", [](PyIfContentPart &self, const py::dict &keyRemap, const py::object &ranges) {
-            self.remapKeys(parseKeyRemap(keyRemap), parseRanges(ranges));
+            self.remapKeys(parseIniKeyRemap(keyRemap), parseRanges(ranges));
         }, py::arg("keyRemap"), py::arg("ranges") = py::none(),
     py::doc(R"doc(Bulk-renames keys; see :meth:`CppOrderedMultiMap.remapKeys` for the full semantics)doc"))
 
         .def("replaceVals", [](PyIfContentPart &self, const py::dict &newVals, bool addNew, const py::object &ranges) {
-            self.replaceVals(parseReplaceVals(newVals), addNew, parseRanges(ranges));
+            self.replaceVals(parseIniReplaceVals(newVals), addNew, parseRanges(ranges));
         }, py::arg("newVals"), py::arg("addNew") = true, py::arg("ranges") = py::none(),
     py::doc(R"doc(Bulk-updates values by key; see :meth:`CppOrderedMultiMap.replaceVals` for the full semantics)doc"))
 
@@ -421,7 +423,7 @@ Returns
 
         .def("empty", &PyIfContentPart::empty, py::doc(R"doc(Checks whether the part has no KVPs)doc"))
 
-        .def("getVals", [](const PyIfContentPart &self, const py::object &key, bool ordered, const py::object &ranges) {
+        .def("getVals", [](const PyIfContentPart &self, const std::string &key, bool ordered, const py::object &ranges) {
             return self.getVals(key, ordered, parseRanges(ranges));
         }, py::arg("key"), py::arg("ordered") = true, py::arg("ranges") = py::none(),
     py::doc(R"doc(
@@ -448,7 +450,7 @@ List[Any]
     The values for this key, in the requested order
         )doc"))
 
-        .def("getValsWithInds", [](const PyIfContentPart &self, const py::object &key, bool ordered, const py::object &ranges) {
+        .def("getValsWithInds", [](const PyIfContentPart &self, const std::string &key, bool ordered, const py::object &ranges) {
             return self.getValsWithInds(key, ordered, parseRanges(ranges));
         }, py::arg("key"), py::arg("ordered") = true, py::arg("ranges") = py::none(),
     py::doc(R"doc(
@@ -503,11 +505,10 @@ Set[Any]
         // dispatches correctly between this overload and the one just above based on the
         // argument's actual type -- no manual isinstance check needed.
         .def("__getitem__", [](PyIfContentPart &self, const std::string &key) {
-            py::object keyObj = py::cast(key);
-            if (!self.contains(keyObj)) {
+            if (!self.contains(key)) {
                 throw py::key_error(key);
             }
-            return self.getVals(keyObj, true);
+            return self.getVals(key, true);
         }, py::arg("key"),
     py::doc(R"doc(Retrieves all values currently stored under a key, in true positional order (equivalent to :meth:`getVals` with ``ordered=True``); raises :class:`KeyError` if the key doesn't exist)doc"))
 
@@ -570,16 +571,15 @@ Any
 
         .def("get", [](PyIfContentPart &self, const std::string &key, bool errorOnNotFound, const py::object &defaultVal,
                         bool ordered, bool withInds, const py::object &ranges) -> py::object {
-            py::object keyObj = py::cast(key);
             auto actualRanges = parseRanges(ranges);
-            if (!self.contains(keyObj)) {
+            if (!self.contains(key)) {
                 if (errorOnNotFound) throw py::key_error(key);
                 return defaultVal;
             }
             if (withInds) {
-                return py::cast(self.getValsWithInds(keyObj, ordered, actualRanges));
+                return py::cast(self.getValsWithInds(key, ordered, actualRanges));
             }
-            return py::cast(self.getVals(keyObj, ordered, actualRanges));
+            return py::cast(self.getVals(key, ordered, actualRanges));
         }, py::arg("key"), py::arg("errorOnNotFound") = false, py::arg("default") = py::none(),
            py::arg("ordered") = true, py::arg("withInds") = false, py::arg("ranges") = py::none(),
     py::doc(R"doc(

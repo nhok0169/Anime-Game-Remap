@@ -32,9 +32,9 @@ namespace AGRC = AGRemapCore;
  keep-alive bookkeeping. Copying either into a C++ container and back would silently break both.
  @endrst
  */
-class PyIniGraphGroups: public AGRC::IIniGraphGroups<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniGraphGroups: public AGRC::IIniGraphGroups<std::string, std::string> {
     public:
-        using Base = AGRC::IIniGraphGroups<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::IIniGraphGroups<std::string, std::string>;
         using Graph = Base::Graph;
         using Section = Base::Section;
         using ModObj = Base::ModObj;

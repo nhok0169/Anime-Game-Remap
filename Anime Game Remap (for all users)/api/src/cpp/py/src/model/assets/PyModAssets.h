@@ -16,7 +16,7 @@ namespace AGRC = AGRemapCore;
 // precedent) for why. Unlike ModDictAssets/ModMappedAssets, this class does no hashing of K at
 // all (a plain linear scan -- see AGRC::ModAssets's own class-level note for why), so only
 // PyObjectEqual is needed, not PyObjectHash.
-extern template class AGRC::ModAssets<py::object, py::object, PyObjectEqual>;
+extern template class AGRC::ModAssets<std::string, py::object>;
 
 
 /**
@@ -33,9 +33,18 @@ extern template class AGRC::ModAssets<py::object, py::object, PyObjectEqual>;
     own note on the same convention
  @endrst
  */
-class PyModAssets: public AGRC::ModAssets<py::object, py::object, PyObjectEqual> {
+// The value-preserving twin of PyModDictAssets.h's convertRowsOrNestedDict. That one builds
+// Row<std::string, std::string>, which is right for Hashes/Indices -- a hash IS a string. Every
+// Python subclass of the bound ModAssets holds something else, though (VGRemaps[VGRemap],
+// VertexCounts[int], PositionEditors[BaseBufEditor], and two BuilderArgs[Callable]), so this one
+// keeps the leaf as whatever object the caller supplied.
+std::vector<AGRC::Row<std::string, py::object>> convertObjRowsOrNestedDict(const py::object &rowsOrNestedDict,
+                                                                           std::size_t totalIndices);
+
+
+class PyModAssets: public AGRC::ModAssets<std::string, py::object> {
     public:
-        using Base = AGRC::ModAssets<py::object, py::object, PyObjectEqual>;
+        using Base = AGRC::ModAssets<std::string, py::object>;
         using Base::Base;
 };
 

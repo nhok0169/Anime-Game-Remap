@@ -26,7 +26,7 @@ namespace AGRC = AGRemapCore;
  below, so the `pybind11`_ inheritance here is genuine rather than merely claimed
  @endrst
  */
-using PyBaseResEditCore = AGRC::BaseResEdit<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseResEditCore = AGRC::BaseResEdit<std::string, std::string>;
 
 
 /**
@@ -74,9 +74,9 @@ py::module_ pyCoreModule();
  C++ counterpart, and every core method that would otherwise need them already takes this context
  @endrst
  */
-class PyIniResEditContext: public AGRC::IniResEditContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniResEditContext: public AGRC::IniResEditContext<std::string, std::string> {
     public:
-        using Base = AGRC::IniResEditContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::IniResEditContext<std::string, std::string>;
         using Section = Base::Section;
 
         /**
@@ -460,7 +460,7 @@ class PyBaseResEdit: public PyResEditMixin<PyBaseResEditCore> {
 /**
  * @brief The `pybind11`_-facing ``ResIdentity``. Only builds the graph, optionally skipping the models entirely
  */
-class PyResIdentity: public PyResEditMixin<AGRC::ResIdentity<py::object, py::object, PyObjectHash, PyObjectEqual>> {
+class PyResIdentity: public PyResEditMixin<AGRC::ResIdentity<std::string, std::string>> {
     public:
         /**
          * @brief Constructs a new identity resource edit
@@ -479,7 +479,7 @@ class PyResIdentity: public PyResEditMixin<AGRC::ResIdentity<py::object, py::obj
 /**
  * @brief The `pybind11`_-facing ``ResReplace``. Builds an :class:`IniFixResource` per referenced file
  */
-class PyResReplace: public PyResEditMixin<AGRC::ResReplace<py::object, py::object, PyObjectHash, PyObjectEqual>> {
+class PyResReplace: public PyResEditMixin<AGRC::ResReplace<std::string, std::string>> {
     public:
         /**
          * @brief Constructs a new replacing resource edit
@@ -507,7 +507,7 @@ class PyResReplace: public PyResEditMixin<AGRC::ResReplace<py::object, py::objec
  :cpp:class:`IniSectionGraph`'s own note)
  @endrst
  */
-class PyResCreate: public PyResCreateMixin<AGRC::ResCreate<py::object, py::object, PyObjectHash, PyObjectEqual>> {
+class PyResCreate: public PyResCreateMixin<AGRC::ResCreate<std::string, std::string>> {
     public:
         /**
          * @brief Constructs a new creating resource edit

@@ -45,4 +45,40 @@ namespace AGRemapCore {
 
         return _fix();
     }
+
+    RemapTexEditResource::RemapTexEditResource(const std::string& iniFolderPath, const std::string& srcPath,
+                                                const std::string& fixedPath, TexEditor texEditor, std::string type,
+                                                std::function<bool(RemapTexEditResource&)> fixFunc):
+        RemapIniFixResource(std::move(type), iniFolderPath, srcPath, fixedPath), texEditor(std::move(texEditor)),
+        fixFunc(std::move(fixFunc)) {}
+
+    bool RemapTexEditResource::srcEncounteredError(const RemapStats& stats) const {
+        return stats.texEdit.skipped.contains(srcPath);
+    }
+
+    bool RemapTexEditResource::srcIsFixed(const RemapStats& stats) const {
+        return stats.texEdit.fixed.contains(srcPath);
+    }
+
+    bool RemapTexEditResource::fixEncounteredError(const RemapStats& stats) const {
+        return stats.texEdit.skipped.contains(fixedPath);
+    }
+
+    bool RemapTexEditResource::fixIsFixed(const RemapStats& stats) const {
+        return stats.texEdit.fixed.contains(fixedPath);
+    }
+
+    bool RemapTexEditResource::_fix() {
+        TextureFile texture(srcPath);
+        texEditor.fix(texture, fixedPath);
+        return true;
+    }
+
+    bool RemapTexEditResource::fix() {
+        if (fixFunc) {
+            return fixFunc(*this);
+        }
+
+        return _fix();
+    }
 }

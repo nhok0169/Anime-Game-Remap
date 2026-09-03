@@ -26,13 +26,13 @@ namespace AGRC = AGRemapCore;
  #refresh)
  @endrst
  */
-class PyGraphRename: public AGRC::GraphRename<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyGraphRename: public AGRC::GraphRename<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::GraphRename<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::GraphRename<std::string, std::string>;
 
         /**
          * @brief

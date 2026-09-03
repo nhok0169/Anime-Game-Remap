@@ -31,7 +31,7 @@ py::object optionalStrToPy(const std::optional<std::string> &value) {
 
 PyRemapBlendReplace::PyRemapBlendReplace(py::object resModObj, std::string resType, py::object fixFunc,
                                           const py::object &resSubType, const py::object &fromComp, const py::object &toComp):
-    PyResEditMixin<AGRC::RemapBlendReplace<py::object, py::object, PyObjectHash, PyObjectEqual>>(
+    PyResEditMixin<AGRC::RemapBlendReplace<std::string, std::string>>(
         PyBaseResEditCore::GraphId(), makeResEditConfig(), std::move(resType), parseOptionalStr(resSubType),
         parseOptionalStr(fromComp), parseOptionalStr(toComp)),
     fixFunc(std::move(fixFunc)) {

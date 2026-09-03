@@ -18,7 +18,7 @@ namespace AGRC = AGRemapCore;
  built on
  @endrst
  */
-using PyBaseIniParserCore = AGRC::BaseIniParser<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseIniParserCore = AGRC::BaseIniParser<std::string, std::string>;
 
 
 /**

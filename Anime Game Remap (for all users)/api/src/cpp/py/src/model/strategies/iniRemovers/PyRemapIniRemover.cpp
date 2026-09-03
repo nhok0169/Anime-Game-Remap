@@ -18,12 +18,12 @@ namespace {
 // PyGIMIParser's own makeParserConfig.
 PyRemapIniRemoverCore::RemoverConfig buildConfig() {
     PyRemapIniRemoverCore::RemoverConfig result{};
-    result.hashKey = py::cast(AGRC::IniKeywords::Hash);
-    result.filenameKey = py::cast(AGRC::IniKeywords::Filename);
-    result.runConfig = AGRC::IfTemplateRunConfig<py::object, py::object>{
-        py::cast(AGRC::IniKeywords::Run),
-        [](const py::object &value) { return py::str(value).cast<std::string>(); },
-        [](const std::string &name) { return py::cast(name); }
+    result.hashKey = AGRC::IniKeywords::Hash;
+    result.filenameKey = AGRC::IniKeywords::Filename;
+    result.runConfig = AGRC::IfTemplateRunConfig<std::string, std::string>{
+        AGRC::IniKeywords::Run,
+        [](const std::string &value) { return value; },
+        [](const std::string &name) { return name; }
     };
     return result;
 }
@@ -227,7 +227,7 @@ py::object PyRemapIniRemover::removedResourcesToPy() const {
 
 
 void initCppRemapIniRemover(py::module_ &m) {
-    py::class_<PyRemapIniRemover, PyBaseIniRemover> cls(m, "RemapIniRemover", R"doc(
+    py::class_<PyRemapIniRemover, PyBaseIniRemover, py::smart_holder> cls(m, "RemapIniRemover", R"doc(
 This class inherits from :class:`BaseIniRemover`
 
 Class for removing the fixes from .ini files, by reachability rather than by name

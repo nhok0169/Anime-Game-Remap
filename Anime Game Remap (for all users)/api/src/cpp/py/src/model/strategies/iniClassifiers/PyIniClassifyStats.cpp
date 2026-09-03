@@ -40,16 +40,14 @@ py::dict modTypeToDict(const AGRC::IniClassifyStats &self) {
 
 
 void initCppIniClassifyStats(pybind11::module_ &m) {
-    // Kept under the 'Cpp' prefix (registered as "CppIniClassifyStats" below) rather than the
-    // bare 'IniClassifyStats' name -- this is still the temporary wrapper-outcome-1 naming used
-    // while the new C++-backed classifier is built and verified in isolation, even though the old
-    // pure-Python class has already been renamed to 'IniClassifyStatsOld' and the bare name is
-    // technically free; see Architecture/CLAUDE.md's "Two different outcomes for porting a class"
-    // checklist for the eventual full-replacement rename (drop the 'Cpp' prefix, retire this
-    // comment). No wrapper subclass needed here (unlike when 'modType' was a py::object template
+    // Registered under the bare 'IniClassifyStats' name -- the pure-Python original
+    // ('IniClassifyStatsOld') has been deleted outright, so this graduates out of the temporary
+    // 'Cpp'-prefixed wrapper-outcome-1 naming per Architecture/CLAUDE.md's "Two different outcomes
+    // for porting a class" checklist, same as IniFile/GIMIFixer/MultiModFixer/RemapIniRemover
+    // before it. No wrapper subclass needed here (unlike when 'modType' was a py::object template
     // param) -- AGRC::IniClassifyStats is a concrete, non-template class now, so it's bound
     // directly.
-    py::class_<AGRC::IniClassifyStats>(m, "CppIniClassifyStats", R"doc(
+    py::class_<AGRC::IniClassifyStats>(m, "IniClassifyStats", R"doc(
 Stores the statistics about the classification result of a .ini file
 
 Parameters

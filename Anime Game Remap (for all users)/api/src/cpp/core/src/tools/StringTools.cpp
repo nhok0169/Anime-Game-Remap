@@ -84,4 +84,15 @@ namespace AGRemapCore {
 
         return txt.substr(start, end - start);
     }
+
+    void StringTools::eraseAll(std::string& txt, std::string_view target) {
+        if (target.empty()) {
+            return;
+        }
+
+        size_t pos = 0;
+        while ((pos = txt.find(target, pos)) != std::string::npos) {
+            txt.erase(pos, target.size());
+        }
+    }
 }

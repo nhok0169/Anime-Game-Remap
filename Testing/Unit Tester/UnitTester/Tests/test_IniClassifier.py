@@ -1,4 +1,5 @@
 import sys
+
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
@@ -8,701 +9,510 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 class IniClassifierTest(BaseUnitTest):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-
-        cls._iniClassifierBuilder = FRB.IniClassifierBuilder()
-
-        cls._classifier = FRB.IniClassifier(cls._iniClassifierBuilder)
-        cls._pyClassifier = FRB.IniClassifier(cls._iniClassifierBuilder, ahoCorasickCls = FRB.AhoCorasickDFA)
-        cls._pyWrapClassifier = FRB.IniClassifier(cls._iniClassifierBuilder, ahoCorasickCls = FRB.PyWrapAhoCorasickDFA)
+    """
+    Tests for :class:`IniClassifier`. Bare-named -- the older, pure-Python
+    ``IniClassifier``/``IniClassifierBuilder`` this class name used to belong to has been deleted
+    outright (it lived under the now-removed ``model/strategies/iniClassifiers/`` package as
+    ``IniClassifierOld``/``IniClassifierBuilderOld``), so this C++-backed replacement graduated out
+    of its temporary ``Cpp``-prefixed name into the bare one.
+    """
 
     def setUp(self):
         super().setUp()
-        self._classifier.reset()
+        self.gi = int(FRB.GameTypeId.GI)
+        self.wuwa = int(FRB.GameTypeId.WuWa)
+        self.amberId = int(FRB.ModTypeId.Amber)
+        self.raidenId = int(FRB.ModTypeId.Raiden)
+        self.jeanId = int(FRB.ModTypeId.Jean)
+        self.jeanCNId = int(FRB.ModTypeId.JeanCN)
+        self.jeanSeaId = int(FRB.ModTypeId.JeanSea)
 
-    # ============ classify ==========================
+    # =================== __init__ =====================
 
-    def test_diferentIniTxt_modTypeClassifiedOnly(self):
-        tests = [
-            ["", None],
-            ["[TextureOverrideNingguang]", "Ningguang"],
-            ["   [    TextureOverrideDilucFlamme   PositionRemap Fix     ]", "DilucFlamme"],
-            ["  TextureOverrideKeqingOp    ", None],
-            ["""
-            ; keqing opulent
-            TextureOverrideKeqingOpulentIb
+    def test_isSubclassOfBaseIniClassifier(self):
+        self.assertTrue(issubclass(FRB.IniClassifier, FRB.BaseIniClassifier))
 
-            ; nilou
-            ; [ TextureOverrideNilouPosition]
-             
-            # ayaka
-            # [TextureOverrideAyakaBody]
+    def test_defaultConstruct_checkHasTextureOverrideDefaultsTrue(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
 
-            ; shenhe
-            [TextureOverrideShenheHead]
-            """, "Shenhe"],
-        ]
-
-        for test in tests:
-            iniTxt = test[0]
-            expected = test[1]
-
-            result = self._classifier.classify(iniTxt, checkIsMod = False, checkIsFixed = False)
-
-            if (expected is None):
-                self.assertIsNone(result.modType)
-                continue
-
-            resultModType = result.modType.value
-
-            self.assertIsInstance(resultModType, FRB.ModType)
-            self.assertEqual(resultModType.name, expected)
-
-    def test_differentIniTxt_classificationStatsRetreived(self):
-        PositionKey = FRB.IniKeywords.Position.value
-        BlendKey = FRB.IniKeywords.Blend.value
-
-        tests = [
-            ["", None, False, False],
-            ["[TextureOverrideNingguang]", "Ningguang", True, False],
-            ["   [    TextureOverrideDilucFlamme   RemapPosition     ]", "DilucFlamme", True, True],
-            ["  TextureOverrideKeqingOp    ", None, False, False],
-            ["""
-            ; keqing opulent
-            TextureOverrideKeqingOpulentIb
-
-            ; nilou
-            ; [ TextureOverrideNilouPosition]
-             
-            # ayaka
-            # [TextureOverrideAyakaBody]
-
-            ; shenhe
-            [TextureOverrideShenheHead]
-            """, "Shenhe", True, False, False],
-            ["[   TextureOveRridehutaoRemapBlend        ]", "HuTao", True, True],
-            ["[    TextureOverrideBernkastel   nipah  Position    ]", None, True, False],
-            ["[  MoeMoeKyun! RemapFixing is cool --> Nobody cares about the ending bracket ", None, False, False],
-            ["""
-             [ TextureOverrideNilouPosition]
-             ...
-
-             [TextureOverrideKeqingPositionAnother]
-             ...
-
-             [TextureOverrideFurinaBlend]
-             ...
-
-             [TextureOverrideAyakaRemapBlend]
-             ...
-
-             [TextureOverrideRaidenBlender]
-             ...
-
-             [TextureOverrideMavuikaPositionCool Sexy    RemapFix]
-             """, "Nilou", True, True],
-             ["[TextureOverrideMavuikaPositionCool Sexy    RemapFix]", None, True, True]
-        ]
-
-        for test in tests:
-            iniTxt = test[0]
-            expectedMod = test[1]
-            expectedIsMod = test[2]
-            exepectedIsFixed = test[3]
-
-            result = self._classifier.classify(iniTxt, checkIsMod = True, checkIsFixed = True)
-
-            if (expectedMod is None):
-                self.assertIsNone(result.modType)
-            else:
-                resultModType = result.modType.value
-                self.assertIsInstance(resultModType, FRB.ModType)
-                self.assertEqual(resultModType.name, expectedMod)
-
-            self.assertEqual(result.isMod, expectedIsMod)
-            self.assertEqual(result.isFixed, exepectedIsFixed)
+        # no "TextureOverride" prefix -> blocked by the default checkHasTextureOverride=True
+        stats = c.classify("[AmberKeyword]\n")
+        self.compareDict(stats.modType, {})
 
     # ================================================
+    # ================= addGIModType ====================
 
-#     def test_differentIniTxt_timeComparisonWithOldMultiRegex(self):
-#         import re
-#         from timeit import default_timer as timer
-
-#         search = """
-# ; Merged Mod: .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\Sayori.ini, .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\Sayori.ini
-
-# ; Constants ---------------------------
-
-# [Constants]
-# global persist $swapvar = 0
-# global $active
-# global $creditinfo = 0
-
-# [KeySwap]
-# condition = $active == 1
-# key = h
-# type = cycle
-# $swapvar = 0,1
-# $creditinfo = 0
-
-# [Present]
-# post $active = 0
-
-# ; Shader ------------------------------
-
-# ; Overrides ---------------------------
-
-# [TextureOverrideKeqiffffffffngPosition]
-# hash = 3aaf3e94
-# run = CommandListSayoriPosition
-# $active = 1
-
-# [TextureOverrideKeqfffingBlend]
-# hash = 0bf8e621
-# run = CommandListSayoriBlend
-
-# [TextureOverrideKegTexcoord]
-# hash = 723848fe
-# run = CommandListSayoriTexcoord
-
-# [TextureOverrideKeqinfffgVertexLimitRaise]
-# hash = ccc33b79
-
-# [TextureOverridingIB]
-# hash = cbf1894b
-# ;hash = cbf1894b
-# run = CommandListSayoriIB
-
-# [TextureOverrideKeffffqingHead]
-# hash = cbf1894b
-# ;hash = cbf1894b
-# match_first_index = 0
-# run = CommandListSayoriHead
-
-# [TextureOverrideeqingBody]
-# hash = cbf1894b
-# ;hash = cbf1894b
-# match_first_index = 10824
-# run = CommandListSayoriBody
-
-# [TextureOverriddfdingDress]
-# hash = cbf1894b
-# ;hash = cbf1894b
-# match_first_index = 48216
-# run = CommandListSayoriDress
-
-# [TextureOverrHeadDiffuse]
-# hash = d8c9c399
-# run = CommandListSayoriFaceHeadDiffuse
-
-# ; CommandList -------------------------
-
-# [ComdddddddddmandLgPosition]
-# if $swapvar == 0
-# 	vb0 = ResourceSayoriPosition.0
-# else if $swapvar == 1
-# 	vb0 = ResourceSayoriPosition.1
-# endif
-
-# [CommandListgBlend]
-# if $swapvar == 0
-# 	vb1 = ResourceSayoriBlend.0
-# 	handling = skip
-# 	draw = 47251,0
-# else if $swapvar == 1
-# 	vb1 = ResourceSayoriBlend.1
-# 	handling = skip
-# 	draw = 34316,0
-# endif
-
-# [CommandListinord]
-# if $swapvar == 0
-# 	vb1 = ResourceSayoriTexcoord.0
-# else if $swapvar == 1
-# 	vb1 = ResourceSayoriTexcoord.1
-# endif
-
-# [CommandLdddddisingIB]
-# if $swapvar == 0
-# 	handling = skip
-# 	drawindexed = auto
-# else if $swapvar == 1
-# 	handling = skip
-# 	drawindexed = auto
-# endif
-
-# [Commanead]
-# if $swapvar == 0
-# 	ib = ResourceSayoriHeadIB.0
-# 	ps-t0 = ResourceSayoriHeadDiffuse.0
-# 	ps-t1 = ResourceSayoriHeadLightMap.0
-# 	ps-t2 = ResourceSayoriHeadMetalMap.0
-# 	ps-t3 = ResourceSayoriHeadShadowRamp.0
-# else if $swapvar == 1
-# 	ib = ResourceSayoriHeadIB.1
-# 	ps-t0 = ResourceSayoriHeadDiffuse.1
-# 	ps-t1 = ResourceSayoriHeadLightMap.1
-# 	ps-t2 = ResourceSayoriHeadMetalMap.1
-# 	ps-t3 = ResourceSayoriHeadShadowRamp.1
-# endif
-
-# [ComfdmandLingBody]
-# if $swapvar == 0
-# 	ib = ResourceSayoriBodyIB.0
-# 	ps-t0 = ResourceSayoriBodyDiffuse.0
-# 	ps-t1 = ResourceSayoriBodyLightMap.0
-# 	ps-t2 = ResourceSayoriBodyMetalMap.0
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.0
-# else if $swapvar == 1
-# 	ib = ResourceSayoriBodyIB.1
-# 	ps-t0 = ResourceSayoriBodyDiffuse.1
-# 	ps-t1 = ResourceSayoriBodyLightMap.1
-# 	ps-t2 = ResourceSayoriBodyMetalMap.1
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.1
-# endif
-
-# [CommandLisdftKedfdfdfdfdfdfqgDresdfs]
-# if $swapvar == 0
-# 	ib = ResourceSayoriDressIB.0
-# 	ps-t0 = ResourceSayoriBodyDiffuse.0
-# 	ps-t1 = ResourceSayoriBodyLightMap.0
-# 	ps-t2 = ResourceSayoriBodyMetalMap.0
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.0
-# else if $swapvar == 1
-# 	ib = ResourceSayoriDressIB.1
-# 	ps-t0 = ResourceSayoriBodyDiffuse.1
-# 	ps-t1 = ResourceSayoriBodyLightMap.1
-# 	ps-t2 = ResourceSayoriBodyMetalMap.1
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.1
-# endif
-
-# [ComdfdfdmandfdfddLisgFaceHeadfdfdfdfdDiffuse]
-# if $swapvar == 0
-# 	ps-t0 = ResourceSayoriFaceHeadDiffuse.0
-# else if $swapvar == 1
-# 	ps-t0 = ResourceSayoriFaceHeadDiffuse.1
-# endif
-
-# ; Resources ---------------------------
-
-# [dfdfdfdfdfdfdfggggggggggg]
-# type = Buffer
-# stride = 40
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriPosition.buf
-
-# [ResourceKeqdfdfdfingBlend.0]
-# type = Buffer
-# stride = 32
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBlend.buf
-
-# [ResourceKeqdfdfdfingTexcoord.0]
-# type = Buffer
-# stride = 20
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriTexcoord.buf
-
-# [ResoudfdfdfrceKeqidfdfdfdfngHeadIB.0]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriHead.ib
-
-# [ResourceSayoriBodyIB.0]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBody.ib
-
-# [ResourceKedfdfdfqingDressIB.0]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriDress.ib
-
-# [ResourcedfdfdKeqindfgHefdfdfdfadDiffuse.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriHeadDiffuse.dds
-
-# [ResourcefdfdKeqfdfdfingHdfdeadLightMap.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriHeadLightMap.dds
-
-# [ResourceKedfdfdfqingHeadMetalMap.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriHeadMetalMap.dds
-
-# [ResourceKeqdfdfingfdfHeadShadowRamp.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriHeadShadowRamp.jpg
-
-# [ResourceKeqindfdfdgBodyDiffuse.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBodyDiffuse.dds
-
-# [ResourceSayoriBodyLdfdfdightMap.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBodyLightMap.dds
-
-# [ResourceKedfdfqidfdfdfngBodyfMetalMap.0]
-# filename = .\keqidng_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBodyMetalMap.dds
-
-# [ResourceSayoriBodyShadowRamp.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBodyShadowRamp.jpg
-
-# [ResourceSayoriDressdfdfdffDiffuse.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriDressDiffuse.dds
-
-# [ResourceSayoriDresdfsLightMap.0]
-# filenamde = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriDressLightMap.dds
-# fd
-# [ResourceSayoriDfdfressMetalMap.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriDressMetalMap.dds
-
-# [ResourcedfdfdSayoriDressdfShadowRamp.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriDressShadowRamp.jpg
-
-# [ResourcedfdfdeqindfdgFaceHeadDiffuse.0]
-# filename = .\Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriFaceHeadDiffuse.dds
-
-# [TexturingBlend]
-# type = Buffer
-# stride = 40
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriPosition.buf
-
-# [ResourceKdfdfdfdeqingBlend.1]
-# type = Buffer
-# stride = 32
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBlend.buf
-
-# [ResouingTexcoord.1]
-# type = Buffer
-# stride = 20
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriTexcoord.buf
-
-# [ResourcdfdfdfeKeqdfdfdfdfingHeadIB.1]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriHead.ib
-
-# [ResourcedfdfKeqinsdsdfdfgBodyIB.1]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBody.ib
-
-# [ResouerererrceKeererqingDreserersIB.1]
-# type = Buffer
-# format = DXGI_FORMAT_R32_UINT
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriDress.ib
-
-# [ResourceKeqierertytytyngHerereadDierffuse.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriHeadDiffuse.dds
-
-# [RedfsourcedfdKeqdfdfdfingHefgadLightMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriHeadLightMap.dds
-
-# [ResodfdfurcdfeKeqdfdfingdfdfHeadMetalMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriHeadMetalMap.dds
-
-# [RedfsoudvbvfgrdsceKsdedfdfdfgsqindfgHefgadShadowRamp.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriHeadShadowRamp.jpg
-
-# [ResourcedfdKdfdeqinfdfdfdfdfgBodyDiffuse.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBodyDiffuse.dds
-
-# [ResodfursdfddsffceKeagqingBfsgfdodyLightMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBodyLightMap.dds
-
-# [ResourcedfsdhKefgfgqidfngBoasddfsdyMdfgsdfetalMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBodyMetalMap.dds
-
-# [ResngBodyShadowRamp.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBodyShadowRamp.jpg
-
-# [ResoursdfcdfeKfdfdeqisdfsdngDredfdfdssDiffuse.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriDressDiffuse.dds
-
-# [ResourcsdfesdKefsdqifsdnfsdfsdgfsdfDressLightMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriDressLightMap.dds
-
-# [ResoursdfceKeqsdfdfifngDresdssfsdMetalMap.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriDressMetalMap.dds
-
-# [ResousdfrceKsdfeqisdngDfsdfressShadowRamp.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriDressShadowRamp.jpg
-
-# [ResfsdourfceKsdfsdeqinsdgFaceHeasdfdDiffuse.1]
-# filename = .\Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriFaceHeadDiffuse.dds
-
-
-
-# ; .ini generated by GIMI (Genshin-Impact-Model-Importer) mod merger script
-# ; If you have any issues or find any bugs, please open a ticket at https://github.com/SilentNightSound/GI-Model-Importer/issues or contact SilentNightSound#7430 on discord
-
-# ; 4.1 Character Fix 
-# [TextureOsdsdffsverriddfsdfe41FixVesdrtefsdxfLimitRaise0]
-# hash = ccc33b79
-# match_priority = 1
-
-
-# ; --------------- Sayori Remap ---------------
-# ; Sayori remapped by NK#1321 and Albert Gold#2696. If you used it to remap your Sayori mods pls give credit for "Nhok0169" and "Albert Gold#2696"
-# ; Thank nguen#2011 SilentNightSound#7430 HazrateGolabi#1364 for support
-
-# ; ***** SayoriOpulent *****
-# [TextureOverrideSayoriSayoriOpulentRemapBlend]
-# hash = 6f010b58
-# run = CommandListSayoriSayoriOpulentRemapBlend
-
-# [CommandLiqingKfgfgeqOpufgflentRemapBlend]
-# if $swapvar == 0
-# 	vb1 = ResourceSayoriSayoriOpulentRemapBlend.0
-# 	handling = skip
-# 	draw = 47251,0
-# else if $swapvar == 1
-# 	vb1 = ResourceSayoriSayoriOpulentRemapBlend.1
-# 	handling = skip
-# 	draw = 34316,0
-# endif
-
-
-# [TextureOvefggrrfideKeqfgifggfngPosifgtiKeqfginlentRemapFix]
-# hash = 0d7e3cc5
-# run = CommandListSayoriPositionSayoriOpulentRemapFix
-# $active = 1
-
-# [CommandsdfListKesdfdfdfingdfPofsdfsitsdsdfionKeqdfdingOpuslentRemapFix]
-# if $swapvar == 0
-# 	vb0 = ResourceSayoriPosition.0
-# else if $swapvar == 1
-# 	vb0 = ResourceSayoriPosition.1
-# endif
-
-# [TextureOverrsdfideKeqifsdngsdfsdTfsdfexcossdfdforsdfdKeqisngOpudflentRemapFix]
-# hash = 52f78cb7
-# run = CommandListSayoriTexcoordSayoriOpulentRemapFix
-
-# [CommandListSayoriTexcoordSayoriOpulentRemapFix]
-# if $swapvar == 0
-# 	vb1 = ResourceSayoriTexcoord.0
-# else if $swapvar == 1
-# 	vb1 = ResourceSayoriTexcoord.1
-# endif
-
-# [TextureOasdverriengVerasdtexLimitRaqindfdfgOpuasdlentRemapFix]
-# hash = 6629a84e
-
-# [TextureOverridedfKeIBdfdfdfdSayoriOdfdfdfpulentRemapFix]
-# hash = 7c6fc8c3
-# run = CommandListSayoriIBSayoriOpulentRemapFix
-
-# [CommandListSayoriIBSayoriOpulentRemapFix]
-# if $swapvar == 0
-# 	handling = skip
-# 	drawindexed = auto
-# else if $swapvar == 1
-# 	handling = skip
-# 	drawindexed = auto
-# endif
-
-# [TexdfdftureOveeSayoriBodsdySayoriOpulentRemadfdfdfpFix]
-# hash = 7c6fc8c3
-# match_first_index = 19623
-# run = CommandListSayoriBodySayoriOpulentRemapFix
-
-# [CommandListgBodyKeqindfdfgOfgfgfgpulentRemdfdfdapFix]
-# if $swapvar == 0
-# 	ib = ResourceSayoriBodyIB.0
-# 	ps-t0 = ResourceSayoriBodyDiffuse.0
-# 	ps-t1 = ResourceSayoriBodyLightMap.0
-# 	ps-t2 = ResourceSayoriBodyMetalMap.0
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.0
-# else if $swapvar == 1
-# 	ib = ResourceSayoriBodyIB.1
-# 	ps-t0 = ResourceSayoriBodyDiffuse.1
-# 	ps-t1 = ResourceSayoriBodyLightMap.1
-# 	ps-t2 = ResourceSayoriBodyMetalMap.1
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.1
-# endif
-
-# [TextureOverrideSayoriFaceHeadDiffuseSayoriOpulentRemapFix]
-# hash = c2b17f84
-# run = CommandListSayoriFaceHeadDiffuseSayoriOpulentRemapFix
-
-# [CommandListSayoriFaceHeadDiffuseSayoriOpulentRemapFix]
-# if $swapvar == 0
-# 	ps-t0 = ResourceSayoriFaceHeadDiffuse.0
-# else if $swapvar == 1
-# 	ps-t0 = ResourceSayoriFaceHeadDiffuse.1
-# endif
-
-# [TextureOverride41FixVertexLimitRaise0SayoriOpulentRemapFix]
-# hash = 6629a84e
-# match_priority = 1
-
-# [TextureOverrideSayoriHeadSayoriOpulentRemapFix]
-# hash = 7c6fc8c3
-# match_first_index = 0
-# run = CommandListSayoriHeadSayoriOpulentRemapFix
-
-# [CommandListSayoriHeadSayoriOpulentRemapFix]
-# if $swapvar == 0
-# 	ib = ResourceSayoriDressIB.0
-# 	ps-t0 = ResourceSayoriDressOpaqueDressDiffuseSayoriOpulentRemapTex0
-# 	ps-t1 = ResourceSayoriBodyLightMap.0
-# 	ps-t2 = ResourceSayoriBodyMetalMap.0
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.0
-# else if $swapvar == 1
-# 	ib = ResourceSayoriDressIB.1
-# 	ps-t0 = ResourceSayoriDressOpaqueDressDiffuseSayoriOpulentRemapTex1
-# 	ps-t1 = ResourceSayoriBodyLightMap.1
-# 	ps-t2 = ResourceSayoriBodyMetalMap.1
-# 	ps-t3 = ResourceSayoriBodyShadowRamp.1
-# endif
-
-
-# [ResourceSayoriSayoriOpulentRemapBlend.0]
-# type = Buffer
-# stride = 32
-# filename = Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriSayoriOpulentRemapBlend.buf
-
-# [ResourceSayoriSayoriOpulentRemapBlend.1]
-# type = Buffer
-# stride = 32
-# filename = Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriSayoriOpulentRemapBlend.buf
-
-# [ResourceSayoriDressOpaqueDressDiffuseSayoriOpulentRemapTex0]
-# filename = Sayori_gamer_bunny_bikini_classic\Sayori Gamer Bunny Bikini Classic\SayoriBodyDiffuseSayoriOpulentRemapTex0.dds
-
-# [ResourceSayoriDressOpaqueDressDiffuseSayoriOpulentRemapTex1]
-# filename = Sayori_gamer_bunny_suit_classic\Sayori Gamer Bunny Suit Classic\SayoriBodyDiffuseSayoriOpulentRemapTex0.dds
-
-# ; *************************
-
-# ; --------------------------------------------
-#         """
-
-#         searchLines = FRB.TextTools.getTextLines(search)
-
-#         modRegexes = [
-#             re.compile(r"^\s*\[\s*textureoverride.*(amber)((?!cn).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ambercn).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ayaka)((?!(springbloom)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ayakaspringbloom).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(arlecchino).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(barbara)((?!summertime).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(barbarasummertime).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(cherryhutao).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(hutaocherry).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(diluc)((?!|flamme).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(dilucflamme).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(fischl)((?!highness).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(fischlhighness).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ganyu)((?!(twilight)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ganyutwilight).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride((?!cherry).)*(hutao)((?!cherry).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(jean)((?!(cn|sea)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(jeancn)((?!sea).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(jeansea)((?!cn).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(keqing)((?!(opulent)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(keqingopulent).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(kirara)((?!boots).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(kiraraboots).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(klee)((?!blossomingstarlight).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(kleeblossomingstarlight).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(mona)((?!(cn)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(monacn).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(nilou)((?!(breeze)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(niloubreeze).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ningguang)((?!(orchid)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(ningguangorchid).*\]"),
-#             re.compile(r"^\s\*\[\s\*textureoverride.\*(raiden).*\]"),
-#             re.compile(r"^\s\*\[\s\*textureoverride.\*(shogun).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(rosaria)((?!(cn)).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(rosariacn).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(shenhe)((?!frostflower).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(shenhefrostflower).*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(xingqiu)((?!bamboo).)*\]"),
-#             re.compile(r"^\s*\[\s*textureoverride.*(xingqiubamboo).*\]")
-#         ]
-
-#         isFixedPattern = re.compile(r"^\s*\[\s*textureoverride.*remap(blend|position|texcoord|fix|tex).*\]")
-#         isModPattern = re.compile(r"^\s*\[\s*textureoverride.*(blend|position|texcoord).*\]")
-        
-#         def tempRegex(line):
-#             for reg in modRegexes:
-#                 if (re.search(reg, line)):
-#                     return True
-                
-#             return False
-        
-#         start = timer()
-#         modFound = False
-#         isMod = False
-#         isFixed = False
-        
-#         regResult = None
-#         regIsMod = False
-#         regIsFixed = False
-
-#         for line in searchLines:
-#             cleanedLine = line.replace(FRB.IniKeywords.HideOriginalComment.value, "").lower()
-#             if (not regResult):
-#                 regResult = tempRegex(cleanedLine)
-#                 if (not modFound and regResult):
-#                     modFound = True
-
-#             if (not regIsMod):
-#                 regIsMod = re.search(isModPattern, cleanedLine)
-#                 if (not isMod and regIsMod):
-#                     isMod = True
-#                     regIsMod = True
-
-#             if (not regIsFixed):
-#                 regIsFixed = re.search(isFixedPattern, cleanedLine)
-#                 if (not isFixed and regIsFixed):
-#                     isFixed = True
-#                     regIsFixed = True
-
-#             if (modFound and isMod and isFixed):
-#                 break
-#         end = timer()
-#         regTime = end - start
-
-#         start = timer()
-#         cppDFAResult = self._classifier.classify(search)
-#         end = timer()
-#         cppDFATime = end - start
-
-#         start = timer()
-#         pyWrapDFAResult = self._classifier.classify(search)
-#         end = timer()
-#         pyWrapDFATime = end - start
-
-#         start = timer()
-#         pyDFAResult = self._pyClassifier.classify(search)
-#         end = timer()
-#         pyDFATime = end - start
-
-#         print(f"Regex Result: {bool(regResult)} AND {bool(regIsMod)} AND {bool(regIsFixed)}")
-#         print(f"Python AhoCorasick Result: {bool(pyDFAResult.modType is not None)} AND {pyDFAResult.isMod} AND {pyDFAResult.isFixed}")
-#         print(f"Python Wrapper on PyAhoCorasick Result: {bool(pyWrapDFAResult.modType is not None)} AND {pyWrapDFAResult.isMod} AND {pyWrapDFAResult.isFixed}")
-#         print(f"C++ AhoCorasick Result: {bool(cppDFAResult.modType is not None)} AND {cppDFAResult.isMod} AND {cppDFAResult.isFixed}\n")
-        
-
-#         print(f"Regex Time: {regTime}")
-#         print(f"Python AhoCorasick Time: {pyDFATime}")
-#         print(f"Python Wrapper on PyAhoCorasick Time: {pyWrapDFATime}")
-#         print(f"C++ AhoCorasick Time: {cppDFATime}\n")
-
-#         winTime = min(regTime, pyDFATime, pyWrapDFATime, cppDFATime)
-#         winner = "Regex"
-#         if (winTime == pyDFATime):
-#             winner = "Python AhoCorasick"
-#         elif (winTime == pyWrapDFATime):
-#             winner = "Python Wrapper on PyAhoCorasic"
-#         elif (winTime == cppDFATime):
-#             winner = "C++ AhoCorasick"
-
-#         print(f"============================\n")
-
-#         print(f"The Winner is: {winner}")
-#         print(f"Python AhoCorasick Efficiency to Regex: {regTime / pyDFATime}")
-#         print(f"Python Wrapper on PyAhoCorasic Efficiency to Regex: {regTime / pyWrapDFATime}")
-#         print(f"C++ AhoCorasick Efficiency to Regex: {regTime / cppDFATime}\n")
-
-#         print(f"C++ AhoCorasick Efficiency to Python AhoCorasick: {pyDFATime / cppDFATime}")
-#         print(f"Python Wrapper on PyAhoCorasic Efficiency to Python AhoCorasick: {pyDFATime / pyWrapDFATime}\n")
-
-#         print(f"============================")
+    def test_newModTypeId_addGIModTypeReturnsTrue(self):
+        c = FRB.IniClassifier()
+        self.assertTrue(c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set()))
+
+    def test_alreadyRegisteredModTypeId_addGIModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        self.assertFalse(c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"anotherhash"}, set()))
+
+    def test_wrongGameTypeId_addGIModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+        self.assertFalse(c.addGIModType(FRB.ModTypeIdData(self.wuwa, self.amberId), {"deadbeef"}, set()))
+
+    # ================================================
+    # ================ addWuWaModType ===================
+
+    def test_newModTypeId_addWuWaModTypeReturnsTrue(self):
+        c = FRB.IniClassifier()
+        self.assertTrue(c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"}))
+
+    def test_alreadyRegisteredModTypeId_addWuWaModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        self.assertFalse(c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"anotherhash"}))
+
+    def test_wrongGameTypeId_addWuWaModTypeReturnsFalse(self):
+        c = FRB.IniClassifier()
+        self.assertFalse(c.addWuWaModType(FRB.ModTypeIdData(self.gi, self.raidenId), {"cafebabe"}))
+
+    # ================================================
+    # =================== getModType =====================
+
+    def test_registeredModTypeId_getModTypeReturnsIt(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        result = c.getModType(self.amberId)
+
+        self.assertEqual(result.gameTypeId, self.gi)
+        self.assertEqual(result.modTypeId, self.amberId)
+
+    def test_unregisteredModTypeId_getModTypeRaisesIndexError(self):
+        c = FRB.IniClassifier()
+
+        with self.assertRaises(IndexError):
+            c.getModType(999)
+
+    # ================================================
+    # ==================== classify ======================
+
+    def test_hashMatch_GI_classifiedCorrectly(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.amberId, stats.modType)
+
+    def test_sectionNameMatch_GI_classifiedCorrectly(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[TextureOverrideAmberKeyword]\n")
+
+        self.assertIn(self.amberId, stats.modType)
+
+    def test_noMatch_notClassifiedAsMod(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = unrelated\n")
+
+        self.assertFalse(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    def test_remapSubstringInSectionName_isFixedSetRegardlessOfMatch(self):
+        c = FRB.IniClassifier()
+
+        stats = c.classify("[TextureOverrideAmberRemap]\n")
+
+        self.assertTrue(stats.isFixed)
+
+    # ---- TextureOverride/ShaderOverride prefix -> isMod ----
+
+    def test_textureOverridePrefix_isModSetTrueEvenWithNoModTypeMatch(self):
+        c = FRB.IniClassifier()
+
+        stats = c.classify("[TextureOverrideRandomThing]\n")
+
+        self.assertTrue(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    def test_shaderOverridePrefix_isModSetTrueEvenWhenCheckHasTextureOverrideBlocksFurtherProcessing(self):
+        # checkHasTextureOverride defaults to True, which blocks keyword-based classification for a
+        # non-"TextureOverride" section -- but the isMod check itself runs unconditionally, before
+        # that gate, so a "ShaderOverride" section is still recognized as belonging to a mod
+        c = FRB.IniClassifier()
+
+        stats = c.classify("[ShaderOverrideRandomThing]\n")
+
+        self.assertTrue(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    def test_neitherOverridePrefix_isModStaysFalse(self):
+        c = FRB.IniClassifier()
+
+        stats = c.classify("[SomeRandomSection]\n")
+
+        self.assertFalse(stats.isMod)
+
+    def test_shaderOverridePrefix_checkHasTextureOverrideFalse_stillMatchesRegisteredKeyword(self):
+        c = FRB.IniClassifier(checkHasTextureOverride = False)
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[ShaderOverrideAmberKeyword]\n")
+
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.amberId, stats.modType)
+
+    def test_listOfLinesOverload_worksTheSameAsFullText(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        stats = c.classify(["hash = deadbeef\n"])
+
+        self.assertIn(self.amberId, stats.modType)
+
+    def test_gameTypeIdArg_restrictsSectionKeywordMatchingToThatGame(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", FRB.GameTypeId.GI)
+
+        self.assertIn(self.amberId, stats.modType)
+
+    # ---- checkHasTextureOverride ----
+
+    def test_checkHasTextureOverrideTrue_blocksSectionWithoutPrefix(self):
+        c = FRB.IniClassifier(checkHasTextureOverride = True)
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[AmberKeyword]\n")
+
+        self.compareDict(stats.modType, {})
+
+    def test_checkHasTextureOverrideFalse_allowsSectionWithoutPrefix(self):
+        c = FRB.IniClassifier(checkHasTextureOverride = False)
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[AmberKeyword]\n")
+
+        self.assertIn(self.amberId, stats.modType)
+
+    # ---- WuWa marker/hash ordering ----
+
+    def test_wuwaMarkerBeforeHash_directHitClassified(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        stats = c.classify("$\\WWMIv1\nhash = cafebabe\n")
+
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.raidenId, stats.modType)
+
+    def test_wuwaHashBeforeMarker_savedThenClassifiedOnMarker(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        stats = c.classify("hash = cafebabe\n$\\WWMIv1\n")
+
+        self.assertTrue(stats.isMod)
+        self.assertIn(self.raidenId, stats.modType)
+
+    def test_wuwaHashWithNoMarkerAtAll_notClassified(self):
+        c = FRB.IniClassifier()
+        c.addWuWaModType(FRB.ModTypeIdData(self.wuwa, self.raidenId), {"cafebabe"})
+
+        stats = c.classify("hash = cafebabe\n")
+
+        self.assertFalse(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    # ---- tie-breaking / distribution ----
+
+    def test_tiedModTypeIds_allIncludedSortedAscending(self):
+        c = FRB.IniClassifier()
+        # deliberately registered out of ascending order to prove sorting, not registration order
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.raidenId), {"cafebabe"}, set())
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        stats = c.classify(["hash = deadbeef\n", "hash = cafebabe\n"])
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.amberId, self.raidenId]))
+
+    def test_strictlyHigherCount_onlyThatModTypeIdIncluded(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.raidenId), {"cafebabe"}, set())
+
+        # matched twice (hash worth 2 points) vs. once -> Amber strictly wins
+        stats = c.classify(["hash = deadbeef\n", "hash = deadbeef\n", "hash = cafebabe\n"])
+
+        # ModTypeIdData has no __eq__ (bare pybind11 class, compares by identity) -- compare keys only
+        self.compareList(list(stats.modType.keys()), [self.amberId])
+
+    # ---- 2 ModTypes sharing the same hash/keyword (collision fix) ----
+
+    def test_twoModTypesShareSameHash_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.raidenId), {"deadbeef"}, set())
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.amberId, self.raidenId]))
+
+    def test_twoModTypesShareSameSectionKeyword_bothClassified(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"SharedKeyword"})
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.raidenId), set(), {"SharedKeyword"})
+
+        stats = c.classify("[TextureOverrideSharedKeyword]\n")
+
+        self.compareList(sorted(stats.modType.keys()), sorted([self.amberId, self.raidenId]))
+
+    # ---- no state leak between calls ----
+
+    def test_repeatedClassifyCalls_noStateLeakBetweenCalls(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        first = c.classify("hash = deadbeef\n")
+        second = c.classify("hash = unrelated\n")
+
+        self.assertIn(self.amberId, first.modType)
+        self.compareDict(second.modType, {})
+
+    # ---- HideOriginalComment ----
+
+    def test_hideOriginalCommentPrefix_hashLineStillReadNormally(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanId), {"jeanhash"}, set())
+
+        stats = c.classify(";RemapFixHideOrig -->hash = jeanhash\n")
+
+        self.assertIn(self.jeanId, stats.modType)
+
+    def test_hideOriginalCommentPrefix_sectionHeaderStillReadNormally(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanId), set(), {"JeanKeyword"})
+
+        stats = c.classify(";RemapFixHideOrig -->[TextureOverrideJeanKeyword]\n")
+
+        self.assertIn(self.jeanId, stats.modType)
+
+    # ---- Remap-section hash skipping ----
+
+    def test_hashInsideRemapNamedSection_notCounted(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanCNId), {"jeancnhash"}, set())
+
+        stats = c.classify("[TextureOverrideJeanCNRemapFix]\nhash = jeancnhash\n")
+
+        self.assertNotIn(self.jeanCNId, stats.modType)
+
+    def test_hashInsideNonRemapSection_stillCounted(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanId), {"jeanhash"}, set())
+
+        stats = c.classify("[TextureOverrideJean]\nhash = jeanhash\n")
+
+        self.assertIn(self.jeanId, stats.modType)
+
+    def test_sectionKeywordInsideRemapNamedSection_notCounted(self):
+        # A "Remap"-named section that ALSO matches a registered section-keyword (not just a
+        # hash) should not increment #modTypeIdDistribution either -- readSectionName returns
+        # right after setting stats.isFixed, before searching for a keyword match at all.
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanCNId), set(), {"JeanCNKeyword"})
+
+        stats = c.classify("[TextureOverrideJeanCNRemapFixJeanCNKeyword]\n")
+
+        self.assertNotIn(self.jeanCNId, stats.modType)
+        self.assertTrue(stats.isFixed)
+
+    def test_sectionKeywordInsideNonRemapSection_stillCounted(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanCNId), set(), {"JeanCNKeyword"})
+
+        stats = c.classify("[TextureOverrideJeanCNKeyword]\n")
+
+        self.assertIn(self.jeanCNId, stats.modType)
+
+    def test_alreadyFixedJean_classifiesAsJeanOnly(self):
+        # Exactly the scenario this feature exists for: an already-fixed Jean .ini (fixed to also
+        # cover JeanCN and JeanSea) should classify as Jean only, not Jean+JeanCN+JeanSea.
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanId), {"jeanhash"}, set())
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanCNId), {"jeancnhash"}, set())
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.jeanSeaId), {"jeanseahash"}, set())
+
+        iniTxt = (
+            ";RemapFixHideOrig -->[TextureOverrideJean]\n"
+            ";RemapFixHideOrig -->hash = jeanhash\n"
+            "\n"
+            "[TextureOverrideJeanCNRemapFix]\n"
+            "hash = jeancnhash\n"
+            "\n"
+            "[TextureOverrideJeanSeaRemapFix]\n"
+            "hash = jeanseahash\n"
+        )
+        stats = c.classify(iniTxt)
+
+        self.compareList(list(stats.modType.keys()), [self.jeanId])
+
+    # ================================================
+    # ==================== checkIsMod ======================
+
+    def test_baseIniClassifier_checkIsModAlwaysFalse(self):
+        base = FRB.BaseIniClassifier()
+
+        self.assertFalse(base.checkIsMod("[TextureOverrideAnything]\n"))
+        self.assertFalse(base.checkIsMod(["[TextureOverrideAnything]\n"]))
+
+    def test_textureOverridePrefix_checkIsModReturnsTrue(self):
+        c = FRB.IniClassifier()
+
+        self.assertTrue(c.checkIsMod("[TextureOverrideRandomThing]\n"))
+
+    def test_noModLikeContent_checkIsModReturnsFalse(self):
+        c = FRB.IniClassifier()
+
+        self.assertFalse(c.checkIsMod("[SomeRandomSection]\n"))
+
+    def test_hashMatch_checkIsModReturnsTrue(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        self.assertTrue(c.checkIsMod("hash = deadbeef\n"))
+
+    def test_checkIsMod_matchesClassifysIsModForIdenticalInput(self):
+        c1 = FRB.IniClassifier()
+        c1.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        stats = c1.classify("hash = deadbeef\nhash = unrelated\n")
+
+        c2 = FRB.IniClassifier()
+        c2.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        isMod = c2.checkIsMod("hash = deadbeef\nhash = unrelated\n")
+
+        self.assertEqual(isMod, stats.isMod)
+
+    def test_checkIsMod_noStateLeakBetweenRepeatedCalls(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        c.checkIsMod("hash = deadbeef\n")
+        second = c.checkIsMod("hash = unrelated\n")
+
+        self.assertFalse(second)
+
+    def test_checkIsMod_listOfLinesOverloadWorksTheSameAsFullText(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+
+        self.assertTrue(c.checkIsMod(["hash = deadbeef\n"]))
+
+    def test_shaderOverridePrefix_checkIsModReturnsTrue(self):
+        # same isMod-independent-of-checkHasTextureOverride rule classify() itself follows
+        c = FRB.IniClassifier()
+
+        self.assertTrue(c.checkIsMod("[ShaderOverrideRandomThing]\n"))
+
+    # ================================================
+    # ================ checkIsFixedMod ==================
+
+    def test_baseIniClassifier_checkIsFixedModAlwaysFalse(self):
+        base = FRB.BaseIniClassifier()
+
+        self.assertEqual(base.checkIsFixedMod("[TextureOverrideAmberRemap]\n"), (False, False))
+        self.assertEqual(base.checkIsFixedMod(["[TextureOverrideAmberRemap]\n"]), (False, False))
+
+    def test_isModTrueIsFixedFalse_checkIsFixedModReflectsBoth(self):
+        c = FRB.IniClassifier()
+
+        # TextureOverride prefix alone -> isMod=True, no "Remap" substring -> isFixed stays False
+        isFixed, isMod = c.checkIsFixedMod("[TextureOverrideRandomThing]\n")
+        self.assertFalse(isFixed)
+        self.assertTrue(isMod)
+
+    def test_isModFalseIsFixedTrue_checkIsFixedModReflectsBoth(self):
+        # checkHasTextureOverride=False is required here: with it on (the default), a non-
+        # TextureOverride/ShaderOverride-prefixed section early-returns before the "Remap"
+        # substring check even runs, so isFixed would stay False too, not just isMod.
+        c = FRB.IniClassifier(checkHasTextureOverride = False)
+
+        isFixed, isMod = c.checkIsFixedMod("[SomeRandomRemapSection]\n")
+        self.assertTrue(isFixed)
+        self.assertFalse(isMod)
+
+    def test_bothIsModAndIsFixedTrue_checkIsFixedModReflectsBoth(self):
+        c = FRB.IniClassifier()
+
+        isFixed, isMod = c.checkIsFixedMod("[TextureOverrideAmberRemap]\n")
+        self.assertTrue(isFixed)
+        self.assertTrue(isMod)
+
+    def test_neitherIsModNorIsFixed_checkIsFixedModReflectsBoth(self):
+        c = FRB.IniClassifier()
+
+        isFixed, isMod = c.checkIsFixedMod("[SomeRandomSection]\n")
+        self.assertFalse(isFixed)
+        self.assertFalse(isMod)
+
+    def test_checkIsFixedMod_matchesClassifysFlagsForIdenticalInput(self):
+        c1 = FRB.IniClassifier()
+        c1.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        stats = c1.classify("[TextureOverrideAmberRemap]\nhash = deadbeef\n")
+
+        c2 = FRB.IniClassifier()
+        c2.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        isFixed, isMod = c2.checkIsFixedMod("[TextureOverrideAmberRemap]\nhash = deadbeef\n")
+
+        self.assertEqual(isFixed, stats.isFixed)
+        self.assertEqual(isMod, stats.isMod)
+
+    def test_checkIsFixedMod_noStateLeakBetweenRepeatedCalls(self):
+        c = FRB.IniClassifier()
+
+        c.checkIsFixedMod("[TextureOverrideAmberRemap]\n")
+        isFixed, isMod = c.checkIsFixedMod("[SomeRandomSection]\n")
+
+        self.assertFalse(isFixed)
+        self.assertFalse(isMod)
+
+    def test_checkIsFixedMod_listOfLinesOverloadWorksTheSameAsFullText(self):
+        c = FRB.IniClassifier()
+
+        self.assertEqual(c.checkIsFixedMod(["[TextureOverrideAmberRemap]\n"]), (True, True))
+
+    # ================================================
+    # ==================== clear =========================
+
+    def test_clear_registeredModTypesForgotten(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        self.assertEqual(c.getModType(self.amberId).modTypeId, self.amberId)
+
+        c.clear()
+
+        with self.assertRaises(IndexError):
+            c.getModType(self.amberId)
+
+    def test_clear_previouslyMatchingHashNoLongerClassified(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.clear()
+
+        stats = c.classify("hash = deadbeef\n")
+
+        self.assertFalse(stats.isMod)
+        self.compareDict(stats.modType, {})
+
+    def test_clear_afterClearCanReRegisterSameModTypeId(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"deadbeef"}, set())
+        c.clear()
+
+        self.assertTrue(c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), {"newhash"}, set()))
+
+    # ================================================

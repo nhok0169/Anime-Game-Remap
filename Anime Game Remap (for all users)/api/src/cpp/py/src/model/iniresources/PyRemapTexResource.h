@@ -5,4 +5,6 @@
 
 void initCppRemapTexAddResource(pybind11::module_ &m);
 
+void initCppRemapTexEditResource(pybind11::module_ &m);
+
 #endif

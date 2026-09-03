@@ -173,7 +173,7 @@ namespace AGRemapCore {
 
         // getModTypes() rather than IniFile::getModType, which is private -- and this wants the
         // .ini file's own ModType anyway, not a copy of it.
-        const std::unordered_map<int, ModType>& modTypes = iniFile_->getModTypes();
+        const tsl::ordered_map<int, ModType>& modTypes = iniFile_->getModTypes();
         auto it = modTypes.find(*modTypeId_);
 
         if (it == modTypes.end()) {

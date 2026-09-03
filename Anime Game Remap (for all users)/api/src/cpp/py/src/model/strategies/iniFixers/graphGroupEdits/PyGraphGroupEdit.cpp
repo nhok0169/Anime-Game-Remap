@@ -41,7 +41,7 @@ py::object defaultPartFilter() {
 // 'keysToTrack'. The keys are already py::object for this instantiation, so nothing is re-parsed.
 py::set keySetToPy(const PyGraphGroupEdit::KeySet &keys) {
     py::set result;
-    for (const py::object &key : keys) {
+    for (const std::string &key : keys) {
         result.add(key);
     }
     return result;
@@ -261,7 +261,7 @@ void PyGraphGroupEdit::refresh(PyIniGraphGroups &groups, py::object ini, py::obj
             if (!keysToTrackVal.is_none()) {
                 KeySet keys;
                 for (auto keyItem : keysToTrackVal) {
-                    keys.insert(py::reinterpret_borrow<py::object>(keyItem));
+                    keys.insert(py::cast<std::string>(keyItem));
                 }
                 objKeysToTrack = std::move(keys);
             }

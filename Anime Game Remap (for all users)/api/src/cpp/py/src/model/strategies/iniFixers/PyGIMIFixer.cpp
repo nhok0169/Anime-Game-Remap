@@ -403,7 +403,8 @@ py::object PyGIMIFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig, AG
 
 
 void initCppGIMIFixer(pybind11::module_ &m) {
-    auto cls = py::class_<PyGIMIFixer, PyBaseIniFixer>(m, "GIMIFixer", R"doc(
+    // py::smart_holder: see PyBaseIniFixer.cpp -- the holder has to match across the hierarchy.
+    auto cls = py::class_<PyGIMIFixer, PyBaseIniFixer, py::smart_holder>(m, "GIMIFixer", R"doc(
 This class inherits from :class:`BaseIniFixer`
 
 Fixes a .ini file used by a ``GIMI``-style importer

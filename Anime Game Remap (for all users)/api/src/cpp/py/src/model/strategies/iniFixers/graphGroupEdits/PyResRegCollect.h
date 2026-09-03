@@ -25,13 +25,13 @@ namespace AGRC = AGRemapCore;
  callables, which a ``std::function`` round trip cannot hand back as the same callable
  @endrst
  */
-class PyResRegCollect: public AGRC::ResRegCollect<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyResRegCollect: public AGRC::ResRegCollect<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::ResRegCollect<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::ResRegCollect<std::string, std::string>;
 
         /**
          * @brief The exact Python object given for ``srcRegs``

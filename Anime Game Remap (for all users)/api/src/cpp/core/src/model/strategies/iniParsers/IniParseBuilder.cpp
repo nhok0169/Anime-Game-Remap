@@ -2,11 +2,42 @@
 
 #include <utility>
 
+#include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+
 
 namespace AGRemapCore {
+    namespace {
+        // A GIMIParser that owns the context it reads through. GIMIParser holds a bare Context*, so
+        // something has to keep one alive for exactly as long as the parser -- and a Factory hands
+        // back only the parser. Declaring the context after the base means it is constructed before
+        // the constructor body runs, which is where setCtx can safely take its address.
+        class OwnedContextGIMIParser: public GIMIParser<> {
+            public:
+                explicit OwnedContextGIMIParser(IniFile* iniFile, std::optional<int> modTypeId):
+                    GIMIParser<>(nullptr), ctx_(iniFile, modTypeId) {
+                    this->setCtx(&ctx_);
+
+                    // GIMIParser's own constructor calls Base() and never tells BaseIniParser which
+                    // .ini file it reads -- it works through the context instead. That matters here:
+                    // BaseIniFixer::setParser takes ITS .ini file from parser->getIniFile(), so
+                    // leaving it null would silently blind every fixer built over this parser --
+                    // MultiModFixer, which reads filteredToModTypeIds off it, included.
+                    this->setIniFile(iniFile);
+                }
+
+            private:
+                IniFileParseContext ctx_;
+        };
+    }
+
     IniParseBuilder::Factory IniParseBuilder::defaultFactory() {
-        return [](IniFile* iniFile) {
-            return std::make_shared<BaseIniParser<>>(iniFile);
+        // A real GIMIParser rather than a do-nothing BaseIniParser: the pure-Python
+        // ModType.__init__ defaults to "IniParseBuilder(GIMIParser)", so a bare base here was a
+        // divergence, not a design choice. 'modTypeId' is what lets the context answer
+        // modTypeName/hasModType, which GIMIParser reads when naming what it builds.
+        return [](IniFile* iniFile, std::optional<int> modTypeId) {
+            return std::make_shared<OwnedContextGIMIParser>(iniFile, modTypeId);
         };
     }
 
@@ -40,11 +71,12 @@ namespace AGRemapCore {
     }
 
     std::shared_ptr<BaseIniParser<>> IniParseBuilder::build(IniFile* iniFile, const std::string& modName,
-                                                           const std::optional<Version>& version) const {
+                                                           const std::optional<Version>& version,
+                                                           std::optional<int> modTypeId) const {
         if (builderArgs_ == nullptr) {
             // The equivalent of the original's "_buildCls is not None" path, where modName/version
             // are documented as having no effect.
-            return factory_(iniFile);
+            return factory_(iniFile, modTypeId);
         }
 
         // 'modName' is the table's single non-version index value, matching the pure-Python
@@ -57,9 +89,9 @@ namespace AGRemapCore {
         // a row exists but holds an empty std::function -- both are "nothing usable was found", so
         // both degrade to a plain parser rather than dereferencing an empty callable.
         if (!found.has_value() || !*found) {
-            return defaultFactory()(iniFile);
+            return defaultFactory()(iniFile, modTypeId);
         }
 
-        return (*found)(iniFile);
+        return (*found)(iniFile, modTypeId);
     }
 }

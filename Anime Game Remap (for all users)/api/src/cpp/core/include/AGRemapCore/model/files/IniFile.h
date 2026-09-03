@@ -148,9 +148,9 @@ namespace AGRemapCore {
 
              **Default**: ``std::nullopt``
              @endrst
-             * @param filteredToModTypeNames
+             * @param filteredToModTypeIds
              @rst
-             The names of the target mod types to accept when fixing -- see #filteredToModTypeNames
+             The ids of the target mod types to accept when fixing -- see #filteredToModTypeIds
              :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
@@ -166,7 +166,7 @@ namespace AGRemapCore {
                                   DownloadMode downloadMode = DownloadMode::Normal,
                                   std::optional<Version> fromVersion = std::nullopt,
                                   std::optional<Version> toVersion = std::nullopt,
-                                  std::optional<std::unordered_set<std::string>> filteredToModTypeNames = std::nullopt);
+                                  std::optional<std::unordered_set<int>> filteredToModTypeIds = std::nullopt);
 
             virtual ~IniFile() = default;
 
@@ -230,7 +230,7 @@ namespace AGRemapCore {
              One source mod routinely fixes to several targets (``Jean`` fixes to both ``JeanCN``
              and ``JeanSea``), and by default #fix runs the fixer for every target the
              :cpp:type:`IniFixBuilder::ArgsRepo` lists for it. Setting this narrows that fan-out to
-             just the named targets :raw-html:`<br />` :raw-html:`<br />`
+             just the listed targets :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
                 ``std::nullopt`` and an **empty set** mean different things: ``std::nullopt`` is
@@ -238,15 +238,18 @@ namespace AGRemapCore {
                 fixes to nothing
 
              .. note::
-                Mod **names**, not :cpp:enum:`ModTypeId`\\s -- unlike the constructor's
-                'filteredFromModTypeIds', which filters the *source* side by id. The fix table is
-                keyed by mod name, so filtering by name avoids a lookup back through the registry
-                for every candidate :raw-html:`<br />` :raw-html:`<br />`
+                :cpp:enum:`ModTypeId`\s, matching the constructor's 'filteredFromModTypeIds' on
+                the *source* side -- both halves of the filter speak ids now. The
+                :cpp:type:`IniFixBuilder::ArgsRepo` is still keyed by mod **name**, so #getFixers
+                resolves each id through :cpp:func:`ModTypeIdTools::getName` before handing the
+                filter to :cpp:func:`IniFixBuilder::buildAll`. An id that no
+                :cpp:enum:`ModTypeId` recognizes contributes no name, and so matches nothing
+                :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
              @endrst
              */
-            std::optional<std::unordered_set<std::string>> filteredToModTypeNames;
+            std::optional<std::unordered_set<int>> filteredToModTypeIds;
 
             /**
              * @brief
@@ -261,6 +264,32 @@ namespace AGRemapCore {
              **Default**: :cpp:enumerator:`DownloadMode::Normal`
              @endrst
              */
+            /**
+             * @brief
+             @rst
+             The :cpp:enum:`ModTypeId` (by id) to fall back on when classification recognises
+             nothing -- the counterpart to the pure-Python original's ``defaultModType``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Two effects, both matching that original:
+
+             * #getAvailableType answers with it instead of ``nullptr`` when #getModTypes is empty
+             * #classify stops forcing #isMod to ``false`` when a mod-type filter was supplied and
+               nothing survived it -- having a fallback is precisely what lets a caller fix a file
+               the classifier did not recognise
+
+             :raw-html:`<br />`
+
+             .. note::
+                An **id**, not a :cpp:class:`ModType`, for the same reason every other mod-type
+                field here is: the object is resolved through #getModTypes' own resolver, so an
+                override registered after this was set is still honoured
+
+             **Default**: ``std::nullopt``, meaning no fallback
+             @endrst
+             */
+            std::optional<int> defaultModTypeId;
+
             DownloadMode downloadMode = DownloadMode::Normal;
 
             /**
@@ -591,7 +620,7 @@ namespace AGRemapCore {
              this can hold more than one :cpp:class:`ModType` (see #modTypes)
              @endrst
              */
-            const std::unordered_map<int, ModType>& getModTypes() const;
+            const tsl::ordered_map<int, ModType>& getModTypes() const;
 
             /**
              * @brief
@@ -858,6 +887,39 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Empties every resource model this ``.ini`` file has built -- #getResources and
+             #getFileDownloads -- without touching the text read in from disk :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The equivalent of the pure-Python original's ``clearModels()``, and what #clear itself
+             ends with. To drop the read text instead, see #clearRead
+
+             .. danger::
+                Same hazard as #clear: a :cpp:class:`ResEdit` identifies models it has already built
+                by raw pointer, so calling this mid-edit dangles every one of them
+             @endrst
+             */
+            void clearModels();
+
+            /**
+             * @brief
+             @rst
+             Every folder this ``.ini`` file references, as absolute paths, in the order first seen
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The parent folder of each resource's ``srcPath`` -- across both #getResources and
+             #getFileDownloads -- deduplicated. Mirrors the pure-Python original's
+             ``getReferencedFolders()``, which walks the same set of models and likewise only ever
+             looks at a resource's *source* side, never its fixed one
+             @endrst
+             *
+             * @return The absolute path to every referenced folder
+             */
+            std::vector<std::string> getReferencedFolders() const;
+
+            /**
+             * @brief
+             @rst
              The one `Z3`_ context this ``.ini`` file owns -- the equivalent of the pure-Python
              original's ``ini._z3Ctx`` :raw-html:`<br />` :raw-html:`<br />`
 
@@ -926,6 +988,12 @@ namespace AGRemapCore {
              */
             const ModType* getAvailableType() const;
 
+            /**
+             * @brief Resolves #defaultModTypeId to a :cpp:class:`ModType`, or ``nullptr`` when it
+             *      is unset or names nothing registered
+             */
+            const ModType* resolveDefaultModType() const;
+
         protected:
 
             /**
@@ -946,9 +1014,14 @@ namespace AGRemapCore {
 
              Unlike the deprecated pure-Python original (where a .ini file could only ever have a
              single :cpp:class:`ModType`), this can hold more than one entry
+
+             .. note::
+                A ``tsl::ordered_map``, so iteration is **insertion order** -- which is what decides
+                which mod type takes the ``.ini`` file's backup and which one hides the original
+                (see #fix). An ``std::unordered_map`` made that arbitrary
              @endrst
              */
-            std::unordered_map<int, ModType> modTypes;
+            tsl::ordered_map<int, ModType> modTypes;
 
         private:
             std::vector<std::unique_ptr<IniResource>> resources_;
@@ -995,7 +1068,7 @@ namespace AGRemapCore {
             // result to that mod type's own built parser. nullptr if the mod type has no fix
             // builder, or if its parser could not be built -- the latter mirroring the original's
             // '_getFixer', which refuses to build while 'self._iniParser' is still None.
-            // Returns ONE FIXER PER TARGET MOD, narrowed by filteredToModTypeNames when set.
+            // Returns ONE FIXER PER TARGET MOD, narrowed by filteredToModTypeIds when set.
             // Empty if the mod type has no fix builder, if its parser could not be built, or if the
             // filter excluded every target.
             const std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>>& getFixers(int modTypeId, ModType& modType);
@@ -1014,6 +1087,12 @@ namespace AGRemapCore {
             std::optional<std::unordered_set<int>> filteredFromModTypeIds_;
             std::optional<std::unordered_set<int>> forcedFromModTypeIds_;
             std::unordered_map<int, ModType> overrideModTypes_;
+
+            // getAvailableType returns a pointer, so a resolved defaultModTypeId needs somewhere
+            // stable to live. Cached alongside the id it came from, since defaultModTypeId is
+            // public and a caller may change it after the first resolution.
+            mutable std::optional<ModType> defaultModType_;
+            mutable std::optional<int> defaultModTypeCachedId_;
             BaseIniClassifier* iniClassifier_;
 
             bool ifTemplatesRead_ = false;
@@ -1041,11 +1120,12 @@ namespace AGRemapCore {
 
             // Strips every occurrence of the ";RemapFixHideOrig -->" marker (IniKeywords::
             // HideOriginalComment) from 'line' in place -- matches the pure-Python original's own
-            // 'ignoreHideOriginal = True' behavior (always passed by readIfTemplates). A full port
-            // would gate this on a '_hideOriginalReplaced' flag set by a not-yet-ported
-            // hideOriginalSections(); until that exists, this marker can never actually appear in
-            // #fileLines_ in the first place, so stripping it unconditionally is a no-op today and
-            // exactly correct once that method lands.
+            // 'ignoreHideOriginal = True' behavior (always passed by readIfTemplates).
+            //
+            // This is no longer the no-op an earlier version of this comment described: now that
+            // RemapIniFixContext::hideOriginalSections exists, a .ini file fixed with
+            // 'hideOrig' really does carry the marker, and re-reading one has to see past it.
+            // IniClassifier::classify strips it the same way, for the same reason.
             static void stripHideOriginalComment(std::string& line);
     };
 }

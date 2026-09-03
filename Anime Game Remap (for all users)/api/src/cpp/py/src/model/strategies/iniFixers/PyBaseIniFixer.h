@@ -20,7 +20,7 @@ namespace AGRC = AGRemapCore;
  built on
  @endrst
  */
-using PyBaseIniFixerCore = AGRC::BaseIniFixer<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyBaseIniFixerCore = AGRC::BaseIniFixer<std::string, std::string>;
 
 
 /**

@@ -17,7 +17,7 @@ class CppTrieTest(BaseTrieTest):
 
     # ============= __getitem__ ======================
 
-    # @mock.patch("src.FixRaidenBoss2.Trie.get")
+    # @mock.patch("src.py.FixRaidenBoss2.Trie.get")
     def test_getItemFromTrie_calledTrieGet(self):
         tests = [
                  ["shappy", None],
@@ -51,7 +51,7 @@ class CppTrieTest(BaseTrieTest):
     # ================================================
     # ============= __setitem__ ======================
 
-    # @mock.patch("src.FixRaidenBoss2.Trie.add")
+    # @mock.patch("src.py.FixRaidenBoss2.Trie.add")
     def test_setItemForTrie_referencedTrieAdd(self):
         data = [["boooo", 0, 5, True],
                 ["", [], 0, True],
@@ -241,7 +241,7 @@ class CppTrieTest(BaseTrieTest):
     # ================================================
     # ================== add =========================
 
-    # @mock.patch("src.FixRaidenBoss2.Trie._addKeyword")
+    # @mock.patch("src.py.FixRaidenBoss2.Trie._addKeyword")
     def test_differentKVPs_referencedTrieAddKeyword(self):
         data = [["boooo", 0, 5, True],
                 ["", [], 0, True],

@@ -436,6 +436,11 @@ void testRemapBoilerPlate() {
 void testFixNoPath() {
     std::printf("\n--- GIMIFixer::fix (no file path) ---\n");
 
+    // Where a fix is WRITTEN and what it is KEYED BY are two separate decisions, and only
+    // the first can be unanswerable. An .ini file built from raw text has nowhere to write,
+    // but its fix still exists -- fixKey falls back to the group index. This used to come
+    // back empty, with the fix produced and then dropped for want of a key.
+
     Z3Context z3Ctx;
     TestIniFixContext ctx;
     ctx.hasPath = false;
@@ -447,8 +452,10 @@ void testFixNoPath() {
     GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
     GIMIFixer<>::FixResult result = fixer.fix(parseData);
 
-    check(result.empty(), "a pathless .ini file contributes nothing to the path-keyed result");
-    check(ctx.written.empty(), "and nothing is written");
+    check(result.size() == 1, "a pathless .ini file still contributes its fix to the result");
+    check(result.count("0") == 1, "...keyed by the group index, there being no path to key it by");
+    check(!result.at("0").empty(), "...and that entry has real content");
+    check(ctx.written.empty(), "but nothing is written -- that is the half with no answer");
     check(fixer.fixedContents().size() == 1, "its content is still reachable through fixedContents");
 }
 

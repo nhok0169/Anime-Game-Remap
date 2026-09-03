@@ -22,7 +22,22 @@ py::object PyBaseIniFixer::fixToPy(bool keepBackup, bool fixOnly, bool hideOrig,
 
 
 void initCppBaseIniFixer(pybind11::module_ &m) {
-    auto cls = py::class_<PyBaseIniFixer>(m, "BaseIniFixer", R"doc(
+    // py::smart_holder throughout this hierarchy -- required so a shared_ptr<BaseIniFixer> can be
+    // extracted from an existing Python object, which is what MultiModFixer's "children" dict
+    // is made of. The default unique_ptr holder cannot produce one. Same reason IniResource
+    // carries it; pybind11 needs the holder consistent across the whole hierarchy.
+    py::class_<PyBaseIniFixerCore, py::smart_holder>(m, "CppBaseIniFixer", R"doc(
+The shared C++ base of every fixer, exposed so that one built on the C++ side -- by a
+:class:`CppIniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+`Python`_ :raw-html:`<br />` :raw-html:`<br />`
+
+Not usually what you want: a fixer created **from** `Python`_ is a :class:`BaseIniFixer`, which
+inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
+has to hand back ``None`` for a core-side object it has no richer type for
+    )doc");
+
+
+    auto cls = py::class_<PyBaseIniFixer, PyBaseIniFixerCore, py::smart_holder>(m, "BaseIniFixer", R"doc(
 Base class to fix a .ini file
 
 Parameters

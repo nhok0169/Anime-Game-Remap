@@ -183,7 +183,7 @@ modType: :class:`CppModType`
 
         .def_static("findByName", &AGRC::ModTypeIdTools::findByName, py::arg("name"), py::arg("gameTypeId") = py::none(), py::doc(R"doc(
 Finds the :class:`ModTypeId` whose registered :class:`CppModType` name or alias maximally matches
-some string, similar to how :meth:`CppBaseIniClassifier.classify`'s section-name reading searches
+some string, similar to how :meth:`BaseIniClassifier.classify`'s section-name reading searches
 its own registered keywords
 
 Only searches names/aliases of :class:`CppModType` s that have actually been registered (via
@@ -217,5 +217,43 @@ forgotten, and :meth:`getModType`/:meth:`findByName` behave as if nothing was ev
 
 Mirrors :meth:`HashTools.clear`/:meth:`CppHashTools.clear` -- meant for resetting shared global
 state between independent uses (e.g. between unit tests)
+        )doc"))
+
+        .def_static("getHashRemapTargets", &AGRC::ModTypeIdTools::getHashRemapTargets, py::arg("value"), py::doc(R"doc(
+Retrieves the mod types a given mod type's **hashes** can be remapped onto
+
+This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
+passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
+so a target is named by :class:`ModTypeId` rather than by a bare string
+
+.. note::
+    Two :class:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as
+    *targets* and are never a source, which is why :class:`CppGIBuilder` has no factory for them
+
+Parameters
+----------
+value: :class:`ModTypeId`
+    The mod type to look up the remap targets of
+
+Returns
+-------
+List[:class:`ModTypeId`]
+    The mod types 'value' remaps onto, or an empty list if it remaps onto none
+        )doc"))
+
+        .def_static("getIndexRemapTargets", &AGRC::ModTypeIdTools::getIndexRemapTargets, py::arg("value"), py::doc(R"doc(
+Retrieves the mod types a given mod type's **indices** can be remapped onto
+
+Identical to :meth:`getHashRemapTargets` for every mod type but one: ``Raiden`` remaps by hash only
+
+Parameters
+----------
+value: :class:`ModTypeId`
+    The mod type to look up the remap targets of
+
+Returns
+-------
+List[:class:`ModTypeId`]
+    The mod types 'value' remaps onto, or an empty list if it remaps onto none
         )doc"));
 }

@@ -29,9 +29,9 @@ namespace AGRC = AGRemapCore;
  bypass every mock -- the same trap the ``iniresources`` port hit
  @endrst
  */
-class PyIniRemoveContext: public AGRC::IniRemoveContext<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyIniRemoveContext: public AGRC::IniRemoveContext<std::string, std::string> {
     public:
-        using Base = AGRC::IniRemoveContext<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Base = AGRC::IniRemoveContext<std::string, std::string>;
         using Section = Base::Section;
         using Assets = Base::Assets;
 
@@ -69,7 +69,7 @@ class PyIniRemoveContext: public AGRC::IniRemoveContext<py::object, py::object, 
 /**
  * @brief The core :cpp:class:`AGRemapCore::RemapIniRemover` specialization this binds
  */
-using PyRemapIniRemoverCore = AGRC::RemapIniRemover<py::object, py::object, PyObjectHash, PyObjectEqual, PyBaseIniRemover>;
+using PyRemapIniRemoverCore = AGRC::RemapIniRemover<std::string, std::string, std::hash<std::string>, std::equal_to<std::string>, PyBaseIniRemover>;
 
 
 /**

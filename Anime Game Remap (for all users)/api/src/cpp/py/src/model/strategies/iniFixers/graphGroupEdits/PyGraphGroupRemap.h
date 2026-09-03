@@ -25,13 +25,13 @@ namespace AGRC = AGRemapCore;
  from it at the start of every ``edit``/``remapGraphs`` (see #refresh)
  @endrst
  */
-class PyGraphGroupRemap: public AGRC::GraphGroupRemap<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyGraphGroupRemap: public AGRC::GraphGroupRemap<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::GraphGroupRemap<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::GraphGroupRemap<std::string, std::string>;
 
         /**
          * @brief

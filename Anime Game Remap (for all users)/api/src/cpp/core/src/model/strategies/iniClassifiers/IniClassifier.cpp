@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <string>
+#include <string_view>
 #include <vector>
 
 #include "AGRemapCore/tools/StringTools.h"
@@ -10,6 +11,19 @@
 
 
 namespace AGRemapCore {
+    namespace {
+        // Section-name keyword matching is case-insensitive, so both ends go through here: what
+        // addGIModType registers, and what readSectionName looks up. Lowering only one side matches
+        // nothing -- and does it silently, since an unmatched keyword just means "not this mod
+        // type".
+        std::string toLowerAscii(std::string_view text) {
+            std::string result(text);
+            std::transform(result.begin(), result.end(), result.begin(),
+                           [](unsigned char character) { return static_cast<char>(std::tolower(character)); });
+            return result;
+        }
+    }
+
 
     // "game:<GameTypeId>" DFA transition names, keyed off GameTypeId's underlying int value rather
     // than the game's name, so they stay in sync if GameTypeId's enumerators are ever renamed.
@@ -52,6 +66,7 @@ namespace AGRemapCore {
         keywordGameTypeIds.clear();
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
+        currentSectionIsRemap = false;
         acceptModTypeIds.clear();
     }
 
@@ -71,14 +86,28 @@ namespace AGRemapCore {
     IniClassifyStats IniClassifier::classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) {
         IniClassifyStats stats;
 
-        // Both are transient, per-classification state (a running tally of ModTypeIds seen so far
-        // this .ini file, and hashes seen before their '$\WWMIv1' confirmation marker) -- neither
-        // should leak into a later, unrelated classify() call on the same IniClassifier instance.
+        // All three are transient, per-classification state (a running tally of ModTypeIds seen so
+        // far this .ini file, hashes seen before their '$\WWMIv1' confirmation marker, and which
+        // section is currently being read) -- none should leak into a later, unrelated classify()
+        // call on the same IniClassifier instance.
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
+        currentSectionIsRemap = false;
 
         for (const std::string& line : iniTxt) {
-            std::string strippedLine(StringTools::strip(line));
+            // The hide-original marker comes off BEFORE the whitespace strip, so a section a
+            // previous fix commented out still classifies. A hidden section reads
+            // ";RemapFixHideOrig -->[TextureOverrideRaidenBody]"; leaving the marker on makes it
+            // an ordinary comment line, and the .ini file it belongs to silently classifies as no
+            // mod type at all on a re-run.
+            //
+            // This is what the pure-Python original does in its own classify loop
+            // (IniClassifierOld.py: "line.replace(IniKeywords.HideOriginalComment.value, '')"),
+            // and it is the counterpart of IniFile::stripHideOriginalComment on the read side.
+            std::string cleanedLine(line);
+            StringTools::eraseAll(cleanedLine, IniKeywords::HideOriginalComment);
+
+            std::string strippedLine(StringTools::strip(cleanedLine));
             readLine(strippedLine, stats, gameTypeId);
         }
 
@@ -123,6 +152,7 @@ namespace AGRemapCore {
         // Same transient-state reset as classify() -- see its own comment for why.
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
+        currentSectionIsRemap = false;
 
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));
@@ -151,6 +181,7 @@ namespace AGRemapCore {
         // Same transient-state reset as classify()/checkIsMod() -- see classify()'s own comment for why.
         modTypeIdDistribution.clear();
         savedWuWaModTypeIds.clear();
+        currentSectionIsRemap = false;
 
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));
@@ -169,6 +200,16 @@ namespace AGRemapCore {
         static constexpr std::string_view hashPrefix = "hash";
         static constexpr std::string_view wwmiPrefix = "$\\WWMIv1";
 
+        // A previously-fixed .ini file has its original section commented out this way -- every
+        // line of it (including the section header) individually prefixed, glued directly onto the
+        // front with no separator (see IniFile._commentSection's f"{comment}{fileLines[i]}"). See
+        // it through to the real line underneath and read that normally, rather than letting it
+        // fall through as an ordinary, ignored ".ini comment".
+        if (line.starts_with(IniKeywords::HideOriginalComment)) {
+            readLine(line.substr(IniKeywords::HideOriginalComment.size()), stats, gameTypeId);
+            return;
+        }
+
         // "hash[whitespace*]=[value]"
         if (line.starts_with(hashPrefix)) {
             size_t pos = hashPrefix.size();
@@ -186,8 +227,15 @@ namespace AGRemapCore {
                     end++;
                 }
 
-                std::string_view hashValue = StringTools::strip(std::string_view(line).substr(pos, end - pos));
-                readHash(hashValue, stats);
+                // A hash inside a "Remap"-named section is a fix-added redirect to some other mod
+                // type this .ini was already fixed to (e.g. a JeanCN/JeanSea RemapFix section
+                // inside an already-fixed Jean .ini) -- it shouldn't count toward classification,
+                // or the result would wrongly include those other mod types too.
+                if (!currentSectionIsRemap) {
+                    std::string_view hashValue = StringTools::strip(std::string_view(line).substr(pos, end - pos));
+                    readHash(hashValue, stats);
+                }
+
                 return;
             }
         }
@@ -317,8 +365,25 @@ namespace AGRemapCore {
     }
 
     void IniClassifier::readSectionName(std::string_view sectionName, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId) {
-        bool hasTextureOverride = sectionName.starts_with(IniKeywords::TextureOverride);
-        if (hasTextureOverride || sectionName.starts_with(IniKeywords::ShaderOverride)) {
+        // Every comparison in this function is case-insensitive, matching the pure-Python original,
+        // which lowercases each whole line before reading it. A .ini section is conventionally
+        // written "[TextureOverrideRaidenBody]", but nothing requires that casing and real mods do
+        // write "[textureoverride...]" -- so folding only the keyword lookup below and leaving
+        // these prefix checks exact would accept a mod type's keyword while rejecting the very
+        // section it appeared in.
+        std::string lowerSectionName = toLowerAscii(sectionName);
+        static const std::string lowerTextureOverride = toLowerAscii(IniKeywords::TextureOverride);
+        static const std::string lowerShaderOverride = toLowerAscii(IniKeywords::ShaderOverride);
+        static const std::string lowerRemap = toLowerAscii(IniKeywords::Remap);
+
+        // Tracks which section readLine is currently inside, for its own hash-skipping purposes --
+        // updated unconditionally, before anything below (including #checkHasTextureOverride) has a
+        // chance to return early, so it always reflects the actual most recent section.
+        bool isRemapSection = lowerSectionName.find(lowerRemap) != std::string::npos;
+        currentSectionIsRemap = isRemapSection;
+
+        bool hasTextureOverride = lowerSectionName.starts_with(lowerTextureOverride);
+        if (hasTextureOverride || lowerSectionName.starts_with(lowerShaderOverride)) {
             stats.isMod = true;
         }
 
@@ -326,8 +391,15 @@ namespace AGRemapCore {
             return;
         }
 
-        if (sectionName.find(IniKeywords::Remap) != std::string_view::npos) {
+        if (isRemapSection) {
             stats.isFixed = true;
+
+            // Same reasoning as readLine's hash-skip for a Remap-named section: a section-keyword
+            // match inside one is a fix-added redirect to some other mod type this .ini was already
+            // fixed to (e.g. a JeanCN/JeanSea RemapFix section inside an already-fixed Jean .ini),
+            // and shouldn't count toward #modTypeIdDistribution either -- or the same
+            // misclassification could happen via this section-keyword path instead of the hash path.
+            return;
         }
 
         std::optional<BaseAhoCorasickDFA<std::unordered_set<int>>::KeywordPredicate> pred = std::nullopt;
@@ -340,7 +412,9 @@ namespace AGRemapCore {
             };
         }
 
-        auto [matchedKeywordPtr, matchedGameTypeIdsPtr] = sectionKeywordsDFA.getMaximalPtr(sectionName, pred);
+        // addGIModType lowered the keyword when it registered it, so 'lowerSectionName' is what it
+        // has to be matched against.
+        auto [matchedKeywordPtr, matchedGameTypeIdsPtr] = sectionKeywordsDFA.getMaximalPtr(lowerSectionName, pred);
 
         if (matchedKeywordPtr == nullptr) {
             return;
@@ -428,7 +502,11 @@ namespace AGRemapCore {
         std::unordered_set<int> gameTypeIdSet;
         gameTypeIdSet.insert(static_cast<int>(GameTypeId::GI));
 
-        for (const std::string& keyword : sectionKeywords) {
+        for (const std::string& rawKeyword : sectionKeywords) {
+            // Lowered once, here, so every downstream use of it -- the match DFA, the
+            // GameTypeId predicate's lookup table, and the state id -- agrees on one spelling.
+            std::string keyword = toLowerAscii(rawKeyword);
+
             sectionKeywordsDFA.add(keyword, gameTypeIdSet);
             keywordGameTypeIds[keyword].insert(static_cast<int>(GameTypeId::GI));
 

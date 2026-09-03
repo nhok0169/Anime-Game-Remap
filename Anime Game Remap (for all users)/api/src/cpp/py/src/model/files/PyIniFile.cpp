@@ -1,0 +1,593 @@
+#include "PyIniFile.h"
+
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <unordered_set>
+#include <vector>
+
+#include <pybind11/stl.h>
+
+#include "AGRemapCore/constants/DownloadMode.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/iniresources/IniResource.h"
+#include "../PyVersion.h"
+#include "AGRemapCore/model/Version.h"
+#include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/model/strategies/ModType.h"
+#include "AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h"
+
+namespace py = pybind11;
+namespace AGRC = AGRemapCore;
+
+
+namespace {
+
+// DownloadMode is a plain C++ enum here but a StrEnum on the Python side, so it crosses by value
+// rather than by identity -- the same treatment parseGraphReplaceMode gives IniGraphReplaceMode
+// (PyResEdit.cpp). Reading through '.value' rather than comparing members means a caller can pass
+// either the Python enum member or the bare string it carries.
+const char* downloadModeName(AGRC::DownloadMode mode) {
+    switch (mode) {
+        case AGRC::DownloadMode::Disabled: return "disabled";
+        case AGRC::DownloadMode::Always: return "always";
+        default: return "normal";
+    }
+}
+
+
+AGRC::DownloadMode parseDownloadMode(const py::object &mode) {
+    if (mode.is_none()) {
+        return AGRC::DownloadMode::Normal;
+    }
+
+    py::object value = py::hasattr(mode, "value") ? mode.attr("value") : mode;
+    std::string parsed = py::str(value).cast<std::string>();
+
+    if (parsed == "disabled") {
+        return AGRC::DownloadMode::Disabled;
+    }
+
+    if (parsed == "always") {
+        return AGRC::DownloadMode::Always;
+    }
+
+    if (parsed == "normal") {
+        return AGRC::DownloadMode::Normal;
+    }
+
+    throw py::value_error("Unknown download mode: '" + parsed + "'");
+}
+
+
+// getResources()/getFileDownloads() hand out unique_ptrs the .ini file owns. Copying them out is
+// impossible and moving them out would gut the file, so the binding hands Python borrowed pointers
+// and leans on return_value_policy::reference_internal to keep the owning IniFile alive for as long
+// as any of them are reachable.
+std::vector<AGRC::IniResource*> borrowAll(std::vector<std::unique_ptr<AGRC::IniResource>> &resources) {
+    std::vector<AGRC::IniResource*> result;
+    result.reserve(resources.size());
+
+    for (std::unique_ptr<AGRC::IniResource> &resource : resources) {
+        result.push_back(resource.get());
+    }
+
+    return result;
+}
+
+}
+
+
+void initCppIniFile(pybind11::module_ &m) {
+    py::class_<AGRC::IniFile>(m, "IniFile", R"doc(
+Class for handling .ini files -- the C++-backed counterpart to the pure-Python :class:`IniFile`
+:raw-html:`<br />` :raw-html:`<br />`
+
+.. note::
+    Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
+    class resolves a mod type's parse/fix/remove builders through the global registry keyed by
+    ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
+    :class:`CppModType`
+
+Parameters
+----------
+file: Optional[:class:`str`]
+    The file path to the .ini file. If ``None``, this object is backed only by 'txt' and never
+    touches the disk :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+txt: :class:`str`
+    The text content of the .ini file, used when 'file' is ``None`` :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``""``
+
+gameTypeId: Optional[:class:`int`]
+    The id for the game the .ini file's mod belongs to :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+filteredFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the only mod types this .ini file is allowed to be classified as :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``None``, meaning no filter
+
+forcedFromModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the mod types this .ini file is classified as regardless of what its content says
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+overrideModTypes: Optional[Dict[:class:`int`, :class:`CppModType`]]
+    Mod types to resolve by id ahead of the global registry :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+iniClassifier: Optional[:class:`BaseIniClassifier`]
+    The strategy used to classify the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``, meaning the global default classifier
+
+downloadMode: Optional[:class:`DownloadMode`]
+    How file downloads referenced by the .ini file are handled :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``None``, meaning :attr:`DownloadMode.Normal`
+
+fromVersion: Optional[:class:`CppVersion`]
+    The version of the mod being fixed :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+toVersion: Optional[:class:`CppVersion`]
+    The version of the mod being fixed to :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+filteredToModTypeIds: Optional[Set[:class:`int`]]
+    The ids of the only mod types this .ini file is allowed to be remapped onto :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``None``, meaning no filter
+    )doc")
+
+        .def(py::init([](std::optional<std::string> file, std::string txt, std::optional<int> gameTypeId,
+                         std::optional<std::unordered_set<int>> filteredFromModTypeIds,
+                         std::optional<std::unordered_set<int>> forcedFromModTypeIds,
+                         std::optional<std::unordered_map<int, AGRC::ModType>> overrideModTypes,
+                         AGRC::BaseIniClassifier *iniClassifier, const py::object &downloadMode,
+                         std::optional<AGRC::Version> fromVersion, std::optional<AGRC::Version> toVersion,
+                         std::optional<std::unordered_set<int>> filteredToModTypeIds) {
+            // 'parseData' is deliberately not a parameter: it is a
+            // Dict[int, List[IniGraphGroup<std::string, std::string>]], and the IniGraphGroup bound
+            // to Python is a separate pybind-layer class holding a py::dict -- not that
+            // instantiation -- so there is no value a Python caller could pass here. Parse data
+            // stays on the C++ side, produced by parse() and consumed by fix().
+            return std::make_unique<AGRC::IniFile>(std::move(file), std::move(txt), gameTypeId,
+                                                   std::move(filteredFromModTypeIds), std::move(forcedFromModTypeIds),
+                                                   std::move(overrideModTypes), iniClassifier, std::nullopt,
+                                                   parseDownloadMode(downloadMode), std::move(fromVersion),
+                                                   std::move(toVersion), std::move(filteredToModTypeIds));
+        }), py::arg("file") = py::none(), py::arg("txt") = "", py::arg("gameTypeId") = py::none(),
+            py::arg("filteredFromModTypeIds") = py::none(), py::arg("forcedFromModTypeIds") = py::none(),
+            py::arg("overrideModTypes") = py::none(), py::arg("iniClassifier") = nullptr,
+            py::arg("downloadMode") = py::none(), py::arg("fromVersion") = py::none(),
+            py::arg("toVersion") = py::none(), py::arg("filteredToModTypeIds") = py::none(),
+            // The classifier is borrowed, not owned -- keep whatever Python object was passed alive
+            // for at least as long as this .ini file.
+            py::keep_alive<1, 8>())
+
+        // ================================================
+        // ================== file identity ===============
+
+        .def_property_readonly("file", &AGRC::IniFile::getFile, py::doc(R"doc(
+Optional[:class:`str`]: The file path to the .ini file, or ``None`` if this object is backed only
+by its text
+        )doc"))
+
+        .def_property_readonly("folder", &AGRC::IniFile::getFolder, py::doc(R"doc(
+:class:`str`: The folder the .ini file resides in, or ``""`` when it has no path
+
+.. note::
+    This deliberately differs from the pure-Python :attr:`IniFile.folder`, which falls back to the
+    folder the script is run from. Derived from :attr:`IniFile.file` rather than stored
+        )doc"))
+
+        .def_property("fileTxt", &AGRC::IniFile::getFileTxt, &AGRC::IniFile::setFileTxt, py::doc(R"doc(
+:class:`str`: The text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+Setting this re-reads the text lines from the new value and marks the file as not fixed
+        )doc"))
+
+        .def_property_readonly("fileLines", &AGRC::IniFile::getFileLines, py::doc(R"doc(
+List[:class:`str`]: The text lines of the .ini file, each keeping its own line ending
+        )doc"))
+
+        .def_property_readonly("fileLinesRead", &AGRC::IniFile::fileLinesRead, py::doc(R"doc(
+:class:`bool`: Whether the .ini file has been read
+        )doc"))
+
+        .def_property_readonly("isModIni", &AGRC::IniFile::getIsMod, py::doc(R"doc(
+:class:`bool`: Whether the .ini file belongs to a mod -- the result of :meth:`classify`
+        )doc"))
+
+        .def_property("isFixed", &AGRC::IniFile::getIsFixed, &AGRC::IniFile::setIsFixed, py::doc(R"doc(
+:class:`bool`: Whether the .ini file has already been fixed
+        )doc"))
+
+        .def_property_readonly("isClassified", &AGRC::IniFile::isClassified, py::doc(R"doc(
+:class:`bool`: Whether the type of mod has already been identified for the .ini file
+        )doc"))
+
+        .def_property_readonly("availableType", &AGRC::IniFile::getAvailableType,
+                               py::return_value_policy::reference_internal, py::doc(R"doc(
+Optional[:class:`CppModType`]: The type of mod the .ini file was classified as, or ``None`` if it
+was not classified as any
+        )doc"))
+
+        // ================================================
+        // ==================== reading ===================
+
+        .def("readFileLines", &AGRC::IniFile::readFileLines, py::doc(R"doc(
+Reads the text lines of the .ini file off disk
+
+Returns
+-------
+List[:class:`str`]
+    The text lines read, each keeping its own line ending
+        )doc"))
+
+        .def("write", &AGRC::IniFile::write, py::arg("txt") = py::none(), py::doc(R"doc(
+Writes text back out to the .ini file
+
+Parameters
+----------
+txt: Optional[:class:`str`]
+    The text to write. If ``None``, writes this object's current
+    :attr:`IniFile.fileTxt` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
+Returns
+-------
+:class:`str`
+    The text that was written
+        )doc"))
+
+        .def("disableIni", &AGRC::IniFile::disableIni, py::arg("makeCopy") = false, py::doc(R"doc(
+Disables the .ini file by renaming it so the mod loader stops reading it
+
+Parameters
+----------
+makeCopy: :class:`bool`
+    Whether to keep a copy of the file at its original path :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``False``
+
+Returns
+-------
+Optional[:class:`str`]
+    The path the file was moved to, or ``None`` if there was no file to disable
+        )doc"))
+
+        // ================================================
+        // ================ the fix pipeline ==============
+
+        .def("classify", &AGRC::IniFile::classify, py::doc(R"doc(
+Classifies the .ini file -- whether it belongs to a mod, which types of mod, and whether it has
+already been fixed :raw-html:`<br />` :raw-html:`<br />`
+
+The results are read back off :attr:`IniFile.isModIni`, :attr:`IniFile.availableType` and
+:attr:`IniFile.isFixed`
+        )doc"))
+
+        .def("parse", [](AGRC::IniFile &self, bool flushIfTemplates) {
+            // Returns None rather than the ParseData it produces: see the constructor's note on
+            // why that type cannot cross into Python. The parsed resources are readable through
+            // getResources()/getFileDownloads() instead, which is what the parse is run for.
+            self.parse(flushIfTemplates);
+        }, py::arg("flushIfTemplates") = true, py::doc(R"doc(
+Parses the .ini file, building up the resources it references
+
+.. note::
+    The parsed graph groups themselves stay on the C++ side. Read the results off
+    :meth:`getResources` / :meth:`getFileDownloads`
+
+Parameters
+----------
+flushIfTemplates: :class:`bool`
+    Whether to re-read the `sections`_ of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+        )doc"))
+
+        .def("fix", &AGRC::IniFile::fix, py::arg("keepBackup") = true, py::arg("fixOnly") = false,
+             py::arg("hideOrig") = false, py::doc(R"doc(
+Fixes the .ini file, running one fixer per mod type the file was classified as
+
+Parameters
+----------
+keepBackup: :class:`bool`
+    Whether to keep a backup copy of the original .ini file :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+fixOnly: :class:`bool`
+    Whether to only fix the .ini file without removing any previous fix :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``False``
+
+hideOrig: :class:`bool`
+    Whether to comment out the `sections`_ the fix touched, so only the remapped mod displays
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+
+Returns
+-------
+Dict[:class:`str`, :class:`str`]
+    The fix produced for each .ini file written, keyed by file path
+        )doc"))
+
+        .def("removeFix", &AGRC::IniFile::removeFix, py::arg("parse") = false, py::arg("writeBack") = true,
+             py::doc(R"doc(
+Removes a previous fix from the .ini file
+
+Parameters
+----------
+parse: :class:`bool`
+    Whether to parse the .ini file first :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+
+writeBack: :class:`bool`
+    Whether to write the result back out to disk :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``True``
+
+Returns
+-------
+:class:`str`
+    The text of the .ini file with the fix removed
+        )doc"))
+
+        // ================================================
+        // ==================== sections ==================
+
+        .def("getSectionNames", &AGRC::IniFile::getSectionNames, py::doc(R"doc(
+Retrieves the names of all the `sections`_ in the .ini file, in the order they are declared
+
+Returns
+-------
+List[:class:`str`]
+    The names of the `sections`_
+        )doc"))
+
+        .def("getSection", &AGRC::IniFile::getSection, py::arg("name"),
+             py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves a `section`_ of the .ini file by name
+
+Parameters
+----------
+name: :class:`str`
+    The name of the `section`_
+
+Returns
+-------
+Optional[:class:`IfTemplate`]
+    The `section`_, or ``None`` if no `section`_ goes by that name
+        )doc"))
+
+        .def("removeSection", &AGRC::IniFile::removeSection, py::arg("name"), py::doc(R"doc(
+Removes a `section`_ from the .ini file, keeping the declaration order of the rest
+
+Parameters
+----------
+name: :class:`str`
+    The name of the `section`_ to remove
+        )doc"))
+
+        // ================================================
+        // ==================== resources =================
+
+        // --- the surface a drop-in for the pure-Python IniFile needs -------------------------
+        // The pure-Python original calls this one 'version'; core splits it in two, since a fix
+        // reads from one game version and writes to another.
+        // Properties rather than def_readwrite so these accept the same
+        // Union[str, int, float, CppVersion] every other version argument in this API does --
+        // CppVersion itself exposes no constructor, so a plain readwrite would be unsettable
+        // from Python.
+        .def_property("fromVersion",
+                      [](const AGRC::IniFile &self) { return self.fromVersion; },
+                      [](AGRC::IniFile &self, const py::object &v) { self.fromVersion = parseVersionArg(v); },
+    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version the .ini file originates from
+
+Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set)doc"))
+
+        .def_property("toVersion",
+                      [](const AGRC::IniFile &self) { return self.toVersion; },
+                      [](AGRC::IniFile &self, const py::object &v) { self.toVersion = parseVersionArg(v); },
+    py::doc(R"doc(Optional[:class:`CppVersion`]: The game version to fix the .ini file to
+
+Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set)doc"))
+
+        // A property rather than def_readwrite: AGRC::DownloadMode is not a registered pybind
+        // enum (Python's DownloadMode is its own StrEnum), so it crosses as its string value --
+        // the same convention the constructor already uses.
+        .def_property("downloadMode",
+                      [](const AGRC::IniFile &self) { return std::string(downloadModeName(self.downloadMode)); },
+                      [](AGRC::IniFile &self, const py::object &mode) { self.downloadMode = parseDownloadMode(mode); },
+    py::doc(R"doc(:class:`str`: How the .ini file's referenced downloads are handled
+
+Reads back as the :class:`DownloadMode` string value (``"normal"``, ``"disabled"``, ``"always"``);
+accepts either a :class:`DownloadMode` or its value when set)doc"))
+
+        .def_readwrite("defaultModTypeId", &AGRC::IniFile::defaultModTypeId,
+    py::doc(R"doc(Optional[:class:`int`]: The :class:`ModTypeId` value to fall back on when classification recognises nothing
+
+:meth:`availableType` answers with it instead of ``None``, and :meth:`classify` stops forcing
+:attr:`isModIni` false when a mod-type filter was given and nothing survived it)doc"))
+
+        .def_readwrite("filteredToModTypeIds", &AGRC::IniFile::filteredToModTypeIds,
+    py::doc(R"doc(Optional[Set[:class:`int`]]: Only fix to these mod types, by :class:`ModTypeId` value
+
+``None`` means no filter -- an **empty set** is deliberately different, and selects nothing)doc"))
+
+        .def("setFileTxt", &AGRC::IniFile::setFileTxt, py::arg("txt"), py::doc(R"doc(
+Replaces the .ini file's text content, without touching the file on disk
+
+Parameters
+----------
+txt: :class:`str`
+    The new text content
+        )doc"))
+
+        .def("getModTypes", [](AGRC::IniFile &self) {
+            py::dict result;
+            for (const auto &entry : self.getModTypes()) {
+                result[py::cast(entry.first)] = py::cast(self.getModTypes().at(entry.first));
+            }
+            return result;
+        }, py::doc(R"doc(
+Retrieves the mod types the .ini file was classified as, keyed by :class:`ModTypeId` value
+
+Returns
+-------
+Dict[:class:`int`, :class:`CppModType`]
+    The mod types, in the order they were classified
+        )doc"))
+
+        .def("getIfTemplates", [](AGRC::IniFile &self, bool flush) {
+            py::dict result;
+            for (const auto &entry : self.getIfTemplates(flush)) {
+                result[py::cast(entry.first)] = py::cast(entry.second.get(),
+                                                         py::return_value_policy::reference);
+            }
+            return result;
+        }, py::arg("flush") = false, py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves every parsed `section`_ of the .ini file, keyed by section name
+
+.. danger::
+    The returned sections are owned by this .ini file. :meth:`clear` destroys them
+
+Parameters
+----------
+flush: :class:`bool`
+    Whether to re-read the sections rather than reuse what was already parsed :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+
+Returns
+-------
+Dict[:class:`str`, :class:`IfTemplate`]
+    The sections, in the order they appear in the file
+        )doc"))
+
+        .def("getResources", [](AGRC::IniFile &self) {
+            return borrowAll(self.getResources());
+        }, py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves every resource the .ini file references
+
+.. danger::
+    The returned resources are owned by this .ini file. :meth:`clear` and :meth:`clearModels`
+    destroy them
+
+Returns
+-------
+List[:class:`IniResource`]
+    The resources
+        )doc"))
+
+        .def("getFileDownloads", [](AGRC::IniFile &self) {
+            return borrowAll(self.getFileDownloads());
+        }, py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves every file download the .ini file references
+
+.. danger::
+    Same ownership caveat as :meth:`getResources`
+
+Returns
+-------
+List[:class:`IniResource`]
+    The file downloads
+        )doc"))
+
+        .def("getReferencedFolders", &AGRC::IniFile::getReferencedFolders, py::doc(R"doc(
+Retrieves all the folders referenced by the .ini file, in the order first seen
+
+Returns
+-------
+List[:class:`str`]
+    The absolute paths to all the folders
+        )doc"))
+
+        // ================================================
+        // ==================== clearing ==================
+
+        .def("clearModels", &AGRC::IniFile::clearModels, py::doc(R"doc(
+Clears every resource model built for the .ini file, without clearing the text read in from it
+
+.. note::
+    To clear the read text instead, see :meth:`clearRead`
+        )doc"))
+
+        .def("clearRead", &AGRC::IniFile::clearRead, py::arg("eraseSourceTxt") = false, py::doc(R"doc(
+Clears the text data read in from the .ini file
+
+Parameters
+----------
+eraseSourceTxt: :class:`bool`
+    Whether to also erase the text this object was constructed with, when
+    :attr:`IniFile.file` is ``None`` and that text is its only data source :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``False``
+        )doc"))
+
+        .def("clear", &AGRC::IniFile::clear, py::arg("eraseSourceTxt") = false, py::doc(R"doc(
+Clears all the saved data for the .ini file -- everything :meth:`clearRead` and
+:meth:`clearModels` clear, plus the classification results and parsed `sections`_
+
+Parameters
+----------
+eraseSourceTxt: :class:`bool`
+    See :meth:`clearRead` :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
+        )doc"))
+
+        // ================================================
+        // ================ line predicates ===============
+
+        .def_static("isSectionHeaderLine", &AGRC::IniFile::isSectionHeaderLine, py::arg("line"), py::doc(R"doc(
+Determines whether a line of text declares a `section`_
+
+Parameters
+----------
+line: :class:`str`
+    The line to check
+
+Returns
+-------
+:class:`bool`
+    Whether the line declares a `section`_
+        )doc"))
+
+        .def_static("getSectionNameFromLine", &AGRC::IniFile::getSectionNameFromLine, py::arg("line"), py::doc(R"doc(
+Retrieves the name of the `section`_ a line declares
+
+Parameters
+----------
+line: :class:`str`
+    The line to read the name out of
+
+Returns
+-------
+:class:`str`
+    The name of the `section`_
+        )doc"));
+}

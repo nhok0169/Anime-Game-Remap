@@ -1367,6 +1367,22 @@ base registered first — see the inheritance bullet below), binding only the ge
 inherited and dispatch to the derived override automatically via the real C++ vtable, no rebinding
 needed.
 
+**Update, 2026-09-03**: the whole pure-Python `model/strategies/iniClassifiers/` package (the
+`Old`-suffixed `IniClassifierOld`/`BaseIniClassifierOld`/`IniClassifierBuilderOld`/
+`BaseIniClassifierBuilderOld`/`IniClassifyStatsOld` plus the un-suffixed `states/IniCls*.py` DFA
+plumbing they alone depended on, and the live `constants/GlobalIniClassifiers.py` module that still
+imported them) has been **deleted outright** — there was no live call site left ([`Mod.py`](../../Anime%20Game%20Remap%20%28for%20all%20users%29/api/src/py/FixRaidenBoss2/model/Mod.py)
+constructs `IniFile` with no `iniClassifier` argument, which already defaults to the C++
+`GlobalIniClassifiers::classifier()` singleton). With the pure-Python originals gone, the three
+`Cpp`-prefixed names in this section have **graduated to their bare names** per the "Two different
+outcomes for porting a class" rule below: `CppBaseIniClassifier` → `BaseIniClassifier`,
+`CppIniClassifier` → `IniClassifier`, `CppIniClassifyStats` → `IniClassifyStats` (`initCppXxx` the
+internal C++ function names are unchanged — only the `py::class_<...>(m, "...")` registration
+string moved). Everything else in this section above is otherwise-accurate historical narrative of
+how the binding gap was diagnosed and fixed — just mentally read every `CppXxx` name in it as the
+bare name now. `test_CppIniClassifier.py` was likewise renamed to `test_IniClassifier.py`
+(replacing the old, permanently-broken pure-Python test of that same name).
+
 ## A `std::optional<T>`/return-or-parameter-type dependency between two `initCppXxx(m)` calls does *not* need call-order enforcement — only real `py::class_<Derived, Base>` inheritance does
 
 Empirically confirmed while adding `ModTypeIdTools::getModType`/`registerModType` (returning/taking
@@ -1563,20 +1579,26 @@ takes the backup (`keepBackup`), the last one hides the original mod's `sections
 contribute a fixer --- a mod type that runs nothing must not be able to claim the file's first or
 last word.
 
-### State of the core-only pipeline: parse and fix are wired but **inert**, and here is the blocker
+### State of the core-only pipeline: parse, fix and remove are all live now
 
-`IniFile::removeFix()` works end-to-end for a plain C++ caller. `IniFile::fix()` and `parse()` do
-not, and it is not for lack of contexts:
+Historical note, because the old text here said the opposite and you may find that claim quoted
+elsewhere: `IniFile::parse()` and `fix()` used to return nothing for a plain C++ caller. Both were
+fixed on 2026-09-02, and there were **three** blockers rather than the single one documented:
 
-- `IniParseBuilder::defaultFactory` returns `BaseIniParser<>`, and `IniFixBuilder::defaultFactory`
-  returns `BaseIniFixer<>` --- both do-nothing bases whose `fixImpl` returns `{}`. Compare
-  `IniRemoveBuilder`, whose default builds a real `RemapIniRemover` wrapped in an
-  `IniFileRemoveContext`. Both strategies have `setCtx`, so the wiring itself is a few lines.
-- **The real blocker is that `AGRemapCore` has no section renderer.** `IfTemplate` and
-  `IfContentPart` deliberately have no `toStr` ("what a `section`_ looks like is the caller's
-  business" --- see `GIMIFixer::SectionToStr`), so a default-built `GIMIFixer` would build its
-  groups correctly and then render **empty** fixes. Don't "fix" that by quietly adding an
-  `IfTemplate::toStr`; it is an explicit design decision. Raise it instead.
+1. `IniParseBuilder::defaultFactory`/`IniFixBuilder::defaultFactory` returned do-nothing bases.
+   They now build a real `GIMIParser`/`GIMIFixer` that owns its context.
+2. A `GIMIFixer` with no `sectionToStr` renders **empty** -- it builds its groups correctly and
+   writes nothing. The renderer is `AGRemapCore::renderIfTemplate`
+   (`model/iftemplate/IfTemplateRender.h`), handed in as a callback. `IfTemplate`/`IfContentPart`
+   still deliberately have no `toStr` of their own; that half of the old warning stands -- do not
+   add one.
+3. The owning parser must call `setIniFile(iniFile)`. `BaseIniFixer::setParser` derives its `.ini`
+   file from `parser->getIniFile()`, so a parser that never set it silently blinds every fixer
+   downstream. Caught only by a core standalone test; the Python suite stayed green throughout.
+
+What is *still* inert is the per-mod-type **argument layer**: the default factory passes
+`graphGroupEdits = {}`, so a remapped section body comes out empty. That is the
+`IniFixBuilderData`/`IniParseBuilderData` tables, tracked separately.
 
 ## Splicing a Python-state-carrying base into a ported class: the `XxxBase` template parameter
 
@@ -1697,3 +1719,106 @@ practical notes:
   it is *not* a usable source of from -> to mod relationships. **`VGRemapData` is** --- it is keyed
   `(fromVersion, fromChar, fromComp, toVersion, toChar, toComp)` and is where `Jean -> {JeanCN,
   JeanSea}` actually lives.
+
+## `IniFile` is the C++ class now --- `IniFile.py` is gone
+
+As of 2026-09-03 `FixRaidenBoss2.IniFile` **is** `AGRemapCore::IniFile` via pybind11. The
+2525-line pure-Python `model/files/IniFile.py` was deleted and the old `CppIniFile` name retired.
+What follows from that, in rough order of how easy it is to trip over:
+
+- **It takes mod-type *ids*, not `ModType` objects**, resolved through the global registry
+  (`ModTypeIdTools`), so `GlobalModTypes::registerAll()` must have run. The pure-Python `ModType`
+  carries no id of its own --- bridge by name:
+  `int(ModTypeIdTools.findByName(modType.name))`. That is what `Mod._modTypeIds` does.
+- **Several constructor keywords have no C++ equivalent.** `logger` is simply gone (a separate
+  change owns logging). `version` split into `fromVersion`/`toVersion`. `modTypes`/`forcedModType`
+  became `filteredFromModTypeIds`/`forcedFromModTypeIds`, `modsToFix` became
+  `filteredToModTypeIds`, `defaultModType` became `defaultModTypeId`. The last two have **no
+  constructor parameter at all** --- assign them after construction.
+- **~33 methods did not survive, deliberately.** The fix-boilerplate family
+  (`getFixHeader`/`getFixFooter`/`getFixCredit`/`addFixBoilerPlate`) moved into
+  `RemapIniFixContext`/`GIMIFixer`; the section-options family
+  (`getSectionOptions`/`removeSectionOptions`) into `RemapIniRemover`. Wanting one of them on
+  `IniFile` means you are in the wrong class.
+- **There are no per-kind resource accessors** (`getTexAddModels`, `getTexEditModels`, ...) and
+  there should not be. `getResources()` is generic and you filter on `IniResource.type` --- the
+  maintainer's explicit call: a resource is a resource whether it is a texture, a buffer or any
+  other media. Current vocabulary: `resourceRemapBlend`, `resourceRemapTexAdd`,
+  `resourceRemapTexEdit`.
+
+## Adding a resource type: the base is add-vs-edit, and it is unreachable until a `resEdits/` class builds it
+
+Two rules, both learned by getting them wrong.
+
+**1. The base class is decided by whether the operation writes a *different* file.**
+
+| Operation | Base | Paths | Examples |
+| --- | --- | --- | --- |
+| add / create | `RemapIniResource` | `srcPath` only | `RemapTexAddResource` |
+| edit / replace | `RemapIniFixResource` | `srcPath` **and** `fixedPath` | `RemapBlendResource`, `RemapTexEditResource` |
+
+Media type is irrelevant to the choice --- a texture *edit* belongs with the blend edit, not with
+the texture add. Getting it right settles the details for free: `src*` predicates key on
+`srcPath` and `fix*` on `fixedPath`, and `fixExists` is *inherited* from `RemapIniFixResource`
+("is `fixedPath` on disk") rather than overridden.
+
+**2. Binding the resource does nothing on its own.** What attaches it to an `.ini` file lives under
+`core/.../iniFixers/graphGroupEdits/resEdits/`, and the split there mirrors rule 1: `ResCreate` for
+an add, `ResReplace` for an edit. The difference is literally whether the **original** resource
+name is used --- `TexCreate::getFixResourceName` discards its `resource` argument,
+`TexReplace::getFixResourceName` builds on it. Beware that filenames there do not name their
+classes: `resEdits/TexEdit.h` holds **`TexCreate`** (and now `TexReplace`). Grep for the class, not
+the file.
+
+Like `RemapBlendReplace`, a core `resEdits` class does **not** override `buildResModel` --- the
+pybind layer does, because the editor/creator object comes from Python. And every resEdit pybind
+class registers against `PyBaseResEditCore`, so `isinstance(x, ResReplace)` is `False` even for
+`RemapBlendReplace`; only `BaseResEdit` is a real Python base. Consistent across the family --- do
+not "fix" it.
+
+## A Python object handed back through a bound factory loses its identity unless you pin it
+
+If a binding takes a Python callable that *returns an object* (`IniParseBuilder`'s factory, and
+anything shaped like it), `result.cast<std::shared_ptr<PyThing>>()` is a trap. That `shared_ptr`
+owns only the **C++** half; the `PyObject` is freed as soon as the caller's last reference drops
+--- immediately, since the factory's local goes out of scope. Casting it back later builds a
+**brand new wrapper of the registered base type**: a Python subclass goes in and a plain base
+object comes out, attributes gone, silently, with no error.
+
+Use `holdPyStrategy<PyThing, CoreThing>` (`py/src/model/strategies/PyStrategyFactory.h`). It uses
+`shared_ptr`'s *aliasing* constructor so the control block owns a `PyStrategyKeepAlive` pinning the
+`py::object`, whose destructor re-acquires the GIL --- the last reference is usually released from
+C++ with none held. The regression test is `assertIs(built, made)`; `assertIsInstance` passes
+either way and will not catch it.
+
+Related: a builder must capture its Python factory **by value**, because a builder outlives the
+expression that made it (`ModType` holds one in a `shared_ptr`).
+
+## Register the core template base, or the boundary can only ever return `None`
+
+The Python-facing wrappers (`PyBaseIniParser`, `PyBaseIniFixer`, `PyBaseIniRemover`) are
+*subclasses* of `AGRC::BaseIniParser<>` and friends. For a long time only the subclass was
+registered, so a `shared_ptr<BaseIniParser<>>` coming from a **C++-side** factory had no registered
+type to cast to, and the workaround was `dynamic_pointer_cast` plus `None`.
+
+The fix, now in place: register the core base too (`CppBaseIniParser`, `CppBaseIniFixer`,
+`CppBaseIniRemover`) and declare the wrapper as
+`py::class_<PyBaseIniParser, PyBaseIniParserCore, py::smart_holder>`. pybind11's polymorphic
+downcast then returns the *Python* object when there is one and the core base otherwise. Every
+class in such a hierarchy needs `py::smart_holder`, since a holder must stay consistent down a
+chain.
+
+## `# TOREMOVE` in `FixRaidenBoss2/__init__.py` is the authoritative deletion signal
+
+When a task says "remove the old X", read those markers before deciding scope. They beat the
+`...Old` suffix as a signal, because some doomed classes keep their bare name (`GIMIObjParser`,
+`GIMIObjMergeFixer`) while some `...Old` files are deliberately kept. Two counter-signals that mean
+**keep**:
+
+- a class bound under a `Cpp`-prefixed name --- that is the wrapper outcome, and the bare-named
+  pure-Python original stays. (The day the Python one *is* deleted, the binding takes the bare
+  name; that is exactly how `CppIniFile` became `IniFile`. Watch out when renaming:
+  `initCppIniFile` **contains** `CppIniFile`, so a naive find-and-replace silently breaks the
+  module's init function.)
+- a core class with **no pybind binding at all** --- the pure-Python one is still the only thing
+  Python can reach, however complete the C++ side looks.

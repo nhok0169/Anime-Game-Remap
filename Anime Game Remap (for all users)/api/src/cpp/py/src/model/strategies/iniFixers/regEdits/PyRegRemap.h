@@ -19,13 +19,13 @@ namespace AGRC = AGRemapCore;
  list (see that class's note)
  @endrst
  */
-class PyRegRemap: public AGRC::RegRemap<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegRemap: public AGRC::RegRemap<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegRemap<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegRemap<std::string, std::string>;
 
         /**
          * @brief

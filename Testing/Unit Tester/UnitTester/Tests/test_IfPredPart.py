@@ -36,7 +36,7 @@ class IfPredPartTest(BaseUnitTest):
     def test_type_isTranslatedToExistingPythonEnum(self):
         # IfPredPart.type must keep returning the *pre-existing* pure-Python IfPredPartType enum
         # (not some new, separately pybind11-bound one) -- every other real caller across this
-        # codebase (IfTemplateTree.py, IniSectionGraph.py, BaseIniFixerOld.py, ...) compares
+        # codebase (IfTemplateTree.py, IniSectionGraph.py, ...) compares
         # '.type' against that exact enum, with no reason to know this class exists at all.
         part = FRB.IfPredPart("if $x == 5 then", FRB.IfPredPartType.If, self._z3Ctx)
         self.assertIs(part.type, FRB.IfPredPartType.If)

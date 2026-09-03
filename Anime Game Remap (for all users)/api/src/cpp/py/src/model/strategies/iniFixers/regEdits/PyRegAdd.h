@@ -25,13 +25,13 @@ namespace AGRC = AGRemapCore;
  both, at the cost of re-parsing a handful of small tuples per call
  @endrst
  */
-class PyRegAdd: public AGRC::RegAdd<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegAdd: public AGRC::RegAdd<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegAdd<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegAdd<std::string, std::string>;
 
         /**
          * @brief

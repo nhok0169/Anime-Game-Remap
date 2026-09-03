@@ -10,24 +10,28 @@
 
 namespace {
 
-    AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual> buildIndexRepo() {
+    AGRC::ModDictAssets<std::string, std::string> buildIndexRepo() {
         const auto &rawRows = AGRC::Data::getIndexDataRows();
 
-        std::vector<AGRC::Row<py::object, py::object>> rows;
+        std::vector<AGRC::Row<std::string, std::string>> rows;
         rows.reserve(rawRows.size());
         for (const auto &rawRow : rawRows) {
-            std::vector<py::object> indexVals;
+            std::vector<std::string> indexVals;
             indexVals.reserve(rawRow.first.size());
             for (const std::string &v : rawRow.first) {
-                indexVals.push_back(py::str(v));
+                indexVals.push_back(v);
             }
-            rows.push_back(AGRC::Row<py::object, py::object>{std::move(indexVals), py::str(rawRow.second)});
+            rows.push_back(AGRC::Row<std::string, std::string>{std::move(indexVals), py::str(rawRow.second).cast<std::string>()});
         }
 
         // 4 total indices (version, name, component, type), version at position 0 -- matches the
         // pure-Python IndexData's own nesting depth/order exactly (see Indices.py's history, now
         // removed).
-        return AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual>(4, 0, parseVersionArg, std::move(rows));
+        return AGRC::ModDictAssets<std::string, std::string>(4, 0,
+            // ModDictAssets::VersionParser is std::function<optional<Version>(const K&)>, and K
+            // is std::string here -- parseVersionArg still speaks py::object, so it is adapted.
+            [](const std::string &v) { return parseVersionArg(py::cast(v)); },
+            std::move(rows));
     }
 
 }

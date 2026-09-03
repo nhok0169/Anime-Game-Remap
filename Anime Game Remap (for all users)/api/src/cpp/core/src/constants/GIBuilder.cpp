@@ -8,9 +8,12 @@
 
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
+#include "AGRemapCore/model/assets/Hashes.h"
+#include "AGRemapCore/model/assets/Indices.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
@@ -83,18 +86,48 @@ namespace AGRemapCore {
          * from the first two builders, and asks the third for a remover per call. See
          * ModType::iniParseBuilder / ModType::iniRemoveBuilder.
          */
+        /*
+         * The "fromName -> [toName, ...]" map a ModMappedAssets is keyed by. Empty when this mod
+         * type remaps onto nothing: ModMappedAssets::resolveToAssetNames returns nullopt for a
+         * from-name that isn't a key, so an absent entry means "no targets", NOT "all targets".
+         */
+        std::unordered_map<std::string, std::vector<std::string>> makeRemapMap(const std::string& name,
+                                                                               const std::vector<ModTypeId>& targets) {
+            if (targets.empty()) {
+                return {};
+            }
+
+            std::vector<std::string> targetNames;
+            targetNames.reserve(targets.size());
+            for (ModTypeId target : targets) {
+                targetNames.push_back(ModTypeIdTools::getName(target));
+            }
+
+            return {{name, std::move(targetNames)}};
+        }
+
         ModType makeGIModType(ModTypeId modTypeId, std::vector<std::string> aliases = {}) {
+            const std::string name = ModTypeIdTools::getName(modTypeId);
+
             return ModType(static_cast<int>(GameTypeId::GI), static_cast<int>(modTypeId),
-                           ModTypeIdTools::getName(modTypeId), std::move(aliases),
-                           // nullptr hashes/indices/vertexCounts -> each GI mod type gets its own
-                           // fully-populated tables, matching the pure-Python GIBuilder (which
-                           // likewise passes none of them and so lands on ModType's own
-                           // Hashes()/Indices()/VertexCounts() defaults).
+                           name, std::move(aliases),
+                           // The remap graph -- which mod types this one can be fixed onto. The
+                           // pure-Python GIBuilder spells this out per character as
+                           // "Hashes(map = {...})" / "Indices(map = {...})"; here the same data
+                           // lives in one table next to the ModTypeId enum, so a target is named by
+                           // enumerator rather than by a bare string. Passing nullptr instead (as
+                           // this used to) lands on ModType's bare Hashes()/Indices() defaults,
+                           // whose empty map means the mod type can remap onto nothing at all.
+                           std::make_shared<Hashes>(makeRemapMap(name, ModTypeIdTools::getHashRemapTargets(modTypeId))),
+                           std::make_shared<Indices>(makeRemapMap(name, ModTypeIdTools::getIndexRemapTargets(modTypeId))),
+                           // nullptr vertexCounts -> each GI mod type gets its own fully-populated
+                           // table, matching the pure-Python GIBuilder (which passes none and so
+                           // lands on ModType's own VertexCounts() default).
                            //
                            // nullptr vgRemaps is NOT the same thing: ModType's fallback there is the
                            // single shared ModDataAssets::vgRemaps, so all 43 GI mod types share one
                            // remap table. That too matches the original -- see ModType::vgRemaps.
-                           nullptr, nullptr, nullptr, nullptr,
+                           nullptr, nullptr,
                            giIniParseBuilder(), giIniFixBuilder(), giIniRemoveBuilder());
         }
     }
@@ -271,4 +304,54 @@ namespace AGRemapCore {
         return makeGIModType(ModTypeId::XingqiuBamboo, {"XingqiuLanternRite", "GuhuaGeekLanternRite", "BookwormLanternRite", "SecondSonofTheFeiyunCommerceGuildLanternRite", "ChongyunsBestieLanternRite", "LanternRiteXingqiu", "LanternRiteGuhuaGeek", "LanternRiteBookworm", "LanternRiteSecondSonofTheFeiyunCommerceGuild", "LanternRiteChongyunsBestie", "GuhuaGeekBamboo", "BookwormBamboo", "SecondSonofTheFeiyunCommerceGuildBamboo", "ChongyunsBestieBamboo"});
     }
 
+    std::vector<ModType> GIBuilder::all() {
+        // Listed explicitly rather than derived from ModTypeId's range: two of that enum's members
+        // (RaidenBoss, ArlecchinoBoss) are remap *targets* only and have no factory here, so
+        // iterating the enum would try to build mod types that do not exist.
+        return {
+            amber(),
+            amberCN(),
+            ayaka(),
+            ayakaSpringBloom(),
+            arlecchino(),
+            barbara(),
+            barbaraSummerTime(),
+            cherryHutao(),
+            diluc(),
+            dilucFlamme(),
+            fischl(),
+            fischlHighness(),
+            ganyu(),
+            ganyuTwilight(),
+            huTao(),
+            jean(),
+            jeanCN(),
+            jeanSea(),
+            kaeya(),
+            kaeyaSailwind(),
+            keqing(),
+            keqingOpulent(),
+            kirara(),
+            kiraraBoots(),
+            klee(),
+            kleeBlossomingStarlight(),
+            lisa(),
+            lisaStudent(),
+            mona(),
+            monaCN(),
+            nilou(),
+            nilouBreeze(),
+            ningguang(),
+            ningguangOrchid(),
+            raiden(),
+            rosaria(),
+            rosariaCN(),
+            shenhe(),
+            shenheFrostFlower(),
+            xiangling(),
+            xianglingCheer(),
+            xingqiu(),
+            xingqiuBamboo()
+        };
+    }
 }

@@ -4,10 +4,136 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseDFA', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniParser', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniClassifier', 'CppBaseIniGraphPartEdit', 'CppBaseIniPartEdit', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBlendFile', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniClassifier', 'CppIniClassifyStats', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppPositionFile', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniDownloadModel', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniRemovalContext', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilder', 'CppIniFixBuilderArgs', 'CppIniParseBuilder', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilder', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniRemovalContext', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+class BaseBufEditor:
+    """
+    
+    Base class to edit some ``.buf`` file
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def fix(self, bufFile: CppBufFile, fixedBufFile: typing.Any = None) -> typing.Any:
+        """
+        Edits the ``.buf`` file. No-op by default
+        
+        Parameters
+        ----------
+        bufFile: :class:`CppBufFile`
+            The binary ``.buf`` file to be modified
+        
+        fixedBufFile: Optional[:class:`str`]
+            The name of the fixed ``.buf`` file. If this is ``None``, the fixed bytes are returned directly
+            instead of being written to a file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Union[:class:`str`, :class:`bytearray`]
+            If the argument ``fixedBufFile`` is ``None``, then will return an array of bytes for the fixed
+            ``.buf`` file :raw-html:`<br />` :raw-html:`<br />`
+            Otherwise will return the filename to the fixed ``.buf`` file
+        """
 class BaseDFA:
     pass
-class BaseIniFixer:
+class BaseIniClassifier:
+    """
+    
+    Base class to help classify the type of mod given the mod's .ini files
+        
+    """
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def checkIsFixedMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
+        """
+        Determines whether the .ini file is fixed and/or belongs to a mod
+        
+        Cheaper than :meth:`classify` when only these yes/no answers are needed -- see :meth:`classify`'s
+        own doc comment for what "belongs to a mod"/"is fixed" mean
+        
+        Parameters
+        ----------
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+        
+            * the full text OR
+            * lines of text with each line ending with a newline character
+        
+        gameTypeId: Optional[:class:`GameTypeId`]
+            The game the .ini file is expected to belong to, if known
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Tuple[:class:`bool`, :class:`bool`]
+            Whether the .ini file is fixed, and whether it belongs to a mod, in that order
+        """
+    @typing.overload
+    def checkIsFixedMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
+        ...
+    @typing.overload
+    def checkIsMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
+        """
+        Determines whether the .ini file belongs to a mod
+        
+        Cheaper than :meth:`classify` when only this yes/no answer is needed -- see :meth:`classify`'s own
+        doc comment for what "belongs to a mod" means
+        
+        Parameters
+        ----------
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+        
+            * the full text OR
+            * lines of text with each line ending with a newline character
+        
+        gameTypeId: Optional[:class:`GameTypeId`]
+            The game the .ini file is expected to belong to, if known
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the .ini file belongs to a mod
+        """
+    @typing.overload
+    def checkIsMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
+        ...
+    @typing.overload
+    def classify(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> IniClassifyStats:
+        """
+        Determines the type of mod given the text from the mod's .ini file
+        
+        Parameters
+        ----------
+        iniTxt: Union[:class:`str`, List[:class:`str`]]
+            The text of the .ini file to read from, given as either:
+        
+            * the full text OR
+            * lines of text with each line ending with a newline character
+        
+        gameTypeId: Optional[:class:`GameTypeId`]
+            The game the .ini file is expected to belong to, if known
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniClassifyStats`
+            The stats about the classification of the .ini file
+        """
+    @typing.overload
+    def classify(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> IniClassifyStats:
+        ...
+    def clear(self) -> None:
+        """
+        Clears the state of the classifier
+        """
+class BaseIniFixer(CppBaseIniFixer):
     """
     
     Base class to fix a .ini file
@@ -73,10 +199,10 @@ class BaseIniFixer:
     @_parser.setter
     def _parser(self, arg0: typing.Any) -> None:
         ...
-class BaseIniGraphEdit(CppBaseIniGraphPartEdit):
+class BaseIniGraphEdit(BaseIniGraphPartEdit):
     """
     
-    This class inherits from :class:`CppBaseIniGraphPartEdit`
+    This class inherits from :class:`BaseIniGraphPartEdit`
     
     Base class for a filter that edits some caller/callee graph of :class:`IniSectionGraph`
         
@@ -180,10 +306,10 @@ class BaseIniGraphEdit(CppBaseIniGraphPartEdit):
         :class:`IniSectionGraph`
             The resultant graph that got editted
         """
-class BaseIniGraphGroupEdit(CppBaseIniPartEdit):
+class BaseIniGraphGroupEdit(BaseIniPartEdit):
     """
     
-    This class inherits from :class:`CppBaseIniPartEdit`
+    This class inherits from :class:`BaseIniPartEdit`
     
     Base class for a filter that edits a group of caller/callee graphs across many .ini files
         
@@ -308,7 +434,21 @@ class BaseIniGraphGroupEdit(CppBaseIniPartEdit):
         List[:class:`IniGraphGroup`]
             The resultant group of graphs that got editted
         """
-class BaseIniParser:
+class BaseIniGraphPartEdit(BaseIniPartEdit):
+    """
+    
+    This class inherits from :class:`BaseIniPartEdit`
+    
+    Base class for a filter that edits some part of a caller/callee graph (:class:`IniSectionGraph`)
+    within a `.ini` file
+    
+    Adds nothing of its own over :class:`BaseIniPartEdit` -- exactly like the pure-Python original,
+    this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
+        
+    """
+    def __init__(self) -> None:
+        ...
+class BaseIniParser(CppBaseIniParser):
     """
     
     Base class to parse a .ini file
@@ -351,7 +491,26 @@ class BaseIniParser:
     @_modsToFix.setter
     def _modsToFix(self, arg0: typing.Any) -> None:
         ...
-class BaseIniRemover:
+class BaseIniPartEdit:
+    """
+    
+    Base class for a filter that edits some part of a `.ini` file
+    
+    .. note::
+        The deleted pure-Python original also declared ``edit``/``editFromIni`` here, as
+        ``(*args, modType, modName = "", **kwargs) -> Any``. That signature has no C++ equivalent --
+        every subclass takes genuinely different arguments and returns a different type -- so each
+        subclass family declares its own **typed** ``edit``/``editFromIni`` pair instead (see
+        :class:`BaseRegEdit`), and only :meth:`clear` (which really is common) lives here
+        
+    """
+    def __init__(self) -> None:
+        ...
+    def clear(self) -> None:
+        """
+        Clears any saved state information. No-op by default
+        """
+class BaseIniRemover(CppBaseIniRemover):
     """
     
     Base class to remove fixes from a .ini file
@@ -398,10 +557,10 @@ class BaseIniRemover:
     @iniFile.setter
     def iniFile(self, arg0: typing.Any) -> None:
         ...
-class BaseRegEdit(CppBaseIniGraphPartEdit):
+class BaseRegEdit(BaseIniGraphPartEdit):
     """
     
-    This class inherits from :class:`CppBaseIniGraphPartEdit`
+    This class inherits from :class:`BaseIniGraphPartEdit`
     
     Base class for a filter that edits some registers within an :class:`IfContentPart`
         
@@ -1218,6 +1377,107 @@ class BinaryFile:
     @src.setter
     def src(self, arg1: typing.Any) -> None:
         ...
+class BlendFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``Blend.buf`` files
+    
+    .. note::
+        We observe that a ``Blend.buf`` file is a binary file defined as:
+    
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 32 bytes (256 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
+        * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
+        * the blend weights are floating points while the blend indices are unsigned integers
+        
+    """
+    @staticmethod
+    def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap) -> dict[int, int]:
+        """
+        Retrieves the temporary remap for any missing blend indices not included in 'vgRemap'
+        
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The data for the blend weights and the blend indices for a particular vertex
+        
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        Returns
+        -------
+        Dict[:class:`int`, :class:`int`]
+            The temporary remap for the missing indices. The keys are the missing indices found and the
+            values are the temporary remapped values for these missing indices
+        """
+    @staticmethod
+    def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
+        """
+        Remaps the vertex group indices for a particular line (vertex)
+        
+        Parameters
+        ----------
+        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The data for the blend weights and the blend indices for a particular vertex
+        
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
+        
+        Returns
+        -------
+        Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
+            The new data for the blend weights/blend indices, with the blend indices remapped
+        """
+    def __init__(self, src: typing.Any, elements: typing.Any = None) -> None:
+        """
+        Constructs a new blend file and immediately reads it
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the blend file
+        
+        elements: Optional[List[:class:`BufElementType`]]
+            The sequence of elements within the ``.buf`` file. If this argument is ``None`` or empty, will
+            use the elements specified for some GIMI character. **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If 'src' holds a file path that cannot be read as a valid blend file
+        
+        :class:`BadBufData`
+            If 'src' holds raw bytes that are not valid for a blend file
+        """
+    def remap(self, vgRemap: VGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
+        """
+        Remaps the blend indices in a ``Blend.buf`` file
+        
+        Parameters
+        ----------
+        vgRemap: :class:`VGRemap`
+            The vertex group remap for correcting the Blend.buf file
+        
+        fixedBlendFile: Optional[:class:`str`]
+            The file path for the fixed ``Blend.buf`` file. **Default**: ``None``
+        
+        remapMissingIndices: :class:`bool`
+            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
+        
+        Returns
+        -------
+        Union[Optional[:class:`str`], :class:`bytearray`]
+            If ``fixedBlendFile`` is ``None`` and no correction was needed, returns ``None``. If
+            ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
+            returns ``fixedBlendFile`` itself
+        """
 class BufBaseFloat(BufDataType):
     """
     
@@ -1343,6 +1603,43 @@ class BufDataType(BufType):
         """
     @size.setter
     def size(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+class BufEditor(BaseBufEditor):
+    """
+    
+    This class inherits from :class:`BaseBufEditor`
+    
+    Class to edit some ``.buf`` file by running a fixed sequence of filters over it
+    
+    Parameters
+    ----------
+    filters: Optional[List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :class:`int`, :class:`int`], Dict[:class:`str`, List[Any]]]]]
+        The filters used to edit the data for each line in the ``.buf`` file :raw-html:`<br />` :raw-html:`<br />`
+    
+        The filters take in the following arguments:
+    
+        #. The data for a particular line
+        #. The starting byte index of the line that is read
+        #. The line index being processed
+        #. The size of each line :raw-html:`<br />` :raw-html:`<br />`
+    
+        The output of the filters is the resultant data that consists where the keys are the names of
+        the elements within a line in the ``.buf`` file and the values are the resultant data for each
+        element in the line :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, filters: typing.Any = None) -> None:
+        ...
+    @property
+    def filters(self) -> list:
+        """
+        List[Callable[[Dict[:class:`str`, List[Any]], :class:`int`, :class:`int`, :class:`int`], Dict[:class:`str`, List[Any]]]]:
+        The filters used to edit the data for each line in the ``.buf`` file
+        """
+    @filters.setter
+    def filters(self, arg1: typing.Any) -> None:
         ...
 class BufElementType(BufType):
     """
@@ -2089,135 +2386,42 @@ class CppAlgo:
         List[T]
             The merged list of all input elements in sorted order.
         """
-class CppBaseIniClassifier:
+class CppBaseIniFixer:
     """
     
-    Base class to help classify the type of mod given the mod's .ini files
+    The shared C++ base of every fixer, exposed so that one built on the C++ side -- by a
+    :class:`CppIniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    `Python`_ :raw-html:`<br />` :raw-html:`<br />`
+    
+    Not usually what you want: a fixer created **from** `Python`_ is a :class:`BaseIniFixer`, which
+    inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
+    has to hand back ``None`` for a core-side object it has no richer type for
         
     """
-    def __init__(self) -> None:
-        ...
-    @typing.overload
-    def checkIsFixedMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
-        """
-        Determines whether the .ini file is fixed and/or belongs to a mod
-        
-        Cheaper than :meth:`classify` when only these yes/no answers are needed -- see :meth:`classify`'s
-        own doc comment for what "belongs to a mod"/"is fixed" mean
-        
-        Parameters
-        ----------
-        iniTxt: Union[:class:`str`, List[:class:`str`]]
-            The text of the .ini file to read from, given as either:
-        
-            * the full text OR
-            * lines of text with each line ending with a newline character
-        
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        Tuple[:class:`bool`, :class:`bool`]
-            Whether the .ini file is fixed, and whether it belongs to a mod, in that order
-        """
-    @typing.overload
-    def checkIsFixedMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
-        ...
-    @typing.overload
-    def checkIsMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
-        """
-        Determines whether the .ini file belongs to a mod
-        
-        Cheaper than :meth:`classify` when only this yes/no answer is needed -- see :meth:`classify`'s own
-        doc comment for what "belongs to a mod" means
-        
-        Parameters
-        ----------
-        iniTxt: Union[:class:`str`, List[:class:`str`]]
-            The text of the .ini file to read from, given as either:
-        
-            * the full text OR
-            * lines of text with each line ending with a newline character
-        
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether the .ini file belongs to a mod
-        """
-    @typing.overload
-    def checkIsMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
-        ...
-    @typing.overload
-    def classify(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> CppIniClassifyStats:
-        """
-        Determines the type of mod given the text from the mod's .ini file
-        
-        Parameters
-        ----------
-        iniTxt: Union[:class:`str`, List[:class:`str`]]
-            The text of the .ini file to read from, given as either:
-        
-            * the full text OR
-            * lines of text with each line ending with a newline character
-        
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`CppIniClassifyStats`
-            The stats about the classification of the .ini file
-        """
-    @typing.overload
-    def classify(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> CppIniClassifyStats:
-        ...
-    def clear(self) -> None:
-        """
-        Clears the state of the classifier
-        """
-class CppBaseIniGraphPartEdit(CppBaseIniPartEdit):
+class CppBaseIniParser:
     """
     
-    This class inherits from :class:`CppBaseIniPartEdit`
+    The shared C++ base of every parser, exposed so that one built on the C++ side -- by a
+    :class:`CppIniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    `Python`_ :raw-html:`<br />` :raw-html:`<br />`
     
-    Base class for a filter that edits some part of a caller/callee graph (:class:`IniSectionGraph`)
-    within a `.ini` file
-    
-    Adds nothing of its own over :class:`CppBaseIniPartEdit` -- exactly like the pure-Python original,
-    this exists purely to mark the graph-editing half of the edit hierarchy apart from the rest
+    Not usually what you want: a parser created **from** `Python`_ is a :class:`BaseIniParser`, which
+    inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
+    has to hand back ``None`` for a core-side object it has no richer type for
         
     """
-    def __init__(self) -> None:
-        ...
-class CppBaseIniPartEdit:
+class CppBaseIniRemover:
     """
     
-    Base class for a filter that edits some part of a `.ini` file
+    The shared C++ base of every remover, exposed so that one built on the C++ side -- by a
+    :class:`CppIniRemoveBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    `Python`_ :raw-html:`<br />` :raw-html:`<br />`
     
-    .. note::
-        The pure-Python original also declares ``edit``/``editFromIni`` here, as
-        ``(*args, modType, modName = "", **kwargs) -> Any``. That signature has no C++ equivalent --
-        every subclass takes genuinely different arguments and returns a different type -- so each
-        subclass family declares its own **typed** ``edit``/``editFromIni`` pair instead (see
-        :class:`BaseRegEdit`), and only :meth:`clear` (which really is common) lives here
+    Not usually what you want: a remover created **from** `Python`_ is a :class:`BaseIniRemover`, which
+    inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
+    has to hand back ``None`` for a core-side object it has no richer type for
         
     """
-    def __init__(self) -> None:
-        ...
-    def clear(self) -> None:
-        """
-        Clears any saved state information. No-op by default
-        """
 class CppBasePixelTransform:
     """
     
@@ -2301,107 +2505,6 @@ class CppBaseTexFilter:
         ----------
         texFile: :class:`CppTextureFile`
             The texture to be edited
-        """
-class CppBlendFile(CppBufFile):
-    """
-    
-    This class inherits from :class:`CppBufFile`
-    
-    Used for handling ``Blend.buf`` files
-    
-    .. note::
-        We observe that a ``Blend.buf`` file is a binary file defined as:
-    
-        * a line corresponds to the data for a particular vertex in the mod
-        * each line contains 32 bytes (256 bits)
-        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
-        * the first 16 bytes of a line are for the blend weights, each weight is 4 bytes or 32 bits (4 weights/line)
-        * the last 16 bytes of a line are for the corresponding indices for the blend weights, each index is 4 bytes or 32 bits (4 indices/line)
-        * the blend weights are floating points while the blend indices are unsigned integers
-        
-    """
-    @staticmethod
-    def getMissingIndicesRemap(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap) -> dict[int, int]:
-        """
-        Retrieves the temporary remap for any missing blend indices not included in 'vgRemap'
-        
-        Parameters
-        ----------
-        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
-            The data for the blend weights and the blend indices for a particular vertex
-        
-        vgRemap: :class:`VGRemap`
-            The vertex group remap for correcting the Blend.buf file
-        
-        Returns
-        -------
-        Dict[:class:`int`, :class:`int`]
-            The temporary remap for the missing indices. The keys are the missing indices found and the
-            values are the temporary remapped values for these missing indices
-        """
-    @staticmethod
-    def remapIndices(src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]], vgRemap: VGRemap, remapMissingIndices: bool = True) -> dict[str, list[int | int | float]]:
-        """
-        Remaps the vertex group indices for a particular line (vertex)
-        
-        Parameters
-        ----------
-        src: Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
-            The data for the blend weights and the blend indices for a particular vertex
-        
-        vgRemap: :class:`VGRemap`
-            The vertex group remap for correcting the Blend.buf file
-        
-        remapMissingIndices: :class:`bool`
-            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
-        
-        Returns
-        -------
-        Dict[:class:`str`, Union[List[:class:`int`], List[:class:`float`]]]
-            The new data for the blend weights/blend indices, with the blend indices remapped
-        """
-    def __init__(self, src: typing.Any, elements: typing.Any = None) -> None:
-        """
-        Constructs a new blend file and immediately reads it
-        
-        Parameters
-        ----------
-        src: Union[:class:`str`, :class:`bytes`]
-            The source file or bytes for the blend file
-        
-        elements: Optional[List[:class:`BufElementType`]]
-            The sequence of elements within the ``.buf`` file. If this argument is ``None`` or empty, will
-            use the elements specified for some GIMI character. **Default**: ``None``
-        
-        Raises
-        ------
-        :class:`BufFileNotRecognized`
-            If 'src' holds a file path that cannot be read as a valid blend file
-        
-        :class:`BadBufData`
-            If 'src' holds raw bytes that are not valid for a blend file
-        """
-    def remap(self, vgRemap: VGRemap, fixedBlendFile: typing.Any = None, remapMissingIndices: bool = True) -> typing.Any:
-        """
-        Remaps the blend indices in a ``Blend.buf`` file
-        
-        Parameters
-        ----------
-        vgRemap: :class:`VGRemap`
-            The vertex group remap for correcting the Blend.buf file
-        
-        fixedBlendFile: Optional[:class:`str`]
-            The file path for the fixed ``Blend.buf`` file. **Default**: ``None``
-        
-        remapMissingIndices: :class:`bool`
-            Whether to deactivate any missing blend indices that cannot be identified. **Default**: ``True``
-        
-        Returns
-        -------
-        Union[Optional[:class:`str`], :class:`bytearray`]
-            If ``fixedBlendFile`` is ``None`` and no correction was needed, returns ``None``. If
-            ``fixedBlendFile`` is ``None`` and correction was needed, returns the fixed bytes. Otherwise
-            returns ``fixedBlendFile`` itself
         """
 class CppBufFile(BinaryFile):
     """
@@ -3216,6 +3319,47 @@ class CppGammaFilter(CppBaseTexFilter):
     @gamma.setter
     def gamma(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
+class CppGlobalModTypes:
+    """
+    
+    Every :class:`CppModType` the software ships with, and the one place that files them into
+    :class:`ModTypeIdTools`'s global registry
+    
+    The counterpart to the pure-Python :class:`ModTypes` enum, whose ``getAll()`` likewise builds the
+    shipped mod types on demand
+    
+    .. important::
+        :meth:`registerAll` is **not** called automatically by anything in ``AGRemapCore``, and that is
+        deliberate. :meth:`ModTypeIdTools.getModType` and :meth:`ModTypeIdTools.findByName` report only
+        what was explicitly registered, which is what lets a caller do :meth:`ModTypeIdTools.clear`
+        followed by :meth:`ModTypeIdTools.registerModType` and get a registry holding *exactly* the mod
+        types it asked for. Self-populating those lookups on first use would quietly break that
+        
+    """
+    @staticmethod
+    def all() -> list[CppModType]:
+        """
+        Retrieves every shipped :class:`CppModType`, freshly built on each call
+        
+        Fresh rather than shared because a :class:`CppModType` owns mutable asset tables, so one caller
+        adding a hash must not be visible to every other one
+        
+        Returns
+        -------
+        List[:class:`CppModType`]
+            All the shipped mod types
+        """
+    @staticmethod
+    def registerAll() -> None:
+        """
+        Files every mod type from :meth:`all` into :class:`ModTypeIdTools`'s global registry, so
+        :meth:`ModTypeIdTools.getModType` can resolve them by id and :meth:`ModTypeIdTools.findByName` by
+        name or alias
+        
+        Idempotent: registering a mod type twice replaces the existing entry rather than duplicating it.
+        Note it registers *in addition to* whatever is already there rather than replacing the registry --
+        call :meth:`ModTypeIdTools.clear` first to start from empty
+        """
 class CppHashTools:
     """
     C++ tools for deterministically hashing data
@@ -3406,135 +3550,315 @@ class CppHueAdjust(CppBaseTexFilter):
     @hue.setter
     def hue(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
-class CppIniClassifier(CppBaseIniClassifier):
+class CppIniFixBuilder:
     """
     
-    This class inherits from :class:`CppBaseIniClassifier`
+    A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
     
-    Class to help classify the type of mod given the mod's .ini files
+    The C++ counterpart to :class:`IniFixBuilder`, and what :attr:`CppModType.iniFixBuilder` holds. It
+    comes in the same two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted on every :meth:`build`
+    
+    Unlike the parse and remove builders, one source mod may be fixed onto **several** targets, which
+    is what :meth:`buildAll` exists for -- normally you want that rather than :meth:`build`
     
     Parameters
     ----------
-    checkHasTextureOverride: :class:`bool`
-        Whether :meth:`addGIModType`/section-name reading should require a section name to start with
-        ``TextureOverride`` before doing anything else with it
+    factory: Optional[Callable[[:class:`CppBaseIniParser`, :class:`str`], Optional[:class:`BaseIniFixer`]]]
+        Called to build each fixer, with the parser that read the .ini file and the name of the mod
+        being fixed **to** :raw-html:`<br />` :raw-html:`<br />`
     
-        **Default**: ``True``
+        **Default**: ``None``, which uses :meth:`defaultFactory`
+    
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniFixBuilderArgs`
         
     """
-    def __init__(self, checkHasTextureOverride: bool = True) -> None:
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`GIMIFixer` owning its own fix context
+        
+        Returns
+        -------
+        Callable[[:class:`CppBaseIniParser`, :class:`str`], :class:`CppBaseIniFixer`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
         ...
-    def addGIModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str], sectionKeywords: collections.abc.Set[str]) -> bool:
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniFixer:
         """
-        Registers a GI mod type into the classifier
+        Builds the fixer for **one** target mod
         
-        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
-        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.GI`
+        Use :meth:`buildAll` when the target is not known up front, which is the normal case
         
         Parameters
         ----------
-        modType: :class:`ModTypeIdData`
-            The mod type to register
+        parser: :class:`CppBaseIniParser`
+            The parser that read the .ini file being fixed
         
-        hashes: Set[:class:`str`]
-            The hashes that identify 'modType'
+        fromModName: :class:`str`
+            The name of the mod being fixed **from**
         
-        sectionKeywords: Set[:class:`str`]
-            The section keywords that identify 'modType'
+        toModName: :class:`str`
+            The name of the mod being fixed **to**
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
         
         Returns
         -------
+        :class:`CppBaseIniFixer`
+            The built fixer -- the very same object a Python factory returned, when one was given
+        """
+    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None) -> list[tuple[str, CppBaseIniFixer]]:
+        """
+        Builds one fixer per mod 'fromModName' can be fixed onto
+        
+        Parameters
+        ----------
+        parser: :class:`CppBaseIniParser`
+            The parser that read the .ini file being fixed
+        
+        fromModName: :class:`str`
+            The name of the mod being fixed **from**
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        filteredToModNames: Optional[Set[:class:`str`]]
+            Only build fixers for these target mods :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every target
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`CppBaseIniFixer`]]
+            One ``(toModName, fixer)`` pair per target mod, in no particular order
+        """
+    @property
+    def builderArgs(self) -> CppIniFixBuilderArgs:
+        """
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniFixBuilderArgs`
+        """
+    @property
+    def errorOnNotFound(self) -> bool:
+        """
+        Whether :meth:`build` raises rather than falling back when the key has no row
+        
         :class:`bool`
-            Whether 'modType' was newly registered
         """
-    def addWuWaModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str]) -> bool:
-        """
-        Registers a WuWa mod type into the classifier
-        
-        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
-        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.WuWa`
-        
-        Parameters
-        ----------
-        modType: :class:`ModTypeIdData`
-            The mod type to register
-        
-        hashes: Set[:class:`str`]
-            The hashes that identify 'modType'
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether 'modType' was newly registered
-        """
-    def getModType(self, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ModTypeIdData:
-        """
-        Retrieves the registered :class:`ModTypeIdData` for a :class:`ModTypeId`
-        
-        Parameters
-        ----------
-        modTypeId: :class:`int`
-            The id for the :class:`ModTypeId` to retrieve the :class:`ModTypeIdData` for
-        
-        Raises
-        ------
-        IndexError
-            Raised if 'modTypeId' is not registered
-        
-        Returns
-        -------
-        :class:`ModTypeIdData`
-            The corresponding :class:`ModTypeIdData`
-        """
-class CppIniClassifyStats:
+class CppIniFixBuilderArgs:
     """
     
-    Stores the statistics about the classification result of a .ini file
+    The version-dependent lookup table a :class:`CppIniFixBuilder` resolves its factory from
+    
+    Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
+    every mod type from :meth:`CppGIBuilder.all` does -- can say so
+        
+    """
+class CppIniParseBuilder:
+    """
+    
+    A factory that builds the :class:`CppBaseIniParser` for one .ini file
+    
+    The C++ counterpart to :class:`IniParseBuilder`, and what :attr:`CppModType.iniParseBuilder` holds.
+    It comes in the same two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
+      :meth:`build`, so a 5.7-era .ini file gets a different parser than a 4.0-era one
     
     Parameters
     ----------
-    modType: Dict[:class:`int`, :class:`ModTypeIdData`]
-        The types of mod found, keyed by their id
+    factory: Optional[Callable[[:class:`IniFile`, Optional[:class:`int`]], Optional[:class:`BaseIniParser`]]]
+        Called to build each parser, with the .ini file it will read and the id of the mod type it is
+        being built for :raw-html:`<br />` :raw-html:`<br />`
     
-        **Default**: ``{}``
+        **Default**: ``None``, which uses :meth:`defaultFactory`
     
-    isMod: :class:`bool`
-        Whether the .ini file belongs to a mod
-    
-        **Default**: ``False``
-    
-    isFixed: :class:`bool`
-        Whether the .ini file is fixed
-    
-        **Default**: ``False``
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniParseBuilderArgs`
         
     """
-    def __init__(self, modType: dict = {}, isMod: bool = False, isFixed: bool = False) -> None:
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`GIMIParser` owning its own parse context
+        
+        Returns
+        -------
+        Callable[[:class:`IniFile`, Optional[:class:`int`]], :class:`CppBaseIniParser`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
         ...
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, iniFile: IniFile, modName: str, version: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniParser:
+        """
+        Builds the parser for one .ini file
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file the built parser will read
+        
+        modName: :class:`str`
+            The name of the mod to build the parser for :raw-html:`<br />` :raw-html:`<br />`
+        
+            Ignored entirely by a fixed-factory builder
+        
+        version: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest listed version
+        
+        modTypeId: Optional[:class:`int`]
+            Which of the .ini file's mod types the parser is being built for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`CppBaseIniParser`
+            The built parser -- the very same object a Python factory returned, when one was given
+        """
     @property
-    def isFixed(self) -> bool:
+    def builderArgs(self) -> CppIniParseBuilderArgs:
         """
-        :class:`bool`: Whether the .ini file is fixed
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniParseBuilderArgs`
         """
-    @isFixed.setter
-    def isFixed(self, arg0: bool) -> None:
-        ...
     @property
-    def isMod(self) -> bool:
+    def errorOnNotFound(self) -> bool:
         """
-        :class:`bool`: Whether the .ini file belongs to a mod
+        Whether :meth:`build` raises rather than falling back when the mod name has no row
+        
+        :class:`bool`
         """
-    @isMod.setter
-    def isMod(self, arg0: bool) -> None:
+class CppIniParseBuilderArgs:
+    """
+    
+    The version-dependent lookup table a :class:`CppIniParseBuilder` resolves its factory from
+    
+    Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
+    every mod type from :meth:`CppGIBuilder.all` does -- can say so
+        
+    """
+class CppIniRemoveBuilder:
+    """
+    
+    A factory that builds the :class:`CppBaseIniRemover` for one .ini file
+    
+    The C++ counterpart to :class:`IniRemoveBuilder`, and what :attr:`CppModType.iniRemoveBuilder`
+    holds. It comes in the same two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
+      :meth:`build`
+    
+    Parameters
+    ----------
+    factory: Optional[Callable[[:class:`IniFile`], Optional[:class:`BaseIniRemover`]]]
+        Called to build each remover, with the .ini file the remover will act on :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, which uses :meth:`defaultFactory`
+    
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniRemoveBuilderArgs`
+        
+    """
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`RemapIniRemover`
+        
+        Returns
+        -------
+        Callable[[:class:`IniFile`], :class:`CppBaseIniRemover`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
         ...
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, iniFile: IniFile, modName: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniRemover:
+        """
+        Builds the remover for one .ini file
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file the built remover will act on
+        
+        modName: :class:`str`
+            The name of the mod to build the remover for :raw-html:`<br />` :raw-html:`<br />`
+        
+            Ignored entirely by a fixed-factory builder :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        version: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest listed version
+        
+        Returns
+        -------
+        :class:`CppBaseIniRemover`
+            The built remover -- a :class:`BaseIniRemover` when the factory came from Python
+        """
     @property
-    def modType(self) -> dict:
+    def builderArgs(self) -> CppIniRemoveBuilderArgs:
         """
-        Dict[:class:`int`, :class:`ModTypeIdData`]: The types of mod found, keyed by their id
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniRemoveBuilderArgs`
         """
-    @modType.setter
-    def modType(self, arg1: dict) -> None:
-        ...
+    @property
+    def errorOnNotFound(self) -> bool:
+        """
+        Whether :meth:`build` raises rather than falling back when the mod name has no row
+        
+        :class:`bool`
+        """
+class CppIniRemoveBuilderArgs:
+    """
+    
+    The version-dependent lookup table a :class:`CppIniRemoveBuilder` resolves its factory from
+    
+    Opaque: there is no way to build one from Python yet. It is exposed so that a builder which
+    *has* one -- every mod type from :meth:`CppGIBuilder.all` does -- can say so
+        
+    """
 class CppIntTools:
     """
     C++ Tools for handling integers
@@ -3842,7 +4166,7 @@ class CppModType:
     Heavy data for a type of mod
     
     Meant to carry the full C++-side representation of a mod type -- contrast with the cheap
-    :class:`ModTypeIdData` an ini classifier (e.g. :class:`CppBaseIniClassifier`) holds instead. The
+    :class:`ModTypeIdData` an ini classifier (e.g. :class:`BaseIniClassifier`) holds instead. The
     Python-side :class:`ModType` is meant to build itself using this data.
     
     Parameters
@@ -3868,6 +4192,147 @@ class CppModType:
     """
     def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = []) -> None:
         ...
+    def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
+        """
+        Fixes a .ini file, but **only if that file was classified as this mod type** -- a no-op otherwise
+        
+        Returns nothing, matching the pure-Python original: the fix it produces is written out by
+        :meth:`IniFile.fix` rather than handed back. Call that directly to see it
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to fix
+        
+        keepBackup: :class:`bool`
+            Whether to keep a backup copy of the original .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        fixOnly: :class:`bool`
+            Whether to only fix without removing any previous fix :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        """
+    def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.CppVersion | None = None, nonVersionVals: typing.Any = None) -> Ranges:
+        """
+        Retrieves the valid ranges of order indices within an :class:`IfContentPart` whose ``hash`` values
+        belong to this mod type
+        
+        Parameters
+        ----------
+        partColours: :class:`IfContentPartColouring`
+            The current states of the :class:`IfContentPart`
+        
+        version: Optional[:class:`CppVersion`]
+            The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning any
+        
+        nonVersionVals: Optional[List[Optional[:class:`str`]]]
+            Values for the non-version index columns, used to narrow which instance of a hash is wanted
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`Ranges`
+            The valid ranges of indices
+        """
+    def getHelpStr(self) -> str:
+        """
+        Retrieves the help text describing this mod type, as the CLI prints it
+        
+        Returns
+        -------
+        :class:`str`
+            The help text
+        """
+    def getModsToFix(self) -> set[str]:
+        """
+        Retrieves the names of the mods this mod type can be fixed onto
+        
+        .. warning::
+            **Deliberately not bug-compatible with the pure-Python** :meth:`ModType.getModsToFix`. That one
+            unions ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never populates
+            anywhere, so it returns an empty set for every mod type, always. This reads the remap targets
+            that actually exist
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The names of the mods to fix to
+        """
+    def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
+        """
+        Retrieves the vertex group remap for fixing this mod type onto another
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod being fixed onto
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        fromComp: Optional[:class:`str`]
+            The component being fixed from. ``None`` leaves the column unconstrained :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toComp: Optional[:class:`str`]
+            The component being fixed onto, with the same ``None`` meaning :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`VGRemap`]
+            The remap, or ``None`` if the table has no matching row
+        """
+    def getVertexCount(self, version: FixRaidenBoss2.core.CppVersion | None = None) -> int | None:
+        """
+        Retrieves the number of vertices for this mod
+        
+        Parameters
+        ----------
+        version: Optional[:class:`CppVersion`]
+            The game version wanted :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The vertex count, or ``None`` if this mod type has no row for it
+        """
+    def isName(self, name: str) -> bool:
+        """
+        Determines whether this mod type goes by some name
+        
+        Compared case-insensitively against :attr:`CppModType.name` and every entry in
+        :attr:`CppModType.aliases`
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether this mod type goes by 'name'
+        """
     @property
     def aliases(self) -> list[str]:
         """
@@ -3883,6 +4348,30 @@ class CppModType:
         """
     @gameTypeId.setter
     def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def iniFixBuilder(self) -> CppIniFixBuilder:
+        """
+        :class:`CppIniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type
+        """
+    @iniFixBuilder.setter
+    def iniFixBuilder(self, arg0: CppIniFixBuilder) -> None:
+        ...
+    @property
+    def iniParseBuilder(self) -> CppIniParseBuilder:
+        """
+        :class:`CppIniParseBuilder`: The builder for the parser that reads a .ini file of this mod type
+        """
+    @iniParseBuilder.setter
+    def iniParseBuilder(self, arg0: CppIniParseBuilder) -> None:
+        ...
+    @property
+    def iniRemoveBuilder(self) -> CppIniRemoveBuilder:
+        """
+        :class:`CppIniRemoveBuilder`: The builder for the remover that removes a previous fix
+        """
+    @iniRemoveBuilder.setter
+    def iniRemoveBuilder(self, arg0: CppIniRemoveBuilder) -> None:
         ...
     @property
     def modTypeId(self) -> int:
@@ -3927,42 +4416,6 @@ class CppPixelFilter(CppBaseTexFilter):
         ----------
         texFile: :class:`TextureFile`
             The texture to be edited
-        """
-class CppPositionFile(CppBufFile):
-    """
-    
-    This class inherits from :class:`CppBufFile`
-    
-    Used for handling ``Position.buf`` files
-    
-    .. note::
-        We observe that a ``Position.buf`` file is a binary file defined as:
-    
-        * a line corresponds to the data for a particular vertex in the mod
-        * each line contains 40 bytes (320 bits)
-        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
-        * the first 12 bytes of a line are the coordinate position of a vertex in an R3 vector space, each scalar value in the coordinate is 4 bytes or 32 bits (3 scalar values/line)
-        * the next 12 bytes of a line corresponds to the normal vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (3 scalar values/line)
-        * the last 16 bytes of a line corresponds to the tangent vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (4 scalar values/line)
-        * all scalar values in the file are `floating point`_ values
-        
-    """
-    def __init__(self, src: typing.Any) -> None:
-        """
-        Constructs a new position file and immediately reads it
-        
-        Parameters
-        ----------
-        src: Union[:class:`str`, :class:`bytes`]
-            The source file or bytes for the ``.buf`` file
-        
-        Raises
-        ------
-        :class:`BufFileNotRecognized`
-            If 'src' holds a file path that cannot be read as a valid position file
-        
-        :class:`BadBufData`
-            If 'src' holds raw bytes that are not valid for a position file
         """
 class CppTempControl(CppBasePixelTransform):
     """
@@ -6360,7 +6813,7 @@ class GraphInherit(BaseIniGraphGroupEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, src: typing.Any, dst: typing.Any, reg: typing.Any, latest: bool = True, partFilter: typing.Any = None) -> None:
+    def __init__(self, src: typing.Any, dst: typing.Any, reg: str, latest: bool = True, partFilter: typing.Any = None) -> None:
         ...
     def edit(self, graphGroups: list, modType: typing.Any, modName: str = '') -> list:
         """
@@ -6417,13 +6870,13 @@ class GraphInherit(BaseIniGraphGroupEdit):
     def partFilter(self, arg1: typing.Any) -> None:
         ...
     @property
-    def reg(self) -> typing.Any:
+    def reg(self) -> str:
         """
         :class:`str`: The name of the register used to reference the root `sections`_ of the graph at
         :attr:`dst`
         """
     @reg.setter
-    def reg(self, arg0: typing.Any) -> None:
+    def reg(self, arg0: str) -> None:
         ...
     @property
     def src(self) -> typing.Any:
@@ -7213,7 +7666,7 @@ class IfContentPart(IfTemplatePart):
         :class:`IfContentPart`
             The newly-created part
         """
-    def __contains__(self, key: typing.Any) -> bool:
+    def __contains__(self, key: str) -> bool:
         """
         Determines whether 'key' exists
         """
@@ -7226,12 +7679,12 @@ class IfContentPart(IfTemplatePart):
         Creates a deep copy of this part (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
         """
     @typing.overload
-    def __getitem__(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
+    def __getitem__(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[str, str]:
         """
         Retrieves the ``(key, value)`` pair at a true positional index
         """
     @typing.overload
-    def __getitem__(self, key: str) -> list[typing.Any]:
+    def __getitem__(self, key: str) -> list[str]:
         """
         Retrieves all values currently stored under a key, in true positional order (equivalent to :meth:`getVals` with ``ordered=True``); raises :class:`KeyError` if the key doesn't exist
         """
@@ -7245,19 +7698,19 @@ class IfContentPart(IfTemplatePart):
         """
         Retrieves the number of KVPs
         """
-    def addKVP(self, key: typing.Any, value: typing.Any) -> None:
+    def addKVP(self, key: str, value: str) -> None:
         """
         Appends a KVP to the end
         """
-    def addKVPAt(self, index: typing.SupportsInt | typing.SupportsIndex, key: typing.Any, value: typing.Any) -> None:
+    def addKVPAt(self, index: typing.SupportsInt | typing.SupportsIndex, key: str, value: str) -> None:
         """
         Inserts a KVP so it ends up at position 'index' (0-based); see :meth:`CppOrderedMultiMap.insertAt` for the full index semantics
         """
-    def addKVPToFront(self, key: typing.Any, value: typing.Any) -> None:
+    def addKVPToFront(self, key: str, value: str) -> None:
         """
         Inserts a KVP at the beginning
         """
-    def addKVPs(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+    def addKVPs(self, kvps: collections.abc.Sequence[tuple[str, str]]) -> None:
         """
         Appends a batch of KVPs to the end, in the order given
         """
@@ -7265,7 +7718,7 @@ class IfContentPart(IfTemplatePart):
         """
         Bulk indexed insert of KVPs; see :meth:`CppOrderedMultiMap.insertAllAt` for the full semantics
         """
-    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[str, str]]) -> None:
         """
         Inserts a batch of KVPs at the beginning, in the order given
         """
@@ -7285,15 +7738,15 @@ class IfContentPart(IfTemplatePart):
         :class:`IfContentPart`
             The cloned part
         """
-    def contains(self, key: typing.Any) -> bool:
+    def contains(self, key: str) -> bool:
         """
         Checks whether a key exists
         """
-    def containsKey(self, key: typing.Any) -> bool:
+    def containsKey(self, key: str) -> bool:
         """
         Checks whether a key exists
         """
-    def count(self, key: typing.Any) -> int:
+    def count(self, key: str) -> int:
         """
         Retrieves how many KVPs share a given key
         """
@@ -7301,7 +7754,7 @@ class IfContentPart(IfTemplatePart):
         """
         Checks whether the part has no KVPs
         """
-    def entries(self) -> list[tuple[typing.Any, typing.Any]]:
+    def entries(self) -> list[tuple[str, str]]:
         """
         Retrieves a copy of the full ordered sequence, as ``(key, value)`` pairs
         """
@@ -7357,15 +7810,15 @@ class IfContentPart(IfTemplatePart):
         Same as the ``int``-keyed overload above, for a :class:`str` ``key`` -- see its docstring for
         the full parameter descriptions
         """
-    def getByInd(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[typing.Any, typing.Any]:
+    def getByInd(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[str, str]:
         """
         Retrieves the ``(key, value)`` pair at a true positional index
         """
-    def getByIndWithOccurrence(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, typing.Any]:
+    def getByIndWithOccurrence(self, index: typing.SupportsInt | typing.SupportsIndex) -> tuple[int, str]:
         """
         Retrieves the KVP at a true positional index, paired with its occurrence index
         """
-    def getKeys(self) -> set[typing.Any]:
+    def getKeys(self) -> set[str]:
         """
         Retrieves every distinct key currently in this part
         
@@ -7374,7 +7827,7 @@ class IfContentPart(IfTemplatePart):
         Set[Any]
             Every distinct key, as a set (unordered)
         """
-    def getVals(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[typing.Any]:
+    def getVals(self, key: str, ordered: bool = True, ranges: typing.Any = None) -> list[str]:
         """
         Retrieves all values currently stored under a key
         
@@ -7398,7 +7851,7 @@ class IfContentPart(IfTemplatePart):
         List[Any]
             The values for this key, in the requested order
         """
-    def getValsWithInds(self, key: typing.Any, ordered: bool = True, ranges: typing.Any = None) -> list[tuple[int, typing.Any]]:
+    def getValsWithInds(self, key: str, ordered: bool = True, ranges: typing.Any = None) -> list[tuple[int, str]]:
         """
         Retrieves all values currently stored under a key, each paired with its true positional index
         (equivalent to :meth:`getVals`, except each value is paired with its true positional index)
@@ -7423,7 +7876,7 @@ class IfContentPart(IfTemplatePart):
         List[Tuple[:class:`int`, Any]]
             The ``(index, value)`` pairs for this key, in the requested order
         """
-    def items(self) -> list[tuple[typing.Any, typing.Any, int, int]]:
+    def items(self) -> list[tuple[str, str, int, int]]:
         """
         Retrieves a copy of the full ordered sequence, as ``(key, value, occurrenceIndex, orderIndex)`` tuples
         """
@@ -7443,7 +7896,7 @@ class IfContentPart(IfTemplatePart):
         """
         Removes the KVP currently at position 'pos'
         """
-    def removeKey(self, key: typing.Any, ranges: typing.Any = None, check: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, typing.Any], bool] | None = None) -> int:
+    def removeKey(self, key: str, ranges: typing.Any = None, check: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex, str], bool] | None = None) -> int:
         """
         Removes every KVP with this key, subject to two independent, optional filters -- both must hold
         (where provided) for a given occurrence to actually be removed. With neither filter provided,
@@ -7497,7 +7950,7 @@ class IfContentPart(IfTemplatePart):
         """
         Bulk-updates values by key; see :meth:`CppOrderedMultiMap.replaceVals` for the full semantics
         """
-    def setValByInd(self, index: typing.SupportsInt | typing.SupportsIndex, value: typing.Any) -> None:
+    def setValByInd(self, index: typing.SupportsInt | typing.SupportsIndex, value: str) -> None:
         """
         Sets the value of the KVP at a true positional index, leaving its key untouched
         """
@@ -7532,11 +7985,6 @@ class IfContentPart(IfTemplatePart):
             The string representation of the part
         """
     @property
-    def content(self) -> IOrderedMultiMap:
-        """
-        :class:`IOrderedMultiMap`: The backing ordered-multimap implementation directly, for operations this class doesn't itself wrap
-        """
-    @property
     def depth(self) -> int:
         """
         :class:`int`: The depth this part is within the owning `IfTemplate`
@@ -7559,19 +8007,6 @@ class IfContentPartColourChange:
         **Default**: ``None``, meaning the key didn't exist beforehand
             
     """
-    @staticmethod
-    def restore(*args, **kwargs) -> None:
-        """
-        Restores the old value for a particular key within ``colouring``
-        
-        Parameters
-        ----------
-        colouring: :class:`IfContentPartColouring`
-            The colouring to restore a value within
-        
-        key: Any
-            The key to restore -- if ``key`` isn't currently in ``colouring``, this has no effect
-        """
     def __copy__(self) -> IfContentPartColourChange:
         """
         Creates a copy of this change record (equivalent to :meth:`clone`); supports ``copy.copy()``
@@ -7585,6 +8020,18 @@ class IfContentPartColourChange:
     def clone(self) -> IfContentPartColourChange:
         """
         Creates a copy of this change record
+        """
+    def restore(self, colouring: IfContentPartColouring, key: str) -> None:
+        """
+        Restores the old value for a particular key within ``colouring``
+        
+        Parameters
+        ----------
+        colouring: :class:`IfContentPartColouring`
+            The colouring to restore a value within
+        
+        key: :class:`str`
+            The key to restore -- if ``key`` isn't currently in ``colouring``, this has no effect
         """
     @property
     def old(self) -> typing.Any:
@@ -7648,7 +8095,7 @@ class IfContentPartColouring:
         **Default**: ``None``
             
     """
-    def __contains__(self, key: typing.Any) -> bool:
+    def __contains__(self, key: str) -> bool:
         """
         Determines whether 'key' currently has a tracked state
         """
@@ -7660,11 +8107,11 @@ class IfContentPartColouring:
         """
         Creates a copy of this colouring (equivalent to :meth:`clone`); supports ``copy.deepcopy()``
         """
-    def __delitem__(self, key: typing.Any) -> None:
+    def __delitem__(self, key: str) -> None:
         """
         Removes the current state for 'key'; raises :class:`KeyError` if not tracked
         """
-    def __getitem__(self, key: typing.Any) -> typing.Any:
+    def __getitem__(self, key: str) -> typing.Any:
         """
         Retrieves the current state for 'key'; raises :class:`KeyError` if not tracked
         """
@@ -7678,7 +8125,7 @@ class IfContentPartColouring:
         """
         Retrieves the number of keys currently tracked
         """
-    def __setitem__(self, key: typing.Any, value: typing.Any) -> None:
+    def __setitem__(self, key: str, value: typing.Any) -> None:
         """
         Sets the current state for 'key', inserting it if not already tracked
         """
@@ -7690,7 +8137,7 @@ class IfContentPartColouring:
         """
         Creates a copy of this colouring
         """
-    def contains(self, key: typing.Any) -> bool:
+    def contains(self, key: str) -> bool:
         """
         Checks whether 'key' currently has a tracked state
         """
@@ -7698,15 +8145,15 @@ class IfContentPartColouring:
         """
         Checks whether no keys are currently tracked
         """
-    def erase(self, key: typing.Any) -> bool:
+    def erase(self, key: str) -> bool:
         """
         Removes the current state for 'key', if any; returns whether 'key' was actually tracked
         """
-    def get(self, key: typing.Any, default: typing.Any = None) -> typing.Any:
+    def get(self, key: str, default: typing.Any = None) -> typing.Any:
         """
         Retrieves the current state for 'key', or 'default' if not tracked
         """
-    def getIndVals(self, key: typing.Any, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, typing.Any], bool] | None = None) -> list[tuple[int | None, typing.Any]]:
+    def getIndVals(self, key: str, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, str], bool] | None = None) -> list[tuple[int | None, str]]:
         """
         Retrieves both the corresponding values and the index of where the value occurs
         
@@ -7739,7 +8186,7 @@ class IfContentPartColouring:
             Both the values and their index within the current :class:`IfContentPart`. Empty if ``key``
             isn't tracked.
         """
-    def getRanges(self, keysExists: collections.abc.Mapping[typing.Any, bool] | None = None, keyFilters: collections.abc.Mapping[typing.Any, collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, typing.Any], bool]] | None = None, existsRequireAll: bool = True, filtersRequireAll: bool = True, globalRequireAll: bool = True, includeKeyDefs: bool = True) -> Ranges:
+    def getRanges(self, keysExists: collections.abc.Mapping[str, bool] | None = None, keyFilters: collections.abc.Mapping[str, collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, str], bool]] | None = None, existsRequireAll: bool = True, filtersRequireAll: bool = True, globalRequireAll: bool = True, includeKeyDefs: bool = True) -> Ranges:
         """
         Retrieves the ranges of indices within the current part that satisfy specified conditions for each key
         
@@ -7787,7 +8234,7 @@ class IfContentPartColouring:
         :class:`Ranges`
             The valid ranges that satisfy the specified conditions
         """
-    def getUniqueVals(self, key: typing.Any, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, typing.Any], bool] | None = None) -> set[typing.Any]:
+    def getUniqueVals(self, key: str, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, str], bool] | None = None) -> set[str]:
         """
         Same as :meth:`getVals`, except the result is deduplicated into a real ``set`` -- a departure from
         the deprecated Python source's own ``getVals(unique=True)``, split into its own method the same
@@ -7809,7 +8256,7 @@ class IfContentPartColouring:
         Set[Any]
             The resultant unique values. Empty if ``key`` isn't tracked.
         """
-    def getVals(self, key: typing.Any, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, typing.Any], bool] | None = None) -> list[typing.Any]:
+    def getVals(self, key: str, filter: collections.abc.Callable[[typing.SupportsInt | typing.SupportsIndex | None, str], bool] | None = None) -> list[str]:
         """
         Retrieves the values for a given key, keeping duplicates and occurrence order
         
@@ -7828,15 +8275,15 @@ class IfContentPartColouring:
         List[Any]
             The resultant values. Empty if ``key`` isn't tracked.
         """
-    def items(self) -> list[tuple[typing.Any, typing.Any]]:
+    def items(self) -> list[tuple[str, typing.Any]]:
         """
         Retrieves every currently-tracked ``(key, state)`` pair, in insertion order
         """
-    def keys(self) -> list[typing.Any]:
+    def keys(self) -> list[str]:
         """
         Retrieves every currently-tracked key, in insertion order
         """
-    def restore(self, colourChange: collections.abc.Mapping[typing.Any, IfContentPartColourChange]) -> None:
+    def restore(self, colourChange: collections.abc.Mapping[str, IfContentPartColourChange]) -> None:
         """
         Restores to a previous state
         
@@ -7845,7 +8292,7 @@ class IfContentPartColouring:
         colourChange: Dict[Any, :class:`IfContentPartColourChange`]
             The change in the state, as returned by :meth:`updateColouring`
         """
-    def set(self, key: typing.Any, value: typing.Any) -> None:
+    def set(self, key: str, value: typing.Any) -> None:
         """
         Sets the current state for 'key', inserting it if not already tracked
         """
@@ -7853,7 +8300,7 @@ class IfContentPartColouring:
         """
         Retrieves the number of keys currently tracked
         """
-    def updateColouring(self, ifContentPart: IfContentPart, targetKeys: collections.abc.Set[typing.Any] | None = None, updatePreviousKVPs: bool = True) -> dict[typing.Any, IfContentPartColourChange]:
+    def updateColouring(self, ifContentPart: IfContentPart, targetKeys: collections.abc.Set[str] | None = None, updatePreviousKVPs: bool = True) -> dict[str, IfContentPartColourChange]:
         """
         Updates the current state of the `KVPs`_ based on the current :class:`IfContentPart`
         
@@ -8447,19 +8894,19 @@ class IfTemplate:
         """
         Adds a new :class:`IfContentPart` at the very end of this :class:`IfTemplate`, if needed
         """
-    def addKVPToBack(self, key: typing.Any, val: typing.Any) -> None:
+    def addKVPToBack(self, key: str, val: str) -> None:
         """
         Adds a KVP to the bottom of this :class:`IfTemplate`
         """
-    def addKVPToFront(self, key: typing.Any, val: typing.Any) -> None:
+    def addKVPToFront(self, key: str, val: str) -> None:
         """
         Adds a KVP to the top of this :class:`IfTemplate`
         """
-    def addKVPsToBack(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+    def addKVPsToBack(self, kvps: collections.abc.Sequence[tuple[str, str]]) -> None:
         """
         Adds some KVPs to the bottom of this :class:`IfTemplate`
         """
-    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[typing.Any, typing.Any]]) -> None:
+    def addKVPsToFront(self, kvps: collections.abc.Sequence[tuple[str, str]]) -> None:
         """
         Adds some KVPs to the top of this :class:`IfTemplate`
         """
@@ -8629,7 +9076,7 @@ class IfTemplateNode:
         part: :class:`IfContentPart`
             The content part of the :class:`IfTemplate` to add to this node
         """
-    def getKeyMissingPart(self, key: typing.Any) -> tuple[typing.Any, bool]:
+    def getKeyMissingPart(self, key: str) -> tuple[typing.Any, bool]:
         """
         Retrieves the first :class:`IfContentPart` if 'key' is not found in this node, without accounting
         for the key being in any other subcommands or other children nodes
@@ -8647,7 +9094,7 @@ class IfTemplateNode:
             #. The first part found, if all the :class:`IfContentPart`\\s within the node does not contain the key
             #. Whether a :class:`IfContentPart` is found within the node
         """
-    def getKeyPart(self, key: typing.Any) -> IfContentPart:
+    def getKeyPart(self, key: str) -> IfContentPart:
         """
         Retrieves the latest :class:`IfContentPart` that contains 'key'
         
@@ -8661,7 +9108,7 @@ class IfTemplateNode:
         Optional[:class:`IfContentPart`]
             The found part if available
         """
-    def getKeyVal(self, key: typing.Any) -> typing.Any:
+    def getKeyVal(self, key: str) -> typing.Any:
         """
         Retrieves the latest value that corresponds to 'key'
         
@@ -8675,7 +9122,7 @@ class IfTemplateNode:
         Optional[:class:`str`]
             The found value if available
         """
-    def getKeyValues(self, key: typing.Any) -> list[list[tuple[int, typing.Any]]]:
+    def getKeyValues(self, key: str) -> list[list[tuple[int, str]]]:
         """
         Retrieves all the corresponding values to a certain key within the node
         
@@ -8693,7 +9140,7 @@ class IfTemplateNode:
             * The inner elements of the list are the different instance of the `KVP`_ within each part
             * The tuple contains the order index an occurence of the `KVP`_ appears in the part and the corresponding value for the `KVP`_
         """
-    def hasKey(self, key: typing.Any) -> bool:
+    def hasKey(self, key: str) -> bool:
         """
         Purely checks whether the key exists within the parts of the node without accounting for whether
         the key exists in other subcommands called by this node or other children nodes that have the key
@@ -8921,6 +9368,135 @@ class Indices(ModMappedAssets):
         
             **Default**: ``None``
         """
+class IniClassifier(BaseIniClassifier):
+    """
+    
+    This class inherits from :class:`BaseIniClassifier`
+    
+    Class to help classify the type of mod given the mod's .ini files
+    
+    Parameters
+    ----------
+    checkHasTextureOverride: :class:`bool`
+        Whether :meth:`addGIModType`/section-name reading should require a section name to start with
+        ``TextureOverride`` before doing anything else with it
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, checkHasTextureOverride: bool = True) -> None:
+        ...
+    def addGIModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str], sectionKeywords: collections.abc.Set[str]) -> bool:
+        """
+        Registers a GI mod type into the classifier
+        
+        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.GI`
+        
+        Parameters
+        ----------
+        modType: :class:`ModTypeIdData`
+            The mod type to register
+        
+        hashes: Set[:class:`str`]
+            The hashes that identify 'modType'
+        
+        sectionKeywords: Set[:class:`str`]
+            The section keywords that identify 'modType'
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'modType' was newly registered
+        """
+    def addWuWaModType(self, modType: ModTypeIdData, hashes: collections.abc.Set[str]) -> bool:
+        """
+        Registers a WuWa mod type into the classifier
+        
+        Fails (returns ``False``) without registering anything if ``modType.modTypeId`` is already
+        registered, or if ``modType.gameTypeId`` isn't :attr:`GameTypeId.WuWa`
+        
+        Parameters
+        ----------
+        modType: :class:`ModTypeIdData`
+            The mod type to register
+        
+        hashes: Set[:class:`str`]
+            The hashes that identify 'modType'
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether 'modType' was newly registered
+        """
+    def getModType(self, modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ModTypeIdData:
+        """
+        Retrieves the registered :class:`ModTypeIdData` for a :class:`ModTypeId`
+        
+        Parameters
+        ----------
+        modTypeId: :class:`int`
+            The id for the :class:`ModTypeId` to retrieve the :class:`ModTypeIdData` for
+        
+        Raises
+        ------
+        IndexError
+            Raised if 'modTypeId' is not registered
+        
+        Returns
+        -------
+        :class:`ModTypeIdData`
+            The corresponding :class:`ModTypeIdData`
+        """
+class IniClassifyStats:
+    """
+    
+    Stores the statistics about the classification result of a .ini file
+    
+    Parameters
+    ----------
+    modType: Dict[:class:`int`, :class:`ModTypeIdData`]
+        The types of mod found, keyed by their id
+    
+        **Default**: ``{}``
+    
+    isMod: :class:`bool`
+        Whether the .ini file belongs to a mod
+    
+        **Default**: ``False``
+    
+    isFixed: :class:`bool`
+        Whether the .ini file is fixed
+    
+        **Default**: ``False``
+        
+    """
+    def __init__(self, modType: dict = {}, isMod: bool = False, isFixed: bool = False) -> None:
+        ...
+    @property
+    def isFixed(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file is fixed
+        """
+    @isFixed.setter
+    def isFixed(self, arg0: bool) -> None:
+        ...
+    @property
+    def isMod(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file belongs to a mod
+        """
+    @isMod.setter
+    def isMod(self, arg0: bool) -> None:
+        ...
+    @property
+    def modType(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`ModTypeIdData`]: The types of mod found, keyed by their id
+        """
+    @modType.setter
+    def modType(self, arg1: dict) -> None:
+        ...
 class IniDownloadModel(IniSrcResourceModel):
     """
     
@@ -8954,6 +9530,475 @@ class IniDownloadModel(IniSrcResourceModel):
         """
     @downloads.setter
     def downloads(self, arg1: dict) -> None:
+        ...
+class IniFile:
+    """
+    
+    Class for handling .ini files -- the C++-backed counterpart to the pure-Python :class:`IniFile`
+    :raw-html:`<br />` :raw-html:`<br />`
+    
+    .. note::
+        Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
+        class resolves a mod type's parse/fix/remove builders through the global registry keyed by
+        ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
+        :class:`CppModType`
+    
+    Parameters
+    ----------
+    file: Optional[:class:`str`]
+        The file path to the .ini file. If ``None``, this object is backed only by 'txt' and never
+        touches the disk :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    txt: :class:`str`
+        The text content of the .ini file, used when 'file' is ``None`` :raw-html:`<br />`
+        :raw-html:`<br />`
+    
+        **Default**: ``""``
+    
+    gameTypeId: Optional[:class:`int`]
+        The id for the game the .ini file's mod belongs to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    filteredFromModTypeIds: Optional[Set[:class:`int`]]
+        The ids of the only mod types this .ini file is allowed to be classified as :raw-html:`<br />`
+        :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning no filter
+    
+    forcedFromModTypeIds: Optional[Set[:class:`int`]]
+        The ids of the mod types this .ini file is classified as regardless of what its content says
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    overrideModTypes: Optional[Dict[:class:`int`, :class:`CppModType`]]
+        Mod types to resolve by id ahead of the global registry :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    iniClassifier: Optional[:class:`BaseIniClassifier`]
+        The strategy used to classify the .ini file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning the global default classifier
+    
+    downloadMode: Optional[:class:`DownloadMode`]
+        How file downloads referenced by the .ini file are handled :raw-html:`<br />`
+        :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning :attr:`DownloadMode.Normal`
+    
+    fromVersion: Optional[:class:`CppVersion`]
+        The version of the mod being fixed :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    toVersion: Optional[:class:`CppVersion`]
+        The version of the mod being fixed to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    filteredToModTypeIds: Optional[Set[:class:`int`]]
+        The ids of the only mod types this .ini file is allowed to be remapped onto :raw-html:`<br />`
+        :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning no filter
+        
+    """
+    @staticmethod
+    def getSectionNameFromLine(line: str) -> str:
+        """
+        Retrieves the name of the `section`_ a line declares
+        
+        Parameters
+        ----------
+        line: :class:`str`
+            The line to read the name out of
+        
+        Returns
+        -------
+        :class:`str`
+            The name of the `section`_
+        """
+    @staticmethod
+    def isSectionHeaderLine(line: str) -> bool:
+        """
+        Determines whether a line of text declares a `section`_
+        
+        Parameters
+        ----------
+        line: :class:`str`
+            The line to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the line declares a `section`_
+        """
+    def __init__(self, file: str | None = None, txt: str = '', gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, CppModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
+        ...
+    def classify(self) -> None:
+        """
+        Classifies the .ini file -- whether it belongs to a mod, which types of mod, and whether it has
+        already been fixed :raw-html:`<br />` :raw-html:`<br />`
+        
+        The results are read back off :attr:`IniFile.isModIni`, :attr:`IniFile.availableType` and
+        :attr:`IniFile.isFixed`
+        """
+    def clear(self, eraseSourceTxt: bool = False) -> None:
+        """
+        Clears all the saved data for the .ini file -- everything :meth:`clearRead` and
+        :meth:`clearModels` clear, plus the classification results and parsed `sections`_
+        
+        Parameters
+        ----------
+        eraseSourceTxt: :class:`bool`
+            See :meth:`clearRead` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        """
+    def clearModels(self) -> None:
+        """
+        Clears every resource model built for the .ini file, without clearing the text read in from it
+        
+        .. note::
+            To clear the read text instead, see :meth:`clearRead`
+        """
+    def clearRead(self, eraseSourceTxt: bool = False) -> None:
+        """
+        Clears the text data read in from the .ini file
+        
+        Parameters
+        ----------
+        eraseSourceTxt: :class:`bool`
+            Whether to also erase the text this object was constructed with, when
+            :attr:`IniFile.file` is ``None`` and that text is its only data source :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``False``
+        """
+    def disableIni(self, makeCopy: bool = False) -> str | None:
+        """
+        Disables the .ini file by renaming it so the mod loader stops reading it
+        
+        Parameters
+        ----------
+        makeCopy: :class:`bool`
+            Whether to keep a copy of the file at its original path :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Optional[:class:`str`]
+            The path the file was moved to, or ``None`` if there was no file to disable
+        """
+    def fix(self, keepBackup: bool = True, fixOnly: bool = False, hideOrig: bool = False) -> dict[str, str]:
+        """
+        Fixes the .ini file, running one fixer per mod type the file was classified as
+        
+        Parameters
+        ----------
+        keepBackup: :class:`bool`
+            Whether to keep a backup copy of the original .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        fixOnly: :class:`bool`
+            Whether to only fix the .ini file without removing any previous fix :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        hideOrig: :class:`bool`
+            Whether to comment out the `sections`_ the fix touched, so only the remapped mod displays
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`str`]
+            The fix produced for each .ini file written, keyed by file path
+        """
+    def getFileDownloads(self) -> list[IniResource]:
+        """
+        Retrieves every file download the .ini file references
+        
+        .. danger::
+            Same ownership caveat as :meth:`getResources`
+        
+        Returns
+        -------
+        List[:class:`IniResource`]
+            The file downloads
+        """
+    def getIfTemplates(self, flush: bool = False) -> dict:
+        """
+        Retrieves every parsed `section`_ of the .ini file, keyed by section name
+        
+        .. danger::
+            The returned sections are owned by this .ini file. :meth:`clear` destroys them
+        
+        Parameters
+        ----------
+        flush: :class:`bool`
+            Whether to re-read the sections rather than reuse what was already parsed :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        Returns
+        -------
+        Dict[:class:`str`, :class:`IfTemplate`]
+            The sections, in the order they appear in the file
+        """
+    def getModTypes(self) -> dict:
+        """
+        Retrieves the mod types the .ini file was classified as, keyed by :class:`ModTypeId` value
+        
+        Returns
+        -------
+        Dict[:class:`int`, :class:`CppModType`]
+            The mod types, in the order they were classified
+        """
+    def getReferencedFolders(self) -> list[str]:
+        """
+        Retrieves all the folders referenced by the .ini file, in the order first seen
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The absolute paths to all the folders
+        """
+    def getResources(self) -> list[IniResource]:
+        """
+        Retrieves every resource the .ini file references
+        
+        .. danger::
+            The returned resources are owned by this .ini file. :meth:`clear` and :meth:`clearModels`
+            destroy them
+        
+        Returns
+        -------
+        List[:class:`IniResource`]
+            The resources
+        """
+    def getSection(self, name: str) -> IfTemplate:
+        """
+        Retrieves a `section`_ of the .ini file by name
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_
+        
+        Returns
+        -------
+        Optional[:class:`IfTemplate`]
+            The `section`_, or ``None`` if no `section`_ goes by that name
+        """
+    def getSectionNames(self) -> list[str]:
+        """
+        Retrieves the names of all the `sections`_ in the .ini file, in the order they are declared
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The names of the `sections`_
+        """
+    def parse(self, flushIfTemplates: bool = True) -> None:
+        """
+        Parses the .ini file, building up the resources it references
+        
+        .. note::
+            The parsed graph groups themselves stay on the C++ side. Read the results off
+            :meth:`getResources` / :meth:`getFileDownloads`
+        
+        Parameters
+        ----------
+        flushIfTemplates: :class:`bool`
+            Whether to re-read the `sections`_ of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        """
+    def readFileLines(self) -> list[str]:
+        """
+        Reads the text lines of the .ini file off disk
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The text lines read, each keeping its own line ending
+        """
+    def removeFix(self, parse: bool = False, writeBack: bool = True) -> str:
+        """
+        Removes a previous fix from the .ini file
+        
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Whether to parse the .ini file first :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        writeBack: :class:`bool`
+            Whether to write the result back out to disk :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        Returns
+        -------
+        :class:`str`
+            The text of the .ini file with the fix removed
+        """
+    def removeSection(self, name: str) -> None:
+        """
+        Removes a `section`_ from the .ini file, keeping the declaration order of the rest
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name of the `section`_ to remove
+        """
+    def setFileTxt(self, txt: str) -> None:
+        """
+        Replaces the .ini file's text content, without touching the file on disk
+        
+        Parameters
+        ----------
+        txt: :class:`str`
+            The new text content
+        """
+    def write(self, txt: str | None = None) -> str:
+        """
+        Writes text back out to the .ini file
+        
+        Parameters
+        ----------
+        txt: Optional[:class:`str`]
+            The text to write. If ``None``, writes this object's current
+            :attr:`IniFile.fileTxt` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`str`
+            The text that was written
+        """
+    @property
+    def availableType(self) -> CppModType:
+        """
+        Optional[:class:`CppModType`]: The type of mod the .ini file was classified as, or ``None`` if it
+        was not classified as any
+        """
+    @property
+    def defaultModTypeId(self) -> int | None:
+        """
+        Optional[:class:`int`]: The :class:`ModTypeId` value to fall back on when classification recognises nothing
+        
+        :meth:`availableType` answers with it instead of ``None``, and :meth:`classify` stops forcing
+        :attr:`isModIni` false when a mod-type filter was given and nothing survived it
+        """
+    @defaultModTypeId.setter
+    def defaultModTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex | None) -> None:
+        ...
+    @property
+    def downloadMode(self) -> str:
+        """
+        :class:`str`: How the .ini file's referenced downloads are handled
+        
+        Reads back as the :class:`DownloadMode` string value (``"normal"``, ``"disabled"``, ``"always"``);
+        accepts either a :class:`DownloadMode` or its value when set
+        """
+    @downloadMode.setter
+    def downloadMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def file(self) -> str | None:
+        """
+        Optional[:class:`str`]: The file path to the .ini file, or ``None`` if this object is backed only
+        by its text
+        """
+    @property
+    def fileLines(self) -> list[str]:
+        """
+        List[:class:`str`]: The text lines of the .ini file, each keeping its own line ending
+        """
+    @property
+    def fileLinesRead(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file has been read
+        """
+    @property
+    def fileTxt(self) -> str:
+        """
+        :class:`str`: The text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+        Setting this re-reads the text lines from the new value and marks the file as not fixed
+        """
+    @fileTxt.setter
+    def fileTxt(self, arg1: str) -> None:
+        ...
+    @property
+    def filteredToModTypeIds(self) -> set[int] | None:
+        """
+        Optional[Set[:class:`int`]]: Only fix to these mod types, by :class:`ModTypeId` value
+        
+        ``None`` means no filter -- an **empty set** is deliberately different, and selects nothing
+        """
+    @filteredToModTypeIds.setter
+    def filteredToModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
+        ...
+    @property
+    def folder(self) -> str:
+        """
+        :class:`str`: The folder the .ini file resides in, or ``""`` when it has no path
+        
+        .. note::
+            This deliberately differs from the pure-Python :attr:`IniFile.folder`, which falls back to the
+            folder the script is run from. Derived from :attr:`IniFile.file` rather than stored
+        """
+    @property
+    def fromVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+        """
+        Optional[:class:`CppVersion`]: The game version the .ini file originates from
+        
+        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set
+        """
+    @fromVersion.setter
+    def fromVersion(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def isClassified(self) -> bool:
+        """
+        :class:`bool`: Whether the type of mod has already been identified for the .ini file
+        """
+    @property
+    def isFixed(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file has already been fixed
+        """
+    @isFixed.setter
+    def isFixed(self, arg1: bool) -> None:
+        ...
+    @property
+    def isModIni(self) -> bool:
+        """
+        :class:`bool`: Whether the .ini file belongs to a mod -- the result of :meth:`classify`
+        """
+    @property
+    def toVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+        """
+        Optional[:class:`CppVersion`]: The game version to fix the .ini file to
+        
+        Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when set
+        """
+    @toVersion.setter
+    def toVersion(self, arg1: typing.Any) -> None:
         ...
 class IniFixResource(IniResource):
     """
@@ -9507,7 +10552,7 @@ class IniSectionGraph:
         """
         Retrieves the children `sections`_ of the `sections`_ specified at 'targetSections'
         """
-    def getKeyMissingParts(self, key: typing.Any) -> dict:
+    def getKeyMissingParts(self, key: str) -> dict:
         """
         Retrieves the parts in the `sections`_ that are not covered by 'key'
         """
@@ -9531,7 +10576,7 @@ class IniSectionGraph:
         """
         Determines whether the graph is empty
         """
-    def isKeyFullyCover(self, key: typing.Any) -> typing.Any:
+    def isKeyFullyCover(self, key: str) -> typing.Any:
         """
         Determines whether a key fully covers all the conditional branches of a `section`_
         """
@@ -9560,7 +10605,7 @@ class IniSectionGraph:
         """
         Renames the `sections`_ and reconstructs the graph
         """
-    def rootsAreFullyCovered(self, key: typing.Any) -> typing.Any:
+    def rootsAreFullyCovered(self, key: str) -> typing.Any:
         """
         Convenience over :meth:`isKeyFullyCover`, filtered to :attr:`roots`
         """
@@ -9805,7 +10850,7 @@ class ModDictAssets:
             If any row's index values don't match :attr:`totalIndices` in length, or if a row's version
             index value fails to parse as a version
         """
-    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+    def get(self, nonVersionVals: collections.abc.Sequence[str], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
         """
         Retrieves the corresponding asset
         
@@ -9949,11 +10994,11 @@ class ModMappedAssets:
         rows: Union[List[Tuple[List[Any], Any]], dict]
             The rows to add -- either a flat list or a real nested dict -- see :meth:`ModDictAssets.addRows`
         """
-    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+    def get(self, nonVersionVals: collections.abc.Sequence[str], version: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
         """
         Retrieves the corresponding asset -- forwards directly to :attr:`repo`'s own :meth:`ModDictAssets.get`
         """
-    def getKey(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
+    def getKey(self, asset: str, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, errorOnNotFound: bool = True) -> typing.Any:
         """
         Retrieves the key that produced 'asset', disambiguating between multiple candidates via
         'fromNonVersionVals' -- the first remaining candidate wins if more than one still matches after
@@ -9991,7 +11036,7 @@ class ModMappedAssets:
             just the key, not the version it was resolved at (matching the exact contract real callers
             like GIMIParser rely on; see the C++ core's own note on this)
         """
-    def hasFrom(self, asset: typing.Any, version: typing.Any = None, nonVersionVals: typing.Any = None) -> bool:
+    def hasFrom(self, asset: str, version: typing.Any = None, nonVersionVals: typing.Any = None) -> bool:
         """
         Determines whether 'asset' exists in the assets to map from
         
@@ -10013,7 +11058,7 @@ class ModMappedAssets:
         
             **Default**: ``None``
         """
-    def replace(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetName: typing.Any, errorOnNotFound: bool = True) -> typing.Any:
+    def replace(self, asset: str, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetName: str, errorOnNotFound: bool = True) -> typing.Any:
         """
         Retrieves the single corresponding asset to replace 'asset' with, for one specific target asset
         name
@@ -10053,7 +11098,7 @@ class ModMappedAssets:
         Any
             The replacement asset, or ``None`` if none is found
         """
-    def replaceAll(self, asset: typing.Any, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetNames: typing.Any = None, errorOnNotFound: bool = True) -> dict:
+    def replaceAll(self, asset: str, fromVersion: typing.Any = None, fromNonVersionVals: typing.Any = None, toVersion: typing.Any = None, toAssetNames: typing.Any = None, errorOnNotFound: bool = True) -> dict:
         """
         Retrieves every corresponding asset to replace 'asset' with
         
@@ -10108,7 +11153,7 @@ class ModMappedAssets:
         populates it anywhere
         """
     @property
-    def fromAssets(self) -> list[typing.Any]:
+    def fromAssets(self) -> list[str]:
         """
         List[Any]: Every asset value that has at least one known originating key -- a property (not a
         method), matching the pure-Python original's contract exactly (real callers, e.g. IniFile.py's
@@ -10305,7 +11350,7 @@ class ModTypeId:
 class ModTypeIdData:
     """
     
-    Cheap data for a type of mod, held by an ini classifier (e.g. :class:`CppBaseIniClassifier`)
+    Cheap data for a type of mod, held by an ini classifier (e.g. :class:`BaseIniClassifier`)
     
     Not meant to be a full representation of a mod type on its own -- the Python-side :class:`ModType`
     is meant to build its own richer representation from this data
@@ -10360,7 +11405,7 @@ class ModTypeIdTools:
     def findByName(name: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> FixRaidenBoss2.core.ModTypeId | None:
         """
         Finds the :class:`ModTypeId` whose registered :class:`CppModType` name or alias maximally matches
-        some string, similar to how :meth:`CppBaseIniClassifier.classify`'s section-name reading searches
+        some string, similar to how :meth:`BaseIniClassifier.classify`'s section-name reading searches
         its own registered keywords
         
         Only searches names/aliases of :class:`CppModType` s that have actually been registered (via
@@ -10402,6 +11447,46 @@ class ModTypeIdTools:
         -------
         Optional[:class:`ModTypeId`]
             The corresponding :class:`ModTypeId`, if 'value' is valid
+        """
+    @staticmethod
+    def getHashRemapTargets(value: ModTypeId) -> list[ModTypeId]:
+        """
+        Retrieves the mod types a given mod type's **hashes** can be remapped onto
+        
+        This is the remap graph itself. It mirrors the ``map`` argument the pure-Python :class:`GIBuilder`
+        passes to each mod type's :class:`Hashes`, lifted out of the 43 individual factories into one table
+        so a target is named by :class:`ModTypeId` rather than by a bare string
+        
+        .. note::
+            Two :class:`ModTypeId`\\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as
+            *targets* and are never a source, which is why :class:`CppGIBuilder` has no factory for them
+        
+        Parameters
+        ----------
+        value: :class:`ModTypeId`
+            The mod type to look up the remap targets of
+        
+        Returns
+        -------
+        List[:class:`ModTypeId`]
+            The mod types 'value' remaps onto, or an empty list if it remaps onto none
+        """
+    @staticmethod
+    def getIndexRemapTargets(value: ModTypeId) -> list[ModTypeId]:
+        """
+        Retrieves the mod types a given mod type's **indices** can be remapped onto
+        
+        Identical to :meth:`getHashRemapTargets` for every mod type but one: ``Raiden`` remaps by hash only
+        
+        Parameters
+        ----------
+        value: :class:`ModTypeId`
+            The mod type to look up the remap targets of
+        
+        Returns
+        -------
+        List[:class:`ModTypeId`]
+            The mod types 'value' remaps onto, or an empty list if it remaps onto none
         """
     @staticmethod
     def getModType(modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ... | None:
@@ -10457,6 +11542,54 @@ class ModTypeIdTools:
         modType: :class:`CppModType`
             The :class:`CppModType` to register
         """
+class MultiModFixer(BaseIniFixer):
+    """
+    
+    This class inherits from :class:`BaseIniFixer`
+    
+    A fixer that owns no fixing logic of its own and instead **delegates to one child fixer per mod
+    type**, keyed by the :class:`int` value of that mod type's :class:`ModTypeId`
+    
+    Which children run is decided by the .ini file's :attr:`IniFile.filteredToModTypeIds`: a child
+    whose id is absent from that filter is skipped. ``None`` there means no filter, so every child
+    runs -- an **empty set** is deliberately different, and selects nothing
+    
+    .. note::
+        A child is a plain :class:`BaseIniFixer`, and this class *is* one, so a :class:`MultiModFixer`
+        can be a child of another and the nesting composes. The :class:`IniFixingContext` handed to a
+        child is **narrowed** rather than replaced, so a nested fixer's first child holds the .ini
+        file's first word only if its parent was told the same
+    
+    .. note::
+        Children run in **ascending id order**, not the order of the dict they were given in. Only one
+        child may take the .ini file's backup and only one may hide the original mod, so which is
+        "first" and which is "last" has to be answerable the same way twice
+    
+    Parameters
+    ----------
+    children: Optional[Dict[:class:`int`, :class:`BaseIniFixer`]]
+        The child fixers, keyed by the :class:`int` value of the :class:`ModTypeId` each one fixes. A
+        ``None`` child is skipped rather than treated as an error :raw-html:`<br />`
+        :raw-html:`<br />`
+    
+        **Default**: ``None``, meaning no children -- which makes fixing a no-op
+    
+    parser: Optional[:class:`BaseIniParser`]
+        The parser to retrieve the data to fix from :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, children: typing.Any = None, parser: typing.Any = None) -> None:
+        ...
+    @property
+    def children(self) -> dict:
+        """
+        Dict[:class:`int`, :class:`BaseIniFixer`]: The child fixers, keyed by mod type id
+        """
+    @children.setter
+    def children(self, arg1: typing.Any) -> None:
+        ...
 class OrderedMultiMap:
     """
     
@@ -11689,6 +12822,42 @@ class ParseTree:
     @rootId.setter
     def rootId(self, arg1: typing.Any) -> None:
         ...
+class PositionFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``Position.buf`` files
+    
+    .. note::
+        We observe that a ``Position.buf`` file is a binary file defined as:
+    
+        * a line corresponds to the data for a particular vertex in the mod
+        * each line contains 40 bytes (320 bits)
+        * each line uses little-endian mode (MSB is to the right while LSB is to the left)
+        * the first 12 bytes of a line are the coordinate position of a vertex in an R3 vector space, each scalar value in the coordinate is 4 bytes or 32 bits (3 scalar values/line)
+        * the next 12 bytes of a line corresponds to the normal vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (3 scalar values/line)
+        * the last 16 bytes of a line corresponds to the tangent vector of a vertex, each scalar value in the vector is 4 bytes or 32 bits (4 scalar values/line)
+        * all scalar values in the file are `floating point`_ values
+        
+    """
+    def __init__(self, src: typing.Any) -> None:
+        """
+        Constructs a new position file and immediately reads it
+        
+        Parameters
+        ----------
+        src: Union[:class:`str`, :class:`bytes`]
+            The source file or bytes for the ``.buf`` file
+        
+        Raises
+        ------
+        :class:`BufFileNotRecognized`
+            If 'src' holds a file path that cannot be read as a valid position file
+        
+        :class:`BadBufData`
+            If 'src' holds raw bytes that are not valid for a position file
+        """
 class Ranges:
     """
     
@@ -12618,7 +13787,7 @@ class RegFillMissing(BaseIniGraphEdit):
         
     """
     @staticmethod
-    def addCover(graph: typing.Any, reg: typing.Any, fillMissing: typing.Any) -> typing.Any:
+    def addCover(graph: typing.Any, reg: str, fillMissing: typing.Any) -> typing.Any:
         """
         Fills a fresh top :class:`IfContentPart` at each of 'graph''s roots, if 'reg' is missing in some
         :class:`IfContentPart` of 'graph'
@@ -12643,7 +13812,7 @@ class RegFillMissing(BaseIniGraphEdit):
             The same graph that was passed in, with its roots covered
         """
     @staticmethod
-    def fillMissingGraph(graph: typing.Any, reg: typing.Any, fillMissing: typing.Any) -> typing.Any:
+    def fillMissingGraph(graph: typing.Any, reg: str, fillMissing: typing.Any) -> typing.Any:
         """
         Fills the :class:`IfContentPart`\\s from 'graph' that are missing 'reg'
         
@@ -12666,7 +13835,7 @@ class RegFillMissing(BaseIniGraphEdit):
         :class:`IniSectionGraph`
             The same graph that was passed in, with its missing parts filled
         """
-    def __init__(self, reg: typing.Any, fillMissing: typing.Any, fillMode: typing.Any = None, dependOnDownload: bool = False, trackKeys: bool = False, keysToTrack: typing.Any = None) -> None:
+    def __init__(self, reg: str, fillMissing: typing.Any, fillMode: typing.Any = None, dependOnDownload: bool = False, trackKeys: bool = False, keysToTrack: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -12804,12 +13973,12 @@ class RegFillMissing(BaseIniGraphEdit):
     def keysToTrack(self, arg1: typing.Any) -> None:
         ...
     @property
-    def reg(self) -> typing.Any:
+    def reg(self) -> str:
         """
         :class:`str`: The register to search for
         """
     @reg.setter
-    def reg(self, arg1: typing.Any) -> None:
+    def reg(self, arg1: str) -> None:
         ...
     @property
     def trackKeys(self) -> bool:
@@ -13104,7 +14273,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
             The same graph that was passed in, after editing
         """
     @property
-    def addition(self) -> tuple[typing.Any, typing.Any]:
+    def addition(self) -> tuple[str, str]:
         """
         Tuple[:class:`str`, :class:`str`]: The `KVP`_ to add
         """
@@ -13594,13 +14763,13 @@ class RemapBlendResource(RemapIniFixResource):
         
             **Default**: ``None``
         """
-    def createBlend(self) -> CppBlendFile:
+    def createBlend(self) -> BlendFile:
         """
         Creates the blend file -- a fresh copy of the stored blend elements is cloned into it
         
         Returns
         -------
-        :class:`CppBlendFile`
+        :class:`BlendFile`
             The created blend file
         """
     def fix(self) -> bool:
@@ -14069,6 +15238,72 @@ class RemapTexAddResource(RemapIniResource):
         """
     @texCreator.setter
     def texCreator(self, arg0: CppTexCreator) -> None:
+        ...
+class RemapTexEditResource(RemapIniFixResource):
+    """
+    
+    This class inherits from :class:`RemapIniFixResource`
+    
+    Class for editing a texture file used by the overall remap process
+    
+    The texture counterpart to :class:`RemapBlendResource`, and shaped like it rather than like
+    :class:`RemapTexAddResource`: an **edit** reads one file and writes another, so it carries the
+    ``srcPath``/``fixedPath`` pair. An *add* has only the one path
+        
+    """
+    def __init__(self, iniFolderPath: str, srcPath: str, fixedPath: str, texEditor: CppTexEditor, type: str = 'resourceRemapTexEdit', fixFunc: collections.abc.Callable[[RemapTexEditResource], bool] = None) -> None:
+        """
+        Constructs a new texture-edit resource
+        
+        Parameters
+        ----------
+        iniFolderPath: :class:`str`
+            The path to the folder of the .ini file
+        
+        srcPath: :class:`str`
+            The file path to the resource
+        
+        fixedPath: :class:`str`
+            The file path to the fixed resource
+        
+        texEditor: :class:`CppTexEditor`
+            The texture editor used to edit the ``.dds`` file
+        
+        type: :class:`str`
+            The name for the type of resource
+        
+            **Default**: ``"resourceRemapTexEdit"``
+        
+        fixFunc: Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]
+            Custom function for fixing the resource, overriding the default behavior if given
+        
+            **Default**: ``None``
+        """
+    def fix(self) -> bool:
+        """
+        Fixes the resource -- calls the custom 'fixFunc' if set at construction, otherwise edits the
+        texture at ``srcPath`` and writes the result to ``fixedPath``
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the resource was fixed
+        """
+    @property
+    def fixFunc(self) -> collections.abc.Callable[[RemapTexEditResource], bool]:
+        """
+        Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: Custom function for fixing the resource, overriding the default behavior if set
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg0: collections.abc.Callable[[RemapTexEditResource], bool]) -> None:
+        ...
+    @property
+    def texEditor(self) -> CppTexEditor:
+        """
+        :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
+        """
+    @texEditor.setter
+    def texEditor(self, arg0: CppTexEditor) -> None:
         ...
 class RemappedKeyData:
     """
@@ -16450,6 +17685,96 @@ class TexCreate(BaseResEdit):
         """
     @texName.setter
     def texName(self, arg0: str) -> None:
+        ...
+class TexReplace(BaseResEdit):
+    """
+    
+    This class inherits from :class:`ResReplace`
+    
+    Class that builds the necessary parts to edit an existing texture file
+    
+    The counterpart to :class:`TexCreate`, which *creates* a brand new one, and the texture analogue of
+    :class:`RemapBlendReplace` -- an edit has an original resource to build its fixed name on, which is
+    what separates a :class:`ResReplace` from a :class:`ResCreate`
+    
+    Parameters
+    ----------
+    resModObj: Tuple[:class:`int`, :class:`str`, :class:`str`]
+        The mod object to hold the newly created :class:`IniSectionGraph` for the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        The tuple contains:
+    
+        #. The index for the .ini file
+        #. The name of the component
+        #. The name of the object
+    
+    texEditor: :class:`CppTexEditor`
+        The texture editor used to edit the ``.dds`` file
+    
+    resType: :class:`str`
+        The name of the type of resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``"resourceRemapTexEdit"``
+    
+    fixFunc: Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]
+        A custom function for editing the texture file :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    resSubType: Optional[:class:`str`]
+        The name of the subtype of the resource :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, resModObj: typing.Any, texEditor: typing.Any, resType: str = 'resourceRemapTexEdit', fixFunc: typing.Any = None, resSubType: typing.Any = None) -> None:
+        ...
+    def buildResModel(self, resType: str, ini: typing.Any, srcPath: str, fixedPath: str, modType: typing.Any = None, *args, modName: str = '', **kwargs) -> typing.Any:
+        """
+        Builds the model for the resource
+        
+        Parameters
+        ----------
+        resType: :class:`str`
+            The name for the type of resource
+        
+        ini: :class:`IniFile`
+            The .ini file to build the resource for
+        
+        srcPath: :class:`str`
+            The file path to the original resource
+        
+        fixedPath: :class:`str`
+            The file path to the fixed resource
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod being fixed. Unused
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        Returns
+        -------
+        :class:`RemapTexEditResource`
+            The built resource
+        """
+    @property
+    def fixFunc(self) -> typing.Any:
+        """
+        Optional[Callable[[:class:`RemapTexEditResource`], :class:`bool`]]: A custom function for editing the texture file
+        """
+    @fixFunc.setter
+    def fixFunc(self, arg0: typing.Any) -> None:
+        ...
+    @property
+    def texEditor(self) -> typing.Any:
+        """
+        :class:`CppTexEditor`: The texture editor used to edit the ``.dds`` file
+        """
+    @texEditor.setter
+    def texEditor(self, arg0: typing.Any) -> None:
         ...
 class Token:
     """

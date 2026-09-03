@@ -34,7 +34,7 @@ namespace AGRC = AGRemapCore;
     long as the node referencing it is -- no caveat needed for that path either.
  @endrst
  */
-using PyIfTemplateNode = AGRC::IfTemplateNode<py::object, py::object, PyObjectHash, PyObjectEqual>;
+using PyIfTemplateNode = AGRC::IfTemplateNode<std::string, std::string>;
 
 
 void initCppIfTemplateNode(pybind11::module_ &m);

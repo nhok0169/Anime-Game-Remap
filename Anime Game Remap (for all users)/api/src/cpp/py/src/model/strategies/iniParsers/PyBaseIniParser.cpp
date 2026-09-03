@@ -28,7 +28,18 @@ void PyBaseIniParser::clear() {
 
 
 void initCppBaseIniParser(pybind11::module_ &m) {
-    auto cls = py::class_<PyBaseIniParser>(m, "BaseIniParser", R"doc(
+    py::class_<PyBaseIniParserCore, py::smart_holder>(m, "CppBaseIniParser", R"doc(
+The shared C++ base of every parser, exposed so that one built on the C++ side -- by a
+:class:`CppIniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+`Python`_ :raw-html:`<br />` :raw-html:`<br />`
+
+Not usually what you want: a parser created **from** `Python`_ is a :class:`BaseIniParser`, which
+inherits from this and carries the extra `Python`_ state. This class exists so the boundary never
+has to hand back ``None`` for a core-side object it has no richer type for
+    )doc");
+
+
+    auto cls = py::class_<PyBaseIniParser, PyBaseIniParserCore, py::smart_holder>(m, "BaseIniParser", R"doc(
 Base class to parse a .ini file
 
 Parameters

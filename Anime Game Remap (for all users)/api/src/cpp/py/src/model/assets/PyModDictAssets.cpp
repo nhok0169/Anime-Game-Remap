@@ -6,25 +6,25 @@
 #include "../PyVersion.h"
 
 
-template class AGRC::ModDictAssets<py::object, py::object, PyObjectHash, PyObjectEqual>;
+template class AGRC::ModDictAssets<std::string, std::string>;
 
 // Rows cross the pybind boundary as a plain list of (indexVals, value) tuples --
 // Python: [(["1.0", "A", "x"], "hash1"), ...] -- an alternative to flattenNestedDict below for
 // callers that already have (or want to build) the flat shape directly.
-std::vector<AGRC::Row<py::object, py::object>> convertRows(const std::vector<std::pair<std::vector<py::object>, py::object>> &rows) {
-    std::vector<AGRC::Row<py::object, py::object>> converted;
+std::vector<AGRC::Row<std::string, std::string>> convertRows(const std::vector<std::pair<std::vector<std::string>, std::string>> &rows) {
+    std::vector<AGRC::Row<std::string, std::string>> converted;
     converted.reserve(rows.size());
     for (const auto &row : rows) {
-        converted.push_back(AGRC::Row<py::object, py::object>{row.first, row.second});
+        converted.push_back(AGRC::Row<std::string, std::string>{row.first, row.second});
     }
     return converted;
 }
 
 namespace {
 
-    void flattenNestedDictNode(const py::object &node, std::vector<py::object> &path, std::size_t depth, std::size_t totalIndices, std::vector<AGRC::Row<py::object, py::object>> &rows) {
+    void flattenNestedDictNode(const py::object &node, std::vector<std::string> &path, std::size_t depth, std::size_t totalIndices, std::vector<AGRC::Row<std::string, std::string>> &rows) {
         if (depth == totalIndices) {
-            rows.push_back(AGRC::Row<py::object, py::object>{path, node});
+            rows.push_back(AGRC::Row<std::string, std::string>{path, py::str(node).cast<std::string>()});
             return;
         }
 
@@ -34,7 +34,7 @@ namespace {
 
         py::dict asDict = node.cast<py::dict>();
         for (auto item : asDict) {
-            path.push_back(py::reinterpret_borrow<py::object>(item.first));
+            path.push_back(py::str(item.first).cast<std::string>());
             flattenNestedDictNode(py::reinterpret_borrow<py::object>(item.second), path, depth + 1, totalIndices, rows);
             path.pop_back();
         }
@@ -42,18 +42,18 @@ namespace {
 
 }
 
-std::vector<AGRC::Row<py::object, py::object>> flattenNestedDict(const py::dict &repo, std::size_t totalIndices) {
-    std::vector<AGRC::Row<py::object, py::object>> rows;
-    std::vector<py::object> path;
+std::vector<AGRC::Row<std::string, std::string>> flattenNestedDict(const py::dict &repo, std::size_t totalIndices) {
+    std::vector<AGRC::Row<std::string, std::string>> rows;
+    std::vector<std::string> path;
     flattenNestedDictNode(repo, path, 0, totalIndices, rows);
     return rows;
 }
 
-std::vector<AGRC::Row<py::object, py::object>> convertRowsOrNestedDict(const py::object &rowsOrNestedDict, std::size_t totalIndices) {
+std::vector<AGRC::Row<std::string, std::string>> convertRowsOrNestedDict(const py::object &rowsOrNestedDict, std::size_t totalIndices) {
     if (py::isinstance<py::dict>(rowsOrNestedDict)) {
         return flattenNestedDict(rowsOrNestedDict.cast<py::dict>(), totalIndices);
     }
-    return convertRows(rowsOrNestedDict.cast<std::vector<std::pair<std::vector<py::object>, py::object>>>());
+    return convertRows(rowsOrNestedDict.cast<std::vector<std::pair<std::vector<std::string>, std::string>>>());
 }
 
 namespace {
@@ -86,8 +86,8 @@ namespace {
 
 }
 
-std::vector<std::optional<py::object>> toWildcardList(const py::object &raw, const std::vector<std::string> &indexNames) {
-    std::vector<std::optional<py::object>> result(indexNames.size(), std::nullopt);
+std::vector<std::optional<std::string>> toWildcardList(const py::object &raw, const std::vector<std::string> &indexNames) {
+    std::vector<std::optional<std::string>> result(indexNames.size(), std::nullopt);
 
     if (raw.is_none() || isUnHashableNone(raw)) {
         return result;
@@ -103,7 +103,7 @@ std::vector<std::optional<py::object>> toWildcardList(const py::object &raw, con
         for (std::size_t i = 0; i < result.size() && i < len; ++i) {
             py::object item = py::reinterpret_borrow<py::object>(asList[i]);
             if (!item.is_none()) {
-                result[i] = std::move(item);
+                result[i] = py::str(item).cast<std::string>();
             }
         }
         return result;
@@ -116,7 +116,7 @@ std::vector<std::optional<py::object>> toWildcardList(const py::object &raw, con
             if (asDict.contains(key)) {
                 py::object item = py::reinterpret_borrow<py::object>(asDict[key]);
                 if (!item.is_none()) {
-                    result[i] = std::move(item);
+                    result[i] = py::str(item).cast<std::string>();
                 }
             }
         }
@@ -124,7 +124,7 @@ std::vector<std::optional<py::object>> toWildcardList(const py::object &raw, con
     }
 
     if (!result.empty()) {
-        result[0] = raw;
+        result[0] = py::str(raw).cast<std::string>();
     }
     return result;
 }
@@ -145,7 +145,10 @@ already in that shape; :meth:`fromNestedDict` builds an instance from a real nes
     )doc")
 
         .def(py::init([](std::size_t totalIndices, std::size_t versionIndexPos, const py::object &rows) {
-            return std::make_unique<PyModDictAssets>(totalIndices, versionIndexPos, parseVersionArg, convertRowsOrNestedDict(rows, totalIndices));
+            return std::make_unique<PyModDictAssets>(totalIndices, versionIndexPos,
+                // VersionParser speaks K, which is std::string now -- adapt parseVersionArg.
+                [](const std::string &v) { return parseVersionArg(py::cast(v)); },
+                convertRowsOrNestedDict(rows, totalIndices));
         }), py::arg("totalIndices"), py::arg("versionIndexPos"), py::arg("rows") = py::list(), py::doc(R"doc(
 Constructs a new asset lookup table
 
@@ -165,7 +168,9 @@ rows: Union[List[Tuple[List[Any], Any]], dict]
         )doc"))
 
         .def_static("fromNestedDict", [](std::size_t totalIndices, std::size_t versionIndexPos, const py::dict &repo) {
-            return std::make_unique<PyModDictAssets>(totalIndices, versionIndexPos, parseVersionArg, flattenNestedDict(repo, totalIndices));
+            return std::make_unique<PyModDictAssets>(totalIndices, versionIndexPos,
+                [](const std::string &v) { return parseVersionArg(py::cast(v)); },
+                flattenNestedDict(repo, totalIndices));
         }, py::arg("totalIndices"), py::arg("versionIndexPos"), py::arg("repo"), py::doc(R"doc(
 Constructs a new asset lookup table from a real nested dict, flattening it first
 
@@ -206,16 +211,16 @@ Raises
     index value fails to parse as a version
         )doc"))
 
-        .def("get", [](const PyModDictAssets &self, const std::vector<py::object> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
+        .def("get", [](const PyModDictAssets &self, const std::vector<std::string> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> parsedVersion = parseVersionArg(version);
-            std::optional<py::object> result = self.get(nonVersionVals, parsedVersion, false);
+            std::optional<std::string> result = self.get(nonVersionVals, parsedVersion, false);
             if (!result.has_value()) {
                 if (errorOnNotFound) {
                     throw py::key_error("No matching asset found for the given non-version values");
                 }
                 return py::none();
             }
-            return *result;
+            return py::cast(*result);
         }, py::arg("nonVersionVals"), py::arg("version") = py::none(), py::arg("errorOnNotFound") = true, py::doc(R"doc(
 Retrieves the corresponding asset
 
@@ -261,11 +266,11 @@ Any
             py::dict result;
             std::size_t versionPos = self.getVersionIndexPos();
 
-            self.forEachEntry([&](const std::vector<py::object> &nonVersionVals, const AGRC::Version &version, const py::object &value) {
+            self.forEachEntry([&](const std::vector<std::string> &nonVersionVals, const AGRC::Version &version, const std::string &value) {
                 // Re-insert the version at its original column position, so the reconstructed
                 // dict nests in the exact same order the source data was originally written in
                 // (e.g. Hashes' {version: {name: {type: hash}}}).
-                std::vector<py::object> fullIndexVals;
+                std::vector<std::string> fullIndexVals;
                 fullIndexVals.reserve(nonVersionVals.size() + 1);
                 std::size_t nv = 0;
                 for (std::size_t i = 0; i < nonVersionVals.size() + 1; ++i) {
@@ -283,13 +288,13 @@ Any
 
                 py::dict node = result;
                 for (std::size_t i = 0; i + 1 < fullIndexVals.size(); ++i) {
-                    const py::object &key = fullIndexVals[i];
+                    py::str key(fullIndexVals[i]);
                     if (!node.contains(key) || !py::isinstance<py::dict>(node[key])) {
                         node[key] = py::dict();
                     }
                     node = node[key].cast<py::dict>();
                 }
-                node[fullIndexVals.back()] = value;
+                node[py::str(fullIndexVals.back())] = value;
             });
 
             return result;

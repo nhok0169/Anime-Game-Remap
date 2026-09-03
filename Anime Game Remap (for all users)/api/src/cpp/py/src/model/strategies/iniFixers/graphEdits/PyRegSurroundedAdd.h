@@ -31,13 +31,13 @@ namespace AGRC = AGRemapCore;
  setters -- never automatically on every ``edit()`` call
  @endrst
  */
-class PyRegSurroundedAdd: public AGRC::RegSurroundedAdd<py::object, py::object, PyObjectHash, PyObjectEqual> {
+class PyRegSurroundedAdd: public AGRC::RegSurroundedAdd<std::string, std::string> {
     public:
 
         /**
          * @brief The C++ core class this wraps
          */
-        using Core = AGRC::RegSurroundedAdd<py::object, py::object, PyObjectHash, PyObjectEqual>;
+        using Core = AGRC::RegSurroundedAdd<std::string, std::string>;
 
         /**
          * @brief
@@ -73,7 +73,7 @@ class PyRegSurroundedAdd: public AGRC::RegSurroundedAdd<py::object, py::object, 
  *
  * @throw pybind11::type_error If 'additionObj' isn't a 2-length sequence
  */
-std::pair<py::object, py::object> parseAddition(const py::object &additionObj);
+std::pair<std::string, std::string> parseAddition(const py::object &additionObj);
 
 
 /**

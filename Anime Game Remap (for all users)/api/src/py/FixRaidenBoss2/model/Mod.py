@@ -22,6 +22,8 @@ from typing import Optional, List, Set, Union, Dict, Callable, Any, Tuple
 from ..core import FileStats
 from ..core import CachedFileStats
 from ..core import RemapStats
+from ..core import BlendFile
+from ..core import PositionFile
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -34,12 +36,10 @@ from ..constants.GenericTypes import VersionType
 from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .strategies.ModType import ModType
 from .Model import Model
-from .files.BlendFile import BlendFile
-from .files.PositionFile import PositionFile
 from .files.TextureFile import TextureFile
 from ..tools.files.FileService import FileService
 from ..tools.ListTools import ListTools
-from .files.IniFile import IniFile
+from ..core import IniFile, ModTypeIdTools
 # IniFixResourceModel/IniSrcResourceModel/IniTexModel/IniDownloadModel are Group B (see
 # iniresources-cpp-port migration notes) -- IniFile.py's own factories now construct these
 # C++-backed classes directly (see that file's own history), so these are just the bare classes.
@@ -271,8 +271,51 @@ class Mod(Model):
             The new object representing the .ini file
         """
 
-        return IniFile(iniPath, logger = self.logger, modTypes = self._types, defaultModType = self._defaultType, 
-                       forcedModType = self._forcedType, version = self.version, modsToFix = self._remappedTypes, downloadMode = self.downloadMode)
+        result = IniFile(iniPath, filteredFromModTypeIds = self._modTypeIds(self._types),
+                         forcedFromModTypeIds = self._modTypeIds({self._forcedType} if (self._forcedType is not None) else None),
+                         downloadMode = self.downloadMode)
+
+        # Set rather than passed: these have no constructor parameter on the C++ side.
+        result.fromVersion = self.version
+        result.filteredToModTypeIds = self._modTypeIds(self._remappedTypes)
+
+        defaultIds = self._modTypeIds({self._defaultType} if (self._defaultType is not None) else None)
+        if (defaultIds):
+            result.defaultModTypeId = next(iter(defaultIds))
+
+        return result
+
+    @classmethod
+    def _modTypeIds(cls, modTypes: Optional[Set[ModType]]) -> Optional[Set[int]]:
+        """
+        Converts mod types to the :class:`ModTypeId` values :class:`IniFile` indexes them by
+
+        The pure-Python :class:`ModType` carries no id of its own, so the bridge is its name --
+        :meth:`ModTypeIdTools.findByName`, which is also what the .ini file itself resolves through
+
+        Parameters
+        ----------
+        modTypes: Optional[Set[:class:`ModType`]]
+            The mod types to convert, or ``None``
+
+        Returns
+        -------
+        Optional[Set[:class:`int`]]
+            The corresponding ids, or ``None`` if 'modTypes' was ``None`` :raw-html:`<br />` :raw-html:`<br />`
+
+            A mod type with no registered id is skipped rather than raising
+        """
+
+        if (modTypes is None):
+            return None
+
+        result = set()
+        for modType in modTypes:
+            modTypeId = ModTypeIdTools.findByName(modType.name)
+            if (modTypeId is not None):
+                result.add(int(modTypeId))
+
+        return result
     
     def getOrigIniPath(self, remapCopyPath: str) -> str:
         """
@@ -1476,12 +1519,12 @@ class Mod(Model):
             For the exceptions, the keys are absolute filepath to the .dds file and the values are the exception encountered        
         """
 
-        fixedTexAdds, skippedTexAdds = self.correctResource(texAddStats, lambda iniFile: iniFile.getTexAddModels(), 
+        fixedTexAdds, skippedTexAdds = self.correctResource(texAddStats, lambda iniFile: [r for r in iniFile.getResources() if r.type == "resourceRemapTexAdd"], 
                                     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
                                     fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
                                     newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Adding the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})
         
-        fixedTexEdits, skippedTexEdits = self.correctResource(texEditStats, lambda iniFile: iniFile.getTexEditModels(), 
+        fixedTexEdits, skippedTexEdits = self.correctResource(texEditStats, lambda iniFile: [r for r in iniFile.getResources() if r.type == "resourceRemapTexEdit"], 
                                     lambda origFullPath,  fixedFullPath, modType, modName, partInd, pathInd, version, iniTexModel, resourceStats: self._texCorrection(fixedFullPath, modName, iniTexModel, partInd, pathInd, texFile = origFullPath),
                                     fileTypeName = "Texture", fixOnly = fixOnly, iniPaths = iniPaths,
                                     newTranslations = {"onIniFirstCorrection": lambda iniPath: self.print("log", f"Editting the {FileTypes.Texture.value} files for {os.path.basename(iniPath)}...")})

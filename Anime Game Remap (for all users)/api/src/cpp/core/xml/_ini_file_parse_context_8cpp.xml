@@ -33,9 +33,6 @@
       <node id="126">
         <label>BiMap.tpp</label>
       </node>
-      <node id="47">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="74">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -625,7 +622,11 @@
         <link refid="_mod_type_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -636,6 +637,10 @@
         <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
@@ -1318,6 +1323,9 @@
         <childnode refid="107" relation="include">
         </childnode>
       </node>
+      <node id="47">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="130">
         <label>GIMIParser.tpp</label>
       </node>
@@ -1644,7 +1652,7 @@
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
 <codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>getModTypes()<sp/>rather<sp/>than<sp/>IniFile::getModType,<sp/>which<sp/>is<sp/>private<sp/>--<sp/>and<sp/>this<sp/>wants<sp/>the</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>.ini<sp/>file&apos;s<sp/>own<sp/>ModType<sp/>anyway,<sp/>not<sp/>a<sp/>copy<sp/>of<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::unordered_map&lt;int,<sp/>ModType&gt;&amp;<sp/>modTypes<sp/>=<sp/>iniFile_-&gt;getModTypes();</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_map&lt;int,<sp/>ModType&gt;&amp;<sp/>modTypes<sp/>=<sp/>iniFile_-&gt;getModTypes();</highlight></codeline>
 <codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>it<sp/>=<sp/>modTypes.find(*modTypeId_);</highlight></codeline>
 <codeline lineno="178"><highlight class="normal"></highlight></codeline>
 <codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(it<sp/>==<sp/>modTypes.end())<sp/>{</highlight></codeline>

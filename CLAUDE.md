@@ -58,6 +58,22 @@ handed in as a callback (`AGRemapCore::renderIfTemplate`). Architecture's "`IniF
 class now" section covers what changed in its constructor and which ~33 methods moved out to the
 strategies rather than disappearing.
 
+**The MVC view is C++ now too (2026-09-03): `AGRemapCore::BaseLogger` (abstract, owns all formatting)
+and `Logger`, bound as `BaseLogger`/`Logger`; `view/Logger.py` is deleted.** A task that needs to
+send output somewhere new (a GUI, a backend server talking to a frontend) subclasses `BaseLogger` and
+implements `write`/`read` -- from Python or C++, both are reached through the trampoline. Read
+**Architecture**'s "The view is C++ now" before touching it; in particular the Python-facing `Logger`
+is deliberately *not* a binding of the core `Logger`, and `Model.print` forwards kwargs by name, so
+`py::arg` names must match the old Python parameter names exactly.
+
+**Three repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
+visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
+exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
+reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
+return + `ef`), so write patch scripts with the Write tool and run them by path; (3) the dev Python is
+**3.13** (`core.cp313-win_amd64.pyd`) and `vcvarsall.bat` lives under `Program Files (x86)\Microsoft
+Visual Studio\18\BuildTools` on this machine -- see **Building**'s prerequisites for the exact lines.
+
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)
 as well as Windows. The C++ core and Cython layer turned out to be fully portable — every bug that

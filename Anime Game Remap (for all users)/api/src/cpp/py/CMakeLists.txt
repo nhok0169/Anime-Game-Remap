@@ -3,6 +3,8 @@ pybind11_add_module(core
     src/tools/PyAlgo.cpp
     src/tools/PyBiMap.cpp
     src/tools/PyGraphTools.cpp
+    src/view/PyBaseLogger.cpp
+    src/view/PyLogger.cpp
     src/tools/PyIntTools.cpp
     src/tools/PyListTools.cpp
     src/tools/PyRanges.cpp

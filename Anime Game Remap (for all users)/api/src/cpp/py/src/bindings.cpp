@@ -8,6 +8,8 @@
 #include "tools/PyBiMap.h"
 #include "tools/PyAlgo.h"
 #include "tools/PyGraphTools.h"
+#include "view/PyBaseLogger.h"
+#include "view/PyLogger.h"
 #include "tools/PyRanges.h"
 #include "tools/tries/PyTrie.h"
 #include "tools/tries/PyAhoCorasickDFA.h"
@@ -152,6 +154,11 @@ PYBIND11_MODULE(core, m) {
     initCppBiMap(m);
     initCppAlgo(m);
     initCppGraphTools(m);
+
+    // ----- view (the MVC view -- full replacement of the pure-Python view/Logger.py; no
+    //       dependency on any other binding, BaseLogger's heading stack is plain tuples) -----
+    initCppBaseLogger(m);
+    initCppLogger(m); // must come after initCppBaseLogger (registers its base)
     initCppRanges(m);
     initCppDFA(m);
     initCppTrie(m);

@@ -75,6 +75,7 @@ from .test_IniSectionGraph import IniSectionGraphTest
 from .test_IntTools import IntToolsTest
 from .test_ListTools import ListToolsTest
 from .test_Logger import LoggerTest
+from .test_BaseLogger import BaseLoggerTest
 from .test_Mod import ModTest
 from .test_ModAssets import ModAssetsTest
 from .test_ModDictAssets import ModDictAssetsTest
@@ -136,7 +137,7 @@ from .test_TexEditor import TexEditorTest
 from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "CppModTypeMethodsTest", "CppMultiModFixerTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "CppModTypeMethodsTest", "CppMultiModFixerTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]

@@ -13,13 +13,12 @@
 
 
 ##### ExtImports
-from typing import Optional, TYPE_CHECKING
+from typing import Optional
 ##### EndExtImports
 
-##### LocalImports
-if (TYPE_CHECKING):
-    from ..view.Logger import Logger
-##### EndLocalImports
+##### CppLocalImports
+from ..core import BaseLogger
+##### EndCppLocalImports
 
 
 ##### Script
@@ -30,17 +29,17 @@ class Model():
 
     Parameters
     ----------
-    logger: Optional[:class:`Logger`]
+    logger: Optional[:class:`BaseLogger`]
         The logger used to print messages to the console :raw-html:`<br />` :raw-html:`<br />`
 
         **Default**: ``None``
 
     Attributes
     ----------
-    logger: Optional[:class:`Logger`]
+    logger: Optional[:class:`BaseLogger`]
         The logger used to print messages to the console
     """
-    def __init__(self, logger: Optional["Logger"] = None):
+    def __init__(self, logger: Optional[BaseLogger] = None):
         self.logger = logger
 
     def print(self, funcName: str, *args, **kwargs):

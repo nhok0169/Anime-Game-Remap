@@ -1,0 +1,1030 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_logger" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>AGRemapCore::BaseLogger</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_logger" prot="public" virt="non-virtual">AGRemapCore::Logger</derivedcompoundref>
+    <includes refid="_base_logger_8h" local="no">BaseLogger.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1adcc97831896eff848dda107845043c6f" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BaseLogger::DefaultHeadingSideLen</definition>
+        <argsstring></argsstring>
+        <name>DefaultHeadingSideLen</name>
+        <qualifiedname>AGRemapCore::BaseLogger::DefaultHeadingSideLen</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+<para>The default number of characters for one side of a heading&apos;s border. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="60" column="42" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::BaseLogger::DefaultHeadingChar</definition>
+        <argsstring></argsstring>
+        <name>DefaultHeadingChar</name>
+        <qualifiedname>AGRemapCore::BaseLogger::DefaultHeadingChar</qualifiedname>
+        <initializer>= &quot;=&quot;</initializer>
+        <briefdescription>
+<para>The default character a heading&apos;s border is drawn with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="65" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a8a89fdc5fc1562e4476ee64023283fec" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::BaseLogger::ErrorHeader</definition>
+        <argsstring></argsstring>
+        <name>ErrorHeader</name>
+        <qualifiedname>AGRemapCore::BaseLogger::ErrorHeader</qualifiedname>
+        <initializer>= &quot;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&quot;</initializer>
+        <briefdescription>
+<para>The line printed above and below an error message (see <ref refid="class_a_g_remap_core_1_1_base_logger_1adfe91c409cc6c1779341a67d77dc7a81" kindref="member">error</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="70" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a3f2b72ad3d0a8a384692bc7354bd34fc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseLogger::includePrefix</definition>
+        <argsstring></argsstring>
+        <name>includePrefix</name>
+        <qualifiedname>AGRemapCore::BaseLogger::includePrefix</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Whether to include the prefix string when printing out a message. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="86" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1aa54398f0d3467cf94ced77007787000b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseLogger::verbose</definition>
+        <argsstring></argsstring>
+        <name>verbose</name>
+        <qualifiedname>AGRemapCore::BaseLogger::verbose</qualifiedname>
+        <briefdescription>
+<para>Whether to print out output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="91" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1af692d2c0357d72e92c1aa35412236e23" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseLogger::logTxt</definition>
+        <argsstring></argsstring>
+        <name>logTxt</name>
+        <qualifiedname>AGRemapCore::BaseLogger::logTxt</qualifiedname>
+        <briefdescription>
+<para>Whether to log all the printed messages into a <computeroutput>.txt</computeroutput> file once the fix is done. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="96" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a8ee9da40ec553fd815f47d99f0201098" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::_prefix</definition>
+        <argsstring></argsstring>
+        <name>_prefix</name>
+        <qualifiedname>AGRemapCore::BaseLogger::_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="297" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="297" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1aa1ba74eb043ffb26b043ede011586200" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::_loggedTxt</definition>
+        <argsstring></argsstring>
+        <name>_loggedTxt</name>
+        <qualifiedname>AGRemapCore::BaseLogger::_loggedTxt</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="298" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="298" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref> &gt;</type>
+        <definition>std::deque&lt;Heading&gt; AGRemapCore::BaseLogger::_headings</definition>
+        <argsstring></argsstring>
+        <name>_headings</name>
+        <qualifiedname>AGRemapCore::BaseLogger::_headings</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="299" column="24" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="299" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a0ebbd23d632bf5c2413fec92b25007b2" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::BaseLogger::_loggedSincePrefixSet</definition>
+        <argsstring></argsstring>
+        <name>_loggedSincePrefixSet</name>
+        <qualifiedname>AGRemapCore::BaseLogger::_loggedSincePrefixSet</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="305" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a6b25eaff68ceb13c60b7557c10fc9b80" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BaseLogger::BaseLogger</definition>
+        <argsstring>(std::string prefix=&quot;&quot;, bool logTxt=false, bool verbose=true)</argsstring>
+        <name>BaseLogger</name>
+        <qualifiedname>AGRemapCore::BaseLogger::BaseLogger</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>logTxt</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verbose</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line that is printed before any message is printed out. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>logTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to log all the printed messages into a <computeroutput>.txt</computeroutput> file once the fix is done. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to print out output. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="79" column="22" bodyfile="src/view/BaseLogger.cpp" bodystart="53" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a0003eaf39d37a4e12e1d4b4cc37e4010" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseLogger::~BaseLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseLogger</name>
+        <qualifiedname>AGRemapCore::BaseLogger::~BaseLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="81" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a867956a3e771086e3ec33db47a20e925" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BaseLogger::prefix</definition>
+        <argsstring>() const</argsstring>
+        <name>prefix</name>
+        <qualifiedname>AGRemapCore::BaseLogger::prefix</qualifiedname>
+        <briefdescription>
+<para>The line of text that is printed before any message is printed out. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="101" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="57" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aaddfbd50946d9c5273e18fb686fd025b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::setPrefix</definition>
+        <argsstring>(std::string newPrefix)</argsstring>
+        <name>setPrefix</name>
+        <qualifiedname>AGRemapCore::BaseLogger::setPrefix</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>newPrefix</declname>
+        </param>
+        <briefdescription>
+<para>Sets the line of text that is printed before any message is printed out. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newPrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new prefix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="108" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="61" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aefa53de399de570ade3a53ec595e728a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::BaseLogger::loggedTxt</definition>
+        <argsstring>() const</argsstring>
+        <name>loggedTxt</name>
+        <qualifiedname>AGRemapCore::BaseLogger::loggedTxt</qualifiedname>
+        <briefdescription>
+<para>The text to be logged into a <computeroutput>.txt</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="113" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="66" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a227432ef9d28133fea2fb646fb364f40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::deque&lt; <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref> &gt; &amp;</type>
+        <definition>const std::deque&lt; Heading &gt; &amp; AGRemapCore::BaseLogger::headings</definition>
+        <argsstring>() const</argsstring>
+        <name>headings</name>
+        <qualifiedname>AGRemapCore::BaseLogger::headings</qualifiedname>
+        <briefdescription>
+<para>The stack of headings that have been opened (by calling <ref refid="class_a_g_remap_core_1_1_base_logger_1aa421eedeff65f30992a8af1c39fb7722" kindref="member">openHeading</ref>), but have not been closed yet (have not called <ref refid="class_a_g_remap_core_1_1_base_logger_1a35079b6c68716ef8a2c7d58716b1991c" kindref="member">closeHeading</ref> yet). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="118" column="30" bodyfile="src/view/BaseLogger.cpp" bodystart="70" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1abc277613167054f98604d7285f34376e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::BaseLogger::clear</qualifiedname>
+        <briefdescription>
+<para>Clears out any saved text from the logger. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="123" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="74" bodyend="76"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a83b7183da8e0b6fd87282957cdcdaf0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::BaseLogger::write</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>write</name>
+        <qualifiedname>AGRemapCore::BaseLogger::write</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_logger_1af5c354ea43e80648039deea3a7945d2a">write</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Writes one already-rendered message to wherever this view displays output :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The raw sink every printing method ends up in. Only called when ``verbose`` is ``true``.
+A ``message`` is a single line without its trailing newline -- the sink adds whatever
+line ending it needs (matching `Python`_&apos;s ``print``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rendered message to display </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="137" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a613c25d8f498440993d8c1b90d817a91" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::BaseLogger::read</definition>
+        <argsstring>(const std::string &amp;desc)=0</argsstring>
+        <name>read</name>
+        <qualifiedname>AGRemapCore::BaseLogger::read</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_logger_1aabc67ea873cd00e73f92eb3e157e2a08">read</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Asks the user for a line of input :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(desc)``:
+``desc`` is displayed *without* a trailing newline, then one line is read back
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The question/description being asked to the user for input</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant input the user entered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="152" column="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a104b882a6c51e2c334bcb02f6fc19ddc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::getStr</definition>
+        <argsstring>(const std::string &amp;message) const</argsstring>
+        <name>getStr</name>
+        <qualifiedname>AGRemapCore::BaseLogger::getStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Retrieves the string to be printed out by the logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The transformed text that the logger prints out </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="161" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a758c10931325acf63493b7f6b785b849" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::log</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>log</name>
+        <qualifiedname>AGRemapCore::BaseLogger::log</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Regularly prints text onto the console. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="168" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="92" bodyend="101"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a98d6646679c902abbf657c7969462341" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::split</definition>
+        <argsstring>()</argsstring>
+        <name>split</name>
+        <qualifiedname>AGRemapCore::BaseLogger::split</qualifiedname>
+        <briefdescription>
+<para>Prints out a new line, if anything has been logged since the prefix was last set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="173" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a243ca868509230168c5f2d5471fd2059" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::space</definition>
+        <argsstring>()</argsstring>
+        <name>space</name>
+        <qualifiedname>AGRemapCore::BaseLogger::space</qualifiedname>
+        <briefdescription>
+<para>Prints out a space. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="178" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="111" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aa421eedeff65f30992a8af1c39fb7722" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::openHeading</definition>
+        <argsstring>(const std::string &amp;txt, std::size_t sideLen=DefaultHeadingSideLen, const std::string &amp;headingChar=DefaultHeadingChar)</argsstring>
+        <name>openHeading</name>
+        <qualifiedname>AGRemapCore::BaseLogger::openHeading</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::size_t</type>
+          <declname>sideLen</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_base_logger_1adcc97831896eff848dda107845043c6f" kindref="member">DefaultHeadingSideLen</ref></defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>headingChar</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" kindref="member">DefaultHeadingChar</ref></defval>
+        </param>
+        <briefdescription>
+<para>Prints out an opening heading. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>sideLen</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many characters we want for the side border of the heading (see line 1 of the example at <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref>). <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_base_logger_1adcc97831896eff848dda107845043c6f" kindref="member">DefaultHeadingSideLen</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>headingChar</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of character used to print the side border of the heading (see line 3 of the example at <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref>). <bold>Default</bold>: <ref refid="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" kindref="member">DefaultHeadingChar</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="187" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="116" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a35079b6c68716ef8a2c7d58716b1991c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::closeHeading</definition>
+        <argsstring>()</argsstring>
+        <name>closeHeading</name>
+        <qualifiedname>AGRemapCore::BaseLogger::closeHeading</qualifiedname>
+        <briefdescription>
+<para>Prints out a closing heading that corresponds to a previous opening heading printed (see line 3 of the example at <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="192" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="123" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1ab2811df5354e3ca59f53715507a32b96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::bulletPoint</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>bulletPoint</name>
+        <qualifiedname>AGRemapCore::BaseLogger::bulletPoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Prints out an item in an unordered list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="218" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="144" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a01b31d80495290390638adffbdf90a41" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::list</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;lst, const std::function&lt; std::string(const std::string &amp;)&gt; &amp;transform=nullptr)</argsstring>
+        <name>list</name>
+        <qualifiedname>AGRemapCore::BaseLogger::list</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>lst</declname>
+        </param>
+        <param>
+          <type>const std::function&lt; std::string(const std::string &amp;)&gt; &amp;</type>
+          <declname>transform</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Prints out an ordered list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>lst</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The list of messages we want to print out </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>transform</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A function used to do any processing on each message in the list of messages. If empty, the messages are printed as they are. <bold>Default</bold>: empty </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="226" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="149" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a5302af5d9a9eebb0c4c7c0c09e9e5a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::box</definition>
+        <argsstring>(const std::string &amp;message, const std::string &amp;header)</argsstring>
+        <name>box</name>
+        <qualifiedname>AGRemapCore::BaseLogger::box</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>header</declname>
+        </param>
+        <briefdescription>
+<para>Prints the message to be sandwiched by the text defined in the argument, &apos;header&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out. Printed one line at a time </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>header</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string that we want to sandwich our message against </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="234" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="158" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1adfe91c409cc6c1779341a67d77dc7a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::error</definition>
+        <argsstring>(const std::string &amp;message)</argsstring>
+        <name>error</name>
+        <qualifiedname>AGRemapCore::BaseLogger::error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Prints an error message :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+An error is always displayed, even when ``verbose`` is ``false`` -- unless the messages
+are being logged to a ``.txt`` file (``logTxt``), in which case the current verbosity is
+respected and the error only ends up in the transcript
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="248" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="179" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1acd27d9e88991b09da1f82742ee36f3bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::handleException</definition>
+        <argsstring>(const std::string &amp;exceptionType, const std::string &amp;message, const std::string &amp;traceback=&quot;&quot;)</argsstring>
+        <name>handleException</name>
+        <qualifiedname>AGRemapCore::BaseLogger::handleException</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>exceptionType</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>traceback</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Prints the message for an error, from its already-separated parts :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Renders ``&quot;\n{exceptionType}: {message}\n\n{traceback}&quot;`` and hands it to ``error`` --
+the same shape the pure-Python original built from ``type(e).__name__``/``str(e)``/
+``traceback.format_exc()``. Not ``virtual``: a view that wants to treat errors
+specially overrides ``error``, which every error path funnels through
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exceptionType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type of the error </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error&apos;s own message </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>traceback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the error came from, if known. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="265" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="193" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a4aa6d846b2e6e85838ccb6a7b4a0b429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::handleException</definition>
+        <argsstring>(const std::exception &amp;exception)</argsstring>
+        <name>handleException</name>
+        <qualifiedname>AGRemapCore::BaseLogger::handleException</qualifiedname>
+        <param>
+          <type>const std::exception &amp;</type>
+          <declname>exception</declname>
+        </param>
+        <briefdescription>
+<para>Prints the message for an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>exception</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The error we want to handle. Its type name (demangled where the compiler supports it) is used as the error&apos;s type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="272" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="198" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a1d0c1ce9cecc6f2a908b026e00c74203" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::input</definition>
+        <argsstring>(const std::string &amp;desc)</argsstring>
+        <name>input</name>
+        <qualifiedname>AGRemapCore::BaseLogger::input</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>Handles user input from the console. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The question/description being asked to the user for input</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant input the user entered </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="281" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="203" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a025c6350b42695bb9aa3de8f9358bcfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::waitExit</definition>
+        <argsstring>()</argsstring>
+        <name>waitExit</name>
+        <qualifiedname>AGRemapCore::BaseLogger::waitExit</qualifiedname>
+        <briefdescription>
+<para>Prints the message used when the script finishes running, and waits for the user to press ENTER. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="286" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="214" bodyend="219"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a416233f6beb03aefbe1cf769337b9e60" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::getBulletStr</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>getBulletStr</name>
+        <qualifiedname>AGRemapCore::BaseLogger::getBulletStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Creates the string for an item in an unordered list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The text formatted as an item in an unordered list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="201" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="134" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1ad07b684f34daa2e9ef9c9c8858cc61dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BaseLogger::getNumberedStr</definition>
+        <argsstring>(const std::string &amp;txt, long long num)</argsstring>
+        <name>getNumberedStr</name>
+        <qualifiedname>AGRemapCore::BaseLogger::getNumberedStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>long long</type>
+          <declname>num</declname>
+        </param>
+        <briefdescription>
+<para>Creates the string for an ordered list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The message we want to print out </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>num</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The number we want to print out before the text for the ordered list</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The text formatted as an item in an ordered list </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="211" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a2f6452ac537a99e67321e89bd3610e49" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::BaseLogger::addLogTxt</definition>
+        <argsstring>(const std::string &amp;txt)</argsstring>
+        <name>addLogTxt</name>
+        <qualifiedname>AGRemapCore::BaseLogger::addLogTxt</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+<para>Appends the text to the logged output to be printed to a <computeroutput>.txt</computeroutput> file, if <ref refid="class_a_g_remap_core_1_1_base_logger_1af692d2c0357d72e92c1aa35412236e23" kindref="member">logTxt</ref> is set. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to be added onto the logged output </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="294" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="79" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class for the *view* of the project&apos;s MVC architecture -- everything the remap reports
+back to the user (progress messages, headings, lists, errors, prompts) goes through one of
+these :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This class owns all of the *formatting* and *bookkeeping* (the prefix, the heading stack,
+the ``.txt`` log transcript, the verbosity flags) and funnels every rendered line through
+exactly two pure virtual methods, ``write`` and ``read``, which a subclass implements for wherever
+the output actually needs to go:
+
+* :cpp:class:`Logger` writes to a ``std::ostream``/reads from a ``std::istream`` -- the CLI view
+* the `pybind11`_ ``Logger`` writes through `Python`_&apos;s own ``print``/``input``
+* a future GUI / backend-server view would forward ``write`` to a window or a socket instead
+
+Every higher-level method (``log``, ``openHeading``, ``error``, ...) is also ``virtual``, so a view
+that wants *structured* events rather than pre-rendered text (e.g. a backend telling a
+frontend &quot;a heading opened&quot;, not &quot;here is a line of ``=`` characters&quot;) can override at that
+level instead and never see the text rendering at all. The defaults render text and route it
+through ``log``, so overriding just ``write`` is enough for any plain text sink.
+
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Replaces the pure-Python ``Logger`` (``view/Logger.py``) outright -- the `pybind11`_
+   ``Logger`` is a thin subclass of this class, see ``py/src/view/PyLogger.h``
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseLogger</label>
+        <link refid="class_a_g_remap_core_1_1_base_logger"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::Logger</label>
+        <link refid="class_a_g_remap_core_1_1_logger"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/view/BaseLogger.h" line="45" column="5" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="45" bodyend="306"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_headings</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a0ebbd23d632bf5c2413fec92b25007b2" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_loggedSincePrefixSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa1ba74eb043ffb26b043ede011586200" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_loggedTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a8ee9da40ec553fd815f47d99f0201098" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a2f6452ac537a99e67321e89bd3610e49" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>addLogTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a6b25eaff68ceb13c60b7557c10fc9b80" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>BaseLogger</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a5302af5d9a9eebb0c4c7c0c09e9e5a24" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>box</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1ab2811df5354e3ca59f53715507a32b96" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>bulletPoint</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1abc277613167054f98604d7285f34376e" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a35079b6c68716ef8a2c7d58716b1991c" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>closeHeading</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>DefaultHeadingChar</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1adcc97831896eff848dda107845043c6f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>DefaultHeadingSideLen</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1adfe91c409cc6c1779341a67d77dc7a81" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>error</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a8a89fdc5fc1562e4476ee64023283fec" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>ErrorHeader</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a416233f6beb03aefbe1cf769337b9e60" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>getBulletStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1ad07b684f34daa2e9ef9c9c8858cc61dc" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>getNumberedStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a104b882a6c51e2c334bcb02f6fc19ddc" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>getStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1acd27d9e88991b09da1f82742ee36f3bd" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>handleException</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a4aa6d846b2e6e85838ccb6a7b4a0b429" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>handleException</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a227432ef9d28133fea2fb646fb364f40" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>headings</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a3f2b72ad3d0a8a384692bc7354bd34fc" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>includePrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a1d0c1ce9cecc6f2a908b026e00c74203" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>input</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a01b31d80495290390638adffbdf90a41" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>list</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a758c10931325acf63493b7f6b785b849" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>log</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aefa53de399de570ade3a53ec595e728a" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>loggedTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1af692d2c0357d72e92c1aa35412236e23" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>logTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa421eedeff65f30992a8af1c39fb7722" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>openHeading</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a867956a3e771086e3ec33db47a20e925" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a613c25d8f498440993d8c1b90d817a91" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseLogger</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aaddfbd50946d9c5273e18fb686fd025b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>setPrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a243ca868509230168c5f2d5471fd2059" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>space</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a98d6646679c902abbf657c7969462341" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>split</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa54398f0d3467cf94ced77007787000b" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>verbose</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a025c6350b42695bb9aa3de8f9358bcfe" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>waitExit</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a83b7183da8e0b6fd87282957cdcdaf0a" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseLogger</scope><name>write</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a0003eaf39d37a4e12e1d4b4cc37e4010" prot="public" virt="virtual"><scope>AGRemapCore::BaseLogger</scope><name>~BaseLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

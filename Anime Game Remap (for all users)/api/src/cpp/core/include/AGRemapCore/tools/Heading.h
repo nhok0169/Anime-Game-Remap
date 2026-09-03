@@ -23,10 +23,11 @@ namespace AGRemapCore {
      :raw-html:`<br />`
 
      .. note::
-        A direct port of the pure-Python ``Heading`` (``tools/Heading.py``), which is still the
-        one the `Python`_ side uses -- nothing has been rewired to this yet. It exists because
-        :cpp:class:`RemapIniFixContext` needs to build the very same header/footer with no
-        `Python`_ around, and that boilerplate is defined in terms of a heading
+        A direct port of the pure-Python ``Heading`` (``tools/Heading.py``), which is still what
+        the `Python`_ side's constants (``IniConsts``, ``ModTypes``) use -- this class has no
+        `pybind11`_ binding of its own. It exists because :cpp:class:`RemapIniFixContext` needs
+        to build the very same header/footer with no `Python`_ around, and because
+        :cpp:class:`BaseLogger` renders its heading stack with it
      @endrst
      */
     class Heading {

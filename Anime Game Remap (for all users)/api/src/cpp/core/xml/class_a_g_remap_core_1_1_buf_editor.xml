@@ -1,0 +1,145 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_buf_editor" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufEditor</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_buf_editor" prot="public" virt="non-virtual">AGRemapCore::BaseBufEditor</basecompoundref>
+    <includes refid="_buf_editor_8h" local="no">BufEditor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_editor_1afa5c0013eff4c21ac3d3a8524f94f225" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref> &gt;</type>
+        <definition>std::vector&lt;BufFile::Filter&gt; AGRemapCore::BufEditor::filters</definition>
+        <argsstring></argsstring>
+        <name>filters</name>
+        <qualifiedname>AGRemapCore::BufEditor::filters</qualifiedname>
+        <briefdescription>
+<para>The filters used to edit the data for each line in the <computeroutput>.buf</computeroutput> file, applied in order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="28" column="25" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_editor_1ac9ddfdd09a1f21b2e69f50a4720d29a9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::BufEditor::BufEditor</definition>
+        <argsstring>(std::vector&lt; BufFile::Filter &gt; filters={})</argsstring>
+        <name>BufEditor</name>
+        <qualifiedname>AGRemapCore::BufEditor::BufEditor</qualifiedname>
+        <param>
+          <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kindref="member">BufFile::Filter</ref> &gt;</type>
+          <declname>filters</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput>.buf</computeroutput> file editor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The filters used to edit the data for each line in the <computeroutput>.buf</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="35" column="22" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="7" bodyend="7"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_editor_1ad8e1f46b65f176aa912b748a2b06628c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">BufFile::FixResult</ref></type>
+        <definition>BufFile::FixResult AGRemapCore::BufEditor::fix</definition>
+        <argsstring>(BufFile &amp;bufFile, const std::optional&lt; std::string &gt; &amp;fixedBufFile=std::nullopt) override</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::BufEditor::fix</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7">fix</reimplements>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_buf_file" kindref="compound">BufFile</ref> &amp;</type>
+          <declname>bufFile</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fixedBufFile</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Edits the ``.buf`` file, by calling :cpp:func:`BufFile::fix` with #filters
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bufFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary <computeroutput>.buf</computeroutput> file to be modified </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedBufFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the fixed <computeroutput>.buf</computeroutput> file. If this is <computeroutput>std::nullopt</computeroutput>, the fixed bytes are returned directly instead of being written to a file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If &apos;fixedBufFile&apos; is <computeroutput>std::nullopt</computeroutput>, the fixed bytes. Otherwise, &apos;fixedBufFile&apos; itself </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="49" column="32" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="9" bodyend="11"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseBufEditor`
+
+Class to edit some ``.buf`` file by running a fixed sequence of :cpp:type:`BufFile::Filter`\\s
+over it
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseBufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_buf_editor"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_buf_editor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseBufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_buf_editor"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::BufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_buf_editor"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="22" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="22" bodyend="50"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_buf_editor_1ac9ddfdd09a1f21b2e69f50a4720d29a9" prot="public" virt="non-virtual"><scope>AGRemapCore::BufEditor</scope><name>BufEditor</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_editor_1afa5c0013eff4c21ac3d3a8524f94f225" prot="public" virt="non-virtual"><scope>AGRemapCore::BufEditor</scope><name>filters</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_editor_1ad8e1f46b65f176aa912b748a2b06628c" prot="public" virt="virtual"><scope>AGRemapCore::BufEditor</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" prot="public" virt="virtual"><scope>AGRemapCore::BufEditor</scope><name>~BaseBufEditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

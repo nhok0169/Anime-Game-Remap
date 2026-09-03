@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_base_buf_editor" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::BaseBufEditor</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_buf_editor" prot="public" virt="non-virtual">AGRemapCore::BufEditor</derivedcompoundref>
+    <includes refid="_base_buf_editor_8h" local="no">BaseBufEditor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::BaseBufEditor::~BaseBufEditor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~BaseBufEditor</name>
+        <qualifiedname>AGRemapCore::BaseBufEditor::~BaseBufEditor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="19" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">BufFile::FixResult</ref></type>
+        <definition>BufFile::FixResult AGRemapCore::BaseBufEditor::fix</definition>
+        <argsstring>(BufFile &amp;bufFile, const std::optional&lt; std::string &gt; &amp;fixedBufFile=std::nullopt)</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::BaseBufEditor::fix</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_buf_editor_1ad8e1f46b65f176aa912b748a2b06628c">fix</reimplementedby>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_buf_file" kindref="compound">BufFile</ref> &amp;</type>
+          <declname>bufFile</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fixedBufFile</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Edits the <computeroutput>.buf</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>No-op by default</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bufFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The binary <computeroutput>.buf</computeroutput> file to be modified </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedBufFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the fixed <computeroutput>.buf</computeroutput> file. If this is <computeroutput>std::nullopt</computeroutput>, the fixed bytes are returned directly instead of being written to a file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>If &apos;fixedBufFile&apos; is <computeroutput>std::nullopt</computeroutput>, the fixed bytes. Otherwise, &apos;fixedBufFile&apos; itself </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="30" column="40" bodyfile="src/model/strategies/bufEditors/BaseBufEditor.cpp" bodystart="5" bodyend="7"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Base class to edit some ``.buf`` file
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::BaseBufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_buf_editor"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufEditor</label>
+        <link refid="class_a_g_remap_core_1_1_buf_editor"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="17" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" bodystart="17" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" prot="public" virt="virtual"><scope>AGRemapCore::BaseBufEditor</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" prot="public" virt="virtual"><scope>AGRemapCore::BaseBufEditor</scope><name>~BaseBufEditor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

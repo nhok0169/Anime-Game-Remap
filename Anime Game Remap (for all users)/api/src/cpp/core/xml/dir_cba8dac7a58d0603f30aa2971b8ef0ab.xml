@@ -10,6 +10,7 @@
     <innerfile refid="_if_template_8h">IfTemplate.h</innerfile>
     <innerfile refid="_if_template_node_8h">IfTemplateNode.h</innerfile>
     <innerfile refid="_if_template_part_8h">IfTemplatePart.h</innerfile>
+    <innerfile refid="_if_template_render_8h">IfTemplateRender.h</innerfile>
     <innerfile refid="_if_template_tree_8h">IfTemplateTree.h</innerfile>
     <innerfile refid="_sympy_parser_8h">SympyParser.h</innerfile>
     <innerfile refid="_z3_if_pred_generator_8h">Z3IfPredGenerator.h</innerfile>

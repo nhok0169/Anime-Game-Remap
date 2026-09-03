@@ -41,6 +41,16 @@ instead of stopping at the first). Remember: rerun Doxygen first (see
 [Building](../Building/CLAUDE.md#fast-iteration-on-c-core-only-changes)) if you changed a C++
 header comment — Sphinx reads the cached `core/xml/`, not the headers.
 
+Sphinx 7.4.7 / Breathe 4.36.0 are installed for `py -3` (Python 3.13) as of 2026-09-03; the command
+above takes a couple of minutes and exits 1 purely because `-W` promotes the baseline below. Current
+baseline: **36 warnings**, none from `api.rst`/`coreAPI.rst`/`index.rst` — beware that the
+`[autosummary] generating autosummary for: ...` line names every `.rst`, so a naive per-file grep
+counts one phantom hit for each of those three. Verify a new `coreAPI.rst` entry by extracting the
+section between its `id="..."` anchor and the next section's and checking the mangled member ids
+(`_CPPv4N11AGRemapCore...` — note `11`, the namespace-name length, not a guess) and
+`class="reference internal"` links inside it; the `Heading`/`BaseLogger`/`Logger` entries were
+checked exactly this way.
+
 There's an established warning baseline from pre-existing, out-of-scope issues in a handful of
 hand-written `.rst` files not covered by this session's cleanup — `tutorial.rst`, `apiExamples.rst`,
 `commandOpts.rst`, `findVertexGroupRemap.rst` (undefined/duplicate labels, a couple of malformed
@@ -78,6 +88,18 @@ directory is actually empty before running Doxygen**, and just retry the removal
 rm -rf core/xml; ls core/xml 2>/dev/null | wc -l   # must print 0
 doxygen Doxyfile
 ls core/xml/index.xml                              # must exist afterwards
+```
+
+**Expect the regenerated `core/xml` diff to be bigger than your change.** The committed XML lags the
+headers whenever a session adds or edits a `core/include` class without regenerating (confirmed
+2026-09-03: 165 files with real content changes and 31 brand-new `.xml` files — `BaseBufEditor`,
+`MultiModFixer`, `GlobalModTypes`, ... — appeared from a regeneration whose only *new* headers were
+`view/BaseLogger.h`/`Logger.h`). That drift is fine to keep (the XML must be regenerated as a whole;
+a partial keep corrupts `index.xml`), but say so in the write-up rather than presenting it as your
+diff. The ~680 "modified" files `git status` shows right afterwards are mostly CRLF noise — see
+[Building](../Building/CLAUDE.md)'s CRLF note for how to see the real set.
+
+```bash
 ```
 
 **Running `doxygen Doxyfile` over a `core/xml/` that already has output in it can silently emit a

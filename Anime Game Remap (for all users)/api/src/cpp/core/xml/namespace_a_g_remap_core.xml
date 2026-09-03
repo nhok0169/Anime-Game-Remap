@@ -5,6 +5,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_bad_buf_data" prot="public">AGRemapCore::BadBufData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public">AGRemapCore::BaseAhoCorasickDFA</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_buf_editor" prot="public">AGRemapCore::BaseBufEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_d_f_a" prot="public">AGRemapCore::BaseDFA</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_id_generator" prot="public">AGRemapCore::BaseIdGenerator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_classifier" prot="public">AGRemapCore::BaseIniClassifier</innerclass>
@@ -15,6 +16,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_parser" prot="public">AGRemapCore::BaseIniParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_part_edit" prot="public">AGRemapCore::BaseIniPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_remover" prot="public">AGRemapCore::BaseIniRemover</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_base_logger" prot="public">AGRemapCore::BaseLogger</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_ordered_multi_map" prot="public">AGRemapCore::BaseOrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_pixel_transform" prot="public">AGRemapCore::BasePixelTransform</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public">AGRemapCore::BaseRegEdit</innerclass>
@@ -30,6 +32,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_buf_base_float" prot="public">AGRemapCore::BufBaseFloat</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_base_int" prot="public">AGRemapCore::BufBaseInt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_data_type" prot="public">AGRemapCore::BufDataType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_buf_editor" prot="public">AGRemapCore::BufEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_element_type" prot="public">AGRemapCore::BufElementType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_file" prot="public">AGRemapCore::BufFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_buf_file_not_recognized" prot="public">AGRemapCore::BufFileNotRecognized</innerclass>
@@ -64,6 +67,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" prot="public">AGRemapCore::GIMISectionClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
@@ -142,6 +146,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_logger" prot="public">AGRemapCore::Logger</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_lru_cache" prot="public">AGRemapCore::LruCache</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_assets" prot="public">AGRemapCore::ModAssets</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_data_assets" prot="public">AGRemapCore::ModDataAssets</innerclass>
@@ -150,6 +155,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_mod_type" prot="public">AGRemapCore::ModType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_data" prot="public">AGRemapCore::ModTypeIdData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_tools" prot="public">AGRemapCore::ModTypeIdTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_multi_mod_fixer" prot="public">AGRemapCore::MultiModFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
@@ -178,6 +184,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_stats" prot="public">AGRemapCore::RemapStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public">AGRemapCore::RemapTexAddResource</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_tex_edit_resource" prot="public">AGRemapCore::RemapTexEditResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_create" prot="public">AGRemapCore::ResCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_group_collect" prot="public">AGRemapCore::ResGroupCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
@@ -195,6 +202,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tint_transform" prot="public">AGRemapCore::TintTransform</innerclass>
@@ -763,7 +771,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="24" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="24" bodyend="249"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="25" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="25" bodyend="250"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -1052,7 +1060,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="16" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="16" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="30" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="30" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -1067,10 +1075,132 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="17" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="17" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="31" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="31" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::renderIfContentPart</definition>
+        <argsstring>(const IfContentPart&lt; std::string, std::string &gt; &amp;part, const std::string &amp;linePrefix=&quot;&quot;)</argsstring>
+        <name>renderIfContentPart</name>
+        <qualifiedname>AGRemapCore::renderIfContentPart</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>part</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>linePrefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renders one :cpp:class:`IfContentPart` as ``.ini`` text -- one ``key = value`` line per KVP,
+in true positional order
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>part</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The part to render </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>linePrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prepended to every line <ndash/> indentation, or a comment marker</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rendered lines, joined by <computeroutput>"\n"</computeroutput> with no trailing newline </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="10" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="10" bodyend="29" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="24" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a8c4d94255932b5ce14e08272853059fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::renderIfTemplate</definition>
+        <argsstring>(IfTemplate&lt; std::string, std::string &gt; &amp;section, const std::string &amp;linePrefix=&quot;&quot;, bool autoindent=true)</argsstring>
+        <name>renderIfTemplate</name>
+        <qualifiedname>AGRemapCore::renderIfTemplate</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>section</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>linePrefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>autoindent</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Renders one :cpp:class:`IfTemplate` -- a whole ``.ini`` `section`_ -- as text
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Free functions, not methods.** Neither :cpp:class:`IfTemplate` nor
+:cpp:class:`IfContentPart` has a ``toStr`` of its own, and that is deliberate: what a
+`section`_ looks like is the caller&apos;s business, which is why
+:cpp:type:`GIMIFixer::SectionToStr` is a callback rather than a virtual. These are the
+*default* answer a caller can reach for -- :cpp:func:`IniFixBuilder::defaultFactory` passes
+this one -- not an answer forced on every caller :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Lifted from the pybind11 layer&apos;s own ``IfTemplate.toStr`` binding, which was already C++
+working on this exact instantiation, but rendered each content part by calling back into
+`Python`_. That round-trip is why a core-only caller had no renderer at all
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>section</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>section</computeroutput>_ to render </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>linePrefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Prepended to every line <ndash/> indentation, or a comment marker </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>autoindent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to indent the body of each ``if``/``elif``/``else`` block by one tab per level.
+``endif`` and ``elif``/``else`` dedent before they are written, so they line up with their
+opening ``if``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The rendered <computeroutput>section</computeroutput>_, joined by <computeroutput>"\n"</computeroutput> with no trailing newline </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="32" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="32" bodyend="89" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="56" declcolumn="17"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
         <definition>bool AGRemapCore::matchesColourOrRange</definition>

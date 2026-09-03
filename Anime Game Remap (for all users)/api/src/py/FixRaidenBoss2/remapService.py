@@ -22,6 +22,7 @@ from typing import Optional, Dict, Callable, List
 from .core import FileStats
 from .core import CachedFileStats
 from .core import RemapStats
+from .core import Logger
 ##### EndCppLocalImports
 
 ##### LocalImports
@@ -38,7 +39,6 @@ from .constants.GlobalPackageManager import GlobalPackageManager
 from .exceptions.InvalidModType import InvalidModType
 from .exceptions.InvalidDownloadMode import InvalidDownloadMode
 from .exceptions.ConflictingOptions import ConflictingOptions
-from .view.Logger import Logger
 from .model.strategies.ModType import ModType
 from .model.Mod import Mod
 from .core import IniFile

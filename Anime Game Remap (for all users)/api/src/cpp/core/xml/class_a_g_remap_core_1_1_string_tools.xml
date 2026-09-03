@@ -144,16 +144,58 @@ Strips whitespace from both ends of a string, similar to `Python&apos;s str.stri
         </inbodydescription>
         <location file="include/AGRemapCore/tools/StringTools.h" line="59" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="73" bodyend="86"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::StringTools::eraseAll</definition>
+        <argsstring>(std::string &amp;txt, std::string_view target)</argsstring>
+        <name>eraseAll</name>
+        <qualifiedname>AGRemapCore::StringTools::eraseAll</qualifiedname>
+        <param>
+          <type>std::string &amp;</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>target</declname>
+        </param>
+        <briefdescription>
+<para>Erases every occurrence of &apos;target&apos; from &apos;txt&apos;, in place. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to erase from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The substring to erase. Erasing the empty string is a no-op </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="67" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
 <para>Tools for handling with strings. </para>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="60"/>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="68"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>eraseAll</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>splitlines</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>strip</name></member>
     </listofallmembers>

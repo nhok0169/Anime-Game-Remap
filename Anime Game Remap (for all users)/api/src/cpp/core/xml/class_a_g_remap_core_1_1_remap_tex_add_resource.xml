@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="46" column="24" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="47" column="24" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="47" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a61e402278445b44c78c33a88351240f6" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1ad87127a03cabef1e0b4f5e24d2eb9077" kindref="member">RemapTexAddResource</ref> &amp;)&gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="51" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="52" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="52" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="40" column="13" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="10" bodyend="12"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="41" column="13" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="10" bodyend="12"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="53" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="14" bodyend="16"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="54" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="14" bodyend="16"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="54" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="18" bodyend="20"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="55" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -198,7 +198,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="59" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="22" bodyend="24"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="60" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="22" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -218,7 +218,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="64" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="26" bodyend="28"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="65" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="26" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1a8c7902eb77906d8172c3aa518907bd8b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -238,7 +238,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="69" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="30" bodyend="33"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="70" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="30" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_add_resource_1ad44cf0602859ab6337f3b16e58cb6cc2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -256,7 +256,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="76" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="41" bodyend="47"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="77" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="41" bodyend="47"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -276,7 +276,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="85" column="26" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="35" bodyend="39"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="86" column="26" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="35" bodyend="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -363,7 +363,7 @@ pure-Python ``RemapTexAddResource`` class (``model/iniresources/RemapTexResource
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="28" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="28" bodyend="86"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="29" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="29" bodyend="87"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a3e3b89d95736e0eb21722c5df13e8fec" prot="protected" virt="virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1ad44cf0602859ab6337f3b16e58cb6cc2" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>fix</name></member>

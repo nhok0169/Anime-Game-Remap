@@ -1,7 +1,7 @@
 # AI Agent Help Instructions
 
 [![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/login)
-![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-25-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
+![Static Badge](https://img.shields.io/badge/%E2%9A%94%F0%9F%97%A1The%20Council%20of%20CLAUDE%20agents%20%F0%9F%97%A1%E2%9A%94-26-%23b91c1c?style=for-the-badge&labelColor=%234a154b)
 
 
 <br>
@@ -45,3 +45,4 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%90%A7%F0%9F%A7%AD%20The%20Penguin%20Pathfinder-1-%230ea5e9?style=flat&labelColor=%23082f49)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%B9%F0%9F%94%97%20The%20Reachability%20Sweeper-1-%2365a30d?style=for-the-badge&labelColor=%2314532d)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%94%8C%20The%20Context%20Seamsmith-1-%239333ea?style=flat-square&labelColor=%232e1065)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A3%F0%9F%AA%9E%20The%20View%20Herald-1-%23facc15?style=flat&labelColor=%230c4a6e)

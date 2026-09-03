@@ -26,15 +26,21 @@ native-code change.
 > `bin/python` by absolute path does not activate that venv. Check with
 > `command -v cmake ninja doxygen` (or `where` on Windows) first.
 
-- Python 3.9 at `py -3` (the committed `.pyd` is `core.cp39-win_amd64.pyd` — building with a
-  different Python version produces a differently-named file and won't overwrite the tracked one;
-  ask before intentionally changing the pinned dev Python version).
+- **Python 3.13 at `py -3`** — the installed module is `core.cp313-win_amd64.pyd` and the existing
+  `cbuild/` tree is configured against `Python313` (check `_Python_EXECUTABLE` in
+  `cbuild/CMakeCache.txt`). An older version of this bullet said 3.9 / `core.cp39`; nothing is
+  committed for any version (see Overview), so the only thing that matters is that the interpreter
+  running the tests matches the one the `.pyd` was built for. Ask before changing it.
 - Visual Studio (MSVC) with the C++ toolchain, CMake, Ninja.
 - The MSVC dev environment must be initialized in-shell first:
   ```bash
   call "<path-to-VS>\VC\Auxiliary\Build\vcvarsall.bat" x64
   ```
-  Find the exact path once with `find "/c/Program Files/Microsoft Visual Studio" -iname vcvarsall.bat`
+  Find the exact path once with
+  `find "/c/Program Files/Microsoft Visual Studio" "/c/Program Files (x86)/Microsoft Visual Studio" -maxdepth 6 -iname vcvarsall.bat`
+  — on this machine it is the **Build Tools** install under `Program Files (x86)`:
+  `C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`,
+  and searching only `Program Files` returns nothing
   (installation path/version varies by machine). Everything below assumes this has been run in
   the same shell.
   - **If you're an AI agent driving this through a tool whose shell state doesn't persist between
@@ -46,7 +52,9 @@ native-code change.
     `.bat` file to the scratchpad with `call "...\vcvarsall.bat" x64`, an errorlevel check, then
     `cd /d` into `Tools/APIBuilder` and the actual `py -3 main.py ...` line — then invoke just that
     one `.bat` path via `cmd //c <path>` (unquoted if the scratchpad path has no spaces, which it
-    won't). Run it via the tool's background mode and tail the log; don't try to poll for
+    won't). Inside such a `.bat`, invoke a freshly-built `.exe` by its **full path** too — a bare
+    `logger_test.exe` right after `cd /d` into its own folder still failed with `is not recognized`
+    while the file was plainly there. Run it via the tool's background mode and tail the log; don't try to poll for
     completion, wait for the completion notification instead.
   - **Pass that `.bat` as a full *Windows* path, not a bare filename — even after `cd`-ing into the
     directory that holds it.** `cd "$SP" && cmd //c build_core.bat` fails with
@@ -394,6 +402,17 @@ actual crash point, actively misleading you about where the fault is. Fix: add
 crash-repro/diagnostic `.cpp` — this one line converts stdout to fully unbuffered, so every line
 before the crash is guaranteed to actually reach the file. This is cheap enough to just always add
 to a throwaway repro `main()`, rather than debugging it only after getting bitten once.
+
+**Nearly every tracked text file in this repo is CRLF** (`core.autocrlf=true`; `file` reports
+"with CRLF line terminators" for `CMakeLists.txt`, `bindings.cpp`, `__init__.py`, `Docs/src/*.rst`,
+these `.md` files, the test package). A Python patch script that matches exact strings containing
+`\n` against such a file finds **0** occurrences, and its assert reads like a drifted anchor rather
+than a line-ending problem — two whole patch runs were lost to this in one session. Read bytes,
+`crlf = b"\r\n" in raw`, `.replace("\r\n", "\n")` before matching, re-expand on write. Files the
+Write tool creates are LF, which git normalises on commit — mixing is harmless, matching is not.
+Relatedly, right after regenerating `core/xml` `git status` shows ~680 modified files until git
+renormalises them (a `git stash`/`pop` or any `git add` does it); `git diff --ignore-space-at-eol
+--stat` shows the real content changes underneath.
 
 **The Bash tool's heredocs eat backslash escapes, which silently corrupts any patch script that
 writes C++ or Python string literals.** A `<<'PY' ... PY` block is quoted against *variable*

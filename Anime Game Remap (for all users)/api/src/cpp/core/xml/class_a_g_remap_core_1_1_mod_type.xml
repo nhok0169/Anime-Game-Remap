@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="149" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="158" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="158" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="154" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="154" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="163" column="17" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="159" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="159" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="168" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="168" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="164" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="164" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="173" column="25" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="173" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a11133f17bbe9ff1be9a3dcba15c8658b" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> &gt;</type>
@@ -99,7 +99,7 @@ Mirrors the pure-Python ``ModType.hashes``, including its default: a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="192" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="192" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="201" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a0c90fb4f4d2fa375c20939d5876311ee" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_indices" kindref="compound">Indices</ref> &gt;</type>
@@ -126,7 +126,7 @@ rather than in a game-specific subclass. Same default as #hashes: a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="210" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="210" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="219" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="219" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1aee3f46205d85109676c1b811c00d3813" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_vertex_counts" kindref="compound">VertexCounts</ref> &gt;</type>
@@ -153,7 +153,7 @@ Mirrors the pure-Python ``ModType.vertexCounts``, including its default: a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="228" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="228" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="237" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="237" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1acbd757691022d5649aba339426735e57" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remaps" kindref="compound">VGRemaps</ref> &gt;</type>
@@ -186,7 +186,7 @@ Mirrors the pure-Python ``ModType.vgRemaps`` :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="252" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="252" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="261" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="261" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1aa1d960bce38e6359ce8a2c0a76d7b6cc" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_parse_builder" kindref="compound">IniParseBuilder</ref> &gt;</type>
@@ -224,7 +224,7 @@ mod type can use a different parser for a 4.0-era ``.ini`` file than for a 5.7-e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="281" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="281" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="290" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="290" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1ad77ee6688dca467d4903c664313dc4e2" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_fix_builder" kindref="compound">IniFixBuilder</ref> &gt;</type>
@@ -258,7 +258,7 @@ different fixer for a 4.0-era ``.ini`` file than for a 5.7-era one -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="306" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="306" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="315" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="315" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_1a5ae1f49b122b982681775c277450ab0b" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_builder" kindref="compound">IniRemoveBuilder</ref> &gt;</type>
@@ -292,7 +292,7 @@ one back already bound to that file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="331" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="331" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="340" column="29" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="340" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -529,7 +529,337 @@ that this is a *shared* builder, not a fresh one per :cpp:class:`ModType`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="137" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="11" bodyend="65"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="146" column="22" bodyfile="src/model/strategies/ModType.cpp" bodystart="18" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ab293ef707209c7c00a703728ddc8a9a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::ModType::isName</definition>
+        <argsstring>(const std::string &amp;name) const</argsstring>
+        <name>isName</name>
+        <qualifiedname>AGRemapCore::ModType::isName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether this mod type goes by some name. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Compared case-insensitively against #name and every entry in #aliases, matching the
+pure-Python original&apos;s own ``isName``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name to check</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether this mod type goes by &apos;name&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="353" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="84" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a839dc152e85bbaf69e506885f3ea45eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt; std::string &gt; AGRemapCore::ModType::getModsToFix</definition>
+        <argsstring>() const</argsstring>
+        <name>getModsToFix</name>
+        <qualifiedname>AGRemapCore::ModType::getModsToFix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of the mods this mod type can be fixed onto :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. warning::
+   **Deliberately not bug-compatible with the pure-Python original.** That one unions
+   ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never
+   populates anywhere, so it returns an empty set for every mod type, always. This
+   reads the remap targets that actually exist
+   (:cpp:func:`ModMappedAssets::getMap`), which is what the name promises
+</verbatim></para>
+<para><simplesect kind="return"><para>The names of the mods to fix to </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="371" column="32" bodyfile="src/model/strategies/ModType.cpp" bodystart="100" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a053254c5865f1b39ba2a9e1683651bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt; int &gt; AGRemapCore::ModType::getVertexCount</definition>
+        <argsstring>(const std::optional&lt; Version &gt; &amp;version=std::nullopt) const</argsstring>
+        <name>getVertexCount</name>
+        <qualifiedname>AGRemapCore::ModType::getVertexCount</qualifiedname>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The number of vertices for this mod. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The game version wanted, or ``std::nullopt`` for the latest
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><verbatim>embed:rst 
+The vertex count for this mod as a whole -- the ``component`` index column is queried
+as ``&quot;&quot;``, which is what every shipped row carries -- or ``std::nullopt`` if this mod
+type has no row for it
+</verbatim> </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="388" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="126" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad0de2f5252c8c84c48e6e00e0e403e32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &gt;</type>
+        <definition>std::optional&lt; VGRemap &gt; AGRemapCore::ModType::getVGRemap</definition>
+        <argsstring>(const std::string &amp;modName, const std::optional&lt; Version &gt; &amp;fromVersion=std::nullopt, const std::optional&lt; Version &gt; &amp;toVersion=std::nullopt, const std::optional&lt; std::string &gt; &amp;fromComp=std::nullopt, const std::optional&lt; std::string &gt; &amp;toComp=std::nullopt) const</argsstring>
+        <name>getVGRemap</name>
+        <qualifiedname>AGRemapCore::ModType::getVGRemap</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>toVersion</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fromComp</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>toComp</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>The vertex group remap for fixing this mod type onto another. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod being fixed onto </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version being fixed from, or <computeroutput>std::nullopt</computeroutput> for the latest </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version being fixed to, or <computeroutput>std::nullopt</computeroutput> for the latest </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromComp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The component being fixed from. ``std::nullopt`` leaves the column unconstrained,
+matching how the pure-Python original simply omits the key
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toComp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component being fixed onto, with the same <computeroutput>std::nullopt</computeroutput> meaning</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The remap, or <computeroutput>std::nullopt</computeroutput> if the table has no matching row </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="405" column="27" bodyfile="src/model/strategies/ModType.cpp" bodystart="141" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a521fa433e2e2b94c70f182c568873dc1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::ModType::getHelpStr</definition>
+        <argsstring>() const</argsstring>
+        <name>getHelpStr</name>
+        <qualifiedname>AGRemapCore::ModType::getHelpStr</qualifiedname>
+        <briefdescription>
+<para>The help text describing this mod type, as the CLI prints it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The help text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="416" column="25" bodyfile="src/model/strategies/ModType.cpp" bodystart="155" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1a7efb7c18eec1a75d4724a64c6a8eef93" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::ModType::fixIni</definition>
+        <argsstring>(IniFile &amp;iniFile, bool keepBackup=true, bool fixOnly=false) const</argsstring>
+        <name>fixIni</name>
+        <qualifiedname>AGRemapCore::ModType::fixIni</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &amp;</type>
+          <declname>iniFile</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepBackup</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fixOnly</declname>
+          <defval>false</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Fixes a ``.ini`` file, but **only if that file was classified as this mod type** --
+a no-op otherwise, exactly as the pure-Python original is :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Returns nothing, also matching the original: the fix it produces is written out by
+:cpp:func:`IniFile::fix` rather than handed back. Call that directly to see it
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput>.ini</computeroutput> file to fix </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepBackup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to keep a backup copy of the original <computeroutput>.ini</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to only fix without removing any previous fix </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="433" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="181" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
+        <definition>Ranges&lt; long long &gt; AGRemapCore::ModType::getHashRanges</definition>
+        <argsstring>(const IfContentPartColouring&lt; std::string, std::string &gt; &amp;partColours, const std::optional&lt; Version &gt; &amp;version=std::nullopt, const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;nonVersionVals={}) const</argsstring>
+        <name>getHashRanges</name>
+        <qualifiedname>AGRemapCore::ModType::getHashRanges</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; std::string, std::string &gt; &amp;</type>
+          <declname>partColours</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::optional&lt; std::string &gt; &gt; &amp;</type>
+          <declname>nonVersionVals</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The valid ranges of order indices within an :cpp:class:`IfContentPart` whose ``hash``
+values belong to this mod type
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>partColours</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The current states of the <computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The version the hashes should come from, or <computeroutput>std::nullopt</computeroutput> for any </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>nonVersionVals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Values for the non-version index columns, used to narrow which instance of a hash is
+wanted -- see :cpp:func:`ModMappedAssets::hasFrom`
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The valid ranges of indices </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="190" bodyend="203"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -543,15 +873,22 @@ Meant to carry the full C++-side representation of a mod type -- contrast with t
 The Python-side ``ModType`` is meant to build itself using this data.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/ModType.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="32" bodyend="332"/>
+    <location file="include/AGRemapCore/model/strategies/ModType.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/ModType.h" bodystart="41" bodyend="455"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a0267edf6016a68bc78f70755ea3f48cf" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>aliases</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a7efb7c18eec1a75d4724a64c6a8eef93" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>fixIni</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a9f106a518b43fc292d4adcb7919718d1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>gameTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getHashRanges</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a521fa433e2e2b94c70f182c568873dc1" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getHelpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a839dc152e85bbaf69e506885f3ea45eb" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getModsToFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1a053254c5865f1b39ba2a9e1683651bcd" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getVertexCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ad0de2f5252c8c84c48e6e00e0e403e32" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>getVGRemap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a11133f17bbe9ff1be9a3dcba15c8658b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>hashes</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a0c90fb4f4d2fa375c20939d5876311ee" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>indices</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ad77ee6688dca467d4903c664313dc4e2" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniFixBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1aa1d960bce38e6359ce8a2c0a76d7b6cc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniParseBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a5ae1f49b122b982681775c277450ab0b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>iniRemoveBuilder</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_type_1ab293ef707209c7c00a703728ddc8a9a3" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>isName</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a62a81ac581b36077be9d8ba981cfed23" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>ModType</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1a1f3e0e3507c7e9c46515e795b817980c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>modTypeId</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_1ab473448c6f9febc57c430e315cb7a8f8" prot="public" virt="non-virtual"><scope>AGRemapCore::ModType</scope><name>name</name></member>

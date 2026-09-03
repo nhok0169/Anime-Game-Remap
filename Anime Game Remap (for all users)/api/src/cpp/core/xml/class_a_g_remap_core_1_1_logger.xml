@@ -1,0 +1,299 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_logger" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::Logger</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_base_logger" prot="public" virt="non-virtual">AGRemapCore::BaseLogger</basecompoundref>
+    <includes refid="_logger_8h" local="no">Logger.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_logger_1a6bbf15fe937bde458376b73498d82c91" prot="private" static="no" mutable="no">
+        <type>std::ostream *</type>
+        <definition>std::ostream* AGRemapCore::Logger::_out</definition>
+        <argsstring></argsstring>
+        <name>_out</name>
+        <qualifiedname>AGRemapCore::Logger::_out</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="69" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_logger_1a2d01c988d94329f6bdddeffc841606bb" prot="private" static="no" mutable="no">
+        <type>std::istream *</type>
+        <definition>std::istream* AGRemapCore::Logger::_in</definition>
+        <argsstring></argsstring>
+        <name>_in</name>
+        <qualifiedname>AGRemapCore::Logger::_in</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="70" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1abbe889e1b5f82dc8a2d1de30d05a24e0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::Logger::Logger</definition>
+        <argsstring>(std::string prefix=&quot;&quot;, bool logTxt=false, bool verbose=true, std::ostream *out=nullptr, std::istream *in=nullptr)</argsstring>
+        <name>Logger</name>
+        <qualifiedname>AGRemapCore::Logger::Logger</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>logTxt</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verbose</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>std::ostream *</type>
+          <declname>out</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>std::istream *</type>
+          <declname>in</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new logger. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line that is printed before any message is printed out. <bold>Default</bold>: <computeroutput>""</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>logTxt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to log all the printed messages into a <computeroutput>.txt</computeroutput> file once the fix is done. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to print out output. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where the output is displayed. Not owned <ndash/> must outlive the logger. If <computeroutput>nullptr</computeroutput>, <computeroutput>std::cout</computeroutput> is used. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>in</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Where input is read from. Not owned <ndash/> must outlive the logger. If <computeroutput>nullptr</computeroutput>, <computeroutput>std::cin</computeroutput> is used. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="40" column="22" bodyfile="src/view/Logger.cpp" bodystart="8" bodyend="11"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1af5c354ea43e80648039deea3a7945d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::Logger::write</definition>
+        <argsstring>(const std::string &amp;message) override</argsstring>
+        <name>write</name>
+        <qualifiedname>AGRemapCore::Logger::write</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_logger_1a83b7183da8e0b6fd87282957cdcdaf0a">write</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+<para>Writes the message to <ref refid="class_a_g_remap_core_1_1_logger_1aefa8acc3f2dfb0372ec9ef6ba075c116" kindref="member">out</ref>, followed by a newline, and flushes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rendered message to display </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="47" column="18" bodyfile="src/view/Logger.cpp" bodystart="14" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aabc67ea873cd00e73f92eb3e157e2a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::Logger::read</definition>
+        <argsstring>(const std::string &amp;desc) override</argsstring>
+        <name>read</name>
+        <qualifiedname>AGRemapCore::Logger::read</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_logger_1a613c25d8f498440993d8c1b90d817a91">read</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>desc</declname>
+        </param>
+        <briefdescription>
+<para>Writes &apos;desc&apos; to <ref refid="class_a_g_remap_core_1_1_logger_1aefa8acc3f2dfb0372ec9ef6ba075c116" kindref="member">out</ref> without a newline, then reads one line from <ref refid="class_a_g_remap_core_1_1_logger_1aba814f907c64de11156e712af36bde63" kindref="member">in</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>desc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The question/description being asked to the user for input</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The line read, without its line ending. Empty if <ref refid="class_a_g_remap_core_1_1_logger_1aba814f907c64de11156e712af36bde63" kindref="member">in</ref> has no more input </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="56" column="25" bodyfile="src/view/Logger.cpp" bodystart="21" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aefa8acc3f2dfb0372ec9ef6ba075c116" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream &amp; AGRemapCore::Logger::out</definition>
+        <argsstring>() const</argsstring>
+        <name>out</name>
+        <qualifiedname>AGRemapCore::Logger::out</qualifiedname>
+        <briefdescription>
+<para>The stream the output is displayed on. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="61" column="26" bodyfile="src/view/Logger.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aba814f907c64de11156e712af36bde63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::istream &amp;</type>
+        <definition>std::istream &amp; AGRemapCore::Logger::in</definition>
+        <argsstring>() const</argsstring>
+        <name>in</name>
+        <qualifiedname>AGRemapCore::Logger::in</qualifiedname>
+        <briefdescription>
+<para>The stream input is read from. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/view/Logger.h" line="66" column="26" bodyfile="src/view/Logger.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseLogger`
+
+The command-line view: a logger that displays its output on a ``std::ostream`` and takes its
+input from a ``std::istream`` -- the console by default :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This is the view for a *plain C++* consumer of the core. The `pybind11`_ ``Logger`` is
+   deliberately **not** this class -- it is its own :cpp:class:`BaseLogger` subclass that
+   writes through `Python`_&apos;s ``print``/``input`` instead (see ``py/src/view/PyLogger.h``),
+   so that its output interleaves correctly with `Python`_&apos;s own buffered ``sys.stdout`` and
+   so the unit tester&apos;s ``builtins.print``/``builtins.input`` patches still see it
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>AGRemapCore::BaseLogger</label>
+        <link refid="class_a_g_remap_core_1_1_base_logger"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::Logger</label>
+        <link refid="class_a_g_remap_core_1_1_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::BaseLogger</label>
+        <link refid="class_a_g_remap_core_1_1_base_logger"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::Logger</label>
+        <link refid="class_a_g_remap_core_1_1_logger"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/view/Logger.h" line="28" column="5" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="28" bodyend="71"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_headings</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1a2d01c988d94329f6bdddeffc841606bb" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_in</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a0ebbd23d632bf5c2413fec92b25007b2" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_loggedSincePrefixSet</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa1ba74eb043ffb26b043ede011586200" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_loggedTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1a6bbf15fe937bde458376b73498d82c91" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_out</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a8ee9da40ec553fd815f47d99f0201098" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a2f6452ac537a99e67321e89bd3610e49" prot="protected" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>addLogTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a6b25eaff68ceb13c60b7557c10fc9b80" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>BaseLogger</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a5302af5d9a9eebb0c4c7c0c09e9e5a24" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>box</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1ab2811df5354e3ca59f53715507a32b96" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>bulletPoint</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1abc277613167054f98604d7285f34376e" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a35079b6c68716ef8a2c7d58716b1991c" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>closeHeading</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>DefaultHeadingChar</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1adcc97831896eff848dda107845043c6f" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>DefaultHeadingSideLen</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1adfe91c409cc6c1779341a67d77dc7a81" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>error</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a8a89fdc5fc1562e4476ee64023283fec" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>ErrorHeader</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a416233f6beb03aefbe1cf769337b9e60" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>getBulletStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1ad07b684f34daa2e9ef9c9c8858cc61dc" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>getNumberedStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a104b882a6c51e2c334bcb02f6fc19ddc" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>getStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1acd27d9e88991b09da1f82742ee36f3bd" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>handleException</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a4aa6d846b2e6e85838ccb6a7b4a0b429" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>handleException</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a227432ef9d28133fea2fb646fb364f40" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>headings</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1aba814f907c64de11156e712af36bde63" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>in</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a3f2b72ad3d0a8a384692bc7354bd34fc" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>includePrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a1d0c1ce9cecc6f2a908b026e00c74203" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>input</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a01b31d80495290390638adffbdf90a41" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>list</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a758c10931325acf63493b7f6b785b849" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>log</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aefa53de399de570ade3a53ec595e728a" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>loggedTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1abbe889e1b5f82dc8a2d1de30d05a24e0" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>Logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1af692d2c0357d72e92c1aa35412236e23" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>logTxt</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa421eedeff65f30992a8af1c39fb7722" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>openHeading</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1aefa8acc3f2dfb0372ec9ef6ba075c116" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>out</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a867956a3e771086e3ec33db47a20e925" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>prefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1aabc67ea873cd00e73f92eb3e157e2a08" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aaddfbd50946d9c5273e18fb686fd025b" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>setPrefix</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a243ca868509230168c5f2d5471fd2059" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>space</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a98d6646679c902abbf657c7969462341" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>split</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1aa54398f0d3467cf94ced77007787000b" prot="public" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>verbose</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a025c6350b42695bb9aa3de8f9358bcfe" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>waitExit</name></member>
+      <member refid="class_a_g_remap_core_1_1_logger_1af5c354ea43e80648039deea3a7945d2a" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>write</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_logger_1a0003eaf39d37a4e12e1d4b4cc37e4010" prot="public" virt="virtual"><scope>AGRemapCore::Logger</scope><name>~BaseLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

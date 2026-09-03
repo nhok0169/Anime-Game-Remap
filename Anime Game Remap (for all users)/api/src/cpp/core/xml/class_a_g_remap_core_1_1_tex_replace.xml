@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_tex_replace" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::TexReplace</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_res_replace" prot="public" virt="non-virtual">AGRemapCore::ResReplace&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_tex_edit_8h" local="no">TexEdit.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_replace_1a0d821349a5fa0b9a39a2fd5debb15898" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_res_replace" kindref="compound">ResReplace</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::Base = ResReplace&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::TexReplace::Base</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="144" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_replace_1a582a7d83c035777a1b42b90ce8098677" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_res_replace_1ada1a98ff3e419cbfa7c342e48fcb66ba" kindref="member">Base::GraphId</ref></type>
+        <definition>using AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::GraphId = typename Base::GraphId</definition>
+        <argsstring></argsstring>
+        <name>GraphId</name>
+        <qualifiedname>AGRemapCore::TexReplace::GraphId</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="145" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="145" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_tex_replace_1a9408f502716d5acf96bd903d4fddce3d" prot="public" static="no">
+        <type>typename Base::ResEditConfig</type>
+        <definition>using AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig = typename Base::ResEditConfig</definition>
+        <argsstring></argsstring>
+        <name>ResEditConfig</name>
+        <qualifiedname>AGRemapCore::TexReplace::ResEditConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="146" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_replace_1af6f51e0ed1b3b20a8b97df3debc9e8b1" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::resSubType</definition>
+        <argsstring></argsstring>
+        <name>resSubType</name>
+        <qualifiedname>AGRemapCore::TexReplace::resSubType</qualifiedname>
+        <briefdescription>
+<para>The name of the subtype of the resource, folded into every fixed name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="151" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="151" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1a0401921552ffc78a0da9edd4618bb213" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::TexReplace</definition>
+        <argsstring>(GraphId resModObj, ResEditConfig config, std::string resType=&quot;resourceRemapTexEdit&quot;, std::optional&lt; std::string &gt; resSubType=std::nullopt)</argsstring>
+        <name>TexReplace</name>
+        <qualifiedname>AGRemapCore::TexReplace::TexReplace</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_tex_replace_1a582a7d83c035777a1b42b90ce8098677" kindref="member">GraphId</ref></type>
+          <declname>resModObj</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_tex_replace_1a9408f502716d5acf96bd903d4fddce3d" kindref="member">ResEditConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>resType</declname>
+          <defval>&quot;resourceRemapTexEdit&quot;</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>resSubType</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new texture-editing resource edit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>resModObj</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod object to hold the newly created graph for the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The domain customization points this instance uses </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the type of resource. <bold>Default</bold>: <computeroutput>"resourceRemapTexEdit"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resSubType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the subtype of the resource. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="161" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt; std::string &gt; AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::getFixResourceName</definition>
+        <argsstring>(const std::string &amp;resource, const std::string &amp;modName=&quot;&quot;) const override</argsstring>
+        <name>getFixResourceName</name>
+        <qualifiedname>AGRemapCore::TexReplace::getFixResourceName</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1a0567540e3b73dc109dd65dcc8f6b0dce">getFixResourceName</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixed name for a texture resource, built from the **original** resource&apos;s name --
+the difference that makes this a :cpp:class:`ResReplace`. :cpp:class:`TexCreate`
+discards its &apos;resource&apos; argument because a newly created texture has no original to
+build on
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="173" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::getFixFile</definition>
+        <argsstring>(const std::string &amp;file, const std::string &amp;modName=&quot;&quot;, const std::string &amp;graphId=&quot;&quot;) const override</argsstring>
+        <name>getFixFile</name>
+        <qualifiedname>AGRemapCore::TexReplace::getFixFile</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_base_res_edit_1ae813e7f396dad69a08af0aae151fd5fa">getFixFile</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>file</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>graphId</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>The fixed file path for an edited texture. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="178" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_replace_1a2fa260b9a9e8a7493071ce948f6c6f3b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;::subTypedModName</definition>
+        <argsstring>(const std::string &amp;modName) const</argsstring>
+        <name>subTypedModName</name>
+        <qualifiedname>AGRemapCore::TexReplace::subTypedModName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>           @brief &apos;modName&apos; capitalized, extended by 
+</verbatim> ef resSubType when there is one </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="185" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`ResReplace`
+
+Class that builds the necessary part to **edit** an existing texture file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The counterpart to :cpp:class:`TexCreate` in this same file, and the texture analogue of
+:cpp:class:`RemapBlendReplace`: an edit has an original resource to build its fixed name on,
+which is exactly what separates a :cpp:class:`ResReplace` from a :cpp:class:`ResCreate`. The
+resource model it stands for is a :cpp:class:`RemapTexEditResource` (``srcPath`` **and**
+``fixedPath``), not a :cpp:class:`RemapTexAddResource` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Like :cpp:class:`RemapBlendReplace`, this **does not override**
+   :cpp:func:`BaseResEdit::buildResModel` -- the texture editor that does the work reaches
+   this class from the `Python`_ side, so the `pybind11`_ layer overrides it to build a real
+   :cpp:class:`RemapTexEditResource`. A plain C++ caller wanting the same must override it
+   too; all the naming here works either way
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_res_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_replace"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_replace"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="5">
+        <label>AGRemapCore::BaseIniGraphGroupEdit&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit"/>
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::BaseIniPartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;::ResEditConfig</label>
+        <link refid="struct_a_g_remap_core_1_1_base_res_edit_1_1_res_edit_config"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::BaseResEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_base_res_edit"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>resModObj</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_res_replace"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_replace"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" line="142" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h" bodystart="142" bodyend="186"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a0d821349a5fa0b9a39a2fd5debb15898" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1acb963bd0fea8a4e1520f6c9478ccfe48" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>BaseResEdit</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1ae4b7efff3bf5929293ca0c59acf387e7" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>buildResModel</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1a7f57b1ff8709f59fc5b2b7af51e1aefc" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>buildResModels</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1aab78de8f18c5c840d8c32d3ab1b1a8ef" prot="public" virt="virtual" ambiguityscope="AGRemapCore::BaseResEdit::"><scope>AGRemapCore::TexReplace</scope><name>buildResModels</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6710f40b48ec3fe39ffa4ae31bc296bf" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>buildResources</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b15f19be1f84d110e10fa96adb627fb" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1a965c4b36f278faa35693308e6bcfed3a" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>CollectedSections</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a07b77ee51dd7dc9f36ce894d11eead53" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>collectResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a0b4ad3308279e531f172fcb8de5d5798" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>config</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1acc3ce6d69924cc5f27b9c403027a0298" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>ContentPart</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1a810f194ea8fe1106a4d2ad905b388846" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a7bc2fd1d2fe42716250c3d6d0715e241" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>fileAddGraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a27a06e8bba1677aa47a605ed05bf4b89" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>getFileId</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>getFixFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>getFixResourceName</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1abacd8105c841d15e5abfb4d808486db4" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>getResGraph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1a46ad0eeccb1d3660fbf42c986719f161" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>Graph</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1aa7d8cce909c8adcc48d4dea2e42ac782" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>GraphGroups</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a582a7d83c035777a1b42b90ce8098677" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>GraphId</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a6c5e35cc77b84c095d3fde50fcd8a880" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>graphReplaceMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69c0063dff581aa1aa2c6b416ee52a33" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>renameUncollectedSection</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a9408f502716d5acf96bd903d4fddce3d" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>ResEditConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a3cdfcf625142e71ded6329d45c576c22" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>resModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_res_replace_1a9d42eb3fa1dea254b6b8fb02846643ab" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>ResourceFilter</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1af6f51e0ed1b3b20a8b97df3debc9e8b1" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>resSubType</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a02ef8d850319513541970c5fd2e27cab" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>resType</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1aa23240db6dae82e1bf2c6b9f0a5fd343" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>Section</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a2fa260b9a9e8a7493071ce948f6c6f3b" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>subTypedModName</name></member>
+      <member refid="class_a_g_remap_core_1_1_tex_replace_1a0401921552ffc78a0da9edd4618bb213" prot="public" virt="non-virtual"><scope>AGRemapCore::TexReplace</scope><name>TexReplace</name></member>
+      <member refid="class_a_g_remap_core_1_1_base_res_edit_1a69609feba68d8ab79031b12aa5f5c433" prot="public" virt="virtual"><scope>AGRemapCore::TexReplace</scope><name>~BaseResEdit</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

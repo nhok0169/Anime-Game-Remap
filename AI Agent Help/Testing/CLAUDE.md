@@ -344,6 +344,24 @@ groups, and knowing which is which saves re-deriving it:
   `Always`/`Disabled`/`Normal` on both the Python and C++ sides. A genuine unimplemented mode; do
   not invent the enum member to make the tests pass.
 
+### Later the same day: 1809 tests / 0 failures / 30 errors (Logger port)
+
+Measured twice on 2026-09-03 after the `IniFile` port landed, once on a clean stash (1770 / 0 / 30)
+and once with the C++ `BaseLogger`/`Logger` port applied (1809 / 0 / 30 --- the +39 is exactly the
+new `test_Logger.py`/`test_BaseLogger.py` tests). The 30 errors sit in the same nine modules either
+way: `test_GIMIFixer`, `test_GIMIParser`, `test_GraphGroupRemap`, `test_RemapIniRemover`,
+`test_ResGroupCollect`, `test_ResRegCollect` (the `baseIniFileTest.py` fixture group above),
+`test_Mod`, `test_ModType`, and `test_RemapService`. The drop from 105 happened *before* the Logger
+port and was not investigated by it --- re-measure rather than reasoning from either figure.
+
+Two Logger-specific notes for that suite: `test_Logger.py` is a black-box rewrite against the bound
+`Logger` (its output is captured by patching `builtins.print`/`builtins.input`, which the binding
+routes through on purpose --- see Architecture's "The view is C++ now"), and `test_BaseLogger.py`
+is where the trampoline is exercised (a Python subclass overriding `write`, `log`, `openHeading`,
+`error`, `getStr`, ... is reached from C++ callers like `openHeading` -> `log` -> `write`). The
+`self.patch(...)` helper returns `None`, not the mock --- capture calls through a `side_effect`
+instead of `assert_called_once_with`.
+
 ### `mock.patch` targets are `src.py.FixRaidenBoss2`, not `src.FixRaidenBoss2`
 
 The Unit Tester imports the package as `src.py.FixRaidenBoss2`, so that is the prefix every
@@ -366,7 +384,7 @@ and break another and leave the totals untouched. Print the names and diff those
 
 ```powershell
 $o = py -3 main.py 2>&1
-$o | Select-String -Pattern "^(Ran |FAILED|OK)"
+$o | Select-String -Pattern "^(Ran |FAILED|OK)" | ForEach-Object { $_.Line }   # .Line, or the PowerShell tool dumps whole MatchInfo objects
 $o | Select-String -Pattern "^FAIL: " | ForEach-Object { $_.ToString() }
 $o | Select-String -Pattern "^ERROR: " | ForEach-Object { ($_.ToString() -split "\(")[1] } | Sort-Object -Unique
 ```
@@ -498,7 +516,12 @@ belongs on this list just because an earlier version of this file once listed
 Don't chase those down as regressions from your work — scope your "did I break anything" check to
 the test module(s) actually relevant to what you touched (plus anything that imports it), not a
 full-suite green bar. If genuinely unsure whether a failure is pre-existing, check on a clean
-`git stash` before attributing it to your change.
+`git stash` before attributing it to your change. The exact recipe that worked, as one PowerShell
+call so nothing is left stashed if a later step fails: `git stash push -u -q -m wip; <run the suite
+into a variable>; git stash pop -q`. `-u` matters (your new test files and new `core/` sources are
+untracked), and the rebuilt `.pyd` deliberately stays in place because it is gitignored — that is
+still a valid baseline, since the restored Python never imports the classes only the new binary has.
+Compare the `Ran N` line first: the delta should be exactly the tests you added.
 
 ## C++-only work is invisible to the Python suite --- write a standalone C++ test
 

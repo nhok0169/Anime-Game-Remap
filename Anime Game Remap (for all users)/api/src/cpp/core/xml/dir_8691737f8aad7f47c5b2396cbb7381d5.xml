@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8691737f8aad7f47c5b2396cbb7381d5" kind="dir">
+    <compoundname>src/model/strategies/bufEditors</compoundname>
+    <innerfile refid="_base_buf_editor_8cpp">BaseBufEditor.cpp</innerfile>
+    <innerfile refid="_buf_editor_8cpp">BufEditor.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/model/strategies/bufEditors/"/>
+  </compounddef>
+</doxygen>

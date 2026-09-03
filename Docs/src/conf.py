@@ -31,7 +31,15 @@ sys.path.insert(0, os.path.abspath('..'))
 sys.path.append(os.path.abspath('extensions'))
 
 # path to the overall library
-sys.path.append(os.path.abspath('../../Anime Game Remap (for all users)/api/src/py'))
+#
+# note: insert(0, ...) rather than append(...) -- this has to take precedence over site-packages.
+#   AnimeGameRemap/FixRaidenBoss2 is a published PyPI package, so a machine that has it pip-installed
+#   (very easy to end up with, e.g. from testing the released build) would otherwise have autodoc and
+#   the attributetable extension document *that* copy instead of the local one. The failure is not
+#   subtle once the two versions diverge -- the released 4.5.4 lacks classes that exist on
+#   development, giving "Extension error (attributetable): module 'FixRaidenBoss2' has no attribute
+#   'BaseIniGraphEdit'" -- but it is very easy to misread as a docs bug rather than a shadowing one.
+sys.path.insert(0, os.path.abspath('../../Anime Game Remap (for all users)/api/src/py'))
 
 # -----------------------------------------
 

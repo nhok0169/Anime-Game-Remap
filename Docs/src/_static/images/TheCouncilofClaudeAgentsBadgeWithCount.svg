@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="496" height="76" viewBox="0 0 496 76" role="img" aria-label="The Council of CLAUDE Agents: 26">
+  <defs>
+    <!-- Aged leather / wine-dark backdrop for the crest cap -->
+    <linearGradient id="bdgBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a0f14"/>
+      <stop offset="50%" stop-color="#2b1220"/>
+      <stop offset="100%" stop-color="#1a0f14"/>
+    </linearGradient>
+
+    <!-- Hammered bronze-and-gold banding -->
+    <linearGradient id="bdgBronzeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#6b4423"/>
+      <stop offset="35%"  stop-color="#d4af37"/>
+      <stop offset="65%"  stop-color="#b8860b"/>
+      <stop offset="100%" stop-color="#6b4423"/>
+    </linearGradient>
+
+    <!-- One colour per Council member, kept as the inner inlay -->
+    <linearGradient id="bdgCouncilGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%"    stop-color="#eab308"/>
+      <stop offset="12.5%" stop-color="#db2777"/>
+      <stop offset="25%"   stop-color="#0d9488"/>
+      <stop offset="37.5%" stop-color="#3776ab"/>
+      <stop offset="50%"   stop-color="#4f46e5"/>
+      <stop offset="62.5%" stop-color="#f59e0b"/>
+      <stop offset="75%"   stop-color="#c2410c"/>
+      <stop offset="87.5%" stop-color="#dc2626"/>
+      <stop offset="100%"  stop-color="#7c3aed"/>
+    </linearGradient>
+
+    <linearGradient id="bdgPlumGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#63204f"/>
+      <stop offset="45%"  stop-color="#4a154b"/>
+      <stop offset="100%" stop-color="#2e0c30"/>
+    </linearGradient>
+
+    <!-- Count chip, matching the crimson of the shields.io original -->
+    <linearGradient id="bdgCountGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%"   stop-color="#dc2626"/>
+      <stop offset="45%"  stop-color="#b91c1c"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+
+    <radialGradient id="bdgGemGrad" cx="35%" cy="30%" r="75%">
+      <stop offset="0%"   stop-color="#fff6d0"/>
+      <stop offset="45%"  stop-color="#ffdf70"/>
+      <stop offset="75%"  stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#b8860b"/>
+    </radialGradient>
+
+    <!-- Pennant cloth: three quiet dye-lots of the same plum -->
+    <linearGradient id="penPlumDeep" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#4e1a40"/><stop offset="45%" stop-color="#3a1039"/><stop offset="100%" stop-color="#1e0722"/>
+    </linearGradient>
+    <linearGradient id="penPlumWarm" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#6b1f43"/><stop offset="45%" stop-color="#52153e"/><stop offset="100%" stop-color="#2b0a22"/>
+    </linearGradient>
+    <linearGradient id="penPlumCool" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#5b2260"/><stop offset="45%" stop-color="#431a58"/><stop offset="100%" stop-color="#240c33"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Chamfered plaque -->
+  <path d="M 11 2 L 485 2 L 494 11 L 494 35 L 485 44 L 11 44 L 2 35 L 2 11 Z" fill="url(#bdgPlumGrad)"/>
+
+  <!-- Darker crest cap on the left -->
+  <path d="M 11 2 L 56 2 L 56 44 L 11 44 L 2 35 L 2 11 Z" fill="url(#bdgBgGrad)"/>
+  <line x1="56" y1="3" x2="56" y2="43" stroke="url(#bdgBronzeGrad)" stroke-width="1.5"/>
+
+  <!-- Count chip on the right -->
+  <path d="M 440 2 L 485 2 L 494 11 L 494 35 L 485 44 L 440 44 Z" fill="url(#bdgCountGrad)"/>
+  <line x1="440" y1="3" x2="440" y2="43" stroke="url(#bdgBronzeGrad)" stroke-width="1.5"/>
+
+  <!-- Council-coloured inlay, echoing the plaque edge -->
+  <path d="M 15 7 L 481 7 L 489 15 L 489 31 L 481 39 L 15 39 L 7 31 L 7 15 Z"
+        fill="none" stroke="url(#bdgCouncilGrad)" stroke-width="1" opacity="0.55"/>
+
+  <!-- Seven pennants: mirrored cuts, mirrored dye-lots of the same plum -->
+  <g stroke="url(#bdgBronzeGrad)" stroke-width="1.2" stroke-linejoin="round">
+    <path d="M 30 44 L 60 44 L 60 56 Q 45 66 30 56 Z"         fill="url(#penPlumDeep)"/>
+    <path d="M 90 44 L 130 44 L 130 65 L 110 59 L 90 65 Z"    fill="url(#penPlumCool)"/>
+    <path d="M 160 44 L 196 44 L 196 63 L 191 68 L 165 68 L 160 63 Z" fill="url(#penPlumWarm)"/>
+    <path d="M 226 44 L 270 44 L 270 72 L 248 63 L 226 72 Z"  fill="url(#bdgPlumGrad)"/>
+    <path d="M 300 44 L 336 44 L 336 63 L 331 68 L 305 68 L 300 63 Z" fill="url(#penPlumWarm)"/>
+    <path d="M 366 44 L 406 44 L 406 65 L 386 59 L 366 65 Z"  fill="url(#penPlumCool)"/>
+    <path d="M 436 44 L 466 44 L 466 56 Q 451 66 436 56 Z"    fill="url(#penPlumDeep)"/>
+  </g>
+
+  <!-- tassel beads at every tail tip -->
+  <g fill="url(#bdgGemGrad)">
+    <circle cx="45" cy="61" r="1.3"/><circle cx="451" cy="61" r="1.3"/>
+    <circle cx="90" cy="65" r="1.2"/><circle cx="130" cy="65" r="1.2"/>
+    <circle cx="366" cy="65" r="1.2"/><circle cx="406" cy="65" r="1.2"/>
+    <circle cx="165" cy="68" r="1.2"/><circle cx="191" cy="68" r="1.2"/>
+    <circle cx="305" cy="68" r="1.2"/><circle cx="331" cy="68" r="1.2"/>
+    <circle cx="226" cy="72" r="1.4"/><circle cx="270" cy="72" r="1.4"/>
+  </g>
+
+  <!-- devices: orbs on the pennons, jewels on the swallowtails -->
+  <g fill="url(#bdgGemGrad)" stroke="#3d2b12" stroke-width="0.5">
+    <circle cx="45" cy="51" r="2"/>
+    <circle cx="451" cy="51" r="2"/>
+    <rect width="4.6" height="4.6" transform="translate(110,52) rotate(45) translate(-2.3,-2.3)"/>
+    <rect width="4.6" height="4.6" transform="translate(386,52) rotate(45) translate(-2.3,-2.3)"/>
+  </g>
+
+  <!-- devices: upright swords on the gonfalons -->
+  <g stroke="#d4af37" stroke-width="1.4" stroke-linecap="round">
+    <line x1="178" y1="49" x2="178" y2="61"/>
+    <line x1="174" y1="52" x2="182" y2="52"/>
+    <line x1="318" y1="49" x2="318" y2="61"/>
+    <line x1="314" y1="52" x2="322" y2="52"/>
+  </g>
+
+  <!-- device: crossed sword and dagger at the centre, echoing the crest -->
+  <path d="M 242 50 L 254 60 M 254 50 L 242 60" stroke="#d4af37" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="248" cy="55" r="1.3" fill="url(#bdgGemGrad)"/>
+
+  <!-- Outer bronze frame -->
+  <path d="M 11 2 L 485 2 L 494 11 L 494 35 L 485 44 L 11 44 L 2 35 L 2 11 Z"
+        fill="none" stroke="url(#bdgBronzeGrad)" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- Heater-shield crest, crossed sword and dagger -->
+  <path d="M 29 9 L 40 13 L 40 26 Q 40 33 29 38 Q 18 33 18 26 L 18 13 Z"
+        fill="url(#bdgBgGrad)" stroke="url(#bdgBronzeGrad)" stroke-width="1.3"/>
+  <path d="M 23 16 L 35 33 M 35 16 L 23 33" stroke="#d4af37" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="29" cy="24.5" r="1.6" fill="url(#bdgGemGrad)"/>
+
+  <!-- Flanking jewels -->
+  <rect width="5" height="5" fill="url(#bdgGemGrad)" stroke="#3d2b12" stroke-width="0.6"
+        transform="translate(74,23) rotate(45) translate(-2.5,-2.5)"/>
+  <rect width="5" height="5" fill="url(#bdgGemGrad)" stroke="#3d2b12" stroke-width="0.6"
+        transform="translate(420,23) rotate(45) translate(-2.5,-2.5)"/>
+
+  <!-- Corner rivets -->
+  <g fill="url(#bdgGemGrad)" stroke="#3d2b12" stroke-width="0.6">
+    <circle cx="6.5" cy="6.5" r="2.2"/>
+    <circle cx="489.5" cy="6.5" r="2.2"/>
+    <circle cx="489.5" cy="39.5" r="2.2"/>
+    <circle cx="6.5" cy="39.5" r="2.2"/>
+  </g>
+
+  <text x="248" y="28.5" text-anchor="middle" fill="#f5e6c8"
+        font-family="Cinzel, Georgia, 'Times New Roman', serif"
+        font-size="16" font-weight="700" letter-spacing="0.5" style="font-variant: small-caps">The Council of CLAUDE Agents</text>
+
+  <text x="467" y="28.5" text-anchor="middle" fill="#fdeacd"
+        font-family="Cinzel, Georgia, 'Times New Roman', serif"
+        font-size="17" font-weight="700" letter-spacing="0.5">26</text>
+</svg>

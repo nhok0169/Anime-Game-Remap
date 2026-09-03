@@ -207,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="61" column="18" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="35" bodyend="63"/>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeIterator.h" line="61" column="18" bodyfile="src/tools/grapheme/GraphemeIterator.cpp" bodystart="35" bodyend="75"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

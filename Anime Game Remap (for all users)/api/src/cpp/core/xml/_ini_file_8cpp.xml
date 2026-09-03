@@ -3,7 +3,6 @@
   <compounddef id="_ini_file_8cpp" kind="file" language="C++">
     <compoundname>IniFile.cpp</compoundname>
     <includes refid="_ini_file_8h" local="yes">AGRemapCore/model/files/IniFile.h</includes>
-    <includes local="no">cctype</includes>
     <includes local="no">fstream</includes>
     <includes local="no">filesystem</includes>
     <includes local="no">sstream</includes>
@@ -28,14 +27,15 @@
     <includes refid="_ini_removal_context_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</includes>
     <includes refid="_ini_remove_builder_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</includes>
     <includes refid="_parse_context_8h" local="yes">AGRemapCore/tools/parsing/ParseContext.h</includes>
+    <includes refid="_string_tools_8h" local="yes">AGRemapCore/tools/StringTools.h</includes>
     <incdepgraph>
       <node id="33">
         <label>Algo.tpp</label>
       </node>
-      <node id="118">
+      <node id="117">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="113">
+      <node id="112">
         <label>BaseDFA.tpp</label>
       </node>
       <node id="91">
@@ -47,26 +47,23 @@
       <node id="39">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="117">
+      <node id="116">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="112">
+      <node id="111">
         <label>BiMap.tpp</label>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="11">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
       </node>
-      <node id="105">
+      <node id="104">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="105">
         <label>AGRemapCore/constants/FilePrefixes.h</label>
         <link refid="_file_prefixes_8h"/>
         <childnode refid="5" relation="include">
@@ -80,13 +77,13 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="107">
+      <node id="106">
         <label>AGRemapCore/constants/GlobalIniClassifiers.h</label>
         <link refid="_global_ini_classifiers_8h"/>
-        <childnode refid="108" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
       </node>
-      <node id="121">
+      <node id="120">
         <label>AGRemapCore/constants/GlobalIniRemoveBuilders.h</label>
         <link refid="_global_ini_remove_builders_8h"/>
         <childnode refid="3" relation="include">
@@ -102,13 +99,13 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="119">
+      <node id="118">
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="119">
         <label>AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
         <childnode refid="4" relation="include">
@@ -125,7 +122,7 @@
         </childnode>
         <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
       </node>
       <node id="19">
@@ -668,14 +665,14 @@
         <childnode refid="99" relation="include">
         </childnode>
       </node>
-      <node id="108">
+      <node id="107">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifier.h</label>
         <link refid="_ini_classifier_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -691,9 +688,9 @@
         </childnode>
         <childnode refid="99" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
+        <childnode refid="109" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
       </node>
       <node id="99">
@@ -826,7 +823,7 @@
         <childnode refid="33" relation="include">
         </childnode>
       </node>
-      <node id="111">
+      <node id="110">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="6" relation="include">
@@ -837,7 +834,7 @@
         </childnode>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="111" relation="include">
         </childnode>
       </node>
       <node id="66">
@@ -872,15 +869,27 @@
         <childnode refid="34" relation="include">
         </childnode>
       </node>
-      <node id="116">
+      <node id="115">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
       </node>
-      <node id="110">
+      <node id="121">
+        <label>AGRemapCore/tools/StringTools.h</label>
+        <link refid="_string_tools_8h"/>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="108" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="109">
         <label>AGRemapCore/tools/dfa/BaseDFA.h</label>
         <link refid="_base_d_f_a_8h"/>
         <childnode refid="14" relation="include">
@@ -899,11 +908,11 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="110" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -1064,24 +1073,24 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="114">
+      <node id="113">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="38" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
-        <childnode refid="118" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
       </node>
-      <node id="115">
+      <node id="114">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="14" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -1099,13 +1108,13 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="110" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
       <node id="56">
@@ -1135,8 +1144,6 @@
         </childnode>
         <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
@@ -1145,17 +1152,17 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="98" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="106" relation="include">
+        </childnode>
+        <childnode refid="118" relation="include">
         </childnode>
         <childnode refid="119" relation="include">
-        </childnode>
-        <childnode refid="120" relation="include">
         </childnode>
         <childnode refid="99" relation="include">
         </childnode>
@@ -1167,7 +1174,7 @@
         </childnode>
         <childnode refid="93" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="120" relation="include">
         </childnode>
         <childnode refid="94" relation="include">
         </childnode>
@@ -1179,6 +1186,11 @@
         </childnode>
         <childnode refid="55" relation="include">
         </childnode>
+        <childnode refid="121" relation="include">
+        </childnode>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>
@@ -1234,9 +1246,6 @@
       <node id="21">
         <label>algorithm</label>
       </node>
-      <node id="101">
-        <label>cctype</label>
-      </node>
       <node id="45">
         <label>cmath</label>
       </node>
@@ -1255,10 +1264,10 @@
       <node id="68">
         <label>exception</label>
       </node>
-      <node id="103">
+      <node id="102">
         <label>filesystem</label>
       </node>
-      <node id="102">
+      <node id="101">
         <label>fstream</label>
       </node>
       <node id="14">
@@ -1282,7 +1291,7 @@
       <node id="17">
         <label>set</label>
       </node>
-      <node id="104">
+      <node id="103">
         <label>sstream</label>
       </node>
       <node id="22">
@@ -1291,7 +1300,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="109">
+      <node id="108">
         <label>string_view</label>
       </node>
       <node id="10">
@@ -1330,32 +1339,32 @@
     <programlisting>
 <codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_file_8h" kindref="compound">AGRemapCore/model/files/IniFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cctype&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_ext_8h" kindref="compound">AGRemapCore/constants/FileExt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_prefixes_8h" kindref="compound">AGRemapCore/constants/FilePrefixes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_game_type_id_8h" kindref="compound">AGRemapCore/constants/GameTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_global_ini_classifiers_8h" kindref="compound">AGRemapCore/constants/GlobalIniClassifiers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_classify_stats_8h" kindref="compound">AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_parser_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_global_ini_remove_builders_8h" kindref="compound">AGRemapCore/constants/GlobalIniRemoveBuilders.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_remover_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fixing_context_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_removal_context_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_remove_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;fstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;sstream&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;variant&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_ext_8h" kindref="compound">AGRemapCore/constants/FileExt.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_file_prefixes_8h" kindref="compound">AGRemapCore/constants/FilePrefixes.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_game_type_id_8h" kindref="compound">AGRemapCore/constants/GameTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_global_ini_classifiers_8h" kindref="compound">AGRemapCore/constants/GlobalIniClassifiers.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_classify_stats_8h" kindref="compound">AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_fixer_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_parser_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_global_ini_remove_builders_8h" kindref="compound">AGRemapCore/constants/GlobalIniRemoveBuilders.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_ini_remover_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fixing_context_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_removal_context_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_remove_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_parse_context_8h" kindref="compound">AGRemapCore/tools/parsing/ParseContext.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_string_tools_8h" kindref="compound">AGRemapCore/tools/StringTools.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="29"><highlight class="normal"></highlight></codeline>
 <codeline lineno="30"><highlight class="normal"></highlight></codeline>
 <codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
@@ -2131,296 +2140,272 @@
 <codeline lineno="801"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="802"><highlight class="normal"></highlight></codeline>
 <codeline lineno="803"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trims<sp/>ASCII<sp/>whitespace<sp/>(space/tab/CR/LF)<sp/>from<sp/>both<sp/>ends<sp/>of<sp/>&apos;str&apos;<sp/>--<sp/>not<sp/>a<sp/>member,<sp/>just<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="805"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>small<sp/>local<sp/>helper;<sp/>matches<sp/>the<sp/>&apos;<sp/>&apos;/&apos;\t&apos;<sp/>trimming<sp/>ConfigParser<sp/>itself<sp/>performs<sp/>on<sp/>keys<sp/>and</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>values.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>trim(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)<sp/>{</highlight></codeline>
-<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(start<sp/>&lt;<sp/>str.size()<sp/>&amp;&amp;<sp/>std::isspace(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(str[start])))<sp/>{</highlight></codeline>
-<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++start;</highlight></codeline>
-<codeline lineno="811"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="812"><highlight class="normal"></highlight></codeline>
-<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(start<sp/>==<sp/>str.size())<sp/>{</highlight></codeline>
-<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="815"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="816"><highlight class="normal"></highlight></codeline>
-<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>end<sp/>=<sp/>str.size();</highlight></codeline>
-<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(end<sp/>&gt;<sp/>start<sp/>&amp;&amp;<sp/>std::isspace(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(str[end<sp/>-<sp/>1])))<sp/>{</highlight></codeline>
-<codeline lineno="819"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>--end;</highlight></codeline>
-<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="821"><highlight class="normal"></highlight></codeline>
-<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>str.substr(start,<sp/>end<sp/>-<sp/>start);</highlight></codeline>
-<codeline lineno="823"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="824"><highlight class="normal"></highlight></codeline>
-<codeline lineno="825"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>no<sp/>key-lowercasing<sp/>helper<sp/>here<sp/>--<sp/>IniFile.py<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="826"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;self._parser.optionxform=str&quot;<sp/>to<sp/>disable<sp/>ConfigParser&apos;s<sp/>default<sp/>lowercasing,<sp/>so<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="827"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>their<sp/>original<sp/>case<sp/>(see<sp/>parseSectionKVPs<sp/>below).</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="828"><highlight class="normal"></highlight></codeline>
-<codeline lineno="829"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>parsed<sp/>KVPs<sp/>of<sp/>one<sp/>content<sp/>chunk,<sp/>keyed<sp/>by<sp/>KVP<sp/>key<sp/>--<sp/>every<sp/>value<sp/>a<sp/>duplicated<sp/>key</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="830"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>takes<sp/>is<sp/>kept,<sp/>in<sp/>encounter<sp/>order,<sp/>as<sp/>(orderInd,<sp/>value)<sp/>pairs.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="831"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">SectionKVPs<sp/>=<sp/>tsl::ordered_map&lt;std::string,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>std::string&gt;&gt;&gt;;</highlight></codeline>
-<codeline lineno="832"><highlight class="normal"></highlight></codeline>
-<codeline lineno="833"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>entry<sp/>in<sp/>the<sp/>argument<sp/>IfTemplate::build<sp/>expects:<sp/>either<sp/>a<sp/>raw<sp/>conditional<sp/>line</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="834"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(&quot;if<sp/>...&quot;,<sp/>&quot;else&quot;,<sp/>&quot;endif&quot;)<sp/>or<sp/>a<sp/>parsed<sp/>block<sp/>of<sp/>KVPs,<sp/>tagged<sp/>with<sp/>its<sp/>1-based<sp/>line<sp/>number.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="835"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">RawPart<sp/>=<sp/>std::pair&lt;int,<sp/>std::variant&lt;std::string,<sp/>SectionKVPs&gt;&gt;;</highlight></codeline>
-<codeline lineno="836"><highlight class="normal"></highlight></codeline>
-<codeline lineno="837"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="838"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Parses<sp/>one<sp/>section&apos;s<sp/>raw<sp/>KVP<sp/>text<sp/>into<sp/>the<sp/>shape<sp/>IfTemplate::build<sp/>expects<sp/>for<sp/>a<sp/>content</highlight></codeline>
-<codeline lineno="839"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>part<sp/>--<sp/>a<sp/>purpose-built<sp/>single-pass<sp/>parser,<sp/>not<sp/>a<sp/>port<sp/>of<sp/>Python&apos;s<sp/>ConfigParser.</highlight></codeline>
-<codeline lineno="840"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
-<codeline lineno="841"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Preserved:<sp/>blank-line<sp/>and<sp/>full-line-comment<sp/>(&apos;;&apos;/&apos;#&apos;<sp/>prefix)<sp/>skipping;<sp/>splitting<sp/>each<sp/>line</highlight></codeline>
-<codeline lineno="842"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>on<sp/>the<sp/>first<sp/>&apos;=&apos;<sp/>or<sp/>&apos;:&apos;;<sp/>trimming<sp/>whitespace<sp/>around<sp/>both<sp/>key<sp/>and<sp/>value;<sp/>original<sp/>key<sp/>CASE</highlight></codeline>
-<codeline lineno="843"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(the<sp/>pure-Python<sp/>original<sp/>disables<sp/>ConfigParser&apos;s<sp/>default<sp/>key-lowercasing<sp/>&apos;optionxform&apos;</highlight></codeline>
-<codeline lineno="844"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>via<sp/>&quot;self._parser.optionxform=str&quot;,<sp/>so<sp/>keys<sp/>are<sp/>NOT<sp/>lowercased<sp/>here<sp/>either<sp/>--<sp/>confirmed</highlight></codeline>
-<codeline lineno="845"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>against<sp/>the<sp/>real<sp/>Python<sp/>original,<sp/>not<sp/>just<sp/>assumed<sp/>from<sp/>ConfigParser&apos;s<sp/>documented</highlight></codeline>
-<codeline lineno="846"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>default);<sp/>preserving<sp/>EVERY<sp/>value<sp/>for<sp/>a<sp/>duplicate<sp/>key,<sp/>in<sp/>encounter<sp/>order,<sp/>as</highlight></codeline>
-<codeline lineno="847"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(orderInd,<sp/>value)<sp/>pairs<sp/>sharing<sp/>one<sp/>section-wide<sp/>incrementing<sp/>counter<sp/>(the<sp/>direct<sp/>C++</highlight></codeline>
-<codeline lineno="848"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>equivalent<sp/>of<sp/>what<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>KeepAllDict<sp/>+<sp/>&quot;{index}_{value}&quot;-string-</highlight></codeline>
-<codeline lineno="849"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>encoding<sp/>trick<sp/>works<sp/>around<sp/>--<sp/>this<sp/>builds<sp/>the<sp/>same<sp/>(index,<sp/>value)<sp/>shape<sp/>natively,<sp/>with<sp/>no</highlight></codeline>
-<codeline lineno="850"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>encode/decode<sp/>round<sp/>trip).</highlight></codeline>
-<codeline lineno="851"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
-<codeline lineno="852"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Not<sp/>preserved<sp/>(by<sp/>explicit<sp/>user<sp/>direction<sp/>--<sp/>&quot;you<sp/>don&apos;t<sp/>have<sp/>to<sp/>follow<sp/>exactly<sp/>what</highlight></codeline>
-<codeline lineno="853"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>ConfigParser<sp/>does...<sp/>I<sp/>value<sp/>speed&quot;):<sp/>&apos;%&apos;-style<sp/>interpolation<sp/>(values<sp/>are<sp/>taken<sp/>literally,</highlight></codeline>
-<codeline lineno="854"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>so<sp/>a<sp/>bare<sp/>&apos;%&apos;<sp/>never<sp/>raises);<sp/>multi-line<sp/>continuation<sp/>lines<sp/>(moot<sp/>in<sp/>practice<sp/>--<sp/>the</highlight></codeline>
-<codeline lineno="855"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>pure-Python<sp/>original<sp/>already<sp/>strips<sp/>all<sp/>leading<sp/>whitespace<sp/>from<sp/>every<sp/>line<sp/>before<sp/>parsing</highlight></codeline>
-<codeline lineno="856"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>a<sp/>section,<sp/>which<sp/>incidentally<sp/>neuters<sp/>ConfigParser&apos;s<sp/>own<sp/>indentation-based<sp/>continuation</highlight></codeline>
-<codeline lineno="857"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>feature<sp/>anyway);<sp/>ConfigParser&apos;s<sp/>stricter<sp/>parse-error<sp/>behavior<sp/>(a<sp/>malformed<sp/>line<sp/>with<sp/>no</highlight></codeline>
-<codeline lineno="858"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>&apos;=&apos;/&apos;:&apos;<sp/>is<sp/>silently<sp/>skipped<sp/>here,<sp/>rather<sp/>than<sp/>aborting<sp/>the<sp/>whole<sp/>section).</highlight></codeline>
-<codeline lineno="859"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>parseSectionKVPs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>srcTxt)<sp/>{</highlight></codeline>
-<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>result;</highlight></codeline>
-<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>orderInd<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="863"><highlight class="normal"></highlight></codeline>
-<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lineStart<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>srcLen<sp/>=<sp/>srcTxt.size();</highlight></codeline>
-<codeline lineno="866"><highlight class="normal"></highlight></codeline>
-<codeline lineno="867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(lineStart<sp/>&lt;=<sp/>srcLen)<sp/>{</highlight></codeline>
-<codeline lineno="868"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>newlinePos<sp/>=<sp/>srcTxt.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">,<sp/>lineStart);</highlight></codeline>
-<codeline lineno="869"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>rawLine<sp/>=<sp/>(newlinePos<sp/>==<sp/>std::string::npos)<sp/>?<sp/>srcTxt.substr(lineStart)<sp/>:<sp/>srcTxt.substr(lineStart,<sp/>newlinePos<sp/>-<sp/>lineStart);</highlight></codeline>
-<codeline lineno="870"><highlight class="normal"></highlight></codeline>
-<codeline lineno="871"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>trim(rawLine);</highlight></codeline>
-<codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty()<sp/>&amp;&amp;<sp/>line[0]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;;&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>line[0]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;#&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>delimPos<sp/>=<sp/>line.find_first_of(</highlight><highlight class="stringliteral">&quot;=:&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(delimPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
-<codeline lineno="875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>real<sp/>ConfigParser<sp/>normally<sp/>lowercases<sp/>option<sp/>(key)<sp/>names<sp/>via<sp/>its</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;optionxform&apos;<sp/>hook,<sp/>but<sp/>IniFile.py<sp/>explicitly<sp/>overrides<sp/>that<sp/>to<sp/>the<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>function<sp/>(&quot;self._parser.optionxform=str&quot;)<sp/>--<sp/>so<sp/>keys<sp/>keep<sp/>their<sp/>original</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="878"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>case<sp/>here<sp/>too.<sp/>Confirmed<sp/>against<sp/>the<sp/>real<sp/>Python<sp/>original:<sp/>&apos;Filename&apos;<sp/>stays</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;Filename&apos;,<sp/>it<sp/>is<sp/>NOT<sp/>lowered<sp/>to<sp/>&apos;filename&apos;.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>trim(line.substr(0,<sp/>delimPos));</highlight></codeline>
-<codeline lineno="881"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>value<sp/>=<sp/>trim(line.substr(delimPos<sp/>+<sp/>1));</highlight></codeline>
-<codeline lineno="882"><highlight class="normal"></highlight></codeline>
-<codeline lineno="883"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[key].emplace_back(orderInd,<sp/>std::move(value));</highlight></codeline>
-<codeline lineno="884"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++orderInd;</highlight></codeline>
-<codeline lineno="885"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>line<sp/>with<sp/>no<sp/>&apos;=&apos;<sp/>or<sp/>&apos;:&apos;<sp/>delimiter<sp/>(and<sp/>not<sp/>blank/a<sp/>comment)<sp/>has<sp/>no<sp/>direct</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="887"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ConfigParser-continuation-line<sp/>equivalent<sp/>here<sp/>(see<sp/>this<sp/>function&apos;s<sp/>own<sp/>doc</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>comment<sp/>on<sp/>why<sp/>continuation<sp/>lines<sp/>are<sp/>moot<sp/>in<sp/>practice)<sp/>--<sp/>silently<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>aborting<sp/>the<sp/>whole<sp/>section&apos;s<sp/>parse,<sp/>unlike<sp/>real<sp/>ConfigParser.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="891"><highlight class="normal"></highlight></codeline>
-<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(newlinePos<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
-<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="894"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lineStart<sp/>=<sp/>newlinePos<sp/>+<sp/>1;</highlight></codeline>
-<codeline lineno="896"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Trims<sp/>whitespace<sp/>from<sp/>both<sp/>ends<sp/>of<sp/>&apos;str&apos;<sp/>--<sp/>not<sp/>a<sp/>member,<sp/>just<sp/>a<sp/>small<sp/>local<sp/>helper;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="805"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>matches<sp/>the<sp/>.strip()<sp/>ConfigParser<sp/>itself<sp/>performs<sp/>on<sp/>keys<sp/>and<sp/>values.<sp/>Goes<sp/>through</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="806"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>StringTools<sp/>so<sp/>that,<sp/>like<sp/>Python&apos;s<sp/>str.strip(),<sp/>Unicode<sp/>whitespace<sp/>counts<sp/>too<sp/>and<sp/>no</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="807"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>multi-byte<sp/>character<sp/>is<sp/>ever<sp/>cut<sp/>in<sp/>half.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="808"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>trim(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>str)<sp/>{</highlight></codeline>
+<codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::string(StringTools::strip(str));</highlight></codeline>
+<codeline lineno="810"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="811"><highlight class="normal"></highlight></codeline>
+<codeline lineno="812"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>no<sp/>key-lowercasing<sp/>helper<sp/>here<sp/>--<sp/>IniFile.py<sp/>sets</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="813"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;self._parser.optionxform=str&quot;<sp/>to<sp/>disable<sp/>ConfigParser&apos;s<sp/>default<sp/>lowercasing,<sp/>so<sp/>keys</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="814"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>keep<sp/>their<sp/>original<sp/>case<sp/>(see<sp/>parseSectionKVPs<sp/>below).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="815"><highlight class="normal"></highlight></codeline>
+<codeline lineno="816"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>parsed<sp/>KVPs<sp/>of<sp/>one<sp/>content<sp/>chunk,<sp/>keyed<sp/>by<sp/>KVP<sp/>key<sp/>--<sp/>every<sp/>value<sp/>a<sp/>duplicated<sp/>key</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="817"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>takes<sp/>is<sp/>kept,<sp/>in<sp/>encounter<sp/>order,<sp/>as<sp/>(orderInd,<sp/>value)<sp/>pairs.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="818"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">SectionKVPs<sp/>=<sp/>tsl::ordered_map&lt;std::string,<sp/>std::vector&lt;std::pair&lt;long<sp/>long,<sp/>std::string&gt;&gt;&gt;;</highlight></codeline>
+<codeline lineno="819"><highlight class="normal"></highlight></codeline>
+<codeline lineno="820"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>entry<sp/>in<sp/>the<sp/>argument<sp/>IfTemplate::build<sp/>expects:<sp/>either<sp/>a<sp/>raw<sp/>conditional<sp/>line</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="821"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(&quot;if<sp/>...&quot;,<sp/>&quot;else&quot;,<sp/>&quot;endif&quot;)<sp/>or<sp/>a<sp/>parsed<sp/>block<sp/>of<sp/>KVPs,<sp/>tagged<sp/>with<sp/>its<sp/>1-based<sp/>line<sp/>number.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="822"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">RawPart<sp/>=<sp/>std::pair&lt;int,<sp/>std::variant&lt;std::string,<sp/>SectionKVPs&gt;&gt;;</highlight></codeline>
+<codeline lineno="823"><highlight class="normal"></highlight></codeline>
+<codeline lineno="824"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="825"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Parses<sp/>one<sp/>section&apos;s<sp/>raw<sp/>KVP<sp/>text<sp/>into<sp/>the<sp/>shape<sp/>IfTemplate::build<sp/>expects<sp/>for<sp/>a<sp/>content</highlight></codeline>
+<codeline lineno="826"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>part<sp/>--<sp/>a<sp/>purpose-built<sp/>single-pass<sp/>parser,<sp/>not<sp/>a<sp/>port<sp/>of<sp/>Python&apos;s<sp/>ConfigParser.</highlight></codeline>
+<codeline lineno="827"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="828"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Preserved:<sp/>blank-line<sp/>and<sp/>full-line-comment<sp/>(&apos;;&apos;/&apos;#&apos;<sp/>prefix)<sp/>skipping;<sp/>splitting<sp/>each<sp/>line</highlight></codeline>
+<codeline lineno="829"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>on<sp/>the<sp/>first<sp/>&apos;=&apos;<sp/>or<sp/>&apos;:&apos;;<sp/>trimming<sp/>whitespace<sp/>around<sp/>both<sp/>key<sp/>and<sp/>value;<sp/>original<sp/>key<sp/>CASE</highlight></codeline>
+<codeline lineno="830"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(the<sp/>pure-Python<sp/>original<sp/>disables<sp/>ConfigParser&apos;s<sp/>default<sp/>key-lowercasing<sp/>&apos;optionxform&apos;</highlight></codeline>
+<codeline lineno="831"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>via<sp/>&quot;self._parser.optionxform=str&quot;,<sp/>so<sp/>keys<sp/>are<sp/>NOT<sp/>lowercased<sp/>here<sp/>either<sp/>--<sp/>confirmed</highlight></codeline>
+<codeline lineno="832"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>against<sp/>the<sp/>real<sp/>Python<sp/>original,<sp/>not<sp/>just<sp/>assumed<sp/>from<sp/>ConfigParser&apos;s<sp/>documented</highlight></codeline>
+<codeline lineno="833"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>default);<sp/>preserving<sp/>EVERY<sp/>value<sp/>for<sp/>a<sp/>duplicate<sp/>key,<sp/>in<sp/>encounter<sp/>order,<sp/>as</highlight></codeline>
+<codeline lineno="834"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(orderInd,<sp/>value)<sp/>pairs<sp/>sharing<sp/>one<sp/>section-wide<sp/>incrementing<sp/>counter<sp/>(the<sp/>direct<sp/>C++</highlight></codeline>
+<codeline lineno="835"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>equivalent<sp/>of<sp/>what<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>KeepAllDict<sp/>+<sp/>&quot;{index}_{value}&quot;-string-</highlight></codeline>
+<codeline lineno="836"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>encoding<sp/>trick<sp/>works<sp/>around<sp/>--<sp/>this<sp/>builds<sp/>the<sp/>same<sp/>(index,<sp/>value)<sp/>shape<sp/>natively,<sp/>with<sp/>no</highlight></codeline>
+<codeline lineno="837"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>encode/decode<sp/>round<sp/>trip).</highlight></codeline>
+<codeline lineno="838"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="839"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Not<sp/>preserved<sp/>(by<sp/>explicit<sp/>user<sp/>direction<sp/>--<sp/>&quot;you<sp/>don&apos;t<sp/>have<sp/>to<sp/>follow<sp/>exactly<sp/>what</highlight></codeline>
+<codeline lineno="840"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>ConfigParser<sp/>does...<sp/>I<sp/>value<sp/>speed&quot;):<sp/>&apos;%&apos;-style<sp/>interpolation<sp/>(values<sp/>are<sp/>taken<sp/>literally,</highlight></codeline>
+<codeline lineno="841"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>so<sp/>a<sp/>bare<sp/>&apos;%&apos;<sp/>never<sp/>raises);<sp/>multi-line<sp/>continuation<sp/>lines<sp/>(moot<sp/>in<sp/>practice<sp/>--<sp/>the</highlight></codeline>
+<codeline lineno="842"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>pure-Python<sp/>original<sp/>already<sp/>strips<sp/>all<sp/>leading<sp/>whitespace<sp/>from<sp/>every<sp/>line<sp/>before<sp/>parsing</highlight></codeline>
+<codeline lineno="843"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>a<sp/>section,<sp/>which<sp/>incidentally<sp/>neuters<sp/>ConfigParser&apos;s<sp/>own<sp/>indentation-based<sp/>continuation</highlight></codeline>
+<codeline lineno="844"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>feature<sp/>anyway);<sp/>ConfigParser&apos;s<sp/>stricter<sp/>parse-error<sp/>behavior<sp/>(a<sp/>malformed<sp/>line<sp/>with<sp/>no</highlight></codeline>
+<codeline lineno="845"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>&apos;=&apos;/&apos;:&apos;<sp/>is<sp/>silently<sp/>skipped<sp/>here,<sp/>rather<sp/>than<sp/>aborting<sp/>the<sp/>whole<sp/>section).</highlight></codeline>
+<codeline lineno="846"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="847"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>parseSectionKVPs(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>srcTxt)<sp/>{</highlight></codeline>
+<codeline lineno="848"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>result;</highlight></codeline>
+<codeline lineno="849"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/>orderInd<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="850"><highlight class="normal"></highlight></codeline>
+<codeline lineno="851"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>lineStart<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="852"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>srcLen<sp/>=<sp/>srcTxt.size();</highlight></codeline>
+<codeline lineno="853"><highlight class="normal"></highlight></codeline>
+<codeline lineno="854"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(lineStart<sp/>&lt;=<sp/>srcLen)<sp/>{</highlight></codeline>
+<codeline lineno="855"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>newlinePos<sp/>=<sp/>srcTxt.find(</highlight><highlight class="charliteral">&apos;\n&apos;</highlight><highlight class="normal">,<sp/>lineStart);</highlight></codeline>
+<codeline lineno="856"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>rawLine<sp/>=<sp/>(newlinePos<sp/>==<sp/>std::string::npos)<sp/>?<sp/>srcTxt.substr(lineStart)<sp/>:<sp/>srcTxt.substr(lineStart,<sp/>newlinePos<sp/>-<sp/>lineStart);</highlight></codeline>
+<codeline lineno="857"><highlight class="normal"></highlight></codeline>
+<codeline lineno="858"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>trim(rawLine);</highlight></codeline>
+<codeline lineno="859"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!line.empty()<sp/>&amp;&amp;<sp/>line[0]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;;&apos;</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>line[0]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;#&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="860"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>delimPos<sp/>=<sp/>line.find_first_of(</highlight><highlight class="stringliteral">&quot;=:&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="861"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(delimPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="862"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>NOTE:<sp/>real<sp/>ConfigParser<sp/>normally<sp/>lowercases<sp/>option<sp/>(key)<sp/>names<sp/>via<sp/>its</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="863"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;optionxform&apos;<sp/>hook,<sp/>but<sp/>IniFile.py<sp/>explicitly<sp/>overrides<sp/>that<sp/>to<sp/>the<sp/>identity</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="864"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>function<sp/>(&quot;self._parser.optionxform=str&quot;)<sp/>--<sp/>so<sp/>keys<sp/>keep<sp/>their<sp/>original</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="865"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>case<sp/>here<sp/>too.<sp/>Confirmed<sp/>against<sp/>the<sp/>real<sp/>Python<sp/>original:<sp/>&apos;Filename&apos;<sp/>stays</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="866"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;Filename&apos;,<sp/>it<sp/>is<sp/>NOT<sp/>lowered<sp/>to<sp/>&apos;filename&apos;.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="867"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>key<sp/>=<sp/>trim(line.substr(0,<sp/>delimPos));</highlight></codeline>
+<codeline lineno="868"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>value<sp/>=<sp/>trim(line.substr(delimPos<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="869"><highlight class="normal"></highlight></codeline>
+<codeline lineno="870"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result[key].emplace_back(orderInd,<sp/>std::move(value));</highlight></codeline>
+<codeline lineno="871"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++orderInd;</highlight></codeline>
+<codeline lineno="872"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="873"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>line<sp/>with<sp/>no<sp/>&apos;=&apos;<sp/>or<sp/>&apos;:&apos;<sp/>delimiter<sp/>(and<sp/>not<sp/>blank/a<sp/>comment)<sp/>has<sp/>no<sp/>direct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="874"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ConfigParser-continuation-line<sp/>equivalent<sp/>here<sp/>(see<sp/>this<sp/>function&apos;s<sp/>own<sp/>doc</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="875"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>comment<sp/>on<sp/>why<sp/>continuation<sp/>lines<sp/>are<sp/>moot<sp/>in<sp/>practice)<sp/>--<sp/>silently<sp/>skipped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="876"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rather<sp/>than<sp/>aborting<sp/>the<sp/>whole<sp/>section&apos;s<sp/>parse,<sp/>unlike<sp/>real<sp/>ConfigParser.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="877"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="878"><highlight class="normal"></highlight></codeline>
+<codeline lineno="879"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(newlinePos<sp/>==<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="880"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="881"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="882"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>lineStart<sp/>=<sp/>newlinePos<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="883"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="884"><highlight class="normal"></highlight></codeline>
+<codeline lineno="885"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="886"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="887"><highlight class="normal"></highlight></codeline>
+<codeline lineno="888"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>in-progress<sp/>state<sp/>for<sp/>the<sp/>one<sp/>section<sp/>readIfTemplates<sp/>is<sp/>currently<sp/>walking.<sp/>Grouped</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="889"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>into<sp/>a<sp/>struct<sp/>purely<sp/>so<sp/>finalizeSection<sp/>below<sp/>can<sp/>take<sp/>it<sp/>as<sp/>a<sp/>single<sp/>parameter<sp/>instead<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="890"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>6<sp/>separate<sp/>by-reference<sp/>arguments<sp/>it<sp/>would<sp/>otherwise<sp/>need.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="891"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SectionAccum<sp/>{</highlight></codeline>
+<codeline lineno="892"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>section&apos;s<sp/>name,<sp/>from<sp/>its<sp/>own<sp/>&quot;[SectionName]&quot;<sp/>header<sp/>line.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="893"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
+<codeline lineno="894"><highlight class="normal"></highlight></codeline>
+<codeline lineno="895"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>index<sp/>into<sp/>fileLines_<sp/>of<sp/>that<sp/>header<sp/>line<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="896"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>startInd<sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="897"><highlight class="normal"></highlight></codeline>
-<codeline lineno="898"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="899"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="898"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>parts<sp/>completed<sp/>so<sp/>far<sp/>--<sp/>conditional<sp/>lines,<sp/>and<sp/>KVP<sp/>blocks<sp/>already<sp/>flushed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="899"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RawPart&gt;<sp/>rawParts;</highlight></codeline>
 <codeline lineno="900"><highlight class="normal"></highlight></codeline>
-<codeline lineno="901"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>in-progress<sp/>state<sp/>for<sp/>the<sp/>one<sp/>section<sp/>readIfTemplates<sp/>is<sp/>currently<sp/>walking.<sp/>Grouped</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="902"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>into<sp/>a<sp/>struct<sp/>purely<sp/>so<sp/>finalizeSection<sp/>below<sp/>can<sp/>take<sp/>it<sp/>as<sp/>a<sp/>single<sp/>parameter<sp/>instead<sp/>of</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="903"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>6<sp/>separate<sp/>by-reference<sp/>arguments<sp/>it<sp/>would<sp/>otherwise<sp/>need.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="904"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">SectionAccum<sp/>{</highlight></codeline>
-<codeline lineno="905"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>section&apos;s<sp/>name,<sp/>from<sp/>its<sp/>own<sp/>&quot;[SectionName]&quot;<sp/>header<sp/>line.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="906"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
-<codeline lineno="907"><highlight class="normal"></highlight></codeline>
-<codeline lineno="908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>index<sp/>into<sp/>fileLines_<sp/>of<sp/>that<sp/>header<sp/>line<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="909"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>startInd<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="910"><highlight class="normal"></highlight></codeline>
-<codeline lineno="911"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>parts<sp/>completed<sp/>so<sp/>far<sp/>--<sp/>conditional<sp/>lines,<sp/>and<sp/>KVP<sp/>blocks<sp/>already<sp/>flushed.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="912"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;RawPart&gt;<sp/>rawParts;</highlight></codeline>
-<codeline lineno="913"><highlight class="normal"></highlight></codeline>
-<codeline lineno="914"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>lines<sp/>seen<sp/>since<sp/>the<sp/>last<sp/>flush,<sp/>not<sp/>yet<sp/>parsed<sp/>into<sp/>a<sp/>RawPart.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="915"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>pendingKvpText;</highlight></codeline>
-<codeline lineno="916"><highlight class="normal"></highlight></codeline>
-<codeline lineno="917"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>1-based<sp/>line<sp/>number<sp/>&apos;pendingKvpText&apos;<sp/>starts<sp/>at.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="918"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pendingStartLineNo<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="919"><highlight class="normal"></highlight></codeline>
-<codeline lineno="920"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>&apos;pendingKvpText&apos;<sp/>has<sp/>had<sp/>anything<sp/>appended<sp/>since<sp/>the<sp/>last<sp/>flush.<sp/>Distinct<sp/>from</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="921"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pendingKvpText<sp/>is<sp/>non-empty&quot;<sp/>--<sp/>a<sp/>run<sp/>of<sp/>blank<sp/>lines<sp/>appends<sp/>only<sp/>&quot;\n&quot;s,<sp/>which<sp/>is</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="922"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>a<sp/>pending<sp/>chunk<sp/>that<sp/>a<sp/>following<sp/>conditional<sp/>line<sp/>must<sp/>flush.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="923"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="924"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="925"><highlight class="normal"></highlight></codeline>
-<codeline lineno="926"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
-<codeline lineno="927"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Finishes<sp/>building<sp/>the<sp/>IfTemplate<sp/>for<sp/>the<sp/>section<sp/>&apos;accum&apos;<sp/>has<sp/>been<sp/>accumulating,<sp/>and<sp/>stores</highlight></codeline>
-<codeline lineno="928"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>it<sp/>into<sp/>&apos;sectionIfTemplates&apos;<sp/>--<sp/>but<sp/>only<sp/>if<sp/>this<sp/>is<sp/>that<sp/>section<sp/>name&apos;s<sp/>FIRST<sp/>occurrence</highlight></codeline>
-<codeline lineno="929"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(matching<sp/>readIfTemplates&apos;<sp/>own<sp/>&apos;handleDuplicateFunc<sp/>=<sp/>lambda<sp/>duplicates:<sp/>duplicates[0]&apos;).</highlight></codeline>
-<codeline lineno="930"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Any<sp/>still-pending<sp/>KVP<sp/>text<sp/>is<sp/>flushed<sp/>first,<sp/>and<sp/>--<sp/>unlike<sp/>the<sp/>mid-scan<sp/>flush<sp/>inside</highlight></codeline>
-<codeline lineno="931"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>readIfTemplates&apos;<sp/>loop<sp/>--<sp/>only<sp/>appended<sp/>if<sp/>it<sp/>actually<sp/>parses<sp/>to<sp/>something<sp/>non-empty</highlight></codeline>
-<codeline lineno="932"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(matching<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>&quot;if<sp/>(currentPart):&quot;<sp/>check).<sp/>Resets<sp/>&apos;accum&apos;s</highlight></codeline>
-<codeline lineno="933"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>part<sp/>state<sp/>afterwards<sp/>so<sp/>the<sp/>next<sp/>section<sp/>starts<sp/>clean.</highlight></codeline>
-<codeline lineno="934"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
-<codeline lineno="935"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Called<sp/>once<sp/>per<sp/>section<sp/>boundary<sp/>as<sp/>those<sp/>boundaries<sp/>are<sp/>discovered<sp/>during<sp/>readIfTemplates&apos;</highlight></codeline>
-<codeline lineno="936"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>single<sp/>pass.<sp/>This<sp/>replaces<sp/>what<sp/>used<sp/>to<sp/>be<sp/>a<sp/>wholly<sp/>separate<sp/>second<sp/>pass<sp/>(the<sp/>old</highlight></codeline>
-<codeline lineno="937"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>IniFile::buildIfTemplate,<sp/>which<sp/>re-walked<sp/>fileLines_[startInd,<sp/>endInd)<sp/>for<sp/>every<sp/>section</highlight></codeline>
-<codeline lineno="938"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>after<sp/>readIfTemplates<sp/>had<sp/>already<sp/>walked<sp/>the<sp/>whole<sp/>file<sp/>once<sp/>just<sp/>to<sp/>find<sp/>those<sp/>boundaries).</highlight></codeline>
-<codeline lineno="939"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="940"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>finalizeSection(SectionAccum&amp;<sp/>accum,</highlight></codeline>
-<codeline lineno="941"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>sectionIfTemplates,</highlight></codeline>
-<codeline lineno="942"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>file,</highlight></codeline>
-<codeline lineno="943"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Z3Context&amp;<sp/>z3Ctx)<sp/>{</highlight></codeline>
-<codeline lineno="944"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!accum.pendingKvpText.empty())<sp/>{</highlight></codeline>
-<codeline lineno="945"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>parsed<sp/>=<sp/>parseSectionKVPs(accum.pendingKvpText);</highlight></codeline>
-<codeline lineno="946"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!parsed.empty())<sp/>{</highlight></codeline>
-<codeline lineno="947"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(accum.pendingStartLineNo),<sp/>std::move(parsed));</highlight></codeline>
-<codeline lineno="948"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="949"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="950"><highlight class="normal"></highlight></codeline>
-<codeline lineno="951"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sectionIfTemplates.find(accum.name)<sp/>==<sp/>sectionIfTemplates.end())<sp/>{</highlight></codeline>
-<codeline lineno="952"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ParseContext<sp/>ctx(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>file,<sp/>accum.startInd<sp/>+<sp/>1);</highlight></codeline>
-<codeline lineno="953"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IfTemplateRunConfig&lt;std::string,<sp/>std::string&gt;<sp/>runConfig{</highlight></codeline>
-<codeline lineno="954"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IniKeywords::Run,</highlight></codeline>
-<codeline lineno="955"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>v)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;<sp/>},</highlight></codeline>
-<codeline lineno="956"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;<sp/>}</highlight></codeline>
-<codeline lineno="957"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="958"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sectionIfTemplates.emplace(accum.name,</highlight></codeline>
-<codeline lineno="959"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IfTemplate&lt;std::string,<sp/>std::string&gt;::build(accum.rawParts,<sp/>runConfig,<sp/>accum.name,<sp/>&amp;ctx,<sp/>&amp;z3Ctx));</highlight></codeline>
-<codeline lineno="960"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="961"><highlight class="normal"></highlight></codeline>
-<codeline lineno="962"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.clear();</highlight></codeline>
-<codeline lineno="963"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText.clear();</highlight></codeline>
-<codeline lineno="964"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="965"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="966"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="967"><highlight class="normal"></highlight></codeline>
-<codeline lineno="968"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFile::isSectionHeaderLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
-<codeline lineno="969"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="970"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>line.size()<sp/>&amp;&amp;<sp/>std::isspace(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(line[i])))<sp/>{</highlight></codeline>
-<codeline lineno="971"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="972"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="973"><highlight class="normal"></highlight></codeline>
-<codeline lineno="974"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(i<sp/>&gt;=<sp/>line.size()<sp/>||<sp/>line[i]<sp/>!=<sp/></highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="975"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="976"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="901"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Content<sp/>lines<sp/>seen<sp/>since<sp/>the<sp/>last<sp/>flush,<sp/>not<sp/>yet<sp/>parsed<sp/>into<sp/>a<sp/>RawPart.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="902"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>pendingKvpText;</highlight></codeline>
+<codeline lineno="903"><highlight class="normal"></highlight></codeline>
+<codeline lineno="904"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>1-based<sp/>line<sp/>number<sp/>&apos;pendingKvpText&apos;<sp/>starts<sp/>at.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="905"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>pendingStartLineNo<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="906"><highlight class="normal"></highlight></codeline>
+<codeline lineno="907"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>&apos;pendingKvpText&apos;<sp/>has<sp/>had<sp/>anything<sp/>appended<sp/>since<sp/>the<sp/>last<sp/>flush.<sp/>Distinct<sp/>from</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="908"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;pendingKvpText<sp/>is<sp/>non-empty&quot;<sp/>--<sp/>a<sp/>run<sp/>of<sp/>blank<sp/>lines<sp/>appends<sp/>only<sp/>&quot;\n&quot;s,<sp/>which<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="909"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>a<sp/>pending<sp/>chunk<sp/>that<sp/>a<sp/>following<sp/>conditional<sp/>line<sp/>must<sp/>flush.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="910"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="911"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="912"><highlight class="normal"></highlight></codeline>
+<codeline lineno="913"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="914"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Finishes<sp/>building<sp/>the<sp/>IfTemplate<sp/>for<sp/>the<sp/>section<sp/>&apos;accum&apos;<sp/>has<sp/>been<sp/>accumulating,<sp/>and<sp/>stores</highlight></codeline>
+<codeline lineno="915"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>it<sp/>into<sp/>&apos;sectionIfTemplates&apos;<sp/>--<sp/>but<sp/>only<sp/>if<sp/>this<sp/>is<sp/>that<sp/>section<sp/>name&apos;s<sp/>FIRST<sp/>occurrence</highlight></codeline>
+<codeline lineno="916"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(matching<sp/>readIfTemplates&apos;<sp/>own<sp/>&apos;handleDuplicateFunc<sp/>=<sp/>lambda<sp/>duplicates:<sp/>duplicates[0]&apos;).</highlight></codeline>
+<codeline lineno="917"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Any<sp/>still-pending<sp/>KVP<sp/>text<sp/>is<sp/>flushed<sp/>first,<sp/>and<sp/>--<sp/>unlike<sp/>the<sp/>mid-scan<sp/>flush<sp/>inside</highlight></codeline>
+<codeline lineno="918"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>readIfTemplates&apos;<sp/>loop<sp/>--<sp/>only<sp/>appended<sp/>if<sp/>it<sp/>actually<sp/>parses<sp/>to<sp/>something<sp/>non-empty</highlight></codeline>
+<codeline lineno="919"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>(matching<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>&quot;if<sp/>(currentPart):&quot;<sp/>check).<sp/>Resets<sp/>&apos;accum&apos;s</highlight></codeline>
+<codeline lineno="920"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>part<sp/>state<sp/>afterwards<sp/>so<sp/>the<sp/>next<sp/>section<sp/>starts<sp/>clean.</highlight></codeline>
+<codeline lineno="921"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*</highlight></codeline>
+<codeline lineno="922"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>Called<sp/>once<sp/>per<sp/>section<sp/>boundary<sp/>as<sp/>those<sp/>boundaries<sp/>are<sp/>discovered<sp/>during<sp/>readIfTemplates&apos;</highlight></codeline>
+<codeline lineno="923"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>single<sp/>pass.<sp/>This<sp/>replaces<sp/>what<sp/>used<sp/>to<sp/>be<sp/>a<sp/>wholly<sp/>separate<sp/>second<sp/>pass<sp/>(the<sp/>old</highlight></codeline>
+<codeline lineno="924"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>IniFile::buildIfTemplate,<sp/>which<sp/>re-walked<sp/>fileLines_[startInd,<sp/>endInd)<sp/>for<sp/>every<sp/>section</highlight></codeline>
+<codeline lineno="925"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*<sp/>after<sp/>readIfTemplates<sp/>had<sp/>already<sp/>walked<sp/>the<sp/>whole<sp/>file<sp/>once<sp/>just<sp/>to<sp/>find<sp/>those<sp/>boundaries).</highlight></codeline>
+<codeline lineno="926"><highlight class="comment"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="927"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>finalizeSection(SectionAccum&amp;<sp/>accum,</highlight></codeline>
+<codeline lineno="928"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>sectionIfTemplates,</highlight></codeline>
+<codeline lineno="929"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>file,</highlight></codeline>
+<codeline lineno="930"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Z3Context&amp;<sp/>z3Ctx)<sp/>{</highlight></codeline>
+<codeline lineno="931"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!accum.pendingKvpText.empty())<sp/>{</highlight></codeline>
+<codeline lineno="932"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionKVPs<sp/>parsed<sp/>=<sp/>parseSectionKVPs(accum.pendingKvpText);</highlight></codeline>
+<codeline lineno="933"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!parsed.empty())<sp/>{</highlight></codeline>
+<codeline lineno="934"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(accum.pendingStartLineNo),<sp/>std::move(parsed));</highlight></codeline>
+<codeline lineno="935"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="936"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="937"><highlight class="normal"></highlight></codeline>
+<codeline lineno="938"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(sectionIfTemplates.find(accum.name)<sp/>==<sp/>sectionIfTemplates.end())<sp/>{</highlight></codeline>
+<codeline lineno="939"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ParseContext<sp/>ctx(</highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,<sp/>file,<sp/>accum.startInd<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="940"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IfTemplateRunConfig&lt;std::string,<sp/>std::string&gt;<sp/>runConfig{</highlight></codeline>
+<codeline lineno="941"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IniKeywords::Run,</highlight></codeline>
+<codeline lineno="942"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>v)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>v;<sp/>},</highlight></codeline>
+<codeline lineno="943"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>s)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;<sp/>}</highlight></codeline>
+<codeline lineno="944"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="945"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sectionIfTemplates.emplace(accum.name,</highlight></codeline>
+<codeline lineno="946"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>IfTemplate&lt;std::string,<sp/>std::string&gt;::build(accum.rawParts,<sp/>runConfig,<sp/>accum.name,<sp/>&amp;ctx,<sp/>&amp;z3Ctx));</highlight></codeline>
+<codeline lineno="947"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="948"><highlight class="normal"></highlight></codeline>
+<codeline lineno="949"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.clear();</highlight></codeline>
+<codeline lineno="950"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText.clear();</highlight></codeline>
+<codeline lineno="951"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="952"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="953"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="954"><highlight class="normal"></highlight></codeline>
+<codeline lineno="955"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFile::isSectionHeaderLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="956"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>rest<sp/>=<sp/>StringTools::lstrip(line);</highlight></codeline>
+<codeline lineno="957"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rest.starts_with(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">)<sp/>&amp;&amp;<sp/>rest.find(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">)<sp/>!=<sp/>std::string_view::npos;</highlight></codeline>
+<codeline lineno="958"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="959"><highlight class="normal"></highlight></codeline>
+<codeline lineno="960"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFile::getSectionNameFromLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="961"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftPos<sp/>=<sp/>line.find(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="962"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightPos<sp/>=<sp/>line.rfind(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="963"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
+<codeline lineno="964"><highlight class="normal"></highlight></codeline>
+<codeline lineno="965"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(leftPos<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>rightPos<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>rightPos<sp/>&gt;<sp/>leftPos)<sp/>{</highlight></codeline>
+<codeline lineno="966"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(leftPos<sp/>+<sp/>1,<sp/>rightPos<sp/>-<sp/>leftPos<sp/>-<sp/>1);</highlight></codeline>
+<codeline lineno="967"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rightPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="968"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(0,<sp/>rightPos);</highlight></codeline>
+<codeline lineno="969"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(leftPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
+<codeline lineno="970"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(leftPos<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="971"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="972"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line;</highlight></codeline>
+<codeline lineno="973"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="974"><highlight class="normal"></highlight></codeline>
+<codeline lineno="975"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trim(name);</highlight></codeline>
+<codeline lineno="976"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="977"><highlight class="normal"></highlight></codeline>
-<codeline lineno="978"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>line.find(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">,<sp/>i)<sp/>!=<sp/>std::string::npos;</highlight></codeline>
-<codeline lineno="979"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="978"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFile::isConditionalLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="979"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string_view<sp/>rest<sp/>=<sp/>StringTools::lstrip(line);</highlight></codeline>
 <codeline lineno="980"><highlight class="normal"></highlight></codeline>
-<codeline lineno="981"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFile::getSectionNameFromLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
-<codeline lineno="982"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>leftPos<sp/>=<sp/>line.find(</highlight><highlight class="charliteral">&apos;[&apos;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="983"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>rightPos<sp/>=<sp/>line.rfind(</highlight><highlight class="charliteral">&apos;]&apos;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="984"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>name;</highlight></codeline>
-<codeline lineno="985"><highlight class="normal"></highlight></codeline>
-<codeline lineno="986"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(leftPos<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>rightPos<sp/>!=<sp/>std::string::npos<sp/>&amp;&amp;<sp/>rightPos<sp/>&gt;<sp/>leftPos)<sp/>{</highlight></codeline>
-<codeline lineno="987"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(leftPos<sp/>+<sp/>1,<sp/>rightPos<sp/>-<sp/>leftPos<sp/>-<sp/>1);</highlight></codeline>
-<codeline lineno="988"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rightPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
-<codeline lineno="989"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(0,<sp/>rightPos);</highlight></codeline>
-<codeline lineno="990"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(leftPos<sp/>!=<sp/>std::string::npos)<sp/>{</highlight></codeline>
-<codeline lineno="991"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line.substr(leftPos<sp/>+<sp/>1);</highlight></codeline>
-<codeline lineno="992"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
-<codeline lineno="993"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>name<sp/>=<sp/>line;</highlight></codeline>
-<codeline lineno="994"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="995"><highlight class="normal"></highlight></codeline>
-<codeline lineno="996"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>trim(name);</highlight></codeline>
+<codeline lineno="981"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checked<sp/>in<sp/>the<sp/>same<sp/>order<sp/>as<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>compiled<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="982"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(&quot;endif|else|if|elif&quot;)<sp/>--<sp/>order<sp/>doesn&apos;t<sp/>actually<sp/>matter<sp/>for<sp/>correctness<sp/>here<sp/>(none<sp/>of</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="983"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>these<sp/>4<sp/>keywords<sp/>is<sp/>a<sp/>prefix<sp/>of<sp/>another),<sp/>kept<sp/>only<sp/>for<sp/>easy<sp/>comparison<sp/>against<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="984"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>source<sp/>pattern.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="985"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>keywords[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;endif&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;else&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;if&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;elif&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="986"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>keyword<sp/>:<sp/>keywords)<sp/>{</highlight></codeline>
+<codeline lineno="987"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(rest.starts_with(keyword))<sp/>{</highlight></codeline>
+<codeline lineno="988"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="989"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="990"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="991"><highlight class="normal"></highlight></codeline>
+<codeline lineno="992"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="993"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="994"><highlight class="normal"></highlight></codeline>
+<codeline lineno="995"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFile::stripHideOriginalComment(std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
+<codeline lineno="996"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>StringTools::eraseAll(line,<sp/>IniKeywords::HideOriginalComment);</highlight></codeline>
 <codeline lineno="997"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="998"><highlight class="normal"></highlight></codeline>
-<codeline lineno="999"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>IniFile::isConditionalLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
-<codeline lineno="1000"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="1001"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(i<sp/>&lt;<sp/>line.size()<sp/>&amp;&amp;<sp/>std::isspace(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(line[i])))<sp/>{</highlight></codeline>
-<codeline lineno="1002"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++i;</highlight></codeline>
-<codeline lineno="1003"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1004"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1005"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checked<sp/>in<sp/>the<sp/>same<sp/>order<sp/>as<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>compiled<sp/>pattern</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1006"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(&quot;endif|else|if|elif&quot;)<sp/>--<sp/>order<sp/>doesn&apos;t<sp/>actually<sp/>matter<sp/>for<sp/>correctness<sp/>here<sp/>(none<sp/>of</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1007"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>these<sp/>4<sp/>keywords<sp/>is<sp/>a<sp/>prefix<sp/>of<sp/>another),<sp/>kept<sp/>only<sp/>for<sp/>easy<sp/>comparison<sp/>against<sp/>that</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1008"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>source<sp/>pattern.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1009"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>keywords[]<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;endif&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;else&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;if&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;elif&quot;</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="1010"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>keyword<sp/>:<sp/>keywords)<sp/>{</highlight></codeline>
-<codeline lineno="1011"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(line.compare(i,<sp/>keyword.size(),<sp/>keyword)<sp/>==<sp/>0)<sp/>{</highlight></codeline>
-<codeline lineno="1012"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1013"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1014"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1015"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1016"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1017"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1018"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1019"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFile::stripHideOriginalComment(std::string&amp;<sp/>line)<sp/>{</highlight></codeline>
-<codeline lineno="1020"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>StringTools::eraseAll(line,<sp/>IniKeywords::HideOriginalComment);</highlight></codeline>
-<codeline lineno="1021"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1022"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1023"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>IniFile::readIfTemplates()<sp/>{</highlight></codeline>
-<codeline lineno="1024"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fileLinesRead_)<sp/>{</highlight></codeline>
-<codeline lineno="1025"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readFileLines();</highlight></codeline>
-<codeline lineno="1026"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="999"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>IniFile::readIfTemplates()<sp/>{</highlight></codeline>
+<codeline lineno="1000"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!fileLinesRead_)<sp/>{</highlight></codeline>
+<codeline lineno="1001"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readFileLines();</highlight></codeline>
+<codeline lineno="1002"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1003"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1004"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sectionIfTemplates_.clear();</highlight></codeline>
+<codeline lineno="1005"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1006"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inSection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1007"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionAccum<sp/>accum;</highlight></codeline>
+<codeline lineno="1008"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1009"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>fileLinesLen<sp/>=<sp/>fileLines_.size();</highlight></codeline>
+<codeline lineno="1010"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1011"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>fileLinesLen;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="1012"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>fileLines_[i];</highlight></codeline>
+<codeline lineno="1013"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stripHideOriginalComment(line);</highlight></codeline>
+<codeline lineno="1014"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1015"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHeader<sp/>=<sp/>isSectionHeaderLine(line);</highlight></codeline>
+<codeline lineno="1016"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1017"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isHeader)<sp/>{</highlight></codeline>
+<codeline lineno="1018"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(inSection)<sp/>{</highlight></codeline>
+<codeline lineno="1019"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finalizeSection(accum,<sp/>sectionIfTemplates_,<sp/>file_,<sp/>z3Ctx_);</highlight></codeline>
+<codeline lineno="1020"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1021"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1022"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.name<sp/>=<sp/>getSectionNameFromLine(line);</highlight></codeline>
+<codeline lineno="1023"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.startInd<sp/>=<sp/>i;</highlight></codeline>
+<codeline lineno="1024"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inSection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1025"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1026"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="1027"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1028"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sectionIfTemplates_.clear();</highlight></codeline>
-<codeline lineno="1029"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1030"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>inSection<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1031"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SectionAccum<sp/>accum;</highlight></codeline>
-<codeline lineno="1032"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1033"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>fileLinesLen<sp/>=<sp/>fileLines_.size();</highlight></codeline>
-<codeline lineno="1034"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1035"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>fileLinesLen;<sp/>++i)<sp/>{</highlight></codeline>
-<codeline lineno="1036"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>line<sp/>=<sp/>fileLines_[i];</highlight></codeline>
-<codeline lineno="1037"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stripHideOriginalComment(line);</highlight></codeline>
-<codeline lineno="1038"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1039"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isHeader<sp/>=<sp/>isSectionHeaderLine(line);</highlight></codeline>
-<codeline lineno="1040"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1041"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isHeader)<sp/>{</highlight></codeline>
-<codeline lineno="1042"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(inSection)<sp/>{</highlight></codeline>
-<codeline lineno="1043"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finalizeSection(accum,<sp/>sectionIfTemplates_,<sp/>file_,<sp/>z3Ctx_);</highlight></codeline>
-<codeline lineno="1044"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1045"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1046"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.name<sp/>=<sp/>getSectionNameFromLine(line);</highlight></codeline>
-<codeline lineno="1047"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.startInd<sp/>=<sp/>i;</highlight></codeline>
-<codeline lineno="1048"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>inSection<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1049"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1050"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1051"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1052"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!inSection)<sp/>{</highlight></codeline>
-<codeline lineno="1053"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1054"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1055"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1056"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isConditional<sp/>=<sp/>isConditionalLine(line);</highlight></codeline>
-<codeline lineno="1057"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1058"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mirrors<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>&apos;_processIfTemplate&apos;:<sp/>flushing<sp/>here<sp/>is</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1059"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unconditional<sp/>(even<sp/>an<sp/>empty<sp/>parse<sp/>result<sp/>gets<sp/>appended)<sp/>--<sp/>only<sp/>the<sp/>tail<sp/>flush<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1060"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>finalizeSection<sp/>is<sp/>gated<sp/>on<sp/>a<sp/>non-empty<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="1061"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isConditional<sp/>&amp;&amp;<sp/>accum.hasPending)<sp/>{</highlight></codeline>
-<codeline lineno="1062"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(accum.pendingStartLineNo),<sp/>parseSectionKVPs(accum.pendingKvpText));</highlight></codeline>
-<codeline lineno="1063"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText.clear();</highlight></codeline>
-<codeline lineno="1064"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1065"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1066"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1067"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isConditional)<sp/>{</highlight></codeline>
-<codeline lineno="1068"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1),<sp/>line);</highlight></codeline>
-<codeline lineno="1069"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1070"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1071"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1072"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText<sp/>+=<sp/>line;</highlight></codeline>
-<codeline lineno="1073"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!accum.hasPending)<sp/>{</highlight></codeline>
-<codeline lineno="1074"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingStartLineNo<sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
-<codeline lineno="1075"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1076"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1077"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1078"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1079"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(inSection)<sp/>{</highlight></codeline>
-<codeline lineno="1080"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finalizeSection(accum,<sp/>sectionIfTemplates_,<sp/>file_,<sp/>z3Ctx_);</highlight></codeline>
-<codeline lineno="1081"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1082"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1083"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ifTemplatesRead_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="1084"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sectionIfTemplates_;</highlight></codeline>
-<codeline lineno="1085"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1086"><highlight class="normal"></highlight></codeline>
-<codeline lineno="1087"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>IniFile::getIfTemplates(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>flush)<sp/>{</highlight></codeline>
-<codeline lineno="1088"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ifTemplatesRead_<sp/>||<sp/>flush)<sp/>{</highlight></codeline>
-<codeline lineno="1089"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readIfTemplates();</highlight></codeline>
-<codeline lineno="1090"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1091"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sectionIfTemplates_;</highlight></codeline>
-<codeline lineno="1092"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="1093"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="1028"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!inSection)<sp/>{</highlight></codeline>
+<codeline lineno="1029"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1030"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1031"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1032"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isConditional<sp/>=<sp/>isConditionalLine(line);</highlight></codeline>
+<codeline lineno="1033"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1034"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mirrors<sp/>the<sp/>pure-Python<sp/>original&apos;s<sp/>own<sp/>&apos;_processIfTemplate&apos;:<sp/>flushing<sp/>here<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1035"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>unconditional<sp/>(even<sp/>an<sp/>empty<sp/>parse<sp/>result<sp/>gets<sp/>appended)<sp/>--<sp/>only<sp/>the<sp/>tail<sp/>flush<sp/>inside</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1036"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>finalizeSection<sp/>is<sp/>gated<sp/>on<sp/>a<sp/>non-empty<sp/>result.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1037"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isConditional<sp/>&amp;&amp;<sp/>accum.hasPending)<sp/>{</highlight></codeline>
+<codeline lineno="1038"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(accum.pendingStartLineNo),<sp/>parseSectionKVPs(accum.pendingKvpText));</highlight></codeline>
+<codeline lineno="1039"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText.clear();</highlight></codeline>
+<codeline lineno="1040"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1041"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1042"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1043"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(isConditional)<sp/>{</highlight></codeline>
+<codeline lineno="1044"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.rawParts.emplace_back(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(i<sp/>+<sp/>1),<sp/>line);</highlight></codeline>
+<codeline lineno="1045"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">continue</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1046"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1047"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1048"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingKvpText<sp/>+=<sp/>line;</highlight></codeline>
+<codeline lineno="1049"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!accum.hasPending)<sp/>{</highlight></codeline>
+<codeline lineno="1050"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.pendingStartLineNo<sp/>=<sp/>i<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="1051"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1052"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>accum.hasPending<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1053"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1054"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1055"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(inSection)<sp/>{</highlight></codeline>
+<codeline lineno="1056"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>finalizeSection(accum,<sp/>sectionIfTemplates_,<sp/>file_,<sp/>z3Ctx_);</highlight></codeline>
+<codeline lineno="1057"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1058"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1059"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ifTemplatesRead_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="1060"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sectionIfTemplates_;</highlight></codeline>
+<codeline lineno="1061"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1062"><highlight class="normal"></highlight></codeline>
+<codeline lineno="1063"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>tsl::ordered_map&lt;std::string,<sp/>std::unique_ptr&lt;IfTemplate&lt;std::string,<sp/>std::string&gt;&gt;&gt;&amp;<sp/>IniFile::getIfTemplates(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>flush)<sp/>{</highlight></codeline>
+<codeline lineno="1064"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!ifTemplatesRead_<sp/>||<sp/>flush)<sp/>{</highlight></codeline>
+<codeline lineno="1065"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>readIfTemplates();</highlight></codeline>
+<codeline lineno="1066"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1067"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>sectionIfTemplates_;</highlight></codeline>
+<codeline lineno="1068"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="1069"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/files/IniFile.cpp"/>
   </compounddef>

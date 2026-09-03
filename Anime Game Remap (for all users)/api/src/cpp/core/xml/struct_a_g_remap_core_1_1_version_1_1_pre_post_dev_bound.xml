@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="202" column="21" bodyfile="src/model/Version.cpp" bodystart="144" bodyend="158"/>
+        <location file="include/AGRemapCore/model/Version.h" line="202" column="21" bodyfile="src/model/Version.cpp" bodystart="146" bodyend="160"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound_1a2f58e09bef46f01746df82cc5f041153" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -118,7 +118,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="203" column="22" bodyfile="src/model/Version.cpp" bodystart="160" bodyend="162"/>
+        <location file="include/AGRemapCore/model/Version.h" line="203" column="22" bodyfile="src/model/Version.cpp" bodystart="162" bodyend="164"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

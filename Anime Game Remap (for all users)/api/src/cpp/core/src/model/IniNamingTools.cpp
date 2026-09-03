@@ -1,12 +1,15 @@
 #include "AGRemapCore/model/IniNamingTools.h"
 
-#include <cctype>
 #include <filesystem>
 #include <optional>
+#include <utility>
+#include <vector>
 
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/TextTools.h"
+#include "AGRemapCore/tools/grapheme/GraphemeRange.h"
 
 
 namespace AGRemapCore {
@@ -14,33 +17,53 @@ namespace AGRemapCore {
     namespace {
         namespace fs = std::filesystem;
 
-        bool asciiIEquals(char a, char b) {
-            return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
-        }
-
-        // Case-insensitive (ASCII) search for the LAST occurrence of 'needle' in 'haystack' --
-        // mirrors what the pure-Python original's getObjRemapFixName achieves indirectly (reverse
-        // both strings, then re.split(..., maxsplit = 1) from the front is equivalent to finding
-        // the last match from the end of the un-reversed string; verified empirically against the
-        // Python original before simplifying it down to this direct form). ASCII-only, matching
-        // this codebase's existing precedent for fixed-shape identifier matching
-        // (IfPredPartTypeTools's toLowerAscii) rather than pulling in full Unicode case-folding for
-        // what are, in practice, always ASCII component/mod names.
-        std::optional<size_t> rfindCaseInsensitiveAscii(std::string_view haystack, std::string_view needle) {
-            if (needle.empty() || needle.size() > haystack.size()) {
+        // Case-insensitive search for the LAST occurrence of 'needle' in 'haystack' -- mirrors what
+        // the pure-Python original's getObjRemapFixName achieves indirectly (reverse both strings,
+        // then re.split(..., maxsplit = 1) from the front is equivalent to finding the last match
+        // from the end of the un-reversed string; verified empirically against the Python original
+        // before simplifying it down to this direct form).
+        //
+        // Compared grapheme by grapheme, each lowered through StringTools, so a non-ASCII mod
+        // object name (or one with combining marks / emojis) matches as one would expect. Returns
+        // the byte offset and byte length of the match within the *original* 'haystack', since
+        // lowering can change a character's byte length and the caller splices the original.
+        std::optional<std::pair<size_t, size_t>> rfindCaseInsensitive(std::string_view haystack, std::string_view needle) {
+            if (needle.empty()) {
                 return std::nullopt;
             }
 
-            for (size_t i = haystack.size() - needle.size() + 1; i-- > 0; ) {
+            std::vector<std::string> needleGraphemes;
+            for (std::string_view grapheme : GraphemeRange(needle)) {
+                needleGraphemes.push_back(StringTools::toLower(grapheme));
+            }
+
+            std::vector<std::string> haystackGraphemes;
+            std::vector<size_t> graphemeStarts;
+            size_t pos = 0;
+            for (std::string_view grapheme : GraphemeRange(haystack)) {
+                haystackGraphemes.push_back(StringTools::toLower(grapheme));
+                graphemeStarts.push_back(pos);
+                pos += grapheme.size();
+            }
+            // One past the last grapheme, so a match ending on it has an end offset too.
+            graphemeStarts.push_back(pos);
+
+            if (needleGraphemes.size() > haystackGraphemes.size()) {
+                return std::nullopt;
+            }
+
+            for (size_t i = haystackGraphemes.size() - needleGraphemes.size() + 1; i-- > 0; ) {
                 bool match = true;
-                for (size_t j = 0; j < needle.size(); ++j) {
-                    if (!asciiIEquals(haystack[i + j], needle[j])) {
+                for (size_t j = 0; j < needleGraphemes.size(); ++j) {
+                    if (haystackGraphemes[i + j] != needleGraphemes[j]) {
                         match = false;
                         break;
                     }
                 }
                 if (match) {
-                    return i;
+                    size_t start = graphemeStarts[i];
+                    size_t end = graphemeStarts[i + needleGraphemes.size()];
+                    return std::make_pair(start, end - start);
                 }
             }
 
@@ -228,12 +251,13 @@ namespace AGRemapCore {
         std::string newObjNameStr = TextTools::capitalize(newObjName.first) + TextTools::capitalize(newObjName.second);
         std::string capModName = TextTools::capitalize(modName);
 
-        std::optional<size_t> pos = rfindCaseInsensitiveAscii(name, objNameStr);
-        if (!pos.has_value()) {
+        std::optional<std::pair<size_t, size_t>> match = rfindCaseInsensitive(name, objNameStr);
+        if (!match.has_value()) {
             return getRemapFixName(name, capModName + newObjNameStr);
         }
 
-        std::string newName = name.substr(0, *pos) + newObjNameStr + name.substr(*pos + objNameStr.size());
+        auto [matchStart, matchLen] = *match;
+        std::string newName = name.substr(0, matchStart) + newObjNameStr + name.substr(matchStart + matchLen);
         return getRemapFixName(newName, capModName);
     }
 }

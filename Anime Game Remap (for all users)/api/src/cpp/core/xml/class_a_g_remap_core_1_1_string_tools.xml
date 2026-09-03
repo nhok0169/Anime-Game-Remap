@@ -47,16 +47,16 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="9" bodyend="12"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="43" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="46" bodyend="49"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
         <definition>size_t AGRemapCore::StringTools::countGrapheme</definition>
-        <argsstring>(const std::string &amp;txt)</argsstring>
+        <argsstring>(std::string_view txt)</argsstring>
         <name>countGrapheme</name>
         <qualifiedname>AGRemapCore::StringTools::countGrapheme</qualifiedname>
         <param>
-          <type>const std::string &amp;</type>
+          <type>std::string_view</type>
           <declname>txt</declname>
         </param>
         <briefdescription>
@@ -78,7 +78,45 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="38" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="14" bodyend="43"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="52" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="51" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a9b3c50f415349916ea2d45c1531e29e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::isSpace</definition>
+        <argsstring>(std::string_view grapheme)</argsstring>
+        <name>isSpace</name>
+        <qualifiedname>AGRemapCore::StringTools::isSpace</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>grapheme</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether &apos;grapheme&apos; is made up entirely of whitespace, similar to `Python&apos;s str.isspace`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A codepoint counts as whitespace under the same rule `Python`_ uses: its bidirectional
+class is ``WS``, ``B`` or ``S``, or its category is ``Zs``. This covers the `ASCII`_
+whitespace characters as well as eg. the no-break space (``U+00A0``), the ideographic
+space (``U+3000``) and the line/paragraph separators (``U+2028``/``U+2029``)
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>grapheme</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to check. Usually a single <computeroutput>grapheme</computeroutput>_, but any text is accepted</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether every codepoint in &apos;grapheme&apos; is whitespace. The empty string is not whitespace </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="69" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="64" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string_view &gt;</type>
@@ -109,7 +147,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="47" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="45" bodyend="71"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="78" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="82" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -125,7 +163,11 @@
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Strips whitespace from both ends of a string, similar to `Python&apos;s str.strip`_
+Strips whitespace from both ends of a string, similar to `Python&apos;s str.strip`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Whitespace is decided per `grapheme`_ by :cpp:func:`isSpace`, so `Unicode`_ whitespace is
+stripped too, and a whitespace codepoint that is part of a larger `grapheme`_ (eg. a
+space carrying a combining mark) is left alone
 </verbatim></para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
@@ -142,7 +184,386 @@ Strips whitespace from both ends of a string, similar to `Python&apos;s str.stri
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="59" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="73" bodyend="86"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="94" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="139" bodyend="141"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a6cd686a93edd620ac7f44163ebad12b8" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::StringTools::lstrip</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>lstrip</name>
+        <qualifiedname>AGRemapCore::StringTools::lstrip</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Strips whitespace from the start of a string, similar to `Python&apos;s str.lstrip`_.
+See :cpp:func:`strip` for what counts as whitespace
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to strip</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant stripped text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="107" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="110" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a075b59ee14bdca80cbaedef14d0360e9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::StringTools::rstrip</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>rstrip</name>
+        <qualifiedname>AGRemapCore::StringTools::rstrip</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Strips whitespace from the end of a string, similar to `Python&apos;s str.rstrip`_.
+See :cpp:func:`strip` for what counts as whitespace
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to strip</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The resultant stripped text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="120" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="123" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::StringTools::toLower</definition>
+        <argsstring>(std::string_view txt)</argsstring>
+        <name>toLower</name>
+        <qualifiedname>AGRemapCore::StringTools::toLower</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Lowercases every codepoint of &apos;txt&apos;, similar to `Python&apos;s str.lower`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Uses `utf8proc`_&apos;s simple per-codepoint case mapping (:cpp:func:`utf8proc_tolower`),
+   the same as :cpp:func:`TextTools::capitalize` -- this does not perform full Unicode
+   special-casing (eg. ``&quot;İ&quot;`` lowercasing to ``&quot;i̇&quot;``, 2 codepoints from 1), matching
+   `Python`_&apos;s own ``str.lower()`` for all but those few characters. `Grapheme`_ boundaries
+   are unaffected by the mapping, so the result has the same number of `graphemes`_
+   as &apos;txt&apos;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to lowercase</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The lowercased text </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="140" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="143" bodyend="172"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1abc11402ae792e8fd8c6a5aae0cd83873" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::StringTools::firstGraphemes</definition>
+        <argsstring>(std::string_view txt, size_t count)</argsstring>
+        <name>firstGraphemes</name>
+        <qualifiedname>AGRemapCore::StringTools::firstGraphemes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the first few `graphemes`_ of &apos;txt&apos;, similar to `Python`_&apos;s ``txt[:count]``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to take from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many <computeroutput>graphemes</computeroutput>_ to take</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The prefix of &apos;txt&apos; holding its first &apos;count&apos; <computeroutput>graphemes</computeroutput>_, or all of &apos;txt&apos; if it has fewer than &apos;count&apos; <computeroutput>graphemes</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="153" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="174" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afa58138e01e3648847d238ce624e53dd" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view AGRemapCore::StringTools::lastGraphemes</definition>
+        <argsstring>(std::string_view txt, size_t count)</argsstring>
+        <name>lastGraphemes</name>
+        <qualifiedname>AGRemapCore::StringTools::lastGraphemes</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the last few `graphemes`_ of &apos;txt&apos;, similar to `Python`_&apos;s ``txt[-count:]``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to take from </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many <computeroutput>graphemes</computeroutput>_ to take</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The suffix of &apos;txt&apos; holding its last &apos;count&apos; <computeroutput>graphemes</computeroutput>_, or all of &apos;txt&apos; if it has fewer than &apos;count&apos; <computeroutput>graphemes</computeroutput>_ </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="166" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="189" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1af15183a589c39a0bb7dc678e7e7db1a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::startsWith</definition>
+        <argsstring>(std::string_view txt, std::string_view prefix)</argsstring>
+        <name>startsWith</name>
+        <qualifiedname>AGRemapCore::StringTools::startsWith</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>prefix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether &apos;txt&apos; starts with &apos;prefix&apos;, compared by whole `graphemes`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Unlike a byte-wise ``std::string_view::starts_with``, a prefix never matches only part of
+a `grapheme`_: ``&quot;e&quot;`` is not a prefix of ``&quot;é&quot;`` written as ``&quot;e&quot;`` + a combining acute
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The prefix to look for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;txt&apos; starts with &apos;prefix&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="182" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="210" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::endsWith</definition>
+        <argsstring>(std::string_view txt, std::string_view suffix)</argsstring>
+        <name>endsWith</name>
+        <qualifiedname>AGRemapCore::StringTools::endsWith</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether &apos;txt&apos; ends with &apos;suffix&apos;, compared by whole `graphemes`_.
+See :cpp:func:`startsWith` for how this differs from a byte-wise check
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>suffix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The suffix to look for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;txt&apos; ends with &apos;suffix&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="196" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="214" bodyend="216"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::equalsIgnoreCase</definition>
+        <argsstring>(std::string_view txt1, std::string_view txt2)</argsstring>
+        <name>equalsIgnoreCase</name>
+        <qualifiedname>AGRemapCore::StringTools::equalsIgnoreCase</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt1</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt2</declname>
+        </param>
+        <briefdescription>
+<para>Whether 2 strings are equal, ignoring case (see <ref refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" kindref="member">toLower</ref> for how case is mapped). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The first text to compare </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>txt2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The second text to compare</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether both texts are equal ignoring case </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="206" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="218" bodyend="220"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StringTools::endsWithIgnoreCase</definition>
+        <argsstring>(std::string_view txt, std::string_view suffix)</argsstring>
+        <name>endsWithIgnoreCase</name>
+        <qualifiedname>AGRemapCore::StringTools::endsWithIgnoreCase</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>txt</declname>
+        </param>
+        <param>
+          <type>std::string_view</type>
+          <declname>suffix</declname>
+        </param>
+        <briefdescription>
+<para>Whether &apos;txt&apos; ends with &apos;suffix&apos;, compared by whole <computeroutput>graphemes</computeroutput>_ and ignoring case (see <ref refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" kindref="member">toLower</ref> for how case is mapped). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>txt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to check </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>suffix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The suffix to look for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether &apos;txt&apos; ends with &apos;suffix&apos; ignoring case </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="216" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="222" bodyend="226"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -183,21 +604,44 @@ Strips whitespace from both ends of a string, similar to `Python&apos;s str.stri
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="67" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="88" bodyend="97"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="224" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="228" bodyend="237"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
-<para>Tools for handling with strings. </para>
     </briefdescription>
     <detaileddescription>
+<para><verbatim>embed:rst 
+Tools for handling with strings :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Every text operation in this class works on `graphemes`_ (what a person sees as one
+   character) rather than on bytes or on individual `Unicode`_ codepoints, so emojis,
+   combining marks, ZWJ sequences and other multi-codepoint characters are never split apart
+   or miscounted. Unicode-aware behaviour (whitespace, case) is provided by `utf8proc`_.
+
+.. warning::
+   Text is expected to be UTF-8. A byte that is not valid UTF-8 is treated as a `grapheme`_ of
+   its own that is neither whitespace nor cased, and is passed through unchanged -- these
+   methods never throw on malformed input
+</verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/StringTools.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="15" bodyend="68"/>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="29" bodyend="225"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
-      <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>endsWith</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>endsWithIgnoreCase</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>equalsIgnoreCase</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>eraseAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1abc11402ae792e8fd8c6a5aae0cd83873" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>firstGraphemes</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a9b3c50f415349916ea2d45c1531e29e5" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>isSpace</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1afa58138e01e3648847d238ce624e53dd" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>lastGraphemes</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a6cd686a93edd620ac7f44163ebad12b8" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>lstrip</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a075b59ee14bdca80cbaedef14d0360e9" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>rstrip</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>splitlines</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1af15183a589c39a0bb7dc678e7e7db1a1" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>startsWith</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>strip</name></member>
+      <member refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>toLower</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

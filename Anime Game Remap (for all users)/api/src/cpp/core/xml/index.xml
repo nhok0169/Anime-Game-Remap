@@ -3245,9 +3245,19 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_string_tools" kind="class"><name>AGRemapCore::StringTools</name>
     <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" kind="function"><name>compareStrPtrs</name></member>
-    <member refid="class_a_g_remap_core_1_1_string_tools_1af689142ad5d31457e7a5e680cf5f30e4" kind="function"><name>countGrapheme</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" kind="function"><name>countGrapheme</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a9b3c50f415349916ea2d45c1531e29e5" kind="function"><name>isSpace</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" kind="function"><name>splitlines</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" kind="function"><name>strip</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a6cd686a93edd620ac7f44163ebad12b8" kind="function"><name>lstrip</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a075b59ee14bdca80cbaedef14d0360e9" kind="function"><name>rstrip</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" kind="function"><name>toLower</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1abc11402ae792e8fd8c6a5aae0cd83873" kind="function"><name>firstGraphemes</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1afa58138e01e3648847d238ce624e53dd" kind="function"><name>lastGraphemes</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1af15183a589c39a0bb7dc678e7e7db1a1" kind="function"><name>startsWith</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" kind="function"><name>endsWith</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" kind="function"><name>equalsIgnoreCase</name></member>
+    <member refid="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" kind="function"><name>endsWithIgnoreCase</name></member>
     <member refid="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" kind="function"><name>eraseAll</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_string_view_hash" kind="struct"><name>AGRemapCore::StringViewHash</name>
@@ -3609,8 +3619,6 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d101064163031271152134213345046243331322147174250" kind="namespace"><name>AGRemapCore::@101064163031271152134213345046243331322147174250</name>
   </compound>
-  <compound refid="namespace_a_g_remap_core_1_1_0d113172064314307233013164312257100125277274160071" kind="namespace"><name>AGRemapCore::@113172064314307233013164312257100125277274160071</name>
-  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d121312056117220011153060024037357231161010210364" kind="namespace"><name>AGRemapCore::@121312056117220011153060024037357231161010210364</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d125223355066263224365322272200363015162073105276" kind="namespace"><name>AGRemapCore::@125223355066263224365322272200363015162073105276</name>
@@ -3671,9 +3679,9 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d354013347226243364354354243313272155237171315053" kind="namespace"><name>AGRemapCore::@354013347226243364354354243313272155237171315053</name>
   </compound>
-  <compound refid="namespace_a_g_remap_core_1_1_0d363315052023114035267143121216312134037122203201" kind="namespace"><name>AGRemapCore::@363315052023114035267143121216312134037122203201</name>
+  <compound refid="namespace_a_g_remap_core_1_1_0d360342111041161010011206277123100245145227345103" kind="namespace"><name>AGRemapCore::@360342111041161010011206277123100245145227345103</name>
   </compound>
-  <compound refid="namespace_a_g_remap_core_1_1_0d367040261315054161124074215301142112206054020040" kind="namespace"><name>AGRemapCore::@367040261315054161124074215301142112206054020040</name>
+  <compound refid="namespace_a_g_remap_core_1_1_0d363315052023114035267143121216312134037122203201" kind="namespace"><name>AGRemapCore::@363315052023114035267143121216312134037122203201</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d367324375355144135002155152204156353367011050135" kind="namespace"><name>AGRemapCore::@367324375355144135002155152204156353367011050135</name>
   </compound>

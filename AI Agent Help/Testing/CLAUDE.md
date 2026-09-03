@@ -16,7 +16,12 @@ Thin wrapper around Python's `unittest`, defaulting to testing the **API** syste
 py -3 main.py                          # everything
 py -3 main.py SomeTestClass            # one test class
 py -3 main.py SomeTestClass.test_name  # one test
+py -3 main.py ClassA ClassB ClassC     # several classes in one run (confirmed: 21 classes / 316 tests in ~2 s)
 ```
+Run it from the **PowerShell** tool (the Bash tool cannot import the native `.pyd`, see
+[Building](../Building/CLAUDE.md)). A `setUpClass` error for a whole class shows up as one `E` per
+class in the dotted progress line, so "3 errors" can mean three entire classes never ran --- read
+the tracebacks before deciding your change is clean.
 Useful flags mirror `unittest`'s own CLI: `-v`/`-q`, `-f` (failfast), `-k PATTERN`
 (substring filter), `-s {script,api}` (switch which distribution is under test — default `api`).
 
@@ -564,13 +569,44 @@ the stale binary.** This bites hardest right after renaming something several te
 the files you forgot to update fail to compile, while their old executables keep passing. Delete the
 `.exe`s before a sweep, or check the compiler's exit status --- never trust the run output alone.
 
+Three more things learned writing `StringTools_grapheme_test.cpp` (2026-09-03) that save a
+compile-diagnose cycle each:
+- **`BaseAhoCorasickDFA::build()` with no argument rebuilds the trie from *nothing*** -- it does not
+  "finalise" keywords you `add()`ed, it discards them, and every `find*` then returns nothing. Either
+  `add()` and never call `build()` (what the existing lifetime test does), or pass the whole map to
+  `build(data)`. The symptom is that even an unchanged baseline call fails, which reads like a
+  regression in code you never touched.
+- **Write non-ASCII test literals as UTF-8 byte escapes** (`"\xC3\xA9"`, not `"é"`). MSVC guesses the
+  source charset without `/utf-8`, and a test that needs that flag has a recipe nobody else's does;
+  escapes compile identically everywhere. Keep a comment naming the character next to each.
+- **The utf8proc-only recipe is cheap** -- `utf8proc.c` plus the `StringTools`/grapheme cone compiles
+  and runs in roughly a minute, so there's no reason to skip re-running every hand-built test whose
+  source set you changed. `IniNamingTools_test.cpp` now needs that cone too (its header says so); a
+  test whose header recipe stops linking is your signal that a dependency moved.
+
 ## Integration Tester (`Testing/Integration Tester`)
 End-to-end tests of the actual script/API output. Run from that directory:
 ```bash
 py -3 main.py [command name]
 ```
-See its own `README.md` for the command list — not something exercised deeply while writing this
-file, so defer to that file and to CI's `integration-test-workflow.yml` as the source of truth.
+See its own `README.md` for the command list (`runSuite -s api` compares the API's output against
+the checked-in expected outputs; `produceOutputs` regenerates them).
+
+**State as of 2026-09-03: it cannot verify anything, so don't budget time on it.** It needs
+`py -3 -m pip install -r requirements.txt` first (the `directory_tree` package is not otherwise
+installed), and once that is done `runSuite -s api` errors in all 25 tests *before* exercising any
+mod: `module 'src.FixRaidenBoss2' has no attribute 'FileService'` / `'IniFile'`,
+`type object 'DownloadMode' has no attribute 'HardTexDriven'`, and
+`cannot pickle 'src.py.FixRaidenBoss2.core.IniParseBuilder' object`. That is API drift from the C++
+migration (the tester still reaches for names the Python package no longer exports, and
+`remapService.py` references a `DownloadMode` member the bound enum lacks), not anything a normal
+feature change causes -- the `Ran 25 tests ... OK` in `integrationTestResults.txt` predates it.
+Treat repairing the tester as its own task; until then, end-to-end coverage of a parser/fixer/remover
+change comes from `IniFileTest` (which still runs) plus a direct script against the rebuilt `.pyd`
+(see [Building](../Building/CLAUDE.md)'s "Verifying a build/binding change in Python directly";
+the Unit Tester's own import scheme is `sys.path.insert(1, "<.../api>")` then
+`import src.py.FixRaidenBoss2 as FRB`, which works from a script file too). The README's warning to
+run it under Linux for path-separator consistency is about *producing* outputs, not about this.
 
 ## What CI actually runs
 `.github/workflows/unit-test-workflow.yml` / `integration-test-workflow.yml` do exactly

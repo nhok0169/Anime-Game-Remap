@@ -5,6 +5,8 @@
 #include <limits>
 #include <stdexcept>
 
+#include "AGRemapCore/tools/StringTools.h"
+
 
 namespace AGRemapCore {
 
@@ -219,16 +221,11 @@ namespace AGRemapCore {
     }
 
     std::optional<Version> Version::parse(const std::string& raw) {
-        // Trim surrounding whitespace (the real regex is anchored with \s* on both ends).
-        std::size_t begin = 0;
-        std::size_t end = raw.size();
-        while (begin < end && std::isspace(static_cast<unsigned char>(raw[begin]))) {
-            ++begin;
-        }
-        while (end > begin && std::isspace(static_cast<unsigned char>(raw[end - 1]))) {
-            --end;
-        }
-        std::string s = raw.substr(begin, end - begin);
+        // Trim surrounding whitespace (the real regex is anchored with \s* on both ends -- and on a
+        // Python str, \s matches Unicode whitespace, which StringTools::strip does too). Everything
+        // inside the trimmed text is then scanned as ASCII on purpose: the version grammar itself is
+        // ASCII-only, so a non-ASCII character can only ever be a parse failure.
+        std::string s(StringTools::strip(raw));
 
         std::size_t pos = 0;
 

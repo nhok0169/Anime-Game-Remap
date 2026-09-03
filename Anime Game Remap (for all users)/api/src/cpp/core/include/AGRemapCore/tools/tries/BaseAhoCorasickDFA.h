@@ -105,7 +105,7 @@ namespace AGRemapCore {
              * @brief Finds the first keyword within 'txt'
              * 
              * @param txt The text to search for keywords
-             * @param resultInd The pointer to store the starting index of where the keyword was found
+             * @param resultInd The pointer to store the starting index of where the keyword was found, counted in `graphemes`_
              * 
              * @return The found keyword
              */
@@ -132,7 +132,7 @@ namespace AGRemapCore {
              * @brief Finds the first largest keyword within 'txt'
              *
              * @param txt The text to search for keywords
-             * @param resultInd The pointer to store the starting index of where the keyword was found
+             * @param resultInd The pointer to store the starting index of where the keyword was found, counted in `graphemes`_
              * @param pred
              @rst
              If provided, only a keyword satisfying this predicate can be picked -- among the
@@ -177,7 +177,7 @@ namespace AGRemapCore {
              **Default**: ``std::nullopt``
              @endrst
              *
-             * @return The found keyword
+             * @return The found keywords, and the starting index (counted in `graphemes`_) of each
              */
             virtual std::tuple<std::vector<std::string_view>, std::vector<size_t>> findMaximal(std::string_view txt, size_t count = 1, const std::optional<KeywordPredicate> &pred = std::nullopt);
 

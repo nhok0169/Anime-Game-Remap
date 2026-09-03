@@ -1898,3 +1898,57 @@ two concrete sinks. The split is the point of the port, so know it before touchi
 - The core console view has a standalone `core/tests/Logger_test.cpp` (needs only three core `.cpp`
   files plus the `StringTools`/grapheme/`utf8proc` cone since `Heading::close` counts graphemes; the
   recipe is in its header); everything reachable from Python is in `test_Logger.py`/`test_BaseLogger.py`.
+
+## Text handling in core is grapheme-aware --- reach for `StringTools`, don't re-add ASCII helpers
+
+As of 2026-09-03, every byte-wise text helper that had accumulated file-locally in the core
+(`toLowerAscii`/`stripAscii`/`lstripAscii`/`asciiIEquals`/`trim` in `IfPredPart.cpp`,
+`IfPredPartType.cpp`, `IniFile.cpp`, `IniClassifier.cpp`, `ModType.cpp`, `IniNamingTools.cpp`,
+`GIMIParser.tpp`, `GIMIFixer.tpp`, `RemapIniRemover.tpp`, `Version.cpp`) was deleted and replaced
+by `AGRemapCore::StringTools` (`tools/StringTools.h`), which is utf8proc-backed and works per
+grapheme: `strip`/`lstrip`/`rstrip`/`isSpace` (Python's `str.isspace` rule, so NBSP, U+3000 and
+U+2028 count as whitespace), `toLower` (per-codepoint simple case mapping, the same trade-off
+`TextTools::capitalize` documents), `firstGraphemes`/`lastGraphemes`, `startsWith`/`endsWith`
+(never match part of a grapheme), `equalsIgnoreCase`/`endsWithIgnoreCase`, and `countGrapheme`
+(now a `GraphemeRange` walk, so it always agrees with the iterator and no longer throws on
+malformed UTF-8 --- a stray byte is a 1-byte grapheme everywhere, including in `GraphemeIterator`
+itself, which used to add utf8proc's negative error length to its cursor and walk backwards).
+The maintainer's stated requirement is grapheme semantics for emojis and special characters
+throughout the C++ side. Conventions that came out of that pass:
+
+- **Don't write `std::isspace`/`std::tolower`/`std::transform(..., tolower)`/`for (char c : ...)`
+  over user text.** Each of the removed helpers carried a "names are ASCII in every real mod"
+  justification; that argument has been rejected. `<cctype>` should not be needed under `model/`
+  any more (only `Version.cpp`'s ASCII grammar scan still uses it, deliberately).
+- **Byte-wise `find`/`rfind`/`substr`/`starts_with` against ASCII *delimiters* (`[`, `]`, `=`,
+  `;`, `#`, `\n`, `\r`) are fine and were left alone** --- UTF-8 is self-synchronising, so those
+  give the same result as a grapheme walk. The line to draw: anything involving whitespace, case,
+  or an index that gets handed back to a caller goes through `StringTools`/`GraphemeRange`.
+- **Indices this library hands out are grapheme indices** (`BaseAhoCorasickDFA::find*`'s
+  `resultInd`, `Token::charNo`). When a loop needs both, keep a byte cursor and a grapheme cursor
+  as two separate variables --- `findMaximal(txt, count)` used one counter for both and was
+  silently wrong for any non-ASCII text until this pass.
+- **Lowering can change a character's byte length** (`İ` is 2 bytes, its lowercase `i` is 1), so
+  never splice `keyword.size()` bytes out of an original string after comparing a lowered copy.
+  Take the span with `firstGraphemes`/`lastGraphemes` on the *original*, compare that span
+  lowered, and splice the span --- see `IfPredPart.cpp`'s `stripLeadingKeyword`/
+  `stripTrailingKeyword` and `IniNamingTools.cpp`'s `rfindCaseInsensitive` for the pattern.
+- **A pybind11 binding that needs a single ASCII byte from a Python `str`** (`PyBaseTokenizer`'s
+  `addASCIIRangeTransitions`) should check `countGrapheme(value) == 1` first, so a user passing
+  `"é"` is told "must be a single ASCII character" rather than "must be a single character".
+- Coverage is the hand-built `core/tests/StringTools_grapheme_test.cpp` (recipe in its header;
+  only utf8proc needed, no z3). The Python suite reaches these helpers only indirectly, and the
+  three test classes that would exercise the parser/fixer/remover changes (`GIMIParserTest`,
+  `GIMIFixerTest`, `RemapIniRemoverTest`) are among the eight still failing in `setUpClass` on the
+  `baseIniFileTest.py` fixture (see [Testing](../Testing/CLAUDE.md)).
+- Deliberately *not* changed, so don't "fix" them without asking: `TextTools::reverse` (documented
+  as codepoint-level to match Python's `[::-1]`), `Version`'s inner grammar scan (ASCII by spec;
+  only its outer `\s*` trim went Unicode), `IniFile`'s CRLF normalisation and
+  `RemapIniFixContext::cleanModTypeName` (byte compares against `\n`/`\t`/`\r` only), and
+  `StringTools::splitlines`, which still splits on `\n`/`\r\n` only --- Python's `str.splitlines`
+  also breaks on `\v`, `\f`, `\x1c`-`\x1e`, `\x85`, U+2028 and U+2029, a divergence that was
+  noticed and flagged, not fixed, because it would change line numbering for `.ini` files that
+  contain those characters.
+- `Docs/src/coreAPI.rst` now defines the `` `Unicode`_ ``, `` `utf8proc`_ `` and
+  `` `Python's str.lower/lstrip/rstrip/isspace`_ `` link targets; `TextTools.h` had been using the
+  first two with no target defined.

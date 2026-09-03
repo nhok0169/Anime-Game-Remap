@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="265" column="21" bodyfile="src/model/Version.cpp" bodystart="669" bodyend="671"/>
+        <location file="include/AGRemapCore/model/Version.h" line="265" column="21" bodyfile="src/model/Version.cpp" bodystart="666" bodyend="668"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

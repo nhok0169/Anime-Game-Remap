@@ -1,6 +1,5 @@
 #include "AGRemapCore/model/files/IniFile.h"
 
-#include <cctype>
 #include <fstream>
 #include <filesystem>
 #include <sstream>
@@ -26,6 +25,7 @@
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h"
 #include "AGRemapCore/tools/parsing/ParseContext.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
@@ -801,25 +801,12 @@ namespace AGRemapCore {
     }
 
     namespace {
-        // Trims ASCII whitespace (space/tab/CR/LF) from both ends of 'str' -- not a member, just a
-        // small local helper; matches the ' '/'\t' trimming ConfigParser itself performs on keys and
-        // values.
+        // Trims whitespace from both ends of 'str' -- not a member, just a small local helper;
+        // matches the .strip() ConfigParser itself performs on keys and values. Goes through
+        // StringTools so that, like Python's str.strip(), Unicode whitespace counts too and no
+        // multi-byte character is ever cut in half.
         std::string trim(const std::string& str) {
-            size_t start = 0;
-            while (start < str.size() && std::isspace(static_cast<unsigned char>(str[start]))) {
-                ++start;
-            }
-
-            if (start == str.size()) {
-                return "";
-            }
-
-            size_t end = str.size();
-            while (end > start && std::isspace(static_cast<unsigned char>(str[end - 1]))) {
-                --end;
-            }
-
-            return str.substr(start, end - start);
+            return std::string(StringTools::strip(str));
         }
 
         // NOTE: no key-lowercasing helper here -- IniFile.py sets
@@ -966,16 +953,8 @@ namespace AGRemapCore {
     }
 
     bool IniFile::isSectionHeaderLine(const std::string& line) {
-        size_t i = 0;
-        while (i < line.size() && std::isspace(static_cast<unsigned char>(line[i]))) {
-            ++i;
-        }
-
-        if (i >= line.size() || line[i] != '[') {
-            return false;
-        }
-
-        return line.find(']', i) != std::string::npos;
+        std::string_view rest = StringTools::lstrip(line);
+        return rest.starts_with('[') && rest.find(']') != std::string_view::npos;
     }
 
     std::string IniFile::getSectionNameFromLine(const std::string& line) {
@@ -997,10 +976,7 @@ namespace AGRemapCore {
     }
 
     bool IniFile::isConditionalLine(const std::string& line) {
-        size_t i = 0;
-        while (i < line.size() && std::isspace(static_cast<unsigned char>(line[i]))) {
-            ++i;
-        }
+        std::string_view rest = StringTools::lstrip(line);
 
         // Checked in the same order as the pure-Python original's own compiled pattern
         // ("endif|else|if|elif") -- order doesn't actually matter for correctness here (none of
@@ -1008,7 +984,7 @@ namespace AGRemapCore {
         // source pattern.
         static const std::string keywords[] = {"endif", "else", "if", "elif"};
         for (const std::string& keyword : keywords) {
-            if (line.compare(i, keyword.size(), keyword) == 0) {
+            if (rest.starts_with(keyword)) {
                 return true;
             }
         }

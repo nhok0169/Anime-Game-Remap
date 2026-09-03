@@ -1,7 +1,6 @@
 #ifndef AGRemapCore_RemapIniRemover_TPP
 #define AGRemapCore_RemapIniRemover_TPP
 
-#include <cctype>
 #include <deque>
 #include <filesystem>
 #include <type_traits>
@@ -417,21 +416,9 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename RemoverBase>
     bool RemapIniRemover<K, V, KeyHash, KeyEqual, RemoverBase>::hasExt(const std::string& path, const std::string& ext) {
-        if (ext.empty() || path.size() < ext.size()) {
-            return false;
-        }
-
-        std::size_t offset = path.size() - ext.size();
-        for (std::size_t i = 0; i < ext.size(); ++i) {
-            unsigned char left = static_cast<unsigned char>(path[offset + i]);
-            unsigned char right = static_cast<unsigned char>(ext[i]);
-
-            if (std::tolower(left) != std::tolower(right)) {
-                return false;
-            }
-        }
-
-        return true;
+        // Compared by grapheme and case-insensitively through StringTools, so a path whose last
+        // characters are non-ASCII is neither cut mid-character nor mis-lowered.
+        return !ext.empty() && StringTools::endsWithIgnoreCase(path, ext);
     }
 
 
@@ -834,11 +821,7 @@ namespace AGRemapCore {
         // reproduces by stripping one end. Pinned by
         // test_IniFile.test_differentText_remapBlendSectionsAndScriptFixRemoved, whose expected
         // output really does end on two newlines.
-        std::size_t firstKept = 0;
-        while (firstKept < newTxt.size() && std::isspace(static_cast<unsigned char>(newTxt[firstKept]))) {
-            ++firstKept;
-        }
-        newTxt = newTxt.substr(firstKept);
+        newTxt = std::string(StringTools::lstrip(newTxt));
 
         ctx_->setFileTxt(std::move(newTxt));
 

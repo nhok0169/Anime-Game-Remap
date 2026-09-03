@@ -518,26 +518,34 @@ namespace AGRemapCore {
             return { keywordLst, keywordIndLst };
         }
 
-        size_t currentTxtInd = 0;
+        // Two cursors over 'txt', kept side by side: 'currentByteInd' is where the remaining text
+        // starts (std::string_view::substr takes bytes), and 'currentGraphemeInd' is the same
+        // position counted in graphemes, which is what every index handed back from this class
+        // means. They only coincide for ASCII text -- the previous version of this loop used a
+        // single counter for both, so a keyword found after any multi-byte character came back with
+        // the wrong index and the next search resumed from the wrong byte.
+        size_t currentByteInd = 0;
+        size_t currentGraphemeInd = 0;
         size_t txtLen = txt.size();
         size_t numOfFoundKeywords = count;
         std::string_view remainingTxt;
 
-        while (currentTxtInd < txtLen && numOfFoundKeywords > 0) {
-            remainingTxt = txt.substr(currentTxtInd);
+        while (currentByteInd < txtLen && numOfFoundKeywords > 0) {
+            remainingTxt = txt.substr(currentByteInd);
             keyword = findMaximalPtr(remainingTxt, &keywordInd, pred);
             if (keyword == nullptr) break;
 
             keywordLst.push_back(*keyword);
-            keywordIndLst.push_back(currentTxtInd + keywordInd);
+            keywordIndLst.push_back(currentGraphemeInd + keywordInd);
 
-            if (keyword->empty()) {
-                GraphemeIterator it(remainingTxt, 0);
-                currentTxtInd += (*it).size();
-            } else {
-                currentTxtInd += keywordInd + StringTools::countGrapheme(*keyword);
-            }
+            // How far to move on: past the keyword just found, or past one grapheme when only the
+            // empty keyword matched. Walked over the remaining text's graphemes so the byte cursor
+            // always lands on a grapheme boundary.
+            size_t advanceGraphemes = keyword->empty() ? 1 : keywordInd + StringTools::countGrapheme(*keyword);
+            size_t advanceBytes = StringTools::firstGraphemes(remainingTxt, advanceGraphemes).size();
 
+            currentByteInd += advanceBytes;
+            currentGraphemeInd += advanceGraphemes;
             numOfFoundKeywords--;
         }
 
@@ -546,7 +554,7 @@ namespace AGRemapCore {
 
         if (emptyId != nullptr && numOfFoundKeywords) {
             keywordLst.push_back(*emptyVal);
-            keywordIndLst.push_back(txtLen);
+            keywordIndLst.push_back(StringTools::countGrapheme(txt));
         }
 
         return { keywordLst, keywordIndLst };

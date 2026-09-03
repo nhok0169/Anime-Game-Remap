@@ -1,32 +1,22 @@
 #ifndef AGRemapCore_GIMIFixer_TPP
 #define AGRemapCore_GIMIFixer_TPP
 
-#include <cctype>
 #include <string_view>
 #include <utility>
 
 #include "GIMIFixer.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/tools/StringTools.h"
 
 
 namespace AGRemapCore {
     namespace GIMIFixerDetail {
-        // The same ASCII-only lowercasing GIMIParserDetail does, for the same reason: mod object
-        // and section names are ASCII in every real mod, and full Unicode case folding would be a
-        // much heavier dependency for no gain.
-        inline std::string toLowerAscii(std::string_view txt) {
-            std::string result(txt);
-            for (char& c : result) {
-                c = static_cast<char>(std::tolower(static_cast<unsigned char>(c)));
-            }
-            return result;
-        }
-
         // Whether 'txt' names something this software already wrote. Matched anywhere in the name
-        // rather than as a suffix, and case-insensitively -- the same convention
+        // rather than as a suffix, and case-insensitively (by grapheme, through StringTools, so a
+        // non-ASCII mod object name lowers correctly too) -- the same convention
         // GIMIParser::classifyByTextureOverrideName uses to refuse to classify its own output.
         inline bool hasRemapKeyword(const std::string& txt) {
-            return toLowerAscii(txt).find(toLowerAscii(IniKeywords::Remap)) != std::string::npos;
+            return StringTools::toLower(txt).find(StringTools::toLower(IniKeywords::Remap)) != std::string::npos;
         }
     }
 

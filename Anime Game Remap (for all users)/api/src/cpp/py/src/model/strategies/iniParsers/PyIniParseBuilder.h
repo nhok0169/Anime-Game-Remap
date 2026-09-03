@@ -9,7 +9,7 @@
 /**
  * @brief
  @rst
- Registers ``CppIniParseBuilder`` and its opaque ``CppIniParseBuilderArgs`` lookup table
+ Registers ``IniParseBuilder`` and its opaque ``CppIniParseBuilderArgs`` lookup table
  @endrst
  *
  * @param m The module to register into

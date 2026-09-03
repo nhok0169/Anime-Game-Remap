@@ -87,7 +87,7 @@ Class for handling .ini files -- the C++-backed counterpart to the pure-Python :
     Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
     class resolves a mod type's parse/fix/remove builders through the global registry keyed by
     ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
-    :class:`CppModType`
+    :class:`ModType`
 
 Parameters
 ----------
@@ -120,7 +120,7 @@ forcedFromModTypeIds: Optional[Set[:class:`int`]]
 
     **Default**: ``None``
 
-overrideModTypes: Optional[Dict[:class:`int`, :class:`CppModType`]]
+overrideModTypes: Optional[Dict[:class:`int`, :class:`ModType`]]
     Mod types to resolve by id ahead of the global registry :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -223,7 +223,7 @@ List[:class:`str`]: The text lines of the .ini file, each keeping its own line e
 
         .def_property_readonly("availableType", &AGRC::IniFile::getAvailableType,
                                py::return_value_policy::reference_internal, py::doc(R"doc(
-Optional[:class:`CppModType`]: The type of mod the .ini file was classified as, or ``None`` if it
+Optional[:class:`ModType`]: The type of mod the .ini file was classified as, or ``None`` if it
 was not classified as any
         )doc"))
 
@@ -457,7 +457,7 @@ Retrieves the mod types the .ini file was classified as, keyed by :class:`ModTyp
 
 Returns
 -------
-Dict[:class:`int`, :class:`CppModType`]
+Dict[:class:`int`, :class:`ModType`]
     The mod types, in the order they were classified
         )doc"))
 

@@ -86,3 +86,82 @@ class ModAssetsTest(BaseUnitTest):
                 self.assertEqual(type(error), type(expected))
 
     # =====================================================================
+    # =========================== constructor =============================
+    # ModAssets is the C++ ModAssets<std::string, py::object> now (the pure-Python
+    # model/assets/ModAssets.py wrapper was folded into the binding once its last subclass was
+    # removed), so its name-keyed constructor contract is reimplemented rather than inherited --
+    # these pin it down.
+
+    def test_defaultIndices_versionAndName(self):
+        modAssets = FRB.ModAssets({"1.0": {"hutao": "a"}})
+
+        self.assertEqual(modAssets.indices, [FRB.ModAssets.VersionKey, FRB.ModAssets.NameKey])
+        self.compareSet(modAssets.versionIndices, {FRB.ModAssets.VersionKey})
+        self.assertEqual(modAssets.get("hutao"), "a")
+
+    def test_indicesAndVersionIndices_areExposed(self):
+        self.createModAsset()
+
+        self.assertEqual(self._modAssets.indices, self._indices)
+        self.compareSet(self._modAssets.versionIndices, self._versionIndices)
+        self.assertEqual(self._modAssets.totalIndices, 4)
+        self.assertEqual(self._modAssets.versionColumnCount, 2)
+        self.assertEqual(self._modAssets.nonVersionColumnCount, 2)
+
+    def test_versionIndexNotAnIndex_isIgnored(self):
+        # The pure-Python original intersected versionIndices with the real index names rather
+        # than erroring, so a stray name is simply dropped.
+        modAssets = FRB.ModAssets({"1.0": {"hutao": "a"}}, indices = ["version", "name"],
+                                  versionIndices = {"version", "notAnIndex"})
+
+        self.compareSet(modAssets.versionIndices, {"version"})
+
+    def test_duplicateIndexNames_raisesKeyError(self):
+        with self.assertRaises(KeyError):
+            FRB.ModAssets({}, indices = ["name", "name"])
+
+    def test_valueCol_defaultsAndRoundTrips(self):
+        self.assertEqual(FRB.ModAssets({}).valueCol, FRB.ModAssets.ValueKey)
+        self.assertEqual(FRB.ModAssets({}, valueCol = "count").valueCol, "count")
+
+    def test_repoNestedTooShallow_raisesValueError(self):
+        with self.assertRaises(ValueError):
+            FRB.ModAssets({"1.0": "not a dict"}, indices = ["version", "name"])
+
+    # =========================== get argument shapes =====================
+
+    def test_get_dictAndListShapesAgree(self):
+        self.createModAsset()
+
+        byList = self._modAssets.get(["GI", "hutao"], [1.0, 0.1])
+        byDict = self._modAssets.get({"game": "GI", "character": "hutao"},
+                                     {"gameVersion": 1.0, "characterVersion": 0.1})
+
+        self.assertEqual(byList, byDict)
+
+    def test_getNotFound_returnsDefaultInsteadOfRaising(self):
+        self.createModAsset()
+
+        self.assertIsNone(self._modAssets.get(["Angrybirds"], [], errorOnNotFound = False))
+        self.assertEqual(self._modAssets.get(["Angrybirds"], [], errorOnNotFound = False, default = "none"), "none")
+
+    # =========================== addRows / copying =======================
+
+    def test_addRows_thenGettable(self):
+        self.createModAsset()
+
+        self._modAssets.addRows({"GI": {"9.9": {"gregor samsa": {"9.9": "vermin"}}}})
+        self.assertEqual(self._modAssets.get(["GI", "gregor samsa"], ["9.9", "9.9"]), "vermin")
+
+    def test_deepCopy_isIndependent(self):
+        import copy
+
+        self.createModAsset()
+        copied = copy.deepcopy(self._modAssets)
+
+        copied.addRows({"GI": {"9.9": {"gregor samsa": {"9.9": "vermin"}}}})
+
+        self.assertEqual(copied.get(["GI", "gregor samsa"], ["9.9", "9.9"]), "vermin")
+        self.assertIsNone(self._modAssets.get(["GI", "gregor samsa"], [], errorOnNotFound = False))
+
+    # =====================================================================

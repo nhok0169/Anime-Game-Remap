@@ -24,14 +24,14 @@ from .test_CallGraph import CallGraphTest
 from .test_ColourRange import ColourRangeTest
 from .test_CppAhoCorasickDFA import CppAhoCorasickDFATest
 from .test_CppBufFile import CppBufFileTest
-from .test_CppGIBuilder import CppGIBuilderTest
+from .test_GIBuilder import GIBuilderTest
 from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
 from .test_IniFile import IniFileTest
 from .test_ModTypeRemaps import ModTypeRemapsTest
-from .test_CppModTypeMethods import CppModTypeMethodsTest
+from .test_ModTypeMethods import ModTypeMethodsTest
 from .test_CppMultiModFixer import CppMultiModFixerTest
-from .test_CppModType import CppModTypeTest
+from .test_ModType import ModTypeTest
 from .test_CppTrie import CppTrieTest
 from .test_DFA import DFATest
 from .test_DictTools import DictToolsTest
@@ -44,7 +44,7 @@ from .test_HashTools import HashToolsTest
 from .test_GIMIFixer import GIMIFixerTest
 from .test_BaseIniFixer import BaseIniFixerTest
 from .test_GIMIParser import GIMIParserTest
-from .test_CppIniBuilders import CppIniParseBuilderTest, CppIniFixBuilderTest, CppIniRemoveBuilderTest
+from .test_IniBuilders import IniParseBuilderTest, IniFixBuilderTest, IniRemoveBuilderTest
 from .test_GIMISectionClassifier import GIMISectionClassifierTest
 from .test_BaseIniParser import BaseIniParserTest
 from .test_GraphGroupRemap import GraphGroupRemapTest
@@ -81,7 +81,8 @@ from .test_ModDictAssets import ModDictAssetsTest
 from .test_ModMappedAssets import ModMappedAssetsTest
 from .test_Hashes import HashesTest
 from .test_Indices import IndicesTest
-from .test_ModType import ModTypeTest
+from .test_VertexCounts import VertexCountsTest
+from .test_VGRemaps import VGRemapsTest
 from .test_ModTypeId import ModTypeIdTest
 from .test_ModTypeIdData import ModTypeIdDataTest
 from .test_ModTypes import ModTypesTest
@@ -136,15 +137,15 @@ from .test_TexEditor import TexEditorTest
 from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
-__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "CppModTypeMethodsTest", "CppMultiModFixerTest"]
+__all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "ModTypeMethodsTest", "CppMultiModFixerTest"]
 __all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
-__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
+__all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]
 __all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
-__all__ += ["ModTypeIdDataTest", "CppModTypeTest", "CppGIBuilderTest", "ModTypeIdTest"]
+__all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
@@ -164,5 +165,5 @@ __all__ += ["IniResourceTest", "IniFixResourceTest", "IniGroupedResourceTest", "
 __all__ += ["RemapIniResourceTest", "RemapIniDownloadTest", "RemapBlendResourceTest", "RemapTexAddResourceTest"]
 __all__ += ["IniGraphGroupTest"]
 __all__ += ["BaseIniParserTest", "GIMISectionClassifierTest"]
-__all__ += ["CppIniParseBuilderTest", "CppIniFixBuilderTest", "CppIniRemoveBuilderTest"]
+__all__ += ["IniParseBuilderTest", "IniFixBuilderTest", "IniRemoveBuilderTest"]
 __all__ += ["BaseIniFixerTest"]

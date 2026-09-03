@@ -101,7 +101,7 @@ class IniFileTest(BaseUnitTest):
 
     def test_classify_namesTheModType(self):
         # The global classifier arrives populated with every shipped mod type, so a real section
-        # name resolves all the way to a CppModType -- this was None for every input until the
+        # name resolves all the way to a ModType -- this was None for every input until the
         # classifier was populated.
         ini = FRB.IniFile(txt = "[TextureOverrideRaidenBody]\nhash = abc123\n")
         ini.classify()

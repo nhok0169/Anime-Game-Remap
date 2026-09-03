@@ -21,7 +21,7 @@
     </sectiondef>
     <sectiondef kind="public-static-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0f031e3c3bc6a5784f978725a2f30f90" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::amber4_0</definition>
         <argsstring>()</argsstring>
         <name>amber4_0</name>
@@ -39,7 +39,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.amber4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="52" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="16" bodyend="16"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::amberCN4_0</definition>
         <argsstring>()</argsstring>
         <name>amberCN4_0</name>
@@ -57,7 +57,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.amberCN4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="61" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="17" bodyend="17"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a502d26b86aafae48ba9ab5b234092755" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ayaka4_0</definition>
         <argsstring>()</argsstring>
         <name>ayaka4_0</name>
@@ -75,7 +75,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ayaka4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="70" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7175ead9f596a1062d86a0640f21ee11" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ayakaSpringbloom4_0</definition>
         <argsstring>()</argsstring>
         <name>ayakaSpringbloom4_0</name>
@@ -93,7 +93,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="79" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="19" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7a7226eb0776e2ea2a2672d73f2c5ec7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::barbara4_0</definition>
         <argsstring>()</argsstring>
         <name>barbara4_0</name>
@@ -111,7 +111,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.barbara4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="88" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="20" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a06ca7c90da051e5dc2d06e5cb7e3561f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::barbaraSummertime4_0</definition>
         <argsstring>()</argsstring>
         <name>barbaraSummertime4_0</name>
@@ -129,7 +129,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.barbaraSummertime4_0`` -- return
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="97" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a9ed2e127fe638c494b02fea1167370a6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::diluc4_0</definition>
         <argsstring>()</argsstring>
         <name>diluc4_0</name>
@@ -147,7 +147,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.diluc4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="106" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="22" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a90dd86e40c82ef949659459afe1e8ddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::dilucFlamme4_0</definition>
         <argsstring>()</argsstring>
         <name>dilucFlamme4_0</name>
@@ -165,7 +165,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.dilucFlamme4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="115" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="23" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a25c723344a4afc25cd6dee4b991b6c4f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::fischl4_0</definition>
         <argsstring>()</argsstring>
         <name>fischl4_0</name>
@@ -183,7 +183,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.fischl4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="124" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="24" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1acd3eb09da006d479979d7b5e8b5480a5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::fischlHighness4_0</definition>
         <argsstring>()</argsstring>
         <name>fischlHighness4_0</name>
@@ -201,7 +201,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.fischlHighness4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="133" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="25" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab42907d4554e611728b738e79c3a0914" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ganyu4_0</definition>
         <argsstring>()</argsstring>
         <name>ganyu4_0</name>
@@ -219,7 +219,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyu4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="142" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="26" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aeebc7e425eb78900d9c78bb796b8c7a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::hutao4_0</definition>
         <argsstring>()</argsstring>
         <name>hutao4_0</name>
@@ -237,7 +237,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.hutao4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="151" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="27" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a0b323b1ec314ac49ae5b05743b29298f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::jean4_0</definition>
         <argsstring>()</argsstring>
         <name>jean4_0</name>
@@ -255,7 +255,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="160" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="28" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab3b6237fbb2821397b3c994628ea2bd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::jeanCN4_0</definition>
         <argsstring>()</argsstring>
         <name>jeanCN4_0</name>
@@ -273,7 +273,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="169" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="29" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab838f53a93fae925bdfca1942e1f5ac7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::jeanSea4_0</definition>
         <argsstring>()</argsstring>
         <name>jeanSea4_0</name>
@@ -291,7 +291,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanSea4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="178" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="30" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adb2979e5e4d865d5cb71f4f223824c13" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kaeya4_0</definition>
         <argsstring>()</argsstring>
         <name>kaeya4_0</name>
@@ -309,7 +309,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kaeya4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="187" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="31" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1acb15558c737cd8dad771eefad08046e2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kaeyaSailwind4_0</definition>
         <argsstring>()</argsstring>
         <name>kaeyaSailwind4_0</name>
@@ -327,7 +327,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kaeyaSailwind4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="196" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="32" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f3fd51c10e3e4163d5bb85a512170c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::keqing4_0</definition>
         <argsstring>()</argsstring>
         <name>keqing4_0</name>
@@ -345,7 +345,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.keqing4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="205" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="33" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aadd76e32555037e03f58686fafce1935" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::keqingOpulent4_0</definition>
         <argsstring>()</argsstring>
         <name>keqingOpulent4_0</name>
@@ -363,7 +363,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.keqingOpulent4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="214" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="34" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e75c4373a12ae83a2ef9992f5e448d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kirara4_0</definition>
         <argsstring>()</argsstring>
         <name>kirara4_0</name>
@@ -381,7 +381,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kirara4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="223" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="35" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aa2ea4776713f06c25dad1f96ce85af54" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::klee4_0</definition>
         <argsstring>()</argsstring>
         <name>klee4_0</name>
@@ -399,7 +399,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.klee4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="232" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="36" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a625ba4f2c8f33e671f4e80c7287139ed" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kleeBlossomingStarlight4_0</definition>
         <argsstring>()</argsstring>
         <name>kleeBlossomingStarlight4_0</name>
@@ -417,7 +417,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kleeBlossomingStarlight4_0`` -- 
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="241" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="37" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a17a9366bd031c0726f56b54a41882463" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lisa4_0</definition>
         <argsstring>()</argsstring>
         <name>lisa4_0</name>
@@ -435,7 +435,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.lisa4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="250" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="38" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5e0e8d3c12a797ee525dd5afe57415e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lisaStudent4_0</definition>
         <argsstring>()</argsstring>
         <name>lisaStudent4_0</name>
@@ -453,7 +453,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.lisaStudent4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="259" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="39" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a965947e4ccfeb3487a53d74c717bf1d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::mona4_0</definition>
         <argsstring>()</argsstring>
         <name>mona4_0</name>
@@ -471,7 +471,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.mona4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="268" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="40" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1af77157f3eef27fc14605beda38503e27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::monaCN4_0</definition>
         <argsstring>()</argsstring>
         <name>monaCN4_0</name>
@@ -489,7 +489,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.monaCN4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="277" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="41" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7ece50a08ec244f427dd711faaba9194" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::nilou4_0</definition>
         <argsstring>()</argsstring>
         <name>nilou4_0</name>
@@ -507,7 +507,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.nilou4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="286" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="42" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab3c14a4759ca9a1cf2a4fce09ae02f3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ningguang4_0</definition>
         <argsstring>()</argsstring>
         <name>ningguang4_0</name>
@@ -525,7 +525,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguang4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="295" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="43" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a155a078f9f48dedb7e81dee3c9ae4936" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ningguangOrchid4_0</definition>
         <argsstring>()</argsstring>
         <name>ningguangOrchid4_0</name>
@@ -543,7 +543,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguangOrchid4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="304" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="44" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a93059e5c526ef4a195bbd10609c8515d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::giDefault</definition>
         <argsstring>()</argsstring>
         <name>giDefault</name>
@@ -561,7 +561,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.giDefault`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="313" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="45" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2a2c464c3d071c5db498850094459e1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::rosaria4_0</definition>
         <argsstring>()</argsstring>
         <name>rosaria4_0</name>
@@ -579,7 +579,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.rosaria4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="322" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="46" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aba5d21fbe2290687a020692917d97814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::rosariaCN4_0</definition>
         <argsstring>()</argsstring>
         <name>rosariaCN4_0</name>
@@ -597,7 +597,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.rosariaCN4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="331" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="47" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac45679f6579c3c1a2125c3400c02ea79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::shenhe4_0</definition>
         <argsstring>()</argsstring>
         <name>shenhe4_0</name>
@@ -615,7 +615,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.shenhe4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="340" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="48" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a5acf8837fe50a8ad50ce63816b491988" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::xiangling4_0</definition>
         <argsstring>()</argsstring>
         <name>xiangling4_0</name>
@@ -633,7 +633,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.xiangling4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="349" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="49" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a57cbc5fb84578adff9dab12a9515bcee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::xingqiu4_0</definition>
         <argsstring>()</argsstring>
         <name>xingqiu4_0</name>
@@ -651,7 +651,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.xingqiu4_0`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="358" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="50" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac812c1ba08f807191021aae223c24084" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ganyuTwilight4_4</definition>
         <argsstring>()</argsstring>
         <name>ganyuTwilight4_4</name>
@@ -669,7 +669,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight4_4`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="367" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="51" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a29d6a9fd985eedcc12e74228995af0b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::shenheFrostFlower4_4</definition>
         <argsstring>()</argsstring>
         <name>shenheFrostFlower4_4</name>
@@ -687,7 +687,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.shenheFrostFlower4_4`` -- return
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="376" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="52" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a59be7b22f1f0563f617eaeaeeecad7df" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::xingqiuBamboo4_4</definition>
         <argsstring>()</argsstring>
         <name>xingqiuBamboo4_4</name>
@@ -705,7 +705,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.xingqiuBamboo4_4`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="385" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="53" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a45eabec0264b18cd3dbbb59355f07022" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kiraraBoots4_8</definition>
         <argsstring>()</argsstring>
         <name>kiraraBoots4_8</name>
@@ -723,7 +723,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kiraraBoots4_8`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="394" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="54" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a8f4a396367361d1871ede8e216738ded" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::nilouBreeze4_8</definition>
         <argsstring>()</argsstring>
         <name>nilouBreeze4_8</name>
@@ -741,7 +741,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.nilouBreeze4_8`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="403" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="55" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a682b003af4ab40d2f2f58ac015af37c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::cherryHutao5_3</definition>
         <argsstring>()</argsstring>
         <name>cherryHutao5_3</name>
@@ -759,7 +759,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.cherryHutao5_3`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="412" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="56" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ad48f0d06423104df2add0e45e3b8c0b4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::xianglingCheer5_3</definition>
         <argsstring>()</argsstring>
         <name>xianglingCheer5_3</name>
@@ -777,7 +777,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.xianglingCheer5_3`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="421" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="57" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aedc30a01d309a33aa3a28a6e856a425d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::arlecchino5_4</definition>
         <argsstring>()</argsstring>
         <name>arlecchino5_4</name>
@@ -795,7 +795,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.arlecchino5_4`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="430" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="58" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a2a366644c291201ad8aed3aea609aa66" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::jean5_5</definition>
         <argsstring>()</argsstring>
         <name>jean5_5</name>
@@ -813,7 +813,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean5_5`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="439" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="59" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a733ff7ae38e26c46982dd4b890cc32d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::jeanCN5_5</definition>
         <argsstring>()</argsstring>
         <name>jeanCN5_5</name>
@@ -831,7 +831,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN5_5`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="448" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="60" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a09100cb463cc1d53172cc98183fb2762" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ayakaSpringbloom5_6</definition>
         <argsstring>()</argsstring>
         <name>ayakaSpringbloom5_6</name>
@@ -849,7 +849,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom5_6`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="457" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="61" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a21c6704a0c99820f9d2284d9667c307f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ayakaSpringbloom5_7</definition>
         <argsstring>()</argsstring>
         <name>ayakaSpringbloom5_7</name>
@@ -867,7 +867,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom5_7`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="466" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="62" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a44763d34f5898c8b0cab9f3deb794661" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::ganyuTwilight5_7</definition>
         <argsstring>()</argsstring>
         <name>ganyuTwilight5_7</name>
@@ -885,7 +885,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight5_7`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="475" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="63" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a74b17e79acb1867c28a6853ba5a9dd1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kirara5_7</definition>
         <argsstring>()</argsstring>
         <name>kirara5_7</name>
@@ -903,7 +903,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kirara5_7`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="484" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="64" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a408cabf161789f3d16c79287a51b67d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::kiraraBoots5_7</definition>
         <argsstring>()</argsstring>
         <name>kiraraBoots5_7</name>
@@ -921,7 +921,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.kiraraBoots5_7`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="493" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="65" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1afa731ff64faf335aab4d3cf3d179ea74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::lisaStudent5_7</definition>
         <argsstring>()</argsstring>
         <name>lisaStudent5_7</name>
@@ -939,7 +939,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.lisaStudent5_7`` -- returns
         <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="502" column="45" bodyfile="src/data/IniParseBuilderData.cpp" bodystart="66" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aca6552e16c9d3969446cb18e9116c575" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a2cb9cefd76a15c75aba96419273a6e8a" kindref="member">IniParseBuilder::Factory</ref></type>
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
         <definition>IniParseBuilder::Factory AGRemapCore::IniParseBuilderFuncs::nilou5_7</definition>
         <argsstring>()</argsstring>
         <name>nilou5_7</name>

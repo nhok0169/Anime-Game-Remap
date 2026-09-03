@@ -46,7 +46,7 @@ class ModTypeIdTest(BaseUnitTest):
         self.assertIsNone(FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Amber))
 
     def test_registeredModTypeId_getModTypeReturnsIt(self):
-        amber = FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"])
+        amber = FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"])
         FRB.ModTypeIdTools.registerModType(amber)
 
         result = FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Amber)
@@ -60,8 +60,8 @@ class ModTypeIdTest(BaseUnitTest):
     # ================ registerModType ==================
 
     def test_registerTwice_secondRegistrationOverwritesFirst(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"]))
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "AmberV2", ["NewAlias"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "AmberV2", ["NewAlias"]))
 
         result = FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Amber)
 
@@ -69,8 +69,8 @@ class ModTypeIdTest(BaseUnitTest):
         self.compareList(list(result.aliases), ["NewAlias"])
 
     def test_registerDifferentModTypeIds_bothIndependentlyRetrievable(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Raiden), "Raiden"))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Raiden), "Raiden"))
 
         self.assertEqual(FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Amber).name, "Amber")
         self.assertEqual(FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Raiden).name, "Raiden")
@@ -82,25 +82,25 @@ class ModTypeIdTest(BaseUnitTest):
         self.assertIsNone(FRB.ModTypeIdTools.findByName("TotallyUnregisteredName"))
 
     def test_registeredNameAndAlias_findByNameReturnsCorrectModTypeId(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny", "ColleisBestie"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny", "ColleisBestie"]))
 
         self.assertEqual(FRB.ModTypeIdTools.findByName("Amber"), FRB.ModTypeId.Amber)
         self.assertEqual(FRB.ModTypeIdTools.findByName("BaronBunny"), FRB.ModTypeId.Amber)
 
     def test_nameAsSubstring_findByNameMaximallyMatches(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
 
         self.assertEqual(FRB.ModTypeIdTools.findByName("TextureOverride_Amber_Blend"), FRB.ModTypeId.Amber)
 
     def test_gameTypeIdFilter_onlyMatchesTheCorrectGame(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber"))
 
         self.assertEqual(FRB.ModTypeIdTools.findByName("Amber", FRB.GameTypeId.GI), FRB.ModTypeId.Amber)
         self.assertIsNone(FRB.ModTypeIdTools.findByName("Amber", FRB.GameTypeId.WuWa))
 
     def test_ambiguousNameSharedByTwoModTypeIds_findByNameReturnsNoneRatherThanGuessing(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["SharedAlias"]))
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Ayaka), "Ayaka", ["SharedAlias"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["SharedAlias"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Ayaka), "Ayaka", ["SharedAlias"]))
 
         self.assertIsNone(FRB.ModTypeIdTools.findByName("SharedAlias"))
         self.assertIsNone(FRB.ModTypeIdTools.findByName("SharedAlias", FRB.GameTypeId.GI))
@@ -109,7 +109,7 @@ class ModTypeIdTest(BaseUnitTest):
     # ==================== clear ========================
 
     def test_clear_registryForgotten(self):
-        FRB.ModTypeIdTools.registerModType(FRB.CppModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"]))
+        FRB.ModTypeIdTools.registerModType(FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"]))
         self.assertIsNotNone(FRB.ModTypeIdTools.getModType(FRB.ModTypeId.Amber))
         self.assertIsNotNone(FRB.ModTypeIdTools.findByName("BaronBunny"))
 

@@ -12,7 +12,7 @@ PyBaseIniRemover::PyBaseIniRemover(py::object iniFile):
 void initCppBaseIniRemover(py::module_ &m) {
     py::class_<PyBaseIniRemoverCore, py::smart_holder>(m, "CppBaseIniRemover", R"doc(
 The shared C++ base of every remover, exposed so that one built on the C++ side -- by a
-:class:`CppIniRemoveBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+:class:`IniRemoveBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
 `Python`_ :raw-html:`<br />` :raw-html:`<br />`
 
 Not usually what you want: a remover created **from** `Python`_ is a :class:`BaseIniRemover`, which

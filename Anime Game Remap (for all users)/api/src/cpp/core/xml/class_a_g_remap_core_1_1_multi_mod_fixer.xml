@@ -1,0 +1,466 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_multi_mod_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::MultiModFixer</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">BaseIniFixer&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <includes refid="_multi_mod_fixer_8h" local="no">MultiModFixer.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename FixerBase</type>
+        <defval><ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;K, V, KeyHash, KeyEqual&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a70ba2c896194253f2e9cfb2eee6167a6" prot="public" static="no">
+        <type>FixerBase</type>
+        <definition>using AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::Base = FixerBase</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::Base</qualifiedname>
+        <briefdescription>
+<para>The base this fixer splices itself on top of. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_multi_mod_fixer_1ae22fb121d14ff08a99478c1eec5e2024" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
+        <definition>using AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::Child = BaseIniFixer&lt;K, V, KeyHash, KeyEqual&gt;</definition>
+        <argsstring></argsstring>
+        <name>Child</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::Child</qualifiedname>
+        <briefdescription>
+<para>The plain fixer interface a child is held by. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" prot="public" static="no">
+        <type>tsl::ordered_map&lt; int, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1ae22fb121d14ff08a99478c1eec5e2024" kindref="member">Child</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::Children = tsl::ordered_map&lt;int, std::shared_ptr&lt;Child&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Children</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::Children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The children, keyed by the ``int`` value of the :cpp:enum:`ModTypeId` each one fixes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a62d01f4d1618e0b055e87c56fc3028ec" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" kindref="member">Child::FixResult</ref></type>
+        <definition>using AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::FixResult = typename Child::FixResult</definition>
+        <argsstring></argsstring>
+        <name>FixResult</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::FixResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The result of a fix -- the new content of the fixed ``.ini`` file(s), keyed by the file
+path each one should be written to
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a3e016e4127345f92b275fec909e7ae00" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a569d00b6d3dd14f43c155142efb365d1" kindref="member">Child::ParseData</ref></type>
+        <definition>using AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::ParseData = typename Child::ParseData</definition>
+        <argsstring></argsstring>
+        <name>ParseData</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::ParseData</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parse data a fix works from -- exactly what this fixer&apos;s associated
+:cpp:func:`BaseIniParser::parse` produced, one :cpp:class:`IniGraphGroup` per ``.ini``
+file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Passed by **non-const** reference throughout: a fixer edits the graphs in place (that is
+what every ``graphEdits``/``graphGroupEdits`` filter does), and
+:cpp:class:`IniGraphGroup` is move-only so it could not be passed by value anyway
+</verbatim>    </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a5efdc2da1a0c45ba070fd5c38b031dcf" prot="protected" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" kindref="member">Children</ref></type>
+        <definition>Children AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::children_</definition>
+        <argsstring></argsstring>
+        <name>children_</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::children_</qualifiedname>
+        <briefdescription>
+<para>The child fixers, keyed by mod type id. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="158" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a56c3e0a2bd184150890397e5e0f91216" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::MultiModFixer</definition>
+        <argsstring>(Children children={}, typename Child::Parser *parser=nullptr)</argsstring>
+        <name>MultiModFixer</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::MultiModFixer</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" kindref="member">Children</ref></type>
+          <declname>children</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a1a5749071c486801449764380763ed38" kindref="member">Child::Parser</ref> *</type>
+          <declname>parser</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new fixer that delegates to &apos;children&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>children</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The child fixers, keyed by the ``int`` value of the :cpp:enum:`ModTypeId` each fixes.
+A ``nullptr`` child is skipped rather than treated as an error :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: no children, which makes #fixImpl a no-op returning an empty result
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>parser</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parser to retrieve the data to fix from. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="91" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a2ae279bb935a12071c05b52f38eb9573" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" kindref="member">Children</ref> &amp;</type>
+        <definition>const Children &amp; AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::getChildren</definition>
+        <argsstring>() const</argsstring>
+        <name>getChildren</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::getChildren</qualifiedname>
+        <briefdescription>
+<para>The child fixers, keyed by mod type id. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>The children </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="98" column="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1aac935fbbdd482176bf0b59b2ef855b1e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::setChildren</definition>
+        <argsstring>(Children children)</argsstring>
+        <name>setChildren</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::setChildren</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" kindref="member">Children</ref></type>
+          <declname>children</declname>
+        </param>
+        <briefdescription>
+<para>Replaces the child fixers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>children</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The new children <ndash/> see the constructor&apos;s own parameter </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="105" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a6a4d2c8ca19550d9ca580c8b4e17e8f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::clear</definition>
+        <argsstring>() override</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::clear</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Clears this fixer and every child, so a :cpp:func:`BaseIniFixer::clear` on the parent
+reaches all the way down a nest of them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="114" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1a41296b9142c5c226f4cce1a965599276" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a62d01f4d1618e0b055e87c56fc3028ec" kindref="member">FixResult</ref></type>
+        <definition>FixResult AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::fixImpl</definition>
+        <argsstring>(ParseData &amp;parseData, bool keepBackup, bool fixOnly, bool hideOrig, bool withBoilerPlate, bool withSrc, IniFixingContext fixingCtx) override</argsstring>
+        <name>fixImpl</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::fixImpl</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a3e016e4127345f92b275fec909e7ae00" kindref="member">ParseData</ref> &amp;</type>
+          <declname>parseData</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepBackup</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fixOnly</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hideOrig</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>withBoilerPlate</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>withSrc</declname>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></type>
+          <declname>fixingCtx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Runs each selected child in turn and merges what they produce :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The merge is the same one :cpp:func:`IniFile::fix` performs over its own per-mod-type
+fixers: a later child writing the same file path simply overwrites an earlier one
+
+.. note::
+   Children are invoked through the public :cpp:func:`BaseIniFixer::fix`, which fixes
+   *with* boilerplate and *with* the source content. &apos;withBoilerPlate&apos; and &apos;withSrc&apos;
+   are therefore **not** propagated to them -- ``fixImpl`` is protected, so a child&apos;s
+   cannot be reached from here. This matches how :cpp:func:`IniFile::fix` invokes its
+   own fixers, which is the behaviour this method mirrors
+</verbatim></para>
+<para><verbatim>embed:rst 
+Does the actual fixing -- the customization point behind #fix, and the direct
+equivalent of the pure-Python original&apos;s ``_fix``. Returns an empty map by default,
+matching that original&apos;s ``pass``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parseData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The parse data to fix from <ndash/> see <ref refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a3e016e4127345f92b275fec909e7ae00" kindref="member">ParseData</ref> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepBackup</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to keep backups for the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to only fix the .ini file without undoing any fixes </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hideOrig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to hide the mod for the original character </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>withBoilerPlate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to include the surrounding boilerplate in the result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>withSrc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to include the .ini file&apos;s original content in the result </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixingCtx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The per-call options for this fix <ndash/> see :cpp:class:<computeroutput><ref refid="struct_a_g_remap_core_1_1_ini_fixing_context" kindref="compound">IniFixingContext</ref></computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new content of the fixed .ini file(s), keyed by file path    </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="137" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_multi_mod_fixer_1adaf2ab1cd3ab9d831300720f725e6064" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>virtual std::vector&lt; int &gt; AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::selectedChildIds</definition>
+        <argsstring>() const</argsstring>
+        <name>selectedChildIds</name>
+        <qualifiedname>AGRemapCore::MultiModFixer::selectedChildIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ids of the children to run, in insertion order, after applying the ``.ini`` file&apos;s
+:cpp:member:`IniFile::filteredToModTypeIds` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A child with no fixer behind it is left out, so the ids returned here are exactly the
+ones that will contribute -- which is what lets #fixImpl work out which of them is the
+file&apos;s first and last without a second pass
+</verbatim></para>
+<para><simplesect kind="return"><para>The ids of the children that will run, in insertion order </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="153" column="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BaseIniFixer`
+
+A fixer that owns no fixing logic of its own and instead **delegates to one child fixer per
+mod type**, keyed by the ``int`` value of that mod type&apos;s :cpp:enum:`ModTypeId`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Which children run is decided by the ``.ini`` file&apos;s
+:cpp:member:`IniFile::filteredToModTypeIds`: a child whose id is absent from that filter is
+skipped. ``std::nullopt`` there means no filter, so every child runs
+
+.. note::
+   A child is a plain :cpp:class:`BaseIniFixer`, and this class *is* one -- so a
+   ``MultiModFixer`` can be a child of another, and the nesting composes. #fixImpl narrows
+   the :cpp:class:`IniFixingContext` it was handed rather than replacing it, which is what
+   makes that work: a nested fixer&apos;s first child is &quot;the file&apos;s first&quot; only if its parent was
+   told the same
+
+.. note::
+   Children run in the order they were **inserted**, which #Children being a
+   ``tsl::ordered_map`` is what preserves. Only one child may take the ``.ini`` file&apos;s backup
+   and only one may hide the original mod, so which one is &quot;first&quot; and which is &quot;last&quot; has to
+   be answerable the same way twice -- and it is the caller who decides, by ordering the map
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_multi_mod_fixer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BaseIniFixer&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::MultiModFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_multi_mod_fixer"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>BaseIniFixer&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" line="47" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/MultiModFixer.h" bodystart="47" bodyend="159"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a70ba2c896194253f2e9cfb2eee6167a6" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1ae22fb121d14ff08a99478c1eec5e2024" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>Child</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a78f77f50454fe6931b3188a76c14a7f4" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>Children</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a5efdc2da1a0c45ba070fd5c38b031dcf" prot="protected" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>children_</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a6a4d2c8ca19550d9ca580c8b4e17e8f1" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a41296b9142c5c226f4cce1a965599276" prot="protected" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>fixImpl</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a62d01f4d1618e0b055e87c56fc3028ec" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>FixResult</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a2ae279bb935a12071c05b52f38eb9573" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>getChildren</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a56c3e0a2bd184150890397e5e0f91216" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>MultiModFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1a3e016e4127345f92b275fec909e7ae00" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>ParseData</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1adaf2ab1cd3ab9d831300720f725e6064" prot="protected" virt="virtual"><scope>AGRemapCore::MultiModFixer</scope><name>selectedChildIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_multi_mod_fixer_1aac935fbbdd482176bf0b59b2ef855b1e" prot="public" virt="non-virtual"><scope>AGRemapCore::MultiModFixer</scope><name>setChildren</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

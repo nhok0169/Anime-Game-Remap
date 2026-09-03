@@ -4,6 +4,7 @@
     <compoundname>Heading.h</compoundname>
     <includes local="no">cstddef</includes>
     <includes local="no">string</includes>
+    <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
     <includedby refid="_heading_8cpp" local="yes">src/tools/Heading.cpp</includedby>
     <incdepgraph>
       <node id="1">
@@ -27,8 +28,14 @@
         <link refid="_heading_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/model/strategies/ModType.cpp</label>
+        <link refid="_mod_type_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/tools/Heading.cpp</label>
         <link refid="_heading_8cpp"/>
       </node>

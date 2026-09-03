@@ -123,6 +123,12 @@ own doc comment for why the generic ``fixFunc`` mechanism isn&apos;t carried ove
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="5">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
     </inheritancegraph>
     <collaborationgraph>
       <node id="1">

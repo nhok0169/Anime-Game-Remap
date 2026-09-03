@@ -6,6 +6,7 @@
     <innerfile refid="_if_pred_part_8cpp">IfPredPart.cpp</innerfile>
     <innerfile refid="_if_pred_z3_generator_8cpp">IfPredZ3Generator.cpp</innerfile>
     <innerfile refid="_if_template_part_8cpp">IfTemplatePart.cpp</innerfile>
+    <innerfile refid="_if_template_render_8cpp">IfTemplateRender.cpp</innerfile>
     <innerfile refid="_sympy_parser_8cpp">SympyParser.cpp</innerfile>
     <innerfile refid="_z3_if_pred_generator_8cpp">Z3IfPredGenerator.cpp</innerfile>
     <briefdescription>

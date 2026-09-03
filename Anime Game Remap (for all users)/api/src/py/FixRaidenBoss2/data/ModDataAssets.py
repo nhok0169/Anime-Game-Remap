@@ -11,13 +11,13 @@
 
 ##### EndCredits
 
+##### CppLocalImports
+from ..core import VertexCounts
+from ..core import VGRemaps
+##### EndCppLocalImports
+
 ##### LocalImports
 from ..tools.enums.DeferredEnum import DeferredEnum
-from ..model.assets.IniParseBuilderArgs import IniParseBuilderArgs
-from ..model.assets.IniFixBuilderArgs import IniFixBuilderArgs
-from ..model.assets.VertexCounts import VertexCounts
-from ..model.assets.VGRemaps import VGRemaps
-from ..model.assets.PositionEditors import PositionEditors
 ##### EndLocalImports
 
 
@@ -53,9 +53,6 @@ class ModDataAssets(DeferredEnum):
         The Vertex Group Remaps for a mod
     """
 
-    IniParseBuilderArgs = (lambda: IniParseBuilderArgs(), )
-    IniFixBuilderArgs = (lambda: IniFixBuilderArgs(), )
-    PositionEditors = (lambda: PositionEditors(), )
     VertexCounts = (lambda: VertexCounts(), )
     VGRemaps = (lambda: VGRemaps(), )
 ##### EndScript

@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGIBuilder', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilder', 'CppIniFixBuilderArgs', 'CppIniParseBuilder', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilder', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppModAssets', 'CppModType', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniRemovalContext', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModDictAssets', 'ModMappedAssets', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseBufEditor:
     """
     
@@ -2390,7 +2390,7 @@ class CppBaseIniFixer:
     """
     
     The shared C++ base of every fixer, exposed so that one built on the C++ side -- by a
-    :class:`CppIniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    :class:`IniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
     `Python`_ :raw-html:`<br />` :raw-html:`<br />`
     
     Not usually what you want: a fixer created **from** `Python`_ is a :class:`BaseIniFixer`, which
@@ -2402,7 +2402,7 @@ class CppBaseIniParser:
     """
     
     The shared C++ base of every parser, exposed so that one built on the C++ side -- by a
-    :class:`CppIniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    :class:`IniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
     `Python`_ :raw-html:`<br />` :raw-html:`<br />`
     
     Not usually what you want: a parser created **from** `Python`_ is a :class:`BaseIniParser`, which
@@ -2414,7 +2414,7 @@ class CppBaseIniRemover:
     """
     
     The shared C++ base of every remover, exposed so that one built on the C++ side -- by a
-    :class:`CppIniRemoveBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+    :class:`IniRemoveBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
     `Python`_ :raw-html:`<br />` :raw-html:`<br />`
     
     Not usually what you want: a remover created **from** `Python`_ is a :class:`BaseIniRemover`, which
@@ -3057,230 +3057,6 @@ class CppCorrectGamma(CppBasePixelTransform):
     @gamma.setter
     def gamma(self, arg0: typing.SupportsFloat | typing.SupportsIndex) -> None:
         ...
-class CppGIBuilder:
-    """
-    
-    Creates new :class:`CppModType` objects for GI (Genshin Impact) mods
-    
-    Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-side
-    :class:`CppModType` (id, name, and aliases only) instead of the full pure-Python :class:`ModType`
-        
-    """
-    @staticmethod
-    def amber() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Amber
-        """
-    @staticmethod
-    def amberCN() -> CppModType:
-        """
-        Creates the :class:`CppModType` for AmberCN
-        """
-    @staticmethod
-    def arlecchino() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Arlecchino
-        """
-    @staticmethod
-    def ayaka() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Ayaka
-        """
-    @staticmethod
-    def ayakaSpringBloom() -> CppModType:
-        """
-        Creates the :class:`CppModType` for AyakaSpringBloom
-        """
-    @staticmethod
-    def barbara() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Barbara
-        """
-    @staticmethod
-    def barbaraSummerTime() -> CppModType:
-        """
-        Creates the :class:`CppModType` for BarbaraSummerTime
-        """
-    @staticmethod
-    def cherryHutao() -> CppModType:
-        """
-        Creates the :class:`CppModType` for CherryHuTao
-        """
-    @staticmethod
-    def diluc() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Diluc
-        """
-    @staticmethod
-    def dilucFlamme() -> CppModType:
-        """
-        Creates the :class:`CppModType` for DilucFlamme
-        """
-    @staticmethod
-    def fischl() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Fischl
-        """
-    @staticmethod
-    def fischlHighness() -> CppModType:
-        """
-        Creates the :class:`CppModType` for FischlHighness
-        """
-    @staticmethod
-    def ganyu() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Ganyu
-        """
-    @staticmethod
-    def ganyuTwilight() -> CppModType:
-        """
-        Creates the :class:`CppModType` for GanyuTwilight
-        """
-    @staticmethod
-    def huTao() -> CppModType:
-        """
-        Creates the :class:`CppModType` for HuTao
-        """
-    @staticmethod
-    def jean() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Jean
-        """
-    @staticmethod
-    def jeanCN() -> CppModType:
-        """
-        Creates the :class:`CppModType` for JeanCN
-        """
-    @staticmethod
-    def jeanSea() -> CppModType:
-        """
-        Creates the :class:`CppModType` for JeanSea
-        """
-    @staticmethod
-    def kaeya() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Kaeya
-        """
-    @staticmethod
-    def kaeyaSailwind() -> CppModType:
-        """
-        Creates the :class:`CppModType` for KaeyaSailwind
-        """
-    @staticmethod
-    def keqing() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Keqing
-        """
-    @staticmethod
-    def keqingOpulent() -> CppModType:
-        """
-        Creates the :class:`CppModType` for KeqingOpulent
-        """
-    @staticmethod
-    def kirara() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Kirara
-        """
-    @staticmethod
-    def kiraraBoots() -> CppModType:
-        """
-        Creates the :class:`CppModType` for KiraraBoots
-        """
-    @staticmethod
-    def klee() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Klee
-        """
-    @staticmethod
-    def kleeBlossomingStarlight() -> CppModType:
-        """
-        Creates the :class:`CppModType` for KleeBlossomingStarlight
-        """
-    @staticmethod
-    def lisa() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Lisa
-        """
-    @staticmethod
-    def lisaStudent() -> CppModType:
-        """
-        Creates the :class:`CppModType` for LisaStudent
-        """
-    @staticmethod
-    def mona() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Mona
-        """
-    @staticmethod
-    def monaCN() -> CppModType:
-        """
-        Creates the :class:`CppModType` for MonaCN
-        """
-    @staticmethod
-    def nilou() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Nilou
-        """
-    @staticmethod
-    def nilouBreeze() -> CppModType:
-        """
-        Creates the :class:`CppModType` for NilouBreeze
-        """
-    @staticmethod
-    def ningguang() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Ningguang
-        """
-    @staticmethod
-    def ningguangOrchid() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Ningguang
-        """
-    @staticmethod
-    def raiden() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Ei
-        """
-    @staticmethod
-    def rosaria() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Rosaria
-        """
-    @staticmethod
-    def rosariaCN() -> CppModType:
-        """
-        Creates the :class:`CppModType` for RosariaCN
-        """
-    @staticmethod
-    def shenhe() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Shenhe
-        """
-    @staticmethod
-    def shenheFrostFlower() -> CppModType:
-        """
-        Creates the :class:`CppModType` for ShenheFrostFlower
-        """
-    @staticmethod
-    def xiangling() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Xiangling
-        """
-    @staticmethod
-    def xianglingCheer() -> CppModType:
-        """
-        Creates the :class:`CppModType` for XianglingCheer
-        """
-    @staticmethod
-    def xingqiu() -> CppModType:
-        """
-        Creates the :class:`CppModType` for Xingqiu
-        """
-    @staticmethod
-    def xingqiuBamboo() -> CppModType:
-        """
-        Creates the :class:`CppModType` for XingqiuBamboo
-        """
 class CppGammaFilter(CppBaseTexFilter):
     """
     
@@ -3322,7 +3098,7 @@ class CppGammaFilter(CppBaseTexFilter):
 class CppGlobalModTypes:
     """
     
-    Every :class:`CppModType` the software ships with, and the one place that files them into
+    Every :class:`ModType` the software ships with, and the one place that files them into
     :class:`ModTypeIdTools`'s global registry
     
     The counterpart to the pure-Python :class:`ModTypes` enum, whose ``getAll()`` likewise builds the
@@ -3337,16 +3113,16 @@ class CppGlobalModTypes:
         
     """
     @staticmethod
-    def all() -> list[CppModType]:
+    def all() -> list[ModType]:
         """
-        Retrieves every shipped :class:`CppModType`, freshly built on each call
+        Retrieves every shipped :class:`ModType`, freshly built on each call
         
-        Fresh rather than shared because a :class:`CppModType` owns mutable asset tables, so one caller
+        Fresh rather than shared because a :class:`ModType` owns mutable asset tables, so one caller
         adding a hash must not be visible to every other one
         
         Returns
         -------
-        List[:class:`CppModType`]
+        List[:class:`ModType`]
             All the shipped mod types
         """
     @staticmethod
@@ -3550,313 +3326,31 @@ class CppHueAdjust(CppBaseTexFilter):
     @hue.setter
     def hue(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
-class CppIniFixBuilder:
-    """
-    
-    A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
-    
-    The C++ counterpart to :class:`IniFixBuilder`, and what :attr:`CppModType.iniFixBuilder` holds. It
-    comes in the same two flavours:
-    
-    * **Fixed** -- one factory used for every .ini file, whatever its version
-    * **Version-dependent** -- a lookup table consulted on every :meth:`build`
-    
-    Unlike the parse and remove builders, one source mod may be fixed onto **several** targets, which
-    is what :meth:`buildAll` exists for -- normally you want that rather than :meth:`build`
-    
-    Parameters
-    ----------
-    factory: Optional[Callable[[:class:`CppBaseIniParser`, :class:`str`], Optional[:class:`BaseIniFixer`]]]
-        Called to build each fixer, with the parser that read the .ini file and the name of the mod
-        being fixed **to** :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``, which uses :meth:`defaultFactory`
-    
-    .. note::
-        Only the fixed flavour is constructible from Python -- see :class:`CppIniFixBuilderArgs`
-        
-    """
-    @staticmethod
-    def defaultFactory() -> collections.abc.Callable:
-        """
-        The factory used when none is supplied -- builds a :class:`GIMIFixer` owning its own fix context
-        
-        Returns
-        -------
-        Callable[[:class:`CppBaseIniParser`, :class:`str`], :class:`CppBaseIniFixer`]
-            The default factory
-        """
-    @typing.overload
-    def __init__(self) -> None:
-        ...
-    @typing.overload
-    def __init__(self, factory: typing.Any = None) -> None:
-        ...
-    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniFixer:
-        """
-        Builds the fixer for **one** target mod
-        
-        Use :meth:`buildAll` when the target is not known up front, which is the normal case
-        
-        Parameters
-        ----------
-        parser: :class:`CppBaseIniParser`
-            The parser that read the .ini file being fixed
-        
-        fromModName: :class:`str`
-            The name of the mod being fixed **from**
-        
-        toModName: :class:`str`
-            The name of the mod being fixed **to**
-        
-        fromVersion: Optional[:class:`CppVersion`]
-            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        toVersion: Optional[:class:`CppVersion`]
-            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`CppBaseIniFixer`
-            The built fixer -- the very same object a Python factory returned, when one was given
-        """
-    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None) -> list[tuple[str, CppBaseIniFixer]]:
-        """
-        Builds one fixer per mod 'fromModName' can be fixed onto
-        
-        Parameters
-        ----------
-        parser: :class:`CppBaseIniParser`
-            The parser that read the .ini file being fixed
-        
-        fromModName: :class:`str`
-            The name of the mod being fixed **from**
-        
-        fromVersion: Optional[:class:`CppVersion`]
-            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        toVersion: Optional[:class:`CppVersion`]
-            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        filteredToModNames: Optional[Set[:class:`str`]]
-            Only build fixers for these target mods :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning every target
-        
-        Returns
-        -------
-        List[Tuple[:class:`str`, :class:`CppBaseIniFixer`]]
-            One ``(toModName, fixer)`` pair per target mod, in no particular order
-        """
-    @property
-    def builderArgs(self) -> CppIniFixBuilderArgs:
-        """
-        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
-        
-        :class:`CppIniFixBuilderArgs`
-        """
-    @property
-    def errorOnNotFound(self) -> bool:
-        """
-        Whether :meth:`build` raises rather than falling back when the key has no row
-        
-        :class:`bool`
-        """
 class CppIniFixBuilderArgs:
     """
     
-    The version-dependent lookup table a :class:`CppIniFixBuilder` resolves its factory from
+    The version-dependent lookup table a :class:`IniFixBuilder` resolves its factory from
     
     Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
-    every mod type from :meth:`CppGIBuilder.all` does -- can say so
+    every mod type from :meth:`GIBuilder.all` does -- can say so
         
     """
-class CppIniParseBuilder:
-    """
-    
-    A factory that builds the :class:`CppBaseIniParser` for one .ini file
-    
-    The C++ counterpart to :class:`IniParseBuilder`, and what :attr:`CppModType.iniParseBuilder` holds.
-    It comes in the same two flavours:
-    
-    * **Fixed** -- one factory used for every .ini file, whatever its version
-    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
-      :meth:`build`, so a 5.7-era .ini file gets a different parser than a 4.0-era one
-    
-    Parameters
-    ----------
-    factory: Optional[Callable[[:class:`IniFile`, Optional[:class:`int`]], Optional[:class:`BaseIniParser`]]]
-        Called to build each parser, with the .ini file it will read and the id of the mod type it is
-        being built for :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``, which uses :meth:`defaultFactory`
-    
-    .. note::
-        Only the fixed flavour is constructible from Python -- see :class:`CppIniParseBuilderArgs`
-        
-    """
-    @staticmethod
-    def defaultFactory() -> collections.abc.Callable:
-        """
-        The factory used when none is supplied -- builds a :class:`GIMIParser` owning its own parse context
-        
-        Returns
-        -------
-        Callable[[:class:`IniFile`, Optional[:class:`int`]], :class:`CppBaseIniParser`]
-            The default factory
-        """
-    @typing.overload
-    def __init__(self) -> None:
-        ...
-    @typing.overload
-    def __init__(self, factory: typing.Any = None) -> None:
-        ...
-    def build(self, iniFile: IniFile, modName: str, version: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniParser:
-        """
-        Builds the parser for one .ini file
-        
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file the built parser will read
-        
-        modName: :class:`str`
-            The name of the mod to build the parser for :raw-html:`<br />` :raw-html:`<br />`
-        
-            Ignored entirely by a fixed-factory builder
-        
-        version: Optional[:class:`CppVersion`]
-            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning the latest listed version
-        
-        modTypeId: Optional[:class:`int`]
-            Which of the .ini file's mod types the parser is being built for :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`CppBaseIniParser`
-            The built parser -- the very same object a Python factory returned, when one was given
-        """
-    @property
-    def builderArgs(self) -> CppIniParseBuilderArgs:
-        """
-        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
-        
-        :class:`CppIniParseBuilderArgs`
-        """
-    @property
-    def errorOnNotFound(self) -> bool:
-        """
-        Whether :meth:`build` raises rather than falling back when the mod name has no row
-        
-        :class:`bool`
-        """
 class CppIniParseBuilderArgs:
     """
     
-    The version-dependent lookup table a :class:`CppIniParseBuilder` resolves its factory from
+    The version-dependent lookup table a :class:`IniParseBuilder` resolves its factory from
     
     Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
-    every mod type from :meth:`CppGIBuilder.all` does -- can say so
+    every mod type from :meth:`GIBuilder.all` does -- can say so
         
     """
-class CppIniRemoveBuilder:
-    """
-    
-    A factory that builds the :class:`CppBaseIniRemover` for one .ini file
-    
-    The C++ counterpart to :class:`IniRemoveBuilder`, and what :attr:`CppModType.iniRemoveBuilder`
-    holds. It comes in the same two flavours:
-    
-    * **Fixed** -- one factory used for every .ini file, whatever its version
-    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
-      :meth:`build`
-    
-    Parameters
-    ----------
-    factory: Optional[Callable[[:class:`IniFile`], Optional[:class:`BaseIniRemover`]]]
-        Called to build each remover, with the .ini file the remover will act on :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``None``, which uses :meth:`defaultFactory`
-    
-    .. note::
-        Only the fixed flavour is constructible from Python -- see :class:`CppIniRemoveBuilderArgs`
-        
-    """
-    @staticmethod
-    def defaultFactory() -> collections.abc.Callable:
-        """
-        The factory used when none is supplied -- builds a :class:`RemapIniRemover`
-        
-        Returns
-        -------
-        Callable[[:class:`IniFile`], :class:`CppBaseIniRemover`]
-            The default factory
-        """
-    @typing.overload
-    def __init__(self) -> None:
-        ...
-    @typing.overload
-    def __init__(self, factory: typing.Any = None) -> None:
-        ...
-    def build(self, iniFile: IniFile, modName: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniRemover:
-        """
-        Builds the remover for one .ini file
-        
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file the built remover will act on
-        
-        modName: :class:`str`
-            The name of the mod to build the remover for :raw-html:`<br />` :raw-html:`<br />`
-        
-            Ignored entirely by a fixed-factory builder :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``""``
-        
-        version: Optional[:class:`CppVersion`]
-            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning the latest listed version
-        
-        Returns
-        -------
-        :class:`CppBaseIniRemover`
-            The built remover -- a :class:`BaseIniRemover` when the factory came from Python
-        """
-    @property
-    def builderArgs(self) -> CppIniRemoveBuilderArgs:
-        """
-        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
-        
-        :class:`CppIniRemoveBuilderArgs`
-        """
-    @property
-    def errorOnNotFound(self) -> bool:
-        """
-        Whether :meth:`build` raises rather than falling back when the mod name has no row
-        
-        :class:`bool`
-        """
 class CppIniRemoveBuilderArgs:
     """
     
-    The version-dependent lookup table a :class:`CppIniRemoveBuilder` resolves its factory from
+    The version-dependent lookup table a :class:`IniRemoveBuilder` resolves its factory from
     
     Opaque: there is no way to build one from Python yet. It is exposed so that a builder which
-    *has* one -- every mod type from :meth:`CppGIBuilder.all` does -- can say so
+    *has* one -- every mod type from :meth:`GIBuilder.all` does -- can say so
         
     """
 class CppIntTools:
@@ -4057,338 +3551,6 @@ class CppListTools:
                                 List[T]
                                     The new list with elements specified by indices removed
         """
-class CppModAssets:
-    """
-    
-    Handles assets of any type for a mod where retrieval is based on some keys where one or more of
-    the keys refer to some versioning
-    
-    :raw-html:`<br />`
-    
-    If an asset has only one version column, :class:`CppModDictAssets` is the better fit (a real
-    hash-map lookup instead of this class's linear scan) -- this class exists specifically for the
-    multi-version-column case (e.g. this project's real ``VGRemaps``, which resolves a ``fromVersion``
-    and a ``toVersion`` independently and sequentially)
-    
-    :raw-html:`<br />`
-    
-    Like :class:`CppModDictAssets`, the source data is never a nested dict internally -- rows are
-    supplied already-flattened, as a list of ``(indexVals, value)`` tuples, or as a real nested dict
-    (flattened automatically -- see the constructor's 'rows' argument)
-        
-    """
-    def __init__(self, isVersionColumn: collections.abc.Sequence[bool], rows: typing.Any = []) -> None:
-        """
-        Constructs a new asset lookup table
-        
-        Parameters
-        ----------
-        isVersionColumn: List[:class:`bool`]
-            One entry per index column, in index order -- ``True`` marks that column as a version column.
-            Must have at least 1 element
-        
-        rows: Union[List[Tuple[List[Any], Any]], dict]
-            The initial rows to populate the table with -- either a flat list of ``(indexVals, value)``
-            tuples, or a real nested dict ('len(isVersionColumn)' levels deep)
-        
-            **Default**: ``[]``
-        """
-    def __len__(self) -> int:
-        """
-        The total number of rows currently in the table
-        """
-    def addRows(self, rows: typing.Any) -> None:
-        """
-        Adds new rows to the table (an addition beyond the pure-Python original, which has no
-        incremental-add capability at all) -- overwrites the value of any row whose full key already
-        exists
-        
-        Parameters
-        ----------
-        rows: Union[List[Tuple[List[Any], Any]], dict]
-            The rows to add, in the same shape as the constructor's own 'rows' argument
-        """
-    def get(self, nonVersionVals: collections.abc.Sequence[typing.Any], versionVals: collections.abc.Sequence[typing.Any], errorOnNotFound: bool = True) -> typing.Any:
-        """
-        Retrieves the corresponding asset
-        
-        Parameters
-        ----------
-        nonVersionVals: List[Optional[Any]]
-            One entry per non-version column, in their relative index order -- ``None`` at a position
-            means "match any value there". Must have exactly :attr:`nonVersionColumnCount` elements
-        
-        versionVals: List[Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]]
-            One entry per version column, in their relative index order -- ``None`` at a position means
-            "use the latest available value for this column, among rows still matching everything
-            resolved so far". Must have exactly :attr:`versionColumnCount` elements :raw-html:`<br />` :raw-html:`<br />`
-        
-            Version columns are resolved sequentially, in index order -- each one's floor-match narrows
-            the candidate set before the next version column is resolved against it
-        
-        errorOnNotFound: :class:`bool`
-            Whether to raise :class:`KeyError` if no matching asset is found
-        
-            **Default**: ``True``
-        
-        Raises
-        ------
-        :class:`ValueError`
-            If 'nonVersionVals'/'versionVals' don't have exactly :attr:`nonVersionColumnCount`/
-            :attr:`versionColumnCount` elements respectively, or if a version value doesn't parse
-        
-        :class:`KeyError`
-            If no matching asset is found and 'errorOnNotFound' is ``True``
-        
-        Returns
-        -------
-        Any
-            The found asset, or ``None`` if none is found and 'errorOnNotFound' is ``False``
-        """
-    @property
-    def nonVersionColumnCount(self) -> int:
-        """
-        :class:`int`: The number of non-version columns
-        """
-    @property
-    def totalIndices(self) -> int:
-        """
-        :class:`int`: The total number of index columns
-        """
-    @property
-    def versionColumnCount(self) -> int:
-        """
-        :class:`int`: The number of version columns
-        """
-class CppModType:
-    """
-    
-    Heavy data for a type of mod
-    
-    Meant to carry the full C++-side representation of a mod type -- contrast with the cheap
-    :class:`ModTypeIdData` an ini classifier (e.g. :class:`BaseIniClassifier`) holds instead. The
-    Python-side :class:`ModType` is meant to build itself using this data.
-    
-    Parameters
-    ----------
-    gameTypeId: :class:`int`
-        The id for the game this type of mod belongs to -- stored as-is, with no validation that it
-        corresponds to one of :class:`GameTypeId`'s declared values (see :class:`GameTypeIdTools` if
-        that's needed)
-    
-    modTypeId: :class:`int`
-        The id for this specific type of mod -- stored as-is, with no validation that it corresponds
-        to one of :class:`ModTypeId`'s declared values (see :class:`ModTypeIdTools` if that's needed),
-        so a custom mod type using some id not registered in :class:`ModTypeId` can still be represented
-    
-    name: :class:`str`
-        The default name for the type of mod
-    
-    aliases: Optional[List[:class:`str`]]
-        Other alternative names for the type of mod :raw-html:`<br />` :raw-html:`<br />`
-    
-        **Default**: ``[]``
-        
-    """
-    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = []) -> None:
-        ...
-    def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
-        """
-        Fixes a .ini file, but **only if that file was classified as this mod type** -- a no-op otherwise
-        
-        Returns nothing, matching the pure-Python original: the fix it produces is written out by
-        :meth:`IniFile.fix` rather than handed back. Call that directly to see it
-        
-        Parameters
-        ----------
-        iniFile: :class:`IniFile`
-            The .ini file to fix
-        
-        keepBackup: :class:`bool`
-            Whether to keep a backup copy of the original .ini file :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``True``
-        
-        fixOnly: :class:`bool`
-            Whether to only fix without removing any previous fix :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``False``
-        """
-    def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.CppVersion | None = None, nonVersionVals: typing.Any = None) -> Ranges:
-        """
-        Retrieves the valid ranges of order indices within an :class:`IfContentPart` whose ``hash`` values
-        belong to this mod type
-        
-        Parameters
-        ----------
-        partColours: :class:`IfContentPartColouring`
-            The current states of the :class:`IfContentPart`
-        
-        version: Optional[:class:`CppVersion`]
-            The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning any
-        
-        nonVersionVals: Optional[List[Optional[:class:`str`]]]
-            Values for the non-version index columns, used to narrow which instance of a hash is wanted
-            :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        :class:`Ranges`
-            The valid ranges of indices
-        """
-    def getHelpStr(self) -> str:
-        """
-        Retrieves the help text describing this mod type, as the CLI prints it
-        
-        Returns
-        -------
-        :class:`str`
-            The help text
-        """
-    def getModsToFix(self) -> set[str]:
-        """
-        Retrieves the names of the mods this mod type can be fixed onto
-        
-        .. warning::
-            **Deliberately not bug-compatible with the pure-Python** :meth:`ModType.getModsToFix`. That one
-            unions ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never populates
-            anywhere, so it returns an empty set for every mod type, always. This reads the remap targets
-            that actually exist
-        
-        Returns
-        -------
-        Set[:class:`str`]
-            The names of the mods to fix to
-        """
-    def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
-        """
-        Retrieves the vertex group remap for fixing this mod type onto another
-        
-        Parameters
-        ----------
-        modName: :class:`str`
-            The name of the mod being fixed onto
-        
-        fromVersion: Optional[:class:`CppVersion`]
-            The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning the latest
-        
-        toVersion: Optional[:class:`CppVersion`]
-            The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning the latest
-        
-        fromComp: Optional[:class:`str`]
-            The component being fixed from. ``None`` leaves the column unconstrained :raw-html:`<br />`
-            :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        toComp: Optional[:class:`str`]
-            The component being fixed onto, with the same ``None`` meaning :raw-html:`<br />`
-            :raw-html:`<br />`
-        
-            **Default**: ``None``
-        
-        Returns
-        -------
-        Optional[:class:`VGRemap`]
-            The remap, or ``None`` if the table has no matching row
-        """
-    def getVertexCount(self, version: FixRaidenBoss2.core.CppVersion | None = None) -> int | None:
-        """
-        Retrieves the number of vertices for this mod
-        
-        Parameters
-        ----------
-        version: Optional[:class:`CppVersion`]
-            The game version wanted :raw-html:`<br />` :raw-html:`<br />`
-        
-            **Default**: ``None``, meaning the latest
-        
-        Returns
-        -------
-        Optional[:class:`int`]
-            The vertex count, or ``None`` if this mod type has no row for it
-        """
-    def isName(self, name: str) -> bool:
-        """
-        Determines whether this mod type goes by some name
-        
-        Compared case-insensitively against :attr:`CppModType.name` and every entry in
-        :attr:`CppModType.aliases`
-        
-        Parameters
-        ----------
-        name: :class:`str`
-            The name to check
-        
-        Returns
-        -------
-        :class:`bool`
-            Whether this mod type goes by 'name'
-        """
-    @property
-    def aliases(self) -> list[str]:
-        """
-        List[:class:`str`]: Other alternative names for the type of mod
-        """
-    @aliases.setter
-    def aliases(self, arg0: collections.abc.Sequence[str]) -> None:
-        ...
-    @property
-    def gameTypeId(self) -> int:
-        """
-        :class:`int`: The id for the game this type of mod belongs to
-        """
-    @gameTypeId.setter
-    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def iniFixBuilder(self) -> CppIniFixBuilder:
-        """
-        :class:`CppIniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type
-        """
-    @iniFixBuilder.setter
-    def iniFixBuilder(self, arg0: CppIniFixBuilder) -> None:
-        ...
-    @property
-    def iniParseBuilder(self) -> CppIniParseBuilder:
-        """
-        :class:`CppIniParseBuilder`: The builder for the parser that reads a .ini file of this mod type
-        """
-    @iniParseBuilder.setter
-    def iniParseBuilder(self, arg0: CppIniParseBuilder) -> None:
-        ...
-    @property
-    def iniRemoveBuilder(self) -> CppIniRemoveBuilder:
-        """
-        :class:`CppIniRemoveBuilder`: The builder for the remover that removes a previous fix
-        """
-    @iniRemoveBuilder.setter
-    def iniRemoveBuilder(self, arg0: CppIniRemoveBuilder) -> None:
-        ...
-    @property
-    def modTypeId(self) -> int:
-        """
-        :class:`int`: The id for this specific type of mod
-        """
-    @modTypeId.setter
-    def modTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
-        ...
-    @property
-    def name(self) -> str:
-        """
-        :class:`str`: The default name for the type of mod
-        """
-    @name.setter
-    def name(self, arg0: str) -> None:
-        ...
 class CppPixelFilter(CppBaseTexFilter):
     """
     
@@ -5691,6 +4853,230 @@ class FilteredTokenizer(BaseTokenizer):
     def keywordTokenIds(self) -> set[str]:
         """
         Set[:class:`str`]: The ids of the accepting states in the `DFA`_ such that their corresponding tokens are simply keyword names
+        """
+class GIBuilder:
+    """
+    
+    Creates new :class:`ModType` objects for GI (Genshin Impact) mods
+    
+    Mirrors the pure-Python :class:`GIBuilder` class, but builds the lighter, C++-side
+    :class:`ModType` (id, name, and aliases only) instead of the full pure-Python :class:`ModType`
+        
+    """
+    @staticmethod
+    def amber() -> ModType:
+        """
+        Creates the :class:`ModType` for Amber
+        """
+    @staticmethod
+    def amberCN() -> ModType:
+        """
+        Creates the :class:`ModType` for AmberCN
+        """
+    @staticmethod
+    def arlecchino() -> ModType:
+        """
+        Creates the :class:`ModType` for Arlecchino
+        """
+    @staticmethod
+    def ayaka() -> ModType:
+        """
+        Creates the :class:`ModType` for Ayaka
+        """
+    @staticmethod
+    def ayakaSpringBloom() -> ModType:
+        """
+        Creates the :class:`ModType` for AyakaSpringBloom
+        """
+    @staticmethod
+    def barbara() -> ModType:
+        """
+        Creates the :class:`ModType` for Barbara
+        """
+    @staticmethod
+    def barbaraSummerTime() -> ModType:
+        """
+        Creates the :class:`ModType` for BarbaraSummerTime
+        """
+    @staticmethod
+    def cherryHutao() -> ModType:
+        """
+        Creates the :class:`ModType` for CherryHuTao
+        """
+    @staticmethod
+    def diluc() -> ModType:
+        """
+        Creates the :class:`ModType` for Diluc
+        """
+    @staticmethod
+    def dilucFlamme() -> ModType:
+        """
+        Creates the :class:`ModType` for DilucFlamme
+        """
+    @staticmethod
+    def fischl() -> ModType:
+        """
+        Creates the :class:`ModType` for Fischl
+        """
+    @staticmethod
+    def fischlHighness() -> ModType:
+        """
+        Creates the :class:`ModType` for FischlHighness
+        """
+    @staticmethod
+    def ganyu() -> ModType:
+        """
+        Creates the :class:`ModType` for Ganyu
+        """
+    @staticmethod
+    def ganyuTwilight() -> ModType:
+        """
+        Creates the :class:`ModType` for GanyuTwilight
+        """
+    @staticmethod
+    def huTao() -> ModType:
+        """
+        Creates the :class:`ModType` for HuTao
+        """
+    @staticmethod
+    def jean() -> ModType:
+        """
+        Creates the :class:`ModType` for Jean
+        """
+    @staticmethod
+    def jeanCN() -> ModType:
+        """
+        Creates the :class:`ModType` for JeanCN
+        """
+    @staticmethod
+    def jeanSea() -> ModType:
+        """
+        Creates the :class:`ModType` for JeanSea
+        """
+    @staticmethod
+    def kaeya() -> ModType:
+        """
+        Creates the :class:`ModType` for Kaeya
+        """
+    @staticmethod
+    def kaeyaSailwind() -> ModType:
+        """
+        Creates the :class:`ModType` for KaeyaSailwind
+        """
+    @staticmethod
+    def keqing() -> ModType:
+        """
+        Creates the :class:`ModType` for Keqing
+        """
+    @staticmethod
+    def keqingOpulent() -> ModType:
+        """
+        Creates the :class:`ModType` for KeqingOpulent
+        """
+    @staticmethod
+    def kirara() -> ModType:
+        """
+        Creates the :class:`ModType` for Kirara
+        """
+    @staticmethod
+    def kiraraBoots() -> ModType:
+        """
+        Creates the :class:`ModType` for KiraraBoots
+        """
+    @staticmethod
+    def klee() -> ModType:
+        """
+        Creates the :class:`ModType` for Klee
+        """
+    @staticmethod
+    def kleeBlossomingStarlight() -> ModType:
+        """
+        Creates the :class:`ModType` for KleeBlossomingStarlight
+        """
+    @staticmethod
+    def lisa() -> ModType:
+        """
+        Creates the :class:`ModType` for Lisa
+        """
+    @staticmethod
+    def lisaStudent() -> ModType:
+        """
+        Creates the :class:`ModType` for LisaStudent
+        """
+    @staticmethod
+    def mona() -> ModType:
+        """
+        Creates the :class:`ModType` for Mona
+        """
+    @staticmethod
+    def monaCN() -> ModType:
+        """
+        Creates the :class:`ModType` for MonaCN
+        """
+    @staticmethod
+    def nilou() -> ModType:
+        """
+        Creates the :class:`ModType` for Nilou
+        """
+    @staticmethod
+    def nilouBreeze() -> ModType:
+        """
+        Creates the :class:`ModType` for NilouBreeze
+        """
+    @staticmethod
+    def ningguang() -> ModType:
+        """
+        Creates the :class:`ModType` for Ningguang
+        """
+    @staticmethod
+    def ningguangOrchid() -> ModType:
+        """
+        Creates the :class:`ModType` for Ningguang
+        """
+    @staticmethod
+    def raiden() -> ModType:
+        """
+        Creates the :class:`ModType` for Ei
+        """
+    @staticmethod
+    def rosaria() -> ModType:
+        """
+        Creates the :class:`ModType` for Rosaria
+        """
+    @staticmethod
+    def rosariaCN() -> ModType:
+        """
+        Creates the :class:`ModType` for RosariaCN
+        """
+    @staticmethod
+    def shenhe() -> ModType:
+        """
+        Creates the :class:`ModType` for Shenhe
+        """
+    @staticmethod
+    def shenheFrostFlower() -> ModType:
+        """
+        Creates the :class:`ModType` for ShenheFrostFlower
+        """
+    @staticmethod
+    def xiangling() -> ModType:
+        """
+        Creates the :class:`ModType` for Xiangling
+        """
+    @staticmethod
+    def xianglingCheer() -> ModType:
+        """
+        Creates the :class:`ModType` for XianglingCheer
+        """
+    @staticmethod
+    def xingqiu() -> ModType:
+        """
+        Creates the :class:`ModType` for Xingqiu
+        """
+    @staticmethod
+    def xingqiuBamboo() -> ModType:
+        """
+        Creates the :class:`ModType` for XingqiuBamboo
         """
 class GIMIFixer(BaseIniFixer):
     """
@@ -9541,7 +8927,7 @@ class IniFile:
         Mod types cross this boundary as **ids**, not as pure-Python :class:`ModType` objects: this
         class resolves a mod type's parse/fix/remove builders through the global registry keyed by
         ``modTypeId``, or through whatever ``overrideModTypes`` files under that id. See
-        :class:`CppModType`
+        :class:`ModType`
     
     Parameters
     ----------
@@ -9574,7 +8960,7 @@ class IniFile:
     
         **Default**: ``None``
     
-    overrideModTypes: Optional[Dict[:class:`int`, :class:`CppModType`]]
+    overrideModTypes: Optional[Dict[:class:`int`, :class:`ModType`]]
         Mod types to resolve by id ahead of the global registry :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
@@ -9637,7 +9023,7 @@ class IniFile:
         :class:`bool`
             Whether the line declares a `section`_
         """
-    def __init__(self, file: str | None = None, txt: str = '', gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, CppModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
+    def __init__(self, file: str | None = None, txt: str = '', gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
         ...
     def classify(self) -> None:
         """
@@ -9761,7 +9147,7 @@ class IniFile:
         
         Returns
         -------
-        Dict[:class:`int`, :class:`CppModType`]
+        Dict[:class:`int`, :class:`ModType`]
             The mod types, in the order they were classified
         """
     def getReferencedFolders(self) -> list[str]:
@@ -9890,9 +9276,9 @@ class IniFile:
             The text that was written
         """
     @property
-    def availableType(self) -> CppModType:
+    def availableType(self) -> ModType:
         """
-        Optional[:class:`CppModType`]: The type of mod the .ini file was classified as, or ``None`` if it
+        Optional[:class:`ModType`]: The type of mod the .ini file was classified as, or ``None`` if it
         was not classified as any
         """
     @property
@@ -10000,6 +9386,126 @@ class IniFile:
     @toVersion.setter
     def toVersion(self, arg1: typing.Any) -> None:
         ...
+class IniFixBuilder:
+    """
+    
+    A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
+    
+    What :attr:`ModType.iniFixBuilder` holds, and what the pure-Python builder of this name was
+    replaced by. It comes in two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted on every :meth:`build`
+    
+    Unlike the parse and remove builders, one source mod may be fixed onto **several** targets, which
+    is what :meth:`buildAll` exists for -- normally you want that rather than :meth:`build`
+    
+    Parameters
+    ----------
+    factory: Optional[Callable[[:class:`CppBaseIniParser`, :class:`str`], Optional[:class:`BaseIniFixer`]]]
+        Called to build each fixer, with the parser that read the .ini file and the name of the mod
+        being fixed **to** :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, which uses :meth:`defaultFactory`
+    
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniFixBuilderArgs`
+        
+    """
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`GIMIFixer` owning its own fix context
+        
+        Returns
+        -------
+        Callable[[:class:`CppBaseIniParser`, :class:`str`], :class:`CppBaseIniFixer`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniFixer:
+        """
+        Builds the fixer for **one** target mod
+        
+        Use :meth:`buildAll` when the target is not known up front, which is the normal case
+        
+        Parameters
+        ----------
+        parser: :class:`CppBaseIniParser`
+            The parser that read the .ini file being fixed
+        
+        fromModName: :class:`str`
+            The name of the mod being fixed **from**
+        
+        toModName: :class:`str`
+            The name of the mod being fixed **to**
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`CppBaseIniFixer`
+            The built fixer -- the very same object a Python factory returned, when one was given
+        """
+    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None) -> list[tuple[str, CppBaseIniFixer]]:
+        """
+        Builds one fixer per mod 'fromModName' can be fixed onto
+        
+        Parameters
+        ----------
+        parser: :class:`CppBaseIniParser`
+            The parser that read the .ini file being fixed
+        
+        fromModName: :class:`str`
+            The name of the mod being fixed **from**
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The game version to fix to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        filteredToModNames: Optional[Set[:class:`str`]]
+            Only build fixers for these target mods :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning every target
+        
+        Returns
+        -------
+        List[Tuple[:class:`str`, :class:`CppBaseIniFixer`]]
+            One ``(toModName, fixer)`` pair per target mod, in no particular order
+        """
+    @property
+    def builderArgs(self) -> CppIniFixBuilderArgs:
+        """
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniFixBuilderArgs`
+        """
+    @property
+    def errorOnNotFound(self) -> bool:
+        """
+        Whether :meth:`build` raises rather than falling back when the key has no row
+        
+        :class:`bool`
+        """
 class IniFixResource(IniResource):
     """
     
@@ -10352,6 +9858,89 @@ class IniGroupedResource:
     @resources.setter
     def resources(self, arg0: dict) -> None:
         ...
+class IniParseBuilder:
+    """
+    
+    A factory that builds the :class:`CppBaseIniParser` for one .ini file
+    
+    What :attr:`ModType.iniParseBuilder` holds, and what the pure-Python builder of this name was
+    replaced by. It comes in two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
+      :meth:`build`, so a 5.7-era .ini file gets a different parser than a 4.0-era one
+    
+    Parameters
+    ----------
+    factory: Optional[Callable[[:class:`IniFile`, Optional[:class:`int`]], Optional[:class:`BaseIniParser`]]]
+        Called to build each parser, with the .ini file it will read and the id of the mod type it is
+        being built for :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, which uses :meth:`defaultFactory`
+    
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniParseBuilderArgs`
+        
+    """
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`GIMIParser` owning its own parse context
+        
+        Returns
+        -------
+        Callable[[:class:`IniFile`, Optional[:class:`int`]], :class:`CppBaseIniParser`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, iniFile: IniFile, modName: str, version: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniParser:
+        """
+        Builds the parser for one .ini file
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file the built parser will read
+        
+        modName: :class:`str`
+            The name of the mod to build the parser for :raw-html:`<br />` :raw-html:`<br />`
+        
+            Ignored entirely by a fixed-factory builder
+        
+        version: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest listed version
+        
+        modTypeId: Optional[:class:`int`]
+            Which of the .ini file's mod types the parser is being built for :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`CppBaseIniParser`
+            The built parser -- the very same object a Python factory returned, when one was given
+        """
+    @property
+    def builderArgs(self) -> CppIniParseBuilderArgs:
+        """
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniParseBuilderArgs`
+        """
+    @property
+    def errorOnNotFound(self) -> bool:
+        """
+        Whether :meth:`build` raises rather than falling back when the mod name has no row
+        
+        :class:`bool`
+        """
 class IniRemovalContext:
     """
     
@@ -10394,6 +9983,85 @@ class IniRemovalContext:
     @ignoreModType.setter
     def ignoreModType(self, arg0: bool) -> None:
         ...
+class IniRemoveBuilder:
+    """
+    
+    A factory that builds the :class:`CppBaseIniRemover` for one .ini file
+    
+    What :attr:`ModType.iniRemoveBuilder` holds, and what the pure-Python builder of this name was
+    replaced by. It comes in two flavours:
+    
+    * **Fixed** -- one factory used for every .ini file, whatever its version
+    * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every
+      :meth:`build`
+    
+    Parameters
+    ----------
+    factory: Optional[Callable[[:class:`IniFile`], Optional[:class:`BaseIniRemover`]]]
+        Called to build each remover, with the .ini file the remover will act on :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``, which uses :meth:`defaultFactory`
+    
+    .. note::
+        Only the fixed flavour is constructible from Python -- see :class:`CppIniRemoveBuilderArgs`
+        
+    """
+    @staticmethod
+    def defaultFactory() -> collections.abc.Callable:
+        """
+        The factory used when none is supplied -- builds a :class:`RemapIniRemover`
+        
+        Returns
+        -------
+        Callable[[:class:`IniFile`], :class:`CppBaseIniRemover`]
+            The default factory
+        """
+    @typing.overload
+    def __init__(self) -> None:
+        ...
+    @typing.overload
+    def __init__(self, factory: typing.Any = None) -> None:
+        ...
+    def build(self, iniFile: IniFile, modName: str = '', version: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniRemover:
+        """
+        Builds the remover for one .ini file
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file the built remover will act on
+        
+        modName: :class:`str`
+            The name of the mod to build the remover for :raw-html:`<br />` :raw-html:`<br />`
+        
+            Ignored entirely by a fixed-factory builder :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        version: Optional[:class:`CppVersion`]
+            The game version the .ini file originates from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest listed version
+        
+        Returns
+        -------
+        :class:`CppBaseIniRemover`
+            The built remover -- a :class:`BaseIniRemover` when the factory came from Python
+        """
+    @property
+    def builderArgs(self) -> CppIniRemoveBuilderArgs:
+        """
+        The lookup table this builder resolves factories from, or ``None`` if it is a fixed-factory builder
+        
+        :class:`CppIniRemoveBuilderArgs`
+        """
+    @property
+    def errorOnNotFound(self) -> bool:
+        """
+        Whether :meth:`build` raises rather than falling back when the mod name has no row
+        
+        :class:`bool`
+        """
 class IniResource:
     """
     
@@ -10773,6 +10441,171 @@ class KeyRemapData:
     def keepKeyWithoutRemap(self) -> bool:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
+        """
+class ModAssets:
+    """
+    
+    Class to handle assets of any type for a mod where retrieval is based on some keys where 1 or more
+    of the keys refer to some versioning
+    
+    :raw-html:`<br />`
+    
+    .. tip::
+        If the assets have more than 1 column that refers to some version, use this data structure.
+        Otherwise if your asset has only 1 column that refers to some version, it is recommended to use
+        :class:`ModDictAssets` instead, since that uses a hash based access instead of a linear scan
+        
+    """
+    NameKey: typing.ClassVar[str] = 'name'
+    ValueKey: typing.ClassVar[str] = 'value'
+    VersionKey: typing.ClassVar[str] = 'version'
+    def __copy__(self) -> ModAssets:
+        ...
+    def __deepcopy__(self, memo: dict) -> ModAssets:
+        ...
+    def __init__(self, repo: typing.Any, indices: typing.Any = None, versionIndices: typing.Any = None, valueCol: typing.Any = None, **kwargs) -> None:
+        """
+        Constructs a new asset lookup table
+        
+        :raw-html:`<br />`
+        
+        .. note::
+            Any extra keyword argument is accepted and ignored, matching the pure-Python original this
+            replaced (whose own constructor ended in ``**kwargs``)
+        
+        Parameters
+        ----------
+        repo: Union[List[Tuple[List[Any], Any]], dict]
+            The original source for the assets -- either an already-flattened list of ``(indexVals, value)``
+            tuples, or a nested dict exactly ``len(indices)`` levels deep
+        
+        indices: Optional[List[:class:`str`]]
+            The names of the index columns to query to retrieve the main content of the asset
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will set 2 index columns by the names "version" and "name"
+        
+            **Default**: ``None``
+        
+        versionIndices: Optional[Set[:class:`str`]]
+            The names of the index columns that refer to some version -- any name not also in 'indices' is
+            ignored :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will set an index to the name "version"
+        
+            **Default**: ``None``
+        
+        valueCol: Optional[:class:`str`]
+            Unused by the lookup (rows already carry their own value, rather than one being selected by
+            column name) -- kept for constructor-signature backward compatibility
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If 'indices' contains a duplicate name
+        
+        :class:`ValueError`
+            If 'repo' is a dict that isn't nested exactly ``len(indices)`` levels deep
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table (an addition beyond the pure-Python original, which has no
+        incremental-add capability at all) -- overwrites the value of any row whose full key already exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The rows to add, in the same shape as the constructor's own 'repo' argument
+        """
+    def clone(self) -> ModAssets:
+        """
+        Creates an independent copy of this table
+        
+        Returns
+        -------
+        :class:`ModAssets`
+            The copied table
+        """
+    def get(self, nonVersionVals: typing.Any, versionVals: typing.Any = None, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding asset
+        
+        Parameters
+        ----------
+        nonVersionVals: Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]
+            The values of the index columns that do not reference a version -- a bare value (taken as the
+            first such column), a positional list, or a dict keyed by index name. A column left
+            unspecified matches anything there
+        
+        versionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The values of the index columns that reference a version, in the same accepted shapes
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            .. note::
+                If the value for a particular version column is ``None``, then will get the latest version
+                for that column -- among the rows still matching everything resolved before it, since
+                version columns are resolved sequentially in index order
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is
+            set to ``True``
+        
+        Returns
+        -------
+        Any
+            Either the found asset, or the value specified from 'default' if 'errorOnNotFound' is set to
+            ``False``
+        """
+    @property
+    def indices(self) -> list[str]:
+        """
+        List[:class:`str`]: The names of the index columns to query to retrieve the main content of an asset
+        """
+    @property
+    def nonVersionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of non-version columns
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns
+        """
+    @property
+    def valueCol(self) -> str:
+        """
+        :class:`str`: Unused by the lookup -- see the constructor's own note
+        """
+    @property
+    def versionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of version columns
+        """
+    @property
+    def versionIndices(self) -> set:
+        """
+        Set[:class:`str`]: The names of the index columns that refer to some version
         """
 class ModDictAssets:
     """
@@ -11175,6 +11008,235 @@ class ModMappedAssets:
         """
         :class:`ModDictAssets`: The underlying asset data
         """
+class ModType:
+    """
+    
+    Heavy data for a type of mod
+    
+    Meant to carry the full C++-side representation of a mod type -- contrast with the cheap
+    :class:`ModTypeIdData` an ini classifier (e.g. :class:`BaseIniClassifier`) holds instead. The
+    Python-side :class:`ModType` is meant to build itself using this data.
+    
+    Parameters
+    ----------
+    gameTypeId: :class:`int`
+        The id for the game this type of mod belongs to -- stored as-is, with no validation that it
+        corresponds to one of :class:`GameTypeId`'s declared values (see :class:`GameTypeIdTools` if
+        that's needed)
+    
+    modTypeId: :class:`int`
+        The id for this specific type of mod -- stored as-is, with no validation that it corresponds
+        to one of :class:`ModTypeId`'s declared values (see :class:`ModTypeIdTools` if that's needed),
+        so a custom mod type using some id not registered in :class:`ModTypeId` can still be represented
+    
+    name: :class:`str`
+        The default name for the type of mod
+    
+    aliases: Optional[List[:class:`str`]]
+        Other alternative names for the type of mod :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``[]``
+        
+    """
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = []) -> None:
+        ...
+    def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
+        """
+        Fixes a .ini file, but **only if that file was classified as this mod type** -- a no-op otherwise
+        
+        Returns nothing, matching the pure-Python original: the fix it produces is written out by
+        :meth:`IniFile.fix` rather than handed back. Call that directly to see it
+        
+        Parameters
+        ----------
+        iniFile: :class:`IniFile`
+            The .ini file to fix
+        
+        keepBackup: :class:`bool`
+            Whether to keep a backup copy of the original .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        fixOnly: :class:`bool`
+            Whether to only fix without removing any previous fix :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        """
+    def getHashRanges(self, partColours: IfContentPartColouring, version: FixRaidenBoss2.core.CppVersion | None = None, nonVersionVals: typing.Any = None) -> Ranges:
+        """
+        Retrieves the valid ranges of order indices within an :class:`IfContentPart` whose ``hash`` values
+        belong to this mod type
+        
+        Parameters
+        ----------
+        partColours: :class:`IfContentPartColouring`
+            The current states of the :class:`IfContentPart`
+        
+        version: Optional[:class:`CppVersion`]
+            The version the hashes should come from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning any
+        
+        nonVersionVals: Optional[List[Optional[:class:`str`]]]
+            Values for the non-version index columns, used to narrow which instance of a hash is wanted
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`Ranges`
+            The valid ranges of indices
+        """
+    def getHelpStr(self) -> str:
+        """
+        Retrieves the help text describing this mod type, as the CLI prints it
+        
+        Returns
+        -------
+        :class:`str`
+            The help text
+        """
+    def getModsToFix(self) -> set[str]:
+        """
+        Retrieves the names of the mods this mod type can be fixed onto
+        
+        .. warning::
+            **Deliberately not bug-compatible with the pure-Python** :meth:`ModType.getModsToFix`. That one
+            unions ``hashes.fixTo`` and ``indices.fixTo`` -- two sets it declares and then never populates
+            anywhere, so it returns an empty set for every mod type, always. This reads the remap targets
+            that actually exist
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The names of the mods to fix to
+        """
+    def getVGRemap(self, modName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, fromComp: str | None = None, toComp: str | None = None) -> FixRaidenBoss2.core.VGRemap | None:
+        """
+        Retrieves the vertex group remap for fixing this mod type onto another
+        
+        Parameters
+        ----------
+        modName: :class:`str`
+            The name of the mod being fixed onto
+        
+        fromVersion: Optional[:class:`CppVersion`]
+            The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        toVersion: Optional[:class:`CppVersion`]
+            The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        fromComp: Optional[:class:`str`]
+            The component being fixed from. ``None`` leaves the column unconstrained :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        toComp: Optional[:class:`str`]
+            The component being fixed onto, with the same ``None`` meaning :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        Optional[:class:`VGRemap`]
+            The remap, or ``None`` if the table has no matching row
+        """
+    def getVertexCount(self, version: FixRaidenBoss2.core.CppVersion | None = None) -> int | None:
+        """
+        Retrieves the number of vertices for this mod
+        
+        Parameters
+        ----------
+        version: Optional[:class:`CppVersion`]
+            The game version wanted :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, meaning the latest
+        
+        Returns
+        -------
+        Optional[:class:`int`]
+            The vertex count, or ``None`` if this mod type has no row for it
+        """
+    def isName(self, name: str) -> bool:
+        """
+        Determines whether this mod type goes by some name
+        
+        Compared case-insensitively against :attr:`ModType.name` and every entry in
+        :attr:`ModType.aliases`
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The name to check
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether this mod type goes by 'name'
+        """
+    @property
+    def aliases(self) -> list[str]:
+        """
+        List[:class:`str`]: Other alternative names for the type of mod
+        """
+    @aliases.setter
+    def aliases(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def gameTypeId(self) -> int:
+        """
+        :class:`int`: The id for the game this type of mod belongs to
+        """
+    @gameTypeId.setter
+    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def iniFixBuilder(self) -> IniFixBuilder:
+        """
+        :class:`IniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type
+        """
+    @iniFixBuilder.setter
+    def iniFixBuilder(self, arg0: IniFixBuilder) -> None:
+        ...
+    @property
+    def iniParseBuilder(self) -> IniParseBuilder:
+        """
+        :class:`IniParseBuilder`: The builder for the parser that reads a .ini file of this mod type
+        """
+    @iniParseBuilder.setter
+    def iniParseBuilder(self, arg0: IniParseBuilder) -> None:
+        ...
+    @property
+    def iniRemoveBuilder(self) -> IniRemoveBuilder:
+        """
+        :class:`IniRemoveBuilder`: The builder for the remover that removes a previous fix
+        """
+    @iniRemoveBuilder.setter
+    def iniRemoveBuilder(self, arg0: IniRemoveBuilder) -> None:
+        ...
+    @property
+    def modTypeId(self) -> int:
+        """
+        :class:`int`: The id for this specific type of mod
+        """
+    @modTypeId.setter
+    def modTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def name(self) -> str:
+        """
+        :class:`str`: The default name for the type of mod
+        """
+    @name.setter
+    def name(self, arg0: str) -> None:
+        ...
 class ModTypeId:
     """
     
@@ -11395,7 +11457,7 @@ class ModTypeIdTools:
     @staticmethod
     def clear() -> None:
         """
-        Clears the global registry -- every :class:`CppModType` registered via :meth:`registerModType` is
+        Clears the global registry -- every :class:`ModType` registered via :meth:`registerModType` is
         forgotten, and :meth:`getModType`/:meth:`findByName` behave as if nothing was ever registered
         
         Mirrors :meth:`HashTools.clear`/:meth:`CppHashTools.clear` -- meant for resetting shared global
@@ -11404,11 +11466,11 @@ class ModTypeIdTools:
     @staticmethod
     def findByName(name: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> FixRaidenBoss2.core.ModTypeId | None:
         """
-        Finds the :class:`ModTypeId` whose registered :class:`CppModType` name or alias maximally matches
+        Finds the :class:`ModTypeId` whose registered :class:`ModType` name or alias maximally matches
         some string, similar to how :meth:`BaseIniClassifier.classify`'s section-name reading searches
         its own registered keywords
         
-        Only searches names/aliases of :class:`CppModType` s that have actually been registered (via
+        Only searches names/aliases of :class:`ModType` s that have actually been registered (via
         :meth:`registerModType`) -- an unregistered :class:`ModTypeId` can never be found this way, even if
         'name' textually matches what :meth:`getName` would return for it :raw-html:`<br />` :raw-html:`<br />`
         
@@ -11419,10 +11481,10 @@ class ModTypeIdTools:
         Parameters
         ----------
         name: :class:`str`
-            The string to search for a registered :class:`CppModType` name/alias within
+            The string to search for a registered :class:`ModType` name/alias within
         
         gameTypeId: Optional[:class:`GameTypeId`]
-            If provided, only considers a :class:`CppModType` registered under this :class:`GameTypeId` (via
+            If provided, only considers a :class:`ModType` registered under this :class:`GameTypeId` (via
             ``modType.gameTypeId``) a candidate match :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``None``
@@ -11459,7 +11521,7 @@ class ModTypeIdTools:
         
         .. note::
             Two :class:`ModTypeId`\\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as
-            *targets* and are never a source, which is why :class:`CppGIBuilder` has no factory for them
+            *targets* and are never a source, which is why :class:`GIBuilder` has no factory for them
         
         Parameters
         ----------
@@ -11491,27 +11553,27 @@ class ModTypeIdTools:
     @staticmethod
     def getModType(modTypeId: typing.SupportsInt | typing.SupportsIndex) -> ... | None:
         """
-        Retrieves the :class:`CppModType` registered for a :class:`ModTypeId`, if one has been registered
+        Retrieves the :class:`ModType` registered for a :class:`ModTypeId`, if one has been registered
         (via :meth:`registerModType`)
         
         This is a plain lookup into a global registry shared by every caller of :class:`ModTypeIdTools` --
-        it never builds a :class:`CppModType` itself. If a :class:`ModTypeId` is never registered, nothing
+        it never builds a :class:`ModType` itself. If a :class:`ModTypeId` is never registered, nothing
         is ever built for it, since building one can be expensive; only a :class:`ModTypeId` that's actually
-        been registered (typically by whichever builder -- e.g. :class:`CppGIBuilder` -- actually owns it)
+        been registered (typically by whichever builder -- e.g. :class:`GIBuilder` -- actually owns it)
         can be retrieved here
         
         Parameters
         ----------
         modTypeId: :class:`int`
-            The integer id for the :class:`ModTypeId` to retrieve the registered :class:`CppModType` for --
+            The integer id for the :class:`ModTypeId` to retrieve the registered :class:`ModType` for --
             stored/looked-up as-is, with no validation that it corresponds to one of :class:`ModTypeId`'s
             declared values, so a custom mod type using some id not registered in :class:`ModTypeId` can
             still be looked up here
         
         Returns
         -------
-        Optional[:class:`CppModType`]
-            The registered :class:`CppModType`, if one exists for 'modTypeId'
+        Optional[:class:`ModType`]
+            The registered :class:`ModType`, if one exists for 'modTypeId'
         """
     @staticmethod
     def getName(value: ModTypeId) -> str:
@@ -11531,16 +11593,16 @@ class ModTypeIdTools:
     @staticmethod
     def registerModType(modType: ...) -> None:
         """
-        Registers a :class:`CppModType` into the global registry, under the :class:`ModTypeId` it owns
+        Registers a :class:`ModType` into the global registry, under the :class:`ModTypeId` it owns
         (``modType.modTypeId``) :raw-html:`<br />` :raw-html:`<br />`
         
-        If a :class:`CppModType` is already registered for that :class:`ModTypeId`, it gets overwritten with
+        If a :class:`ModType` is already registered for that :class:`ModTypeId`, it gets overwritten with
         the new one
         
         Parameters
         ----------
-        modType: :class:`CppModType`
-            The :class:`CppModType` to register
+        modType: :class:`ModType`
+            The :class:`ModType` to register
         """
 class MultiModFixer(BaseIniFixer):
     """
@@ -17858,6 +17920,245 @@ class VGRemap:
     @remap.setter
     def remap(self, arg1: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, typing.SupportsInt | typing.SupportsIndex]) -> None:
         ...
+class VGRemaps:
+    """
+    
+    Class to handle the Vertex Group Remaps of a mod, pre-populated with this project's real remap data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+    
+        * fromVersion (version index)
+        * fromChar
+        * fromComp
+        * toVersion (version index)
+        * toChar
+        * toComp
+    
+        A non-version column left unspecified is a **wildcard** (match anything there), and a version
+        column left unspecified resolves to the latest available value among the rows still matching
+        everything resolved before it
+        
+    """
+    def __copy__(self) -> VGRemaps:
+        ...
+    def __deepcopy__(self, memo: dict) -> VGRemaps:
+        ...
+    def __init__(self) -> None:
+        """
+        Constructs a new, fully-populated vertex group remap table
+        
+        :raw-html:`<br />`
+        
+        .. note::
+            Unlike the pure-Python original there is no 'repo' argument -- nothing in this project passed
+            one, and :meth:`addRows` already covers extending the table. Note that
+            :attr:`ModDataAssets.VGRemaps` hands out a **shared** instance, so mutating that one is visible
+            to every :class:`ModType` that fell back to it; construct one directly for an independent table
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table, overwriting the value of any row whose full key already exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[:class:`str`], Any]], dict]
+            The rows to add -- either a flat list of ``(indexVals, remap)`` tuples, or a real nested dict
+            exactly :attr:`totalIndices` levels deep
+            (``{fromVersion: {fromChar: {fromComp: {toVersion: {toChar: {toComp: remap}}}}}}``)
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            Each leaf may be either a :class:`VGRemap` or the plain ``{fromIndex: toIndex}`` dict one is
+            built from
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If the nesting depth doesn't match :attr:`totalIndices`, a leaf is neither a :class:`VGRemap`
+            nor a dict, or a row's version value fails to parse
+        """
+    def clone(self) -> VGRemaps:
+        """
+        Creates an independent copy of this table
+        
+        Returns
+        -------
+        :class:`VGRemaps`
+            The copied table
+        """
+    def get(self, nonVersionVals: typing.Any = None, versionVals: typing.Any = None, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding vertex group remap
+        
+        Parameters
+        ----------
+        nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The values of the index columns that do not reference a version -- a bare value (taken as
+            ``fromChar``), a positional list, or a dict keyed by index name. Any column left unspecified
+            matches anything there
+        
+            **Default**: ``None``
+        
+        versionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The versions to query at, same accepted shapes. A column left unspecified resolves to the
+            latest available value for it :raw-html:`<br />` :raw-html:`<br />`
+        
+            The two version columns are resolved sequentially, in index order -- ``fromVersion``'s
+            floor-match narrows the candidate rows before ``toVersion`` is resolved against them
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if no matching remap is found
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, the value to return when nothing is found
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no matching remap is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        :class:`VGRemap`
+            The found remap, or 'default' if none is found and 'errorOnNotFound' is ``False``
+        """
+    @property
+    def nonVersionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of non-version columns
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns
+        """
+    @property
+    def versionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of version columns
+        """
+class VertexCounts:
+    """
+    
+    Class for managing the vertex counts of a mod, pre-populated with this project's real vertex
+    count data
+    
+    :raw-html:`<br />`
+    
+    .. note::
+        Names of the available indices used for querying with the :meth:`get` method are:
+    
+        * version (version index)
+        * name
+        * component
+    
+        ``component`` is ``""`` on every row the software currently ships, so a caller wanting a mod's
+        overall count can simply leave it out -- an unspecified non-version column is filled in with
+        ``""``, not treated as a wildcard (this table is hashed on the whole key, so it has no
+        wildcards to give)
+        
+    """
+    def __copy__(self) -> VertexCounts:
+        ...
+    def __deepcopy__(self, memo: dict) -> VertexCounts:
+        ...
+    def __init__(self) -> None:
+        """
+        Constructs a new, fully-populated vertex count lookup table
+        
+        :raw-html:`<br />`
+        
+        .. note::
+            Unlike the pure-Python original there is no 'repo' argument to swap the whole table out with --
+            nothing in this project ever passed one, and :meth:`addRows` already covers extending it
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table, overwriting the value of any row whose full key (every non-version
+        index value, plus its parsed version) already exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[:class:`str`], :class:`int`]], dict]
+            The rows to add -- either a flat list of ``(indexVals, count)`` tuples, or a real nested dict
+            exactly :attr:`totalIndices` levels deep (``{version: {name: {component: count}}}``)
+        
+        Raises
+        ------
+        :class:`ValueError`
+            If the nesting depth doesn't match :attr:`totalIndices`, or a row's version value fails to parse
+        """
+    def clone(self) -> VertexCounts:
+        """
+        Creates an independent copy of this table
+        
+        Returns
+        -------
+        :class:`VertexCounts`
+            The copied table
+        """
+    def get(self, nonVersionVals: typing.Any, versionVals: typing.Any = None, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding vertex count
+        
+        Parameters
+        ----------
+        nonVersionVals: Union[Any, List[Any], Dict[:class:`str`, Any]]
+            The values of the index columns that do not reference a version -- a bare value (taken as
+            ``name``), a positional list, or a dict keyed by index name. Any column left unspecified is
+            filled in with ``""``
+        
+        versionVals: Optional[Union[Any, List[Any], Dict[:class:`str`, Any]]]
+            The version to query at -- the latest available version for the key is used if this is ``None``
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            Whether to raise :class:`KeyError` if no matching vertex count is found
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, the value to return when nothing is found
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If no matching vertex count is found and 'errorOnNotFound' is ``True``
+        
+        Returns
+        -------
+        :class:`int`
+            The found vertex count, or 'default' if none is found and 'errorOnNotFound' is ``False``
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns (including the version index)
+        """
+    @property
+    def versionIndexPos(self) -> int:
+        """
+        :class:`int`: The position (0-based) of the version index within a row's index values
+        """
 class Z3Context:
     """
     

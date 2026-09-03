@@ -131,17 +131,25 @@
         <link refid="_g_i_builder_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="7">
+        <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
+        <link refid="_global_mod_types_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>include/AGRemapCore/constants/ModTypeId.h</label>
         <link refid="_mod_type_id_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -151,23 +159,33 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>include/AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="18" relation="include">
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="21">
+      <node id="24">
         <label>include/AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="22" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -175,27 +193,29 @@
         <link refid="_mod_mapped_assets_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="29" relation="include">
         </childnode>
-        <childnode refid="28" relation="include">
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="17">
         <label>include/AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
-        <childnode refid="13" relation="include">
-        </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
         <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -203,136 +223,156 @@
         <link refid="_mod_type_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
-        <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="15" relation="include">
-        </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
-      <node id="23">
-        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
-        <link refid="_g_i_m_i_section_classifier_8h"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
-      <node id="26">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
-        <link refid="_ini_file_parse_context_8h"/>
-        <childnode refid="17" relation="include">
-        </childnode>
-      </node>
-      <node id="25">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
-        <link refid="_ini_parse_context_8h"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
       <node id="27">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
-        <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="24" relation="include">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
+        <link refid="_g_i_m_i_parser_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
       </node>
-      <node id="29">
-        <label>include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</label>
-        <link refid="_ini_file_remove_context_8h"/>
-        <childnode refid="18" relation="include">
-        </childnode>
-      </node>
-      <node id="28">
-        <label>include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
-        <link refid="_ini_remove_context_8h"/>
-        <childnode refid="29" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
+      <node id="26">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
+        <link refid="_g_i_m_i_section_classifier_8h"/>
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="30">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
+        <link refid="_ini_file_parse_context_8h"/>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
+        <link refid="_ini_parse_context_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="27" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h</label>
+        <link refid="_ini_file_remove_context_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
+        <link refid="_ini_remove_context_8h"/>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
         <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
         <link refid="_remap_ini_remover_8h"/>
-        <childnode refid="31" relation="include">
+        <childnode refid="35" relation="include">
         </childnode>
       </node>
       <node id="5">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
+        <label>src/constants/GlobalIniClassifiers.cpp</label>
+        <link refid="_global_ini_classifiers_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/constants/GlobalModTypes.cpp</label>
+        <link refid="_global_mod_types_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="8">
+      <node id="11">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="9">
+      <node id="12">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
-      <node id="10">
+      <node id="13">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
       </node>
-      <node id="11">
+      <node id="14">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
       </node>
-      <node id="12">
+      <node id="15">
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="20">
+      <node id="23">
         <label>src/model/assets/Hashes.cpp</label>
         <link refid="_hashes_8cpp"/>
       </node>
-      <node id="22">
+      <node id="25">
         <label>src/model/assets/Indices.cpp</label>
         <link refid="_indices_8cpp"/>
       </node>
-      <node id="13">
+      <node id="16">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="19">
+      <node id="18">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="15">
+      <node id="19">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="16">
+      <node id="20">
         <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
         <link refid="_ini_file_res_edit_context_8cpp"/>
       </node>
-      <node id="17">
+      <node id="21">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="18">
+      <node id="28">
+        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
+        <link refid="_ini_parse_builder_8cpp"/>
+      </node>
+      <node id="22">
         <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
         <link refid="_ini_file_remove_context_8cpp"/>
       </node>
-      <node id="31">
+      <node id="35">
         <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
         <link refid="_ini_remove_builder_8cpp"/>
       </node>

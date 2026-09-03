@@ -1,6 +1,4 @@
 import sys
-from packaging.version import Version
-from typing import Optional, Set, Dict
 
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
@@ -11,79 +9,105 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 class ModDictAssetsTest(BaseUnitTest):
+    """
+    Tests the C++ ``ModDictAssets`` -- the single-version-column, hash-indexed asset table
+
+    :raw-html:`<br />`
+
+    .. note::
+        This file used to target the pure-Python ``ModDictAssetsOld`` (now deleted). It was
+        deliberately *not* retargeted mechanically: the C++ class dropped that one's "a short key
+        is a prefix query, returning the sub-dict" behaviour. Rows are flattened at construction
+        and hashed on the *whole* non-version key, so a partial key isn't unimplemented, it's
+        inexpressible. These tests pin the real contract instead
+    """
+
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
 
-        cls._modAssets = None
-        cls._indices = ["game", "gameVersion", "character", "characterVersion"]
-        cls._versionIndex = "gameVersion"
+        # 3 index columns -- version, name, type -- version first, the same shape Hashes uses.
+        cls._totalIndices = 3
+        cls._versionIndexPos = 0
+        cls._presetRepo = {"1.0": {"hutao": {"blend_vb": "hutao: 1.0"}},
+                           "2.5": {"hutao": {"blend_vb": "hutao: 2.5"},
+                                   "augusta": {"blend_vb": "augusta: 2.5"}}}
 
-        cls._presetRepo = {"GI": {1.2: {"hutao": {"1.0.0a1": "hutao: 1",
-                                                   "2": "hutao: 2"}},
-                                  "4.2.3": {"hutao": {"1.0.0a1": "hutao: 3"}}},
-                           "WUWA": {2.5: {"augusta": {"6.7": "augusta: 1"}},
-                                    3.0: {},
-                                    4.3: {"sanhua": {}},
-                                    5.6: {"sanhua": {"5.3.4b2": "sanhua: 1"}}},
-                           "ZZZ": {}}
-        
-        cls._presetFixFrom = None
-        cls._presetFixTo = None
+    def createModAssets(self):
+        return FRB.ModDictAssets.fromNestedDict(self._totalIndices, self._versionIndexPos, self._presetRepo)
 
+    # =========================== construction ===================================
 
-    @classmethod
-    def setupPresets(cls, presetFixFrom: Optional[Set[str]] = None, presetFixTo: Optional[Set[str]] = None):
-        cls._presetFixFrom = presetFixFrom
-        cls._presetFixTo = presetFixTo
+    def test_fromNestedDict_flattensEveryLeaf(self):
+        modAssets = self.createModAssets()
 
-    def compareToAssets(self, actualToAssets: Dict[float, Dict[str, str]], expectedToAssets: Dict[float, Dict[str, str]]):
-        self.compareSet(set(actualToAssets.keys()), set(expectedToAssets.keys()))
-        for version in actualToAssets:
-            expectedVersionAsset = expectedToAssets[version]
-            actualVersionAsset = actualToAssets[version]
+        self.assertEqual(len(modAssets), 3)
+        self.assertEqual(modAssets.totalIndices, self._totalIndices)
+        self.assertEqual(modAssets.versionIndexPos, self._versionIndexPos)
 
-            self.compareSet(set(actualVersionAsset.keys()), set(expectedVersionAsset.keys()))
-            for assetName in actualVersionAsset:
-                self.compareDict(actualVersionAsset[assetName], expectedVersionAsset[assetName])
-    
-    def createModAsset(self):
-        self._modAssets = FRB.ModDictAssetsOld(self._presetRepo, indices = self._indices, versionIndex = self._versionIndex)
+    def test_constructor_takesAlreadyFlatRows(self):
+        modAssets = FRB.ModDictAssets(3, 0, [(["1.0", "hutao", "blend_vb"], "hutao: 1.0")])
 
-    # =========================== get =====================================
+        self.assertEqual(len(modAssets), 1)
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"]), "hutao: 1.0")
 
-    def test_differentSearchIndices_resultGotten(self):
-        self.createModAsset()
+    def test_wrongNestingDepth_raisesValueError(self):
+        with self.assertRaises(ValueError):
+            FRB.ModDictAssets.fromNestedDict(3, 0, {"1.0": {"hutao": "not deep enough"}})
 
-        tests = [
-                 [[], None, {}],
-                 [[], Version("2.6"), {}],
-                 [["WUWA"], Version("2.6"), {}],
-                 [["WUWA", "augusta", "6.7"], Version("2.6"), "augusta: 1"],
-                 [["Angrybirds"], None, KeyError()],
-                 [["GI", "hutao"], 1.0, {}],
-                 [["GI", "hutao", "1.0.0a1"], 1.0, "hutao: 1"],
-                 [["GI", "hutao", "1.0.0a1"], None, "hutao: 3"]]
+    # =========================== get ============================================
 
-        for test in tests:
-            nonVersionIndices = test[0]
-            versionIndex = test[1]
+    def test_get_completeKeyRequired(self):
+        modAssets = self.createModAssets()
 
-            expected = test[2]
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"], "1.0"), "hutao: 1.0")
 
-            error = None
-            result = None
+        # A short key is an error rather than a prefix query -- the flattening is why.
+        with self.assertRaises(ValueError):
+            modAssets.get(["hutao"], "1.0")
 
-            try:
-                result = self._modAssets.get(nonVersionIndices, versionIndex)
-            except Exception as e:
-                error = e
+    def test_getNoVersion_usesLatestForThatKey(self):
+        modAssets = self.createModAssets()
 
-            if (isinstance(expected, str)):
-                self.assertEqual(result, expected)
-            elif (isinstance(expected, dict)):
-                self.assertIsInstance(result, dict)
-            else:
-                self.assertEqual(type(error), type(expected))
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"]), "hutao: 2.5")
 
-    # =====================================================================
+    def test_getVersionBetweenRows_floorMatches(self):
+        modAssets = self.createModAssets()
+
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"], "2.0"), "hutao: 1.0")
+
+    def test_getVersionOlderThanEveryRow_returnsOldest(self):
+        modAssets = self.createModAssets()
+
+        # Floor-matching does not "miss" below a key's earliest version -- augusta's only row is
+        # 2.5, and it still answers at 0.1.
+        self.assertEqual(modAssets.get(["augusta", "blend_vb"], "0.1"), "augusta: 2.5")
+
+    def test_getMissingKey_raisesOrReturnsNone(self):
+        modAssets = self.createModAssets()
+
+        with self.assertRaises(KeyError):
+            modAssets.get(["nobody", "blend_vb"])
+
+        self.assertIsNone(modAssets.get(["nobody", "blend_vb"], errorOnNotFound = False))
+
+    # =========================== addRows / toNestedDict =========================
+
+    def test_addRows_addsAndOverwrites(self):
+        modAssets = self.createModAssets()
+
+        modAssets.addRows({"3.0": {"hutao": {"blend_vb": "hutao: 3.0"}}})
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"], "3.0"), "hutao: 3.0")
+
+        modAssets.addRows({"3.0": {"hutao": {"blend_vb": "hutao: 3.0 again"}}})
+        self.assertEqual(modAssets.get(["hutao", "blend_vb"], "3.0"), "hutao: 3.0 again")
+        self.assertEqual(len(modAssets), 4)
+
+    def test_toNestedDict_roundTripsBackIntoAnEquivalentTable(self):
+        modAssets = self.createModAssets()
+        rebuilt = FRB.ModDictAssets.fromNestedDict(self._totalIndices, self._versionIndexPos,
+                                                   modAssets.toNestedDict())
+
+        self.assertEqual(len(rebuilt), len(modAssets))
+        self.assertEqual(rebuilt.get(["augusta", "blend_vb"], "2.5"), "augusta: 2.5")
+        self.assertEqual(rebuilt.get(["hutao", "blend_vb"]), "hutao: 2.5")

@@ -22,6 +22,8 @@
 #include "model/assets/PyModAssets.h"
 #include "model/assets/PyHashes.h"
 #include "model/assets/PyIndices.h"
+#include "model/assets/PyVertexCounts.h"
+#include "model/assets/PyVGRemaps.h"
 #include "constants/PyGameTypeId.h"
 #include "constants/PyModTypeId.h"
 #include "constants/PyGlobalModTypes.h"
@@ -167,17 +169,19 @@ PYBIND11_MODULE(core, m) {
     initCppModAssets(m);
     initCppHashes(m);
     initCppIndices(m);
+    initCppVertexCounts(m);
     initCppGameTypeId(m);
     initCppModTypeId(m);
     initCppModTypeIdData(m);
-    // Ahead of CppModType, whose getVGRemap returns one: pybind11 bakes a def()'s signature
+    // Ahead of ModType, whose getVGRemap returns one: pybind11 bakes a def()'s signature
     // string at registration time, so an unregistered return type renders as a raw C++ name.
     // PyVGRemap.cpp depends on nothing else here, so this is just an ordering choice.
     initCppVGRemap(m);
+    initCppVGRemaps(m); // reads best after initCppVGRemap (its get() returns one); not order-critical
 
     initCppModType(m);
     initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
-    initCppGIBuilder(m); // must come after initCppModType (its methods return CppModType) and initCppModTypeId (uses the ModTypeId enum)
+    initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);
     initCppIniClassifier(m); // must come after initCppBaseIniClassifier (registers its base)
@@ -310,7 +314,7 @@ PYBIND11_MODULE(core, m) {
     initCppBaseIniRemover(m);
     initCppRemapIniRemover(m); // must come after initCppBaseIniRemover (registers its base), initCppIfTemplate (the sections it reads) and initCppIniResource (the resources it collects)
 
-    // Registered after CppModType, BaseIniClassifier, CppVersion, IfTemplate and IniResource:
+    // Registered after ModType, BaseIniClassifier, CppVersion, IfTemplate and IniResource:
     // every one of them appears in one of this class's own def() signatures, and pybind11 bakes
     // those strings at def() time -- see PyIfContentPartColour.cpp's note on what an unregistered
     // type there does to the signature (and to core.pyi).
@@ -324,6 +328,6 @@ PYBIND11_MODULE(core, m) {
     initCppIniFixBuilder(m);
     initCppIniRemoveBuilder(m);
 
-    // CppModType::fixIni takes a IniFile, so it can only be bound now that one exists.
+    // ModType::fixIni takes a IniFile, so it can only be bound now that one exists.
     initCppModTypeLateBindings(m);
 }

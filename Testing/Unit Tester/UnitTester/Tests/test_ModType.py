@@ -1,5 +1,4 @@
 import sys
-import re
 
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
@@ -10,50 +9,43 @@ import src.py.FixRaidenBoss2 as FRB
 
 
 class ModTypeTest(BaseUnitTest):
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls._name = "Gregor Samsa"
-        cls._hashes = FRB.Hashes()
-        cls._indices = FRB.Indices()
-        cls._aliases = ["Vermin", "Monster", "Merchant"]
-        cls._vgRemaps = FRB.VGRemaps()
-        cls._modType = None
+    """
+    Tests for :class:`ModType` -- the heavier, C++-side data for a type of mod (gameTypeId,
+    modTypeId, name, aliases), 'Cpp'-prefixed since it collides with the live pure-Python
+    :class:`ModType` (see ``FixRaidenBoss2/model/strategies/ModType.py``)
+    """
 
-    def setupMod(self):
-        self._hashes.addMap({"gregor samsa": {"gregor samsa"}}, {0.0: {"gregor samsa": {"blend_vb": "businessman1910", "draw_vb": "cloth", "texcoord_vb": "man"}},
-                                                                 1.0: {"gregor samsa": {"blend_vb": "vermin1915", "draw_vb": "nocloth"}},
-                                                                 2.3: {"gregor samsa": {"blend_vb": "cockroach1915", "texcoord_vb": "horriblevermin"}}})
-        
-        self._vgRemaps.updateRepo(self._vgRemaps._repo, {0.0: {"gregor samsa": {"gregor samsa": {0: 7, 1: 6, 2: 5, 3: 4, 4: 3, 5: 2, 6: 1, 7: 0}}}})
+    # ============ __init__ ===========================
 
-        self._modType = FRB.ModType(self._name, self._hashes, self._indices, aliases = self._aliases, vgRemaps = self._vgRemaps)
+    def test_construct_fieldsSetAsGiven(self):
+        modType = FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny", "ColleisBestie"])
 
+        self.assertEqual(modType.gameTypeId, int(FRB.GameTypeId.GI))
+        self.assertEqual(modType.modTypeId, int(FRB.ModTypeId.Amber))
+        self.assertEqual(modType.name, "Amber")
+        self.compareList(list(modType.aliases), ["BaronBunny", "ColleisBestie"])
 
-    # ====================== isName ======================================
+    def test_construct_aliasesDefaultToEmptyList(self):
+        modType = FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Raiden), "Raiden")
 
-    def test_differentSearch_searchInNameOrAliases(self):
-        self.setupMod()
+        self.compareList(list(modType.aliases), [])
 
-        tests = {"Gregor Samsa": True,
-                 "gReGor SamSa": True,
-                 "gregor samsa ": False,
-                 "Vermin": True,
-                 "mOnStEr": True,
-                 "  merChant ": False}
-        
-        for name in tests:
-            result = self._modType.isName(name)
-            self.assertEqual(result, tests[name])
+    # ================================================
+    # === gameTypeId/modTypeId/name/aliases (readwrite) ===
 
-    # ====================================================================
-    # ====================== getModsToFix ================================
+    def test_fieldsAreReadWrite(self):
+        modType = FRB.ModType(int(FRB.GameTypeId.GI), int(FRB.ModTypeId.Amber), "Amber", ["BaronBunny"])
 
-    # TODO: Makes tests for retrieving  the types of mods to fix
+        modType.gameTypeId = int(FRB.GameTypeId.WuWa)
+        modType.modTypeId = int(FRB.ModTypeId.Raiden)
+        modType.name = "Raiden"
+        modType.aliases = ["Ei"]
 
-    # ====================================================================
-    # ====================== getVGRemap ==================================
+        self.assertEqual(modType.gameTypeId, int(FRB.GameTypeId.WuWa))
+        self.assertEqual(modType.modTypeId, int(FRB.ModTypeId.Raiden))
+        self.assertEqual(modType.name, "Raiden")
+        self.compareList(list(modType.aliases), ["Ei"])
 
-    # TODO: Make tests for getting the corresponding vertex group remap
+    # ================================================
+    # =========== pure-Python ModType still separate ==
 
-    # ====================================================================

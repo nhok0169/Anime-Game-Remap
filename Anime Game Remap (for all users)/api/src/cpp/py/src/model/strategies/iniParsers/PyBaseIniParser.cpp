@@ -30,7 +30,7 @@ void PyBaseIniParser::clear() {
 void initCppBaseIniParser(pybind11::module_ &m) {
     py::class_<PyBaseIniParserCore, py::smart_holder>(m, "CppBaseIniParser", R"doc(
 The shared C++ base of every parser, exposed so that one built on the C++ side -- by a
-:class:`CppIniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+:class:`IniParseBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
 `Python`_ :raw-html:`<br />` :raw-html:`<br />`
 
 Not usually what you want: a parser created **from** `Python`_ is a :class:`BaseIniParser`, which

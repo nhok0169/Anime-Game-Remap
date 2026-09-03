@@ -34,12 +34,11 @@ from ..constants.FileSuffixes import FileSuffixes
 from ..constants.DownloadMode import DownloadMode
 from ..constants.GenericTypes import VersionType
 from ..exceptions.RemapMissingBlendFile import RemapMissingBlendFile
-from .strategies.ModType import ModType
 from .Model import Model
 from .files.TextureFile import TextureFile
 from ..tools.files.FileService import FileService
 from ..tools.ListTools import ListTools
-from ..core import IniFile, ModTypeIdTools
+from ..core import IniFile, ModType, ModTypeIdTools
 # IniFixResourceModel/IniSrcResourceModel/IniTexModel/IniDownloadModel are Group B (see
 # iniresources-cpp-port migration notes) -- IniFile.py's own factories now construct these
 # C++-backed classes directly (see that file's own history), so these are just the bare classes.

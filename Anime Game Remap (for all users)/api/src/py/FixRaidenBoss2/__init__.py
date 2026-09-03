@@ -60,9 +60,9 @@ from .core import GameTypeIdTools
 from .core import ModTypeId
 from .core import ModTypeIdTools
 from .core import ModTypeIdData
-from .core import CppModType
+from .core import ModType
 from .core import CppGlobalModTypes
-from .core import CppGIBuilder
+from .core import GIBuilder
 from .core import IniClassifyStats
 from .core import BaseIniClassifier
 from .core import IniClassifier
@@ -71,9 +71,11 @@ from .core import MultiModFixer
 from .core import CppVersion
 from .core import ModDictAssets
 from .core import ModMappedAssets
-from .core import CppModAssets
+from .core import ModAssets
 from .core import Hashes
 from .core import Indices
+from .core import VertexCounts
+from .core import VGRemaps
 from .core import BufType
 from .core import BufDataType
 from .core import BufBaseInt
@@ -159,13 +161,13 @@ from .core import ResRegCollect
 from .core import ResGroupCollect
 from .core import BaseIniGraphGroupEdit
 from .core import CppBaseIniParser
-from .core import CppIniParseBuilder
+from .core import IniParseBuilder
 from .core import CppIniParseBuilderArgs
 from .core import BaseIniParser
 from .core import GIMISectionClassifier
 from .core import GIMIParser
 from .core import CppBaseIniFixer
-from .core import CppIniFixBuilder
+from .core import IniFixBuilder
 from .core import CppIniFixBuilderArgs
 from .core import BaseIniFixer
 from .core import GIMIFixer
@@ -197,7 +199,6 @@ from .constants.ImgFormats import ImgFormats
 from .constants.IniConsts import IniKeywords, IniBoilerPlate, IniGraphModObjKeywords
 from .constants.IniGraphReplaceMode import IniGraphReplaceMode
 from .constants.GameTypeNames import GameTypeNames
-from .constants.GIBuilder import GIBuilder
 from .constants.GlobalClassifiers import GlobalClassifiers
 from .constants.GlobalCompilerParts import GlobalCompilerParts
 from .constants.GlobalIniRemoveBuilders import GlobalIniRemoveBuilders
@@ -232,15 +233,6 @@ from .exceptions.NoModType import NoModType
 from .exceptions.RemapMissingBlendFile import RemapMissingBlendFile
 from .exceptions.SyntaxErr import SyntaxErr
 
-from .model.assets.BaseModAssets import BaseModAssets
-from .model.assets.VertexCounts import VertexCounts
-from .model.assets.PositionEditors import PositionEditors
-from .model.assets.IniFixBuilderArgs import IniFixBuilderArgs
-from .model.assets.IniParseBuilderArgs import IniParseBuilderArgs
-from .model.assets.ModAssets import ModAssets
-from .model.assets.ModDictAssetsOld import ModDictAssetsOld
-from .model.assets.ModMappedAssetsOld import ModMappedAssetsOld
-from .model.assets.VGRemaps import VGRemaps
 
 from .model.files.BufFile import BufFile
 from .model.files.File import File
@@ -248,17 +240,14 @@ from .model.files.TextureFile import TextureFile
 
 from .model.iniparserdicts import KeepFirstDict
 
-from .model.strategies.iniFixers.IniFixBuilder import IniFixBuilder
 
-from .model.strategies.iniParsers.IniParseBuilder import IniParseBuilder
 
 from .core import CppBaseIniRemover
-from .core import CppIniRemoveBuilder
+from .core import IniRemoveBuilder
 from .core import CppIniRemoveBuilderArgs
 from .core import BaseIniRemover
 from .core import IniRemovalContext
 from .core import RemapIniRemover
-from .model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
 
 from .model.strategies.texEditors.pixelTransforms.BasePixelTransform import BasePixelTransform
 from .model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
@@ -282,7 +271,6 @@ from .model.strategies.texEditors.BaseTexEditor import BaseTexEditor
 from .model.strategies.texEditors.TexEditor import TexEditor
 from .model.strategies.texEditors.TexCreator import TexCreator
 
-from .model.strategies.ModType import ModType
 
 from .model.iftemplate.IfPredLogicGenerator import IfPredLogicGenerator
 from .model.iftemplate.SympyIfPredGenerator import SympyIfPredGenerator
@@ -343,7 +331,7 @@ from .main import remapMain
 ##### EndLocalImports
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
-           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppModType", "CppGlobalModTypes", "CppGIBuilder", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "CppVersion", "ModDictAssets", "ModMappedAssets", "CppModAssets", "Hashes", "Indices",
+           "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "CppVersion", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps",
            "CppBufFile", "BlendFile", "PositionFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
@@ -354,7 +342,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",
-           "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilder", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilder", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
+           "CppBaseIniParser", "BaseIniParser", "CppIniParseBuilderArgs", "GIMISectionClassifier", "GIMIParser", "CppBaseIniFixer", "BaseIniFixer", "CppIniFixBuilderArgs", "GIMIFixer", "MultiModFixer", "IniFixingContext",
             
            "CyDictTools", "CyListTools", "CyHashTools", "CyAlgo",
 
@@ -363,14 +351,13 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "HashData", "IndexData", "ModData", "ModDataAssets", "VGRemapDataBuilder", "vgRemapDataBuilder",
            "BadBufData", "BufFileNotRecognized", "ConflictingOptions", "DuplicateFileException", "Error", "FileException", "InvalidDownloadMode",
            "InvalidModType", "MissingFileException", "NoModType", "RemapMissingBlendFile", "SyntaxErr",
-           "BaseModAssets", "VertexCounts", "PositionEditors", "IniFixBuilderArgs", "IniParseBuilderArgs", "ModAssets", "ModDictAssetsOld", "ModMappedAssetsOld", "VGRemaps",
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BufFile", "File", "TextureFile",
            "KeepFirstDict",
            "RegSurroundedAdd",
            "IniFixBuilder",
            "IniParseBuilder",
-           "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilder", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "IniRemoveBuilder",
+           "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",

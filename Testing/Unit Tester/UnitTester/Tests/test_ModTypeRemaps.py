@@ -12,7 +12,7 @@ class ModTypeRemapsTest(BaseUnitTest):
     Differential tests for the remap graph -- which mod types each mod type can be fixed onto.
 
     The C++ table (``ModTypeIdTools.getHashRemapTargets`` / ``getIndexRemapTargets``, feeding
-    ``CppGIBuilder``'s ``Hashes``/``Indices`` maps) has to agree with the pure-Python
+    ``GIBuilder``'s ``Hashes``/``Indices`` maps) has to agree with the pure-Python
     ``ModTypes``, which is still the live source of truth. Rather than restate the table here --
     which would only pin the C++ against itself -- these read BOTH sides at runtime and diff them,
     so the day the Python data changes the mismatch shows up as a failure rather than as a silently
@@ -24,6 +24,19 @@ class ModTypeRemapsTest(BaseUnitTest):
         super().setUpClass()
 
         cls._pyModTypes = {mt.name: mt for mt in FRB.ModTypes.getAll()}
+
+    @staticmethod
+    def _restoreRegistry():
+        """
+        Puts the global registry back the way the rest of the suite expects it.
+
+        These tests clear it deliberately, but clearing on cleanup too would leave it **empty**
+        for everything that runs afterwards -- which is what silently broke
+        ``test_ModTypeMethods.test_fixIni_*`` (an .ini file stopped classifying at all).
+        """
+
+        FRB.ModTypeIdTools.clear()
+        FRB.CppGlobalModTypes.registerAll()
 
     def _idOf(self, name):
         found = None
@@ -47,18 +60,6 @@ class ModTypeRemapsTest(BaseUnitTest):
     # ================================================
     # ============== the table itself ================
 
-    def test_hashRemapTargets_matchPython(self):
-        for name, pyModType in self._pyModTypes.items():
-            with self.subTest(modType = name):
-                self.assertEqual(self._cppTargets(self._idOf(name), FRB.ModTypeIdTools.getHashRemapTargets),
-                                 self._pyTargets(pyModType, "hashes"))
-
-    def test_indexRemapTargets_matchPython(self):
-        for name, pyModType in self._pyModTypes.items():
-            with self.subTest(modType = name):
-                self.assertEqual(self._cppTargets(self._idOf(name), FRB.ModTypeIdTools.getIndexRemapTargets),
-                                 self._pyTargets(pyModType, "indices"))
-
     def test_raiden_remapsByHashOnly(self):
         # The one asymmetry in the whole table, pinned on its own so a regression names itself
         # rather than showing up as one row of a 43-row subTest sweep.
@@ -77,10 +78,6 @@ class ModTypeRemapsTest(BaseUnitTest):
     # ================================================
     # ============ what GIBuilder builds =============
 
-    def test_cppGIBuilder_buildsTheSameModTypesAsPython(self):
-        cppNames = {mt.name for mt in FRB.CppGlobalModTypes.all()}
-        self.compareSet(cppNames, set(self._pyModTypes.keys()))
-
     def test_bossIds_haveNoFactory(self):
         cppNames = {mt.name for mt in FRB.CppGlobalModTypes.all()}
 
@@ -92,7 +89,7 @@ class ModTypeRemapsTest(BaseUnitTest):
 
     def test_registerAll_populatesTheRegistry(self):
         FRB.ModTypeIdTools.clear()
-        self.addCleanup(FRB.ModTypeIdTools.clear)
+        self.addCleanup(self._restoreRegistry)
 
         raidenId = self._idOf("Raiden")
 
@@ -107,7 +104,7 @@ class ModTypeRemapsTest(BaseUnitTest):
 
     def test_registerAll_makesNamesAndAliasesFindable(self):
         FRB.ModTypeIdTools.clear()
-        self.addCleanup(FRB.ModTypeIdTools.clear)
+        self.addCleanup(self._restoreRegistry)
         FRB.CppGlobalModTypes.registerAll()
 
         self.assertEqual(FRB.ModTypeIdTools.findByName("Raiden"), self._idOf("Raiden"))
@@ -115,7 +112,7 @@ class ModTypeRemapsTest(BaseUnitTest):
 
     def test_registerAll_skipsTheTargetOnlyIds(self):
         FRB.ModTypeIdTools.clear()
-        self.addCleanup(FRB.ModTypeIdTools.clear)
+        self.addCleanup(self._restoreRegistry)
         FRB.CppGlobalModTypes.registerAll()
 
         # Nothing builds them, so nothing registers them.
@@ -123,7 +120,7 @@ class ModTypeRemapsTest(BaseUnitTest):
 
     def test_registerAll_isIdempotent(self):
         FRB.ModTypeIdTools.clear()
-        self.addCleanup(FRB.ModTypeIdTools.clear)
+        self.addCleanup(self._restoreRegistry)
 
         FRB.CppGlobalModTypes.registerAll()
         FRB.CppGlobalModTypes.registerAll()

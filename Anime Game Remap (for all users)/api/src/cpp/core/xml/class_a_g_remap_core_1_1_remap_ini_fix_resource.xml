@@ -5,6 +5,7 @@
     <basecompoundref refid="class_a_g_remap_core_1_1_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::IniFixResource</basecompoundref>
     <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public" virt="non-virtual">AGRemapCore::RemapIniResourceMixin</basecompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_blend_resource" prot="public" virt="non-virtual">AGRemapCore::RemapBlendResource</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource" prot="public" virt="non-virtual">AGRemapCore::RemapTexEditResource</derivedcompoundref>
     <includes refid="_remap_ini_resource_8h" local="no">RemapIniResource.h</includes>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
@@ -160,6 +161,12 @@ mirrors the pure-Python ``RemapIniFixResource`` class (``model/iniresources/Rema
       <node id="4">
         <label>AGRemapCore::RemapIniResourceMixin</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
       </node>
     </inheritancegraph>
     <collaborationgraph>

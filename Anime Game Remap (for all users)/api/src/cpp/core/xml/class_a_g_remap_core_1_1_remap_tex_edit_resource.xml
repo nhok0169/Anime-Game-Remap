@@ -1,0 +1,414 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_tex_edit_resource" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapTexEditResource</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_remap_ini_fix_resource" prot="public" virt="non-virtual">AGRemapCore::RemapIniFixResource</basecompoundref>
+    <includes refid="_remap_tex_resource_8h" local="no">RemapTexResource.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1afacf14ab1a9b2ddb8f298bf241c09b09" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_editor" kindref="compound">TexEditor</ref></type>
+        <definition>TexEditor AGRemapCore::RemapTexEditResource::texEditor</definition>
+        <argsstring></argsstring>
+        <name>texEditor</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::texEditor</qualifiedname>
+        <briefdescription>
+<para>The texture editor used to edit the <computeroutput>.dds</computeroutput> file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="130" column="23" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a9ef99f9b5c8b35a961839f72302e33e8" prot="public" static="no" mutable="no">
+        <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" kindref="member">RemapTexEditResource</ref> &amp;)&gt;</type>
+        <definition>std::function&lt;bool(RemapTexEditResource&amp;)&gt; AGRemapCore::RemapTexEditResource::fixFunc</definition>
+        <argsstring></argsstring>
+        <name>fixFunc</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::fixFunc</qualifiedname>
+        <briefdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" kindref="member">_fix</ref> if set. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="135" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapTexEditResource::RemapTexEditResource</definition>
+        <argsstring>(const std::string &amp;iniFolderPath, const std::string &amp;srcPath, const std::string &amp;fixedPath, TexEditor texEditor, std::string type=&quot;resourceRemapTexEdit&quot;, std::function&lt; bool(RemapTexEditResource &amp;)&gt; fixFunc=nullptr)</argsstring>
+        <name>RemapTexEditResource</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::RemapTexEditResource</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>iniFolderPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>srcPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedPath</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_tex_editor" kindref="compound">TexEditor</ref></type>
+          <declname>texEditor</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>type</declname>
+          <defval>&quot;resourceRemapTexEdit&quot;</defval>
+        </param>
+        <param>
+          <type>std::function&lt; bool(RemapTexEditResource &amp;)&gt;</type>
+          <declname>fixFunc</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new texture-edit resource. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>iniFolderPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path to the folder of the .ini file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>srcPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file path to the fixed resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>texEditor</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture editor used to edit the <computeroutput>.dds</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the type of resource </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixFunc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Custom function for fixing the resource, overriding <ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" kindref="member">_fix</ref> if given </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="122" column="13" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="49" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::srcEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::srcEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623">srcEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="137" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::srcIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>srcIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::srcIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027">srcIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the (unfixed) resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="138" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="59" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::fixEncounteredError</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixEncounteredError</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::fixEncounteredError</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49">fixEncounteredError</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource has previously encountered an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource has encountered an error </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="139" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1ae594c18d600de30d20c3d46a3f5b1889" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::fixIsFixed</definition>
+        <argsstring>(const RemapStats &amp;stats) const override</argsstring>
+        <name>fixIsFixed</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::fixIsFixed</qualifiedname>
+        <reimplements refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd">fixIsFixed</reimplements>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <briefdescription>
+<para>Determines whether the fixed resource was already fixed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The stats tracked by the remap process</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Whether the fixed resource was already fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="140" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="67" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a653ddb62aafb68b21a007adea815e6e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::fix</qualifiedname>
+        <briefdescription>
+<para>Fixes the resource <ndash/> calls <ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a9ef99f9b5c8b35a961839f72302e33e8" kindref="member">fixFunc</ref> if set, otherwise <ref refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" kindref="member">_fix</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="147" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="77" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapTexEditResource::_fix</definition>
+        <argsstring>()</argsstring>
+        <name>_fix</name>
+        <qualifiedname>AGRemapCore::RemapTexEditResource::_fix</qualifiedname>
+        <briefdescription>
+<para>Edits the texture at <ref refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" kindref="member">srcPath</ref> and writes the result to <ref refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" kindref="member">fixedPath</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Whether the resource was fixed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="156" column="26" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="71" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniFixResource`
+
+Class for editing a texture file used by the overall remap process :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The texture counterpart to :cpp:class:`RemapBlendResource`, and shaped like it rather than
+like :cpp:class:`RemapTexAddResource`: an **edit** reads one file and writes another, so it
+needs the ``srcPath``/``fixedPath`` pair :cpp:class:`RemapIniFixResource` carries. An *add*
+has only the one path, which is why that class sits on :cpp:class:`RemapIniResource` instead
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   #fixExists is not overridden here -- :cpp:func:`RemapIniFixResource::fixExists` already
+   asks the right question for an edit (&quot;is the fixed file on disk at #fixedPath&quot;), exactly as
+   :cpp:class:`RemapBlendResource` relies on
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="7">
+        <label>AGRemapCore::BaseTexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::IniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_fix_resource"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::IniResource</label>
+        <link refid="class_a_g_remap_core_1_1_ini_resource"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapIniFixResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_fix_resource"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapIniResourceMixin</label>
+        <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="6" relation="usage">
+          <edgelabel>texEditor</edgelabel>
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::TexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_tex_editor"/>
+        <childnode refid="7" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="109" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapTexResource.h" bodystart="109" bodyend="157"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1af97e1898746336df5fca8a43ba2ebb61" prot="protected" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>_fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a653ddb62aafb68b21a007adea815e6e3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixedPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixExists</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a9ef99f9b5c8b35a961839f72302e33e8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixFunc</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1ae594c18d600de30d20c3d46a3f5b1889" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>fixIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1ab3e243f4ef62ea99c38095373d7f940f" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>hasRequired</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>IniFixResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a1c6accd4d1ac9d50b054db6e30ffddf0" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>RemapTexEditResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcEncounteredError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcIsFixed</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>srcPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1afacf14ab1a9b2ddb8f298bf241c09b09" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>texEditor</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>type</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>~IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1aab8ed5f480a8417202e9ce5029145ba3" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexEditResource</scope><name>~RemapIniResourceMixin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

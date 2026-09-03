@@ -17,7 +17,7 @@ from typing import Set, TYPE_CHECKING, Optional, Type
 
 ##### LocalImports
 from .BaseModTypeBuilder import BaseModTypeBuilder
-from .GIBuilder import GIBuilder
+from ..core import GIBuilder
 from ..tools.Heading import Heading
 from ..tools.Builder import Builder
 from .GlobalClassifiers import GlobalClassifiers

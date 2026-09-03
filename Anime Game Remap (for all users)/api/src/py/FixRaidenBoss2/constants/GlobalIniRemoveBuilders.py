@@ -16,7 +16,7 @@ from ..core import RemapIniRemover
 ##### EndCppLocalImports
 
 ##### LocalImports
-from ..model.strategies.iniRemovers.IniRemoveBuilder import IniRemoveBuilder
+from ..core import IniRemoveBuilder
 from ..tools.enums.DeferredEnum import DeferredEnum
 ##### EndLocalImports
 
@@ -34,7 +34,7 @@ class GlobalIniRemoveBuilders(DeferredEnum):
         The builder to dynamically create modules that remove fixes from the .ini file
     """
 
-    RemoveBuilder = (lambda: IniRemoveBuilder(RemapIniRemover), )
+    RemoveBuilder = (lambda: IniRemoveBuilder(), )
     """
     .. note::
         The :class:`RemapIniRemover` built here is the **C++** one (``FixRaidenBoss2.core.RemapIniRemover``),

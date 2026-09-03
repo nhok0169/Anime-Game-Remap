@@ -11,7 +11,7 @@ import src.py.FixRaidenBoss2 as FRB
 class ModTypeIdDataTest(BaseUnitTest):
     """
     Tests for :class:`ModTypeIdData` -- the cheap (gameTypeId, modTypeId) data an ini classifier
-    holds, as opposed to the heavier :class:`CppModType` (see ``test_CppModType.py``)
+    holds, as opposed to the heavier :class:`ModType` (see ``test_CppModType.py``)
     """
 
     # ============ __init__ ===========================

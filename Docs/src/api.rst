@@ -567,17 +567,6 @@ CppGammaFilter
 
 :raw-html:`<br />`
 
-CppGIBuilder
-============
-
-.. attributetable:: FixRaidenBoss2.CppGIBuilder
-
-.. autoclass:: FixRaidenBoss2.CppGIBuilder
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 CppGlobalModTypes
 =================
 
@@ -613,17 +602,6 @@ CppHueAdjust
 
 :raw-html:`<br />`
 
-CppIniFixBuilder
-================
-
-.. attributetable:: FixRaidenBoss2.CppIniFixBuilder
-
-.. autoclass:: FixRaidenBoss2.CppIniFixBuilder
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 CppIniFixBuilderArgs
 ====================
 
@@ -635,34 +613,12 @@ CppIniFixBuilderArgs
 
 :raw-html:`<br />`
 
-CppIniParseBuilder
-==================
-
-.. attributetable:: FixRaidenBoss2.CppIniParseBuilder
-
-.. autoclass:: FixRaidenBoss2.CppIniParseBuilder
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
 CppIniParseBuilderArgs
 ======================
 
 .. attributetable:: FixRaidenBoss2.CppIniParseBuilderArgs
 
 .. autoclass:: FixRaidenBoss2.CppIniParseBuilderArgs
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppIniRemoveBuilder
-===================
-
-.. attributetable:: FixRaidenBoss2.CppIniRemoveBuilder
-
-.. autoclass:: FixRaidenBoss2.CppIniRemoveBuilder
     :members:
     :private-members:
 
@@ -698,17 +654,6 @@ CppInvertAlphaFilter
 
 .. autoclass:: FixRaidenBoss2.CppInvertAlphaFilter
     :inherited-members:
-    :members:
-    :private-members:
-
-:raw-html:`<br />`
-
-CppModType
-==========
-
-.. attributetable:: FixRaidenBoss2.CppModType
-
-.. autoclass:: FixRaidenBoss2.CppModType
     :members:
     :private-members:
 
@@ -835,6 +780,17 @@ GammaFilter
 
 .. autoclass:: FixRaidenBoss2.GammaFilter
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+GIBuilder
+=========
+
+.. attributetable:: FixRaidenBoss2.GIBuilder
+
+.. autoclass:: FixRaidenBoss2.GIBuilder
     :members:
     :private-members:
 
@@ -1132,6 +1088,17 @@ IniFile
 
 :raw-html:`<br />`
 
+IniFixBuilder
+=============
+
+.. attributetable:: FixRaidenBoss2.IniFixBuilder
+
+.. autoclass:: FixRaidenBoss2.IniFixBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IniFixingContext
 ================
 
@@ -1139,6 +1106,28 @@ IniFixingContext
 
 .. autoclass:: FixRaidenBoss2.IniFixingContext
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniParseBuilder
+===============
+
+.. attributetable:: FixRaidenBoss2.IniParseBuilder
+
+.. autoclass:: FixRaidenBoss2.IniParseBuilder
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+IniRemoveBuilder
+================
+
+.. attributetable:: FixRaidenBoss2.IniRemoveBuilder
+
+.. autoclass:: FixRaidenBoss2.IniRemoveBuilder
     :members:
     :private-members:
 
@@ -1199,6 +1188,17 @@ ModMappedAssets
 
 .. autoclass:: FixRaidenBoss2.ModMappedAssets
     :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+ModType
+=======
+
+.. attributetable:: FixRaidenBoss2.ModType
+
+.. autoclass:: FixRaidenBoss2.ModType
     :members:
     :private-members:
 

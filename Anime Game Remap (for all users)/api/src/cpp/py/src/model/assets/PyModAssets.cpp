@@ -1,6 +1,8 @@
 #include "PyModAssets.h"
 
 #include <optional>
+#include <string>
+#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -12,28 +14,26 @@ template class AGRC::ModAssets<std::string, py::object>;
 
 namespace {
 
-    std::vector<std::optional<std::string>> toOptionalList(const std::vector<py::object> &raw) {
-        std::vector<std::optional<std::string>> result;
-        result.reserve(raw.size());
-        for (const py::object &v : raw) {
-            result.push_back(v.is_none() ? std::nullopt : std::optional<std::string>(py::str(v).cast<std::string>()));
-        }
-        return result;
-    }
+    // Matches the pure-Python ModAssets' own class constants, which its defaults are spelled in
+    // terms of.
+    const std::string VersionKey = "version";
+    const std::string NameKey = "name";
+    const std::string ValueKey = "value";
 
-    std::vector<std::optional<AGRC::Version>> toVersionList(const std::vector<py::object> &raw) {
+    // 'versionVals' arrives in the same flexible shapes as 'nonVersionVals' (a bare value, a list,
+    // a name-keyed dict, or None), so it goes through toWildcardList first and is only parsed
+    // after -- a column left unspecified stays std::nullopt, meaning "latest available here".
+    std::vector<std::optional<AGRC::Version>> toVersionList(const py::object &raw,
+                                                            const std::vector<std::string> &versionIndexNames) {
+        std::vector<std::optional<std::string>> wildcards = toWildcardList(raw, versionIndexNames);
+
         std::vector<std::optional<AGRC::Version>> result;
-        result.reserve(raw.size());
-        for (const py::object &v : raw) {
-            result.push_back(parseVersionArg(v));
+        result.reserve(wildcards.size());
+        for (const std::optional<std::string> &val : wildcards) {
+            result.push_back(val.has_value() ? parseVersionArg(py::cast(*val)) : std::nullopt);
         }
         return result;
     }
-
-}
-
-
-namespace {
 
     void flattenObjNestedDictNode(const py::object &node, std::vector<std::string> &path, std::size_t depth,
                                    std::size_t totalIndices, std::vector<AGRC::Row<std::string, py::object>> &rows) {
@@ -80,110 +80,222 @@ std::vector<AGRC::Row<std::string, py::object>> convertObjRowsOrNestedDict(const
 
 
 void initCppModAssets(pybind11::module_ &m) {
-    py::class_<PyModAssets>(m, "CppModAssets", R"doc(
-Handles assets of any type for a mod where retrieval is based on some keys where one or more of
-the keys refer to some versioning
+    py::class_<PyModAssets> modAssets(m, "ModAssets", R"doc(
+Class to handle assets of any type for a mod where retrieval is based on some keys where 1 or more
+of the keys refer to some versioning
 
 :raw-html:`<br />`
 
-If an asset has only one version column, :class:`CppModDictAssets` is the better fit (a real
-hash-map lookup instead of this class's linear scan) -- this class exists specifically for the
-multi-version-column case (e.g. this project's real ``VGRemaps``, which resolves a ``fromVersion``
-and a ``toVersion`` independently and sequentially)
+.. tip::
+    If the assets have more than 1 column that refers to some version, use this data structure.
+    Otherwise if your asset has only 1 column that refers to some version, it is recommended to use
+    :class:`ModDictAssets` instead, since that uses a hash based access instead of a linear scan
+    )doc");
 
-:raw-html:`<br />`
+    // The pure-Python ModAssets exposed these as class constants, and its own defaults are spelled
+    // in terms of them, so they stay part of the public surface.
+    modAssets.attr("VersionKey") = VersionKey;
+    modAssets.attr("NameKey") = NameKey;
+    modAssets.attr("ValueKey") = ValueKey;
 
-Like :class:`CppModDictAssets`, the source data is never a nested dict internally -- rows are
-supplied already-flattened, as a list of ``(indexVals, value)`` tuples, or as a real nested dict
-(flattened automatically -- see the constructor's 'rows' argument)
-    )doc")
+    modAssets
+        .def(py::init([](const py::object &repo, const py::object &indices, const py::object &versionIndices,
+                         const py::object &valueCol, const py::kwargs &) {
+            std::vector<std::string> indexNames = indices.is_none()
+                ? std::vector<std::string>{VersionKey, NameKey}
+                : indices.cast<std::vector<std::string>>();
 
-        .def(py::init([](const std::vector<bool> &isVersionColumn, const py::object &rows) {
-            return std::make_unique<PyModAssets>(isVersionColumn,
-                // VersionParser speaks K, which is std::string now -- adapt parseVersionArg.
+            std::unordered_set<std::string> uniqueIndices(indexNames.begin(), indexNames.end());
+            if (uniqueIndices.size() != indexNames.size()) {
+                throw py::key_error("Index names must be unique");
+            }
+
+            std::unordered_set<std::string> versionNames = versionIndices.is_none()
+                ? std::unordered_set<std::string>{VersionKey}
+                : versionIndices.cast<std::unordered_set<std::string>>();
+
+            std::vector<bool> isVersionColumn;
+            std::vector<std::string> versionIndexNames;
+            std::vector<std::string> nonVersionIndexNames;
+            isVersionColumn.reserve(indexNames.size());
+
+            for (const std::string &indexName : indexNames) {
+                // Intersected with the real index names, matching the pure-Python original -- a
+                // version index that isn't an index at all is simply dropped rather than an error.
+                bool isVersion = versionNames.count(indexName) > 0;
+                isVersionColumn.push_back(isVersion);
+                (isVersion ? versionIndexNames : nonVersionIndexNames).push_back(indexName);
+            }
+
+            auto result = std::make_unique<PyModAssets>(isVersionColumn,
+                // VersionParser speaks K, which is std::string here -- adapt parseVersionArg.
                 [](const std::string &v) { return parseVersionArg(py::cast(v)); },
-                convertObjRowsOrNestedDict(rows, isVersionColumn.size()));
-        }), py::arg("isVersionColumn"), py::arg("rows") = py::list(), py::doc(R"doc(
+                convertObjRowsOrNestedDict(repo, indexNames.size()));
+
+            result->indices = std::move(indexNames);
+            result->versionIndexNames = std::move(versionIndexNames);
+            result->nonVersionIndexNames = std::move(nonVersionIndexNames);
+            result->valueCol = valueCol.is_none() ? ValueKey : py::str(valueCol).cast<std::string>();
+
+            return result;
+        }), py::arg("repo"), py::arg("indices") = py::none(), py::arg("versionIndices") = py::none(),
+            py::arg("valueCol") = py::none(), py::doc(R"doc(
 Constructs a new asset lookup table
+
+:raw-html:`<br />`
+
+.. note::
+    Any extra keyword argument is accepted and ignored, matching the pure-Python original this
+    replaced (whose own constructor ended in ``**kwargs``)
 
 Parameters
 ----------
-isVersionColumn: List[:class:`bool`]
-    One entry per index column, in index order -- ``True`` marks that column as a version column.
-    Must have at least 1 element
+repo: Union[List[Tuple[List[Any], Any]], dict]
+    The original source for the assets -- either an already-flattened list of ``(indexVals, value)``
+    tuples, or a nested dict exactly ``len(indices)`` levels deep
 
-rows: Union[List[Tuple[List[Any], Any]], dict]
-    The initial rows to populate the table with -- either a flat list of ``(indexVals, value)``
-    tuples, or a real nested dict ('len(isVersionColumn)' levels deep)
+indices: Optional[List[:class:`str`]]
+    The names of the index columns to query to retrieve the main content of the asset
+    :raw-html:`<br />` :raw-html:`<br />`
 
-    **Default**: ``[]``
+    If this value is ``None``, then will set 2 index columns by the names "version" and "name"
+
+    **Default**: ``None``
+
+versionIndices: Optional[Set[:class:`str`]]
+    The names of the index columns that refer to some version -- any name not also in 'indices' is
+    ignored :raw-html:`<br />` :raw-html:`<br />`
+
+    If this value is ``None``, then will set an index to the name "version"
+
+    **Default**: ``None``
+
+valueCol: Optional[:class:`str`]
+    Unused by the lookup (rows already carry their own value, rather than one being selected by
+    column name) -- kept for constructor-signature backward compatibility
+
+    **Default**: ``None``
+
+Raises
+------
+:class:`KeyError`
+    If 'indices' contains a duplicate name
+
+:class:`ValueError`
+    If 'repo' is a dict that isn't nested exactly ``len(indices)`` levels deep
         )doc"))
 
         .def("addRows", [](PyModAssets &self, const py::object &rows) {
             self.addRows(convertObjRowsOrNestedDict(rows, self.getTotalIndices()));
         }, py::arg("rows"), py::doc(R"doc(
 Adds new rows to the table (an addition beyond the pure-Python original, which has no
-incremental-add capability at all) -- overwrites the value of any row whose full key already
-exists
+incremental-add capability at all) -- overwrites the value of any row whose full key already exists
 
 Parameters
 ----------
 rows: Union[List[Tuple[List[Any], Any]], dict]
-    The rows to add, in the same shape as the constructor's own 'rows' argument
+    The rows to add, in the same shape as the constructor's own 'repo' argument
         )doc"))
 
-        .def("get", [](const PyModAssets &self, const std::vector<py::object> &nonVersionVals, const std::vector<py::object> &versionVals, bool errorOnNotFound) -> py::object {
-            std::optional<py::object> result = self.get(toOptionalList(nonVersionVals), toVersionList(versionVals), false);
+        .def("get", [](const PyModAssets &self, const py::object &nonVersionVals, const py::object &versionVals,
+                       bool errorOnNotFound, const py::object &default_) -> py::object {
+            std::optional<py::object> result = self.get(toWildcardList(nonVersionVals, self.nonVersionIndexNames),
+                                                        toVersionList(versionVals, self.versionIndexNames),
+                                                        false);
             if (!result.has_value()) {
                 if (errorOnNotFound) {
                     throw py::key_error("No matching asset found for the given non-version/version values");
                 }
-                return py::none();
+                return default_;
             }
+
             // Already a py::object -- the whole point of this table's value type.
             return *result;
-        }, py::arg("nonVersionVals"), py::arg("versionVals"), py::arg("errorOnNotFound") = true, py::doc(R"doc(
+        }, py::arg("nonVersionVals"), py::arg("versionVals") = py::none(), py::arg("errorOnNotFound") = true,
+           py::arg("default") = py::none(), py::doc(R"doc(
 Retrieves the corresponding asset
 
 Parameters
 ----------
-nonVersionVals: List[Optional[Any]]
-    One entry per non-version column, in their relative index order -- ``None`` at a position
-    means "match any value there". Must have exactly :attr:`nonVersionColumnCount` elements
+nonVersionVals: Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]
+    The values of the index columns that do not reference a version -- a bare value (taken as the
+    first such column), a positional list, or a dict keyed by index name. A column left
+    unspecified matches anything there
 
-versionVals: List[Optional[Union[:class:`str`, :class:`int`, :class:`float`, :class:`CppVersion`]]]
-    One entry per version column, in their relative index order -- ``None`` at a position means
-    "use the latest available value for this column, among rows still matching everything
-    resolved so far". Must have exactly :attr:`versionColumnCount` elements :raw-html:`<br />` :raw-html:`<br />`
+versionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+    The values of the index columns that reference a version, in the same accepted shapes
+    :raw-html:`<br />` :raw-html:`<br />`
 
-    Version columns are resolved sequentially, in index order -- each one's floor-match narrows
-    the candidate set before the next version column is resolved against it
+    .. note::
+        If the value for a particular version column is ``None``, then will get the latest version
+        for that column -- among the rows still matching everything resolved before it, since
+        version columns are resolved sequentially in index order
+
+    **Default**: ``None``
 
 errorOnNotFound: :class:`bool`
-    Whether to raise :class:`KeyError` if no matching asset is found
+    If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
 
+default: Any
+    If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
+
 Raises
 ------
-:class:`ValueError`
-    If 'nonVersionVals'/'versionVals' don't have exactly :attr:`nonVersionColumnCount`/
-    :attr:`versionColumnCount` elements respectively, or if a version value doesn't parse
-
 :class:`KeyError`
-    If no matching asset is found and 'errorOnNotFound' is ``True``
+    If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is
+    set to ``True``
 
 Returns
 -------
 Any
-    The found asset, or ``None`` if none is found and 'errorOnNotFound' is ``False``
+    Either the found asset, or the value specified from 'default' if 'errorOnNotFound' is set to
+    ``False``
         )doc"))
 
-        .def_property_readonly("totalIndices", &PyModAssets::getTotalIndices, py::doc(R"doc(:class:`int`: The total number of index columns)doc"))
+        .def_property_readonly("indices", [](const PyModAssets &self) { return self.indices; },
+            py::doc(R"doc(List[:class:`str`]: The names of the index columns to query to retrieve the main content of an asset)doc"))
 
-        .def_property_readonly("versionColumnCount", &PyModAssets::getVersionColumnCount, py::doc(R"doc(:class:`int`: The number of version columns)doc"))
+        .def_property_readonly("versionIndices", [](const PyModAssets &self) {
+            py::set result;
+            for (const std::string &name : self.versionIndexNames) {
+                result.add(py::str(name));
+            }
+            return result;
+        }, py::doc(R"doc(Set[:class:`str`]: The names of the index columns that refer to some version)doc"))
 
-        .def_property_readonly("nonVersionColumnCount", &PyModAssets::getNonVersionColumnCount, py::doc(R"doc(:class:`int`: The number of non-version columns)doc"))
+        .def_property_readonly("valueCol", [](const PyModAssets &self) { return self.valueCol; },
+            py::doc(R"doc(:class:`str`: Unused by the lookup -- see the constructor's own note)doc"))
 
-        .def("__len__", &PyModAssets::size, py::doc(R"doc(The total number of rows currently in the table)doc"));
+        .def_property_readonly("totalIndices", &PyModAssets::getTotalIndices,
+            py::doc(R"doc(:class:`int`: The total number of index columns)doc"))
+
+        .def_property_readonly("versionColumnCount", &PyModAssets::getVersionColumnCount,
+            py::doc(R"doc(:class:`int`: The number of version columns)doc"))
+
+        .def_property_readonly("nonVersionColumnCount", &PyModAssets::getNonVersionColumnCount,
+            py::doc(R"doc(:class:`int`: The number of non-version columns)doc"))
+
+        .def("__len__", &PyModAssets::size,
+            py::doc(R"doc(The total number of rows currently in the table)doc"))
+
+        // A fresh py::class_ has neither copy.copy() nor copy.deepcopy() until they're bound, and
+        // these tables are mutable -- see Architecture's note on that gap.
+        .def("clone", [](const PyModAssets &self) { return PyModAssets(self); }, py::doc(R"doc(
+Creates an independent copy of this table
+
+Returns
+-------
+:class:`ModAssets`
+    The copied table
+        )doc"))
+
+        .def("__copy__", [](const PyModAssets &self) { return PyModAssets(self); })
+
+        .def("__deepcopy__", [](const PyModAssets &self, const py::dict &) { return PyModAssets(self); },
+            py::arg("memo"));
 }

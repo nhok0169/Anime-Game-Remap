@@ -30,6 +30,7 @@
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aed229aa14094c7e24a306369153114f3">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c">srcEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4">srcEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a15e9b71614b930c7cc28f9decb170de9">srcEncounteredError</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
           <declname>stats</declname>
@@ -64,6 +65,7 @@
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de">srcIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4">srcIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a736a92ad4203cbb2da34aedb03f2c671">srcIsFixed</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
           <declname>stats</declname>
@@ -98,6 +100,7 @@
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b">fixEncounteredError</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a324c28bf61ead4aede8b2ab16864f374">fixEncounteredError</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1a12493a0ca8ad236d842b53bf7460f130">fixEncounteredError</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
           <declname>stats</declname>
@@ -132,6 +135,7 @@
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064">fixIsFixed</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970">fixIsFixed</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_remap_tex_edit_resource_1ae594c18d600de30d20c3d46a3f5b1889">fixIsFixed</reimplementedby>
         <param>
           <type>const <ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref> &amp;</type>
           <declname>stats</declname>
@@ -242,10 +246,10 @@ override whichever of these actually apply to it :raw-html:`&lt;br /&gt;` :raw-h
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::RemapIniDownload</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
         </childnode>
       </node>
       <node id="2">
@@ -254,13 +258,13 @@ override whichever of these actually apply to it :raw-html:`&lt;br /&gt;` :raw-h
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>AGRemapCore::RemapIniGroupedResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_grouped_resource"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore::RemapIniResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
         <childnode refid="1" relation="public-inheritance">
@@ -270,10 +274,16 @@ override whichever of these actually apply to it :raw-html:`&lt;br /&gt;` :raw-h
         <label>AGRemapCore::RemapIniResourceMixin</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore::RemapTexAddResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_tex_add_resource"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

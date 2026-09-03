@@ -21,9 +21,9 @@ def _raiden():
     return next(modType for modType in FRB.CppGlobalModTypes.all() if modType.name == "Raiden")
 
 
-class CppIniParseBuilderTest(BaseUnitTest):
+class IniParseBuilderTest(BaseUnitTest):
     """
-    Tests for :class:`CppIniParseBuilder`.
+    Tests for :class:`IniParseBuilder`.
 
     The resolution logic (floor-matched version lookup, the fallback when a mod name has no row)
     is core-side behaviour. What these cover is the *binding*: that a Python callable can act as
@@ -40,7 +40,7 @@ class CppIniParseBuilderTest(BaseUnitTest):
             return FRB.BaseIniParser(None)
 
         ini = _iniFile()
-        FRB.CppIniParseBuilder(factory).build(ini, "Raiden", None, 7)
+        FRB.IniParseBuilder(factory).build(ini, "Raiden", None, 7)
 
         self.assertEqual(len(seen), 1)
         self.assertIs(seen[0][0], ini)
@@ -53,7 +53,7 @@ class CppIniParseBuilderTest(BaseUnitTest):
             seen.append(modTypeId)
             return FRB.BaseIniParser(None)
 
-        FRB.CppIniParseBuilder(factory).build(_iniFile(), "Raiden")
+        FRB.IniParseBuilder(factory).build(_iniFile(), "Raiden")
         self.assertEqual(seen, [None])
 
     def test_pythonSubclassReturned_identityKept(self):
@@ -65,14 +65,14 @@ class CppIniParseBuilderTest(BaseUnitTest):
         made = MyParser(None)
         made.marker = "kept"
 
-        built = FRB.CppIniParseBuilder(lambda iniFile, modTypeId: made).build(_iniFile(), "Raiden")
+        built = FRB.IniParseBuilder(lambda iniFile, modTypeId: made).build(_iniFile(), "Raiden")
 
         self.assertIs(built, made)
         self.assertIsInstance(built, MyParser)
         self.assertEqual(built.marker, "kept")
 
     def test_defaultFactory_buildsCoreSideParser(self):
-        built = FRB.CppIniParseBuilder().build(_iniFile(), "Raiden")
+        built = FRB.IniParseBuilder().build(_iniFile(), "Raiden")
 
         # A core-built parser has no richer Python type to come back as -- CppBaseIniParser exists
         # precisely so it does not have to come back as None.
@@ -80,26 +80,26 @@ class CppIniParseBuilderTest(BaseUnitTest):
         self.assertNotIsInstance(built, FRB.BaseIniParser)
 
     def test_defaultFactory_isCallable(self):
-        factory = FRB.CppIniParseBuilder.defaultFactory()
+        factory = FRB.IniParseBuilder.defaultFactory()
         self.assertIsInstance(factory(_iniFile(), None), FRB.CppBaseIniParser)
 
     def test_fixedFlavour_hasNoBuilderArgs(self):
-        self.assertIsNone(FRB.CppIniParseBuilder().builderArgs)
-        self.assertIsNone(FRB.CppIniParseBuilder(lambda iniFile, modTypeId: None).builderArgs)
-        self.assertFalse(FRB.CppIniParseBuilder().errorOnNotFound)
+        self.assertIsNone(FRB.IniParseBuilder().builderArgs)
+        self.assertIsNone(FRB.IniParseBuilder(lambda iniFile, modTypeId: None).builderArgs)
+        self.assertFalse(FRB.IniParseBuilder().errorOnNotFound)
 
     def test_modType_hasVersionDependentBuilder(self):
         builder = _raiden().iniParseBuilder
 
-        self.assertIsInstance(builder, FRB.CppIniParseBuilder)
+        self.assertIsInstance(builder, FRB.IniParseBuilder)
         self.assertIsInstance(builder.builderArgs, FRB.CppIniParseBuilderArgs)
 
 
-class CppIniFixBuilderTest(BaseUnitTest):
+class IniFixBuilderTest(BaseUnitTest):
     """
-    Tests for :class:`CppIniFixBuilder`.
+    Tests for :class:`IniFixBuilder`.
 
-    Same shape as :class:`CppIniParseBuilderTest`, plus ``buildAll`` -- the entry point that
+    Same shape as :class:`IniParseBuilderTest`, plus ``buildAll`` -- the entry point that
     actually matters, since one source mod may be fixed onto several targets.
     """
 
@@ -114,7 +114,7 @@ class CppIniFixBuilderTest(BaseUnitTest):
             seen.append((builtFor, toModName))
             return FRB.BaseIniFixer(None)
 
-        FRB.CppIniFixBuilder(factory).build(parser, "Raiden", "RaidenShogun")
+        FRB.IniFixBuilder(factory).build(parser, "Raiden", "RaidenShogun")
 
         self.assertEqual(len(seen), 1)
         self.assertIs(seen[0][0], parser)
@@ -125,14 +125,14 @@ class CppIniFixBuilderTest(BaseUnitTest):
             pass
 
         made = MyFixer(None)
-        built = FRB.CppIniFixBuilder(lambda parser, toModName: made).build(
+        built = FRB.IniFixBuilder(lambda parser, toModName: made).build(
             FRB.BaseIniParser(None), "Raiden", "RaidenShogun")
 
         self.assertIs(built, made)
 
     def test_buildAll_returnsTargetFixerPairs(self):
         made = FRB.BaseIniFixer(None)
-        pairs = FRB.CppIniFixBuilder(lambda parser, toModName: made).buildAll(
+        pairs = FRB.IniFixBuilder(lambda parser, toModName: made).buildAll(
             FRB.BaseIniParser(None), "Raiden")
 
         self.assertTrue(len(pairs) >= 1)
@@ -143,14 +143,14 @@ class CppIniFixBuilderTest(BaseUnitTest):
     def test_buildAll_fixedFlavour_ignoresFilter(self):
         # A fixed-factory builder has no targets to fan out over, so buildAll yields exactly one
         # entry under the empty name however it is filtered.
-        builder = FRB.CppIniFixBuilder(lambda parser, toModName: FRB.BaseIniFixer(None))
+        builder = FRB.IniFixBuilder(lambda parser, toModName: FRB.BaseIniFixer(None))
 
         for filtered in (None, set(), {"RaidenShogun"}):
             pairs = builder.buildAll(FRB.BaseIniParser(None), "Raiden", None, None, filtered)
             self.assertEqual([name for name, _ in pairs], [""])
 
     def test_defaultFactory_buildsCoreSideFixer(self):
-        built = FRB.CppIniFixBuilder().build(FRB.BaseIniParser(None), "Raiden", "RaidenShogun")
+        built = FRB.IniFixBuilder().build(FRB.BaseIniParser(None), "Raiden", "RaidenShogun")
 
         self.assertIsInstance(built, FRB.CppBaseIniFixer)
         self.assertNotIsInstance(built, FRB.BaseIniFixer)
@@ -158,13 +158,13 @@ class CppIniFixBuilderTest(BaseUnitTest):
     def test_modType_hasVersionDependentBuilder(self):
         builder = _raiden().iniFixBuilder
 
-        self.assertIsInstance(builder, FRB.CppIniFixBuilder)
+        self.assertIsInstance(builder, FRB.IniFixBuilder)
         self.assertIsInstance(builder.builderArgs, FRB.CppIniFixBuilderArgs)
 
 
-class CppIniRemoveBuilderTest(BaseUnitTest):
+class IniRemoveBuilderTest(BaseUnitTest):
     """
-    Tests for :class:`CppIniRemoveBuilder`.
+    Tests for :class:`IniRemoveBuilder`.
     """
 
     def test_pythonFactory_calledWithIniFile(self):
@@ -175,7 +175,7 @@ class CppIniRemoveBuilderTest(BaseUnitTest):
             return FRB.BaseIniRemover(None)
 
         ini = _iniFile()
-        FRB.CppIniRemoveBuilder(factory).build(ini)
+        FRB.IniRemoveBuilder(factory).build(ini)
 
         self.assertEqual(len(seen), 1)
         self.assertIs(seen[0], ini)
@@ -185,20 +185,20 @@ class CppIniRemoveBuilderTest(BaseUnitTest):
             pass
 
         made = MyRemover(None)
-        built = FRB.CppIniRemoveBuilder(lambda iniFile: made).build(_iniFile())
+        built = FRB.IniRemoveBuilder(lambda iniFile: made).build(_iniFile())
 
         self.assertIs(built, made)
 
     def test_factoryReturningNone_fallsBackToDefault(self):
         # build() is contractually never None: a factory that hands back nothing is topped up with
         # the default one rather than having the null propagate to the caller.
-        built = FRB.CppIniRemoveBuilder(lambda iniFile: None).build(_iniFile())
+        built = FRB.IniRemoveBuilder(lambda iniFile: None).build(_iniFile())
 
         self.assertIsNotNone(built)
         self.assertIsInstance(built, FRB.CppBaseIniRemover)
 
     def test_defaultFactory_buildsCoreSideRemover(self):
-        built = FRB.CppIniRemoveBuilder().build(_iniFile())
+        built = FRB.IniRemoveBuilder().build(_iniFile())
 
         self.assertIsInstance(built, FRB.CppBaseIniRemover)
         self.assertNotIsInstance(built, FRB.BaseIniRemover)
@@ -206,5 +206,5 @@ class CppIniRemoveBuilderTest(BaseUnitTest):
     def test_modType_hasVersionDependentBuilder(self):
         builder = _raiden().iniRemoveBuilder
 
-        self.assertIsInstance(builder, FRB.CppIniRemoveBuilder)
+        self.assertIsInstance(builder, FRB.IniRemoveBuilder)
         self.assertIsInstance(builder.builderArgs, FRB.CppIniRemoveBuilderArgs)

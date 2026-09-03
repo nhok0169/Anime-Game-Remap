@@ -1,0 +1,105 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_global_mod_types" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GlobalModTypes</compoundname>
+    <includes refid="_global_mod_types_8h" local="no">GlobalModTypes.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GlobalModTypes::GlobalModTypes</definition>
+        <argsstring>()=delete</argsstring>
+        <name>GlobalModTypes</name>
+        <qualifiedname>AGRemapCore::GlobalModTypes::GlobalModTypes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> &gt;</type>
+        <definition>std::vector&lt; ModType &gt; AGRemapCore::GlobalModTypes::all</definition>
+        <argsstring>()</argsstring>
+        <name>all</name>
+        <qualifiedname>AGRemapCore::GlobalModTypes::all</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every shipped :cpp:class:`ModType`, freshly built on each call :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Fresh rather than shared because a :cpp:class:`ModType` owns mutable asset tables
+(:cpp:member:`ModType::hashes` and friends support ``addRepoRows``/``addMap``), so one
+caller adding a hash must not be visible to every other one -- the same reasoning
+:cpp:class:`Hashes`&apos;s own constructor records for copying its prototype repo
+</verbatim></para>
+<para><simplesect kind="return"><para>All the shipped mod types </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="52" column="32" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GlobalModTypes::registerAll</definition>
+        <argsstring>()</argsstring>
+        <name>registerAll</name>
+        <qualifiedname>AGRemapCore::GlobalModTypes::registerAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files every mod type from #all into :cpp:class:`ModTypeIdTools`&apos;s global registry, so
+:cpp:func:`ModTypeIdTools::getModType` can resolve them by id and
+:cpp:func:`ModTypeIdTools::findByName` by name or alias :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Idempotent: registering a mod type twice replaces the existing entry rather than
+duplicating it, and re-adding a name to the lookup DFA is a no-op. Note it registers
+*in addition to* whatever is already there rather than replacing the registry --
+call :cpp:func:`ModTypeIdTools::clear` first to start from empty
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="68" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="15" bodyend="19"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Every :cpp:class:`ModType` the software ships with, and the one place that files them into
+:cpp:class:`ModTypeIdTools`&apos;s global registry :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The counterpart to the pure-Python ``ModTypes`` enum (``constants/ModTypes.py``), whose
+``getAll()`` likewise builds the shipped mod types on demand. Genshin Impact is currently the
+only game with a builder, so #all is :cpp:func:`GIBuilder::all` today; a second game would be
+aggregated here rather than at each call site
+
+.. important::
+   #registerAll is **not** called automatically by anything in ``AGRemapCore``, and that is
+   deliberate. :cpp:func:`ModTypeIdTools::getModType` and
+   :cpp:func:`ModTypeIdTools::findByName` deliberately report only what was explicitly
+   registered, which is what lets a caller (and the core&apos;s own tests) do
+   :cpp:func:`ModTypeIdTools::clear` followed by
+   :cpp:func:`ModTypeIdTools::registerModType` and get a registry containing *exactly* the
+   mod types it asked for. Self-populating those lookups on first use would quietly break
+   that. An application wanting the shipped mod types asks for them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GlobalModTypes.h" bodystart="33" bodyend="69"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>all</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>GlobalModTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>registerAll</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

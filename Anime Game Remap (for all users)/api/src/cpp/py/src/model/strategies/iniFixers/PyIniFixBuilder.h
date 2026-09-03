@@ -9,7 +9,7 @@
 /**
  * @brief
  @rst
- Registers ``CppIniFixBuilder`` and its opaque ``CppIniFixBuilderArgs`` lookup table
+ Registers ``IniFixBuilder`` and its opaque ``CppIniFixBuilderArgs`` lookup table
  @endrst
  *
  * @param m The module to register into

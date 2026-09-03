@@ -51,18 +51,18 @@ void initCppIniFixBuilder(py::module_ &m) {
     // IniFixBuilderData's. Registering it is what lets 'builderArgs' hand back the real thing
     // rather than a bool.
     py::class_<AGRC::IniFixBuilder::ArgsRepo, py::smart_holder>(m, "CppIniFixBuilderArgs", R"doc(
-The version-dependent lookup table a :class:`CppIniFixBuilder` resolves its factory from
+The version-dependent lookup table a :class:`IniFixBuilder` resolves its factory from
 
 Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
-every mod type from :meth:`CppGIBuilder.all` does -- can say so
+every mod type from :meth:`GIBuilder.all` does -- can say so
     )doc");
 
 
-    py::class_<AGRC::IniFixBuilder, py::smart_holder>(m, "CppIniFixBuilder", R"doc(
+    py::class_<AGRC::IniFixBuilder, py::smart_holder>(m, "IniFixBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniFixer` that fixes one mod onto another
 
-The C++ counterpart to :class:`IniFixBuilder`, and what :attr:`CppModType.iniFixBuilder` holds. It
-comes in the same two flavours:
+What :attr:`ModType.iniFixBuilder` holds, and what the pure-Python builder of this name was
+replaced by. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted on every :meth:`build`

@@ -145,48 +145,48 @@ Returns
         )doc"))
 
         .def_static("getModType", &AGRC::ModTypeIdTools::getModType, py::arg("modTypeId"), py::doc(R"doc(
-Retrieves the :class:`CppModType` registered for a :class:`ModTypeId`, if one has been registered
+Retrieves the :class:`ModType` registered for a :class:`ModTypeId`, if one has been registered
 (via :meth:`registerModType`)
 
 This is a plain lookup into a global registry shared by every caller of :class:`ModTypeIdTools` --
-it never builds a :class:`CppModType` itself. If a :class:`ModTypeId` is never registered, nothing
+it never builds a :class:`ModType` itself. If a :class:`ModTypeId` is never registered, nothing
 is ever built for it, since building one can be expensive; only a :class:`ModTypeId` that's actually
-been registered (typically by whichever builder -- e.g. :class:`CppGIBuilder` -- actually owns it)
+been registered (typically by whichever builder -- e.g. :class:`GIBuilder` -- actually owns it)
 can be retrieved here
 
 Parameters
 ----------
 modTypeId: :class:`int`
-    The integer id for the :class:`ModTypeId` to retrieve the registered :class:`CppModType` for --
+    The integer id for the :class:`ModTypeId` to retrieve the registered :class:`ModType` for --
     stored/looked-up as-is, with no validation that it corresponds to one of :class:`ModTypeId`'s
     declared values, so a custom mod type using some id not registered in :class:`ModTypeId` can
     still be looked up here
 
 Returns
 -------
-Optional[:class:`CppModType`]
-    The registered :class:`CppModType`, if one exists for 'modTypeId'
+Optional[:class:`ModType`]
+    The registered :class:`ModType`, if one exists for 'modTypeId'
         )doc"))
 
         .def_static("registerModType", &AGRC::ModTypeIdTools::registerModType, py::arg("modType"), py::doc(R"doc(
-Registers a :class:`CppModType` into the global registry, under the :class:`ModTypeId` it owns
+Registers a :class:`ModType` into the global registry, under the :class:`ModTypeId` it owns
 (``modType.modTypeId``) :raw-html:`<br />` :raw-html:`<br />`
 
-If a :class:`CppModType` is already registered for that :class:`ModTypeId`, it gets overwritten with
+If a :class:`ModType` is already registered for that :class:`ModTypeId`, it gets overwritten with
 the new one
 
 Parameters
 ----------
-modType: :class:`CppModType`
-    The :class:`CppModType` to register
+modType: :class:`ModType`
+    The :class:`ModType` to register
         )doc"))
 
         .def_static("findByName", &AGRC::ModTypeIdTools::findByName, py::arg("name"), py::arg("gameTypeId") = py::none(), py::doc(R"doc(
-Finds the :class:`ModTypeId` whose registered :class:`CppModType` name or alias maximally matches
+Finds the :class:`ModTypeId` whose registered :class:`ModType` name or alias maximally matches
 some string, similar to how :meth:`BaseIniClassifier.classify`'s section-name reading searches
 its own registered keywords
 
-Only searches names/aliases of :class:`CppModType` s that have actually been registered (via
+Only searches names/aliases of :class:`ModType` s that have actually been registered (via
 :meth:`registerModType`) -- an unregistered :class:`ModTypeId` can never be found this way, even if
 'name' textually matches what :meth:`getName` would return for it :raw-html:`<br />` :raw-html:`<br />`
 
@@ -197,10 +197,10 @@ guessing
 Parameters
 ----------
 name: :class:`str`
-    The string to search for a registered :class:`CppModType` name/alias within
+    The string to search for a registered :class:`ModType` name/alias within
 
 gameTypeId: Optional[:class:`GameTypeId`]
-    If provided, only considers a :class:`CppModType` registered under this :class:`GameTypeId` (via
+    If provided, only considers a :class:`ModType` registered under this :class:`GameTypeId` (via
     ``modType.gameTypeId``) a candidate match :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
@@ -212,7 +212,7 @@ Optional[:class:`ModTypeId`]
         )doc"))
 
         .def_static("clear", &AGRC::ModTypeIdTools::clear, py::doc(R"doc(
-Clears the global registry -- every :class:`CppModType` registered via :meth:`registerModType` is
+Clears the global registry -- every :class:`ModType` registered via :meth:`registerModType` is
 forgotten, and :meth:`getModType`/:meth:`findByName` behave as if nothing was ever registered
 
 Mirrors :meth:`HashTools.clear`/:meth:`CppHashTools.clear` -- meant for resetting shared global
@@ -228,7 +228,7 @@ so a target is named by :class:`ModTypeId` rather than by a bare string
 
 .. note::
     Two :class:`ModTypeId`\s -- ``RaidenBoss`` and ``ArlecchinoBoss`` -- only ever appear as
-    *targets* and are never a source, which is why :class:`CppGIBuilder` has no factory for them
+    *targets* and are never a source, which is why :class:`GIBuilder` has no factory for them
 
 Parameters
 ----------

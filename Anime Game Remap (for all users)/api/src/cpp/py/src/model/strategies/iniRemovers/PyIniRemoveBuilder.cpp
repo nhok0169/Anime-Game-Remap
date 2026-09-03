@@ -48,18 +48,18 @@ void initCppIniRemoveBuilder(py::module_ &m) {
     // are C++ factories, and the table that exists is IniRemoveBuilderData's). Registering it
     // anyway is what lets getBuilderArgs() hand back the real thing instead of a bool.
     py::class_<AGRC::IniRemoveBuilder::ArgsRepo, py::smart_holder>(m, "CppIniRemoveBuilderArgs", R"doc(
-The version-dependent lookup table a :class:`CppIniRemoveBuilder` resolves its factory from
+The version-dependent lookup table a :class:`IniRemoveBuilder` resolves its factory from
 
 Opaque: there is no way to build one from Python yet. It is exposed so that a builder which
-*has* one -- every mod type from :meth:`CppGIBuilder.all` does -- can say so
+*has* one -- every mod type from :meth:`GIBuilder.all` does -- can say so
     )doc");
 
 
-    py::class_<AGRC::IniRemoveBuilder, py::smart_holder>(m, "CppIniRemoveBuilder", R"doc(
+    py::class_<AGRC::IniRemoveBuilder, py::smart_holder>(m, "IniRemoveBuilder", R"doc(
 A factory that builds the :class:`CppBaseIniRemover` for one .ini file
 
-The C++ counterpart to :class:`IniRemoveBuilder`, and what :attr:`CppModType.iniRemoveBuilder`
-holds. It comes in the same two flavours:
+What :attr:`ModType.iniRemoveBuilder` holds, and what the pure-Python builder of this name was
+replaced by. It comes in two flavours:
 
 * **Fixed** -- one factory used for every .ini file, whatever its version
 * **Version-dependent** -- a lookup table consulted by ``(modName, version)`` on every

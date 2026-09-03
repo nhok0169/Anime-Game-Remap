@@ -18,7 +18,6 @@ from .HashData import HashData
 from .IndexData import IndexData
 from .VertexCountData import VertexCountData
 from .VGRemapData import vgRemapDataBuilder
-from .PositionEditorData import PositionEditorData
 from .FileDownloadData import FileDownloadData
 from .TexcoordByteSizeData import TexcoordByteSizeData
 ##### EndLocalImports
@@ -109,7 +108,8 @@ class ModData(DeferredEnum):
     VertexCounts = (lambda: VertexCountData, )
     VGRemapData = (lambda: vgRemapDataBuilder.build(), )
     TexcoordByteSize = (lambda: TexcoordByteSizeData, )
-    PositionEditorData = (lambda: PositionEditorData, )
+    # UNLINKED -- see data/PositionEditorData.py.txt
+    PositionEditorData = (lambda: {}, )
     # UNLINKED -- see data/IniParseBuilderData.py.txt
     IniParseBuilderArgs = (lambda: {}, )
     # UNLINKED -- see data/IniFixBuilderData.py.txt

@@ -9,7 +9,7 @@
 /**
  * @brief
  @rst
- Registers ``CppIniRemoveBuilder`` and its opaque ``CppIniRemoveBuilderArgs`` lookup table
+ Registers ``IniRemoveBuilder`` and its opaque ``CppIniRemoveBuilderArgs`` lookup table
  @endrst
  *
  * @param m The module to register into

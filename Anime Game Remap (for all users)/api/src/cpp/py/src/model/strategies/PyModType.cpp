@@ -37,7 +37,7 @@ void initCppModType(pybind11::module_ &m) {
     // model/strategies/ModType.py, which builds its own richer representation from this C++ data,
     // so the bound name is disambiguated with the 'Cpp' prefix; see Documentation/CLAUDE.md's
     // naming-pitfall section / Architecture/CLAUDE.md's 'Cpp' prefix rule.
-    modTypeClsSlot().emplace(m, "CppModType", R"doc(
+    modTypeClsSlot().emplace(m, "ModType", R"doc(
 Heavy data for a type of mod
 
 Meant to carry the full C++-side representation of a mod type -- contrast with the cheap
@@ -84,8 +84,8 @@ aliases: Optional[List[:class:`str`]]
         .def("isName", &AGRC::ModType::isName, py::arg("name"), py::doc(R"doc(
 Determines whether this mod type goes by some name
 
-Compared case-insensitively against :attr:`CppModType.name` and every entry in
-:attr:`CppModType.aliases`
+Compared case-insensitively against :attr:`ModType.name` and every entry in
+:attr:`ModType.aliases`
 
 Parameters
 ----------
@@ -226,13 +226,13 @@ void initCppModTypeLateBindings(pybind11::module_ &m) {
     // Read/write so a caller can swap in their own, exactly as the pure-Python ModType allows.
     modTypeCls()
         .def_readwrite("iniParseBuilder", &AGRC::ModType::iniParseBuilder,
-    py::doc(R"doc(:class:`CppIniParseBuilder`: The builder for the parser that reads a .ini file of this mod type)doc"))
+    py::doc(R"doc(:class:`IniParseBuilder`: The builder for the parser that reads a .ini file of this mod type)doc"))
 
         .def_readwrite("iniFixBuilder", &AGRC::ModType::iniFixBuilder,
-    py::doc(R"doc(:class:`CppIniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type)doc"))
+    py::doc(R"doc(:class:`IniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type)doc"))
 
         .def_readwrite("iniRemoveBuilder", &AGRC::ModType::iniRemoveBuilder,
-    py::doc(R"doc(:class:`CppIniRemoveBuilder`: The builder for the remover that removes a previous fix)doc"));
+    py::doc(R"doc(:class:`IniRemoveBuilder`: The builder for the remover that removes a previous fix)doc"));
 
     // See PyModType.h for why this is a second pass rather than part of the chain above.
     // See PyModType.h for why this is a second pass rather than part of the chain above.

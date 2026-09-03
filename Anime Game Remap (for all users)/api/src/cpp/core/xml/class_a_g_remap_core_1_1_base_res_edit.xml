@@ -475,6 +475,7 @@ argument of \ref buildResGraph)
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9eabc01e0f430b59c61c5e6c8cd7e4a7">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_res_identity_1af5d7a918a2fcaeae24e082dd080d1892">getFixResourceName</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1a107d8e2709871b5b4cf289ce949668ba">getFixResourceName</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1a65ecf0ced79e844bfe438d16f9583874">getFixResourceName</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>resource</declname>
@@ -525,6 +526,7 @@ and the fixed resource
         <qualifiedname>AGRemapCore::BaseResEdit::getFixFile</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_remap_blend_replace_1a9804f37e7028338bea96549bc9e3c679">getFixFile</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_tex_create_1aafa6e29d38eecf64e74fd44ce4cd3a9e">getFixFile</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_tex_replace_1ac7b9c3675eb486a67c97b3bfd0110ebf">getFixFile</reimplementedby>
         <param>
           <type>const std::string &amp;</type>
           <declname>file</declname>
@@ -1141,6 +1143,12 @@ Base class to construct the necessary parts for a particular resource in a ``.in
         <label>AGRemapCore::TexCreate&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_tex_create"/>
         <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>AGRemapCore::TexReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_replace"/>
+        <childnode refid="5" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

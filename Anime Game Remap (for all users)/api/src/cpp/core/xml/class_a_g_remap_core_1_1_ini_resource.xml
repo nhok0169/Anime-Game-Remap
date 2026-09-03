@@ -145,10 +145,10 @@ Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.
         <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::RemapIniDownload</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_download"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
         </childnode>
       </node>
       <node id="3">
@@ -157,16 +157,22 @@ Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="5">
+      <node id="6">
         <label>AGRemapCore::RemapIniResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore::RemapTexAddResource</label>
         <link refid="class_a_g_remap_core_1_1_remap_tex_add_resource"/>
-        <childnode refid="5" relation="public-inheritance">
+        <childnode refid="6" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>AGRemapCore::RemapTexEditResource</label>
+        <link refid="class_a_g_remap_core_1_1_remap_tex_edit_resource"/>
+        <childnode refid="3" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

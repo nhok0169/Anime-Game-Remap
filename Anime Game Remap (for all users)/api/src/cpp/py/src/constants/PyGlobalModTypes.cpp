@@ -10,7 +10,7 @@ namespace AGRC = AGRemapCore;
 
 void initCppGlobalModTypes(pybind11::module_ &m) {
     py::class_<AGRC::GlobalModTypes>(m, "CppGlobalModTypes", R"doc(
-Every :class:`CppModType` the software ships with, and the one place that files them into
+Every :class:`ModType` the software ships with, and the one place that files them into
 :class:`ModTypeIdTools`'s global registry
 
 The counterpart to the pure-Python :class:`ModTypes` enum, whose ``getAll()`` likewise builds the
@@ -25,14 +25,14 @@ shipped mod types on demand
     )doc")
 
         .def_static("all", &AGRC::GlobalModTypes::all, py::doc(R"doc(
-Retrieves every shipped :class:`CppModType`, freshly built on each call
+Retrieves every shipped :class:`ModType`, freshly built on each call
 
-Fresh rather than shared because a :class:`CppModType` owns mutable asset tables, so one caller
+Fresh rather than shared because a :class:`ModType` owns mutable asset tables, so one caller
 adding a hash must not be visible to every other one
 
 Returns
 -------
-List[:class:`CppModType`]
+List[:class:`ModType`]
     All the shipped mod types
         )doc"))
 

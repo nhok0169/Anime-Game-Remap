@@ -740,6 +740,8 @@
         <link refid="_ini_file_fix_context_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</label>
@@ -750,6 +752,10 @@
       <node id="3">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
+        <link refid="_ini_fix_builder_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_fix_context" prot="public">AGRemapCore::RemapIniFixContext</innerclass>

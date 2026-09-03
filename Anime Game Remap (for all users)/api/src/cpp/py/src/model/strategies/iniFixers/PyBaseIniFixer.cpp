@@ -28,7 +28,7 @@ void initCppBaseIniFixer(pybind11::module_ &m) {
     // carries it; pybind11 needs the holder consistent across the whole hierarchy.
     py::class_<PyBaseIniFixerCore, py::smart_holder>(m, "CppBaseIniFixer", R"doc(
 The shared C++ base of every fixer, exposed so that one built on the C++ side -- by a
-:class:`CppIniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
+:class:`IniFixBuilder`'s default factory, or by anything in ``AGRemapCore`` -- can still cross into
 `Python`_ :raw-html:`<br />` :raw-html:`<br />`
 
 Not usually what you want: a fixer created **from** `Python`_ is a :class:`BaseIniFixer`, which

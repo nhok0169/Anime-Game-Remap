@@ -7,7 +7,7 @@ from ..src.constants.ConfigKeys import ConfigKeys
 sys.path.insert(1, Configs[ConfigKeys.SysPath])
 import src.py.FixRaidenBoss2 as FRB
 
-# Every method CppGIBuilder is expected to expose, one per GI mod type it builds (mirrors the
+# Every method GIBuilder is expected to expose, one per GI mod type it builds (mirrors the
 # pure-Python GIBuilder's own classmethods) -- kept as a plain literal list (not derived by
 # introspecting the pure-Python GIBuilder) since that class is currently broken for unrelated
 # reasons (VGRemaps/ModMappedAssets), and this file deliberately never imports/calls it.
@@ -32,9 +32,9 @@ METHOD_MOD_TYPE_IDS = {
 }
 
 
-class CppGIBuilderTest(BaseUnitTest):
+class GIBuilderTest(BaseUnitTest):
     """
-    Tests for :class:`CppGIBuilder` -- 'Cpp'-prefixed since it collides with the live pure-Python
+    Tests for :class:`GIBuilder` -- 'Cpp'-prefixed since it collides with the live pure-Python
     :class:`GIBuilder`. Deliberately does NOT cross-check against the pure-Python ``GIBuilder``
     (currently broken for unrelated reasons -- ``VGRemaps``/``ModMappedAssets``, see
     Testing/CLAUDE.md's "known-broken" section); everything here is checked against hardcoded
@@ -45,12 +45,12 @@ class CppGIBuilderTest(BaseUnitTest):
 
     def test_everyMethod_returnsCorrectlyShapedCppModType(self):
         for methodName in ALL_METHOD_NAMES:
-            method = getattr(FRB.CppGIBuilder, methodName, None)
-            self.assertIsNotNone(method, f"CppGIBuilder has no method '{methodName}'")
+            method = getattr(FRB.GIBuilder, methodName, None)
+            self.assertIsNotNone(method, f"GIBuilder has no method '{methodName}'")
 
             modType = method()
 
-            self.assertIsInstance(modType, FRB.CppModType, f"{methodName}(): did not return a CppModType")
+            self.assertIsInstance(modType, FRB.ModType, f"{methodName}(): did not return a ModType")
             self.assertEqual(modType.gameTypeId, int(FRB.GameTypeId.GI), f"{methodName}(): gameTypeId is not GameTypeId.GI")
 
             expectedEnum = FRB.ModTypeIdTools.getEnum(modType.modTypeId)
@@ -59,14 +59,14 @@ class CppGIBuilderTest(BaseUnitTest):
 
     def test_everyMethod_modTypeIdMatchesItsOwnCharacter(self):
         for methodName, expectedModTypeId in METHOD_MOD_TYPE_IDS.items():
-            modType = getattr(FRB.CppGIBuilder, methodName)()
+            modType = getattr(FRB.GIBuilder, methodName)()
             self.assertEqual(modType.modTypeId, int(expectedModTypeId), f"{methodName}(): unexpected modTypeId")
 
     # ================================================
     # =================== amber =======================
 
     def test_amber_nameAndAliases(self):
-        modType = FRB.CppGIBuilder.amber()
+        modType = FRB.GIBuilder.amber()
 
         self.assertEqual(modType.name, "Amber")
         self.compareSet(set(modType.aliases), {"BaronBunny", "ColleisBestie"})
@@ -76,7 +76,7 @@ class CppGIBuilderTest(BaseUnitTest):
 
     def test_ayakaSpringBloom_nameHasCapitalB(self):
         # AyakaSpringbloom (enum member, lowercase 'b') -> "AyakaSpringBloom" (name, capital 'B')
-        modType = FRB.CppGIBuilder.ayakaSpringBloom()
+        modType = FRB.GIBuilder.ayakaSpringBloom()
 
         self.assertEqual(modType.name, "AyakaSpringBloom")
 
@@ -86,7 +86,7 @@ class CppGIBuilderTest(BaseUnitTest):
     def test_fischl_aliasesDoNotHaveTheStrayLeadingSpaceTypo(self):
         # regression test: "FischlvonLuftschlossNarfidort" used to have a stray leading space in
         # the original data (both the Python and C++ sides); confirm the fix stuck
-        modType = FRB.CppGIBuilder.fischl()
+        modType = FRB.GIBuilder.fischl()
 
         self.assertIn("FischlvonLuftschlossNarfidort", modType.aliases)
         self.assertNotIn(" FischlvonLuftschlossNarfidort", modType.aliases)
@@ -98,7 +98,7 @@ class CppGIBuilderTest(BaseUnitTest):
         # XingqiuBamboo is the last declared ModTypeId enum member (no trailing comma in the C++
         # enum) -- a real, previously-hit source of a false-alarm parsing gap while generating
         # this class; confirm it still builds correctly
-        modType = FRB.CppGIBuilder.xingqiuBamboo()
+        modType = FRB.GIBuilder.xingqiuBamboo()
 
         self.assertEqual(modType.name, "XingqiuBamboo")
         self.assertEqual(len(modType.aliases), 14)

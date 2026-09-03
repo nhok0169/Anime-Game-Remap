@@ -39,7 +39,7 @@ from .exceptions.InvalidModType import InvalidModType
 from .exceptions.InvalidDownloadMode import InvalidDownloadMode
 from .exceptions.ConflictingOptions import ConflictingOptions
 from .view.Logger import Logger
-from .model.strategies.ModType import ModType
+from .core import ModType
 from .model.Mod import Mod
 from .core import IniFile
 from .model.Version import Version

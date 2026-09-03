@@ -20,6 +20,8 @@ pybind11_add_module(core
     src/model/assets/PyModAssets.cpp
     src/model/assets/PyHashes.cpp
     src/model/assets/PyIndices.cpp
+    src/model/assets/PyVertexCounts.cpp
+    src/model/assets/PyVGRemaps.cpp
     src/model/strategies/PyModTypeIdData.cpp
     src/model/strategies/PyModType.cpp
     src/model/strategies/iniClassifiers/PyIniClassifyStats.cpp

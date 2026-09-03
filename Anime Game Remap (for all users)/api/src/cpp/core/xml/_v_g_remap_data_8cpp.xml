@@ -6,7 +6,6 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <incdepgraph>
       <node id="44">
-      <node id="44">
         <label>Algo.tpp</label>
       </node>
       <node id="104">
@@ -27,7 +26,7 @@
       <node id="101">
         <label>BiMap.tpp</label>
       </node>
-      <node id="63">
+      <node id="65">
         <label>CallGraph.tpp</label>
       </node>
       <node id="96">
@@ -951,9 +950,6 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-      </node>
-      <node id="65">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="84">
         <label>Generator.tpp</label>

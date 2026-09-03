@@ -17,6 +17,9 @@
       <node id="32">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="41">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
@@ -250,9 +253,6 @@
         </childnode>
         <childnode refid="39" relation="include">
         </childnode>
-      </node>
-      <node id="41">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="40">
         <label>IfContentPart.tpp</label>

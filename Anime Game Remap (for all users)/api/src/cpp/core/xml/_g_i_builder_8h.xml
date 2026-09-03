@@ -4,7 +4,6 @@
     <compoundname>GIBuilder.h</compoundname>
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
     <includes local="no">vector</includes>
-    <includes local="no">vector</includes>
     <includedby refid="_g_i_builder_8cpp" local="yes">src/constants/GIBuilder.cpp</includedby>
     <includedby refid="_global_mod_types_8cpp" local="yes">src/constants/GlobalModTypes.cpp</includedby>
     <incdepgraph>
@@ -20,7 +19,7 @@
       <node id="48">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="61">
+      <node id="63">
         <label>CallGraph.tpp</label>
       </node>
       <node id="1">
@@ -838,9 +837,6 @@
         </childnode>
         <childnode refid="69" relation="include">
         </childnode>
-      </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="82">
         <label>Generator.tpp</label>

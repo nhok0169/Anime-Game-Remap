@@ -12,15 +12,6 @@
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
     <includes refid="_mod_type_id_data_8h" local="yes">AGRemapCore/model/strategies/ModTypeIdData.h</includes>
-    <includes local="no">optional</includes>
-    <includes local="no">string</includes>
-    <includes local="no">unordered_set</includes>
-    <includes local="no">vector</includes>
-    <includes refid="_game_type_id_8h" local="yes">AGRemapCore/constants/GameTypeId.h</includes>
-    <includes refid="_global_mod_types_8h" local="yes">AGRemapCore/constants/GlobalModTypes.h</includes>
-    <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
-    <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
-    <includes refid="_mod_type_id_data_8h" local="yes">AGRemapCore/model/strategies/ModTypeIdData.h</includes>
     <incdepgraph>
       <node id="60">
         <label>Algo.tpp</label>
@@ -1050,6 +1041,87 @@
         <link refid="_global_ini_classifiers_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="111" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="99">
+        <label>Generator.tpp</label>
+      </node>
+      <node id="73">
+        <label>IfContentPart.tpp</label>
+      </node>
+      <node id="74">
+        <label>IfContentPartColour.tpp</label>
+      </node>
+      <node id="94">
+        <label>IfTemplate.tpp</label>
+      </node>
+      <node id="91">
+        <label>IfTemplateNode.tpp</label>
+      </node>
+      <node id="93">
+        <label>IfTemplateTree.tpp</label>
+      </node>
+      <node id="55">
+        <label>IncIdGenerator.tpp</label>
+      </node>
+      <node id="101">
+        <label>IniGraphGroup.tpp</label>
+      </node>
+      <node id="100">
+        <label>IniSectionGraph.tpp</label>
+      </node>
+      <node id="47">
+        <label>ModAssets.tpp</label>
+      </node>
+      <node id="40">
+        <label>ModDictAssets.tpp</label>
+      </node>
+      <node id="41">
+        <label>ModMappedAssets.tpp</label>
+      </node>
+      <node id="90">
+        <label>Node.tpp</label>
+      </node>
+      <node id="69">
+        <label>OrderedMultiMap.tpp</label>
+      </node>
+      <node id="72">
+        <label>OrderedMultiMapSqrt.tpp</label>
+      </node>
+      <node id="61">
+        <label>Ranges.tpp</label>
+      </node>
+      <node id="95">
+        <label>SectionIterData.tpp</label>
+      </node>
+      <node id="51">
+        <label>algorithm</label>
+      </node>
+      <node id="71">
+        <label>cmath</label>
+      </node>
+      <node id="97">
+        <label>coroutine</label>
+      </node>
+      <node id="36">
+        <label>cstddef</label>
       </node>
       <node id="17">
         <label>cstdint</label>

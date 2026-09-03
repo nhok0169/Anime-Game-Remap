@@ -56,10 +56,6 @@
     <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" kind="function"><name>~BaseBufEditor</name></member>
     <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" kind="function"><name>fix</name></member>
   </compound>
-  <compound refid="class_a_g_remap_core_1_1_base_buf_editor" kind="class"><name>AGRemapCore::BaseBufEditor</name>
-    <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" kind="function"><name>~BaseBufEditor</name></member>
-    <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" kind="function"><name>fix</name></member>
-  </compound>
   <compound refid="class_a_g_remap_core_1_1_base_d_f_a" kind="class"><name>AGRemapCore::BaseDFA</name>
     <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a463826a07073e8cfcad71c68d3ee490a" kind="variable"><name>stateIdGenerator</name></member>
     <member refid="class_a_g_remap_core_1_1_base_d_f_a_1a03813483d3aa55a45b45e6a89e71825a" kind="variable"><name>currentStateId</name></member>
@@ -3614,6 +3610,12 @@
   <compound refid="namespace_a_g_remap_core_1_1_0d101064163031271152134213345046243331322147174250" kind="namespace"><name>AGRemapCore::@101064163031271152134213345046243331322147174250</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d113172064314307233013164312257100125277274160071" kind="namespace"><name>AGRemapCore::@113172064314307233013164312257100125277274160071</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d121312056117220011153060024037357231161010210364" kind="namespace"><name>AGRemapCore::@121312056117220011153060024037357231161010210364</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d125223355066263224365322272200363015162073105276" kind="namespace"><name>AGRemapCore::@125223355066263224365322272200363015162073105276</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d126017147101253145077246012035300200104243024370" kind="namespace"><name>AGRemapCore::@126017147101253145077246012035300200104243024370</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d134314006174047210021016320115306162147163361270" kind="namespace"><name>AGRemapCore::@134314006174047210021016320115306162147163361270</name>
   </compound>

@@ -28,6 +28,9 @@
       <node id="39">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="10">
         <label>AGRemapCore/constants/FileExt.h</label>
         <link refid="_file_ext_8h"/>
@@ -703,9 +706,6 @@
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-      </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>

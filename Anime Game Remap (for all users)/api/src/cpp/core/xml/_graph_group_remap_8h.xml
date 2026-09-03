@@ -20,6 +20,9 @@
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -603,9 +606,6 @@
         </childnode>
         <childnode refid="57" relation="include">
         </childnode>
-      </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="70">
         <label>Generator.tpp</label>

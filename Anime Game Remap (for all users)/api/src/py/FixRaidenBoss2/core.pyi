@@ -10758,6 +10758,227 @@ class KeyRemapData:
         """
         :class:`bool`: Whether a non-firing occurrence retains its original pair
         """
+class Logger(BaseLogger):
+    """
+    
+    This class inherits from :class:`BaseLogger`
+    
+    The console view -- pretty prints output to display on the console (through ``print``), and reads the user's
+    answers back with ``input``
+    
+    .. note::
+        This is the view every existing part of the package (:class:`RemapService`, :class:`Mod`, ...) is written
+        against. To send the same messages somewhere else -- a GUI, a socket to a frontend app -- subclass
+        :class:`BaseLogger` (or this class) and implement :meth:`write`/:meth:`read`
+    
+    Parameters
+    ----------
+    prefix: :class:`str`
+        line that is printed before any message is printed out :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ""
+    
+    logTxt: :class:`bool`
+        Whether to log all the printed messages into a .txt file once the fix is done :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``False``
+    
+    verbose: :class:`bool`
+        Whether to print out output :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``True``
+        
+    """
+    def __init__(self, prefix: str = '', logTxt: bool = False, verbose: bool = True) -> None:
+        ...
+    def read(self, desc: str) -> str:
+        """
+        Asks the user for a line of input on the console, with ``input``
+        
+        Parameters
+        ----------
+        desc: :class:`str`
+            The question/description being asked to the user for input
+        
+        Returns
+        -------
+        :class:`str`
+            The resultant input the user entered
+        """
+    def write(self, message: str) -> None:
+        """
+        Prints the message onto the console, with ``print``
+        
+        Parameters
+        ----------
+        message: :class:`str`
+            The rendered message to display
+        """
+class ModAssets:
+    """
+    
+    Class to handle assets of any type for a mod where retrieval is based on some keys where 1 or more
+    of the keys refer to some versioning
+    
+    :raw-html:`<br />`
+    
+    .. tip::
+        If the assets have more than 1 column that refers to some version, use this data structure.
+        Otherwise if your asset has only 1 column that refers to some version, it is recommended to use
+        :class:`ModDictAssets` instead, since that uses a hash based access instead of a linear scan
+        
+    """
+    NameKey: typing.ClassVar[str] = 'name'
+    ValueKey: typing.ClassVar[str] = 'value'
+    VersionKey: typing.ClassVar[str] = 'version'
+    def __copy__(self) -> ModAssets:
+        ...
+    def __deepcopy__(self, memo: dict) -> ModAssets:
+        ...
+    def __init__(self, repo: typing.Any, indices: typing.Any = None, versionIndices: typing.Any = None, valueCol: typing.Any = None, **kwargs) -> None:
+        """
+        Constructs a new asset lookup table
+        
+        :raw-html:`<br />`
+        
+        .. note::
+            Any extra keyword argument is accepted and ignored, matching the pure-Python original this
+            replaced (whose own constructor ended in ``**kwargs``)
+        
+        Parameters
+        ----------
+        repo: Union[List[Tuple[List[Any], Any]], dict]
+            The original source for the assets -- either an already-flattened list of ``(indexVals, value)``
+            tuples, or a nested dict exactly ``len(indices)`` levels deep
+        
+        indices: Optional[List[:class:`str`]]
+            The names of the index columns to query to retrieve the main content of the asset
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will set 2 index columns by the names "version" and "name"
+        
+            **Default**: ``None``
+        
+        versionIndices: Optional[Set[:class:`str`]]
+            The names of the index columns that refer to some version -- any name not also in 'indices' is
+            ignored :raw-html:`<br />` :raw-html:`<br />`
+        
+            If this value is ``None``, then will set an index to the name "version"
+        
+            **Default**: ``None``
+        
+        valueCol: Optional[:class:`str`]
+            Unused by the lookup (rows already carry their own value, rather than one being selected by
+            column name) -- kept for constructor-signature backward compatibility
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If 'indices' contains a duplicate name
+        
+        :class:`ValueError`
+            If 'repo' is a dict that isn't nested exactly ``len(indices)`` levels deep
+        """
+    def __len__(self) -> int:
+        """
+        The total number of rows currently in the table
+        """
+    def addRows(self, rows: typing.Any) -> None:
+        """
+        Adds new rows to the table (an addition beyond the pure-Python original, which has no
+        incremental-add capability at all) -- overwrites the value of any row whose full key already exists
+        
+        Parameters
+        ----------
+        rows: Union[List[Tuple[List[Any], Any]], dict]
+            The rows to add, in the same shape as the constructor's own 'repo' argument
+        """
+    def clone(self) -> ModAssets:
+        """
+        Creates an independent copy of this table
+        
+        Returns
+        -------
+        :class:`ModAssets`
+            The copied table
+        """
+    def get(self, nonVersionVals: typing.Any, versionVals: typing.Any = None, errorOnNotFound: bool = True, default: typing.Any = None) -> typing.Any:
+        """
+        Retrieves the corresponding asset
+        
+        Parameters
+        ----------
+        nonVersionVals: Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]
+            The values of the index columns that do not reference a version -- a bare value (taken as the
+            first such column), a positional list, or a dict keyed by index name. A column left
+            unspecified matches anything there
+        
+        versionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]]]
+            The values of the index columns that reference a version, in the same accepted shapes
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            .. note::
+                If the value for a particular version column is ``None``, then will get the latest version
+                for that column -- among the rows still matching everything resolved before it, since
+                version columns are resolved sequentially in index order
+        
+            **Default**: ``None``
+        
+        errorOnNotFound: :class:`bool`
+            If no assets are found, whether to raise an exception :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        default: Any
+            If 'errorOnNotFound' is ``False``, then the default value to return if no assets are found
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Raises
+        ------
+        :class:`KeyError`
+            If the corresponding asset based on the search parameters is not found and 'errorOnNotFound' is
+            set to ``True``
+        
+        Returns
+        -------
+        Any
+            Either the found asset, or the value specified from 'default' if 'errorOnNotFound' is set to
+            ``False``
+        """
+    @property
+    def indices(self) -> list[str]:
+        """
+        List[:class:`str`]: The names of the index columns to query to retrieve the main content of an asset
+        """
+    @property
+    def nonVersionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of non-version columns
+        """
+    @property
+    def totalIndices(self) -> int:
+        """
+        :class:`int`: The total number of index columns
+        """
+    @property
+    def valueCol(self) -> str:
+        """
+        :class:`str`: Unused by the lookup -- see the constructor's own note
+        """
+    @property
+    def versionColumnCount(self) -> int:
+        """
+        :class:`int`: The number of version columns
+        """
+    @property
+    def versionIndices(self) -> set:
+        """
+        Set[:class:`str`]: The names of the index columns that refer to some version
+        """
 class ModDictAssets:
     """
     

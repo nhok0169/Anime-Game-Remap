@@ -325,10 +325,36 @@ this refers to the badge ritual at the top of [`AI Agent Help/README.md`](../REA
 lighthearted tradition, not a code task. Every agent that's done real edits in this repo gets to
 add itself. Steps, in order:
 
-1. **Increment the counter badge** at the very top of that file (the one reading
-   "⚔🗡The Council of CLAUDE agents🗡⚔") by 1. Its Shields.io URL shape is
-   `.../badge/<label>-<count>-<color>?style=...&labelColor=...` — only the `<count>` segment
-   changes here.
+1. **Increment the counter by 1. It lives in exactly one place — the SVG badge, edited by hand.**
+   `Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg` is the badge at the top of
+   the README. Nothing generates it, so the number is **written into the file twice**, and both
+   spots must change together or the badge and its accessible name disagree:
+   - the last `<text>` element in the file (`... letter-spacing="0.5">27</text>`), and
+   - the `aria-label` on the root `<svg>` tag (`aria-label="The Council of CLAUDE Agents: 27"`).
+
+   The number is centred with `text-anchor="middle"` at a fixed `x`, so a wider number re-centres
+   itself — no geometry to touch. Verified there's room: `999` measures 449.7→484.3 inside the
+   crimson chip's 440→494, so anything up to three digits is safe; a fourth would need the chip
+   (and the plaque) widened.
+
+   **There is no longer a Shields.io counter badge.** The total used to *also* live in a
+   `.../badge/<⚔🗡The Council of CLAUDE agents🗡⚔>-<count>-...` URL at the very top of the README;
+   it was removed on 2026-09-03 in favour of the SVG. If you find that URL referenced anywhere,
+   the reference is stale — don't re-add it, and don't go looking for a second place to bump. Only
+   the *counter* moved: the individual member badges in step 3 are still Shields.io URLs.
+   `TheCouncilofClaudeAgentsBadge.svg` — the no-count variant sitting beside it in the images
+   folder, currently unreferenced by the README — carries no number either; leave it alone.
+
+   **The counter is the sum of every member's individual count, not the number of entries in the
+   `## Council Members` list.** The two drift apart the moment a returning agent bumps their own
+   badge from `1` to `2` (step 3) instead of appending a row — confirmed: at a counter of 27 the
+   list held 26 entries, because one member sat at `2`. So never "correct" the counter by counting
+   bullet points. Since the counter now lives outside the README, recomputing it from the roster
+   is the only cross-check available:
+
+   ```bash
+   grep -o 'badge/[^)]*' "AI Agent Help/README.md" | grep -v 'badge/Claude' | sed -E 's/.*-([0-9]+)-%23.*/\1/' | awk '{s+=$1} END {print s}'
+   ```
 2. **Pick a name for yourself**, related to the actual work you did this session — not a generic
    label like "Helper" or "Assistant". Base it on something concrete you actually touched (a
    subsystem you worked in, a pattern you established, a role like "first agent on the repo").
@@ -338,7 +364,9 @@ add itself. Steps, in order:
    originally authoring most of `AI Agent Help/`).
 3. **Check the `## Council Members` list** (further down the same README) for an existing badge
    whose name is close enough to yours in spirit. If one exists, increment *its* count instead of
-   adding a new entry (same mechanic as step 1 — bump the middle `<count>` segment). Otherwise,
+   adding a new entry (same mechanic as step 1 — bump the middle `<count>` segment); this still
+   counts as +1 toward the total in step 1, which is exactly how the counter comes to exceed the
+   number of list entries. Otherwise,
    append a new list item with your own Shields.io static badge, count `1`, and a color pair +
    style you pick yourself — don't just copy an existing entry's colors, this is meant to be
    personalized per agent.

@@ -17,26 +17,19 @@ namespace AGRemapCore {
      header (or any header that transitively includes it, eg. :cpp:class:`IfPredZ3Generator`'s)
      never requires ``z3++.h`` to be on the include path
 
-     .. warning::
-        **Known limitation, confirmed to be in `Z3`_'s own C++ API itself, not something this
-        wrapper introduces or can fix**: every ``Z3Predicate`` built from a given ``Z3Context``
-        keeps that context's underlying ``z3::context`` alive via a shared reference (so a
-        ``Z3Context`` going out of scope/being garbage-collected in Python while
-        ``Z3Predicate``s built from it are still alive is safe on its own). What is **not** safe:
-        having *several independent* ``Z3Context`` instances whose own Python/C++ handles have
-        already gone away (kept alive only via that shared reference from their predicates), then
-        destroying those predicates in an order that *interleaves* across the different
-        underlying contexts (eg. predicate-of-context-A, predicate-of-context-B, another
-        predicate-of-context-A, ...) -- this reproducibly access-violates. Destroying them
-        grouped-by-context (in any order, including a shuffled group order) is fine; destroying
-        them while every context is still alive is fine; the crash requires the specific
-        combination of "originating contexts already gone" + "cross-context-interleaved
-        destruction order". Confirmed with a pure C++, zero-Python repro, so this is not a
-        pybind11/GC-timing artifact. **Practical guidance**: keep the mainline usage pattern this
-        codebase already follows -- one long-lived ``Z3Context`` shared by every predicate that
-        needs to be comparable/combinable together (eg. one per .ini file, matching
-        ``IniFile._z3Ctx``) -- rather than creating and discarding many short-lived contexts whose
-        predicates might end up interleaved during teardown.
+     .. note::
+        Every ``Z3Predicate`` built from a given ``Z3Context`` keeps that context's underlying
+        ``z3::context`` alive via a shared reference, so a ``Z3Context`` going out of scope (or
+        being garbage-collected in Python) while ``Z3Predicate``\\s built from it are still alive
+        is safe, in any destruction order -- including predicates of several already-gone
+        contexts being destroyed interleaved with each other. An earlier version of this comment
+        described that interleaved case as a "known limitation of Z3's own C++ API"; it was in
+        fact a member-declaration-order bug in ``Z3Predicate``'s pimpl (the keep-alive was
+        destroyed *before* the ``z3::expr`` it protected, so the last predicate on a context
+        ``dec_ref``'d into a freed context), fixed on 2026-09-03 and pinned by
+        ``core/tests/Z3Predicate_MemberOrder_test.cpp``. Sharing one long-lived ``Z3Context`` per
+        ``.ini`` file (``IniFile``'s own shape) is still the right design, since predicates from
+        different contexts cannot be combined -- but it is no longer needed for memory safety.
      @endrst
      */
     class Z3Context {

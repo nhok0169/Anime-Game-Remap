@@ -928,6 +928,18 @@ HueAdjust
 
 :raw-html:`<br />`
 
+IbFile
+======
+
+.. attributetable:: FixRaidenBoss2.IbFile
+
+.. autoclass:: FixRaidenBoss2.IbFile
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 IfContentPart
 =============
 
@@ -1569,6 +1581,18 @@ TransparencyAdjustFilter
 .. attributetable:: FixRaidenBoss2.TransparencyAdjustFilter
 
 .. autoclass:: FixRaidenBoss2.TransparencyAdjustFilter
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+VbFile
+======
+
+.. attributetable:: FixRaidenBoss2.VbFile
+
+.. autoclass:: FixRaidenBoss2.VbFile
     :inherited-members:
     :members:
     :private-members:
@@ -4002,6 +4026,8 @@ Z3Predicate
 .. _numpy: https://numpy.org/
 .. _numpy array: https://numpy.org/doc/2.4/reference/generated/numpy.ndarray.html
 .. _numpy.ndarray: https://numpy.org/doc/2.4/reference/generated/numpy.ndarray.html
+.. _Blender: https://www.blender.org/
+.. _DXGI format: https://learn.microsoft.com/en-us/windows/win32/api/dxgiformat/ne-dxgiformat-dxgi_format
 .. _Generator: https://wiki.python.org/moin/Generators
 .. _SimpleNamespace: https://docs.python.org/3/library/types.html#types.SimpleNamespace
 .. _multipath pruning: https://artint.info/2e/html2e/ArtInt2e.Ch3.S7.SS2.html

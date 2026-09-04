@@ -228,8 +228,9 @@ plain value, and `Z3Predicate::Impl` holds a second `shared_ptr` copy of the *sa
 for the full reasoning. Every call site that builds a `Z3Predicate::Impl` needs to pass this
 second argument now; grep `Z3Predicate::Impl(` for the full list if you're adding a new one.
 
-**Bug #2 (not fixable at this level — a real Z3 library constraint, confirmed in pure C++ with
-zero Python involved)**: several *independent* `Z3Context`s, each already garbage-collected/out-of-
+**Bug #2 (superseded — see Bug #3 below, which is its actual cause and is fixed; the paragraph is
+kept for the symptom description). Originally diagnosed as a Z3 library constraint**: several
+*independent* `Z3Context`s, each already garbage-collected/out-of-
 scope (kept alive only via the shared_ptr from their own still-live `Z3Predicate`s), then having
 those predicates destroyed in an order that **interleaves across the different underlying
 contexts** (predicate-of-context-A, predicate-of-context-B, another predicate-of-context-A, ...)
@@ -244,6 +245,27 @@ needs to be comparable/combinable together** (matching `IniFile._z3Ctx`'s own sh
 contexts whose predicates might end up interleaved during teardown. If you're adding code that
 builds many `Z3Context`s (e.g. one per test case, or one per worker), keep this constraint in
 mind.
+
+**Bug #3 (fixed 2026-09-03), and very probably the real cause of Bug #2: `Z3Predicate::Impl`'s
+member declaration order.** `ctxKeepAlive` (the `shared_ptr<z3::context>`) was declared *after*
+`z3::expr predicate`, so it was destroyed *first* — for the last `Z3Predicate` alive on a context,
+that freed the `z3::context` and only then ran the `z3::expr` destructor, whose `Z3_dec_ref` read
+the just-freed context. A read of freed memory inside `libz3.dll` faults only when that memory has
+been reused, which is exactly why it looked like "interleaved destruction across contexts crashes,
+grouped destruction doesn't, live contexts are fine" — and why AddressSanitizer on the calling
+code never flagged it (the access is in the uninstrumented library, and ASan's quarantine keeps
+the freed block readable). It surfaced again as nondeterministic access violations in
+`~IniFile()` on real mods: `IniFile` declares `z3Ctx_` after `sectionIfTemplates_`, so its context
+is destroyed before its sections' `IfPredPart`s and the "last owner is a predicate" case is the
+routine one there. The fix is purely the declaration order (`ctxKeepAlive` first — see the comment
+in `Z3Internal.h`); **any struct that pairs a `z3::expr` with the thing that keeps its context
+alive must declare the keep-alive first.** Confirmed with a pure-Z3 repro (no `AGRemapCore`): a
+struct with the old order, 20 `shared_ptr<z3::context>`s × 2 exprs, shuffled destruction with
+allocation churn in between → `0xC0000005` on the first round; the identical program with the
+keep-alive declared first → 20 rounds clean. `core/tests/Z3Predicate_MemberOrder_test.cpp` is the
+permanent version of that check against the real `Z3Predicate`. The practical mitigation Bug #2
+recommended (one long-lived `Z3Context` per `.ini` file) is still good hygiene, but it is no longer
+a correctness requirement.
 
 **When debugging either of these (or any future Z3/pybind crash) via a standalone `cl`-compiled
 reproduction script under the scratchpad**: redirect-to-file output (`cmd //c script.bat >
@@ -1952,3 +1974,46 @@ throughout the C++ side. Conventions that came out of that pass:
 - `Docs/src/coreAPI.rst` now defines the `` `Unicode`_ ``, `` `utf8proc`_ `` and
   `` `Python's str.lower/lstrip/rstrip/isspace`_ `` link targets; `TextTools.h` had been using the
   first two with no target defined.
+
+## "Should this go in Cython or pybind11 to make it faster?" --- measure first, then move the loop *boundary*
+
+This question gets asked directly, and it has a general answer shape worth knowing before you pick
+a layer.
+
+**Cython is almost always the wrong layer for anything that already calls into `core`.** It speeds
+up *Python-level* code -- loops, list building, indexing. But it calls a pybind11-bound method as
+an opaque Python object (`PyObject_CallMethod`); it cannot see through pybind11 to the underlying
+C++. So every boundary crossing, and every Python object built at that boundary, survives the
+rewrite. Measured on `BufTools.toDataFrame` over a 50,000 line `Blend.buf`: 202 ms total, of which
+**167 ms (82%) was 50,000 `decodeLine` crossings** and ~0 ms was the Python loop Cython would have
+optimised. Cython sits on the wrong side of the thing that costs.
+
+The pybind11 layer can remove it, but only if you **move the loop boundary rather than rewriting
+the loop body**. The win is not "C++ is faster than Python"; it is one crossing instead of N, and
+one contiguous typed buffer instead of N x M boxed Python scalars. Concretely, `decodeAll`/
+`encodeAll` decode a whole file in C++ and hand back one NumPy array per column --- 202 ms -> 10 ms.
+A version that merely reimplemented the same per-line loop in C++ would have kept most of the cost.
+
+The split that keeps `AGRemapCore` Python-free:
+
+- **`core/`** does the bulk work into plain, contiguous, uniformly typed buffers
+  (`std::vector<long long>` / `<unsigned long long>` / `<double>`, picked per column). No NumPy, no
+  pandas, no `py::` anything.
+- **`py/src/`** wraps those buffers as `py::array_t` and does the NumPy/pandas glue, because those
+  libraries cannot reach into `core`.
+
+**Then measure the split again afterwards, because your own C++ is where the next surprise is.**
+Two real ones from this codebase, both invisible without a breakdown:
+
+- `encodeAll` came out 5x slower than `decodeAll` for identical work, because
+  `BufDataType::encode` returns a fresh `ByteVec` **by value** --- ~400k small heap allocations,
+  where `decodeAll` reuses one scratch buffer. (Still unfixed: closing it means adding an
+  `encodeInto(value, ByteVec&)` virtual across all seven `BufDataType` subclasses.)
+- The first C++ cut of `getDumpStr` was only 3.4x faster than the Python it replaced, because it
+  built a multi-megabyte `std::string` with `+=` and no `reserve`, returned a `std::string` per
+  value, and parsed an exponent with `substr` + `stoi`. Appending in place, reserving an estimate,
+  and hand-parsing took it to 6.6x. **A C++ port is not automatically fast; profile it like you
+  would the Python.**
+
+See [Buf Files](../BufFiles/CLAUDE.md) for the worked example this all came from, including the
+mixed-dtype trap that a naive columnar conversion falls into.

@@ -70,6 +70,274 @@ class CppBufFileTest(BaseUnitTest):
         self.assertTrue(bufFile.isValid())
 
     # ================================================
+    # ============== decodeAll/encodeAll =============
+
+    def test_decodeAll_oneArrayPerColumn_keyedByElementAndIndex(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+
+        columns = bufFile.decodeAll()
+
+        self.assertEqual(set(columns.keys()), {("POSITION", 0), ("POSITION", 1), ("POSITION", 2)})
+        self.assertEqual(list(columns[("POSITION", 0)]), [1.0, 4.0])
+        self.assertEqual(list(columns[("POSITION", 1)]), [2.0, 5.0])
+        self.assertEqual(list(columns[("POSITION", 2)]), [3.0, 6.0])
+
+    def test_decodeAll_matchesDecodeLinePerLine(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+
+        columns = bufFile.decodeAll()
+
+        for lineInd, line in enumerate([line1, line2]):
+            decoded = bufFile.decodeLine(line)
+            for valueInd, value in enumerate(decoded["POSITION"]):
+                self.assertAlmostEqual(columns[("POSITION", valueInd)][lineInd], value, places = 4)
+
+    def test_decodeAll_dtypeFollowsTheDataType(self):
+        # an integer data type must come back integral rather than widened to a float
+        line = struct.pack("<fiI", 1.5, -5, 7)
+        bufFile = FRB.CppBufFile(line, [FRB.BufElementType("F", "fmt", [FRB.BufFloat()]),
+                                        FRB.BufElementType("I", "fmt", [FRB.BufSignedInt()]),
+                                        FRB.BufElementType("U", "fmt", [FRB.BufUnSignedInt()])])
+
+        columns = bufFile.decodeAll()
+
+        self.assertEqual(columns[("F", 0)].dtype.kind, "f")
+        self.assertEqual(columns[("I", 0)].dtype.kind, "i")
+        self.assertEqual(columns[("U", 0)].dtype.kind, "u")
+
+    def test_decodeAll_emptyData_emptyColumns(self):
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+
+        columns = bufFile.decodeAll()
+
+        self.assertEqual(set(columns.keys()), {("POSITION", 0), ("POSITION", 1), ("POSITION", 2)})
+        self.assertEqual(len(columns[("POSITION", 0)]), 0)
+
+    def test_encodeAll_roundTripsDecodeAll(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+
+        bufFile.encodeAll(bufFile.decodeAll())
+
+        self.assertEqual(bufFile.data, line1 + line2)
+
+    def test_encodeAll_columnOrderDoesNotMatter(self):
+        # the columns are matched by their (elementKey, indexWithinElement) key, not by position
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        columns = bufFile.decodeAll()
+        bufFile.encodeAll({key: columns[key] for key in reversed(list(columns.keys()))})
+
+        self.assertEqual(bufFile.data, line)
+
+    def test_encodeAll_missingColumn_encodesAsZero(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        columns = bufFile.decodeAll()
+        del columns[("POSITION", 1)]
+        bufFile.encodeAll(columns)
+
+        self.assertEqual(bufFile.decodeLine(bufFile.data)["POSITION"], [1.0, 0.0, 3.0])
+
+    def test_encodeAll_noColumns_emptiesData(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+
+        bufFile.encodeAll({})
+
+        self.assertEqual(bufFile.data, b"")
+
+    # ================================================
+    # ==================== merge =====================
+
+    def test_merge_stitchesLineByLineAndConcatenatesElements(self):
+        posLine1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        posLine2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        texLine1 = struct.pack("<2f", 0.25, 0.5)
+        texLine2 = struct.pack("<2f", 0.5, 0.5)
+
+        posFile = FRB.CppBufFile(posLine1 + posLine2, [FRB.BufElementTypes.PositionFloatRGB.value])
+        texFile = FRB.CppBufFile(texLine1 + texLine2, [FRB.BufElementTypes.TextureCoordinateRG.value])
+
+        merged = FRB.CppBufFile(b"", [])
+        merged.merge([posFile, texFile])
+
+        self.assertEqual(merged.data, posLine1 + texLine1 + posLine2 + texLine2)
+        self.assertEqual(merged.bytesPerLine, 20)
+        self.assertEqual([element.name for element in merged.elements], ["POSITION", "TEXCOORD"])
+
+    def test_merge_leavesItsSourcesUsable(self):
+        # a source's elements are deep-copied in, matching BufElementType's shareable-value contract
+        posLine = struct.pack("<3f", 1.0, 2.0, 3.0)
+        posFile = FRB.CppBufFile(posLine, [FRB.BufElementTypes.PositionFloatRGB.value])
+
+        FRB.CppBufFile(b"", []).merge([posFile, posFile])
+
+        self.assertEqual(posFile.data, posLine)
+        self.assertEqual(posFile.bytesPerLine, 12)
+        self.assertEqual([element.name for element in posFile.elements], ["POSITION"])
+
+    def test_merge_raggedSources_truncatesToTheShortest(self):
+        posFile = FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0) + struct.pack("<3f", 4.0, 5.0, 6.0),
+                                 [FRB.BufElementTypes.PositionFloatRGB.value])
+        texFile = FRB.CppBufFile(struct.pack("<2f", 0.25, 0.5), [FRB.BufElementTypes.TextureCoordinateRG.value])
+
+        merged = FRB.CppBufFile(b"", [])
+        merged.merge([posFile, texFile])
+
+        self.assertEqual(len(merged.data), merged.bytesPerLine)
+
+    def test_merge_nothing_emptiesTheFile(self):
+        bufFile = FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0), _makePositionElements())
+        bufFile.merge([])
+
+        self.assertEqual(bufFile.data, b"")
+        self.assertEqual(bufFile.elements, [])
+
+    # ================================================
+    # ========= getDumpStr/getFlatDumpStr ============
+
+    def test_getDumpStr_oneEntryPerElementPerLine(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0) + struct.pack("<2f", 0.25, 0.5)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0) + struct.pack("<2f", 0.5, 0.5)
+        bufFile = FRB.CppBufFile(line1 + line2, [FRB.BufElementTypes.PositionFloatRGB.value,
+                                                 FRB.BufElementTypes.TextureCoordinateRG.value])
+
+        self.assertEqual(bufFile.getDumpStr(), """vb0[0]+000 POSITION: 1, 2, 3
+vb0[0]+012 TEXCOORD: 0.25, 0.5
+
+vb0[1]+000 POSITION: 4, 5, 6
+vb0[1]+012 TEXCOORD: 0.5, 0.5
+""")
+
+    def test_getDumpStr_numbersFormatLike3dmigoto(self):
+        # 3dmigoto writes its dumps with C's "%.9g" -- 9 significant digits, trailing zeros
+        # dropped, and no forced ".0" -- which is NOT Python's str/repr. Verified against a real
+        # frame analysis dump (GI-Model-Importer-Assets' own HuTao files).
+        values = [1.0, -1.0, 0.0, 0.5, 0.25, 2.0, 1234.5]
+        expected = ["1", "-1", "0", "0.5", "0.25", "2", "1234.5"]
+
+        bufFile = FRB.CppBufFile(b"".join(struct.pack("<f", value) for value in values),
+                                 [FRB.BufElementType("F", "fmt", [FRB.BufFloat()])])
+
+        dumped = [line.split(": ", 1)[1] for line in bufFile.getDumpStr().split("\n") if line]
+        self.assertEqual(dumped, expected)
+
+    def test_getDumpStr_unormRoundedThroughFloat32Like3dmigoto(self):
+        # 3dmigoto holds a decoded UNORM as a 32 bit float, so 128/255 prints as 0.501960814 there
+        # rather than the 0.501960784 a double would give
+        bufFile = FRB.CppBufFile(bytes([128]), [FRB.BufElementType("COLOR", "R8_UNORM", [FRB.BufUnorm("UNORM8", 1)])])
+
+        self.assertEqual(bufFile.getDumpStr(), "vb0[0]+000 COLOR: 0.501960814\n")
+
+    def test_getDumpStr_prefixIsConfigurable(self):
+        bufFile = FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0), _makePositionElements())
+        self.assertTrue(bufFile.getDumpStr(prefix = "vb2").startswith("vb2[0]+000 POSITION:"))
+
+    def test_getFlatDumpStr_everyValueOnOneLine(self):
+        data = struct.pack("<3I", 0, 1, 2) + struct.pack("<3I", 3, 4, 5)
+        bufFile = FRB.CppBufFile(data, [FRB.BufElementType("Triangle", "R32G32B32_UINT",
+                                                            [FRB.BufDataTypes.UInt32.value] * 3)])
+
+        self.assertEqual(bufFile.getFlatDumpStr(), "0 1 2\n3 4 5\n")
+        self.assertEqual(bufFile.getFlatDumpStr(valueSep = ", "), "0, 1, 2\n3, 4, 5\n")
+
+    def test_dumpStrs_emptyData_emptyString(self):
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+
+        self.assertEqual(bufFile.getDumpStr(), "")
+        self.assertEqual(bufFile.getFlatDumpStr(), "")
+
+    # ================================================
+    # ======== readDumpStr/readFlatDumpStr ===========
+
+    def test_readDumpStr_roundTripsGetDumpStr(self):
+        line1 = struct.pack("<3f", 1.25, 2.5, 3.75) + struct.pack("<2f", 0.25, 0.5)
+        line2 = struct.pack("<3f", -4.5, 5.25, 6.125) + struct.pack("<2f", 0.75, 0.125)
+        elements = [FRB.BufElementTypes.PositionFloatRGB.value, FRB.BufElementTypes.TextureCoordinateRG.value]
+
+        bufFile = FRB.CppBufFile(line1 + line2, elements)
+        text = bufFile.getDumpStr()
+
+        emptied = FRB.CppBufFile(b"", elements)
+        emptied.readDumpStr(text)
+
+        self.assertEqual(emptied.data, line1 + line2)
+
+    def test_readDumpStr_integerElements_roundTrip(self):
+        line = struct.pack("<4i", 5, -7, 0, 12)
+        elements = [FRB.BufElementTypes.BlendIndicesIntRGBA.value]
+
+        bufFile = FRB.CppBufFile(line, elements)
+        emptied = FRB.CppBufFile(b"", elements)
+        emptied.readDumpStr(bufFile.getDumpStr())
+
+        self.assertEqual(emptied.data, line)
+
+    def test_readDumpStr_skipsAHeader(self):
+        # a whole dump file can be handed in, not just the data section
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+
+        bufFile.readDumpStr("""stride: 12
+first vertex: 0
+vertex count: 1
+topology: trianglelist
+
+vertex-data:
+
+vb0[0]+000 POSITION: 1, 2, 3
+""")
+
+        self.assertEqual(bufFile.data, line)
+
+    def test_readDumpStr_shortBlockIsZeroFilled(self):
+        # a block missing values still contributes a whole line, so the stride never breaks
+        bufFile = FRB.CppBufFile(b"", _makePositionElements())
+        bufFile.readDumpStr("vb0[0]+000 POSITION: 1\n")
+
+        self.assertEqual(bufFile.data, struct.pack("<3f", 1.0, 0.0, 0.0))
+
+    def test_readDumpStr_emptyText_emptiesTheFile(self):
+        bufFile = FRB.CppBufFile(struct.pack("<3f", 1.0, 2.0, 3.0), _makePositionElements())
+        bufFile.readDumpStr("")
+
+        self.assertEqual(bufFile.data, b"")
+
+    def test_readFlatDumpStr_roundTripsGetFlatDumpStr(self):
+        data = struct.pack("<3I", 0, 1, 2) + struct.pack("<3I", 3, 4, 5)
+        elements = [FRB.BufElementType("Triangle", "R32G32B32_UINT", [FRB.BufDataTypes.UInt32.value] * 3)]
+
+        bufFile = FRB.CppBufFile(data, elements)
+        emptied = FRB.CppBufFile(b"", elements)
+        emptied.readFlatDumpStr(bufFile.getFlatDumpStr())
+
+        self.assertEqual(emptied.data, data)
+
+    def test_readFlatDumpStr_skipsAHeader(self):
+        # every line of a .ib dump's header carries a ':' and none of its data lines do
+        elements = [FRB.BufElementType("Triangle", "R32G32B32_UINT", [FRB.BufDataTypes.UInt32.value] * 3)]
+        bufFile = FRB.CppBufFile(b"", elements)
+
+        bufFile.readFlatDumpStr("""byte offset: 0
+first index: 0
+index count: 3
+topology: trianglelist
+format: DXGI_FORMAT_R16_UINT
+
+0 1 2
+""")
+
+        self.assertEqual(bufFile.data, struct.pack("<3I", 0, 1, 2))
+
+    # ================================================
     # ============= decodeLine/encodeLine ============
 
     def test_decodeLine_correctValues(self):

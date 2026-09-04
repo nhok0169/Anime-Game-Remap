@@ -87,6 +87,8 @@ add_library(AGRemapCore STATIC
     src/model/VGRemap.cpp
     src/model/files/BlendFile.cpp
     src/model/files/PositionFile.cpp
+    src/model/files/IbFile.cpp
+    src/model/files/VbFile.cpp
     src/model/strategies/bufEditors/BaseBufEditor.cpp
     src/model/strategies/bufEditors/BufEditor.cpp
     src/model/strategies/iniParsers/IniParseBuilder.cpp

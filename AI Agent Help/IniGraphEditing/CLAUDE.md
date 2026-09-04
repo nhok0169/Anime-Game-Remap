@@ -2,19 +2,18 @@
 
 Conventions and gotchas for the subsystem that models `.ini` file structure as a graph and edits
 it — `IniSectionGraph`, `CallGraph`, `SectionIterData`/`SectionIterQueryData`, `IfTemplate`,
-`IfTemplateNode`, `IfTemplateTree`, `GraphTools` (now C++-backed; `tools/GraphToolsOld.py` is the
-retained pure-Python original), and the graph-editing strategies under
-`model/strategies/iniFixers/graphEdits/` (`RegSurroundedAdd` is the deep, worked example — read
-`RegSurroundedAddOld.py`, the retained pure-Python original, alongside
+`IfTemplateNode`, `IfTemplateTree`, `GraphTools` (C++-backed), and the graph-editing strategies
+under `model/strategies/iniFixers/graphEdits/` (`RegSurroundedAdd` is the deep, worked example —
+read `core/include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.tpp` alongside
 `Testing/Unit Tester/UnitTester/Tests/test_RegSurroundedAdd.py`, which exercises every case below
-concretely against the live, C++-backed class). This file was authored from hands-on work building
+concretely; the pure-Python originals of both are deleted). This file was authored from hands-on work building
 this subsystem from scratch (the fixpoint/reachability redesign of `RegSurroundedAdd`, then
 extracting the reusable pieces into `IniSectionGraph`/`GraphTools`/`CallGraph`), plus — later,
 separately — a full pass completing simpler stub classes across `regEdits/` (`RegAdd`, `RegRemap`,
 `RegRemove`), `graphGroupEdits/` (`GraphInherit`, `GraphRemove`), and `graphEdits/` itself
 (`GraphRename`), plus — later still — the full C++/pybind11 replacement of all three of those
-packages, `RegSurroundedAdd`/`GraphTools` included (the pure-Python originals are kept as
-`RegSurroundedAddOld`/`GraphToolsOld`) — see "Completing a simple
+packages, `RegSurroundedAdd`/`GraphTools` included (their pure-Python originals were kept briefly as
+`RegSurroundedAddOld`/`GraphToolsOld`, then deleted outright) — see "Completing a simple
 `regEdits`/`graphGroupEdits`/`graphEdits` stub" below for what came out of that. It hasn't been exercised as deeply for the *other* `.ini`-parsing
 subsystems (`GIMIFixer` family, the non-graph parsers), so verify assumptions there rather than
 assuming this file covers them too. See
@@ -157,6 +156,22 @@ this that are easy to get wrong:
   this subsystem hit twice during development (see below) — once for positions *before* a call
   vs *after* it, and once for "some future occurrence exists" vs "the *nearest* one exists".
 
+## Real mods contain structurally malformed sections — every graph builder must tolerate them
+
+A production mod folder (~2100 `.ini` files) turned up five sections with a stray `endif` and no
+matching `if` (e.g. a `[Resource...]` section ending in a lone `endif`; two of them were in
+`...RemapFix` sections, i.e. this tool's own earlier output). `IfTemplateTree::construct` already
+skips a stray `elif`/`else`/`endif` at depth 0; `IniSectionGraph::computeSectionPredecessors` did
+not — it indexed its (empty) frame stack, which was an immediate access violation on one mod and
+silent heap corruption (a `pop_back()` on a size-0 vector) on others, surfacing much later as
+"random" crashes at teardown. It now mirrors the tree and treats such a part as a pass-through
+(`current` unchanged); `test_IniSectionGraph.py`'s `strayEndIf`/`strayElseAndElif` tests pin that.
+**If you write a new walker over `IfTemplate.parts` that keeps an `if`-frame stack, guard every
+`back()`/`pop_back()` with an empty check, and null-check the `dynamic_cast<IfPredPart*>` — do not
+assume the parser handed you balanced input, because it doesn't validate that.** Also note the
+Python benchmark that found this needed one subprocess per file to isolate it: the corruption from
+one malformed file only crashed several files later, in code that had nothing to do with it.
+
 ## Two graph representations — don't reach for the wrong one
 
 - **`IniSectionGraph.buildPartPredecessorGraph()`** — a static, part-level "who runs immediately
@@ -257,15 +272,13 @@ been **deleted outright**, not renamed to `...Old` — don't go looking for `Reg
 **`RegSurroundedAdd` (and the generic `GraphTools` dataflow engine it depends on) has since been
 ported to C++/pybind11 too** — it was, for a while, the one class left pure Python in all three
 families (deliberately scoped out of the initial `graphEdits/` port), but that gap has since been
-closed. Unlike the rest of this section's classes, its pure-Python original is kept, renamed to
-`RegSurroundedAddOld`/`GraphToolsOld` (not deleted) — this was the one class in the family that
-still had real, hard-won correctness fixes (reachability-clamping, the "prefer nearest true reason"
-preference) worth keeping a readable reference implementation for. If you're reading `RegSurroundedAddOld.py`
-as a worked example: notice its `__init__` calls `super().__init__()` — needed because it subclasses
-the *pybind11-bound* `BaseIniGraphEdit` instead of a pure-Python one; a Python subclass that defines
-`__init__` without calling the bound base's never constructs the C++ subobject. Watch for that
-whenever a still-pure-Python class's base becomes C++-backed. The live `RegSurroundedAdd`/
-`GraphTools` are C++ all the way down and have no such concern.
+closed. Its pure-Python original was kept briefly as `RegSurroundedAddOld` (and `GraphToolsOld`)
+while the port was verified, then deleted outright like the rest of the family. One lesson from
+that interim state is still worth keeping: a pure-Python class that subclasses a *pybind11-bound*
+base (as `RegSurroundedAddOld` did with `BaseIniGraphEdit`) must call `super().__init__()` from its
+own `__init__`, or the C++ subobject is never constructed. Watch for that whenever a
+still-pure-Python class's base becomes C++-backed. The live `RegSurroundedAdd`/`GraphTools` are C++
+all the way down and have no such concern.
 
 ### How `partFilter` and key tracking actually flow — read this before adding either to an edit
 

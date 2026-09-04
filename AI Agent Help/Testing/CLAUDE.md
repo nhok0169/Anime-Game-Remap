@@ -584,6 +584,68 @@ compile-diagnose cycle each:
   source set you changed. `IniNamingTools_test.cpp` now needs that cone too (its header says so); a
   test whose header recipe stops linking is your signal that a dependency moved.
 
+## When the output has to match an *external* tool, check where your reference came from
+
+Some of this project's output is not ours to define -- it has to match byte-for-byte what some
+other program produces (a 3dmigoto frame analysis dump, most notably; see
+[Buf Files](../BufFiles/CLAUDE.md)). For that kind of work, **the test that matters is a comparison
+against output the external tool actually produced**, and picking the reference is the part that
+goes wrong.
+
+Two failure modes, both hit for real:
+
+- **Validating against this repo's own reimplementation of the format.** `Tools/` holds notebooks
+  that read and write 3dmigoto dumps, and there are folders of dumps those notebooks generated
+  sitting next to folders of genuine ones. They look equally authoritative. Diffing against the
+  notebook's output proves only that you reproduced the notebook -- which in this case meant a
+  formatter that was carefully built, thoroughly tested against 6,000 values, and wrong, because
+  the notebook was a reverse-engineering that used Python's `str()` where the real tool uses C's
+  `"%.9g"`. **Confirm the provenance of sample data before you diff against it**, and if the user
+  hands you a folder, it is worth one sentence checking which kind it is.
+- **Testing the round trip only against yourself.** `write -> read -> write` agreeing proves your
+  two halves are consistent, not that either is correct. Anchor at least one end to real external
+  output.
+
+The useful shape, when you have genuine samples but no matching binary: **`real text -> your
+reader -> binary -> your writer -> compare against the original text`**. That exercises both
+directions against a real artifact in one test, and it caught the trailing-blank-line and
+CRLF details that no unit test of ours would have thought to assert. When a residual difference
+survives, quantify it rather than eyeballing it (`692,492 of 692,496 values identical, the 4
+differing only by a float tie-break and all parsing back to the same float32`) -- that is the
+difference between a known, accepted deviation and an unexamined bug.
+
+## Comparing against the last *published* library (old-vs-new benchmarks and equivalence checks)
+
+The pre-migration, pure-Python library is still on PyPI, which makes it a genuine oracle: you can
+run the old and new implementations over the same real inputs and diff both the timings and the
+output. The maintainer has asked for exactly this, so know the mechanics.
+
+```bash
+py -3 -m pip install AnimeGameRemap        # installs AnimeGameRemap + FixRaidenBoss2 (4.6.4)
+# ... benchmark ...
+py -3 -m pip uninstall AnimeGameRemap
+py -3 -m pip uninstall FixRaidenBoss2      # both -- see the shadowing warning below
+```
+
+- **PyPI is not reachable from this machine without `--trusted-host`.** A plain install dies with
+  `CERTIFICATE_VERIFY_FAILED: unable to get local issuer certificate` -- the same broken local cert
+  store that makes every Sphinx build warn about unreachable intersphinx inventories, not anything
+  about the package. Add `--trusted-host pypi.org --trusted-host files.pythonhosted.org`. Note this
+  disables verification for that install, so prefer it resolving from pip's local cache (the log
+  says `Using cached`) over a fresh download, and say what you did.
+- **Uninstall `FixRaidenBoss2` as well as `AnimeGameRemap` when you are done.** The pip package
+  installs a *top-level* `FixRaidenBoss2`, the same name the dev tree exposes. Anything that does a
+  bare `import FixRaidenBoss2` without first `sys.path.insert`-ing `api/src/py` will silently pick
+  up the published one -- a very confusing way to "reproduce" a bug that no longer exists. Run the
+  old and new benchmarks as separate processes and control `sys.path` explicitly in each.
+- **Diff the output, not just the clock.** A speedup that quietly changes results is not a win. For
+  a ported subsystem the bar is: byte-identical where the format did not change, and where it did,
+  a value-by-value comparison showing zero *semantic* differences (see the section above). Real
+  numbers reported this way -- "0 value-changing differences across 17.4 M values, 16.1 M
+  spelling-only" -- are worth far more than "looks the same".
+- Real mods to run over, and the rule about not writing into them, are in
+  [Overview](../Overview/CLAUDE.md)'s operating norms.
+
 ## Integration Tester (`Testing/Integration Tester`)
 End-to-end tests of the actual script/API output. Run from that directory:
 ```bash

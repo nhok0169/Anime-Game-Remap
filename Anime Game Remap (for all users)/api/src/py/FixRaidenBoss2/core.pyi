@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseBufEditor:
     """
     
@@ -2858,6 +2858,26 @@ class CppBufFile(BinaryFile):
         :class:`BadBufData`
             If 'src' holds raw bytes that are not valid for this format
         """
+    def decodeAll(self) -> dict:
+        """
+        Decodes the whole ``.buf`` file at once, column by column -- the bulk counterpart to
+        :meth:`decodeLine`
+        
+        Where :meth:`decodeLine` builds a fresh dict per line, this decodes every line in C++ and hands
+        back one `NumPy`_ array per column, so a whole file costs a single crossing into C++ instead of one
+        per line. :meth:`BufTools.toDataFrame` is built on this
+        
+        .. note::
+            Each array's dtype follows the data type it came from -- ``int64`` for a signed integer,
+            ``uint64`` for an unsigned one and ``float64`` for a `floating point`_ one -- so an integer
+            element stays integral rather than being widened to a float
+        
+        Returns
+        -------
+        Dict[Tuple[:class:`str`, :class:`int`], `numpy.ndarray`_]
+            One entry per column, keyed by ``(elementKey, indexWithinElement)``, each holding that
+            column's value for every line in line order
+        """
     def decodeLine(self, src: bytes) -> dict[str, list[int | int | float]]:
         """
         Decodes a line (a vertex) within the ``.buf`` file
@@ -2873,6 +2893,30 @@ class CppBufFile(BinaryFile):
             The decoded values for the line
         
             The keys are the names to the elements and the values are what is decoded
+        """
+    def encodeAll(self, columns: dict) -> None:
+        """
+        Encodes whole columns back into the ``.buf`` file's bytes -- the inverse of :meth:`decodeAll`, and
+        the bulk counterpart to :meth:`encodeLine`. :meth:`BufTools.fromDataFrame` is built on this
+        
+        The columns are matched to the file's current :attr:`elements` by their key, so their order does not
+        matter; a column the file has no data type for is ignored, and a data type with no matching column
+        encodes as 0. The number of lines produced is the longest column's length
+        
+        .. note::
+            :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the newly encoded bytes
+            and re-reads from it -- a ``.buf`` file originally constructed from a file path therefore ends
+            up with raw bytes as its :attr:`src`, and the file on disk is untouched
+        
+        Parameters
+        ----------
+        columns: Dict[Tuple[:class:`str`, :class:`int`], `numpy.ndarray`_]
+            The columns to encode, as produced by :meth:`decodeAll`
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the encoded bytes do not divide evenly into lines for the file's current :attr:`elements`
         """
     def encodeLine(self, src: collections.abc.Mapping[str, collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex | typing.SupportsInt | typing.SupportsIndex | typing.SupportsFloat | typing.SupportsIndex]]) -> bytes:
         """
@@ -2920,6 +2964,65 @@ class CppBufFile(BinaryFile):
             If the argument ``fixedFile`` is ``None``, then will return an array of bytes for the fixed
             ``.buf`` file. Otherwise will return the filename to the fixed ``.buf`` file
         """
+    def getDumpStr(self, prefix: str = 'vb0') -> str:
+        """
+        The **data** section of the dump text for this ``.buf`` file -- the text a 3dmigoto frame analysis
+        writes, which `Blender`_ can then import
+        
+        One line per element per line (vertex), in the elements' declared order, shaped as
+        ``prefix[lineInd]+byteOffset elementKey: value, value, ...``, with a blank line between lines:
+        
+        .. code-block::
+        
+            vb0[0]+000 POSITION: 1.0, 2.0, 3.0
+            vb0[0]+012 TEXCOORD: 0.25, 0.5
+        
+            vb0[1]+000 POSITION: 4.0, 5.0, 6.0
+            vb0[1]+012 TEXCOORD: 0.5, 0.5
+        
+        .. note::
+            **This is deliberately only the data.** A real dump file also needs a header, and that header
+            differs by the kind of buffer being dumped -- see :class:`VbFile` and :class:`IbFile`, which add
+            one each
+        
+        .. note::
+            An entry is named by its *element key*, so a second element sharing a name is suffixed with its
+            occurrence (``TEXCOORD``, then ``TEXCOORD1``), matching both :meth:`decodeLine`'s own keys and
+            what 3dmigoto writes
+        
+        Parameters
+        ----------
+        prefix: :class:`str`
+            The buffer name each entry is prefixed with -- the vertex buffer slot a real dump was taken
+            from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``"vb0"``
+        
+        Returns
+        -------
+        :class:`str`
+            The data section of the dump text. Empty when the file has no lines
+        """
+    def getFlatDumpStr(self, valueSep: str = ' ') -> str:
+        """
+        The **data** section of the dump text in an *index buffer*'s flat form -- every one of a line's
+        values on one line, separated by 'valueSep', with no element name or byte offset
+        
+        This is what a ``.ib`` file's dump looks like (``0 1 2`` per triangular face), as opposed to the
+        per-element form :meth:`getDumpStr` produces for a vertex buffer
+        
+        Parameters
+        ----------
+        valueSep: :class:`str`
+            What to put between two values on the same line :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``" "``
+        
+        Returns
+        -------
+        :class:`str`
+            The data section of the dump text. Empty when the file has no lines
+        """
     def isValid(self) -> bool:
         """
         Whether the size of the data is divisible by the # of bytes per line
@@ -2928,6 +3031,37 @@ class CppBufFile(BinaryFile):
         -------
         :class:`bool`
             Whether the provided data for the ``.buf`` file is valid
+        """
+    def merge(self, bufFiles: collections.abc.Sequence[CppBufFile]) -> None:
+        """
+        Merges several other ``.buf`` files into this one, line by line
+        
+        A GI character's vertex buffer does not live in one file -- it is split across a ``Position.buf``,
+        a ``Blend.buf`` and a ``Texcoord.buf``, one line each per vertex. This stitches such a set back
+        together: line *i* of the result is line *i* of every source concatenated in the order given, and
+        this file's :attr:`elements` becomes every source's elements in that same order
+        
+        .. note::
+            The sources are left untouched -- their elements are deep-copied in, so each stays usable
+            afterwards
+        
+        .. note::
+            The number of lines produced is the **smallest** line count among the sources, so a ragged set
+            truncates rather than reading past the end of the shortest file
+        
+        .. note::
+            :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the merged bytes and
+            re-reads from it -- this file ends up with raw bytes as its :attr:`src`
+        
+        Parameters
+        ----------
+        bufFiles: List[:class:`CppBufFile`]
+            The ``.buf`` files to merge, in the byte order their elements should appear in a line
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the merged bytes do not divide evenly into lines
         """
     def read(self) -> bytes:
         """
@@ -2945,6 +3079,64 @@ class CppBufFile(BinaryFile):
         
         :class:`BadBufData`
             If :attr:`src` holds raw bytes that are not valid for this format
+        """
+    def readDumpStr(self, text: str) -> None:
+        """
+        Reads dump text back into this ``.buf`` file's bytes -- the inverse of :meth:`getDumpStr`
+        
+        The values are encoded with this file's **current** :attr:`elements`, one text line per element and
+        one blank-line-separated block per line (vertex), so a round trip out through :meth:`getDumpStr` and
+        back in returns the bytes it started with
+        
+        .. note::
+            A complete dump file works too, not just the data section :meth:`getDumpStr` returns: anything
+            up to and including a ``vertex-data:`` marker is skipped. Each line's values are taken from
+            after its last ``:``, so the ``prefix[i]+offset elementKey:`` part is ignored rather than having
+            to match
+        
+        .. note::
+            A block with fewer values than the elements need is zero-filled, and extra values are dropped,
+            so every block always contributes exactly :attr:`bytesPerLine` bytes
+        
+        .. note::
+            :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the parsed bytes and
+            re-reads from it
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The dump text to read
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the parsed bytes do not divide evenly into lines
+        """
+    def readFlatDumpStr(self, text: str, valueSep: str = ' ') -> None:
+        """
+        Reads *index buffer* dump text back into this ``.buf`` file's bytes -- the inverse of
+        :meth:`getFlatDumpStr`
+        
+        One text line per line of the file, its values separated by 'valueSep'
+        
+        .. note::
+            A complete dump file works too: a header line is recognised by containing a ``:`` (every line of
+            a ``.ib`` dump's header does, and none of its data lines do) and skipped
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The dump text to read
+        
+        valueSep: :class:`str`
+            What separates two values on the same line :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``" "``
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the parsed bytes do not divide evenly into lines
         """
     @property
     def bytesPerLine(self) -> int:
@@ -7249,6 +7441,128 @@ class IOrderedMultiMap:
     def splitByInds(self, inds: collections.abc.Sequence[typing.SupportsInt | typing.SupportsIndex], includeSplitKVP: bool = True, includeEmptyParts: bool = False, sortIndices: bool = True) -> list[IOrderedMultiMap]:
         """
         Splits this map into several smaller maps at the given indices; see :meth:`OrderedMultiMap.splitByInds` for the full semantics
+        """
+class IbFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``.ib`` (index buffer) files
+    
+    .. note::
+        Where a ``.buf`` file is split into *vertex lines*, a ``.ib`` file is split into *face lines* --
+        each line names the vertices making up one triangular face of the mod's mesh. Every face in a
+        3dmigoto mod is atomically a triangle, so a line is always :attr:`VerticesPerTriangle` 32-bit
+        unsigned integers
+    
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the ``.ib`` file
+    
+    Raises
+    ------
+    :class:`BufFileNotRecognized`
+        If 'src' holds a file path that cannot be read as a valid ``.ib`` file
+    
+    :class:`BadBufData`
+        If 'src' holds raw bytes that are not valid for a ``.ib`` file
+        
+    """
+    TriangleBufElementKey: typing.ClassVar[str] = 'Triangle'
+    VerticesPerTriangle: typing.ClassVar[int] = 3
+    def __init__(self, src: typing.Any) -> None:
+        ...
+    def getDumpStr(self, firstIndex: typing.SupportsInt | typing.SupportsIndex = 0) -> str:
+        """
+        Retrieves the full text for converting this ``.ib`` file into a dumped *ib.txt* file
+        
+        .. note::
+            Unlike :meth:`CppBufFile.getDumpStr`, this returns a *complete* dump -- header included -- and
+            its data section comes from :meth:`CppBufFile.getFlatDumpStr`, a ``.ib`` file's own flat,
+            space-separated form rather than the per-element form a vertex buffer's data uses:
+        
+            .. code-block::
+        
+                byte offset: 0
+                first index: 0
+                index count: 6
+                topology: trianglelist
+                format: DXGI_FORMAT_R16_UINT
+        
+                0 1 2
+                3 4 5
+        
+        Parameters
+        ----------
+        firstIndex: :class:`int`
+            The index this file's first vertex index is numbered from (see :meth:`makeDumpHeader`) :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``0``
+        
+        Returns
+        -------
+        :class:`str`
+            The text for the dumped *ib.txt* file
+        """
+    def getIndexCount(self) -> int:
+        """
+        Retrieves the number of vertex indices in the file -- :attr:`VerticesPerTriangle` times
+        :meth:`getTriangleCount`
+        
+        Returns
+        -------
+        :class:`int`
+            The number of indices
+        """
+    def getTriangleCount(self) -> int:
+        """
+        Retrieves the number of triangular faces making up the mod's mesh
+        
+        Returns
+        -------
+        :class:`int`
+            The number of faces
+        """
+    def makeDumpHeader(self, firstIndex: typing.SupportsInt | typing.SupportsIndex = 0) -> str:
+        """
+        Makes the header for a dumped *ib.txt* file
+        
+        Parameters
+        ----------
+        firstIndex: :class:`int`
+            The index this file's first vertex index is numbered from :raw-html:`<br />` :raw-html:`<br />`
+        
+            A mod's faces are spread over several ``.ib`` files (one per mod object), which a dump numbers
+            continuously -- so each file after the first starts where the previous one's
+            :meth:`getIndexCount` left off :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``0``
+        
+        Returns
+        -------
+        :class:`str`
+            The header text
+        """
+    def readDumpStr(self, text: str) -> None:
+        """
+        Reads a dumped *ib.txt* file's text back into this ``.ib`` file's bytes -- the inverse of
+        :meth:`getDumpStr`
+        
+        .. note::
+            This is a convenience for calling :meth:`CppBufFile.readFlatDumpStr` -- an index buffer's dump
+            uses the flat, space-separated form, not the per-element form a vertex buffer's does. The header
+            is skipped, so a whole dump file can be handed straight in
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The text of the dumped *ib.txt* file
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the parsed bytes do not divide evenly into face lines
         """
 class IfContentPart(IfTemplatePart):
     """
@@ -18420,6 +18734,144 @@ class VGRemaps:
     def versionColumnCount(self) -> int:
         """
         :class:`int`: The number of version columns
+        """
+class VbFile(CppBufFile):
+    """
+    
+    This class inherits from :class:`CppBufFile`
+    
+    Used for handling ``.vb`` (vertex buffer) files
+    
+    .. note::
+        A GI character's ``.vb`` data does not live in one file -- it is split across a
+        ``Position.buf``, a ``Blend.buf`` and a ``Texcoord.buf``, one line each per vertex. Use
+        :meth:`CppBufFile.merge` to stitch such a set back together, which fills in both the bytes and
+        the elements:
+    
+        .. code-block::
+    
+            vbFile = VbFile(b"", [])
+            vbFile.merge([PositionFile(positionPath), BlendFile(blendPath), texcoordFile])
+    
+    Parameters
+    ----------
+    src: Union[:class:`str`, :class:`bytes`]
+        The source file or bytes for the ``.vb`` file
+    
+    elements: List[:class:`BufElementType`]
+        The sequence of elements within a vertex line, in byte order :raw-html:`<br />` :raw-html:`<br />`
+    
+        Required rather than defaulted: unlike a :class:`BlendFile` or a :class:`PositionFile`, a
+        ``.vb`` file has no single fixed layout -- how many texture coordinates it carries varies by mod
+        
+    """
+    @staticmethod
+    def parseDumpHeader(text: str) -> typing.Any:
+        """
+        Builds the elements of a vertex line out of a dumped *vb.txt* file's header
+        
+        .. note::
+            The header names each element and gives its `DXGI format`_, which together are everything a
+            ``.vb`` file needs -- so a dump can be read back without being told what its layout was
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The text of the dumped *vb.txt* file
+        
+        Returns
+        -------
+        Optional[List[:class:`BufElementType`]]
+            The elements the header declares, in byte order, or ``None`` when the text has no header to
+            read them from (or when one of its formats could not be parsed)
+        """
+    @staticmethod
+    def parseFormatName(formatName: str) -> list:
+        """
+        Builds the data types making up an element from the `DXGI format`_ name a dump's header gives for it
+        
+        .. note::
+            The channels decide *how many* data types there are and how wide each one is, and the suffix
+            decides what kind they are -- so ``R32G32B32_FLOAT`` is 3 four-byte floats, ``R8G8B8A8_UNORM``
+            is 4 one-byte `unsigned normalized integers`_, and ``R32G32B32A32_SINT`` is 4 four-byte signed
+            integers
+        
+        Parameters
+        ----------
+        formatName: :class:`str`
+            The format name to parse, eg. ``"R32G32B32_FLOAT"``
+        
+        Returns
+        -------
+        List[:class:`BufDataType`]
+            The data types making up the element. Empty if the format is not one this understands
+        """
+    def __init__(self, src: typing.Any, elements: typing.Any) -> None:
+        ...
+    def getDumpStr(self, prefix: str = 'vb0') -> str:
+        """
+        Retrieves the full text for converting this ``.vb`` file into a dumped *vb.txt* file
+        
+        .. note::
+            Unlike :meth:`CppBufFile.getDumpStr`, this returns a *complete* dump -- it is
+            :meth:`makeDumpHeader` followed by the data section the parent class produces
+        
+        Parameters
+        ----------
+        prefix: :class:`str`
+            The buffer name each entry is prefixed with -- the vertex buffer slot a real dump was taken
+            from :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``"vb0"``
+        
+        Returns
+        -------
+        :class:`str`
+            The text for the dumped *vb.txt* file
+        """
+    def getVertexCount(self) -> int:
+        """
+        Retrieves the number of vertices making up the mod's mesh
+        
+        Returns
+        -------
+        :class:`int`
+            The number of vertices
+        """
+    def makeDumpHeader(self) -> str:
+        """
+        Makes the header for a dumped *vb.txt* file
+        
+        .. note::
+            An element's ``SemanticIndex`` is its occurrence among the elements sharing its
+            :attr:`BufElementType.name` -- so the first ``TEXCOORD`` is index 0, the next is 1, and so on,
+            which is how 3dmigoto tells several same-named elements apart
+        
+        Returns
+        -------
+        :class:`str`
+            The header text, ending with the ``vertex-data:`` marker the data section follows
+        """
+    def readDumpStr(self, text: str) -> None:
+        """
+        Reads a dumped *vb.txt* file's text back into this ``.vb`` file's bytes -- the inverse of
+        :meth:`getDumpStr`
+        
+        .. note::
+            Unlike :meth:`CppBufFile.readDumpStr`, which encodes against whatever :attr:`elements` the file
+            already has, this first rebuilds those elements from the dump's own header (see
+            :meth:`parseDumpHeader`) when there is one -- so a dump can be read straight back without being
+            told its layout. A header-less text falls through to the current elements
+        
+        Parameters
+        ----------
+        text: :class:`str`
+            The text of the dumped *vb.txt* file
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the parsed bytes do not divide evenly into vertex lines
         """
 class VertexCounts:
     """

@@ -5,6 +5,7 @@
 #include <string>
 
 #include <pybind11/functional.h>
+#include <pybind11/numpy.h>
 #include <pybind11/stl.h>
 
 #include "AGRemapCore/model/files/BufFile.h"
@@ -70,6 +71,42 @@ namespace {
         } catch (const AGRC::BufFileNotRecognized &e) {
             raisePyBufFileNotRecognized(e);
         }
+    }
+
+    // One column -> one NumPy array of the matching dtype (int64/uint64/float64), filled straight
+    // from the core's contiguous buffer. Nothing is boxed per value, which is the entire point of
+    // going through decodeAll rather than calling decodeLine once per line.
+    py::object columnToPy(const AGRC::BufFile::BufColumn &column) {
+        return std::visit([](const auto &values) -> py::object {
+            using T = typename std::decay_t<decltype(values)>::value_type;
+            return py::array_t<T>(static_cast<py::ssize_t>(values.size()), values.data());
+        }, column);
+    }
+
+    // The inverse: one NumPy array -> one core column, keeping the array's own dtype kind so an
+    // integer column stays integral the whole way down (see BufTools.fromDataFrame's own note on
+    // why a whole-frame conversion would corrupt a Blend.buf's indices). 'forcecast' materialises
+    // a copy for the cases that need one -- a sliced/non-contiguous column, or an int32 one.
+    AGRC::BufFile::BufColumn pyToColumn(const py::handle &values) {
+        py::array array = py::reinterpret_borrow<py::object>(values).cast<py::array>();
+        char kind = array.dtype().kind();
+
+        if (kind == 'u') {
+            auto typed = array.cast<py::array_t<unsigned long long, py::array::c_style | py::array::forcecast>>();
+            return std::vector<unsigned long long>(typed.data(), typed.data() + typed.size());
+        }
+
+        if (kind == 'i' || kind == 'b') {
+            auto typed = array.cast<py::array_t<long long, py::array::c_style | py::array::forcecast>>();
+            return std::vector<long long>(typed.data(), typed.data() + typed.size());
+        }
+
+        // Floats, and anything else (most realistically an 'object' column of plain Python
+        // numbers), go through double: an integer data type's own encode truncates back to an
+        // integer anyway, whereas forcing to an integer here would throw a real fractional value
+        // away for good.
+        auto typed = array.cast<py::array_t<double, py::array::c_style | py::array::forcecast>>();
+        return std::vector<double>(typed.data(), typed.data() + typed.size());
     }
 
 }
@@ -248,6 +285,243 @@ Returns
 -------
 :class:`bytes`
     The encoded bytes for the line
+        )doc"))
+
+        .def("decodeAll", [](const AGRC::BufFile &self) {
+            py::dict result;
+            for (const auto &column : self.decodeAll()) {
+                result[py::make_tuple(py::str(column.elementKey), column.valueInd)] = columnToPy(column.values);
+            }
+            return result;
+        }, py::doc(R"doc(
+Decodes the whole ``.buf`` file at once, column by column -- the bulk counterpart to
+:meth:`decodeLine`
+
+Where :meth:`decodeLine` builds a fresh dict per line, this decodes every line in C++ and hands
+back one `NumPy`_ array per column, so a whole file costs a single crossing into C++ instead of one
+per line. :meth:`BufTools.toDataFrame` is built on this
+
+.. note::
+    Each array's dtype follows the data type it came from -- ``int64`` for a signed integer,
+    ``uint64`` for an unsigned one and ``float64`` for a `floating point`_ one -- so an integer
+    element stays integral rather than being widened to a float
+
+Returns
+-------
+Dict[Tuple[:class:`str`, :class:`int`], `numpy.ndarray`_]
+    One entry per column, keyed by ``(elementKey, indexWithinElement)``, each holding that
+    column's value for every line in line order
+        )doc"))
+
+        .def("encodeAll", [](AGRC::BufFile &self, const py::dict &columns) {
+            std::vector<AGRC::BufFile::BufColumnData> parsed;
+            parsed.reserve(columns.size());
+
+            for (auto item : columns) {
+                py::tuple key = py::reinterpret_borrow<py::object>(item.first).cast<py::tuple>();
+
+                AGRC::BufFile::BufColumnData column;
+                column.elementKey = py::str(key[0]).cast<std::string>();
+                column.valueInd = key[1].cast<std::size_t>();
+                column.values = pyToColumn(item.second);
+
+                parsed.push_back(std::move(column));
+            }
+
+            translateBufFileErrors([&]() {
+                self.encodeAll(parsed);
+                return 0;
+            });
+        }, py::arg("columns"), py::doc(R"doc(
+Encodes whole columns back into the ``.buf`` file's bytes -- the inverse of :meth:`decodeAll`, and
+the bulk counterpart to :meth:`encodeLine`. :meth:`BufTools.fromDataFrame` is built on this
+
+The columns are matched to the file's current :attr:`elements` by their key, so their order does not
+matter; a column the file has no data type for is ignored, and a data type with no matching column
+encodes as 0. The number of lines produced is the longest column's length
+
+.. note::
+    :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the newly encoded bytes
+    and re-reads from it -- a ``.buf`` file originally constructed from a file path therefore ends
+    up with raw bytes as its :attr:`src`, and the file on disk is untouched
+
+Parameters
+----------
+columns: Dict[Tuple[:class:`str`, :class:`int`], `numpy.ndarray`_]
+    The columns to encode, as produced by :meth:`decodeAll`
+
+Raises
+------
+:class:`BadBufData`
+    If the encoded bytes do not divide evenly into lines for the file's current :attr:`elements`
+        )doc"))
+
+        .def("merge", [](AGRC::BufFile &self, const std::vector<AGRC::BufFile*> &bufFiles) {
+            std::vector<const AGRC::BufFile*> sources(bufFiles.begin(), bufFiles.end());
+            translateBufFileErrors([&]() {
+                self.merge(sources);
+                return 0;
+            });
+        }, py::arg("bufFiles"), py::doc(R"doc(
+Merges several other ``.buf`` files into this one, line by line
+
+A GI character's vertex buffer does not live in one file -- it is split across a ``Position.buf``,
+a ``Blend.buf`` and a ``Texcoord.buf``, one line each per vertex. This stitches such a set back
+together: line *i* of the result is line *i* of every source concatenated in the order given, and
+this file's :attr:`elements` becomes every source's elements in that same order
+
+.. note::
+    The sources are left untouched -- their elements are deep-copied in, so each stays usable
+    afterwards
+
+.. note::
+    The number of lines produced is the **smallest** line count among the sources, so a ragged set
+    truncates rather than reading past the end of the shortest file
+
+.. note::
+    :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the merged bytes and
+    re-reads from it -- this file ends up with raw bytes as its :attr:`src`
+
+Parameters
+----------
+bufFiles: List[:class:`CppBufFile`]
+    The ``.buf`` files to merge, in the byte order their elements should appear in a line
+
+Raises
+------
+:class:`BadBufData`
+    If the merged bytes do not divide evenly into lines
+        )doc"))
+
+        .def("getDumpStr", [](const AGRC::BufFile &self, const std::string &prefix) {
+            return self.getDumpStr(prefix);
+        }, py::arg("prefix") = "vb0", py::doc(R"doc(
+The **data** section of the dump text for this ``.buf`` file -- the text a 3dmigoto frame analysis
+writes, which `Blender`_ can then import
+
+One line per element per line (vertex), in the elements' declared order, shaped as
+``prefix[lineInd]+byteOffset elementKey: value, value, ...``, with a blank line between lines:
+
+.. code-block::
+
+    vb0[0]+000 POSITION: 1.0, 2.0, 3.0
+    vb0[0]+012 TEXCOORD: 0.25, 0.5
+
+    vb0[1]+000 POSITION: 4.0, 5.0, 6.0
+    vb0[1]+012 TEXCOORD: 0.5, 0.5
+
+.. note::
+    **This is deliberately only the data.** A real dump file also needs a header, and that header
+    differs by the kind of buffer being dumped -- see :class:`VbFile` and :class:`IbFile`, which add
+    one each
+
+.. note::
+    An entry is named by its *element key*, so a second element sharing a name is suffixed with its
+    occurrence (``TEXCOORD``, then ``TEXCOORD1``), matching both :meth:`decodeLine`'s own keys and
+    what 3dmigoto writes
+
+Parameters
+----------
+prefix: :class:`str`
+    The buffer name each entry is prefixed with -- the vertex buffer slot a real dump was taken
+    from :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``"vb0"``
+
+Returns
+-------
+:class:`str`
+    The data section of the dump text. Empty when the file has no lines
+        )doc"))
+
+        .def("getFlatDumpStr", [](const AGRC::BufFile &self, const std::string &valueSep) {
+            return self.getFlatDumpStr(valueSep);
+        }, py::arg("valueSep") = " ", py::doc(R"doc(
+The **data** section of the dump text in an *index buffer*'s flat form -- every one of a line's
+values on one line, separated by 'valueSep', with no element name or byte offset
+
+This is what a ``.ib`` file's dump looks like (``0 1 2`` per triangular face), as opposed to the
+per-element form :meth:`getDumpStr` produces for a vertex buffer
+
+Parameters
+----------
+valueSep: :class:`str`
+    What to put between two values on the same line :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``" "``
+
+Returns
+-------
+:class:`str`
+    The data section of the dump text. Empty when the file has no lines
+        )doc"))
+
+        .def("readDumpStr", [](AGRC::BufFile &self, const std::string &text) {
+            translateBufFileErrors([&]() {
+                self.readDumpStr(text);
+                return 0;
+            });
+        }, py::arg("text"), py::doc(R"doc(
+Reads dump text back into this ``.buf`` file's bytes -- the inverse of :meth:`getDumpStr`
+
+The values are encoded with this file's **current** :attr:`elements`, one text line per element and
+one blank-line-separated block per line (vertex), so a round trip out through :meth:`getDumpStr` and
+back in returns the bytes it started with
+
+.. note::
+    A complete dump file works too, not just the data section :meth:`getDumpStr` returns: anything
+    up to and including a ``vertex-data:`` marker is skipped. Each line's values are taken from
+    after its last ``:``, so the ``prefix[i]+offset elementKey:`` part is ignored rather than having
+    to match
+
+.. note::
+    A block with fewer values than the elements need is zero-filled, and extra values are dropped,
+    so every block always contributes exactly :attr:`bytesPerLine` bytes
+
+.. note::
+    :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the parsed bytes and
+    re-reads from it
+
+Parameters
+----------
+text: :class:`str`
+    The dump text to read
+
+Raises
+------
+:class:`BadBufData`
+    If the parsed bytes do not divide evenly into lines
+        )doc"))
+
+        .def("readFlatDumpStr", [](AGRC::BufFile &self, const std::string &text, const std::string &valueSep) {
+            translateBufFileErrors([&]() {
+                self.readFlatDumpStr(text, valueSep);
+                return 0;
+            });
+        }, py::arg("text"), py::arg("valueSep") = " ", py::doc(R"doc(
+Reads *index buffer* dump text back into this ``.buf`` file's bytes -- the inverse of
+:meth:`getFlatDumpStr`
+
+One text line per line of the file, its values separated by 'valueSep'
+
+.. note::
+    A complete dump file works too: a header line is recognised by containing a ``:`` (every line of
+    a ``.ib`` dump's header does, and none of its data lines do) and skipped
+
+Parameters
+----------
+text: :class:`str`
+    The dump text to read
+
+valueSep: :class:`str`
+    What separates two values on the same line :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``" "``
+
+Raises
+------
+:class:`BadBufData`
+    If the parsed bytes do not divide evenly into lines
         )doc"))
 
         .def("fix", [](AGRC::BufFile &self, py::object fixedFile, py::object filters) {

@@ -103,6 +103,8 @@
 #include "model/PyVGRemap.h"
 #include "model/files/PyBlendFile.h"
 #include "model/files/PyPositionFile.h"
+#include "model/files/PyIbFile.h"
+#include "model/files/PyVbFile.h"
 #include "model/strategies/bufEditors/PyBaseBufEditor.h"
 #include "model/strategies/bufEditors/PyBufEditor.h"
 #include "model/textures/PyColour.h"
@@ -255,6 +257,8 @@ PYBIND11_MODULE(core, m) {
     initCppBufFile(m); // must come after initCppBinaryFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBlendFile(m); // must come after initCppBufFile/initCppVGRemap
     initCppPositionFile(m); // must come after initCppBufFile
+    initCppIbFile(m); // must come after initCppBufFile (registers its base)
+    initCppVbFile(m); // must come after initCppBufFile/initCppBufElementType (registers its base / constructor arg type)
     initCppBaseBufEditor(m); // must come after initCppBufFile (its 'fix' method signature references it)
     initCppBufEditor(m); // must come after initCppBaseBufEditor (registers its base)
     initCppColour(m);

@@ -45,6 +45,8 @@ Testing/
 Tools/
   APIBuilder/                   <- the build driver for api/ (what you use to compile everything)
   Utilities/                    <- shared helper package used by the test runners
+  ModToDumpConverter/GI/        <- Jupyter notebooks that CONSUME the API -- see the note below,
+  DumpToModConverter/GI/           they go stale when you change it
   ScriptBuilder/, CIPipeline/, ModAnalyzer/, ...  <- maintainer tooling, not usually needed for
                                     a feature PR
 Examples/, Data/                <- end-user-facing sample content
@@ -231,6 +233,26 @@ you've verified locally.
   `GIMIObjReplaceFixer` -> `GIMIObjMergeFixer`/`GIMIObjSplitFixer` -> `GIMIObjRegEditFixer`, which
   `data/IniFixBuilderData.py` wires into 67 per-character entries, so the file itself cannot go until
   that chain does even though every live *wiring* now points at the C++ `GIMIFixer`.
+- **The `Tools/*Converter/` Jupyter notebooks are real downstream consumers of the API, not
+  reference material — a port that leaves them behind is half-finished.** `ModToDumpConverter/GI/`
+  and `DumpToModConverter/GI/` are things the maintainer actually runs over real mods, and they
+  call the library the way an outside user would. Two obligations follow. First, **when you move
+  functionality into the library, check whether a notebook was hand-rolling it and collapse it** —
+  when `IbFile`/`VbFile`/`merge`/`getDumpStr`/`readDumpStr` landed in `AGRemapCore`, ~130 lines of
+  hand-written `IbFile`/`VbFile` classes and a manual 3-file byte-stitching loop in the notebooks
+  became a handful of calls. Second, **their local-import cell rots silently**: it was still doing
+  `sys.path.insert(1, ".../api")` + `import src.FixRaidenBoss2`, a layout that stopped existing
+  long ago (it is `api/src/py` + `import FixRaidenBoss2` now). Nothing tests these, so nothing
+  tells you.
+- **Real mods live outside the repo, and you must not write into them.** The maintainer's GIMI
+  install (`E:\Computer\Games\Wuthering Waves Mods\Importer\GIMI` on this machine) holds dozens of
+  real mods -- `.ib`/`Position.buf`/`*RemapBlend*.buf`/`Texcoord.buf` sets -- and
+  `GI-Model-Importer-Assets/PlayerCharacterData/<Character>/` holds genuine 3dmigoto dumps. They
+  are excellent verification data and **breaking one is a real cost to the user**, so: read from
+  them, write every output to a scratch directory, and confirm afterwards with something like
+  `find <modFolder> -newermt today -type f` that you touched nothing. Watch the *defaults* too --
+  `DumpToModConverter`'s own `ModFolders` writes into the repo's `Data/Mod Downloads/`, which you
+  also do not want to dirty while benchmarking.
 - **Repointing a live default at a ported class is a behaviour decision, not a rename — flag it
   even when the maintainer has already decided.** The two fixers remap in different places
   (`GIMIFixerOld` renames inside `fillIfTemplate`/`_getRemapName`; the C++ `GIMIFixer` delegates
@@ -260,6 +282,19 @@ bindings graduated from their temporary `Cpp`-prefixed names to bare ones per th
 outcomes for porting a class" rule in [Architecture](../Architecture/CLAUDE.md):
 `CppBaseIniClassifier` → `BaseIniClassifier`, `CppIniClassifier` → `IniClassifier`,
 `CppIniClassifyStats` → `IniClassifyStats`.
+
+Landed **2026-09-03/04**: the whole `.buf` file family. `model/strategies/bufEditors/`
+(`BaseBufEditor`/`BufEditor`) and `model/files/`'s `BlendFile`, `PositionFile`, `IbFile` and
+`VbFile` are all C++ under their bare names now, their pure-Python files **deleted outright**.
+`model/files/` is down to `BufFile.py`, `File.py` and `TextureFile.py`, and **`BufFile.py` is the
+last of the `.buf` family still in Python purely because `toDataFrame`/`fromDataFrame` need pandas,
+which `AGRemapCore` cannot depend on**. Everything else those classes gained this session ---
+`decodeAll`/`encodeAll` (columnar NumPy), `merge`, `getDumpStr`/`getFlatDumpStr`,
+`readDumpStr`/`readFlatDumpStr` --- lives in `AGRemapCore::BufFile`. Note the shape this leaves
+behind: those four subclasses derive from `CppBufFile`, **not** from the pure-Python `BufFile`, so
+they have no `toDataFrame`/`fromDataFrame` methods of their own (use `BufTools`, which takes any
+`CppBufFile`). See [Buf Files](../BufFiles/CLAUDE.md) before touching any of it --- especially the
+dump text format, which is 3dmigoto's and not ours.
 
 **The next domino is still the rest of the `ModType` layer — the classifier itself is no longer
 the blocker, only its builder-config surface is.** One concrete gap remains if your task touches

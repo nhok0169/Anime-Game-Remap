@@ -50,7 +50,12 @@
       <stop offset="76%"  stop-color="#05030b" stop-opacity="0"/>
       <stop offset="100%" stop-color="#05030b" stop-opacity="0.62"/>
     </linearGradient>
+    <!-- rounded bottom corners: this banner closes the page -->
+    <clipPath id="ftrClip">
+      <path d="M 0 0 L 1200 0 L 1200 262 Q 1200 280 1182 280 L 18 280 Q 0 280 0 262 Z"/>
+    </clipPath>
   </defs>
+  <g clip-path="url(#ftrClip)">
 
   <!-- ============ THE WALL, FILLING THE FRAME ============ -->
   <rect width="1200" height="252" fill="url(#ftrWall)"/>
@@ -176,4 +181,5 @@
   </g>
 
   <rect width="1200" height="280" fill="url(#ftrVig)"/>
+  </g>
 </svg>

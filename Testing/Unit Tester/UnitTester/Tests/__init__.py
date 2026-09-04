@@ -27,6 +27,8 @@ from .test_CppBufFile import CppBufFileTest
 from .test_GIBuilder import GIBuilderTest
 from .test_CppHashTools import CppHashToolsTest
 from .test_CppIfContentPart import CppIfContentPartTest
+from .test_IbFile import IbFileTest
+from .test_VbFile import VbFileTest
 from .test_IniFile import IniFileTest
 from .test_ModTypeRemaps import ModTypeRemapsTest
 from .test_ModTypeMethods import ModTypeMethodsTest
@@ -154,7 +156,7 @@ __all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]
-__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest"]
+__all__ += ["BufFileTest", "BlendFileTest", "PositionFileTest", "IbFileTest", "VbFileTest"]
 __all__ += ["BaseBufEditorTest", "BufEditorTest"]
 __all__ += ["TexEngineTest", "CppColourTest", "CppTextureFileTest", "TextureFileTest"]
 __all__ += ["CppBaseTexEditorTest", "BaseTexEditorTest", "CppBaseTexFilterTest", "CppGammaFilterTest"]

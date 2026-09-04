@@ -93,6 +93,8 @@ from .core import CppBufFile
 from .core import VGRemap
 from .core import BlendFile
 from .core import PositionFile
+from .core import IbFile
+from .core import VbFile
 from .core import BaseBufEditor
 from .core import BufEditor
 from .core import CppColour
@@ -315,7 +317,6 @@ from .tools.BufTools import BufTools
 from .tools.Builder import Builder
 from .tools.DictTools import DictTools
 from .tools.FlyweightBuilder import FlyweightBuilder
-from .tools.GraphToolsOld import GraphToolsOld  # TOREMOVE
 from .tools.Heading import Heading
 from .tools.HeapNode import HeapNode
 from .tools.IntTools import IntTools
@@ -332,7 +333,7 @@ from .main import remapMain
 
 __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDFA", "CppAlgo",
            "OrderedMultiMap", "OrderedMultiMapSqrt", "RemappedKeyData", "KeyRemapData", "ReplaceList", "ReplaceIf", "OrderedMultiMapIterator", "OrderedMultiMapSqrtIterator", "IOrderedMultiMap", "appendAllToOrderedMultiMap", "IfTemplatePart", "IfPredPart", "Z3Context", "Z3Predicate", "IfContentPart", "IfContentPartColourChange", "IfContentPartColouring", "Hash64", "Hash128", "CppHashTools", "Token", "ParseContext", "BaseTokenizer", "FilteredTokenizer", "IfPredTokenizer", "SympyTokenizer", "GameTypeId", "GameTypeIdTools", "ModTypeId", "ModTypeIdTools", "ModTypeIdData", "CppGlobalModTypes", "IniClassifyStats", "BaseIniClassifier", "IniClassifier", "IniFile", "BaseLogger", "Logger", "CppVersion", "ModDictAssets", "ModMappedAssets", "ModAssets", "Hashes", "Indices", "VertexCounts", "VGRemaps",
-           "CppBufFile", "BlendFile", "PositionFile", "BaseBufEditor", "BufEditor",
+           "CppBufFile", "BlendFile", "PositionFile", "IbFile", "VbFile", "BaseBufEditor", "BufEditor",
            "CppColour", "CppColourRange", "CppTextureFile",
            "CppBasePixelTransform", "CppCorrectGamma", "CppColourReplace", "CppHighlightShadow", "CppInvertAlpha", "CppTempControl", "CppTintTransform", "CppTransparency",
            "CppBaseTexFilter", "CppGammaFilter", "CppColourReplaceFilter", "CppTransparencyAdjustFilter", "CppInvertAlphaFilter", "CppHueAdjust", "CppPixelFilter",
@@ -375,6 +376,6 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "Node", "ParseNode",
            "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
-           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "GraphToolsOld", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
+           "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
            "RemapService",
            "remapMain"]

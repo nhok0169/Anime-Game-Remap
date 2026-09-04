@@ -42,7 +42,12 @@
     <pattern id="hdrMerlonNear" width="38" height="16" patternUnits="userSpaceOnUse">
       <rect width="24" height="16" fill="#170e22"/>
     </pattern>
+    <!-- rounded top corners: this banner caps the page -->
+    <clipPath id="hdrClip">
+      <path d="M 0 320 L 0 18 Q 0 0 18 0 L 1182 0 Q 1200 0 1200 18 L 1200 320 Z"/>
+    </clipPath>
   </defs>
+  <g clip-path="url(#hdrClip)">
 
   <!-- ============ SKY: only a narrow strip survives between the towers ============ -->
   <rect width="1200" height="320" fill="url(#hdrSky)"/>
@@ -249,4 +254,5 @@
 
 
   <rect width="1200" height="320" fill="url(#hdrVig)"/>
+  </g>
 </svg>

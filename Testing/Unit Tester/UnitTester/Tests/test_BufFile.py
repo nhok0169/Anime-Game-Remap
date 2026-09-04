@@ -54,3 +54,27 @@ class BufFileTest(BaseUnitTest):
         self.assertTrue(bufFile.toDataFrame().equals(FRB.BufTools.toDataFrame(bufFile)))
 
     # ================================================
+    # ================== fromDataFrame ===============
+
+    def test_fromDataFrame_roundTripThroughPandas_editsLandInTheFile(self):
+        # the whole point of the pair: hand the frame out, let pandas do whatever to it, take it back
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.BufFile(line1 + line2, _makePositionElements())
+
+        df = bufFile.toDataFrame()
+        df[("POSITION", 2)] = df[("POSITION", 2)] - 1.0
+        bufFile.fromDataFrame(df)
+
+        self.assertEqual(bufFile.decodeLine(bufFile.data[:12])["POSITION"], [1.0, 2.0, 2.0])
+        self.assertEqual(bufFile.decodeLine(bufFile.data[12:])["POSITION"], [4.0, 5.0, 5.0])
+
+    def test_fromDataFrame_untouchedFrame_isByteIdentical(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.BufFile(line, _makePositionElements())
+
+        bufFile.fromDataFrame(bufFile.toDataFrame())
+
+        self.assertEqual(bufFile.data, line)
+
+    # ================================================

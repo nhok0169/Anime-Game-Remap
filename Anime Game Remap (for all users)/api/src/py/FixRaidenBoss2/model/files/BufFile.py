@@ -33,9 +33,15 @@ class BufFile(CppBufFile):
     header or footer, just the lines themselves back-to-back :raw-html:`<br />` :raw-html:`<br />`
 
     .. note::
-        This class itself only adds :meth:`toDataFrame` on top of what :class:`CppBufFile` already
-        provides -- see that class for :attr:`~CppBufFile.elements`/:attr:`~CppBufFile.bytesPerLine`/
-        :meth:`~CppBufFile.decodeLine`/:meth:`~CppBufFile.encodeLine`/:meth:`~CppBufFile.fix`/etc.
+        This class itself only adds :meth:`toDataFrame`/:meth:`fromDataFrame` on top of what
+        :class:`CppBufFile` already provides -- see that class for :attr:`~CppBufFile.elements`/
+        :attr:`~CppBufFile.bytesPerLine`/:meth:`~CppBufFile.decodeLine`/
+        :meth:`~CppBufFile.encodeLine`/:meth:`~CppBufFile.merge`/:meth:`~CppBufFile.fix`/etc.
+
+    .. note::
+        :meth:`~CppBufFile.getDumpStr`, inherited from :class:`CppBufFile`, produces only the
+        *data* of a dump. :class:`IbFile` and :class:`VbFile` are the subclasses that add the two
+        different headers a real, importable dump file needs
 
     Parameters
     ----------
@@ -65,4 +71,31 @@ class BufFile(CppBufFile):
         """
 
         return BufTools.toDataFrame(self)
+
+    def fromDataFrame(self, df: PdDataFrame):
+        """
+        Stores the frame (line/vertex) data of a `pandas DataFrame`_ back into this .buf file --
+        the inverse of :meth:`toDataFrame` :raw-html:`<br />` :raw-html:`<br />`
+
+        The typical round trip is to take :meth:`toDataFrame`'s result, run whatever `pandas`_
+        operations you like over it, then hand the result back here
+
+        .. note::
+            This is a convenience for calling :meth:`BufTools.fromDataFrame` -- see that method
+            for how the columns are matched up, what happens to :attr:`~CppBufFile.src`, and what
+            to do if you changed :attr:`~CppBufFile.elements` first
+
+        Parameters
+        ----------
+        df: `pandas.DataFrame`_
+            The frame data to store, shaped the same way :meth:`toDataFrame` produces it
+
+        Raises
+        ------
+        :class:`BadBufData`
+            If the encoded bytes do not divide evenly into lines for this file's current
+            :attr:`~CppBufFile.elements`
+        """
+
+        BufTools.fromDataFrame(self, df)
 ##### EndScript

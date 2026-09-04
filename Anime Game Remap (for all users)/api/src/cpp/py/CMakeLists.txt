@@ -103,6 +103,8 @@ pybind11_add_module(core
     src/model/PyVGRemap.cpp
     src/model/files/PyBlendFile.cpp
     src/model/files/PyPositionFile.cpp
+    src/model/files/PyIbFile.cpp
+    src/model/files/PyVbFile.cpp
     src/model/strategies/bufEditors/PyBaseBufEditor.cpp
     src/model/strategies/bufEditors/PyBufEditor.cpp
     src/model/textures/PyColour.cpp

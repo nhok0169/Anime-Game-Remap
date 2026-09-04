@@ -1,8 +1,7 @@
 # AI Agent Help Instructions
 
-[![Static Badge](https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white)](https://claude.ai/login)
-
-![The Council of CLAUDE Agents](../Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg)
+<a href="https://claude.ai/login"><img align="top" src="https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude"></a>
+<img align="top" src="../Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg" alt="The Council of CLAUDE Agents">
 
 
 <br>

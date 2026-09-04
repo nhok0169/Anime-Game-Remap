@@ -461,14 +461,23 @@ Dict[:class:`int`, :class:`ModType`]
     The mod types, in the order they were classified
         )doc"))
 
-        .def("getIfTemplates", [](AGRC::IniFile &self, bool flush) {
+        .def("getIfTemplates", [](py::object selfObj, bool flush) {
+            auto &self = selfObj.cast<AGRC::IniFile &>();
             py::dict result;
             for (const auto &entry : self.getIfTemplates(flush)) {
+                // The sections are owned by this IniFile (unique_ptrs in its own map), so every
+                // wrapper handed out has to keep the *Python* IniFile alive for as long as it
+                // lives -- reference_internal with 'selfObj' as the parent does exactly that. A
+                // plain 'reference' cast here (the previous code) left a dangling section the
+                // moment the IniFile was collected while a section, or an IniSectionGraph built
+                // over these sections, was still around. Note the return_value_policy on the
+                // .def itself can't do this job: it is ignored for a py::dict return value.
                 result[py::cast(entry.first)] = py::cast(entry.second.get(),
-                                                         py::return_value_policy::reference);
+                                                         py::return_value_policy::reference_internal,
+                                                         selfObj);
             }
             return result;
-        }, py::arg("flush") = false, py::return_value_policy::reference_internal, py::doc(R"doc(
+        }, py::arg("flush") = false, py::doc(R"doc(
 Retrieves every parsed `section`_ of the .ini file, keyed by section name
 
 .. danger::

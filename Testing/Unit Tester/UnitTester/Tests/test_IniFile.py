@@ -1,6 +1,8 @@
+import gc
 import os
 import sys
 import tempfile
+import weakref
 from .baseUnitTest import BaseUnitTest
 from ..src.Config import Configs
 from ..src.constants.ConfigKeys import ConfigKeys
@@ -180,6 +182,49 @@ class IniFileTest(BaseUnitTest):
 
         self.assertFalse(ini.isClassified)
         self.assertFalse(ini.isModIni)
+
+    # ================================================
+    # ============ getIfTemplates lifetime ===========
+    # The sections are owned by the IniFile (unique_ptrs in its own map), so every IfTemplate
+    # wrapper getIfTemplates() hands out must keep the IniFile alive for as long as it lives --
+    # otherwise 'sections = ini.getIfTemplates(); del ini' (or an IniSectionGraph built over those
+    # sections outliving the IniFile) dangles every section and part. Checked through a weakref on
+    # the IniFile rather than by reading the sections afterwards, since a dangling read is
+    # undefined behaviour that "passes" by luck far more often than it crashes.
+
+    def test_getIfTemplates_sectionsKeepTheIniFileAlive(self):
+        ini = FRB.IniFile(txt = self._iniTxt)
+        iniRef = weakref.ref(ini)
+        sections = ini.getIfTemplates()
+        self.compareSet(set(sections.keys()), {"TextureOverrideBody", "ResourceBody"})
+
+        del ini
+        gc.collect()
+
+        self.assertIsNotNone(iniRef(), "a live section wrapper must keep its owning IniFile alive")
+        self.assertEqual(len(sections["TextureOverrideBody"].parts), 1)
+
+        del sections
+        gc.collect()
+        self.assertIsNone(iniRef(), "dropping the last section wrapper must release the IniFile")
+
+    def test_getIfTemplates_graphBuiltOverTheSectionsKeepsTheIniFileAlive(self):
+        ini = FRB.IniFile(txt = self._iniTxt)
+        iniRef = weakref.ref(ini)
+        sections = ini.getIfTemplates()
+        graph = FRB.IniSectionGraph(sections, sorted(sections))
+
+        del ini
+        del sections
+        gc.collect()
+
+        # The graph's own keep-alive pins the section wrappers, which now pin the IniFile
+        self.assertIsNotNone(iniRef())
+        self.assertEqual(len(graph.buildCallGraph().partsById), 2)
+
+        del graph
+        gc.collect()
+        self.assertIsNone(iniRef())
 
     # ================================================
     # ==================== on disk ===================

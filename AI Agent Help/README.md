@@ -1,6 +1,8 @@
-# AI Agent Help Instructions
-
 ![The Fortress of The Council of CLAUDE Agents](../Docs/src/_static/images/TheCouncilofClaudeAgentsHeader.svg)
+
+<br>
+
+# AI Agent Help Instructions
 
 <a href="https://claude.ai/login"><img align="top" src="https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude"></a>
 <img align="top" src="../Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg" alt="The Council of CLAUDE Agents">

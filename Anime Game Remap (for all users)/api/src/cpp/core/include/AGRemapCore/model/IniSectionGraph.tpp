@@ -567,6 +567,9 @@ namespace AGRemapCore {
             }
 
             auto* predPart = dynamic_cast<IfPredPart*>(partBase);
+            if (predPart == nullptr) {
+                continue;
+            }
             IfPredPartType predType = predPart->type;
 
             if (predType == IfPredPartType::If) {
@@ -574,7 +577,21 @@ namespace AGRemapCore {
                 frame.preEntry = current;
                 stack.push_back(std::move(frame));
                 current = stack.back().preEntry;
-            } else if (predType == IfPredPartType::Elif) {
+                continue;
+            }
+
+            // A stray 'elif'/'else'/'endif' with no open 'if' -- real mods do contain these (eg. a
+            // section with a lone 'endif'). IfTemplateTree::construct skips such a part outright
+            // (its '!isChild' check), so mirror that: treat it as a pass-through and leave 'current'
+            // untouched. Without this guard, stack.back() on an empty vector reads a moved-from
+            // (or unallocated) Frame and the pop_back() underflows the vector -- silent heap
+            // corruption that surfaced as an access violation here on one real mod, and as
+            // nondeterministic crashes much later, at teardown, on others.
+            if (stack.empty()) {
+                continue;
+            }
+
+            if (predType == IfPredPartType::Elif) {
                 stack.back().branchExits.push_back(current);
                 current = stack.back().preEntry;
             } else if (predType == IfPredPartType::Else) {

@@ -379,6 +379,74 @@ class IniSectionGraphTest(BaseUnitTest):
         self.assertEqual(result[id(elifPart)], [id(prePart)])
         self.assertEqual(result[id(elsePart)], [id(prePart)])
 
+    # A stray 'endif'/'else'/'elif' with no open 'if' shows up in real mods (a lone 'endif' at the
+    # end of a Resource section was found in a production mod folder). IfTemplateTree.construct
+    # skips such a part; computeSectionPredecessors used to index an empty frame stack there --
+    # undefined behaviour that crashed outright on that mod, and silently corrupted the heap on
+    # others. These pin the "treated as a pass-through" behaviour.
+    def test_computeSectionPredecessors_strayEndIfWithNoIf_isPassThrough(self):
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"a": [(0, "1")]}, 0),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfContentPart({"b": [(0, "2")]}, 0),
+        ])
+        partA, partB = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(result[id(partA)], [])
+        self.assertEqual(result[id(partB)], [id(partA)])
+
+    def test_computeSectionPredecessors_strayElseAndElifWithNoIf_arePassThrough(self):
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"a": [(0, "1")]}, 0),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, z3Ctx),
+            FRB.IfContentPart({"b": [(0, "2")]}, 0),
+            FRB.IfPredPart("elif $i == 1", FRB.IfPredPartType.Elif, z3Ctx),
+            FRB.IfContentPart({"c": [(0, "3")]}, 0),
+        ])
+        partA, partB, partC = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(result[id(partA)], [])
+        self.assertEqual(result[id(partB)], [id(partA)])
+        self.assertEqual(result[id(partC)], [id(partB)])
+
+    def test_computeSectionPredecessors_strayEndIfAfterAClosedIf_isPassThrough(self):
+        # the frame stack has held (and popped) a frame before the stray 'endif' arrives -- the
+        # case where the old code read a moved-from frame and underflowed the stack instead of
+        # faulting immediately
+        z3Ctx = FRB.Z3Context()
+        section = FRB.IfTemplate([
+            FRB.IfContentPart({"a": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 0", FRB.IfPredPartType.If, z3Ctx),
+            FRB.IfContentPart({"b": [(0, "2")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+            FRB.IfContentPart({"c": [(0, "3")]}, 0),
+        ])
+        partA, partB, partC = [p for p in section.parts if isinstance(p, FRB.IfContentPart)]
+
+        result = FRB.IniSectionGraph.computeSectionPredecessors(section)
+
+        self.assertEqual(result[id(partB)], [id(partA)])
+        # after the real endIf (no else): depends on the if-branch's end AND on what preceded the if
+        self.compareSet(set(result[id(partC)]), {id(partB), id(partA)})
+
+    def test_buildCallGraph_strayEndIfWithNoIf_doesNotCrash(self):
+        z3Ctx = FRB.Z3Context()
+        sections = {"res": FRB.IfTemplate([
+            FRB.IfContentPart({"filename": [(0, "x.dds")]}, 0),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, z3Ctx),
+        ])}
+        graph = FRB.IniSectionGraph(sections, ["res"])
+
+        self.assertEqual(len(graph.buildPartPredecessorGraph()), 1)
+        self.assertEqual(len(graph.buildCallGraph().partsById), 1)
+
     # ========================================================
     # ========= buildPartPredecessorGraph ====================
 

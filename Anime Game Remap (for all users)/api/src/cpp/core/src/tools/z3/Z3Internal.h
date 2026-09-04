@@ -52,13 +52,22 @@ namespace AGRemapCore {
             // never read directly, only held, so the owning Z3Context (and the real z3::context
             // 'predicate' points into) can never be destroyed while this Z3Predicate still is.
             Impl(z3::expr predicate, std::shared_ptr<z3::context> ctxKeepAlive):
-                predicate(std::move(predicate)), ctxKeepAlive(std::move(ctxKeepAlive)) {}
+                ctxKeepAlive(std::move(ctxKeepAlive)), predicate(std::move(predicate)) {}
+
+            // DECLARATION ORDER IS LOAD-BEARING: members are destroyed in reverse order of
+            // declaration, so 'ctxKeepAlive' must be declared *before* 'predicate' -- that way the
+            // z3::expr is destroyed first (its Z3_dec_ref still has a live context to talk to) and
+            // only then does the shared_ptr drop. With the two the other way round, the last
+            // Z3Predicate alive for a context freed the z3::context *before* destroying its own
+            // z3::expr, and that expr's destructor then dec_ref'd into freed memory. IniFile made
+            // this the routine case (its own Z3Context member is destroyed before its sections'
+            // IfPredParts), which surfaced as an access violation at ~IniFile -- only sometimes,
+            // since it is a read of just-freed memory inside libz3, not a guaranteed fault.
+            std::shared_ptr<z3::context> ctxKeepAlive;
 
             // Always a boolean-sorted expression -- IfPredZ3Generator::generate coerces the
             // top-level result to bool before ever wrapping it in a Z3Predicate.
             z3::expr predicate;
-
-            std::shared_ptr<z3::context> ctxKeepAlive;
     };
 
     // The one function with real (friended) access to Z3Predicate's private constructor from

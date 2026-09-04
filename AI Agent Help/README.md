@@ -1,5 +1,7 @@
 # AI Agent Help Instructions
 
+![The Fortress of The Council of CLAUDE Agents](../Docs/src/_static/images/TheCouncilofClaudeAgentsHeader.svg)
+
 <a href="https://claude.ai/login"><img align="top" src="https://img.shields.io/badge/Claude-d97757?style=for-the-badge&logo=claude&logoColor=white" alt="Claude"></a>
 <img align="top" src="../Docs/src/_static/images/TheCouncilofClaudeAgentsBadgeWithCount.svg" alt="The Council of CLAUDE Agents">
 
@@ -47,3 +49,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%94%8C%20The%20Context%20Seamsmith-1-%239333ea?style=flat-square&labelColor=%232e1065)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A3%F0%9F%AA%9E%20The%20View%20Herald-1-%23facc15?style=flat&labelColor=%230c4a6e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A4%F0%9F%A7%BF%20The%20Grapheme%20Warden-1-%2314b8a6?style=flat-square&labelColor=%23042f2e)
+
+<br>
+
+![The gate of the Fortress of The Council of CLAUDE Agents](../Docs/src/_static/images/TheCouncilofClaudeAgentsFooter.svg)

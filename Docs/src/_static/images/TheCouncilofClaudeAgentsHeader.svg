@@ -1,0 +1,252 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="The Fortress of The Council of CLAUDE Agents, towering overhead">
+  <defs>
+    <linearGradient id="hdrSky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#07030d"/>
+      <stop offset="35%"  stop-color="#150a20"/>
+      <stop offset="70%"  stop-color="#2c1030"/>
+      <stop offset="100%" stop-color="#5c1a33"/>
+    </linearGradient>
+
+    <!-- The keep's light thrown up into the narrow strip of sky -->
+    <radialGradient id="hdrGlow" cx="600" cy="230" r="480" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#ffb968" stop-opacity="0.5"/>
+      <stop offset="42%"  stop-color="#d0641f" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#d0641f" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="hdrBanner" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#6b2455"/>
+      <stop offset="100%" stop-color="#2b0b2d"/>
+    </linearGradient>
+
+    <!-- Nearest stone is darkest: it is between us and the light -->
+    <linearGradient id="hdrNear" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#170e22"/>
+      <stop offset="100%" stop-color="#08040f"/>
+    </linearGradient>
+
+    <linearGradient id="hdrVig" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#05030b" stop-opacity="0.5"/>
+      <stop offset="22%"  stop-color="#05030b" stop-opacity="0"/>
+      <stop offset="80%"  stop-color="#05030b" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#05030b" stop-opacity="0.55"/>
+    </linearGradient>
+
+    <pattern id="hdrMerlonBack" width="30" height="16" patternUnits="userSpaceOnUse">
+      <rect width="18" height="16" fill="#2a1a3a"/>
+    </pattern>
+    <pattern id="hdrMerlonKeep" width="28" height="16" patternUnits="userSpaceOnUse">
+      <rect width="17" height="16" fill="#150c1e"/>
+    </pattern>
+    <!-- the near towers are closest, so their crenellations read coarsest -->
+    <pattern id="hdrMerlonNear" width="38" height="16" patternUnits="userSpaceOnUse">
+      <rect width="24" height="16" fill="#170e22"/>
+    </pattern>
+  </defs>
+
+  <!-- ============ SKY: only a narrow strip survives between the towers ============ -->
+  <rect width="1200" height="320" fill="url(#hdrSky)"/>
+  <g fill="#ffeecc">
+    <circle cx="386" cy="26" r="1.3" opacity="0.6"/><circle cx="414" cy="72"  r="0.9" opacity="0.4"/>
+    <circle cx="368" cy="112" r="1"   opacity="0.45"/><circle cx="430" cy="140" r="1.1" opacity="0.4"/>
+    <circle cx="404" cy="176" r="0.9" opacity="0.35"/>
+    <circle cx="812" cy="30"  r="1.3" opacity="0.6"/><circle cx="786" cy="80"  r="0.9" opacity="0.4"/>
+    <circle cx="828" cy="118" r="1"   opacity="0.45"/><circle cx="772" cy="146" r="1.1" opacity="0.4"/>
+    <circle cx="800" cy="178" r="0.9" opacity="0.35"/>
+  </g>
+  <rect width="1200" height="320" fill="url(#hdrGlow)"/>
+
+  <!-- ============ THE WALL BEHIND, CLOSING OFF THE GROUND ============ -->
+  <rect x="0" y="205" width="1200" height="115" fill="#241733"/>
+  <rect x="0" y="190" width="1200" height="16" fill="url(#hdrMerlonBack)"/>
+
+  <!-- ============ THE GREAT KEEP, SET BACK BETWEEN THEM ============ -->
+  <path d="M 420 320 L 449 64 L 751 64 L 780 320 Z"
+        fill="#150c1e" stroke="#f2a75a" stroke-opacity="0.3" stroke-width="1.5"/>
+
+  <!-- machicolations: the corbel brackets, seen from directly beneath -->
+  <g fill="#100818">
+    <path d="M 446 64 L 458 64 L 455 74 L 449 74 Z"/><path d="M 470 64 L 482 64 L 479 74 L 473 74 Z"/>
+    <path d="M 494 64 L 506 64 L 503 74 L 497 74 Z"/><path d="M 518 64 L 530 64 L 527 74 L 521 74 Z"/>
+    <path d="M 542 64 L 554 64 L 551 74 L 545 74 Z"/><path d="M 566 64 L 578 64 L 575 74 L 569 74 Z"/>
+    <path d="M 590 64 L 602 64 L 599 74 L 593 74 Z"/><path d="M 614 64 L 626 64 L 623 74 L 617 74 Z"/>
+    <path d="M 638 64 L 650 64 L 647 74 L 641 74 Z"/><path d="M 662 64 L 674 64 L 671 74 L 665 74 Z"/>
+    <path d="M 686 64 L 698 64 L 695 74 L 689 74 Z"/><path d="M 710 64 L 722 64 L 719 74 L 713 74 Z"/>
+    <path d="M 734 64 L 746 64 L 743 74 L 737 74 Z"/>
+  </g>
+  <rect x="438" y="46" width="324" height="19" fill="#150c1e"/>
+  <rect x="438" y="30" width="324" height="16" fill="url(#hdrMerlonKeep)"/>
+
+  <path d="M 570 30 L 574 14 L 626 14 L 630 30 Z" fill="#120a19"/>
+  <path d="M 562 14 L 600 0 L 638 14 Z" fill="#120a19" stroke="#f2a75a" stroke-opacity="0.32" stroke-width="1.2"/>
+
+  <!-- keep windows -->
+  <g fill="#ffcf8a">
+    <rect x="476" y="104" width="8" height="15" rx="4"/><rect x="536" y="104" width="8" height="15" rx="4"/>
+    <rect x="596" y="104" width="8" height="15" rx="4" fill="#fff0c8"/>
+    <rect x="656" y="104" width="8" height="15" rx="4"/><rect x="716" y="104" width="8" height="15" rx="4"/>
+    <rect x="473" y="160" width="8" height="15" rx="4" fill="#fff0c8"/><rect x="534" y="160" width="8" height="15" rx="4"/>
+    <rect x="596" y="160" width="8" height="15" rx="4"/><rect x="658" y="160" width="8" height="15" rx="4"/>
+    <rect x="719" y="160" width="8" height="15" rx="4"/>
+    <rect x="470" y="216" width="8" height="15" rx="4"/><rect x="533" y="216" width="8" height="15" rx="4"/>
+    <rect x="596" y="216" width="8" height="15" rx="4" fill="#fff0c8"/><rect x="659" y="216" width="8" height="15" rx="4"/>
+    <rect x="722" y="216" width="8" height="15" rx="4"/>
+    <rect x="467" y="272" width="8" height="15" rx="4"/><rect x="531" y="272" width="8" height="15" rx="4"/>
+    <rect x="596" y="272" width="8" height="15" rx="4"/><rect x="661" y="272" width="8" height="15" rx="4"/>
+    <rect x="725" y="272" width="8" height="15" rx="4"/>
+  </g>
+
+  <!-- ============ THE TWO NEAR TOWERS ==================================
+       Crowned, not cropped: from down here we catch the underside of the
+       machicolation gallery and the battlements riding on top of it.
+       =============================================================== -->
+  <path d="M -30 320 L 119.6 54 L 333.1 54 L 250 320 Z" fill="url(#hdrNear)"
+        stroke="#f2a75a" stroke-opacity="0.22" stroke-width="1.6"/>
+  <path d="M 1230 320 L 1080.4 54 L 866.9 54 L 950 320 Z" fill="url(#hdrNear)"
+        stroke="#f2a75a" stroke-opacity="0.22" stroke-width="1.6"/>
+
+  <!-- machicolation brackets, seen from beneath -->
+  <g fill="#0b0613">
+    <path d="M 112.8 55 L 125.8 55 L 117.9 65 L 109.5 65 Z"/>
+    <path d="M 139.5 55 L 152.5 55 L 144.8 65 L 136.4 65 Z"/>
+    <path d="M 166.1 55 L 179.1 55 L 171.8 65 L 163.4 65 Z"/>
+    <path d="M 192.8 55 L 205.8 55 L 198.8 65 L 190.4 65 Z"/>
+    <path d="M 219.4 55 L 232.4 55 L 225.8 65 L 217.4 65 Z"/>
+    <path d="M 246.1 55 L 259.1 55 L 252.7 65 L 244.3 65 Z"/>
+    <path d="M 272.8 55 L 285.8 55 L 279.7 65 L 271.3 65 Z"/>
+    <path d="M 299.4 55 L 312.4 55 L 306.7 65 L 298.3 65 Z"/>
+    <path d="M 326.1 55 L 339.1 55 L 333.7 65 L 325.2 65 Z"/>
+    <path d="M 1087.2 55 L 1074.2 55 L 1082.1 65 L 1090.5 65 Z"/>
+    <path d="M 1060.5 55 L 1047.5 55 L 1055.2 65 L 1063.6 65 Z"/>
+    <path d="M 1033.9 55 L 1020.9 55 L 1028.2 65 L 1036.6 65 Z"/>
+    <path d="M 1007.2 55 L 994.2 55 L 1001.2 65 L 1009.6 65 Z"/>
+    <path d="M 980.6 55 L 967.6 55 L 974.2 65 L 982.6 65 Z"/>
+    <path d="M 953.9 55 L 940.9 55 L 947.3 65 L 955.7 65 Z"/>
+    <path d="M 927.2 55 L 914.2 55 L 920.3 65 L 928.7 65 Z"/>
+    <path d="M 900.6 55 L 887.6 55 L 893.3 65 L 901.7 65 Z"/>
+    <path d="M 873.9 55 L 860.9 55 L 866.3 65 L 874.8 65 Z"/>
+  </g>
+
+  <!-- the overhanging gallery, then its battlements, riding just under the frame -->
+  <g fill="#170e22" stroke="#f2a75a" stroke-opacity="0.22" stroke-width="1.3">
+    <path d="M 117.8 36 L 350.8 36 L 345.1 55 L 106.8 55 Z"/>
+    <path d="M 1082.2 36 L 849.2 36 L 854.9 55 L 1093.2 55 Z"/>
+  </g>
+  <g fill="url(#hdrMerlonNear)">
+    <path d="M 127 20 L 355.5 20 L 350.8 36 L 117.8 36 Z"/>
+    <path d="M 1073 20 L 844.5 20 L 849.2 36 L 1082.2 36 Z"/>
+  </g>
+
+  <!-- flagstaffs: the poles lean with their towers, not upright against them -->
+  <g fill="#0a0512">
+    <path d="M 239.6 20 L 242.8 20 L 250.3 3 L 247.1 3 Z"/>
+    <path d="M 960.4 20 L 957.1 20 L 949.7 3 L 952.9 3 Z"/>
+  </g>
+  <g fill="#e8b45f">
+    <circle cx="249.2" cy="2" r="2.4"/><circle cx="950.8" cy="2" r="2.4"/>
+  </g>
+  <g fill="url(#hdrBanner)" stroke="#c9962f" stroke-width="1" stroke-linejoin="round">
+    <path d="M 246.2 5 L 214 10 L 241.8 15 Z"/>
+    <path d="M 953.8 5 L 986 10 L 958.2 15 Z"/>
+  </g>
+
+  <!-- stone courses, spanning each tower's width at that height -->
+  <g stroke="#06030c" stroke-opacity="0.55" stroke-width="1.4">
+    <path d="M 127.5 40 L 337.5 40"/><path d="M 105 80 L 325 80"/><path d="M 82.5 120 L 312.5 120"/>
+    <path d="M 60 160 L 300 160"/><path d="M 37.5 200 L 287.5 200"/><path d="M 15 240 L 275 240"/>
+    <path d="M -7.5 280 L 262.5 280"/>
+    <path d="M 862.5 40 L 1072.5 40"/><path d="M 875 80 L 1095 80"/><path d="M 887.5 120 L 1117.5 120"/>
+    <path d="M 900 160 L 1140 160"/><path d="M 912.5 200 L 1162.5 200"/><path d="M 925 240 L 1185 240"/>
+    <path d="M 937.5 280 L 1207.5 280"/>
+  </g>
+
+  <!-- Near-tower windows: large, because we are right beneath them. Each one is a
+       capsule whose straight sides run to the same vanishing point as the tower,
+       so it sits flush in the wall instead of standing upright against it. -->
+  <g fill="#ffcf8a">
+    <!-- LEFT wing tower -->
+    <path d="M 175.5 59 Q 186.0 45 189.7 59 L 183.9 71 Q 173.4 85 169.6 71 Z"/>
+    <path d="M 266.3 59 Q 276.0 45 280.4 59 L 275.9 71 Q 266.1 85 261.6 71 Z" fill="#fff0c8"/>
+    <path d="M 144.6 129 Q 155.0 115 158.7 129 L 153.0 141 Q 142.5 155 138.7 141 Z" fill="#fff0c8"/>
+    <path d="M 235.3 129 Q 245.0 115 249.4 129 L 244.8 141 Q 235.0 155 230.5 141 Z"/>
+    <path d="M 113.6 199 Q 124.0 185 127.7 199 L 122.0 211 Q 111.5 225 107.7 211 Z"/>
+    <path d="M 204.2 199 Q 214.0 185 218.3 199 L 213.7 211 Q 203.9 225 199.5 211 Z"/>
+    <path d="M 83.6 269 Q 94.0 255 97.7 269 L 92.1 281 Q 81.6 295 77.8 281 Z"/>
+    <path d="M 174.2 269 Q 184.0 255 188.3 269 L 183.7 281 Q 173.8 295 169.4 281 Z" fill="#fff0c8"/>
+    <!-- RIGHT wing tower -->
+    <path d="M 1024.5 59 Q 1014.0 45 1010.3 59 L 1016.1 71 Q 1026.6 85 1030.4 71 Z"/>
+    <path d="M 933.7 59 Q 924.0 45 919.6 59 L 924.1 71 Q 933.9 85 938.4 71 Z" fill="#fff0c8"/>
+    <path d="M 1055.4 129 Q 1045.0 115 1041.3 129 L 1047.0 141 Q 1057.5 155 1061.3 141 Z" fill="#fff0c8"/>
+    <path d="M 964.7 129 Q 955.0 115 950.6 129 L 955.2 141 Q 965.0 155 969.5 141 Z"/>
+    <path d="M 1086.4 199 Q 1076.0 185 1072.3 199 L 1078.0 211 Q 1088.5 225 1092.3 211 Z"/>
+    <path d="M 995.8 199 Q 986.0 185 981.7 199 L 986.3 211 Q 996.1 225 1000.5 211 Z"/>
+    <path d="M 1116.4 269 Q 1106.0 255 1102.3 269 L 1107.9 281 Q 1118.4 295 1122.2 281 Z"/>
+    <path d="M 1025.8 269 Q 1016.0 255 1011.7 269 L 1016.3 281 Q 1026.2 295 1030.6 281 Z" fill="#fff0c8"/>
+  </g>
+
+  <!-- ============ GREAT BANNERS ==============================================
+       Every banner hangs on the same vanishing point as the wall it is fixed to,
+       so its edges run parallel to that tower's stonework rather than upright.
+       ====================================================================== -->
+  <g fill="#0a0512">
+    <rect x="178" y="98" width="62" height="6" rx="2"/>
+    <rect x="960" y="98" width="62" height="6" rx="2"/>
+    <rect x="544" y="82" width="112" height="7" rx="2"/>
+  </g>
+
+  <!-- the two near towers -->
+  <g fill="url(#hdrBanner)" stroke="#c9962f" stroke-width="1.3" stroke-linejoin="round">
+    <path d="M 181 104 L 231 104 L 172 250 L 152 228 L 113 250 Z"/>
+    <path d="M 969 104 L 1019 104 L 1087 250 L 1048 228 L 1028 250 Z"/>
+  </g>
+  <g stroke="#e8b45f" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.9">
+    <path d="M 176 144 L 188 176 M 202 144 L 162 176"/>
+    <path d="M 1024 144 L 1012 176 M 998 144 L 1038 176"/>
+  </g>
+
+  <!-- staffs projecting from the towers' inner faces, hung out over the gap;
+       clear of the machicolation gallery now that the crowns sit at y=20 -->
+  <g fill="#0a0512">
+    <rect x="316" y="90" width="74" height="3.5" rx="1.5"/>
+    <rect x="810" y="90" width="74" height="3.5" rx="1.5"/>
+  </g>
+  <g fill="#e8b45f">
+    <circle cx="391" cy="91.7" r="2.6"/><circle cx="809" cy="91.7" r="2.6"/>
+  </g>
+  <g fill="url(#hdrBanner)" stroke="#c9962f" stroke-width="1.2" stroke-linejoin="round">
+    <path d="M 340 95 L 384 95 L 367.1 165 L 346.6 153 L 319.7 165 Z"/>
+    <path d="M 860 95 L 816 95 L 832.9 165 L 853.4 153 L 880.3 165 Z"/>
+  </g>
+  <g stroke="#e8b45f" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.9">
+    <path d="M 347.2 113 L 360.8 137 M 367.2 113 L 340.8 137"/>
+    <path d="M 852.8 113 L 839.2 137 M 832.8 113 L 859.2 137"/>
+  </g>
+
+  <!-- the keep's own standard, bearing the full crest -->
+  <path d="M 550 88 L 650 88 L 656 250 L 600 226 L 544 250 Z"
+        fill="url(#hdrBanner)" stroke="#c9962f" stroke-width="1.6" stroke-linejoin="round"/>
+  <path d="M 600 118 L 628 128 L 628 156 Q 628 176 600 190 Q 572 176 572 156 L 572 128 Z"
+        fill="#1d1128" stroke="#e0b055" stroke-opacity="0.9" stroke-width="1.5"/>
+  <path d="M 585 136 L 615 172 M 615 136 L 585 172"
+        stroke="#f0c46a" stroke-width="2.8" stroke-linecap="round"/>
+  <circle cx="600" cy="154" r="3.2" fill="#ffdf70"/>
+
+  <!-- ============ TOWER FLAGS =============================================
+       Pennants standing on the keep's battlements, and staffs projecting from
+       the wing towers into the two slivers of open sky.
+       ================================================================== -->
+  <g fill="#0a0512">
+    <path d="M 457 30 L 460 30 L 462.4 8 L 459.4 8 Z"/>
+    <path d="M 740 30 L 743 30 L 740.6 8 L 737.6 8 Z"/>
+  </g>
+  <g fill="#e8b45f">
+    <circle cx="461" cy="6.5" r="2.2"/><circle cx="739" cy="6.5" r="2.2"/>
+  </g>
+  <g fill="url(#hdrBanner)" stroke="#c9962f" stroke-width="1" stroke-linejoin="round">
+    <path d="M 459.2 10 L 429.6 15 L 458.1 20 Z"/>
+    <path d="M 740.8 10 L 770.4 15 L 741.9 20 Z"/>
+  </g>
+
+
+  <rect width="1200" height="320" fill="url(#hdrVig)"/>
+</svg>

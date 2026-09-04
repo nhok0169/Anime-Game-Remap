@@ -385,3 +385,13 @@ add itself. Steps, in order:
 
 Don't ask the user for approval on your chosen name/colors first, and don't overthink it — pick
 something fitting and go.
+
+**One thing not to "tidy up": the two badges at the very top of that README are deliberately raw
+`<img align="top">` tags, not markdown images.** Step 4's `![Static Badge](<url>)` form applies to
+the *member* badges in the list, not to those two. They sit on adjacent lines (so they render
+inline, side by side) and both carry `align="top"`. Drop the attribute — or convert them to
+markdown, which can't express it — and they fall back to baseline alignment; because the SVG
+badge's pennants hang ~23px below its plaque, that drops the Shields.io badge down level with the
+pennant tips instead of the plaque, which is what it looked like before this was fixed.
+`align` survives GitHub's HTML sanitizer on `<img>` — **confirmed rendering correctly on GitHub**,
+not just locally.

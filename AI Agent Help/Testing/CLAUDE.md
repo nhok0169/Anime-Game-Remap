@@ -367,6 +367,24 @@ is where the trampoline is exercised (a Python subclass overriding `write`, `log
 `self.patch(...)` helper returns `None`, not the mock --- capture calls through a `side_effect`
 instead of `assert_called_once_with`.
 
+### Current, as of 2026-09-05: **1930 tests / 0 failures / 7 errors**
+
+The `RemapService` migration landed and took two whole test modules with it. **`test_Mod.py` and
+`test_RemapService.py` are deleted** --- their subjects (`model/Mod.py`, `remapService.py`) no longer
+exist --- which accounts for the entire drop from the 30 above: 22 erroring tests in
+`test_RemapService` (the `HardTexDriven` group described two sections up --- that entry is now
+**resolved by deletion**, not by fixing) plus one `setUpClass` error in `test_Mod`. Attribute a
+baseline change that precisely before reporting it; a big drop in the error count is as often a
+module that stopped *running* as one that started passing.
+
+The count went 1913 -> **1930** later the same day when `test_RemapServiceCLI.py` was added (17
+tests for the binding surface --- see "A C++ class bound to Python needs a Python test").
+
+The surviving **7** are one group, all `setUpClass`, all the `baseIniFileTest.py` fixture story
+above: `test_GIMIFixer`, `test_GIMIParser`, `test_GlobalRemapIniRemover`, `test_GraphGroupRemap`,
+`test_RemapIniRemover`, `test_ResGroupCollect`, `test_ResRegCollect`. Nothing else errors, so **any
+eighth error is yours**.
+
 ### `mock.patch` targets are `src.py.FixRaidenBoss2`, not `src.FixRaidenBoss2`
 
 The Unit Tester imports the package as `src.py.FixRaidenBoss2`, so that is the prefix every
@@ -476,7 +494,9 @@ been deleted outright, not just renamed, so don't go looking for `test_IfTemplat
   `StrEnum._setupAhocorasick`); `test_MultiModFixer`/`test_ResGroupCollect`/`test_ResRegCollect`
   hit it in their own `setUpClass` building a custom `ModType`. **A single fix to this one method
   would very likely clear all 7 modules at once** — don't treat these as 7 separate bugs to
-  investigate independently. Also note: a `setUpClass` failure aborts every test in that class
+  investigate independently. **Two of the seven are gone as of 2026-09-05**: `test_Mod` and
+  `test_RemapService` were deleted along with their subjects (`model/Mod.py`, `remapService.py`), so
+  they can no longer be used to reproduce this — the remaining five still can. Also note: a `setUpClass` failure aborts every test in that class
   silently, so the "1 error" the summary shows per module understates how many individual tests
   are actually blocked underneath it.
 This list will keep drifting as the maintainer continues fixing modules — treat it as "expect some
@@ -527,6 +547,122 @@ into a variable>; git stash pop -q`. `-u` matters (your new test files and new `
 untracked), and the rebuilt `.pyd` deliberately stays in place because it is gitignored — that is
 still a valid baseline, since the restored Python never imports the classes only the new binary has.
 Compare the `Ran N` line first: the delta should be exactly the tests you added.
+
+## Deleting or renaming an exported class: the four places the suite cannot see
+
+Every one of these was missed in a single 2026-09-05 change that deleted `remapService.py` and
+`model/Mod.py`, and the unit suite stayed green through all four. Work the list.
+
+1. **`apiMirror`.** `import AnimeGameRemap` broke outright (`ImportError: cannot import name 'Mod'`)
+   and nothing in either suite imports it. See [Overview](../Overview/CLAUDE.md)'s "`apiMirror` rots
+   silently" for the three-second check --- and note that section's "already broken" caveat was
+   itself stale, which is how it got skipped.
+2. **`FixRaidenBoss2/__init__.py` in the other direction.** Deleting the Python original is only
+   half of it; if a bound C++ class is taking over the name, it needs a `from .core import ...` line
+   and an `__all__` entry, or the replacement is unreachable from the package namespace. The
+   C++ `RemapService` sat bound-but-unexported this way.
+3. **`Docs/src/api.rst`.** A deleted class leaves a dangling `autoclass` (harmless only if the block
+   was already commented out) and the replacement gets no page at all. For a class that subclasses a
+   **bound** base, `:members:` alone documents almost nothing --- `RemapServiceCLI` rendered with
+   just its two Python methods until `:inherited-members:` was added, which brought the other eight
+   in. Build and check the rendered ids, don't assume:
+   ```bash
+   grep -o 'id="FixRaidenBoss2.YourClass\.[a-zA-Z]*"' Docs/build/html/api.html | sort -u
+   ```
+4. **A Python-side test for the binding.** A C++ standalone suite cannot see `py::arg` names,
+   exception translation, trampoline dispatch, or how a bound enum crosses the boundary. See the
+   next section but one; `test_RemapServiceCLI.py` is the worked example.
+
+## A C++ class bound to Python needs a Python test even when its C++ tests are thorough
+
+`core/tests/RemapServiceCLI_test.cpp` has 25 tests and `RemapService_fix_test.cpp` has 35, and
+between them they covered **none** of what `test_RemapServiceCLI.py` covers, because the binding is
+a separate artifact from the class. What only a Python test can catch:
+
+- **`py::arg` names.** `main.py` passes all sixteen constructor arguments *by keyword*. Rename one
+  in the binding and the CLI breaks with a `TypeError` at runtime while every C++ test still passes.
+- **Exception translation.** The point of the `raisePyError` machinery in `PyRemapServiceCLI.cpp` is
+  that a caller catches `FixRaidenBoss2.exceptions.InvalidModType`, not a `RuntimeError` carrying a
+  message. Only Python can assert the *class*.
+- **Trampoline dispatch.** That a Python subclass's `printModsToFix`/`addTips` override is actually
+  reached from a C++ `fix()`.
+- **How a bound value crosses.** Worth knowing before writing assertions: a `DownloadMode` comes
+  back as the enum's **string value** (`'normal'`), not as the Python `DownloadMode` member, because
+  core has its own enum and the two are mapped by value. `assertEqual(x, FRB.DownloadMode.Normal)`
+  fails; `.value` is what you compare. Expect the same shape for any other dual-sided enum.
+
+**What not to assert:** anything about the *content* the fix produces. The `IniFixer`/`IniParser`
+strategies are stubbed with their base classes, so a run generates no remapped sections; an
+assertion on fix output written today would bake the stub in as expected behaviour and have to be
+deleted later.
+
+## A green suite does not mean the product works --- run the real entry point over a real mod
+
+**This is the single highest-value check in the repo and it takes two minutes.** Neither suite can
+see the class of bug it catches, because both exercise *steps* and the product is a *sequence*.
+
+Confirmed the expensive way (2026-09-05, during the `RemapService` migration): a default run
+**emptied every `.ini` file it touched** --- a 31-line mod came out as 9 lines of credit header, its
+own sections gone, and with `--deleteBackup` there was no backup either --- while 10 C++ standalone
+suites and 1913 Python tests were green. The bug lived exactly where nothing looked: **undo-only
+passed, fix-only passed, only undo-then-fix was broken**, and undo-then-fix is what every real run
+does. (Cause, for the record: a removal writes the file back and then clears the `.ini` file's read
+cache while leaving it *classified*, and `IniFile::parse()`/`fix()` only re-read on "not classified"
+--- see [Architecture](../Architecture/CLAUDE.md)'s "`IniFile`'s read cache".)
+
+The lesson generalises past that one bug: **the C++ tests build their `.ini` fixtures from short
+synthetic strings**, so any defect that needs realistic content, or two operations in sequence, or a
+file on disk that some earlier step already rewrote, is invisible to them.
+
+### The check
+
+Real sample mods are already in the repo --- use them rather than writing a fixture:
+
+```
+Testing/Integration Tester/IntegrationTester/Tests/APIDocsTests/inputs/fullFix/RaidenShogun/
+```
+
+Copy that tree somewhere scratch, delete the `.py` harness files it carries, then drive the **real**
+entry point (not `RemapService` directly --- the point is to cover the wiring too):
+
+```python
+import sys
+sys.path.insert(1, r"<repo>/Anime Game Remap (for all users)/api/src/py")
+from FixRaidenBoss2.main import remapMain
+import FixRaidenBoss2 as FRB
+
+FRB.Logger.waitExit = lambda self: None      # it blocks on input() otherwise
+sys.argv = ["FixRaidenBoss2", "-s", workFolder, "-d"]
+remapMain()
+```
+
+Run it from the **PowerShell** tool, not the Bash tool (see this file's last section for why a
+rebuilt `.pyd` fails to import under Git Bash). Then compare every file's size before and after.
+
+### Reading the result
+
+- **Files that GREW** --- expected. The fix appends to a mod, it does not replace it.
+- **Any file that SHRANK** --- stop and investigate. That is the failure mode above.
+- **No remapped sections in the output, and `getResources()` empty** --- **expected right now**, not
+  a bug. Every `IniFixer`/`IniParser` is deliberately stubbed with its base class, so the run writes
+  its header and nothing else. Diffing against
+  `Testing/Integration Tester/.../expected_fullFix_modFixed/fullFix/RaidenShogun/Mod/ei.ini` (61
+  lines, with `[TextureOverrideRaidenShogunRaidenBossRemapBlend]` and friends) shows what it will
+  produce once those strategies are real. **Do not "fix" the goldens to match current output.**
+- **`.buf` files unchanged** --- same cause. `fixResources` screens on `RemapIniResourceMixin` and
+  `getResources()` is empty, so no blend or texture is ever reached.
+
+### Two entry-point bugs this check has already caught that no test could
+
+Both were in code no unit test imports, and both made the CLI unrunnable end to end:
+
+- `CommandBuilder.__init__` raised `AttributeError: HardTexDriven` --- its `--download` help text
+  named an enum member that had been removed --- so `main.py` died before parsing a single argument.
+- The pure-Python `RemapService` could not be *constructed* for the same reason, and once past it,
+  walked the sample tree and found **0 `.ini` files**.
+
+If you change anything in `controller/`, `main.py`, or `remapServiceCLI.py`, the suites will not
+tell you whether the program still starts. Run it.
 
 ## C++-only work is invisible to the Python suite --- write a standalone C++ test
 
@@ -660,9 +796,14 @@ installed), and once that is done `runSuite -s api` errors in all 25 tests *befo
 mod: `module 'src.FixRaidenBoss2' has no attribute 'FileService'` / `'IniFile'`,
 `type object 'DownloadMode' has no attribute 'HardTexDriven'`, and
 `cannot pickle 'src.py.FixRaidenBoss2.core.IniParseBuilder' object`. That is API drift from the C++
-migration (the tester still reaches for names the Python package no longer exports, and
-`remapService.py` references a `DownloadMode` member the bound enum lacks), not anything a normal
-feature change causes -- the `Ran 25 tests ... OK` in `integrationTestResults.txt` predates it.
+migration (the tester still reaches for names the Python package no longer exports), not anything a
+normal feature change causes. **Two of those three causes are fixed as of 2026-09-05** and should
+not be re-reported: the `HardTexDriven` `AttributeError` came from `remapService.py` (now deleted)
+and from `controller/CommandBuilder.py`'s `--download` help text (now reads `DownloadMode.Normal`),
+and the tester's 259 scripts have been repointed from `FRB.RemapService(...)` to
+`FRB.RemapServiceCLI(...)`. **Its golden `expected_*` trees are still pre-migration and must NOT be
+regenerated yet** — the fixers are stubbed, so `produceOutputs` today would bake the empty output in
+as expected. Regenerate only once the strategies are real -- the `Ran 25 tests ... OK` in `integrationTestResults.txt` predates it.
 Treat repairing the tester as its own task; until then, end-to-end coverage of a parser/fixer/remover
 change comes from `IniFileTest` (which still runs) plus a direct script against the rebuilt `.pyd`
 (see [Building](../Building/CLAUDE.md)'s "Verifying a build/binding change in Python directly";

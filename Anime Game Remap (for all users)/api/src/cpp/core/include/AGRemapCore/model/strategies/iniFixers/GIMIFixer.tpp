@@ -144,7 +144,33 @@ namespace AGRemapCore {
             }
         }
 
-        for (const std::string& modName : getModsToFix()) {
+        // The mod type being fixed FROM. modTypeName() is RemapIniFixContext's rather than
+        // IniFixContext's -- which is what this class's Context typedef is -- so it is asked for
+        // rather than assumed. Both real implementations are RemapIniFixContexts; one that is not
+        // simply goes unnamed.
+        const auto* remapCtx = dynamic_cast<const RemapIniFixContext<K, V, KeyHash, KeyEqual>*>(ctx_);
+        const std::optional<std::string> fromModType =
+            (remapCtx == nullptr) ? std::nullopt : remapCtx->modTypeName();
+
+        const std::vector<std::string> modsBeingFixedTo = getModsToFix();
+        const bool canName = (ctx_ != nullptr) && fromModType.has_value() && !fromModType->empty();
+
+        // No targets at all is a normal state, not an empty run: IniFixBuilder fans one fixer out
+        // per target only on its table-driven path, while a fixed-factory builder "has no targets
+        // to fan out over" and hands back a single fixer under the empty name -- which leaves
+        // 'modsToFix' unset and this list empty. The fix still happens; there is simply no second
+        // mod to name, so the line says what it can rather than nothing at all.
+        if (canName && modsBeingFixedTo.empty()) {
+            ctx_->log("Fixing the .ini file for " + *fromModType);
+        }
+
+        for (const std::string& modName : modsBeingFixedTo) {
+            // One line per target: a single .ini file is fixed onto several mods, and which one is
+            // running is exactly what a reader needs when only one of them goes wrong.
+            if (canName) {
+                ctx_->log("Fixing the .ini file from " + *fromModType + " to " + modName);
+            }
+
             applyGraphGroupEdits(modName);
         }
 
@@ -300,6 +326,15 @@ namespace AGRemapCore {
 
             if (withSrc) {
                 content = srcTxt + "\n\n" + content;
+            }
+
+            // Copies only. Index 0 is the mod's own .ini file -- it was already there and needs no
+            // note explaining its existence; every later index is a file this fix invented.
+            //
+            // Outermost, after the boilerplate and the source text, so it is the first thing in the
+            // file rather than buried under a section the reader has to scroll past.
+            if (i > 0 && !copyPreamble.empty()) {
+                content = copyPreamble + "\n\n" + content;
             }
 
             fixedContents_.push_back(content);

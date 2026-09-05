@@ -5,6 +5,7 @@
 #include <functional>
 #include <optional>
 #include <stdexcept>
+#include <string>
 #include <unordered_map>
 #include <utility>
 #include <vector>
@@ -55,6 +56,35 @@ namespace AGRemapCore {
              *      fix to -- see #getMap
              */
             explicit ModMappedAssets(ModDictAssets<K, T, KeyHash, KeyEqual> repo, std::unordered_map<K, std::vector<K>, KeyHash, KeyEqual> map = {});
+
+            /**
+             * @brief
+             @rst
+             The names of the non-version index columns, in position order :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Purely descriptive: every query method on this class takes its non-version index values
+             **positionally**, and none of them consults this. It records what those positions
+             *mean*, so a caller holding only the table can say "the second one is ``type``" without
+             having to know which subclass built it -- :cpp:class:`Hashes`'s own doc comment already
+             names its columns (``version``, ``name``, ``type``) in prose; this is that same
+             statement, in a form something can read :raw-html:`<br />` :raw-html:`<br />`
+
+             ``std::nullopt`` (the default) means the columns are unnamed, which is the right answer
+             for any table not backed by named indices :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                The binding layer is the main consumer: with names present it accepts the flexible
+                bare-value / list / dict-keyed-by-name argument shape the pure-Python
+                ``Hashes``/``Indices`` used to provide through their own
+                ``_convertNonVersionVals`` override, instead of requiring an already-positional
+                list. That convenience used to live on a pybind-only ``PyModMappedAssets``
+                subclass, which is why this member reads as Python-flavoured -- it is the one thing
+                that subclass added, and it moved here so the core class and the `Python`_-facing
+                one could stop being two different types
+             @endrst
+             */
+            std::optional<std::vector<std::string>> nonVersionIndexNames;
 
             /**
              * @brief

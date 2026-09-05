@@ -3207,7 +3207,7 @@ Reference: https://gamebanana.com/posts/12191289
         # ========================================
 
         # fix the mod
-        remapService = AGR.RemapService(verbose = True, keepBackups = False)
+        remapService = AGR.RemapServiceCLI(verbose = True, keepBackups = False)
         remapService.fix()
 
 .. dropdown:: Result
@@ -3819,7 +3819,7 @@ The example below shows how to forcibly use the strategy for remapping Rosaria o
 
         import AnimeGameRemap as AGR
 
-        fixService = FRB.RemapService(verbose = False, keepBackups = False, forcedType = "rosaria")
+        fixService = FRB.RemapServiceCLI(verbose = False, keepBackups = False, forcedType = "rosaria")
         fixService.fix()
 
 

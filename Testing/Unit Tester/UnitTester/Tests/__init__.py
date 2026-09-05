@@ -73,12 +73,12 @@ from .test_IfTemplateTree import IfTemplateTreeTest
 from .test_IniClassifier import IniClassifierTest
 from .test_IniFixResourceModel import IniFixResourceModelTest
 from .test_RemapIniRemover import RemapIniRemoverTest
+from .test_GlobalRemapIniRemover import GlobalRemapIniRemoverTest
 from .test_IniSectionGraph import IniSectionGraphTest
 from .test_IntTools import IntToolsTest
 from .test_ListTools import ListToolsTest
 from .test_Logger import LoggerTest
 from .test_BaseLogger import BaseLoggerTest
-from .test_Mod import ModTest
 from .test_ModAssets import ModAssetsTest
 from .test_ModDictAssets import ModDictAssetsTest
 from .test_ModMappedAssets import ModMappedAssetsTest
@@ -101,7 +101,7 @@ from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
-from .test_RemapService import RemapServiceTest
+from .test_RemapServiceCLI import RemapServiceCLITest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_ResRegCollect import ResRegCollectTest
 from .test_SectionIterData import SectionIterDataTest
@@ -141,7 +141,7 @@ from .test_CppTexCreator import CppTexCreatorTest
 from .test_TexCreator import TexCreatorTest
 
 __all__ = ["DictToolsTest", "FileServiceTest", "LoggerTest", "BaseLoggerTest", "IniFixResourceModelTest", "IfTemplateTest", "IfTemplateNodeTest", "IniFileTest", "ModTypeRemapsTest", "ModTypeMethodsTest", "CppMultiModFixerTest"]
-__all__ += ["ModTest", "ModTypesTest", "ModTypeTest", "RemapServiceTest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest"]
+__all__ += ["ModTypesTest", "ModTypeTest", "RemapServiceCLITest", "GIMIFixerTest", "GIMIParserTest", "RemapIniRemoverTest", "GlobalRemapIniRemoverTest"]
 __all__ += ["TrieTest", "AlgoTest", "PyWrapAhoCorasickDFATest", "DFATest", "AhoCorasickDFATest", "IniClassifierTest", "IfTemplateTreeTest"]
 __all__ += ["ColourRangeTest", "VersionTest", "IntToolsTest", "IfContentPartTest", "IfPredTokenizerTest", "SLR1ParserTest", "IfPredParserTest", "IfPredPartTest", "IfPredLogicGeneratorTest", "IniSectionGraphTest"]
 __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "HashesTest", "IndicesTest", "VertexCountsTest", "VGRemapsTest", "GraphGroupRemapTest", "GraphInheritTest", "GraphRemoveTest", "GraphRenameTest", "ResRegCollectTest", "ResGroupCollectTest", "SympyTokenizerTest", "SympyParserTest"]

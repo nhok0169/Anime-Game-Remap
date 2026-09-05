@@ -229,6 +229,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Reports one line of progress, wherever this environment's ``.ini`` file sends such
+             things -- which may be nowhere at all :raw-html:`<br />` :raw-html:`<br />`
+
+             The counterpart to :cpp:func:`IniFixContext::log`, and the same contract: a parser
+             narrates through this rather than holding a view of its own, so it works identically
+             whether it was reached from `Python`_ or from a plain C++ caller
+             @endrst
+             *
+             * @param message The line to report
+             */
+            virtual void log(const std::string& message) = 0;
+
+            /**
+             * @brief
+             @rst
              The mod type's ``hash`` assets (``ini.availableType.hashes``), or ``nullptr`` when the
              ``.ini`` file was not classified. Borrowed, not owned
              @endrst

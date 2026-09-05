@@ -29,13 +29,15 @@ namespace {
      */
     AGRC::IniFixBuilder::Factory factoryFromPy(py::object factory) {
         return [factory = std::move(factory)](AGRC::BaseIniParser<>* parser,
-                                              const std::string& toModName) -> std::shared_ptr<AGRC::BaseIniFixer<>> {
+                                              const std::string& toModName,
+                                              std::optional<int> modTypeId) -> std::shared_ptr<AGRC::BaseIniFixer<>> {
             // build()/buildAll() are plain C++ calls the core may make from anywhere, so the GIL
             // is not already held.
             py::gil_scoped_acquire gil;
 
             py::object result = factory(py::cast(parser, py::return_value_policy::reference),
-                                        py::cast(toModName));
+                                        py::cast(toModName),
+                                        modTypeId.has_value() ? py::cast(*modTypeId) : py::none());
 
             // holdPyStrategy, not a plain shared_ptr cast -- see its own note on why that quietly
             // loses a Python subclass's identity.
@@ -97,18 +99,20 @@ factory: Optional[Callable[[:class:`CppBaseIniParser`, :class:`str`], Optional[:
                         AGRC::IniFixBuilder::Factory factory = AGRC::IniFixBuilder::defaultFactory();
 
                         return py::cpp_function(
-                            [factory](AGRC::BaseIniParser<>* parser, const std::string& toModName) {
-                                return factory(parser, toModName);
+                            [factory](AGRC::BaseIniParser<>* parser, const std::string& toModName,
+                                      std::optional<int> modTypeId) {
+                                return factory(parser, toModName, modTypeId);
                             },
-                            py::arg("parser"), py::arg("toModName"));
+                            py::arg("parser"), py::arg("toModName"), py::arg("modTypeId") = py::none());
                     },
                     R"doc(
 The factory used when none is supplied -- builds a :class:`GIMIFixer` owning its own fix context
 
 Returns
 -------
-Callable[[:class:`CppBaseIniParser`, :class:`str`], :class:`CppBaseIniFixer`]
-    The default factory
+Callable[[:class:`CppBaseIniParser`, :class:`str`, Optional[:class:`int`]], :class:`CppBaseIniFixer`]
+    The default factory -- the third argument is the :class:`ModTypeId` of the mod type being fixed
+    **from**, which is what lets the built fixer's context resolve its own mod type
         )doc")
 
         .def_property_readonly("builderArgs",
@@ -130,6 +134,7 @@ Whether :meth:`build` raises rather than falling back when the key has no row
         .def("build", &AGRC::IniFixBuilder::build,
              py::arg("parser"), py::arg("fromModName"), py::arg("toModName"),
              py::arg("fromVersion") = py::none(), py::arg("toVersion") = py::none(),
+             py::arg("modTypeId") = py::none(),
              py::doc(R"doc(
 Builds the fixer for **one** target mod
 
@@ -165,6 +170,7 @@ Returns
         .def("buildAll", &AGRC::IniFixBuilder::buildAll,
              py::arg("parser"), py::arg("fromModName"), py::arg("fromVersion") = py::none(),
              py::arg("toVersion") = py::none(), py::arg("filteredToModNames") = py::none(),
+             py::arg("modTypeId") = py::none(),
              py::doc(R"doc(
 Builds one fixer per mod 'fromModName' can be fixed onto
 

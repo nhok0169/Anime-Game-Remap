@@ -9,5 +9,5 @@ import src.FixRaidenBoss2 as FRB
 
 
 iniRunPath = FRB.FileService.parseOSPath(os.path.dirname(os.path.abspath(__file__)))
-fixService = FRB.RemapService(path = iniRunPath, verbose = False, keepBackups = False, forcedType = "rosaria")
+fixService = FRB.RemapServiceCLI(path = iniRunPath, verbose = False, keepBackups = False, forcedType = "rosaria")
 fixService.fix()

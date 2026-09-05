@@ -32,12 +32,6 @@ namespace AGRC = AGRemapCore;
     ``@danger`` note about the two having deliberately diverged)
  @endrst
  */
-class PyVertexCounts: public AGRC::VertexCounts {
-    public:
-        using AGRC::VertexCounts::VertexCounts;
-};
-
-
 void initCppVertexCounts(pybind11::module_ &m);
 
 #endif

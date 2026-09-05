@@ -44,5 +44,10 @@ namespace AGRemapCore {
         // (addRepoRows/addMap), and the pure-Python original gives every Hashes its own table, so
         // one mod type adding a hash must not be visible to every other one. Only the *parsing* of
         // the raw rows is shared.
-        ModMappedAssets<std::string, std::string>(prototypeRepo(), std::move(map)) {}
+        ModMappedAssets<std::string, std::string>(prototypeRepo(), std::move(map)) {
+        // What the two non-version index positions mean. Purely descriptive -- every query method
+        // still takes them positionally -- but it is what lets a caller (the binding layer above
+        // all) accept them keyed by name. Used to be set by the pybind-only PyHashes subclass.
+        nonVersionIndexNames = std::vector<std::string>{"name", "type"};
+    }
 }

@@ -195,6 +195,23 @@ namespace AGRemapCore {
              * @param isFixed Whether the .ini file still holds a fix
              */
             virtual void setIsFixed(bool isFixed) = 0;
+
+            /**
+             * @brief
+             @rst
+             Deletes the backup this fix left beside the ``.ini`` file, if one is there
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The counterpart to :cpp:func:`IniFile::disableIni`, which is what created it. A
+             backup that is not there is not an error -- a ``.ini`` file fixed without
+             ``keepBackup``, or one already cleaned up, simply has nothing to delete
+
+             .. note::
+                Only called when :cpp:member:`IniRemovalContext::keepBackups` is ``false``, so an
+                implementation does not decide *whether* to delete -- only how
+             @endrst
+             */
+            virtual void removeBackup() = 0;
     };
 }
 

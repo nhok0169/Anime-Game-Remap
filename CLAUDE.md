@@ -31,10 +31,13 @@ later still, the full pure-Python-to-C++ replacement of the `iniFixers/regEdits/
 / asset layer: its three `Ini*Builder`s and `Ini*BuilderData` tables, its four asset attributes
 (`hashes`/`indices`/`vertexCounts`/`vgRemaps`), and the `ModAssets`/`ModDictAssets`/
 `ModMappedAssets` lookup family underneath them (see **Architecture**'s last three sections), and
-— most recently — the `iniRemovers/` family: a from-scratch C++ `RemapIniRemover` (a reachability-based
+then the `iniRemovers/` family: a from-scratch C++ `RemapIniRemover` (a reachability-based
 replacement, not a port), its `IniRemoveContext`/`IniRemovalContext` seams, and the full deletion of
-the pure-Python `RemapIniRemover`/`BaseIniRemover` — each file says so where relevant, so treat claims
-about less-explored subsystems as a starting point to verify, not gospel.
+the pure-Python `RemapIniRemover`/`BaseIniRemover`, and — most recently — the whole `RemapService`
+layer: the model/UI split into `AGRemapCore::RemapService` + `AGRemapCore::RemapServiceCLI`, the
+rewiring of `main.py` onto it, and the deletion of `remapService.py` and `model/Mod.py` — each file
+says so where relevant, so treat claims about less-explored subsystems as a starting point to
+verify, not gospel.
 
 **A "port this pure-Python class to C++" request is a well-trodden path here, not a one-off.**
 Several have landed already, and the accumulated conventions are load-bearing — read
@@ -77,6 +80,36 @@ new feature needs whitespace, case, or a character index, use those or `Grapheme
 out are grapheme indices, and a byte cursor and a grapheme cursor must be separate variables --- see
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
+
+**The fix does not actually fix anything right now, and that is DELIBERATE --- do not chase it.**
+Every `IniFixer`/`IniParser` is currently stubbed with its base class, so a real end-to-end run
+classifies mods, walks the tree, writes its credit header and rewrites the `.ini` file *without
+generating a single remapped section*, and `IniFile::getResources()` comes back **empty** --- which
+in turn means `RemapService::fixResources` corrects no `Blend.buf` and no textures. One cause, both
+symptoms. An agent who runs the CLI over a real mod, diffs against
+`Testing/Integration Tester/.../expected_fullFix_modFixed/`, and sees the remap sections missing has
+found the stub, not a bug. Un-stubbing those strategies is the migration's remaining work; until it
+lands, **do not use "the fix produces correct output" as an acceptance criterion for anything**, and
+do not "repair" the Integration Tester's golden trees to match current output --- the goldens are
+right and the code is not there yet.
+
+**But DO still run the real entry point over a real mod before calling a change done.** The suites
+cannot see the class of bug that matters most here. Confirmed the expensive way (2026-09-05): a
+default run **emptied every `.ini` file it touched** --- 31 lines of someone's mod replaced by 9
+lines of boilerplate, and with `--deleteBackup` no backup either --- while 10 C++ standalone suites
+and 1913 Python tests stayed green. Undo-only passed and fix-only passed; only the two *in sequence*,
+which is what every real run does, was broken. See [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)'s
+"A green suite does not mean the product works" for the two-minute smoke check and where the real
+sample mods live.
+
+**`remapService.py` and `model/Mod.py` are DELETED (2026-09-05); `main.py` drives
+`RemapServiceCLI`.** The live entry path is now `main.py` (argparse) -> the Python `RemapServiceCLI`
+(`remapServiceCLI.py`, which subclasses the bound `CppRemapServiceCLI` purely to own the things that
+name command-line options: `addTips` and the `ConflictingOptions` check) -> `AGRemapCore::
+RemapServiceCLI` (log file, tips hook, the "Types of Mods To Fix" banner, and every string ->
+model conversion) -> `AGRemapCore::RemapService` (the model: folder walk, per-`.ini` handling, stats,
+summary). Argparse stays out of core on purpose. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s
+"The `RemapService` / `RemapServiceCLI` split".
 
 **Four repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

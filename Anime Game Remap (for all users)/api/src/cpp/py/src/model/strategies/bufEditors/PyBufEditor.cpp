@@ -42,7 +42,7 @@ AGRC::BufFile::FixResult PyBufEditor::fix(AGRC::BufFile &bufFile, const std::opt
 void initCppBufEditor(pybind11::module_ &m) {
     // PyBufEditor (not AGRC::BufEditor) is registered as the type -- it carries #filtersObj, which
     // AGRC::BufEditor itself has no room for (that member is purely a pybind11-layer convenience,
-    // like PyModMappedAssets::nonVersionIndexNames). Skipping the unregistered AGRC::BufEditor in
+    // like CoreModMappedAssets::nonVersionIndexNames). Skipping the unregistered AGRC::BufEditor in
     // this base list is the same shape PyResIdentity/PyResReplace/PyResCreate already use against
     // PyBaseResEditCore -- pybind only needs one registered base to establish the isinstance chain.
     py::class_<PyBufEditor, AGRC::BaseBufEditor, py::smart_holder>(m, "BufEditor", R"doc(

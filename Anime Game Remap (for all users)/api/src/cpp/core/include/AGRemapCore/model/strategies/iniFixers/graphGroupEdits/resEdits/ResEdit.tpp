@@ -92,7 +92,13 @@ namespace AGRemapCore {
         // source path. ResReplace's own override is the one that uses both.
         (void)fixedPath;
         (void)modName;
-        ctx.storeResource(fileKey, std::make_unique<IniResource>(resType, ctx.iniFolder(), srcPath));
+        // The view is attached at registration, which is the one moment both the resource and the
+        // .ini file it belongs to are in scope -- see IniResource::logger for why it is an
+        // attribute rather than an argument to the fix.
+        std::unique_ptr<IniResource> resource = std::make_unique<IniResource>(resType, ctx.iniFolder(), srcPath);
+        resource->logger = ctx.logger();
+
+        ctx.storeResource(fileKey, std::move(resource));
     }
 
 
@@ -324,7 +330,12 @@ namespace AGRemapCore {
                                                              const std::string& fixedPath, const std::string& modName,
                                                              const std::string& fileKey, Context& ctx) {
         (void)modName;
-        ctx.storeResource(fileKey, std::make_unique<IniFixResource>(resType, ctx.iniFolder(), srcPath, fixedPath));
+        // See this file's other storeResource call for why the view is attached here.
+        std::unique_ptr<IniFixResource> resource =
+            std::make_unique<IniFixResource>(resType, ctx.iniFolder(), srcPath, fixedPath);
+        resource->logger = ctx.logger();
+
+        ctx.storeResource(fileKey, std::move(resource));
     }
 
 

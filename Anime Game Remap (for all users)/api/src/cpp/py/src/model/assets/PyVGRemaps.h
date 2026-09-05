@@ -35,12 +35,6 @@ namespace AGRC = AGRemapCore;
     from :cpp:func:`AGRC::Data::getVGRemapDataRows` with no pandas involved at all
  @endrst
  */
-class PyVGRemaps: public AGRC::VGRemaps {
-    public:
-        using AGRC::VGRemaps::VGRemaps;
-};
-
-
 void initCppVGRemaps(pybind11::module_ &m);
 
 #endif

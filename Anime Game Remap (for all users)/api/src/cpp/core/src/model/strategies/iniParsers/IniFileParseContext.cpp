@@ -189,6 +189,18 @@ namespace AGRemapCore {
     }
 
 
+    void IniFileParseContext::log(const std::string& message) {
+        // Straight through to the .ini file's own view, and dropped when it has none. Unlike
+        // IniFileFixContext::log this buffers nothing: a parser's narration is progress, only
+        // meaningful as it happens, whereas the fixer's lines are also read back by MultiModFixer.
+        if (!hasIni() || iniFile_->logger == nullptr) {
+            return;
+        }
+
+        iniFile_->logger->log(message);
+    }
+
+
     std::string IniFileParseContext::modTypeName() const {
         const ModType* type = modType();
         if (type == nullptr) {

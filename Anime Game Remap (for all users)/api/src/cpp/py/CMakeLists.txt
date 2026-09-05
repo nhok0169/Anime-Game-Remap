@@ -86,6 +86,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/PyIniFixingContext.cpp
     src/model/strategies/iniRemovers/PyIniRemovalContext.cpp
     src/model/strategies/iniRemovers/PyRemapIniRemover.cpp
+    src/model/strategies/iniRemovers/PyGlobalRemapIniRemover.cpp
     src/model/strategies/iniRemovers/PyIniRemoveBuilder.cpp
     src/tools/hashing/PyHash64.cpp
     src/tools/hashing/PyHash128.cpp
@@ -99,6 +100,8 @@ pybind11_add_module(core
     src/model/buffers/PyBufElementType.cpp
     src/model/files/PyBinaryFile.cpp
     src/model/files/PyIniFile.cpp
+    src/PyRemapService.cpp
+    src/PyRemapServiceCLI.cpp
     src/model/files/PyBufFile.cpp
     src/model/PyVGRemap.cpp
     src/model/files/PyBlendFile.cpp

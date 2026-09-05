@@ -87,6 +87,7 @@
 #include "model/strategies/iniFixers/PyIniFixingContext.h"
 #include "model/strategies/iniRemovers/PyIniRemovalContext.h"
 #include "model/strategies/iniRemovers/PyRemapIniRemover.h"
+#include "model/strategies/iniRemovers/PyGlobalRemapIniRemover.h"
 #include "model/strategies/iniRemovers/PyIniRemoveBuilder.h"
 #include "tools/hashing/PyHash64.h"
 #include "tools/hashing/PyHash128.h"
@@ -131,6 +132,8 @@
 #include "model/stats/PyFileStats.h"
 #include "model/stats/PyCachedFileStats.h"
 #include "model/stats/PyRemapStats.h"
+#include "PyRemapService.h"
+#include "PyRemapServiceCLI.h"
 #include "tools/files/PyFileDownload.h"
 #include "model/iniresources/PyIniResourceModel.h"
 #include "model/iniresources/PyIniSrcResourceModel.h"
@@ -289,6 +292,8 @@ PYBIND11_MODULE(core, m) {
     initCppFileStats(m);
     initCppCachedFileStats(m); // must come after initCppFileStats (registers its base)
     initCppRemapStats(m); // must come after initCppFileStats/initCppCachedFileStats (its members are those types)
+    initCppRemapService(m); // must come after initCppIniFile/initCppBaseLogger (its members/arguments are those types)
+    initCppRemapServiceCLI(m); // must come after initCppRemapService (its constructor takes one) and initCppLogger
     initCppFileDownload(m);
     initCppIniResourceModel(m);
     initCppIniSrcResourceModel(m); // must come after initCppIniResourceModel (registers its base)
@@ -324,6 +329,7 @@ PYBIND11_MODULE(core, m) {
     initCppIniRemovalContext(m);
     initCppBaseIniRemover(m);
     initCppRemapIniRemover(m); // must come after initCppBaseIniRemover (registers its base), initCppIfTemplate (the sections it reads) and initCppIniResource (the resources it collects)
+    initCppGlobalRemapIniRemover(m); // must come after initCppRemapIniRemover (registers its base)
 
     // Registered after ModType, BaseIniClassifier, CppVersion, IfTemplate and IniResource:
     // every one of them appears in one of this class's own def() signatures, and pybind11 bakes

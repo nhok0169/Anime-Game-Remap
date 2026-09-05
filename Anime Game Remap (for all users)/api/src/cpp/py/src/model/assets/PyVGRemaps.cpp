@@ -100,7 +100,7 @@ namespace {
 
 
 void initCppVGRemaps(pybind11::module_ &m) {
-    py::class_<PyVGRemaps>(m, "VGRemaps", R"doc(
+    py::class_<AGRC::VGRemaps, py::smart_holder>(m, "VGRemaps", R"doc(
 Class to handle the Vertex Group Remaps of a mod, pre-populated with this project's real remap data
 
 :raw-html:`<br />`
@@ -132,7 +132,7 @@ Constructs a new, fully-populated vertex group remap table
     to every :class:`ModType` that fell back to it; construct one directly for an independent table
         )doc"))
 
-        .def("get", [](const PyVGRemaps &self, const py::object &nonVersionVals, const py::object &versionVals,
+        .def("get", [](const AGRC::VGRemaps &self, const py::object &nonVersionVals, const py::object &versionVals,
                        bool errorOnNotFound, const py::object &default_) -> py::object {
             std::optional<AGRC::VGRemap> result = self.get(toWildcardList(nonVersionVals, nonVersionIndexNames()),
                                                            toVersionList(versionVals), false);
@@ -186,7 +186,7 @@ Returns
     The found remap, or 'default' if none is found and 'errorOnNotFound' is ``False``
         )doc"))
 
-        .def("addRows", [](PyVGRemaps &self, const py::object &rows) {
+        .def("addRows", [](AGRC::VGRemaps &self, const py::object &rows) {
             self.addRows(convertRemapRows(rows, self.getTotalIndices()));
         }, py::arg("rows"), py::doc(R"doc(
 Adds new rows to the table, overwriting the value of any row whose full key already exists
@@ -209,22 +209,22 @@ Raises
     nor a dict, or a row's version value fails to parse
         )doc"))
 
-        .def_property_readonly("totalIndices", &PyVGRemaps::getTotalIndices,
+        .def_property_readonly("totalIndices", &AGRC::VGRemaps::getTotalIndices,
             py::doc(R"doc(:class:`int`: The total number of index columns)doc"))
 
-        .def_property_readonly("versionColumnCount", &PyVGRemaps::getVersionColumnCount,
+        .def_property_readonly("versionColumnCount", &AGRC::VGRemaps::getVersionColumnCount,
             py::doc(R"doc(:class:`int`: The number of version columns)doc"))
 
-        .def_property_readonly("nonVersionColumnCount", &PyVGRemaps::getNonVersionColumnCount,
+        .def_property_readonly("nonVersionColumnCount", &AGRC::VGRemaps::getNonVersionColumnCount,
             py::doc(R"doc(:class:`int`: The number of non-version columns)doc"))
 
-        .def("__len__", &PyVGRemaps::size,
+        .def("__len__", &AGRC::VGRemaps::size,
             py::doc(R"doc(The total number of rows currently in the table)doc"))
 
         // Real call sites deep-copy these tables (test_Mod.py copies the shared
         // ModDataAssets.VGRemaps before mutating it) -- a fresh py::class_ has neither
         // copy.copy() nor copy.deepcopy() until they're bound. See Architecture's note.
-        .def("clone", [](const PyVGRemaps &self) { return PyVGRemaps(self); },
+        .def("clone", [](const AGRC::VGRemaps &self) { return AGRC::VGRemaps(self); },
             py::doc(R"doc(
 Creates an independent copy of this table
 
@@ -234,8 +234,8 @@ Returns
     The copied table
             )doc"))
 
-        .def("__copy__", [](const PyVGRemaps &self) { return PyVGRemaps(self); })
+        .def("__copy__", [](const AGRC::VGRemaps &self) { return AGRC::VGRemaps(self); })
 
-        .def("__deepcopy__", [](const PyVGRemaps &self, const py::dict &) { return PyVGRemaps(self); },
+        .def("__deepcopy__", [](const AGRC::VGRemaps &self, const py::dict &) { return AGRC::VGRemaps(self); },
             py::arg("memo"));
 }

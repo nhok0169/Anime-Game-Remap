@@ -10,6 +10,7 @@
 #include <vector>
 
 #include <tsl/ordered_map.h>
+#include <tsl/ordered_set.h>
 
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/model/IniGraphGroup.h"
@@ -19,6 +20,7 @@
 #include "AGRemapCore/model/strategies/ModType.h"
 #include "AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/view/BaseLogger.h"
 
 
 namespace AGRemapCore {
@@ -267,28 +269,69 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The :cpp:enum:`ModTypeId` (by id) to fall back on when classification recognises
+             The :cpp:enum:`ModTypeId`\s (by id) to fall back on when the classifier recognises
              nothing -- the counterpart to the pure-Python original's ``defaultModType``
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Two effects, both matching that original:
+             These come into play in exactly one situation: #classify ran the classifier, and the
+             classifier recognised **no** mod type at all. In that case #getModTypes is built from
+             these ids instead, exactly as it would have been from the classifier's own answer.
+             Two situations it is deliberately **not** in play for:
 
-             * #getAvailableType answers with it instead of ``nullptr`` when #getModTypes is empty
-             * #classify stops forcing #isMod to ``false`` when a mod-type filter was supplied and
-               nothing survived it -- having a fallback is precisely what lets a caller fix a file
-               the classifier did not recognise
+             * a ``.ini`` file with #getForcedFromModTypeIds set -- the classifier is never
+               consulted for mod types there, so there is nothing to fall back *from*
+             * a ``.ini`` file the classifier **did** recognise, as a mod type that
+               ``filteredFromModTypeIds`` then rejected -- that file was classified; the caller
+               simply filtered its answer away, and handing it the fallback would quietly undo
+               that filter
 
              :raw-html:`<br />`
 
-             .. note::
-                An **id**, not a :cpp:class:`ModType`, for the same reason every other mod-type
-                field here is: the object is resolved through #getModTypes' own resolver, so an
-                override registered after this was set is still honoured
+             It also stops #classify forcing #isMod to ``false`` when a mod-type filter was
+             supplied and nothing survived it -- having a fallback at all is precisely what lets a
+             caller fix a file the classifier did not recognise :raw-html:`<br />`
+             :raw-html:`<br />`
 
-             **Default**: ``std::nullopt``, meaning no fallback
+             .. note::
+                **Ids**, not :cpp:class:`ModType`\s, for the same reason every other mod-type field
+                here is: each is resolved through #getModTypes' own resolver, so an override
+                registered after this was set is still honoured. An id naming nothing registered is
+                skipped, exactly as it is on the forced path
+
+             .. note::
+                Ordered (``tsl::ordered_set``) rather than an ``std::unordered_set``: these land in
+                #getModTypes, which is itself insertion-ordered, and #fix walks that map to build
+                one fixer per mod type -- so a shuffled fallback set would reorder the fix's own
+                output
+
+             **Default**: empty, meaning no fallback
              @endrst
              */
-            std::optional<int> defaultModTypeId;
+            tsl::ordered_set<int> defaultModTypeIds;
+
+            /**
+             * @brief
+             @rst
+             Where this ``.ini`` file reports progress and problems, or ``nullptr`` for nowhere
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Optional on purpose, and ``nullptr`` by default: nothing here *needs* a view to do its
+             work, so a caller with no interest in the narration -- a test, a batch job, anything
+             embedding this as a library -- leaves it unset and every message is simply dropped
+             rather than buffered :raw-html:`<br />` :raw-html:`<br />`
+
+             A ``shared_ptr`` rather than a bare pointer, for the same reason
+             :cpp:member:`RemapService::logger` is one: a :cpp:class:`BaseLogger` subclass defined
+             in `Python`_ has to stay alive for exactly as long as this object holds it, whatever
+             the `Python`_ side does with its own reference :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Set rather than passed -- there is no constructor parameter for it, matching
+                #fromVersion and #defaultModTypeIds. A ``.ini`` file is routinely built before the
+                caller has decided where its output should go
+             @endrst
+             */
+            std::shared_ptr<BaseLogger> logger;
 
             DownloadMode downloadMode = DownloadMode::Normal;
 
@@ -618,6 +661,15 @@ namespace AGRemapCore {
 
              The closest equivalent of the pure-Python original's own ``availableType``, except that
              this can hold more than one :cpp:class:`ModType` (see #modTypes)
+
+             .. note::
+                There is deliberately no singular ``getAvailableType`` alongside this. The
+                pure-Python original had one because *its* ``.ini`` file could only ever be one mod
+                type; here this method is that answer, and picking "the first" out of it would only
+                ever be a guess. A :cpp:class:`BaseIniParser`/:cpp:class:`BaseIniFixer` does take a
+                single :cpp:class:`ModType` -- but it is handed the one it is being built for, by
+                :cpp:func:`fix`/:cpp:func:`parse` looping over this map, rather than asking the
+                ``.ini`` file to choose
              @endrst
              */
             const tsl::ordered_map<int, ModType>& getModTypes() const;
@@ -831,13 +883,25 @@ namespace AGRemapCore {
                 and a remover holds a non-owning :cpp:class:`IniFile` pointer, so not keeping one
                 is one fewer lifetime to reason about. The pure-Python original caches into
                 ``self._iniRemover`` instead, because its ``Mod`` reads
-                ``ini._iniRemover.getRemovedResources()`` back afterwards
+                ``ini._iniRemover.getRemovedResources()`` back afterwards -- which is what
+                'removedResources' is for here, so the remover can still go
 
              .. note::
                 An **unclassified** ``.ini`` file -- one with no #getModTypes at all -- falls back to
-                :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` for a single pass, which is what
-                the pure-Python original's ``_getRemover`` does in its own ``availableType is None``
-                branch. That pass is the only one, and so the last one, and so it sweeps
+                a single global pass, which is what the pure-Python original's ``_getRemover`` does
+                in its own ``availableType is None`` branch. That pass is the only one, and so the
+                last one, and so it sweeps
+
+             .. note::
+                *Which* global builder that fallback pass comes from depends on 'readAllIni' and
+                #getIsMod. A file the classifier says belongs to a mod but could not attribute to any
+                :cpp:enum:`ModTypeId` (``isMod == true``, no mod types), on a call that asked for
+                'readAllIni', gets :cpp:func:`GlobalIniRemoveBuilders::globalRemoveBuilder` -- ie. a
+                :cpp:class:`GlobalRemapIniRemover`, the general-use remover for exactly that state.
+                Anything else falls back to :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` as
+                before. Both passes end up sweeping, so this changes *which class* does the work
+                rather than the outcome -- which matters to a caller that swapped either builder for
+                one of its own, and to one inspecting the remover
 
              .. note::
                 That fallback is keyed on having no mod types, **not** on none of them offering a
@@ -853,10 +917,28 @@ namespace AGRemapCore {
              *
              * @param parse Whether to also parse for the ``*.RemapBlend.buf`` files that need to be removed. **Default**: ``false``
              * @param writeBack Whether to write back the new text content of the .ini file. **Default**: ``true``
+             * @param readAllIni
+             @rst
+             Whether the caller is removing the fix from **every** ``.ini`` file it encountered
+             rather than only the ones it could recognize -- the counterpart of ``RemapService``'s
+             own ``readAllInis`` / the script's ``--all`` flag :raw-html:`<br />` :raw-html:`<br />`
+
+             The only thing it decides here is which global builder the unclassified fallback pass
+             comes from (see the note on that above): an ``isMod`` file with no mod types is swept by
+             a :cpp:class:`GlobalRemapIniRemover` when this is set, and by the ordinary
+             :cpp:func:`GlobalIniRemoveBuilders::removeBuilder` when it is not. It does
+             **not** gate whether the removal happens -- that decision belongs to the caller, which
+             is where it already lives (``Mod._removeIniFix``'s own ``ini.isModIni or readAllInis``)
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
              *
              * @return The new content of the .ini file
              */
-            std::string removeFix(bool parse = false, bool writeBack = true);
+            std::string removeFix(bool parse = false, bool writeBack = true, bool readAllIni = false,
+                                  bool keepBackups = true,
+                                  std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>* removedResources = nullptr);
 
             /**
              * @brief
@@ -908,9 +990,16 @@ namespace AGRemapCore {
              :raw-html:`<br />` :raw-html:`<br />`
 
              The parent folder of each resource's ``srcPath`` -- across both #getResources and
-             #getFileDownloads -- deduplicated. Mirrors the pure-Python original's
-             ``getReferencedFolders()``, which walks the same set of models and likewise only ever
-             looks at a resource's *source* side, never its fixed one
+             #getFileDownloads -- deduplicated, plus the parent folder of the ``fixedPath`` of every
+             one of those that is an :cpp:class:`IniFixResource` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                That second half is a deliberate divergence from the pure-Python original, whose
+                own ``getReferencedFolders()`` walks the same set of models but only ever looks at a
+                resource's *source* side (``origFullPath``/``fullPath``), never its fixed one. The
+                fix **writes** files to a ``fixedPath``, so :cpp:func:`RemapService::fix`'s folder
+                walk has to be able to reach that folder even when no source path points into it
              @endrst
              *
              * @return The absolute path to every referenced folder
@@ -971,28 +1060,6 @@ namespace AGRemapCore {
              * @param newIsFixed Whether the .ini file has been fixed
              */
             void setIsFixed(bool newIsFixed);
-
-            /**
-             * @brief
-             @rst
-             The one :cpp:class:`ModType` this ``.ini`` file was classified as, or ``nullptr`` when
-             it was classified as none -- the nearest equivalent of the pure-Python original's
-             ``ini.availableType`` :raw-html:`<br />` :raw-html:`<br />`
-
-             .. danger::
-                Unlike the original, an :cpp:class:`IniFile` here can hold **more than one** mod
-                type, and this returns the first in iteration order when it does. Use
-                #getModTypes whenever "all of them" is the right answer -- which it usually is, and
-                is why :cpp:func:`fix` iterates rather than asking this
-             @endrst
-             */
-            const ModType* getAvailableType() const;
-
-            /**
-             * @brief Resolves #defaultModTypeId to a :cpp:class:`ModType`, or ``nullptr`` when it
-             *      is unset or names nothing registered
-             */
-            const ModType* resolveDefaultModType() const;
 
         protected:
 
@@ -1088,11 +1155,6 @@ namespace AGRemapCore {
             std::optional<std::unordered_set<int>> forcedFromModTypeIds_;
             std::unordered_map<int, ModType> overrideModTypes_;
 
-            // getAvailableType returns a pointer, so a resolved defaultModTypeId needs somewhere
-            // stable to live. Cached alongside the id it came from, since defaultModTypeId is
-            // public and a caller may change it after the first resolution.
-            mutable std::optional<ModType> defaultModType_;
-            mutable std::optional<int> defaultModTypeCachedId_;
             BaseIniClassifier* iniClassifier_;
 
             bool ifTemplatesRead_ = false;

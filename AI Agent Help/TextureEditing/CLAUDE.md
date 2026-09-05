@@ -70,8 +70,9 @@ always needs `.img` — there's no separate buffer for it to skip). With it off:
   logic per-filter.
 - `TextureFile.hasImage`/`.width`/`.height` **fall back to the native Compressonator buffer state**
   when `.img` is unset, rather than reporting `False`/`0`/`0` — see `TextureFile.py`'s property
-  overrides. This is why `Mod.py`'s post-fix success check is `not tex.hasImage`, not
-  `tex.img is None` — the latter would incorrectly read as failure on the (now-default) fast path.
+  overrides. This is why the post-fix success check was `not tex.hasImage`, not
+  `tex.img is None` (it lived in `Mod.py`, **deleted 2026-09-05** — the equivalent check now belongs
+  with whatever calls `RemapTexResource::fix`, reached from `RemapService::fixResources`) — the latter would incorrectly read as failure on the (now-default) fast path.
   **If you add a new "did this texture edit actually produce something" check anywhere, use
   `hasImage`/`width`/`height`, never a raw `.img is None` test** — the whole point of this flag is
   that `.img` being `None` no longer means failure.
@@ -83,8 +84,9 @@ always needs `.img` — there's no separate buffer for it to skip). With it off:
 whenever the editor's own filter list contains anything that touches `.img` directly** — a plain
 Python callable passed into `filters=[...]` (not a ported `Cpp`-backed filter), or a not-yet-ported
 filter. The editor is the only thing that actually knows what its filter chain needs; the generic
-caller constructing the `TextureFile` (e.g. `Mod.py`) has no way to know this and shouldn't be
-made to guess per-instance. This is why `TexEditor.fix()`/`TexCreator.fix()` **unconditionally
+caller constructing the `TextureFile` (`Mod.py` used to be the example; it was deleted 2026-09-05,
+and `AGRemapCore::RemapService` is the equivalent caller now) has no way to know this and shouldn't
+be made to guess per-instance. This is why `TexEditor.fix()`/`TexCreator.fix()` **unconditionally
 overwrite** `texFile.engine`/`texFile.readPillowImg` with their own values for the duration of the
 call, even though `TextureFile` also carries its own copies of both flags — the override exists so
 one `TextureFile` can safely be reused across editors with different needs (see

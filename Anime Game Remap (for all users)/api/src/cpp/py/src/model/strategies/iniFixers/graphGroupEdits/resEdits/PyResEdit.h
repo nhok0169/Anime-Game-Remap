@@ -109,6 +109,7 @@ class PyIniResEditContext: public AGRC::IniResEditContext<std::string, std::stri
 
         bool hasIni() const override;
         std::string iniFolder() const override;
+        std::shared_ptr<AGRC::BaseLogger> logger() const override;
         std::unordered_map<std::string, Section*> sectionIfTemplates() const override;
         AGRC::Z3Context* z3Ctx() const override;
         void storeResource(const std::string &fileKey, std::unique_ptr<AGRC::IniResource> resource) override;

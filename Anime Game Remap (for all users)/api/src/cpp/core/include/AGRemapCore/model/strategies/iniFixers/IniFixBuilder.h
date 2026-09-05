@@ -59,11 +59,24 @@ namespace AGRemapCore {
 
              The :cpp:class:`BaseIniParser` argument is what the original's
              ``Builder.build(parser)`` passes positionally to the fixer's constructor; it may be
-             ``nullptr``, since :cpp:class:`BaseIniFixer` allows an unbound fixer
+             ``nullptr``, since :cpp:class:`BaseIniFixer` allows an unbound fixer :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The three arguments are the parser, the name of the mod being fixed **to**, and the
+             :cpp:enum:`ModTypeId` of the mod type being fixed **from**
+
+             .. note::
+                That third argument mirrors :cpp:type:`IniParseBuilder::Factory`, which has always
+                carried a ``modTypeId``. Without it a fixer's context had no way to resolve its own
+                mod type at all -- :cpp:func:`IniFileFixContext::modType` looks that id up in the
+                ``.ini`` file's own map -- so anything asking the fix side which mod type it was
+                working from (the fixer's own progress messages, for one) got nothing back while
+                the identical question on the parse side answered fine
              @endrst
              */
             using Factory = std::function<std::shared_ptr<BaseIniFixer<>>(BaseIniParser<>*,
-                                                                            const std::string&)>;
+                                                                            const std::string&,
+                                                                            std::optional<int>)>;
 
             /**
              * @brief
@@ -216,7 +229,8 @@ namespace AGRemapCore {
             std::shared_ptr<BaseIniFixer<>> build(BaseIniParser<>* parser, const std::string& fromModName,
                                                  const std::string& toModName,
                                                  const std::optional<Version>& fromVersion = std::nullopt,
-                                                 const std::optional<Version>& toVersion = std::nullopt) const;
+                                                 const std::optional<Version>& toVersion = std::nullopt,
+                                                 std::optional<int> modTypeId = std::nullopt) const;
 
             /**
              * @brief
@@ -264,7 +278,8 @@ namespace AGRemapCore {
                 BaseIniParser<>* parser, const std::string& fromModName,
                 const std::optional<Version>& fromVersion = std::nullopt,
                 const std::optional<Version>& toVersion = std::nullopt,
-                const std::optional<std::unordered_set<std::string>>& filteredToModNames = std::nullopt) const;
+                const std::optional<std::unordered_set<std::string>>& filteredToModNames = std::nullopt,
+                std::optional<int> modTypeId = std::nullopt) const;
 
         private:
             // Empty exactly when builderArgs_ is set -- see IniParseBuilder's own note.

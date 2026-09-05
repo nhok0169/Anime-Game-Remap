@@ -110,8 +110,12 @@ See below for the different names/aliases of the supported types of mods.""")
         allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
         allDownloadModes = "".join(allDownloadModes)
 
-        hardTexDrivenStr = TextTools.capitalize(DownloadMode.HardTexDriven.value)
-        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. Below is a condensed list of all the available download modes. By default, '{hardTexDrivenStr}' is selected
+        # 'HardTexDriven' used to be named here and no longer exists on the enum, which made this
+        # line raise an AttributeError -- from CommandBuilder's constructor, so the CLI died before
+        # parsing a single argument. Kept pointing at whatever RemapServiceCLI actually defaults to
+        # rather than at a hard-coded name, so a future default change cannot make the help lie.
+        defaultDownloadModeStr = TextTools.capitalize(DownloadMode.Normal.value)
+        self._argParser.add_argument(ShortCommandOpts.Download.value, CommandOpts.Download.value, action = 'store', type=str, help=f"""The download mode to handle file downloads need. Below is a condensed list of all the available download modes. By default, '{defaultDownloadModeStr}' is selected
 For more info on the download modes, please visit the link below:
 https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-modes
 {allDownloadModes}

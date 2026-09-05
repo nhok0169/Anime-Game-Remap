@@ -72,6 +72,15 @@ namespace AGRemapCore {
     }
 
 
+    std::shared_ptr<BaseLogger> IniFileResEditContext::logger() const {
+        if (!hasIni()) {
+            return nullptr;
+        }
+
+        return iniFile_->logger;
+    }
+
+
     void IniFileResEditContext::beginCollectingResources() {
         collecting_ = true;
         buffer_.clear();

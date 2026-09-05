@@ -12,6 +12,17 @@ namespace AGRemapCore {
         return GIBuilder::all();
     }
 
+    void GlobalModTypes::registerMissing() {
+        for (const ModType& modType : all()) {
+            // Only the gap-filling half of registerAll -- see this function's own doc comment for
+            // why the implicit path must not overwrite.
+            if (!ModTypeIdTools::getModType(modType.modTypeId).has_value()) {
+                ModTypeIdTools::registerModType(modType);
+            }
+        }
+    }
+
+
     void GlobalModTypes::registerAll() {
         for (const ModType& modType : all()) {
             ModTypeIdTools::registerModType(modType);

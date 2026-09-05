@@ -9,9 +9,12 @@
 //   * getReferencedFolders(): the parent folder of every resource's srcPath,
 //     across BOTH getResources() and getFileDownloads(), deduplicated and in
 //     first-seen order -- mirroring the pure-Python original's OrderedSet
-//   * getReferencedFolders() only ever looks at a resource's *source* side: an
-//     IniFixResource's fixedPath folder is deliberately NOT reported, matching
-//     what the pure-Python original walked ('origFullPath'/'fullPath' only)
+//   * getReferencedFolders() ALSO reports an IniFixResource's fixedPath folder,
+//     right after that same resource's srcPath folder. This is a deliberate
+//     divergence from the pure-Python original (which walked 'origFullPath'/
+//     'fullPath' only): the fix writes files to a fixedPath, so RemapService's
+//     folder walk has to reach that folder even when no source path points into
+//     it. An earlier revision of this file asserted the opposite
 //   * clear() still empties the models, now by routing through clearModels()
 //
 // This file DOES need the full static lib -- IniFile's destructor alone reaches
@@ -96,8 +99,8 @@ static void seedResources(AGRC::IniFile& ini) {
     ini.getResources().push_back(std::make_unique<AGRC::IniResource>("blend", folder, "blends/one.buf"));
     ini.getResources().push_back(std::make_unique<AGRC::IniResource>("blend", folder, "blends/two.buf"));
 
-    // A fix resource whose fixed side lives somewhere the source side does not: only the source
-    // folder may be reported.
+    // A fix resource whose fixed side lives somewhere the source side does not: BOTH folders must
+    // be reported, the fixed one immediately after the source one.
     ini.getResources().push_back(std::make_unique<AGRC::IniFixResource>("position", folder, "positions/orig.buf",
                                                                        "fixedOnly/remap.buf"));
 
@@ -114,23 +117,36 @@ static void testGetReferencedFoldersDedupesInOrder() {
 
     std::vector<std::string> folders = ini.getReferencedFolders();
 
-    checkEqual(folders.size(), static_cast<std::size_t>(3), "three distinct folders, not four resources");
+    checkEqual(folders.size(), static_cast<std::size_t>(4), "four distinct folders, not four resources");
     checkEqual(folders[0], folderOf("blends/one.buf"), "first folder is the blends one");
     checkEqual(folders[1], folderOf("positions/orig.buf"), "second folder is the positions one");
-    checkEqual(folders[2], folderOf("downloads/tex.dds"), "downloads are walked too, and come last");
+    checkEqual(folders[2], folderOf("fixedOnly/remap.buf"), "a fix resource's fixed folder follows its own source folder");
+    checkEqual(folders[3], folderOf("downloads/tex.dds"), "downloads are walked too, and come last");
 }
 
 
-static void testGetReferencedFoldersIgnoresFixedPath() {
-    std::printf("testGetReferencedFoldersIgnoresFixedPath\n");
+static void testGetReferencedFoldersReportsFixedPath() {
+    std::printf("testGetReferencedFoldersReportsFixedPath\n");
 
     AGRC::IniFile ini(std::nullopt, "[TextureOverrideBody]\n");
     seedResources(ini);
 
     const std::string fixedFolder = folderOf("fixedOnly/remap.buf");
+    bool found = false;
+
     for (const std::string& folder : ini.getReferencedFolders()) {
-        check(folder != fixedFolder, "an IniFixResource's fixedPath folder is not reported");
+        found = (found || folder == fixedFolder);
     }
+
+    check(found, "an IniFixResource's fixedPath folder is reported");
+
+    // A plain IniResource still contributes only its own source folder -- the fixedPath half is
+    // specific to IniFixResource, not something every resource grew.
+    AGRC::IniFile plainIni(std::nullopt, "[TextureOverrideBody]\n");
+    plainIni.getResources().push_back(std::make_unique<AGRC::IniResource>("blend", iniFolder(), "blends/one.buf"));
+
+    checkEqual(plainIni.getReferencedFolders().size(), static_cast<std::size_t>(1),
+               "a non-fix resource still reports exactly one folder");
 }
 
 
@@ -180,7 +196,7 @@ static void testClearAlsoEmptiesModels() {
 
 int main() {
     testGetReferencedFoldersDedupesInOrder();
-    testGetReferencedFoldersIgnoresFixedPath();
+    testGetReferencedFoldersReportsFixedPath();
     testGetReferencedFoldersEmptyWithNoResources();
     testClearModelsKeepsReadText();
     testClearAlsoEmptiesModels();

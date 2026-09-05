@@ -169,8 +169,18 @@ namespace AGRemapCore {
     }
 
     void ModType::fixIni(IniFile& iniFile, bool keepBackup, bool fixOnly) const {
-        const ModType* iniModType = iniFile.getAvailableType();
-        if (iniModType == nullptr || iniModType->name != name) {
+        // "Is this .ini file one of mine?" -- asked across ALL the mod types it classified as, not
+        // just whichever happened to come first. An IniFile can hold several, so a single-type
+        // check here would silently skip a .ini file this mod type genuinely owns.
+        bool isMine = false;
+        for (const auto& entry : iniFile.getModTypes()) {
+            if (entry.second.name == name) {
+                isMine = true;
+                break;
+            }
+        }
+
+        if (!isMine) {
             return;
         }
 

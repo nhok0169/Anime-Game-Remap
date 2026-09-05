@@ -35,6 +35,12 @@
 //   * classify() reads the .ini file from disk first (via readFileLines) if
 //     it hasn't been read yet -- same "read on first use" contract as
 //     readFileLines() itself already has
+//   * defaultModTypeIds: the fallback set is folded straight into modTypes,
+//     but ONLY when the classifier itself recognized nothing. Three negatives
+//     matter as much as the positive -- it does not apply on the forced
+//     branch, it does not apply when the classifier DID recognize something
+//     that filteredFromModTypeIds then rejected, and an id naming nothing
+//     registered is skipped rather than faked
 //
 // This file has NO dependency on the project's build system (CMake/pybind11)
 // or z3, but DOES need utf8proc (transitively, via StringTools) and the
@@ -280,6 +286,136 @@ void testClassifyReadsFileFirst(const std::string& scratchDir) {
 
 }  // namespace
 
+void testDefaultModTypeIdsAppliedWhenClassifierFindsNothing() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 40, "GlobalForty"));
+    ModTypeIdTools::registerModType(ModType(0, 50, "GlobalFifty"));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+    classifier.cannedStats.isMod = true;
+
+    TestableIniFile ini(std::nullopt, "[TextureOverrideBody]\n", std::nullopt, std::nullopt,
+                        std::nullopt, std::nullopt, &classifier);
+    ini.defaultModTypeIds = tsl::ordered_set<int>{40, 50};
+    ini.classify();
+
+    check(ini.testModTypes().size() == 2, "the fallback ids land in modTypes when nothing classified");
+
+    // Insertion order preserved -- that is why this is a tsl::ordered_set and not an
+    // std::unordered_set.
+    auto it = ini.testModTypes().begin();
+    check(it->first == 40, "the first fallback id comes first");
+    ++it;
+    check(it->first == 50, "and the second comes second");
+}
+
+void testDefaultModTypeIdsSkipsUnregisteredIds() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 40, "GlobalForty"));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+
+    TestableIniFile ini(std::nullopt, "[TextureOverrideBody]\n", std::nullopt, std::nullopt,
+                        std::nullopt, std::nullopt, &classifier);
+    // 999 is registered nowhere.
+    ini.defaultModTypeIds = tsl::ordered_set<int>{40, 999};
+    ini.classify();
+
+    check(ini.testModTypes().size() == 1, "a fallback id naming nothing registered is skipped");
+    check(ini.testModTypes().begin()->first == 40, "and the registered one still lands");
+}
+
+void testDefaultModTypeIdsNotAppliedWhenClassifierFoundSomething() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 20, "GlobalTwenty"));
+    ModTypeIdTools::registerModType(ModType(0, 40, "GlobalForty"));
+
+    tsl::ordered_map<int, ModTypeIdData> found;
+    found.emplace(20, ModTypeIdData(0, 20));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+    classifier.cannedStats.modType = found;
+
+    TestableIniFile ini(std::nullopt, "[TextureOverrideBody]\n", std::nullopt, std::nullopt,
+                        std::nullopt, std::nullopt, &classifier);
+    ini.defaultModTypeIds = tsl::ordered_set<int>{40};
+    ini.classify();
+
+    check(ini.testModTypes().size() == 1, "the classifier's own answer is not joined by the fallback");
+    check(ini.testModTypes().begin()->first == 20, "and it is the classified id, not the fallback one");
+}
+
+void testDefaultModTypeIdsNotAppliedWhenFilterRejectedTheClassifiersAnswer() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 20, "GlobalTwenty"));
+    ModTypeIdTools::registerModType(ModType(0, 40, "GlobalForty"));
+
+    tsl::ordered_map<int, ModTypeIdData> found;
+    found.emplace(20, ModTypeIdData(0, 20));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+    classifier.cannedStats.modType = found;
+
+    // The classifier recognizes 20; the caller only accepts 30. The .ini file WAS classified --
+    // the caller simply filtered its answer away, so handing it the fallback would quietly undo
+    // the filter that was asked for.
+    TestableIniFile ini(std::nullopt, "[TextureOverrideBody]\n", std::nullopt,
+                        std::unordered_set<int>{30}, std::nullopt, std::nullopt, &classifier);
+    ini.defaultModTypeIds = tsl::ordered_set<int>{40};
+    ini.classify();
+
+    check(ini.testModTypes().empty(), "a filtered-out classification does NOT fall back");
+}
+
+void testDefaultModTypeIdsNotAppliedOnForcedBranch() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 20, "GlobalTwenty"));
+    ModTypeIdTools::registerModType(ModType(0, 40, "GlobalForty"));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+
+    TestableIniFile ini(std::nullopt, "[TextureOverrideBody]\n", std::nullopt, std::nullopt,
+                        std::unordered_set<int>{20}, std::nullopt, &classifier);
+    ini.defaultModTypeIds = tsl::ordered_set<int>{40};
+    ini.classify();
+
+    check(ini.testModTypes().size() == 1, "the forced branch takes only what was forced");
+    check(ini.testModTypes().begin()->first == 20, "and never the fallback");
+    check(classifier.classifyCallCount == 0, "and still never calls classify()");
+}
+
+void testDefaultModTypeIdsKeepsIsModWhenFilterRejectsEverything() {
+    ModTypeIdTools::clear();
+    ModTypeIdTools::registerModType(ModType(0, 20, "GlobalTwenty"));
+
+    tsl::ordered_map<int, ModTypeIdData> found;
+    found.emplace(20, ModTypeIdData(0, 20));
+
+    FakeIniClassifier classifier;
+    classifier.cannedStats = IniClassifyStats();
+    classifier.cannedStats.isMod = true;
+    classifier.cannedStats.modType = found;
+
+    // Filter rejects the one thing found, so modTypes ends up empty. Without a fallback set at all
+    // that forces isMod false; having one keeps the classifier's own answer.
+    TestableIniFile noFallback(std::nullopt, "[TextureOverrideBody]\n", std::nullopt,
+                               std::unordered_set<int>{30}, std::nullopt, std::nullopt, &classifier);
+    noFallback.classify();
+    check(!noFallback.testIsMod(), "no fallback + nothing survives the filter -> not a mod");
+
+    TestableIniFile withFallback(std::nullopt, "[TextureOverrideBody]\n", std::nullopt,
+                                 std::unordered_set<int>{30}, std::nullopt, std::nullopt, &classifier);
+    withFallback.defaultModTypeIds = tsl::ordered_set<int>{999};
+    withFallback.classify();
+    check(withFallback.testIsMod(), "having a fallback at all keeps the classifier's own isMod");
+}
+
+
 int main(int argc, char** argv) {
     std::string scratchDir = ".";
     if (argc > 1) {
@@ -292,6 +428,12 @@ int main(int argc, char** argv) {
     testGameTypeIdConversion();
     testGlobalIniClassifiersSingleton();
     testClassifyReadsFileFirst(scratchDir);
+    testDefaultModTypeIdsAppliedWhenClassifierFindsNothing();
+    testDefaultModTypeIdsSkipsUnregisteredIds();
+    testDefaultModTypeIdsNotAppliedWhenClassifierFoundSomething();
+    testDefaultModTypeIdsNotAppliedWhenFilterRejectedTheClassifiersAnswer();
+    testDefaultModTypeIdsNotAppliedOnForcedBranch();
+    testDefaultModTypeIdsKeepsIsModWhenFilterRejectsEverything();
 
     ModTypeIdTools::clear();
 

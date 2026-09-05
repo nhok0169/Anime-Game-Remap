@@ -8,6 +8,9 @@
 
 #include <pybind11/stl.h>
 
+#include <tsl/ordered_map.h>
+#include <tsl/ordered_set.h>
+
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
@@ -221,10 +224,28 @@ List[:class:`str`]: The text lines of the .ini file, each keeping its own line e
 :class:`bool`: Whether the type of mod has already been identified for the .ini file
         )doc"))
 
-        .def_property_readonly("availableType", &AGRC::IniFile::getAvailableType,
-                               py::return_value_policy::reference_internal, py::doc(R"doc(
+        // A Python-only convenience with no C++ counterpart any more: AGRemapCore::IniFile's
+        // own getAvailableType() is gone, because an IniFile can classify as several mod types and
+        // "the first one" is a guess rather than an answer. It survives here because the singular
+        // shape is still what the Python-side callers want -- Mod.py, and the four Py*Context
+        // implementations whose seam (IniParseContext/IniFixContext::modType) takes exactly one
+        // mod type by design.
+        .def_property_readonly("availableType", [](AGRC::IniFile &self) -> const AGRC::ModType* {
+            const tsl::ordered_map<int, AGRC::ModType> &modTypes = self.getModTypes();
+            if (modTypes.empty()) {
+                return nullptr;
+            }
+
+            return &modTypes.begin()->second;
+        }, py::return_value_policy::reference_internal, py::doc(R"doc(
 Optional[:class:`ModType`]: The type of mod the .ini file was classified as, or ``None`` if it
 was not classified as any
+
+.. warning::
+    A .ini file can classify as **more than one** mod type, and this answers with whichever comes
+    first in :meth:`getModTypes`' insertion order. Use :meth:`getModTypes` whenever "all of them" is
+    the right question -- which it usually is. This exists for the callers that genuinely want a
+    single mod type
         )doc"))
 
         // ================================================
@@ -333,8 +354,15 @@ Dict[:class:`str`, :class:`str`]
     The fix produced for each .ini file written, keyed by file path
         )doc"))
 
-        .def("removeFix", &AGRC::IniFile::removeFix, py::arg("parse") = false, py::arg("writeBack") = true,
-             py::doc(R"doc(
+        // The core's 4th parameter ('removedResources', an out-collector of unique_ptr-owned
+        // resources) is deliberately not exposed: it hands out ownership of C++-side objects, which
+        // is what RemapService consumes it for. A Python caller gets the file's new content, as
+        // before.
+        .def("removeFix", [](AGRC::IniFile &self, bool parse, bool writeBack, bool readAllIni,
+                             bool keepBackups) {
+            return self.removeFix(parse, writeBack, readAllIni, keepBackups);
+        }, py::arg("parse") = false, py::arg("writeBack") = true,
+             py::arg("readAllIni") = false, py::arg("keepBackups") = true, py::doc(R"doc(
 Removes a previous fix from the .ini file
 
 Parameters
@@ -348,6 +376,17 @@ writeBack: :class:`bool`
     Whether to write the result back out to disk :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``True``
+
+readAllIni: :class:`bool`
+    Whether the caller is removing the fix from every .ini file it encountered rather than only the
+    ones it could recognize -- :attr:`RemapService.readAllInis` / the script's ``--all`` flag
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    A .ini file that belongs to a mod but was not attributed to any type of mod is swept by a
+    :class:`GlobalRemapIniRemover` when this is set, and by the ordinary remover when it is not. It does
+    not decide *whether* the fix is removed :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``False``
 
 Returns
 -------
@@ -418,6 +457,12 @@ Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when
         // A property rather than def_readwrite: AGRC::DownloadMode is not a registered pybind
         // enum (Python's DownloadMode is its own StrEnum), so it crosses as its string value --
         // the same convention the constructor already uses.
+        .def_readwrite("logger", &AGRC::IniFile::logger,
+    py::doc(R"doc(Optional[:class:`BaseLogger`]: Where this .ini file reports progress and problems
+
+``None`` (the default) means nowhere -- messages are dropped rather than buffered. Set rather than
+passed: a .ini file is routinely built before the caller has decided where its output should go)doc"))
+
         .def_property("downloadMode",
                       [](const AGRC::IniFile &self) { return std::string(downloadModeName(self.downloadMode)); },
                       [](AGRC::IniFile &self, const py::object &mode) { self.downloadMode = parseDownloadMode(mode); },
@@ -426,11 +471,38 @@ Accepts a :class:`str`, :class:`int`, :class:`float` or :class:`CppVersion` when
 Reads back as the :class:`DownloadMode` string value (``"normal"``, ``"disabled"``, ``"always"``);
 accepts either a :class:`DownloadMode` or its value when set)doc"))
 
-        .def_readwrite("defaultModTypeId", &AGRC::IniFile::defaultModTypeId,
-    py::doc(R"doc(Optional[:class:`int`]: The :class:`ModTypeId` value to fall back on when classification recognises nothing
+        // tsl::ordered_set has no built-in pybind11 type_caster (same story as tsl::ordered_map --
+        // see PyIniClassifyStats.cpp) so it crosses by hand. A Python list rather than a set on the
+        // way out: this container is ORDERED, and handing back a Python set would throw that order
+        // away at the boundary. Any Python iterable is accepted on the way in.
+        .def_property("defaultModTypeIds",
+            [](const AGRC::IniFile &self) {
+                py::list result;
+                for (int modTypeId : self.defaultModTypeIds) {
+                    result.append(py::int_(modTypeId));
+                }
+                return result;
+            },
+            [](AGRC::IniFile &self, const py::object &value) {
+                tsl::ordered_set<int> result;
+                for (const py::handle &item : value) {
+                    result.insert(item.cast<int>());
+                }
+                self.defaultModTypeIds = std::move(result);
+            },
+    py::doc(R"doc(List[:class:`int`]: The :class:`ModTypeId` values to fall back on when the classifier recognises nothing
 
-:meth:`availableType` answers with it instead of ``None``, and :meth:`classify` stops forcing
-:attr:`isModIni` false when a mod-type filter was given and nothing survived it)doc"))
+In play in exactly one situation: :meth:`classify` ran the classifier and it recognised **no** mod
+type at all, in which case :meth:`getModTypes` is built from these ids instead. Deliberately not in
+play when ``forcedFromModTypeIds`` was given (the classifier is never consulted for mod types there),
+nor when the classifier *did* recognise a mod type that ``filteredFromModTypeIds`` then rejected
+(that would quietly undo the caller's own filter)
+
+Also stops :meth:`classify` forcing :attr:`isModIni` false when a mod-type filter was given and
+nothing survived it
+
+Reads back as a **list**, not a set, because the order is meaningful -- it is the order the fallback
+mod types land in :meth:`getModTypes`, which :meth:`fix` walks. Accepts any iterable when set)doc"))
 
         .def_readwrite("filteredToModTypeIds", &AGRC::IniFile::filteredToModTypeIds,
     py::doc(R"doc(Optional[Set[:class:`int`]]: Only fix to these mod types, by :class:`ModTypeId` value
@@ -527,6 +599,16 @@ List[:class:`IniResource`]
 
         .def("getReferencedFolders", &AGRC::IniFile::getReferencedFolders, py::doc(R"doc(
 Retrieves all the folders referenced by the .ini file, in the order first seen
+
+The parent folder of each resource's source path, across both :meth:`getResources` and
+:meth:`getFileDownloads`, plus the parent folder of the fixed path of every one of those that is
+an :class:`IniFixResource`
+
+.. note::
+    That second half is a deliberate divergence from the pure-Python original, whose own
+    ``getReferencedFolders()`` only ever looked at a resource's *source* side. The fix **writes**
+    files to a fixed path, so a folder walk built on this method has to be able to reach that
+    folder even when no source path points into it
 
 Returns
 -------

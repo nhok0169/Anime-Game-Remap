@@ -775,6 +775,13 @@ namespace AGRemapCore {
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename ParserBase>
     std::vector<typename GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::GraphGroup> GIMIParser<K, V, KeyHash, KeyEqual, ParserBase>::parse() {
+        // A parser is built for exactly one mod type (see IniFile::getParser), so naming it here
+        // is what tells a reader which of a multi-type .ini file's passes is running.
+        const std::string modTypeName = (ctx_ == nullptr) ? "" : ctx_->modTypeName();
+        if (ctx_ != nullptr && !modTypeName.empty()) {
+            ctx_->log("Parsing the .ini file for " + modTypeName);
+        }
+
         getSectionTargets();
         parseCommands();
         setupDownloads();

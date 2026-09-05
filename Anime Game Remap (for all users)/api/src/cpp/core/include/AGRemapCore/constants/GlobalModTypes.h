@@ -21,7 +21,9 @@ namespace AGRemapCore {
 
      .. important::
         #registerAll is **not** called automatically by anything in ``AGRemapCore``, and that is
-        deliberate. :cpp:func:`ModTypeIdTools::getModType` and
+        deliberate. (#registerMissing *is*, by
+        :cpp:func:`GlobalIniClassifiers::classifier` -- but only ever to fill gaps, never to
+        overwrite what a caller registered.) :cpp:func:`ModTypeIdTools::getModType` and
         :cpp:func:`ModTypeIdTools::findByName` deliberately report only what was explicitly
         registered, which is what lets a caller (and the core's own tests) do
         :cpp:func:`ModTypeIdTools::clear` followed by
@@ -66,6 +68,28 @@ namespace AGRemapCore {
              @endrst
              */
             static void registerAll();
+
+            /**
+             * @brief
+             @rst
+             Files every shipped :cpp:class:`ModType` that is **not already registered** into
+             :cpp:class:`ModTypeIdTools`'s global registry, leaving every id the caller registered
+             for itself exactly as it found it :raw-html:`<br />` :raw-html:`<br />`
+
+             The difference from #registerAll is only what happens on a collision: that one
+             overwrites, this one yields. This is what the *implicit* population behind
+             :cpp:func:`GlobalIniClassifiers::classifier` uses, so that asking for the default
+             classifier can no longer silently replace a :cpp:class:`ModType` the caller had
+             already registered under one of the shipped ids -- a caller that registered an id has
+             said what it wants for that id, and the default filling in the rest is a different
+             statement from the default overruling it
+
+             .. note::
+                A caller that genuinely wants the shipped mod types to win calls #registerAll,
+                which still overwrites. Nothing implicit does
+             @endrst
+             */
+            static void registerMissing();
     };
 }
 

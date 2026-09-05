@@ -1,50 +1,14 @@
 #include "PyIndices.h"
 
-#include <string>
 #include <utility>
-#include <vector>
 
-#include "AGRemapCore/data/IndexData.h"
-#include "../PyVersion.h"
+#include "PyModMappedAssets.h"
 
-
-namespace {
-
-    AGRC::ModDictAssets<std::string, std::string> buildIndexRepo() {
-        const auto &rawRows = AGRC::Data::getIndexDataRows();
-
-        std::vector<AGRC::Row<std::string, std::string>> rows;
-        rows.reserve(rawRows.size());
-        for (const auto &rawRow : rawRows) {
-            std::vector<std::string> indexVals;
-            indexVals.reserve(rawRow.first.size());
-            for (const std::string &v : rawRow.first) {
-                indexVals.push_back(v);
-            }
-            rows.push_back(AGRC::Row<std::string, std::string>{std::move(indexVals), py::str(rawRow.second).cast<std::string>()});
-        }
-
-        // 4 total indices (version, name, component, type), version at position 0 -- matches the
-        // pure-Python IndexData's own nesting depth/order exactly (see Indices.py's history, now
-        // removed).
-        return AGRC::ModDictAssets<std::string, std::string>(4, 0,
-            // ModDictAssets::VersionParser is std::function<optional<Version>(const K&)>, and K
-            // is std::string here -- parseVersionArg still speaks py::object, so it is adapted.
-            [](const std::string &v) { return parseVersionArg(py::cast(v)); },
-            std::move(rows));
-    }
-
-}
-
-
-PyIndices::PyIndices(const py::object &map)
-    : PyModMappedAssets(buildIndexRepo(), map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>())) {
-    nonVersionIndexNames = std::vector<std::string>{"name", "component", "type"};
-}
+#include "AGRemapCore/model/assets/Indices.h"
 
 
 void initCppIndices(pybind11::module_ &m) {
-    py::class_<PyIndices, PyModMappedAssets>(m, "Indices", R"doc(
+    py::class_<AGRC::Indices, CoreModMappedAssets, py::smart_holder>(m, "Indices", R"doc(
 This class inherits from :class:`ModMappedAssets`
 
 Class for managing indices for a mod, pre-populated with this project's real index data
@@ -61,7 +25,10 @@ Class for managing indices for a mod, pre-populated with this project's real ind
     * type
     )doc")
 
-        .def(py::init<const py::object&>(), py::arg("map") = py::none(), py::doc(R"doc(
+        // See PyHashes.cpp's identical note: the core class owns the table and its index names.
+        .def(py::init([](const py::object &map) {
+            return std::make_unique<AGRC::Indices>(map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>()));
+        }), py::arg("map") = py::none(), py::doc(R"doc(
 Constructs a new, fully-populated index lookup table
 
 Parameters

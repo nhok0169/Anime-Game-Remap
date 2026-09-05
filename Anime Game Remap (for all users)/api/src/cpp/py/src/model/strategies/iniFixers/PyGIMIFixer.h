@@ -64,13 +64,27 @@ class PyIniFixContext: public AGRC::RemapIniFixContext<std::string, std::string>
          * @brief Constructs a context over one Python ``IniFile``
          *
          * @param ini The Python ``IniFile``, or ``None``
+         * @param modTypeId The id of the mod type this fixer was built for, if it was built for one
          */
-        explicit PyIniFixContext(py::object ini = py::none());
+        explicit PyIniFixContext(py::object ini = py::none(), std::optional<int> modTypeId = std::nullopt);
 
         /**
          * @brief The Python ``IniFile``, or ``None``
          */
         py::object ini;
+
+        /**
+         * @brief
+         @rst
+         The id of the mod type this fixer was built for, if it was built for one :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Picked up off the fixer's own parser (``parser.modTypeId``) rather than passed separately
+         -- a fixer is always built from the parser for the same mod type, and it already reads its
+         ``.ini`` file off that parser the same way. See ``resolveStrategyModType``
+         @endrst
+         */
+        std::optional<int> modTypeId;
 
         bool hasIni() const override;
         std::optional<std::string> modTypeName() const override;

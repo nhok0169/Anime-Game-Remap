@@ -21,6 +21,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
 #include "AGRemapCore/constants/GlobalIniRemoveBuilders.h"
 #include "AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h"
+#include "AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h"
@@ -207,8 +208,10 @@ namespace AGRemapCore {
                     }
                 }
 
+                // 'modTypeId' rather than modType.modTypeId: the id this ModType was FILED under,
+                // matching what getParser passes -- see that method's own note on overrideModTypes.
                 fixers = modType.iniFixBuilder->buildAll(parser, modType.name, fromVersion, toVersion,
-                                                          filteredToModNames);
+                                                          filteredToModNames, modTypeId);
             }
         }
 
@@ -228,6 +231,19 @@ namespace AGRemapCore {
     }
 
     IniFile::ParseData& IniFile::parse(bool flushIfTemplates) {
+        // Re-read when the cache is cold, exactly as classify()/removeFix()/readIfTemplates()
+        // already do -- the pure-Python original got this from its '_readLines' decorator, which
+        // sat on every one of these entry points and not just some of them.
+        //
+        // NOT redundant with the classify() below: a removal writes the file back and then
+        // deliberately clears the read state (RemapIniRemover -> IniRemoveContext::clearRead), and
+        // that leaves 'isClassified_' TRUE. Without this, an already-classified file that has just
+        // been undone gets fixed against EMPTY text, and the fix writes that emptiness over the
+        // user's mod -- which is exactly what a real remove-then-fix run did.
+        if (!fileLinesRead_) {
+            readFileLines();
+        }
+
         if (!isClassified_) {
             classify();
         }
@@ -264,6 +280,19 @@ namespace AGRemapCore {
     }
 
     std::unordered_map<std::string, std::string> IniFile::fix(bool keepBackup, bool fixOnly, bool hideOrig) {
+        // Re-read when the cache is cold, exactly as classify()/removeFix()/readIfTemplates()
+        // already do -- the pure-Python original got this from its '_readLines' decorator, which
+        // sat on every one of these entry points and not just some of them.
+        //
+        // NOT redundant with the classify() below: a removal writes the file back and then
+        // deliberately clears the read state (RemapIniRemover -> IniRemoveContext::clearRead), and
+        // that leaves 'isClassified_' TRUE. Without this, an already-classified file that has just
+        // been undone gets fixed against EMPTY text, and the fix writes that emptiness over the
+        // user's mod -- which is exactly what a real remove-then-fix run did.
+        if (!fileLinesRead_) {
+            readFileLines();
+        }
+
         if (!isClassified_) {
             classify();
         }
@@ -480,17 +509,30 @@ namespace AGRemapCore {
         std::vector<std::string> result;
         std::unordered_set<std::string> seen;
 
-        auto addFrom = [&result, &seen](const std::vector<std::unique_ptr<IniResource>>& resources) {
+        auto addFolder = [&result, &seen](const std::string& filePath) {
+            // Every path here is already absolute -- IniResource's constructor resolves both
+            // 'srcPath' and 'fixedPath' against the .ini file's own folder -- so no second
+            // resolution is needed.
+            std::string folder = std::filesystem::path(filePath).parent_path().string();
+            if (seen.insert(folder).second) {
+                result.push_back(std::move(folder));
+            }
+        };
+
+        auto addFrom = [&addFolder](const std::vector<std::unique_ptr<IniResource>>& resources) {
             for (const std::unique_ptr<IniResource>& resource : resources) {
                 if (resource == nullptr) {
                     continue;
                 }
 
-                // 'srcPath' is already absolute -- IniResource's constructor resolves it against
-                // the .ini file's own folder -- so no second resolution is needed here.
-                std::string folder = std::filesystem::path(resource->srcPath).parent_path().string();
-                if (seen.insert(folder).second) {
-                    result.push_back(std::move(folder));
+                addFolder(resource->srcPath);
+
+                // Unlike the pure-Python original, a resource that has a *fixed* side reports that
+                // folder too -- the fix writes files there, so the remap's folder walk has to be
+                // able to reach it even when nothing else points at it.
+                const IniFixResource* fixResource = dynamic_cast<const IniFixResource*>(resource.get());
+                if (fixResource != nullptr) {
+                    addFolder(fixResource->fixedPath);
                 }
             }
         };
@@ -533,33 +575,35 @@ namespace AGRemapCore {
     }
 
 
-    const ModType* IniFile::getAvailableType() const {
-        if (modTypes.empty()) {
-            // Nothing classified -- fall back to defaultModTypeId, which is the whole point of it.
-            return resolveDefaultModType();
-        }
+    namespace {
+        // Merges one remover's removed resources into the caller's collector, keyed by kind.
+        // Moved rather than copied: an IniResource is held by unique_ptr, and the remover it came
+        // from is about to be dropped.
+        void collectRemovedResources(std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>* into,
+                                     BaseIniRemover<>* remover) {
+            if (into == nullptr || remover == nullptr) {
+                return;
+            }
 
-        // First in iteration order -- arbitrary but stable, and only meaningful at all when there
-        // is exactly one. See this method's own danger note.
-        return &modTypes.begin()->second;
+            // getRemovedResources is RemapIniRemover's, not BaseIniRemover's -- a remover that is
+            // not one simply contributes nothing rather than this being an error.
+            RemapIniRemover<>* remapRemover = dynamic_cast<RemapIniRemover<>*>(remover);
+            if (remapRemover == nullptr) {
+                return;
+            }
+
+            for (auto& entry : const_cast<std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>&>(
+                     remapRemover->getRemovedResources())) {
+                std::vector<std::unique_ptr<IniResource>>& bucket = (*into)[entry.first];
+                for (std::unique_ptr<IniResource>& resource : entry.second) {
+                    bucket.push_back(std::move(resource));
+                }
+            }
+        }
     }
 
-
-    const ModType* IniFile::resolveDefaultModType() const {
-        if (!defaultModTypeId.has_value()) {
-            return nullptr;
-        }
-
-        if (defaultModTypeCachedId_ != defaultModTypeId) {
-            defaultModType_ = getModType(*defaultModTypeId);
-            defaultModTypeCachedId_ = defaultModTypeId;
-        }
-
-        return defaultModType_.has_value() ? &(*defaultModType_) : nullptr;
-    }
-
-
-    std::string IniFile::removeFix(bool parse, bool writeBack) {
+    std::string IniFile::removeFix(bool parse, bool writeBack, bool readAllIni, bool keepBackups,
+                                   std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>>* removedResources) {
         // The pure-Python original leans on its own "_readLines" decorator for this, per remover;
         // doing it once up front here is the same guarantee without the decorator machinery.
         if (!fileLinesRead_) {
@@ -597,7 +641,20 @@ namespace AGRemapCore {
         // remover": a ModType whose iniRemoveBuilder was explicitly nulled is saying it has nothing
         // to contribute here, and overriding that with the global remover would be ignoring it.
         if (modTypes.empty()) {
-            const std::shared_ptr<IniRemoveBuilder>& fallback = GlobalIniRemoveBuilders::removeBuilder();
+            // Which global builder does that pass. A file the classifier recognized as a mod's but
+            // could not attribute to any mod type is precisely what GlobalRemapIniRemover exists for --
+            // there is nobody to ask whose a leftover section is, so a remover that never asks is
+            // the honest one. Gated on readAllIni as well, per the flag's own doc: without it, the
+            // caller is only meant to be touching files it recognized, and this fallback keeps the
+            // remover it always had.
+            //
+            // Both paths sweep either way (the ordinary one is handed IniRemovalContext(true)
+            // below), so this picks the class rather than the outcome -- see removeFix's own note.
+            const bool useGlobalRemover = isMod && readAllIni;
+            const std::shared_ptr<IniRemoveBuilder>& fallback = useGlobalRemover
+                ? GlobalIniRemoveBuilders::globalRemoveBuilder()
+                : GlobalIniRemoveBuilders::removeBuilder();
+
             if (fallback == nullptr) {
                 return result;
             }
@@ -607,7 +664,9 @@ namespace AGRemapCore {
                 return result;
             }
 
-            return remover->remove(parse, writeBack, IniRemovalContext(true));
+            std::string removed = remover->remove(parse, writeBack, IniRemovalContext(true, keepBackups));
+            collectRemovedResources(removedResources, remover.get());
+            return removed;
         }
 
         for (auto& entry : modTypes) {
@@ -627,7 +686,16 @@ namespace AGRemapCore {
 
             // The removers chain: each one strips its own mod type's fix out of the same file, so
             // the last one's return value is the file's final content.
-            result = remover->remove(parse, writeBack, IniRemovalContext(&entry.second == sweeper));
+            // Only the sweeper deletes the backup, for the same reason only it sweeps: every pass
+            // rewrites the SAME file, so letting each one delete the backup would have the first
+            // pass throw away the original while later passes were still working from it.
+            result = remover->remove(parse, writeBack,
+                                     IniRemovalContext(&entry.second == sweeper,
+                                                       keepBackups || &entry.second != sweeper));
+
+            // Per pass, not just the last one: each remover only ever reports what IT took, and the
+            // passes chain over the same file.
+            collectRemovedResources(removedResources, remover.get());
         }
 
         return result;
@@ -789,10 +857,24 @@ namespace AGRemapCore {
             }
         }
 
+        // Keyed off the CLASSIFIER's own answer, not off 'modTypes': a .ini file the classifier
+        // did recognize, as a mod type 'filteredFromModTypeIds' then rejected, was classified --
+        // handing it the fallback would quietly undo the filter the caller asked for. Only a file
+        // the classifier recognized as nothing at all falls back. (The forced path returns above
+        // and so never reaches here, which is the other half of the same rule.)
+        if (stats.modType.empty()) {
+            for (int modTypeId : defaultModTypeIds) {
+                std::optional<ModType> modType = getModType(modTypeId);
+                if (modType.has_value()) {
+                    modTypes.emplace(modTypeId, *modType);
+                }
+            }
+        }
+
         // Mirrors the pure-Python original's own '_isModIni' expression: a filter was supplied and
         // nothing survived it, so this is not a mod of any type the caller cares about -- unless a
         // fallback type stands in, in which case the classifier's own answer is kept.
-        if (!defaultModTypeId.has_value() && modTypes.empty()
+        if (defaultModTypeIds.empty() && modTypes.empty()
                 && filteredFromModTypeIds_.has_value() && !filteredFromModTypeIds_->empty()) {
             isMod = false;
         }

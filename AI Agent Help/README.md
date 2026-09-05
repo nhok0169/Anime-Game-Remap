@@ -51,6 +51,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%A7%A9%F0%9F%94%8C%20The%20Context%20Seamsmith-1-%239333ea?style=flat-square&labelColor=%232e1065)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%93%A3%F0%9F%AA%9E%20The%20View%20Herald-1-%23facc15?style=flat&labelColor=%230c4a6e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A4%F0%9F%A7%BF%20The%20Grapheme%20Warden-1-%2314b8a6?style=flat-square&labelColor=%23042f2e)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%94%8C%F0%9F%9B%9F%20The%20Entry%20Point%20Lifeguard-1-%2306b6d4?style=for-the-badge&labelColor=%23083344)
 
 <br>
 

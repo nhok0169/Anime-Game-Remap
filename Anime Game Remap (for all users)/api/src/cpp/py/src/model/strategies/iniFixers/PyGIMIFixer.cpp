@@ -6,6 +6,7 @@
 #include <pybind11/stl.h>
 
 #include "graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "../PyStrategyFactory.h"  // resolveStrategyModType
 #include "../../PyIniGraphGroup.h"
 #include "../../PyIniSectionGraph.h"
 #include "../../iftemplate/PyIfTemplate.h"
@@ -77,7 +78,8 @@ PyGIMIFixerCore::FixerConfig makeFixerConfig() {
 // PyIniFixContext
 // ---------------------------------------------------------------------------------------
 
-PyIniFixContext::PyIniFixContext(py::object ini): ini(std::move(ini)) {}
+PyIniFixContext::PyIniFixContext(py::object ini, std::optional<int> modTypeId):
+    ini(std::move(ini)), modTypeId(modTypeId) {}
 
 
 bool PyIniFixContext::hasIni() const {
@@ -103,7 +105,9 @@ py::object PyIniFixContext::modType() const {
         return py::none();
     }
 
-    return ini.attr("availableType");
+    // NOT ini.availableType: a .ini file can classify as several mod types, and this fixer was
+    // built for exactly one of them. See resolveStrategyModType.
+    return resolveStrategyModType(ini, modTypeId);
 }
 
 
@@ -243,6 +247,18 @@ PyGIMIFixer::PyGIMIFixer(py::object parser, py::object graphGroupEdits, py::obje
 
 void PyGIMIFixer::refresh() {
     ctxImpl.ini = this->iniFileObj;
+
+    // Off the parser, exactly as 'iniFileObj' already is -- a fixer is built from the parser for
+    // the same mod type, so asking that parser is asking the right thing. Re-read on every refresh
+    // rather than once in the constructor, since the parser is a live Python object the caller may
+    // reassign.
+    ctxImpl.modTypeId = std::nullopt;
+    if (!this->parserObj.is_none() && py::hasattr(this->parserObj, "modTypeId")) {
+        py::object parserModTypeId = this->parserObj.attr("modTypeId");
+        if (!parserModTypeId.is_none()) {
+            ctxImpl.modTypeId = parserModTypeId.cast<int>();
+        }
+    }
 
     if (modsToFixObj.is_none()) {
         this->modsToFix = std::nullopt;

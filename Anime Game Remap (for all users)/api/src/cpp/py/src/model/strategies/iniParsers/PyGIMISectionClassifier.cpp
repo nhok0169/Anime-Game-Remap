@@ -1,6 +1,7 @@
 #include "PyGIMISectionClassifier.h"
 
 #include <memory>
+#include <optional>
 #include <string>
 #include <utility>
 #include <vector>
@@ -10,6 +11,7 @@
 #include "AGRemapCore/data/HashToModObjData.h"
 
 #include "../../PyVersion.h"
+#include "../PyStrategyFactory.h"  // resolveStrategyModType
 #include "../../assets/PyModDictAssets.h"
 #include "../../assets/PyModMappedAssets.h"
 #include "../../iftemplate/PyIfContentPartColour.h"
@@ -102,20 +104,20 @@ py::dict defaultIndexKeyToModObj() {
 }
 
 
-PyModMappedAssets* assetsOf(const py::object &raw) {
+CoreModMappedAssets* assetsOf(const py::object &raw) {
     if (raw.is_none()) {
         return nullptr;
     }
 
-    return raw.cast<PyModMappedAssets*>();
+    return raw.cast<CoreModMappedAssets*>();
 }
 
 
 // The pure-Python original normalizes its raw bare-value/list/dict filter through the asset table's
-// own '_convertNonVersionVals'. That is exactly PyModMappedAssets::nonVersionIndexNames +
+// own '_convertNonVersionVals'. That is exactly CoreModMappedAssets::nonVersionIndexNames +
 // toWildcardList -- and a generic table that never got any index names has nothing to normalize
 // against, so it filters on nothing at all.
-std::vector<std::optional<std::string>> convertNonVersionVals(PyModMappedAssets *assets, const py::object &raw) {
+std::vector<std::optional<std::string>> convertNonVersionVals(CoreModMappedAssets *assets, const py::object &raw) {
     if (assets == nullptr || !assets->nonVersionIndexNames.has_value()) {
         return {};
     }
@@ -154,8 +156,8 @@ PyGIMISectionClassifier::PyGIMISectionClassifier(py::object hashKeyOnlyToModObj,
 
 
 void PyGIMISectionClassifier::refresh() {
-    PyModMappedAssets *hashAssets = assetsOf(hashesObj);
-    PyModMappedAssets *indexAssets = assetsOf(indicesObj);
+    CoreModMappedAssets *hashAssets = assetsOf(hashesObj);
+    CoreModMappedAssets *indexAssets = assetsOf(indicesObj);
 
     setHashes(hashAssets);
     setIndices(indexAssets);
@@ -360,8 +362,12 @@ Returns
     The built classifier
         )doc"))
 
-        .def_static("buildDefaultClassifierFromIni", [](const py::object &ini) {
-            py::object modType = ini.attr("availableType");
+        .def_static("buildDefaultClassifierFromIni", [](const py::object &ini, std::optional<int> modTypeId) {
+            // 'modTypeId' rather than ini.availableType: a .ini file can classify as several mod
+            // types, and this classifier is built for one parser, which was built for one of them.
+            // The core's own GIMIParser reaches this through its context (which knows its
+            // modTypeId), so this is the Python-facing entry point catching up.
+            py::object modType = resolveStrategyModType(ini, modTypeId);
             // py::object(...) on both branches deliberately: a bare `cond ? py::none() : obj`
             // collapses to py::none, whose converting constructor then rejects the real object at
             // runtime with "Object of type 'X' is not an instance of 'none'".
@@ -371,7 +377,7 @@ Returns
             return std::make_unique<PyGIMISectionClassifier>(defaultHashKeyOnlyToModObj(), std::move(hashes),
                                                               defaultIndexKeyToModObj(), std::move(indices),
                                                               ini.attr("version"), py::none(), py::none());
-        }, py::arg("ini"), py::doc(R"doc(
+        }, py::arg("ini"), py::arg("modTypeId") = py::none(), py::doc(R"doc(
 Builds the default classifier for the `sections`_ from a .ini file
 
 :raw-html:`<br />`

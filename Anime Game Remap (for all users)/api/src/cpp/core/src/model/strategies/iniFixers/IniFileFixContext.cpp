@@ -150,9 +150,14 @@ namespace AGRemapCore {
 
 
     void IniFileFixContext::log(const std::string& message) {
-        // Kept rather than printed -- see getLogs' own note on why an AGRemapCore::IniFile has
-        // nowhere to print to.
+        // Still kept -- MultiModFixer reads these back through getLogs, so the buffer is not just a
+        // fallback. But an AGRemapCore::IniFile DOES have somewhere to print to now (its own
+        // optional logger), so a line goes to both rather than only being stored.
         logs_.push_back(message);
+
+        if (hasIni() && iniFile_->logger != nullptr) {
+            iniFile_->logger->log(message);
+        }
     }
 
 

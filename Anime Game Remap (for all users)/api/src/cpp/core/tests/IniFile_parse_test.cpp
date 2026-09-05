@@ -66,12 +66,12 @@ static void testDefaultParserIsARealOne() {
     ini.classify();
 
     check(ini.getIsMod(), "the .ini file classifies as a mod");
-    check(ini.getAvailableType() != nullptr, "...and names a mod type");
-    if (ini.getAvailableType() == nullptr) {
+    check(!ini.getModTypes().empty(), "...and names a mod type");
+    if (ini.getModTypes().empty()) {
         return;
     }
 
-    check(ini.getAvailableType()->name == "Raiden", "specifically Raiden");
+    check(ini.getModTypes().begin()->second.name == "Raiden", "specifically Raiden");
 }
 
 
@@ -115,7 +115,7 @@ static void testUnclassifiedFileParsesToNothing() {
     AGRC::IniFile ini(std::nullopt, "[SomethingElse]\nkey = value\n");
     ini.classify();
 
-    check(ini.getAvailableType() == nullptr, "nothing classifies it");
+    check(ini.getModTypes().empty(), "nothing classifies it");
     check(ini.parse().empty(), "and so there is no mod type to parse for");
 }
 

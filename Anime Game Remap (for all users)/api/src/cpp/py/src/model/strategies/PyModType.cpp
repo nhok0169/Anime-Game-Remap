@@ -2,12 +2,21 @@
 
 #include <optional>
 
+#include "../assets/PyHashes.h"
+#include "../assets/PyIndices.h"
+#include "../assets/PyModMappedAssets.h"
+#include "../assets/PyVGRemaps.h"
+#include "../assets/PyVertexCounts.h"
 #include "../files/PyIniFile.h"
 #include "iniFixers/PyIniFixBuilder.h"
 #include "iniParsers/PyIniParseBuilder.h"
 #include "iniRemovers/PyIniRemoveBuilder.h"
 #include "../../tools/PyRanges.h"
 
+#include "AGRemapCore/model/assets/Hashes.h"
+#include "AGRemapCore/model/assets/Indices.h"
+#include "AGRemapCore/model/assets/VGRemaps.h"
+#include "AGRemapCore/model/assets/VertexCounts.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
 namespace py = pybind11;
@@ -67,7 +76,56 @@ aliases: Optional[List[:class:`str`]]
 
     modTypeCls()
 
-        .def(py::init<int, int, const std::string &, const std::vector<std::string> &>(), py::arg("gameTypeId"), py::arg("modTypeId"), py::arg("name"), py::arg("aliases") = std::vector<std::string>{})
+        // The four asset tables are constructor arguments here, not just readable attributes:
+        // ModType's own constructor takes them, and a caller building a custom mod type has to be
+        // able to hand it its own hashes/indices. They were absent for as long as the Python-facing
+        // Hashes/Indices were a separate class hierarchy from the AGRC::Hashes/AGRC::Indices this
+        // constructor wants -- see PyModMappedAssets.h.
+        //
+        // shared_ptr, matching ModType's own members: two ModTypes handed the SAME table share its
+        // mutations (addRepoRows/addMap), which is exactly what the pure-Python original did with
+        // its ordinary object references. nullptr/None means "give me my own fully-populated
+        // default", which is NOT the same as an empty table.
+        .def(py::init<int, int, const std::string &, const std::vector<std::string> &,
+                      std::shared_ptr<AGRC::Hashes>, std::shared_ptr<AGRC::Indices>,
+                      std::shared_ptr<AGRC::VertexCounts>, std::shared_ptr<AGRC::VGRemaps>>(),
+             py::arg("gameTypeId"), py::arg("modTypeId"), py::arg("name"),
+             py::arg("aliases") = std::vector<std::string>{},
+             py::arg("hashes") = nullptr, py::arg("indices") = nullptr,
+             py::arg("vertexCounts") = nullptr, py::arg("vgRemaps") = nullptr)
+
+        .def_readwrite("hashes", &AGRC::ModType::hashes,
+    py::doc(R"doc(:class:`Hashes`: The hashes related to the mod and its fix
+
+A :class:`ModType` constructed without one gets a **fully-populated** :class:`Hashes` -- every hash
+the software ships with -- not an empty table
+
+.. note::
+    Shared, not copied: two :class:`ModType`\s handed the same table both see any
+    :meth:`ModMappedAssets.addRepoRows`/:meth:`ModMappedAssets.addMap` made through either of them
+    )doc"))
+
+        .def_readwrite("indices", &AGRC::ModType::indices,
+    py::doc(R"doc(:class:`Indices`: The indices related to the mod and its fix
+
+Same defaulting and sharing rules as :attr:`hashes`
+    )doc"))
+
+        .def_readwrite("vertexCounts", &AGRC::ModType::vertexCounts,
+    py::doc(R"doc(:class:`VertexCounts`: The vertex counts related to the mod
+
+Same defaulting and sharing rules as :attr:`hashes`
+    )doc"))
+
+        .def_readwrite("vgRemaps", &AGRC::ModType::vgRemaps,
+    py::doc(R"doc(:class:`VGRemaps`: The vertex group remaps for the mod
+
+.. warning::
+    Unlike :attr:`hashes`/:attr:`indices`/:attr:`vertexCounts`, the default here is the **shared**
+    table every mod type uses, not a fresh one -- so mutating a defaulted :attr:`vgRemaps` is
+    visible to every other mod type that also defaulted. That mirrors the pure-Python original's
+    own ``ModDataAssets.VGRemaps.value`` default
+    )doc"))
 
         .def_readwrite("gameTypeId", &AGRC::ModType::gameTypeId,
     py::doc(R"doc(:class:`int`: The id for the game this type of mod belongs to)doc"))

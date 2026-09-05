@@ -1,5 +1,7 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 
+#include "AGRemapCore/tools/StringTools.h"
+
 
 namespace AGRemapCore {
 
@@ -290,6 +292,7 @@ namespace AGRemapCore {
     }
 
     std::unordered_map<int, ModType> ModTypeIdTools::_modTypes;
+    unsigned long long ModTypeIdTools::_generation = 1;
     BaseAhoCorasickDFA<std::unordered_set<int>> ModTypeIdTools::_nameDFA;
     std::unordered_map<std::string, std::unordered_set<int>> ModTypeIdTools::_nameGameTypeIds;
 
@@ -632,12 +635,23 @@ namespace AGRemapCore {
         std::unordered_set<int> modTypeIdSet;
         modTypeIdSet.insert(modType.modTypeId);
 
-        _nameDFA.add(modType.name, modTypeIdSet);
-        _nameGameTypeIds[modType.name].insert(modType.gameTypeId);
+        // Filed in lowercase, and findByName lowercases what it is asked, so a name or alias
+        // resolves whatever case it is typed in. The pure-Python 'ModTypes' this mirrors does
+        // exactly this -- it builds its DFA from 'modType.name.lower()' and searches with
+        // 'txt.lower()' -- and its own --help text promises it: "The names/aliases for the mod
+        // types are not case sensitive".
+        //
+        // Nothing loses the original casing by this: getName and getModType both answer out of
+        // '_modTypes', which is keyed by id and holds the ModType as it was registered. The DFA is
+        // only ever a lookup FROM text.
+        const std::string lowerName = StringTools::toLower(modType.name);
+        _nameDFA.add(lowerName, modTypeIdSet);
+        _nameGameTypeIds[lowerName].insert(modType.gameTypeId);
 
         for (const std::string &alias : modType.aliases) {
-            _nameDFA.add(alias, modTypeIdSet);
-            _nameGameTypeIds[alias].insert(modType.gameTypeId);
+            const std::string lowerAlias = StringTools::toLower(alias);
+            _nameDFA.add(lowerAlias, modTypeIdSet);
+            _nameGameTypeIds[lowerAlias].insert(modType.gameTypeId);
         }
     }
 
@@ -652,7 +666,11 @@ namespace AGRemapCore {
             };
         }
 
-        auto [matchedNamePtr, matchedModTypeIdsPtr] = _nameDFA.getMaximalPtr(name, pred);
+        // Lowercased and trimmed to match how registerModType filed the keys, and to match the
+        // pure-Python 'ModTypes.search(txt.lower().strip())' this stands in for.
+        const std::string normalizedName = StringTools::toLower(StringTools::strip(name));
+
+        auto [matchedNamePtr, matchedModTypeIdsPtr] = _nameDFA.getMaximalPtr(normalizedName, pred);
 
         if (matchedNamePtr == nullptr) {
             return std::nullopt;
@@ -690,6 +708,14 @@ namespace AGRemapCore {
         _modTypes.clear();
         _nameDFA.clear();
         _nameGameTypeIds.clear();
+
+        // Last, so a reader that sees the new generation also sees an already-empty registry.
+        ++_generation;
+    }
+
+
+    unsigned long long ModTypeIdTools::generation() {
+        return _generation;
     }
 
 }

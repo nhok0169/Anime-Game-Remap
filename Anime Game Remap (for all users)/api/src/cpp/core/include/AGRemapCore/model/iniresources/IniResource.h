@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "AGRemapCore/view/BaseLogger.h"
+
 
 namespace AGRemapCore {
 
@@ -54,6 +56,37 @@ namespace AGRemapCore {
              * @brief The full file path to the resource
              */
             std::string srcPath;
+
+            /**
+             * @brief
+             @rst
+             Where this resource reports progress and problems, or ``nullptr`` for nowhere
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Set by whoever registers the resource (see
+             :cpp:func:`IniResEditContext::logger`), rather than passed to a ``fix``. It lives here,
+             on the base, for two reasons :raw-html:`<br />` :raw-html:`<br />`
+
+             * every ``fix`` in this hierarchy is declared per concrete leaf with its own signature
+               (see this class's own note on why there is no generic one), and each leaf also carries
+               a ``fixFunc`` letting a caller replace that fix wholesale. Threading a view through as
+               a *parameter* would mean either denying it to those custom fixes -- the case where
+               narration matters most -- or reshaping every one of those ``std::function`` typedefs,
+               each of which is pinned by a `pybind11`_ binding
+             * a plain :cpp:class:`IniResource` is what actually gets registered today, not one of
+               the ``Remap`` subclasses, so a view attached only to those would reach nothing
+
+             :raw-html:`<br />`
+
+             A ``shared_ptr``, so a :cpp:class:`BaseLogger` subclass defined in `Python`_ stays alive
+             for exactly as long as this resource holds it
+
+             .. note::
+                :cpp:class:`IniGroupedResource` is **not** an :cpp:class:`IniResource` -- it is its
+                own root -- so it carries its own copy of this member rather than inheriting one
+             @endrst
+             */
+            std::shared_ptr<BaseLogger> logger;
     };
 
     /**
@@ -163,6 +196,25 @@ namespace AGRemapCore {
              * @brief Whether the grouped resource is ready to be fixed
              */
             bool isBuilt;
+
+            /**
+             * @brief
+             @rst
+             Where this grouped resource reports progress and problems, or ``nullptr`` for nowhere
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Its own member rather than an inherited one: unlike every other resource here, this
+             class is **not** an :cpp:class:`IniResource` -- it is a separate root that merely
+             *holds* them. See :cpp:member:`IniResource::logger` for why this is an attribute rather
+             than a ``fix`` parameter; the reasoning is the same, and #fixFunc is the same obstacle
+
+             .. note::
+                Deliberately independent of the loggers on the resources inside #resources. A group
+                and its members are registered separately, and nothing here propagates one to the
+                other
+             @endrst
+             */
+            std::shared_ptr<BaseLogger> logger;
 
             /**
              * @brief Fixes the resource -- calls #fixFunc if set, otherwise #_fix

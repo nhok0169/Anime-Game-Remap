@@ -93,7 +93,7 @@ static void testFileLessIniStillProducesAFix() {
     AGRC::IniFile ini(std::nullopt, raidenIni());
     ini.classify();
 
-    check(ini.getAvailableType() != nullptr, "it still classifies");
+    check(!ini.getModTypes().empty(), "it still classifies");
 
     std::unordered_map<std::string, std::string> fix = ini.fix(false, true, false);
 
@@ -179,7 +179,7 @@ static void testFixProducesAFix() {
     AGRC::IniFile ini(path);
     ini.classify();
 
-    check(ini.getAvailableType() != nullptr, "the .ini file classifies as a mod type");
+    check(!ini.getModTypes().empty(), "the .ini file classifies as a mod type");
 
     std::unordered_map<std::string, std::string> fix = ini.fix(false, true, false);
 

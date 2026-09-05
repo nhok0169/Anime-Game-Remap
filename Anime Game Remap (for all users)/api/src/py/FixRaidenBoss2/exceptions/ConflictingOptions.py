@@ -26,7 +26,7 @@ class ConflictingOptions(Error):
     """
     This Class inherits from :class:`Error`
 
-    Exception when the script or :class:`RemapService` is ran with options that cannot be used together
+    Exception when the script or :class:`RemapServiceCLI` is ran with options that cannot be used together
 
     Parameters
     ----------

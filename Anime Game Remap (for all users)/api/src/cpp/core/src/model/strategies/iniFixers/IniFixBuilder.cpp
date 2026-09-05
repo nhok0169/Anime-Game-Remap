@@ -19,7 +19,8 @@ namespace AGRemapCore {
         // constructed before the constructor body, where setCtx can take its address.
         class OwnedContextGIMIFixer: public GIMIFixer<> {
             public:
-                OwnedContextGIMIFixer(BaseIniParser<>* parser, const std::string& toModName):
+                OwnedContextGIMIFixer(BaseIniParser<>* parser, const std::string& toModName,
+                                       std::optional<int> modTypeId):
                     GIMIFixer<>(parser, nullptr, {},
                                  // THE target for this fixer, not all of the mod type's. buildAll
                                  // fans out one fixer per target precisely so each handles one, and
@@ -29,7 +30,10 @@ namespace AGRemapCore {
                                  toModName.empty() ? std::optional<std::vector<std::string>>(std::nullopt)
                                                    : std::optional<std::vector<std::string>>({toModName}),
                                  nullptr, makeConfig()),
-                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr) {
+                    // 'modTypeId' rather than the .ini file alone: without it the context cannot
+                    // resolve which mod type this fixer is FOR (see IniFixBuilder::Factory's own
+                    // note), which is the whole reason it is threaded through here.
+                    ctx_(parser != nullptr ? parser->getIniFile() : nullptr, modTypeId) {
                     this->setCtx(&ctx_);
                 }
 
@@ -55,8 +59,8 @@ namespace AGRemapCore {
         // It is handed renderIfTemplate as its sectionToStr: without one, GIMIFixer::groupToStr
         // returns an empty string and the fixer builds its groups correctly and then renders
         // NOTHING. That callback is the whole reason IfTemplate has no toStr of its own.
-        return [](BaseIniParser<>* parser, const std::string& toModName) {
-            return std::make_shared<OwnedContextGIMIFixer>(parser, toModName);
+        return [](BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId) {
+            return std::make_shared<OwnedContextGIMIFixer>(parser, toModName, modTypeId);
         };
     }
 
@@ -91,11 +95,12 @@ namespace AGRemapCore {
     std::shared_ptr<BaseIniFixer<>> IniFixBuilder::build(BaseIniParser<>* parser, const std::string& fromModName,
                                                         const std::string& toModName,
                                                         const std::optional<Version>& fromVersion,
-                                                        const std::optional<Version>& toVersion) const {
+                                                        const std::optional<Version>& toVersion,
+                                                        std::optional<int> modTypeId) const {
         if (builderArgs_ == nullptr) {
             // The equivalent of the original's "_buildCls is not None" path, where the key
             // arguments are documented as having no effect.
-            return factory_(parser, std::string());
+            return factory_(parser, std::string(), modTypeId);
         }
 
         // Non-version columns in relative order: fromModName, then toModName. Version columns in
@@ -106,22 +111,23 @@ namespace AGRemapCore {
         // Reached only when errorOnNotFound_ is false (get() would have thrown otherwise), or when
         // a row exists but holds an empty std::function -- both are "nothing usable was found".
         if (!found.has_value() || !*found) {
-            return defaultFactory()(parser, toModName);
+            return defaultFactory()(parser, toModName, modTypeId);
         }
 
-        return (*found)(parser, toModName);
+        return (*found)(parser, toModName, modTypeId);
     }
 
     std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>> IniFixBuilder::buildAll(
             BaseIniParser<>* parser, const std::string& fromModName,
             const std::optional<Version>& fromVersion, const std::optional<Version>& toVersion,
-            const std::optional<std::unordered_set<std::string>>& filteredToModNames) const {
+            const std::optional<std::unordered_set<std::string>>& filteredToModNames,
+            std::optional<int> modTypeId) const {
         std::vector<std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>> result;
 
         // A fixed-factory builder has no targets to fan out over. One entry under the empty name
         // keeps callers uniform -- see buildAll's own note.
         if (builderArgs_ == nullptr) {
-            result.emplace_back(std::string(), factory_(parser, std::string()));
+            result.emplace_back(std::string(), factory_(parser, std::string(), modTypeId));
             return result;
         }
 
@@ -139,8 +145,8 @@ namespace AGRemapCore {
                 continue;
             }
 
-            std::shared_ptr<BaseIniFixer<>> fixer = match.second ? match.second(parser, toModName)
-                                                               : defaultFactory()(parser, toModName);
+            std::shared_ptr<BaseIniFixer<>> fixer = match.second ? match.second(parser, toModName, modTypeId)
+                                                               : defaultFactory()(parser, toModName, modTypeId);
             result.emplace_back(toModName, std::move(fixer));
         }
 

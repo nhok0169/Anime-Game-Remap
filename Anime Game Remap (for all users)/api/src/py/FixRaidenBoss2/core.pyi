@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseBufEditor:
     """
     
@@ -3618,6 +3618,10 @@ class CppGlobalModTypes:
         what was explicitly registered, which is what lets a caller do :meth:`ModTypeIdTools.clear`
         followed by :meth:`ModTypeIdTools.registerModType` and get a registry holding *exactly* the mod
         types it asked for. Self-populating those lookups on first use would quietly break that
+    
+        :meth:`registerMissing` **is** called automatically, by :meth:`GlobalIniClassifiers.classifier`
+        -- but only ever to fill in ids nothing has registered, never to overwrite one a caller
+        registered for itself
         
     """
     @staticmethod
@@ -3643,6 +3647,17 @@ class CppGlobalModTypes:
         Idempotent: registering a mod type twice replaces the existing entry rather than duplicating it.
         Note it registers *in addition to* whatever is already there rather than replacing the registry --
         call :meth:`ModTypeIdTools.clear` first to start from empty
+        """
+    @staticmethod
+    def registerMissing() -> None:
+        """
+        Files every shipped :class:`ModType` that is **not already registered** into
+        :class:`ModTypeIdTools`'s global registry, leaving every id the caller registered for itself alone
+        
+        The difference from :meth:`registerAll` is only what happens on a collision: that one overwrites,
+        this one yields. This is what the implicit population behind :meth:`GlobalIniClassifiers.classifier`
+        uses, so that classifying a .ini file can no longer silently replace a :class:`ModType` you
+        registered under one of the shipped ids
         """
 class CppHashTools:
     """
@@ -5894,7 +5909,7 @@ class GIMIParser(BaseIniParser):
         List[Tuple[:class:`str`, :class:`str`]]
             The mod objects the `section`_ has been classified to
         """
-    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None) -> None:
+    def __init__(self, iniFile: typing.Any, modObjs: typing.Any = None, objTargetFuncs: typing.Any = None, downloads: typing.Any = None, commandEdits: typing.Any = None, makeGlobalGraph: bool = True, disjointModObjs: bool = True, trackKeys: bool = True, keysToTrack: typing.Any = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> None:
         ...
     def _getSectionTargets(self) -> None:
         """
@@ -6095,6 +6110,18 @@ class GIMIParser(BaseIniParser):
     def modObjs(self, arg1: typing.Any) -> None:
         ...
     @property
+    def modTypeId(self) -> int | None:
+        """
+        Optional[:class:`int`]: The :class:`ModTypeId` value this parser was built for
+        
+        A .ini file can classify as several mod types; this is the one this parser reads assets for. When
+        ``None``, the parser falls back to the .ini file's :attr:`IniFile.availableType` -- the old
+        behaviour, and the only thing available for a parser built by hand rather than through a builder
+        """
+    @modTypeId.setter
+    def modTypeId(self, arg1: typing.SupportsInt | typing.SupportsIndex | None) -> None:
+        ...
+    @property
     def objTargetFuncs(self) -> typing.Any:
         """
         List[Callable]: The custom functions defining how to retrieve the root `sections`_ of the mod objects
@@ -6207,7 +6234,7 @@ class GIMISectionClassifier:
             The built classifier
         """
     @staticmethod
-    def buildDefaultClassifierFromIni(ini: typing.Any) -> GIMISectionClassifier:
+    def buildDefaultClassifierFromIni(ini: typing.Any, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> GIMISectionClassifier:
         """
         Builds the default classifier for the `sections`_ from a .ini file
         
@@ -6391,6 +6418,73 @@ class GameTypeIdTools:
         :class:`str`
             The name for 'value'
         """
+class GlobalRemapIniRemover(RemapIniRemover):
+    """
+    
+    This class inherits from :class:`RemapIniRemover`
+    
+    General use class for removing the fixes from .ini files, without asking which type of mod the fix
+    belonged to
+    
+    Everything about how the fix is found is :class:`RemapIniRemover`'s -- the only difference is that
+    :meth:`GlobalRemapIniRemover.remove` always behaves as though it were passed a
+    :class:`IniRemovalContext` with ``ignoreModType`` set.
+    
+    This is the remover for a .ini file that belongs to a mod but could not be attributed to any type of
+    mod: :class:`RemapIniRemover`'s stricter rule decides a ``Remap``-named leftover `section`_ outside
+    the fix boilerplate by asking whether its ``hash`` belongs to one of the .ini file's types of mod,
+    and a file with no types of mod cannot answer that at all -- so every such leftover would be left
+    standing. :meth:`IniFile.removeFix` reaches for this class in exactly that state, when its
+    ``readAllIni`` was asked for.
+    
+    Parameters
+    ----------
+    iniFile: :class:`IniFile`
+        The .ini file to remove the fix from
+        
+    """
+    def __init__(self, iniFile: typing.Any = None) -> None:
+        ...
+    def remove(self, parse: bool = False, writeBack: bool = True, context: typing.Any = None) -> str:
+        """
+        Removes the fix from the .ini file, without asking which type of mod it belonged to
+        
+        The fix is whatever the fix boilerplate surrounds, plus every ``Remap``-named leftover outside it --
+        whoever they belong to -- together with everything those reference and everything that references
+        them.
+        
+        Parameters
+        ----------
+        parse: :class:`bool`
+            Ignored -- the resources that went with the removed `sections`_ are always collected, and are
+            available from :meth:`RemapIniRemover.getRemovedResources` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
+        
+        writeBack: :class:`bool`
+            Whether to write back the new text content of the .ini file :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``True``
+        
+        context: :class:`IniRemovalContext`
+            The per-call options for this removal. Its ``ignoreModType`` is ignored -- this class always
+            behaves as though it were ``True`` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``, which means a default-constructed one
+        
+        Returns
+        -------
+        :class:`str`
+            The new content of the .ini file
+        """
+    @property
+    def iniFile(self) -> typing.Any:
+        """
+        :class:`IniFile`: The .ini file that the fix will be removed from
+        """
+    @iniFile.setter
+    def iniFile(self, arg0: typing.Any) -> None:
+        ...
 class GraphGroupEdit(BaseIniGraphGroupEdit):
     """
     
@@ -9784,6 +9878,16 @@ class IniFile:
         """
         Retrieves all the folders referenced by the .ini file, in the order first seen
         
+        The parent folder of each resource's source path, across both :meth:`getResources` and
+        :meth:`getFileDownloads`, plus the parent folder of the fixed path of every one of those that is
+        an :class:`IniFixResource`
+        
+        .. note::
+            That second half is a deliberate divergence from the pure-Python original, whose own
+            ``getReferencedFolders()`` only ever looked at a resource's *source* side. The fix **writes**
+            files to a fixed path, so a folder walk built on this method has to be able to reach that
+            folder even when no source path points into it
+        
         Returns
         -------
         List[:class:`str`]
@@ -9849,7 +9953,7 @@ class IniFile:
         List[:class:`str`]
             The text lines read, each keeping its own line ending
         """
-    def removeFix(self, parse: bool = False, writeBack: bool = True) -> str:
+    def removeFix(self, parse: bool = False, writeBack: bool = True, readAllIni: bool = False) -> str:
         """
         Removes a previous fix from the .ini file
         
@@ -9864,6 +9968,17 @@ class IniFile:
             Whether to write the result back out to disk :raw-html:`<br />` :raw-html:`<br />`
         
             **Default**: ``True``
+        
+        readAllIni: :class:`bool`
+            Whether the caller is removing the fix from every .ini file it encountered rather than only the
+            ones it could recognize -- :attr:`RemapService.readAllInis` / the script's ``--all`` flag
+            :raw-html:`<br />` :raw-html:`<br />`
+        
+            A .ini file that belongs to a mod but was not attributed to any type of mod is swept by a
+            :class:`GlobalRemapIniRemover` when this is set, and by the ordinary remover when it is not. It does
+            not decide *whether* the fix is removed :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``False``
         
         Returns
         -------
@@ -9910,17 +10025,32 @@ class IniFile:
         """
         Optional[:class:`ModType`]: The type of mod the .ini file was classified as, or ``None`` if it
         was not classified as any
+        
+        .. warning::
+            A .ini file can classify as **more than one** mod type, and this answers with whichever comes
+            first in :meth:`getModTypes`' insertion order. Use :meth:`getModTypes` whenever "all of them" is
+            the right question -- which it usually is. This exists for the callers that genuinely want a
+            single mod type
         """
     @property
-    def defaultModTypeId(self) -> int | None:
+    def defaultModTypeIds(self) -> list:
         """
-        Optional[:class:`int`]: The :class:`ModTypeId` value to fall back on when classification recognises nothing
+        List[:class:`int`]: The :class:`ModTypeId` values to fall back on when the classifier recognises nothing
         
-        :meth:`availableType` answers with it instead of ``None``, and :meth:`classify` stops forcing
-        :attr:`isModIni` false when a mod-type filter was given and nothing survived it
+        In play in exactly one situation: :meth:`classify` ran the classifier and it recognised **no** mod
+        type at all, in which case :meth:`getModTypes` is built from these ids instead. Deliberately not in
+        play when ``forcedFromModTypeIds`` was given (the classifier is never consulted for mod types there),
+        nor when the classifier *did* recognise a mod type that ``filteredFromModTypeIds`` then rejected
+        (that would quietly undo the caller's own filter)
+        
+        Also stops :meth:`classify` forcing :attr:`isModIni` false when a mod-type filter was given and
+        nothing survived it
+        
+        Reads back as a **list**, not a set, because the order is meaningful -- it is the order the fallback
+        mod types land in :meth:`getModTypes`, which :meth:`fix` walks. Accepts any iterable when set
         """
-    @defaultModTypeId.setter
-    def defaultModTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex | None) -> None:
+    @defaultModTypeIds.setter
+    def defaultModTypeIds(self, arg1: typing.Any) -> None:
         ...
     @property
     def downloadMode(self) -> str:
@@ -11724,7 +11854,7 @@ class ModType:
         **Default**: ``[]``
         
     """
-    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = []) -> None:
+    def __init__(self, gameTypeId: typing.SupportsInt | typing.SupportsIndex, modTypeId: typing.SupportsInt | typing.SupportsIndex, name: str, aliases: collections.abc.Sequence[str] = [], hashes: Hashes = None, indices: Indices = None, vertexCounts: VertexCounts = None, vgRemaps: VGRemaps = None) -> None:
         ...
     def fixIni(self, iniFile: IniFile, keepBackup: bool = True, fixOnly: bool = False) -> None:
         """
@@ -11884,6 +12014,31 @@ class ModType:
     def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
         ...
     @property
+    def hashes(self) -> Hashes:
+        """
+        :class:`Hashes`: The hashes related to the mod and its fix
+        
+        A :class:`ModType` constructed without one gets a **fully-populated** :class:`Hashes` -- every hash
+        the software ships with -- not an empty table
+        
+        .. note::
+            Shared, not copied: two :class:`ModType`\\s handed the same table both see any
+            :meth:`ModMappedAssets.addRepoRows`/:meth:`ModMappedAssets.addMap` made through either of them
+        """
+    @hashes.setter
+    def hashes(self, arg0: Hashes) -> None:
+        ...
+    @property
+    def indices(self) -> Indices:
+        """
+        :class:`Indices`: The indices related to the mod and its fix
+        
+        Same defaulting and sharing rules as :attr:`hashes`
+        """
+    @indices.setter
+    def indices(self, arg0: Indices) -> None:
+        ...
+    @property
     def iniFixBuilder(self) -> IniFixBuilder:
         """
         :class:`IniFixBuilder`: The builder for the fixer that fixes a .ini file of this mod type
@@ -11922,6 +12077,30 @@ class ModType:
         """
     @name.setter
     def name(self, arg0: str) -> None:
+        ...
+    @property
+    def vertexCounts(self) -> VertexCounts:
+        """
+        :class:`VertexCounts`: The vertex counts related to the mod
+        
+        Same defaulting and sharing rules as :attr:`hashes`
+        """
+    @vertexCounts.setter
+    def vertexCounts(self, arg0: VertexCounts) -> None:
+        ...
+    @property
+    def vgRemaps(self) -> VGRemaps:
+        """
+        :class:`VGRemaps`: The vertex group remaps for the mod
+        
+        .. warning::
+            Unlike :attr:`hashes`/:attr:`indices`/:attr:`vertexCounts`, the default here is the **shared**
+            table every mod type uses, not a fresh one -- so mutating a defaulted :attr:`vgRemaps` is
+            visible to every other mod type that also defaulted. That mirrors the pure-Python original's
+            own ``ModDataAssets.VGRemaps.value`` default
+        """
+    @vgRemaps.setter
+    def vgRemaps(self, arg0: VGRemaps) -> None:
         ...
 class ModTypeId:
     """
@@ -12148,6 +12327,10 @@ class ModTypeIdTools:
         
         Mirrors :meth:`HashTools.clear`/:meth:`CppHashTools.clear` -- meant for resetting shared global
         state between independent uses (e.g. between unit tests)
+        
+        .. note::
+            The next thing to ask for the default classifier re-files the shipped mod types (see
+            :meth:`GlobalModTypes.registerMissing`), so clearing does not permanently break classification
         """
     @staticmethod
     def findByName(name: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> FixRaidenBoss2.core.ModTypeId | None:
@@ -12179,6 +12362,15 @@ class ModTypeIdTools:
         -------
         Optional[:class:`ModTypeId`]
             The matched :class:`ModTypeId`, if exactly one unambiguous match was found
+        """
+    @staticmethod
+    def generation() -> int:
+        """
+        :class:`int`: How many times the registry has been emptied by :meth:`clear`
+        
+        Starts at ``1`` and is bumped by every :meth:`clear`, so a caller that populated the registry can
+        tell whether the registry it populated is still the one being read. Deliberately not bumped by
+        :meth:`registerModType` -- it counts invalidations, not writes
         """
     @staticmethod
     def getEnum(value: typing.SupportsInt | typing.SupportsIndex) -> FixRaidenBoss2.core.ModTypeId | None:

@@ -217,6 +217,18 @@ forgotten, and :meth:`getModType`/:meth:`findByName` behave as if nothing was ev
 
 Mirrors :meth:`HashTools.clear`/:meth:`CppHashTools.clear` -- meant for resetting shared global
 state between independent uses (e.g. between unit tests)
+
+.. note::
+    The next thing to ask for the default classifier re-files the shipped mod types (see
+    :meth:`GlobalModTypes.registerMissing`), so clearing does not permanently break classification
+        )doc"))
+
+        .def_static("generation", &AGRC::ModTypeIdTools::generation, py::doc(R"doc(
+:class:`int`: How many times the registry has been emptied by :meth:`clear`
+
+Starts at ``1`` and is bumped by every :meth:`clear`, so a caller that populated the registry can
+tell whether the registry it populated is still the one being read. Deliberately not bumped by
+:meth:`registerModType` -- it counts invalidations, not writes
         )doc"))
 
         .def_static("getHashRemapTargets", &AGRC::ModTypeIdTools::getHashRemapTargets, py::arg("value"), py::doc(R"doc(

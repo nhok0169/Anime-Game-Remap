@@ -18,6 +18,7 @@ include(CMakePackageConfigHelpers)
 add_library(AGRemapCore STATIC
     src/tools/IntTools.cpp
     src/tools/ListTools.cpp
+    src/constants/DownloadMode.cpp
     src/constants/GameTypeId.cpp
     src/constants/ModTypeId.cpp
     src/constants/GameType.cpp
@@ -135,6 +136,9 @@ add_library(AGRemapCore STATIC
     src/model/iniresources/RemapIniResource.cpp
     src/model/iniresources/RemapBlendResource.cpp
     src/model/iniresources/RemapTexResource.cpp
+    src/RemapService.cpp
+    src/RemapServiceCLI.cpp
+    src/RemapServiceCLIErrors.cpp
 
     ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
 )

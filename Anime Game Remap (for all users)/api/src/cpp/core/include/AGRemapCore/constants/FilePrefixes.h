@@ -11,12 +11,7 @@ namespace AGRemapCore {
      @rst
      Prefixes this software puts on the files it renames :raw-html:`<br />` :raw-html:`<br />`
 
-     .. note::
-        A **partial** port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
-        -- only the member :cpp:func:`IniFile::disableIni` needs is here. The two
-        ``OldBackupFilePrefix`` members belong to recognizing backups an *older* version of this
-        software left behind, which nothing in C++ does yet. Same rule as :cpp:class:`IniKeywords`:
-        add members as later-ported subsystems need them
+     A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
      @endrst
      */
     class FilePrefixes {
@@ -26,6 +21,28 @@ namespace AGRemapCore {
              * @brief What a disabled (backed-up) file's name is prefixed with
              */
             static inline const std::string BackupFilePrefix = "RemapBKUP";
+
+            /**
+             * @brief
+             @rst
+             What version 3 of this software prefixed a disabled (backed-up) file's name with
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Only ever *recognized*, never written -- a mod folder fixed by an old version of this
+             software can still hold one, and :cpp:func:`RemapService::fix` has to know not to
+             treat it as a mod's own ``.ini`` file
+             @endrst
+             */
+            static inline const std::string OldBackupFilePrefixV3 = "DISABLED_BossFixBackup_";
+
+            /**
+             * @brief
+             @rst
+             What version 4.3 of this software prefixed a disabled (backed-up) file's name with --
+             recognized but never written, exactly as #OldBackupFilePrefixV3 is
+             @endrst
+             */
+            static inline const std::string OldBackupFilePrefixV4_3 = "DISABLED_RemapBackup_";
     };
 }
 

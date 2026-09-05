@@ -71,10 +71,10 @@ namespace {
     // convertNonVersionValsFilter directly: when 'self' was built with nonVersionIndexNames (the
     // real Hashes/Indices case), 'raw' may be the flexible bare/list/dict shape real callers
     // still use (e.g. ModType.py's getHashRanges forwarding straight into Hashes.hasFrom) -- see
-    // toWildcardList and PyModMappedAssets::nonVersionIndexNames. Without it (nonVersionIndexNames
+    // toWildcardList and CoreModMappedAssets::nonVersionIndexNames. Without it (nonVersionIndexNames
     // unset -- any other/generic ModMappedAssets use), behaves exactly as before: an
     // already-positional list, or None for "no filtering at all".
-    std::vector<std::optional<std::string>> resolveNonVersionValsFilter(const PyModMappedAssets &self, const py::object &raw) {
+    std::vector<std::optional<std::string>> resolveNonVersionValsFilter(const CoreModMappedAssets &self, const py::object &raw) {
         if (self.nonVersionIndexNames.has_value()) {
             return toWildcardList(raw, *self.nonVersionIndexNames);
         }
@@ -85,13 +85,13 @@ namespace {
 
 
 void initCppModMappedAssets(pybind11::module_ &m) {
-    py::class_<PyModMappedAssets>(m, "ModMappedAssets", R"doc(
+    py::class_<CoreModMappedAssets, py::smart_holder>(m, "ModMappedAssets", R"doc(
 Handles assets of any type where asset retrieval is based on a mapping -- a `bipartite graph`_
 that maps assets to fix from to assets to fix to
     )doc")
 
         .def(py::init([](const PyModDictAssets &repo, const py::object &map, const py::object &nonVersionIndexNames) {
-            auto result = std::make_unique<PyModMappedAssets>(repo, map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>()));
+            auto result = std::make_unique<CoreModMappedAssets>(repo, map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>()));
             if (!nonVersionIndexNames.is_none()) {
                 result->nonVersionIndexNames = nonVersionIndexNames.cast<std::vector<std::string>>();
             }
@@ -119,7 +119,7 @@ nonVersionIndexNames: Optional[List[:class:`str`]]
     **Default**: ``None``
         )doc"))
 
-        .def("addRepoRows", [](PyModMappedAssets &self, const py::object &rows) {
+        .def("addRepoRows", [](CoreModMappedAssets &self, const py::object &rows) {
             self.addRepoRows(convertRowsOrNestedDict(rows, self.getRepo().getTotalIndices()));
         }, py::arg("rows"), py::doc(R"doc(
 Adds new rows to :attr:`repo`, then rebuilds the reverse index to reflect them
@@ -130,7 +130,7 @@ rows: Union[List[Tuple[List[Any], Any]], dict]
     The rows to add -- either a flat list or a real nested dict -- see :meth:`ModDictAssets.addRows`
         )doc"))
 
-        .def("addMap", [](PyModMappedAssets &self, const py::dict &assetMap, const py::object &rows) {
+        .def("addMap", [](CoreModMappedAssets &self, const py::dict &assetMap, const py::object &rows) {
             self.addMap(convertMap(assetMap), convertRowsOrNestedDict(rows, self.getRepo().getTotalIndices()));
         }, py::arg("assetMap"), py::arg("rows") = py::list(), py::doc(R"doc(
 Merges new entries into the existing adjacency list (see :attr:`map`) -- for any 'fromAsset'
@@ -150,7 +150,7 @@ rows: Union[List[Tuple[List[Any], Any]], dict]
     **Default**: ``[]``
         )doc"))
 
-        .def("get", [](const PyModMappedAssets &self, const std::vector<std::string> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
+        .def("get", [](const CoreModMappedAssets &self, const std::vector<std::string> &nonVersionVals, const py::object &version, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> parsedVersion = parseVersionArg(version);
             std::optional<std::string> result = self.get(nonVersionVals, parsedVersion, false);
             if (!result.has_value()) {
@@ -164,7 +164,7 @@ rows: Union[List[Tuple[List[Any], Any]], dict]
 Retrieves the corresponding asset -- forwards directly to :attr:`repo`'s own :meth:`ModDictAssets.get`
         )doc"))
 
-        .def("hasFrom", [](const PyModMappedAssets &self, const std::string &asset, const py::object &version, const py::object &nonVersionVals) {
+        .def("hasFrom", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &version, const py::object &nonVersionVals) {
             return self.hasFrom(asset, parseVersionArg(version), resolveNonVersionValsFilter(self, nonVersionVals));
         }, py::arg("asset"), py::arg("version") = py::none(), py::arg("nonVersionVals") = py::none(), py::doc(R"doc(
 Determines whether 'asset' exists in the assets to map from
@@ -188,7 +188,7 @@ nonVersionVals: Optional[Union[Any, List[Optional[Any]], Dict[:class:`str`, Any]
     **Default**: ``None``
         )doc"))
 
-        .def("getKey", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, bool errorOnNotFound) -> py::object {
+        .def("getKey", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, bool errorOnNotFound) -> py::object {
             auto result = self.getKey(asset, parseVersionArg(fromVersion), resolveNonVersionValsFilter(self, fromNonVersionVals), false);
             if (!result.has_value()) {
                 if (errorOnNotFound) {
@@ -235,7 +235,7 @@ Optional[Tuple[Any, ...]]
     like GIMIParser rely on; see the C++ core's own note on this)
         )doc"))
 
-        .def("replace", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const std::string &toAssetName, bool errorOnNotFound) -> py::object {
+        .def("replace", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const std::string &toAssetName, bool errorOnNotFound) -> py::object {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);
             auto filter = resolveNonVersionValsFilter(self, fromNonVersionVals);
@@ -291,7 +291,7 @@ Any
     The replacement asset, or ``None`` if none is found
         )doc"))
 
-        .def("replaceAll", [](const PyModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const py::object &toAssetNames, bool errorOnNotFound) -> py::dict {
+        .def("replaceAll", [](const CoreModMappedAssets &self, const std::string &asset, const py::object &fromVersion, const py::object &fromNonVersionVals, const py::object &toVersion, const py::object &toAssetNames, bool errorOnNotFound) -> py::dict {
             std::optional<AGRC::Version> from = parseVersionArg(fromVersion);
             std::optional<AGRC::Version> to = parseVersionArg(toVersion);
             auto filter = resolveNonVersionValsFilter(self, fromNonVersionVals);
@@ -349,13 +349,13 @@ Dict[Any, Any]
     found
         )doc"))
 
-        .def_property_readonly("fromAssets", &PyModMappedAssets::getFromAssets, py::doc(R"doc(
+        .def_property_readonly("fromAssets", &CoreModMappedAssets::getFromAssets, py::doc(R"doc(
 List[Any]: Every asset value that has at least one known originating key -- a property (not a
 method), matching the pure-Python original's contract exactly (real callers, e.g. IniFile.py's
 ``type.hashes.fromAssets``, access it as one)
         )doc"))
 
-        .def("_convertNonVersionVals", [](const PyModMappedAssets &self, const py::object &indexVals) -> py::list {
+        .def("_convertNonVersionVals", [](const CoreModMappedAssets &self, const py::object &indexVals) -> py::list {
             if (!self.nonVersionIndexNames.has_value()) {
                 throw py::value_error("_convertNonVersionVals: this instance wasn't constructed with nonVersionIndexNames");
             }
@@ -395,7 +395,7 @@ List[Optional[Any]]
     The normalized, positional filter values
         )doc"))
 
-        .def_property_readonly("nonVersionIndexNames", [](const PyModMappedAssets &self) -> py::object {
+        .def_property_readonly("nonVersionIndexNames", [](const CoreModMappedAssets &self) -> py::object {
             if (!self.nonVersionIndexNames.has_value()) {
                 return py::none();
             }
@@ -413,21 +413,21 @@ Optional[List[:class:`str`]]: The names of the non-version index columns, in pos
         // real to report, matching current (if seemingly unfinished) behavior exactly. No core
         // involvement needed for either: there's no actual capability here to port, just dead-but-
         // accessed API surface to preserve.
-        .def_property_readonly("fixFrom", [](const PyModMappedAssets &) { return py::set(); }, py::doc(R"doc(
+        .def_property_readonly("fixFrom", [](const CoreModMappedAssets &) { return py::set(); }, py::doc(R"doc(
 Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
 populates it anywhere
         )doc"))
 
-        .def_property_readonly("fixTo", [](const PyModMappedAssets &) { return py::set(); }, py::doc(R"doc(
+        .def_property_readonly("fixTo", [](const CoreModMappedAssets &) { return py::set(); }, py::doc(R"doc(
 Set[Any]: Always empty -- matches the pure-Python original, which declares this but never
 populates it anywhere
         )doc"))
 
-        .def_property_readonly("repo", [](const PyModMappedAssets &self) {
+        .def_property_readonly("repo", [](const CoreModMappedAssets &self) {
             return PyModDictAssets(self.getRepo());
         }, py::doc(R"doc(:class:`ModDictAssets`: The underlying asset data)doc"))
 
-        .def_property_readonly("map", [](const PyModMappedAssets &self) {
+        .def_property_readonly("map", [](const CoreModMappedAssets &self) {
             py::dict result;
             for (const auto &entry : self.getMap()) {
                 result[py::cast(entry.first)] = py::cast(entry.second);

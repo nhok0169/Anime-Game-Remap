@@ -36,5 +36,8 @@ namespace AGRemapCore {
     }
 
     Indices::Indices(std::unordered_map<std::string, std::vector<std::string>> map):
-        ModMappedAssets<std::string, std::string>(prototypeRepo(), std::move(map)) {}
+        ModMappedAssets<std::string, std::string>(prototypeRepo(), std::move(map)) {
+        // One deeper than Hashes -- see prototypeRepo's own note on the extra 'component' index.
+        nonVersionIndexNames = std::vector<std::string>{"name", "component", "type"};
+    }
 }

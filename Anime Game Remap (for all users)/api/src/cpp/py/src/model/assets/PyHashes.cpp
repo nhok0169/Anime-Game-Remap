@@ -1,49 +1,14 @@
 #include "PyHashes.h"
 
-#include <string>
 #include <utility>
-#include <vector>
 
-#include "AGRemapCore/data/HashData.h"
-#include "../PyVersion.h"
+#include "PyModMappedAssets.h"
 
-
-namespace {
-
-    AGRC::ModDictAssets<std::string, std::string> buildHashRepo() {
-        const auto &rawRows = AGRC::Data::getHashDataRows();
-
-        std::vector<AGRC::Row<std::string, std::string>> rows;
-        rows.reserve(rawRows.size());
-        for (const auto &rawRow : rawRows) {
-            std::vector<std::string> indexVals;
-            indexVals.reserve(rawRow.first.size());
-            for (const std::string &v : rawRow.first) {
-                indexVals.push_back(v);
-            }
-            rows.push_back(AGRC::Row<std::string, std::string>{std::move(indexVals), py::str(rawRow.second).cast<std::string>()});
-        }
-
-        // 3 total indices (version, name, type), version at position 0 -- matches the pure-Python
-        // HashData's own nesting depth/order exactly (see Hashes.py's history, now removed).
-        return AGRC::ModDictAssets<std::string, std::string>(3, 0,
-            // ModDictAssets::VersionParser is std::function<optional<Version>(const K&)>, and K
-            // is std::string here -- parseVersionArg still speaks py::object, so it is adapted.
-            [](const std::string &v) { return parseVersionArg(py::cast(v)); },
-            std::move(rows));
-    }
-
-}
-
-
-PyHashes::PyHashes(const py::object &map)
-    : PyModMappedAssets(buildHashRepo(), map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>())) {
-    nonVersionIndexNames = std::vector<std::string>{"name", "type"};
-}
+#include "AGRemapCore/model/assets/Hashes.h"
 
 
 void initCppHashes(pybind11::module_ &m) {
-    py::class_<PyHashes, PyModMappedAssets>(m, "Hashes", R"doc(
+    py::class_<AGRC::Hashes, CoreModMappedAssets, py::smart_holder>(m, "Hashes", R"doc(
 This class inherits from :class:`ModMappedAssets`
 
 Class for managing hashes for a mod, pre-populated with this project's real hash data
@@ -59,7 +24,12 @@ Class for managing hashes for a mod, pre-populated with this project's real hash
     * type
     )doc")
 
-        .def(py::init<const py::object&>(), py::arg("map") = py::none(), py::doc(R"doc(
+        // Constructs the CORE AGRemapCore::Hashes, which builds the same table from the same
+        // AGRemapCore::Data rows this file used to rebuild by hand, and sets its own
+        // nonVersionIndexNames. That duplicate builder is gone.
+        .def(py::init([](const py::object &map) {
+            return std::make_unique<AGRC::Hashes>(map.is_none() ? PyObjectMap{} : convertMap(map.cast<py::dict>()));
+        }), py::arg("map") = py::none(), py::doc(R"doc(
 Constructs a new, fully-populated hash lookup table
 
 Parameters

@@ -36,6 +36,11 @@ namespace AGRemapCore {
         The builder returned here wraps :cpp:func:`IniRemoveBuilder::defaultFactory`, so it produces
         a real :cpp:class:`RemapIniRemover` -- the same thing the pure-Python original's
         ``IniRemoveBuilder(RemapIniRemover)`` produces
+
+     .. note::
+        #globalRemoveBuilder is the second one here, and produces the general-use
+        :cpp:class:`GlobalRemapIniRemover` instead. It has no pure-Python counterpart -- that class is new
+        rather than ported
      @endrst
      */
     class GlobalIniRemoveBuilders {
@@ -53,6 +58,30 @@ namespace AGRemapCore {
              * @return The shared default remove builder
              */
             static const std::shared_ptr<IniRemoveBuilder>& removeBuilder();
+
+            /**
+             * @brief
+             @rst
+             The shared :cpp:class:`IniRemoveBuilder` that produces the **general-use**
+             :cpp:class:`GlobalRemapIniRemover`, lazily constructed on first access and reused for every
+             later call :raw-html:`<br />` :raw-html:`<br />`
+
+             This is the remover for a ``.ini`` file that belongs to a mod but could not be
+             attributed to any :cpp:enum:`ModTypeId` -- see :cpp:class:`GlobalRemapIniRemover`'s own note
+             on when that is the right one, and :cpp:func:`IniFile::removeFix`, which is what asks
+             for it :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Kept separate from #removeBuilder rather than replacing it. The two differ only in
+                which remover they hand out, and that difference is the whole point: #removeBuilder's
+                :cpp:class:`RemapIniRemover` asks whose a leftover `section`_ is and this one's
+                :cpp:class:`GlobalRemapIniRemover` never does, so a caller that *has* mod types to ask
+                about still wants the former
+             @endrst
+             *
+             * @return The shared general-use remove builder
+             */
+            static const std::shared_ptr<IniRemoveBuilder>& globalRemoveBuilder();
     };
 }
 

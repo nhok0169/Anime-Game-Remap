@@ -252,6 +252,7 @@ from .core import CppIniRemoveBuilderArgs
 from .core import BaseIniRemover
 from .core import IniRemovalContext
 from .core import RemapIniRemover
+from .core import GlobalRemapIniRemover
 
 from .model.strategies.texEditors.pixelTransforms.BasePixelTransform import BasePixelTransform
 from .model.strategies.texEditors.pixelTransforms.ColourReplace import ColourReplace
@@ -286,7 +287,6 @@ from .model.textures.ColourRange import ColourRange
 
 from .model.DownloadData import DownloadData, BlendDownloadData
 from .model.IniNamingTools import IniNamingTools
-from .model.Mod import Mod
 from .model.Model import Model
 from .model.Version import Version
 
@@ -326,7 +326,9 @@ from .tools.PackageManager import PackageManager
 from .tools.PackageData import PackageData
 from .tools.TextTools import TextTools
 
-from .remapService import RemapService
+from .core import RemapService
+from .core import CppRemapServiceCLI
+from .remapServiceCLI import RemapServiceCLI
 
 from .main import remapMain
 ##### EndLocalImports
@@ -358,7 +360,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "RegSurroundedAdd",
            "IniFixBuilder",
            "IniParseBuilder",
-           "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "IniRemoveBuilder",
+           "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "GlobalRemapIniRemover", "IniRemoveBuilder",
            "BasePixelTransform", "ColourReplace", "CorrectGamma", "InvertAlpha", "HighlightShadow", "TempControl", "TintTransform", "Transparency",
            "BaseTexFilter", "ColourReplaceFilter", "GammaFilter", "HueAdjust", "InvertAlphaFilter", "PixelFilter", "TexMetadataFilter", "TransparencyAdjustFilter",
            "BaseTexEditor", "TexEditor", "TexCreator",
@@ -368,7 +370,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "IniGroupedResBuilder", "IniResource", "IniFixResource", "IniGroupedResource", "RemapIniResourceMixin", "RemapIniResource", "RemapIniFixResource", "RemapIniGroupedResource", "RemapIniDownload", "RemapBlendResource", "RemapTexAddResource", "RemapTexEditResource",
            "Colour", "ColourRange",
            "FileStats", "CachedFileStats", "RemapStats",
-           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "Mod", "Model", "Version", "VGRemap",
+           "DownloadData", "BlendDownloadData", "IniGraphGroup", "IniNamingTools", "Model", "Version", "VGRemap",
            "Cache", "LruCache",
            "ConcurrentManager", "ProcessManager", "ThreadManager",
            "DeferredEnum", "StrEnum",
@@ -377,5 +379,5 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BaseSLR1Parser", "ParseTree",
            "AhoCorasickDFA", "AhoCorasickBuilder", "AhoCorasickSingleton", "BaseAhoCorasickDFA", "PyWrapAhoCorasickDFA", "Trie",
            "Algo", "BufTools", "Builder", "DFA", "FlyweightBuilder", "DictTools", "GraphTools", "Heading", "HeapNode", "IntTools", "HashTools", "ListTools", "PackageManager", "PackageData", "TextTools",
-           "RemapService",
+           "RemapService", "CppRemapServiceCLI", "RemapServiceCLI",
            "remapMain"]

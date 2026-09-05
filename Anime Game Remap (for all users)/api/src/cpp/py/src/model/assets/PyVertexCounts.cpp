@@ -99,7 +99,7 @@ namespace {
 
 
 void initCppVertexCounts(pybind11::module_ &m) {
-    py::class_<PyVertexCounts>(m, "VertexCounts", R"doc(
+    py::class_<AGRC::VertexCounts, py::smart_holder>(m, "VertexCounts", R"doc(
 Class for managing the vertex counts of a mod, pre-populated with this project's real vertex
 count data
 
@@ -128,7 +128,7 @@ Constructs a new, fully-populated vertex count lookup table
     nothing in this project ever passed one, and :meth:`addRows` already covers extending it
         )doc"))
 
-        .def("get", [](const PyVertexCounts &self, const py::object &nonVersionVals, const py::object &versionVals,
+        .def("get", [](const AGRC::VertexCounts &self, const py::object &nonVersionVals, const py::object &versionVals,
                        bool errorOnNotFound, const py::object &default_) -> py::object {
             std::optional<int> result = self.get(toFullKey(nonVersionVals), toSingleVersion(versionVals), false);
             if (!result.has_value()) {
@@ -175,7 +175,7 @@ Returns
     The found vertex count, or 'default' if none is found and 'errorOnNotFound' is ``False``
         )doc"))
 
-        .def("addRows", [](PyVertexCounts &self, const py::object &rows) {
+        .def("addRows", [](AGRC::VertexCounts &self, const py::object &rows) {
             self.addRows(convertIntRows(rows, self.getTotalIndices()));
         }, py::arg("rows"), py::doc(R"doc(
 Adds new rows to the table, overwriting the value of any row whose full key (every non-version
@@ -193,18 +193,18 @@ Raises
     If the nesting depth doesn't match :attr:`totalIndices`, or a row's version value fails to parse
         )doc"))
 
-        .def_property_readonly("totalIndices", &PyVertexCounts::getTotalIndices,
+        .def_property_readonly("totalIndices", &AGRC::VertexCounts::getTotalIndices,
             py::doc(R"doc(:class:`int`: The total number of index columns (including the version index))doc"))
 
-        .def_property_readonly("versionIndexPos", &PyVertexCounts::getVersionIndexPos,
+        .def_property_readonly("versionIndexPos", &AGRC::VertexCounts::getVersionIndexPos,
             py::doc(R"doc(:class:`int`: The position (0-based) of the version index within a row's index values)doc"))
 
-        .def("__len__", &PyVertexCounts::size,
+        .def("__len__", &AGRC::VertexCounts::size,
             py::doc(R"doc(The total number of rows currently in the table)doc"))
 
         // A fresh py::class_ supports neither copy.copy() nor copy.deepcopy() unless bound --
         // see Architecture's note. Both are real call sites' expectations for these asset tables.
-        .def("clone", [](const PyVertexCounts &self) { return PyVertexCounts(self); },
+        .def("clone", [](const AGRC::VertexCounts &self) { return AGRC::VertexCounts(self); },
             py::doc(R"doc(
 Creates an independent copy of this table
 
@@ -214,8 +214,8 @@ Returns
     The copied table
             )doc"))
 
-        .def("__copy__", [](const PyVertexCounts &self) { return PyVertexCounts(self); })
+        .def("__copy__", [](const AGRC::VertexCounts &self) { return AGRC::VertexCounts(self); })
 
-        .def("__deepcopy__", [](const PyVertexCounts &self, const py::dict &) { return PyVertexCounts(self); },
+        .def("__deepcopy__", [](const AGRC::VertexCounts &self, const py::dict &) { return AGRC::VertexCounts(self); },
             py::arg("memo"));
 }

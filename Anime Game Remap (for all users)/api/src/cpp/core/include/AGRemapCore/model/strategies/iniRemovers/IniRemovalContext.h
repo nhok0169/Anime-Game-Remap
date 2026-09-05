@@ -58,14 +58,35 @@ namespace AGRemapCore {
          */
         bool ignoreModType = false;
 
+        /**
+         * @brief
+         @rst
+         Whether the backup this fix left beside the ``.ini`` file survives the removal
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         Fixing a ``.ini`` file moves the original aside as ``RemapBKUP<name>.txt`` (see
+         :cpp:func:`IniFile::disableIni`). Removing that fix puts the ``.ini`` file back, which
+         leaves the backup with nothing left to protect -- so with this ``false``, the removal
+         deletes it as well :raw-html:`<br />` :raw-html:`<br />`
+
+         .. note::
+            Defaults to ``true`` because that is the side to err on: a backup kept when it did not
+            need to be is clutter, whereas one deleted when it was still wanted is the user's
+            original ``.ini`` file gone for good
+         @endrst
+         */
+        bool keepBackups = true;
+
         IniRemovalContext() = default;
 
         /**
          * @brief Constructs a new set of removal options
          *
          * @param ignoreModType See #ignoreModType. **Default**: ``false``
+         * @param keepBackups See #keepBackups. **Default**: ``true``
          */
-        explicit IniRemovalContext(bool ignoreModType): ignoreModType(ignoreModType) {}
+        explicit IniRemovalContext(bool ignoreModType, bool keepBackups = true):
+            ignoreModType(ignoreModType), keepBackups(keepBackups) {}
     };
 }
 

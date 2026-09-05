@@ -1963,6 +1963,29 @@ RemappedKeyData
 
 :raw-html:`<br />`
 
+RemapService
+============
+
+.. attributetable:: FixRaidenBoss2.RemapService
+
+.. autoclass:: FixRaidenBoss2.RemapService
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
+RemapServiceCLI
+===============
+
+.. attributetable:: FixRaidenBoss2.RemapServiceCLI
+
+.. autoclass:: FixRaidenBoss2.RemapServiceCLI
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 ReplaceIf
 =========
 
@@ -2034,27 +2057,10 @@ Z3Predicate
 
 .. :raw-html:`<br />`
 
-.. RemapService
-.. ~~~~~~~~~~~~~~~~~~~~
-
-.. .. attributetable:: FixRaidenBoss2.RemapService
-
-.. .. autoclass:: FixRaidenBoss2.RemapService
-..     :members:
-..     :private-members:
-
-
-.. :raw-html:`<br />`
-
-.. Mod
-.. ~~~
-
-.. .. attributetable:: FixRaidenBoss2.Mod
-
-.. .. autoclass:: FixRaidenBoss2.Mod
-..     :inherited-members:
-..     :members:
-..     :private-members:
+.. NOTE: 'RemapService' and 'RemapServiceCLI' are documented for real further up this file, in the
+.. alphabetical run. The pure-Python 'RemapService' and 'Mod' this disabled block used to point at
+.. were deleted on 2026-09-05 -- 'Mod' has no replacement at all (its folder walk is
+.. AGRemapCore::RemapService's now), which is why no block for it remains here.
 
 .. :raw-html:`<br />`
 

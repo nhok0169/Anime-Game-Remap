@@ -829,6 +829,18 @@ namespace AGRemapCore {
         // C++ implementation of that can do nothing.
         ctx_->setIsFixed(false);
 
+        // The fix moved the original .ini file aside as a backup before rewriting it; the removal
+        // has just put its content back, so the backup is now protecting nothing. Deleted only when
+        // the caller said not to keep it -- see IniRemovalContext::keepBackups for why the default
+        // is the other way round.
+        //
+        // Before the write rather than after: if writing fails, the file on disk is still the
+        // fixed one, and deleting the only copy of the original at that point would be the worst
+        // possible moment. Doing it first means a throw leaves BOTH files in place.
+        if (!context.keepBackups) {
+            ctx_->removeBackup();
+        }
+
         if (!writeBack) {
             return ctx_->fileTxt();
         }

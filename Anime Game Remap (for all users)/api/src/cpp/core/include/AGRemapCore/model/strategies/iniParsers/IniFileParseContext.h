@@ -115,6 +115,7 @@ namespace AGRemapCore {
             void addFileDownload(std::unique_ptr<IniResource> download) override;
             bool hasModType() const override;
             std::string modTypeName() const override;
+            void log(const std::string& message) override;
             Assets* modTypeHashes() const override;
             Assets* modTypeIndices() const override;
             GraphGroups& graphGroups() override;

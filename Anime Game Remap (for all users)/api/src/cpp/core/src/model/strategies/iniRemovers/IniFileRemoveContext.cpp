@@ -3,6 +3,8 @@
 #include <filesystem>
 #include <utility>
 
+#include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/model/assets/Hashes.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/strategies/ModType.h"
@@ -116,6 +118,26 @@ namespace AGRemapCore {
         }
 
         return iniFile_->write();
+    }
+
+
+    void IniFileRemoveContext::removeBackup() {
+        if (!hasIni() || !iniFile_->getFile().has_value()) {
+            return;
+        }
+
+        // The same name disableIni builds: the backup prefix on the stem, and a .txt extension
+        // rather than .ini. Spelled out here rather than shared, because the two are opposites --
+        // one of them changing without the other is exactly the bug worth having a compile-visible
+        // second copy for.
+        std::filesystem::path path(*iniFile_->getFile());
+        std::filesystem::path backup = path.parent_path() /
+            (FilePrefixes::BackupFilePrefix + path.stem().string() + FileExt::Txt);
+
+        // No existence check first: remove() reports "there was nothing there" the same way it
+        // reports success, and a backup that is already gone is not a failure.
+        std::error_code err;
+        std::filesystem::remove(backup, err);
     }
 
 

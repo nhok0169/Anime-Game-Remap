@@ -39,6 +39,13 @@ namespace AGRemapCore {
     }
 
     bool RemapTexAddResource::fix() {
+        // "Creating", not "Editting": this class makes a texture from nothing, and has no fixedPath
+        // at all -- srcPath is both source and destination (see this class's own note). Naming the
+        // file it writes keeps it consistent with its editing sibling.
+        if (logger != nullptr) {
+            logger->log("Creating texture for " + std::filesystem::path(srcPath).filename().string());
+        }
+
         if (fixFunc) {
             return fixFunc(*this);
         }
@@ -75,6 +82,11 @@ namespace AGRemapCore {
     }
 
     bool RemapTexEditResource::fix() {
+        // See RemapBlendResource::fix for why this goes before the work rather than after.
+        if (logger != nullptr) {
+            logger->log("Editting texture for " + std::filesystem::path(fixedPath).filename().string());
+        }
+
         if (fixFunc) {
             return fixFunc(*this);
         }

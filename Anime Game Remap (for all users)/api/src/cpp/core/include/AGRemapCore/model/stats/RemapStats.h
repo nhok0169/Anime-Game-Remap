@@ -1,6 +1,8 @@
 #ifndef AGRemapCore_RemapStats_H
 #define AGRemapCore_RemapStats_H
 
+#include <string>
+
 #include "AGRemapCore/model/stats/CachedFileStats.h"
 #include "AGRemapCore/model/stats/FileStats.h"
 
@@ -104,6 +106,29 @@ namespace AGRemapCore {
              * @brief Clears all the stats for the remap process
              */
             void clear();
+
+            /**
+             * @brief
+             @rst
+             The bucket some kind of resource is tracked in, by name :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The names are :cpp:class:`RemapIniRemover::ResourceType`'s members, which are spelled
+             to match this class's own member names precisely so this lookup can exist -- it is the
+             C++ counterpart to the pure-Python original's ``getattr(self.stats, resType)``, which
+             a caller sorting removed resources into their buckets relied on :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             ``"ini"`` resolves to #ini as well, even though a ``.ini`` file is never a resource
+             *inside* itself -- a caller iterating every bucket by name should not have to special
+             case it
+             @endrst
+             *
+             * @param resourceType The name for the kind of resource
+             *
+             * @return The bucket, or ``nullptr`` when nothing is tracked under that name
+             */
+            FileStats* get(const std::string& resourceType);
     };
 }
 

@@ -110,29 +110,34 @@ class IniFixBuilderTest(BaseUnitTest):
         seen = []
         parser = FRB.BaseIniParser(None)
 
-        def factory(builtFor, toModName):
-            seen.append((builtFor, toModName))
+        def factory(builtFor, toModName, modTypeId):
+            seen.append((builtFor, toModName, modTypeId))
             return FRB.BaseIniFixer(None)
 
-        FRB.IniFixBuilder(factory).build(parser, "Raiden", "RaidenShogun")
+        FRB.IniFixBuilder(factory).build(parser, "Raiden", "RaidenShogun", modTypeId = 35)
 
         self.assertEqual(len(seen), 1)
         self.assertIs(seen[0][0], parser)
         self.assertEqual(seen[0][1], "")
+
+        # The third argument is the ModTypeId of the mod type being fixed FROM. Unlike the mod
+        # names it IS passed through on the fixed-factory path -- it is what lets the built fixer's
+        # context resolve its own mod type, which nothing could do before it was threaded through.
+        self.assertEqual(seen[0][2], 35)
 
     def test_pythonSubclassReturned_identityKept(self):
         class MyFixer(FRB.BaseIniFixer):
             pass
 
         made = MyFixer(None)
-        built = FRB.IniFixBuilder(lambda parser, toModName: made).build(
+        built = FRB.IniFixBuilder(lambda parser, toModName, modTypeId: made).build(
             FRB.BaseIniParser(None), "Raiden", "RaidenShogun")
 
         self.assertIs(built, made)
 
     def test_buildAll_returnsTargetFixerPairs(self):
         made = FRB.BaseIniFixer(None)
-        pairs = FRB.IniFixBuilder(lambda parser, toModName: made).buildAll(
+        pairs = FRB.IniFixBuilder(lambda parser, toModName, modTypeId: made).buildAll(
             FRB.BaseIniParser(None), "Raiden")
 
         self.assertTrue(len(pairs) >= 1)
@@ -143,7 +148,7 @@ class IniFixBuilderTest(BaseUnitTest):
     def test_buildAll_fixedFlavour_ignoresFilter(self):
         # A fixed-factory builder has no targets to fan out over, so buildAll yields exactly one
         # entry under the empty name however it is filtered.
-        builder = FRB.IniFixBuilder(lambda parser, toModName: FRB.BaseIniFixer(None))
+        builder = FRB.IniFixBuilder(lambda parser, toModName, modTypeId: FRB.BaseIniFixer(None))
 
         for filtered in (None, set(), {"RaidenShogun"}):
             pairs = builder.buildAll(FRB.BaseIniParser(None), "Raiden", None, None, filtered)

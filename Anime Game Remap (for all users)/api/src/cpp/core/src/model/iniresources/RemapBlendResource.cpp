@@ -1,5 +1,6 @@
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 
+#include <filesystem>
 #include <utility>
 
 
@@ -51,6 +52,12 @@ namespace AGRemapCore {
     }
 
     bool RemapBlendResource::fix() {
+        // Before the work, not after: this is the line that explains a long pause, and the one
+        // still on screen if the remap below throws.
+        if (logger != nullptr) {
+            logger->log("Fixing blend for " + std::filesystem::path(fixedPath).filename().string() + "...");
+        }
+
         if (fixFunc) {
             return fixFunc(*this);
         }

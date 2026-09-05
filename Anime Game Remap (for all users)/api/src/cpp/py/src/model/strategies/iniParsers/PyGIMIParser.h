@@ -46,13 +46,26 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
          * @brief Constructs a context over one Python ``IniFile``
          *
          * @param ini The Python ``IniFile``, or ``None``
+         * @param modTypeId The id of the mod type this parser was built for, if it was built for one
          */
-        explicit PyIniParseContext(py::object ini = py::none());
+        explicit PyIniParseContext(py::object ini = py::none(), std::optional<int> modTypeId = std::nullopt);
 
         /**
          * @brief The Python ``IniFile``, or ``None``
          */
         py::object ini;
+
+        /**
+         * @brief
+         @rst
+         The id of the mod type this parser was built for, if it was built for one :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         What #modType resolves against ``ini``. See ``resolveStrategyModType`` for why a parser has
+         to resolve its **own** id rather than reading the ``.ini`` file's ``availableType``
+         @endrst
+         */
+        std::optional<int> modTypeId;
 
         bool hasIni() const override;
         std::string iniFolder() const override;
@@ -67,6 +80,7 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
         void addFileDownload(std::unique_ptr<AGRC::IniResource> download) override;
         bool hasModType() const override;
         std::string modTypeName() const override;
+        void log(const std::string &message) override;
         Assets* modTypeHashes() const override;
         Assets* modTypeIndices() const override;
         GraphGroups& graphGroups() override;
@@ -206,10 +220,19 @@ class PyGIMIParser: public PyGIMIParserCore {
          * @param disjointModObjs Whether each `section`_ belongs to at most one mod object
          * @param trackKeys Whether to track the `KVPs`_ in the .ini file
          * @param keysToTrack Specific keys to track, or ``None`` for all of them
+         * @param modTypeId
+         @rst
+         The id of the mod type this parser is being built for, or ``std::nullopt`` :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         What ``IniParseBuilder``'s factory is handed alongside the ``.ini`` file, and what this
+         parser's context resolves its ``ModType`` from -- a ``.ini`` file can classify as several,
+         and this is the one this parser is for
+         @endrst
          */
         PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                       py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                      py::object keysToTrack);
+                      py::object keysToTrack, std::optional<int> modTypeId = std::nullopt);
 
         /**
          * @brief The .ini file being parsed, and the graphs built from it

@@ -15,6 +15,7 @@
 #include "../../iftemplate/PyIfContentPartColour.h"
 #include "../../iftemplate/PyIfTemplate.h"
 #include "../iniFixers/graphGroupEdits/resEdits/PyResEdit.h"  // reuses pyCoreModule()
+#include "../PyStrategyFactory.h"  // resolveStrategyModType
 
 
 namespace {
@@ -121,7 +122,8 @@ PyGIMIParserCore::ObjTargetFunc makeObjTargetFunc(PyGIMIParser *parser, py::obje
 // PyIniParseContext
 // ---------------------------------------------------------------------------------------
 
-PyIniParseContext::PyIniParseContext(py::object ini): ini(std::move(ini)), groups(makeInitialGroups()) {}
+PyIniParseContext::PyIniParseContext(py::object ini, std::optional<int> modTypeId):
+    ini(std::move(ini)), modTypeId(modTypeId), groups(makeInitialGroups()) {}
 
 
 bool PyIniParseContext::hasIni() const {
@@ -260,12 +262,23 @@ py::object PyIniParseContext::modType() const {
         return py::none();
     }
 
-    return ini.attr("availableType");
+    // NOT ini.availableType: a .ini file can classify as several mod types, and this parser was
+    // built for exactly one of them. See resolveStrategyModType.
+    return resolveStrategyModType(ini, modTypeId);
 }
 
 
 bool PyIniParseContext::hasModType() const {
     return !modType().is_none();
+}
+
+
+void PyIniParseContext::log(const std::string &message) {
+    // Through the .ini file's own 'print', matching PyIniFixContext::log exactly -- a Python IniFile
+    // decides for itself where a line goes, and the test harness patches that method.
+    if (hasIni()) {
+        ini.attr("print")(py::str("log"), py::str(message));
+    }
 }
 
 
@@ -290,7 +303,7 @@ PyIniParseContext::Assets* PyIniParseContext::modTypeHashes() const {
         return nullptr;
     }
 
-    return hashes.cast<PyModMappedAssets*>();
+    return hashes.cast<CoreModMappedAssets*>();
 }
 
 
@@ -305,7 +318,7 @@ PyIniParseContext::Assets* PyIniParseContext::modTypeIndices() const {
         return nullptr;
     }
 
-    return indices.cast<PyModMappedAssets*>();
+    return indices.cast<CoreModMappedAssets*>();
 }
 
 
@@ -399,9 +412,9 @@ void PyIniParseDownloadData::addFileDownload(Context &ctx, const std::string &in
 
 PyGIMIParser::PyGIMIParser(py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                              py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                             py::object keysToTrack):
+                             py::object keysToTrack, std::optional<int> modTypeId):
     Core(nullptr, {}, {}, {}, nullptr, makeGlobalGraph, disjointModObjs, trackKeys, std::nullopt, makeParserConfig()),
-    ctxImpl(iniFile),
+    ctxImpl(iniFile, modTypeId),
     modObjsObj(modObjs.is_none() ? py::object(py::set()) : std::move(modObjs)),
     objTargetFuncsObj(objTargetFuncs.is_none() ? py::object(py::list()) : std::move(objTargetFuncs)),
     downloadsObj(downloads.is_none() ? py::object(py::dict()) : std::move(downloads)),
@@ -667,13 +680,25 @@ keysToTrack: Optional[Set[:class:`str`]]
 
     cls.def(py::init([](py::object iniFile, py::object modObjs, py::object objTargetFuncs, py::object downloads,
                          py::object commandEdits, bool makeGlobalGraph, bool disjointModObjs, bool trackKeys,
-                         py::object keysToTrack) {
+                         py::object keysToTrack, std::optional<int> modTypeId) {
         return std::make_unique<PyGIMIParser>(std::move(iniFile), std::move(modObjs), std::move(objTargetFuncs),
                                                 std::move(downloads), std::move(commandEdits), makeGlobalGraph,
-                                                disjointModObjs, trackKeys, std::move(keysToTrack));
+                                                disjointModObjs, trackKeys, std::move(keysToTrack), modTypeId);
     }), py::arg("iniFile"), py::arg("modObjs") = py::none(), py::arg("objTargetFuncs") = py::none(),
         py::arg("downloads") = py::none(), py::arg("commandEdits") = py::none(), py::arg("makeGlobalGraph") = true,
-        py::arg("disjointModObjs") = true, py::arg("trackKeys") = true, py::arg("keysToTrack") = py::none());
+        py::arg("disjointModObjs") = true, py::arg("trackKeys") = true, py::arg("keysToTrack") = py::none(),
+        py::arg("modTypeId") = py::none())
+
+       // Trailing and defaulted, so no existing call site had to change. Readable because
+       // PyGIMIFixer picks it up off its parser, exactly as it already picks up '_iniFile'.
+       .def_property("modTypeId",
+            [](PyGIMIParser &self) -> std::optional<int> { return self.ctxImpl.modTypeId; },
+            [](PyGIMIParser &self, std::optional<int> value) { self.ctxImpl.modTypeId = value; },
+    py::doc(R"doc(Optional[:class:`int`]: The :class:`ModTypeId` value this parser was built for
+
+A .ini file can classify as several mod types; this is the one this parser reads assets for. When
+``None``, the parser falls back to the .ini file's :attr:`IniFile.availableType` -- the old
+behaviour, and the only thing available for a parser built by hand rather than through a builder)doc"));
 
     bindBaseIniParserCommonMethods<PyGIMIParser>(cls, R"doc(
 Parses the .ini file

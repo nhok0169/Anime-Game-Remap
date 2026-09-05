@@ -21,7 +21,7 @@ namespace AGRC = AGRemapCore;
 /**
  * @brief The `adjacency list`_ shape :cpp:class:`AGRC::ModMappedAssets`'s ``map`` constructor
  *      argument takes, with both sides bound as ``py::object`` -- shared by
- *      :cpp:class:`PyModMappedAssets`'s own constructor and :cpp:class:`PyHashes`'s (which needs
+ *      ``ModMappedAssets``'s own constructor and ``Hashes``'s (which needs
  *      the exact same ``Optional[Dict[Any, List[Any]]]`` -> internal-map conversion for its own
  *      ``map`` argument)
  */
@@ -52,30 +52,22 @@ extern template class AGRC::ModMappedAssets<std::string, std::string>;
     on as ``ModMappedAssetsOld`` (``model/assets/ModMappedAssetsOld.py``)
  @endrst
  */
-class PyModMappedAssets: public AGRC::ModMappedAssets<std::string, std::string> {
-    public:
-        using Base = AGRC::ModMappedAssets<std::string, std::string>;
-        using Base::Base;
+/**
+ * @brief
+ @rst
+ The one ``ModMappedAssets`` instantiation this project binds :raw-html:`<br />`
+ :raw-html:`<br />`
 
-        /**
-         * @brief
-         @rst
-         The names of the non-version index columns, in position order -- pybind-layer-only
-         metadata (there's no such concept in the Python-free core, which stays strictly
-         positional), set at construction time :raw-html:`<br />` :raw-html:`<br />`
-
-         When present, ``hasFrom``/``getKey``/``replace``/``replaceAll``/``_convertNonVersionVals``
-         accept the same flexible bare-value/list/dict-keyed-by-name argument shape the pure-Python
-         ``Hashes``/``Indices`` used to provide via their own (now removed)
-         ``_convertNonVersionVals`` override, instead of requiring an already-positional list --
-         see :cpp:func:`toWildcardList`. ``std::nullopt`` (the default) preserves this class's
-         prior behaviour exactly: a strictly positional list (or ``None`` for "no filtering at
-         all"), with no name-keyed or bare-value convenience -- the right default for any
-         :cpp:class:`ModMappedAssets` use that isn't backed by named indices
-         @endrst
-         */
-        std::optional<std::vector<std::string>> nonVersionIndexNames;
-};
+ There used to be a ``PyModMappedAssets`` subclass here, and that was the whole problem: it made
+ the `Python`_-facing ``ModMappedAssets`` a **different C++ type** from
+ :cpp:class:`AGRemapCore::Hashes`/:cpp:class:`AGRemapCore::Indices`, which derive from this same
+ instantiation directly. They were siblings, not relatives, so a :cpp:member:`ModType::hashes`
+ could not cross into `Python`_ at all -- which is why ``ModType`` could expose none of its four
+ asset tables. The one thing that subclass added, ``nonVersionIndexNames``, moved into the core
+ class, and the subclass is gone
+ @endrst
+ */
+using CoreModMappedAssets = AGRC::ModMappedAssets<std::string, std::string>;
 
 
 void initCppModMappedAssets(pybind11::module_ &m);

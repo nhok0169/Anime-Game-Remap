@@ -99,6 +99,7 @@ namespace AGRemapCore {
             bool isCollecting() const;
 
             std::string iniFolder() const override;
+            std::shared_ptr<BaseLogger> logger() const override;
             void storeResource(const std::string& fileKey, std::unique_ptr<IniResource> resource) override;
             void beginCollectingResources() override;
             std::vector<std::pair<std::string, IniResource*>> takeCollectedResources() override;

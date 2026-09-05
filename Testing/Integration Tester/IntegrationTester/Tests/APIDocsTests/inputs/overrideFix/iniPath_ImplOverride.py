@@ -29,7 +29,7 @@ kiraraModType.iniFixBuilder = FRB.IniFixBuilder(FRB.GIMIObjMergeFixer, args = [{
                                                     ]
                                                 })
 
-remapService = FRB.RemapService(path = iniRunPath, verbose = False, keepBackups = False)
+remapService = FRB.RemapServiceCLI(path = iniRunPath, verbose = False, keepBackups = False)
 remapService.fix()
 
 kiraraModType.iniParseBuilder = oldParseBuilder

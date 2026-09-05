@@ -8,6 +8,11 @@
 #include "../../assets/PyModMappedAssets.h"
 #include "../../iftemplate/PyIfContentPart.h"
 #include "../../iftemplate/PyIfTemplate.h"
+#include <filesystem>
+#include <system_error>
+
+#include "AGRemapCore/constants/FileExt.h"
+#include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 
 
@@ -61,31 +66,35 @@ std::optional<AGRC::Version> PyIniRemoveContext::version() const {
 }
 
 
-py::object PyIniRemoveContext::modType() const {
-    if (!hasIni()) {
-        return py::none();
-    }
-
-    return ini.attr("availableType");
-}
-
 
 std::vector<PyIniRemoveContext::Assets*> PyIniRemoveContext::modTypeHashes() const {
-    // At most one entry, unlike IniFileRemoveContext's -- the Python IniFile's 'availableType' is
-    // singular. See IniRemoveContext::modTypeHashes' own note on why the interface is a vector.
+    // EVERY mod type the .ini file classified as, matching IniFileRemoveContext. Unlike a parser or
+    // a fixer, a remover is not built per mod type -- IniRemoveBuilder's factory takes only the
+    // .ini file -- so there is no single "its own" mod type to resolve here, and the interface is a
+    // vector for exactly that reason.
+    //
+    // This used to read the singular 'availableType' and so return at most one entry, which meant a
+    // .ini file classified as several mod types had every type but the first ignored when deciding
+    // what the fix had left behind.
     std::vector<Assets*> result;
-
-    py::object type = modType();
-    if (type.is_none()) {
+    if (!hasIni()) {
         return result;
     }
 
-    py::object hashes = type.attr("hashes");
-    if (hashes.is_none()) {
-        return result;
+    for (auto item : ini.attr("getModTypes")().cast<py::dict>()) {
+        py::object type = py::reinterpret_borrow<py::object>(item.second);
+        if (type.is_none()) {
+            continue;
+        }
+
+        py::object hashes = type.attr("hashes");
+        if (hashes.is_none()) {
+            continue;
+        }
+
+        result.push_back(hashes.cast<CoreModMappedAssets*>());
     }
 
-    result.push_back(hashes.cast<PyModMappedAssets*>());
     return result;
 }
 
@@ -149,6 +158,33 @@ std::string PyIniRemoveContext::write() {
     }
 
     return py::str(ini.attr("write")()).cast<std::string>();
+}
+
+
+void PyIniRemoveContext::removeBackup() {
+    if (!hasIni()) {
+        return;
+    }
+
+    // Through the .ini file's own method when it has one -- a Python IniFile may know something
+    // about where its backup went that this cannot. Otherwise the same name disableIni builds,
+    // derived from the file path.
+    if (py::hasattr(ini, "removeBackup")) {
+        ini.attr("removeBackup")();
+        return;
+    }
+
+    py::object file = ini.attr("file");
+    if (file.is_none()) {
+        return;
+    }
+
+    std::filesystem::path path(py::str(file).cast<std::string>());
+    std::filesystem::path backup = path.parent_path() /
+        (AGRC::FilePrefixes::BackupFilePrefix + path.stem().string() + AGRC::FileExt::Txt);
+
+    std::error_code err;
+    std::filesystem::remove(backup, err);
 }
 
 

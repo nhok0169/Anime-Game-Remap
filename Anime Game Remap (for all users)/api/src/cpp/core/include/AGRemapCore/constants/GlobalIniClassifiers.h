@@ -32,10 +32,25 @@ namespace AGRemapCore {
         port. A caller wanting an empty classifier constructs an :cpp:class:`IniClassifier`
         directly instead of going through this class :raw-html:`<br />` :raw-html:`<br />`
 
-        Building it also calls :cpp:func:`GlobalModTypes::registerAll`, because the two are halves
-        of one default: a classifier finds mod type *ids*, and :cpp:class:`IniFile` then asks
+        Asking for it also files the shipped mod types into :cpp:class:`ModTypeIdTools`'s registry
+        (via :cpp:func:`GlobalModTypes::registerMissing`), because the two are halves of one
+        default: a classifier finds mod type *ids*, and :cpp:class:`IniFile` then asks
         :cpp:class:`ModTypeIdTools` to turn each one back into a :cpp:class:`ModType`. Filling only
         one leaves :cpp:func:`IniFile::classify` naming an id it cannot resolve :raw-html:`<br />`
+        :raw-html:`<br />`
+
+        Two things about *that* half specifically, both of which it used to get wrong by being
+        welded to this function's one-shot lazy initializer:
+
+        * it is re-done whenever :cpp:func:`ModTypeIdTools::clear` has emptied the registry since
+          the last look (tracked by :cpp:func:`ModTypeIdTools::generation`). Before, a ``clear()``
+          after the first use left this classifier naming ids nothing could resolve for the rest of
+          the process -- every ``.ini`` file coming back ``isMod == true`` with no mod types at all
+        * it uses :cpp:func:`GlobalModTypes::registerMissing`, not
+          :cpp:func:`GlobalModTypes::registerAll`, so a :cpp:class:`ModType` the caller registered
+          for itself under one of the shipped ids is left alone rather than silently replaced the
+          first time anything classifies
+
         :raw-html:`<br />`
 
         That does **not** make registration implicit in general -- see

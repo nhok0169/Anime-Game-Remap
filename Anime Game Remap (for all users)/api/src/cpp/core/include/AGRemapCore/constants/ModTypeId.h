@@ -366,6 +366,30 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How many times the registry has been emptied by :cpp:func:`clear` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Starts at ``1`` and is bumped by every :cpp:func:`clear`, so a caller that populates
+             the registry can tell whether the registry it populated is still the one being read.
+             That is what :cpp:func:`GlobalIniClassifiers::classifier` uses to know it has to
+             re-file the shipped mod types: its own population used to be welded to a one-shot
+             lazy initializer, so a :cpp:func:`clear` afterwards left it naming mod type ids that
+             nothing could resolve, permanently, for the rest of the process :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                Deliberately **not** bumped by :cpp:func:`registerModType` -- this counts
+                *invalidations*, not writes. A caller registering a mod type is adding to the
+                registry that already exists, not replacing it
+             @endrst
+             *
+             * @return The current generation
+             */
+            static unsigned long long generation();
+
+            /**
+             * @brief
+             @rst
              The mod types a given mod type's **hashes** can be remapped onto :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -432,6 +456,9 @@ namespace AGRemapCore {
 
         private:
             static std::unordered_map<int, ModType> _modTypes;
+
+            // Bumped by clear(). See generation()'s own note for what reads it and why.
+            static unsigned long long _generation;
 
             // name/alias -> the ModTypeIds of every registered ModType sharing that exact name/alias
             // (game-agnostic; narrowed down to a specific GameTypeId, when requested, by

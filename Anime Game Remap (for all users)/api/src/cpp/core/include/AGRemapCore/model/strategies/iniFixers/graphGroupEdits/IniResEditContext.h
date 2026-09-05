@@ -12,6 +12,7 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
 #include "AGRemapCore/tools/z3/Z3Context.h"
+#include "AGRemapCore/view/BaseLogger.h"
 
 
 namespace AGRemapCore {
@@ -63,6 +64,24 @@ namespace AGRemapCore {
              @endrst
              */
             virtual std::string iniFolder() const = 0;
+
+            /**
+             * @brief
+             @rst
+             The view built resources should report through, or ``nullptr`` for none
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Every resource this context is handed gets this attached to it (see
+             :cpp:member:`IniResource::logger`), so a resource can narrate its own fixing without
+             being told separately who is listening. A ``.ini`` file-backed context answers with
+             that file's own :cpp:member:`IniFile::logger`
+
+             .. note::
+                A ``shared_ptr`` rather than a raw pointer, because what it is copied into is one --
+                the resource outlives this context, so borrowing would dangle
+             @endrst
+             */
+            virtual std::shared_ptr<BaseLogger> logger() const = 0;
 
             /**
              * @brief

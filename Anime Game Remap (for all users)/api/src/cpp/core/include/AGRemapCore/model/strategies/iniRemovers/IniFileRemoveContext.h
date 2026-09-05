@@ -68,6 +68,7 @@ namespace AGRemapCore {
             void setFileTxt(std::string txt) override;
             std::string write() override;
             void clearRead() override;
+            void removeBackup() override;
             void setIsFixed(bool isFixed) override;
 
         private:

@@ -296,6 +296,39 @@ they have no `toDataFrame`/`fromDataFrame` methods of their own (use `BufTools`,
 `CppBufFile`). See [Buf Files](../BufFiles/CLAUDE.md) before touching any of it --- especially the
 dump text format, which is 3dmigoto's and not ours.
 
+Landed **2026-09-05**: the `RemapService` layer. `remapService.py` and `model/Mod.py` are
+**deleted**, and `main.py` drives `RemapServiceCLI`. The chain is `main.py` (argparse) -> the Python
+`RemapServiceCLI` (`remapServiceCLI.py`, a thin subclass of the bound `CppRemapServiceCLI` owning
+only what names command-line options) -> `AGRemapCore::RemapServiceCLI` (log file, banner, tips
+hook, every string -> model conversion) -> `AGRemapCore::RemapService` (folder walk, per-`.ini`
+handling, stats, summary). See [Architecture](../Architecture/CLAUDE.md)'s "The `RemapService` /
+`RemapServiceCLI` split". Two whole test modules went with it (`test_Mod.py`,
+`test_RemapService.py`), which is the entire reason the suite's error count dropped from 30 to 7 ---
+see [Testing](../Testing/CLAUDE.md)'s current baseline before reading that as an improvement.
+
+**THE BIG ONE, and the thing most likely to send you on a wild goose chase: the fix produces no
+remapped sections, and that is deliberate.** Every `IniFixer`/`IniParser` is currently **stubbed
+with its base class**. A real end-to-end run therefore classifies mods correctly, walks the tree
+correctly, rewrites each `.ini` file with its credit header --- and generates **not one remapped
+section**. `IniFile::getResources()` comes back empty as a direct consequence, which is also why
+`RemapService::fixResources` corrects no `Blend.buf` and no textures, and why
+`RemapBlendResource`/`RemapTexResource` are constructed nowhere in either language. **One cause,
+every symptom.** If you find yourself investigating "why does the fix output nothing", stop: you
+have found the stub. Un-stubbing those strategies is the migration's remaining work.
+
+Practical consequences while that is true:
+
+- **Do not use "the fix produces correct output" as an acceptance criterion** for an unrelated
+  change. It cannot pass yet.
+- **Do not repair the Integration Tester's golden `expected_*` trees to match current output.** The
+  goldens are correct (see `expected_fullFix_modFixed/.../ei.ini`, 61 lines with real
+  `...RemapBlend` sections); the code is not there yet. They will need regenerating *after* the
+  strategies are real, not before.
+- **Do still run the CLI end to end** --- it catches a different and nastier class of bug. See
+  [Testing](../Testing/CLAUDE.md)'s "A green suite does not mean the product works", written after a
+  default run was found silently *emptying* every `.ini` file it touched while both suites stayed
+  green.
+
 **The next domino is still the rest of the `ModType` layer — the classifier itself is no longer
 the blocker, only its builder-config surface is.** One concrete gap remains if your task touches
 mod types:
@@ -342,13 +375,20 @@ placed mid-list silently truncates the statement** --- every name after it is ne
 what happened with a `# TOREMOVE` note left after `GraphToolsOld`, which quietly killed 23 imports.
 Keep comments on their own line there.
 
-**Known state as of 2026-09-03: that import already fails before anything you touch**, at
-`CppIniClassifyStats` (the classifier bindings graduated to bare names — see "Where the C++
-migration currently stands" — and `apiMirror` was never updated; `CppBaseIniClassifier`,
-`CppIniClassifier`, the deleted `IniClassifierOld`/`IniCls*` family and more are all still listed).
-Because the import is one line, you cannot see the *full* missing set without editing it. Still add
-your own new names to both the import line and `__all__`, and report the pre-existing breakage
-rather than fixing it inside an unrelated change — it needs its own sweep against `__init__.py`.
+**Known state as of 2026-09-05: that import WORKS** --- 294 names, nothing missing. The
+2026-09-03 note that used to sit here said the opposite (it failed at `CppIniClassifyStats`), and
+that staleness is itself the lesson: **"it's already broken" is the sentence that talks you out of
+running the check**, and it was wrong within two days. Someone repaired it in between, and the very
+next deletion --- `Mod`/`RemapService`, 2026-09-05 --- broke `import AnimeGameRemap` outright with
+`ImportError: cannot import name 'Mod'`, in a session where this file had been read and this
+section's own advice still not followed. **Run the one-liner. It takes three seconds and nothing
+else in the repo will tell you.**
+
+Because the import is one line, you cannot see the *full* missing set without editing it --- the
+`ImportError` names only the first casualty. If you do find pre-existing breakage unrelated to your
+change, report it rather than fixing it inside an unrelated change; but breakage *you* caused by
+renaming or deleting an exported symbol is yours to fix in the same change, in both the import line
+and `__all__`.
 Also note `import AnimeGameRemap` may silently pick up a **stale copy in site-packages** (it did:
 `Python313/Lib/site-packages/AnimeGameRemap`), so put `apiMirror/src` *first* on `PYTHONPATH` when
 checking the repo's copy.

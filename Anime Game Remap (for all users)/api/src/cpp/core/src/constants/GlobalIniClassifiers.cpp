@@ -21,17 +21,6 @@ namespace AGRemapCore {
         // checks those prefixes directly in readSectionName. Only the per-mod-type registration
         // has to be reproduced here.
         void populate(IniClassifier& classifier) {
-            // The other half of the same default. A classifier finds mod type *ids*; IniFile then
-            // asks ModTypeIdTools to turn each one back into a ModType, and gets nothing unless the
-            // registry was filled. Populating one without the other leaves classify() naming an id
-            // it cannot resolve, so asking for the default classifier fills both.
-            //
-            // This deliberately does not make registration implicit in general -- see
-            // GlobalModTypes::registerAll's own note. A caller that injects its own classifier is
-            // never routed through here and keeps full control of the registry, which is exactly
-            // what core/tests/IniFile_classify_test.cpp relies on.
-            GlobalModTypes::registerAll();
-
             for (const ModType& modType : GlobalModTypes::all()) {
                 std::optional<ModTypeId> modTypeId = ModTypeIdTools::getEnum(modType.modTypeId);
                 if (!modTypeId.has_value()) {
@@ -58,12 +47,36 @@ namespace AGRemapCore {
         // constructor to return through. Both are function-local statics, so both still get C++11's
         // guaranteed thread-safe exactly-once initialization, and 'populated' is initialized after
         // 'instance' by declaration order.
+        //
+        // The classifier's OWN keywords are genuinely one-shot: nothing empties them, so building
+        // them once is right.
         static IniClassifier instance;
         static const bool populated = [] {
             populate(instance);
             return true;
         }();
         (void) populated;
+
+        // The registry half is NOT one-shot, and used to be -- it sat inside the lambda above.
+        // ModTypeIdTools::clear() can empty the registry at any point, and when it did, this
+        // classifier kept finding mod type ids that nothing could resolve for the rest of the
+        // process: every .ini file came back isMod == true with no mod types at all. Re-filed
+        // whenever the registry has been cleared since the last time this looked.
+        //
+        // registerMissing rather than registerAll: filling in what is absent is the default doing
+        // its job, whereas overwriting an id the caller registered for itself would be the default
+        // overruling a decision that was explicitly made. See its own doc comment.
+        //
+        // No locking, matching the rest of ModTypeIdTools -- its registry is a plain static map
+        // with no synchronization of its own, so a caller mutating it from several threads is
+        // already outside what this class supports.
+        static unsigned long long populatedAtGeneration = 0;
+        const unsigned long long generation = ModTypeIdTools::generation();
+
+        if (populatedAtGeneration != generation) {
+            GlobalModTypes::registerMissing();
+            populatedAtGeneration = generation;
+        }
 
         return instance;
     }

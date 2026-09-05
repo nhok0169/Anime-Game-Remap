@@ -22,6 +22,10 @@ shipped mod types on demand
     what was explicitly registered, which is what lets a caller do :meth:`ModTypeIdTools.clear`
     followed by :meth:`ModTypeIdTools.registerModType` and get a registry holding *exactly* the mod
     types it asked for. Self-populating those lookups on first use would quietly break that
+
+    :meth:`registerMissing` **is** called automatically, by :meth:`GlobalIniClassifiers.classifier`
+    -- but only ever to fill in ids nothing has registered, never to overwrite one a caller
+    registered for itself
     )doc")
 
         .def_static("all", &AGRC::GlobalModTypes::all, py::doc(R"doc(
@@ -44,5 +48,15 @@ name or alias
 Idempotent: registering a mod type twice replaces the existing entry rather than duplicating it.
 Note it registers *in addition to* whatever is already there rather than replacing the registry --
 call :meth:`ModTypeIdTools.clear` first to start from empty
+        )doc"))
+
+        .def_static("registerMissing", &AGRC::GlobalModTypes::registerMissing, py::doc(R"doc(
+Files every shipped :class:`ModType` that is **not already registered** into
+:class:`ModTypeIdTools`'s global registry, leaving every id the caller registered for itself alone
+
+The difference from :meth:`registerAll` is only what happens on a collision: that one overwrites,
+this one yields. This is what the implicit population behind :meth:`GlobalIniClassifiers.classifier`
+uses, so that classifying a .ini file can no longer silently replace a :class:`ModType` you
+registered under one of the shipped ids
         )doc"));
 }

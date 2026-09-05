@@ -338,6 +338,20 @@ static void testRegisterAllPopulatesTheRegistry() {
     std::optional<ModTypeId> byAlias = ModTypeIdTools::findByName("Shogun");
     check(byAlias.has_value() && *byAlias == ModTypeId::Raiden, "findByName resolves a registered alias");
 
+    // Case-insensitively, and ignoring surrounding whitespace. Both are the pure-Python 'ModTypes'
+    // behaviour this stands in for -- it files its DFA from 'name.lower()' and searches with
+    // 'txt.lower().strip()' -- and the --help text promises it out loud: "The names/aliases for the
+    // mod types are not case sensitive". RemapServiceCLI is what made it matter: a name typed on a
+    // command line arrives in whatever case the user felt like.
+    std::optional<ModTypeId> lowerName = ModTypeIdTools::findByName("raiden");
+    check(lowerName.has_value() && *lowerName == ModTypeId::Raiden, "findByName ignores case on a name");
+
+    std::optional<ModTypeId> upperAlias = ModTypeIdTools::findByName("SHOGUN");
+    check(upperAlias.has_value() && *upperAlias == ModTypeId::Raiden, "and on an alias");
+
+    std::optional<ModTypeId> padded = ModTypeIdTools::findByName("  Raiden  ");
+    check(padded.has_value() && *padded == ModTypeId::Raiden, "and ignores surrounding whitespace");
+
     // The two target-only ids have no factory, so registerAll never files them.
     check(!ModTypeIdTools::getModType(static_cast<int>(ModTypeId::RaidenBoss)).has_value(),
           "registerAll does not register RaidenBoss -- nothing builds it");

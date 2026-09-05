@@ -57,12 +57,8 @@ class PyIniRemoveContext: public AGRC::IniRemoveContext<std::string, std::string
         void setFileTxt(std::string txt) override;
         std::string write() override;
         void clearRead() override;
+        void removeBackup() override;
         void setIsFixed(bool isFixed) override;
-
-        /**
-         * @brief The Python ``ModType`` the .ini file was classified as, or ``None``
-         */
-        py::object modType() const;
 };
 
 

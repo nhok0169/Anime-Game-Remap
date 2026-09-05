@@ -1793,6 +1793,96 @@ What follows from that, in rough order of how easy it is to trip over:
   other media. Current vocabulary: `resourceRemapBlend`, `resourceRemapTexAdd`,
   `resourceRemapTexEdit`.
 
+## `IniFile`'s read cache: every public entry point must re-read, and a removal deliberately empties it
+
+`IniFile` lazily reads its file into `fileTxt_`/`fileLines_` and remembers it did with
+`fileLinesRead_`. **Any public method that consumes that text must open with:**
+
+```cpp
+if (!fileLinesRead_) {
+    readFileLines();
+}
+```
+
+`classify()`, `removeFix()` and `readIfTemplates()` all do. The pure-Python original got this for
+free from a `_readLines` decorator that sat on **every** such method; the C++ port has to write it
+out per method, and in 2026-09-05 it turned out `parse()` and `fix()` had been missed.
+
+**Why that was not a harmless omission.** `parse()`/`fix()` guarded on `isClassified_` instead, and
+those two flags are *not* interchangeable, because of one deliberate design decision:
+`RemapIniRemover` writes the file back and then calls `IniRemoveContext::clearRead()`, which resets
+the read state **but leaves the file classified** --- correct, since the classification is still
+true and re-deriving it would be waste. So after a removal an `IniFile` is legitimately
+`isClassified_ == true, fileLinesRead_ == false`, and a `fix()` guarding on the wrong flag fixed
+*empty text* and wrote that over the user's mod. Undo-only and fix-only were both fine; only
+undo-then-fix --- what `RemapService::handleIni` does on every ordinary run --- was destructive.
+
+Two rules fall out of this, and they are worth applying beyond `IniFile`:
+
+- **`isClassified_` is not a proxy for "has content".** If you add an entry point, guard on the flag
+  that names the thing you actually need.
+- **When one operation invalidates another's cache, the *consumer* restores it, not the producer.**
+  The removal is right to clear; every reader is responsible for re-reading.
+
+Pinned by `testTheFixKeepsItsContentAfterARemoval` and `testIniFileReReadsAfterItsCacheIsCleared` in
+`core/tests/RemapService_fix_test.cpp`. Note what it took to find: both suites were fully green
+throughout --- see [Testing](../Testing/CLAUDE.md)'s "A green suite does not mean the product works".
+
+## The `RemapService` / `RemapServiceCLI` split
+
+The live entry path, since the pure-Python `remapService.py`/`model/Mod.py` were deleted on
+2026-09-05:
+
+```
+main.py                     argparse lives here, and ONLY here
+  -> RemapServiceCLI        (Python, remapServiceCLI.py) subclasses the bound CppRemapServiceCLI
+  -> AGRemapCore::RemapServiceCLI   the UI half
+  -> AGRemapCore::RemapService      the model half
+```
+
+**The dividing line is types, not layers.** `RemapService` takes only already-typed data ---
+`ModTypeId` ints, a parsed `Version`, a `DownloadMode` --- and knows nothing about where its output
+goes. `RemapServiceCLI` **holds** one (by value, public member, so it need not forward ~15
+attributes) and owns everything on the other side: the log file, the banner, the tips hook, and
+every string -> model conversion. A new *model* option goes on `RemapService`; a new option a user
+*types* gets converted in `RemapServiceCLI`'s string constructor.
+
+Things that will otherwise cost you a cycle:
+
+- **There are two constructors.** One takes an already-built `RemapService`; the other takes the
+  string-shaped arguments an argument parser produces (the same names the pure-Python
+  `RemapService.__init__` took). The second one is what `main.py` uses.
+- **A bad string does not throw from the constructor.** The first conversion failure is stored
+  (`hasErrorsBeforeFix()`) and raised by `fix()`, which honours `handleExceptions` itself and skips
+  the banner. The model never sees these errors --- it takes no text.
+- **Anything `virtual` on the CLI is called from `fix()`, never from the constructor.** A virtual
+  call in a C++ constructor does not dispatch to an override, so a Python subclass reshaping
+  `printModsToFix`/`addTips` would silently never run. The pure-Python original printed its banner
+  from `__init__`; that could not be carried over.
+- **Whatever names a command-line option stays in Python.** `addTips` and the
+  `ConflictingOptions([FixOnly, Revert])` check are overridden in `remapServiceCLI.py` for exactly
+  this reason. Core has no business inventing `--revert`.
+- **An absent *and* an empty list of mod-type names both mean "no filter"** in the string
+  constructor --- a user who names no types wants all of them. That is the opposite of what an empty
+  set means on `RemapService::fromModTypeIds`, and the constructor is where the ambiguity is
+  resolved. Don't "fix" the asymmetry.
+
+## Resolving a mod type by name --- two things that bite
+
+- **`ModTypeIdTools::findByName` is case- and whitespace-insensitive** (since 2026-09-05). Names and
+  aliases are filed lowercased and the query is lowercased and trimmed, matching the pure-Python
+  `ModTypes.search(txt.lower().strip())` and the `--help` text's promise that "The names/aliases for
+  the mod types are not case sensitive". `getName`/`getModType` still answer out of `_modTypes` and
+  keep the original casing --- the DFA is only ever a lookup *from* text.
+- **The registry is EMPTY until something populates it**, and on a normal run that happens as a side
+  effect of the first `classify()` --- far too late for anything that resolves names up front. Call
+  `GlobalModTypes::registerMissing()` first (it fills gaps and leaves a caller's own registrations
+  alone; `registerAll()` overwrites). Anything resolving a name before a classify must do this or
+  silently find nothing.
+- **`RaidenBoss` and `ArlecchinoBoss` cannot be resolved by name at all**, in either language. They
+  are remap *targets* only, `GIBuilder::all()` has no factory for them, and the Python `ModTypes`
+  enum has no member either. A test or an example using one as a `--remappedTypes` value fails.
+
 ## Adding a resource type: the base is add-vs-edit, and it is unreachable until a `resEdits/` class builds it
 
 Two rules, both learned by getting them wrong.

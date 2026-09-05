@@ -17,6 +17,9 @@
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
+// For the dynamic_cast in fixImpl: modTypeName() -- the mod type being fixed FROM -- lives on
+//   RemapIniFixContext rather than on the IniFixContext this class's Context typedef names.
+#include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 
 
@@ -202,6 +205,27 @@ namespace AGRemapCore {
              * @brief The mods to fix to, or ``std::nullopt`` to ask the ``.ini`` file -- see #getModsToFix
              */
             std::optional<std::vector<std::string>> modsToFix;
+
+            /**
+             * @brief
+             @rst
+             What every generated ``.ini`` **copy** is prefixed with :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A fix that merges several mod objects onto one emits an extra ``.ini`` file per extra
+             object (see :cpp:func:`IniFileFixContext::fixedFilePath` for how they are named). Each
+             of those is a file the user never asked for and did not write, so each one opens by
+             saying what it is :raw-html:`<br />` :raw-html:`<br />`
+
+             Only the **copies** get it. Group 0 is the mod's own ``.ini`` file, which needs no
+             explanation of why it exists :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: empty -- no preamble at all. A generated file that says nothing about
+             itself is the quieter default, and a caller that wants the explanation opts in.
+             :cpp:member:`IniComments::GIMIObjMergerPreamble` is the one written for this purpose
+             @endrst
+             */
+            std::string copyPreamble;
 
             /**
              * @brief

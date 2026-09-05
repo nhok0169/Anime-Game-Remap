@@ -123,7 +123,13 @@ std::string tagOf(const std::shared_ptr<BaseIniFixer<>>& fixer) {
 }
 
 IniFixBuilder::Factory taggedFactory(std::string tag) {
-    return [tag](BaseIniParser<>* parser) {
+    // Three arguments: the parser, the name of the mod being fixed TO, and the ModTypeId of the
+    // mod type being fixed FROM. This lambda cares about none of them beyond the parser -- but the
+    // arity has to match IniFixBuilder::Factory exactly, since std::function will not bind a
+    // callable that takes fewer.
+    return [tag](BaseIniParser<>* parser, const std::string& toModName, std::optional<int> modTypeId) {
+        (void) toModName;
+        (void) modTypeId;
         return std::make_shared<TaggedFixer>(parser, tag);
     };
 }
@@ -351,9 +357,12 @@ void testIniFileUsesTheBuilder() {
 
     auto log = std::make_shared<std::vector<BuildRecord>>();
     auto loggingFactory = [log](std::string tag) {
-        // The Factory takes the target mod now, so the default fixer can tell its GIMIFixer which
-        // mod it is fixing onto. Ignored here -- this fake only records which factory ran.
-        return IniFixBuilder::Factory{[log, tag](BaseIniParser<>* parser, const std::string&) {
+        // The Factory takes the target mod AND the source mod type's id now -- the first so the
+        // default fixer can tell its GIMIFixer which mod it is fixing onto, the second so that
+        // fixer's context can resolve which mod type it is fixing FROM. Both ignored here: this
+        // fake only records which factory ran.
+        return IniFixBuilder::Factory{[log, tag](BaseIniParser<>* parser, const std::string&,
+                                                  std::optional<int>) {
             auto fixer = std::make_shared<TaggedFixer>(parser, tag);
             log->push_back(BuildRecord{tag, parser, fixer.get()});
             return fixer;
@@ -426,7 +435,8 @@ void testNoParserMeansNoFixer() {
     std::printf("\n== no parser, no fixer ==\n");
 
     auto log = std::make_shared<std::vector<BuildRecord>>();
-    auto repo = makeArgsRepo({row("Amber", "4.0", "AmberCN", IniFixBuilder::Factory{[log](BaseIniParser<>* parser, const std::string&) {
+    auto repo = makeArgsRepo({row("Amber", "4.0", "AmberCN", IniFixBuilder::Factory{[log](BaseIniParser<>* parser, const std::string&,
+                                                                                              std::optional<int>) {
         auto fixer = std::make_shared<TaggedFixer>(parser, "amber4_0");
         log->push_back(BuildRecord{"amber4_0", parser, fixer.get()});
         return fixer;

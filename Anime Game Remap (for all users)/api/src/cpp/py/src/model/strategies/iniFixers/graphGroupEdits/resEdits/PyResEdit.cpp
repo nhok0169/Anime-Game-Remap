@@ -117,6 +117,29 @@ std::string PyIniResEditContext::iniFolder() const {
 }
 
 
+std::shared_ptr<AGRC::BaseLogger> PyIniResEditContext::logger() const {
+    if (!hasIni()) {
+        return nullptr;
+    }
+
+    // Through the attribute rather than a cast of the .ini file itself: 'ini' here is a py::object
+    // that may be a C++-backed IniFile or a duck-typed stand-in, and either way what is wanted is
+    // whatever it calls its logger.
+    if (!py::hasattr(ini, "logger")) {
+        return nullptr;
+    }
+
+    py::object logger = ini.attr("logger");
+    if (logger.is_none()) {
+        return nullptr;
+    }
+
+    // A Python BaseLogger subclass crosses back as the shared_ptr its smart_holder already owns, so
+    // the resource keeping it keeps the Python object alive too.
+    return logger.cast<std::shared_ptr<AGRC::BaseLogger>>();
+}
+
+
 std::unordered_map<std::string, PyIniResEditContext::Section*> PyIniResEditContext::sectionIfTemplates() const {
     std::unordered_map<std::string, Section*> result;
     if (!hasIni()) {

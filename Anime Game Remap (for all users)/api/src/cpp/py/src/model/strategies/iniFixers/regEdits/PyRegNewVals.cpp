@@ -18,11 +18,26 @@ void PyRegNewVals::refresh(const py::object &modType) {
     // Everything else about the dispatch is identical to it, marker classes included.
     py::dict src = py::cast<py::dict>(valsObj);
 
-    auto toIniVals = [](const std::vector<py::object> &raw) {
-        std::vector<std::string> out;
+    // A callable in any value slot is a ValProducer -- called as producer(modType) when 'edit'
+    // runs, rather than being stringified the way every other object here is. 'modType' arrives by
+    // capture, not through the core ValProducer's own parameter, for the same reason a ReplaceIf's
+    // predicate does; see PyRegNewVals::refresh's doc comment.
+    auto toNewVal = [&modType](const py::object &value) -> NewVal {
+        if (PyCallable_Check(value.ptr())) {
+            py::object producer = value;
+            return NewVal(ValProducer([producer, modType](const AGRC::ModType *) {
+                return py::str(producer(modType)).cast<std::string>();
+            }));
+        }
+
+        return NewVal(py::str(value).cast<std::string>());
+    };
+
+    auto toNewVals = [&toNewVal](const std::vector<py::object> &raw) {
+        std::vector<NewVal> out;
         out.reserve(raw.size());
         for (const py::object &v : raw) {
-            out.push_back(py::str(v).cast<std::string>());
+            out.push_back(toNewVal(v));
         }
         return out;
     };
@@ -35,7 +50,7 @@ void PyRegNewVals::refresh(const py::object &modType) {
         py::object value = py::reinterpret_borrow<py::object>(item.second);
 
         if (py::isinstance<PyReplaceList>(value)) {
-            result.emplace_back(std::move(key), NewValSpec(toIniVals(value.cast<PyReplaceList>().values())));
+            result.emplace_back(std::move(key), NewValSpec(toNewVals(value.cast<PyReplaceList>().values())));
             continue;
         }
 
@@ -50,11 +65,11 @@ void PyRegNewVals::refresh(const py::object &modType) {
                 return predicate(py::cast(oldValue), modType).cast<bool>();
             };
 
-            result.emplace_back(std::move(key), NewValSpec(std::pair<std::string, ModTypePredicate>(py::str(spec.value()).cast<std::string>(), std::move(boundPredicate))));
+            result.emplace_back(std::move(key), NewValSpec(std::pair<NewVal, ModTypePredicate>(toNewVal(spec.value()), std::move(boundPredicate))));
             continue;
         }
 
-        result.emplace_back(std::move(key), NewValSpec(py::str(value).cast<std::string>()));
+        result.emplace_back(std::move(key), NewValSpec(toNewVal(value)));
     }
 
     vals = std::move(result);
@@ -68,21 +83,32 @@ This class inherits from :class:`BaseRegEdit`
 Class for assigning new values to specific registers for some :class:`IfContentPart`
 
 .. note::
-    A :class:`ReplaceIf` value's predicate is called as ``predicate(oldValue, modType)`` here --
-    one argument wider than every ``replaceVals`` calls it with, since a register edit always
-    knows which :class:`ModType` it is running for and deciding what to write based on that is
-    the whole point of this class over a plain :meth:`IfContentPart.replaceVals` call. A
-    single-argument predicate will raise :class:`TypeError` when :meth:`edit` runs
+    Both of the callbacks this class accepts get handed the :class:`ModType` being fixed, since a
+    register edit always knows which one it is running for and deciding what to write based on
+    that is the whole point of this class over a plain :meth:`IfContentPart.replaceVals` call:
+
+    * a **new value** may be a callable, called as ``newVal(modType)`` to produce the value to
+      write, and
+    * a :class:`ReplaceIf` value's predicate is called as ``predicate(oldValue, modType)`` --
+      one argument wider than every ``replaceVals`` calls it with, so a single-argument predicate
+      will raise :class:`TypeError` when :meth:`edit` runs
 
 Parameters
 ----------
-vals: Dict[:class:`str`, Union[:class:`str`, :class:`ReplaceList`, :class:`ReplaceIf`]]
+vals: Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]
     Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
 
     The keys are the names of the register and the values are the new values. Each value also
     accepts the richer forms :meth:`IfContentPart.replaceVals` takes -- a :class:`ReplaceList`
     (positional, by existing true left-to-right order) or a :class:`ReplaceIf` (conditional, by
-    the wider predicate described above)
+    the wider predicate described above) :raw-html:`<br />` :raw-html:`<br />`
+
+    Anywhere a new value is expected -- on its own, inside a :class:`ReplaceList`, or as a
+    :class:`ReplaceIf`'s value -- a callable may be given instead, and is called as
+    ``newVal(modType)`` when :meth:`edit` runs to produce the value :raw-html:`<br />` :raw-html:`<br />`
+
+    eg. :raw-html:`<br />`
+    ``{"ps-t1": "newVal", "ps-t2": lambda modType: f"{modType.name}Texture"}``
 
 addNewKVPs: :class:`bool`
     Whether to add new `KVPs`_ if the register keys do not exist in the :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
@@ -99,9 +125,12 @@ addNewKVPs: :class:`bool`
     }, [](PyRegNewVals &self, py::object vals) {
         self.valsObj = std::move(vals);
     }, py::doc(R"doc(
-Dict[:class:`str`, Union[:class:`str`, :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
+Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
 registers will have their values changed, where the keys are the names of the register and the
-values are the new values
+values are the new values :raw-html:`<br />` :raw-html:`<br />`
+
+Anywhere a new value is expected, a callable may be given instead and is called as
+``newVal(modType)`` when :meth:`edit` runs
     )doc"));
 
     cls.def_readwrite("addNewKVPs", &PyRegNewVals::addNewKVPs, py::doc(R"doc(
@@ -122,8 +151,9 @@ sectionName: :class:`str`
     The name of the `section`_ that is being editted. Unused by this edit
 
 modType: Optional[:class:`ModType`]
-    The type of mod to fix. Passed through as the second argument to every :class:`ReplaceIf`
-    predicate in :attr:`vals` -- see this class's own note
+    The type of mod to fix. Passed through as the only argument to every callable new value in
+    :attr:`vals`, and as the second argument to every :class:`ReplaceIf` predicate in it -- see
+    this class's own note
 
 modName: :class:`str`
     The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`

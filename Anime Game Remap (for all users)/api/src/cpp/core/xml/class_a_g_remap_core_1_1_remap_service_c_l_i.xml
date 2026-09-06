@@ -1,0 +1,1061 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_remap_service_c_l_i" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapServiceCLI</compoundname>
+    <includes refid="_remap_service_c_l_i_8h" local="no">RemapServiceCLI.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac3d7057c28f2267b6aba6cb4e129af8e" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_remap_service" kindref="compound">RemapService</ref></type>
+        <definition>RemapService AGRemapCore::RemapServiceCLI::service</definition>
+        <argsstring></argsstring>
+        <name>service</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::service</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The remap this drives :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Public on purpose: every model-side option lives on it, and forwarding fifteen
+attributes through this class would be duplication with nothing to gain
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="215" column="26" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7d6d9abdc25e50dc1d9f5412543d565d" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseLogger&gt; AGRemapCore::RemapServiceCLI::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The view everything is reported through, shared with #service :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Its ``logTxt`` is set from whether a log folder was given, which is what makes
+:cpp:func:`BaseLogger::loggedTxt` accumulate the text #createLog later writes out. With
+no log folder, nothing is accumulated at all rather than buffered and thrown away
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Declared as the **base** :cpp:class:`BaseLogger` even though the constructor builds a
+   concrete :cpp:class:`Logger`. Nothing here needs more than the base&apos;s interface, and
+   the wider type is what lets a caller substitute a view of their own -- including one
+   written in `Python`_, which matters because :cpp:class:`Logger` itself is not a
+   `pybind11`_-registered type (the `Python`_-facing ``Logger`` is a separate class, not
+   a binding of this one), so a ``shared_ptr`` to it could not cross that boundary at
+   all
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="238" column="29" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a76c651545643a8206515078ed7b97ce0" prot="private" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; AGRemapCore::RemapServiceCLI::log_</definition>
+        <argsstring></argsstring>
+        <name>log_</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="390" column="27" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="390" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a50b5872177b10fc2d153fbb203461533" prot="private" static="no" mutable="no">
+        <type>std::exception_ptr</type>
+        <definition>std::exception_ptr AGRemapCore::RemapServiceCLI::errorsBeforeFix_</definition>
+        <argsstring></argsstring>
+        <name>errorsBeforeFix_</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::errorsBeforeFix_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="394" column="32" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="394" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a29d21ac1afaa4cd4d85c8ff1f01eb860" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapServiceCLI::RemapServiceCLI</definition>
+        <argsstring>(RemapService service, std::optional&lt; std::string &gt; log=std::nullopt, bool verbose=true)</argsstring>
+        <name>RemapServiceCLI</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::RemapServiceCLI</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_remap_service" kindref="compound">RemapService</ref></type>
+          <declname>service</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>log</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verbose</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new command-line front end. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>service</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The remap this drives -- see #service :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Taken by value and kept. Its :cpp:member:`RemapService::logger` is **overwritten** with
+this class&apos;s own #logger, since reporting is exactly what this class is for
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The **folder** to write the log file into, or ``std::nullopt`` not to write one -- see
+#getLog :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A folder rather than a file path, matching the pure-Python original: the file&apos;s own
+name is always :cpp:member:`FileTypes::Log` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether the fix prints its progress as it runs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Independent of &apos;log&apos;: a quiet run can still write a full log file, since the two are
+separate flags on :cpp:class:`BaseLogger` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``true``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="80" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="18" bodyend="29"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a33946a86547cb953f44ebf091de00248" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RemapServiceCLI::RemapServiceCLI</definition>
+        <argsstring>(std::optional&lt; std::string &gt; path, bool keepBackups=true, bool fixOnly=false, bool undoOnly=false, bool hideOrig=false, bool readAllInis=false, std::optional&lt; std::vector&lt; std::string &gt; &gt; types=std::nullopt, std::optional&lt; std::string &gt; defaultType=std::nullopt, std::optional&lt; std::string &gt; forcedType=std::nullopt, std::optional&lt; std::string &gt; log=std::nullopt, bool verbose=true, bool handleExceptions=false, std::optional&lt; std::string &gt; version=std::nullopt, std::optional&lt; std::vector&lt; std::string &gt; &gt; remappedTypes=std::nullopt, std::optional&lt; std::string &gt; proxy=std::nullopt, std::optional&lt; std::string &gt; downloadMode=std::nullopt, std::optional&lt; int &gt; gameTypeId=std::nullopt)</argsstring>
+        <name>RemapServiceCLI</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::RemapServiceCLI</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepBackups</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>fixOnly</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>undoOnly</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>hideOrig</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>readAllInis</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+          <declname>types</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>defaultType</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>forcedType</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>log</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>verbose</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>handleExceptions</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>version</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+          <declname>remappedTypes</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>proxy</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>downloadMode</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <param>
+          <type>std::optional&lt; int &gt;</type>
+          <declname>gameTypeId</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Constructs a front end from what a user **typed** -- the string half of the pure-Python
+``RemapService``&apos;s own constructor :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every parameter that :cpp:class:`RemapService` takes as already-typed data
+(:cpp:enum:`ModTypeId` integers, a :cpp:class:`Version`, a :cpp:enum:`DownloadMode`)
+arrives here as the text an argument parser produced, and is converted. Everything
+already unambiguous as a `bool` or a path is passed straight through :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**A bad string does not throw from here.** The first conversion failure is stored and
+raised by #fix instead -- see #hasErrorsBeforeFix for why. So is the pure-Python
+original&apos;s own behaviour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   There is no ``gameType`` **string**: nothing resolves a game type by name (there is
+   no :cpp:func:`ModTypeIdTools::findByName` equivalent for one) and no command-line
+   option asks for one, so &apos;gameTypeId&apos; is taken as the id it already is
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder the fix runs from, or <computeroutput>std::nullopt</computeroutput> for the current one </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepBackups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the backup files this fix writes are kept. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fix only fixes, without first undoing. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>undoOnly</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fix only undoes, without fixing. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>hideOrig</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the mod shows only on the remapped character. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>readAllInis</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether unclassified <computeroutput>.ini</computeroutput> files are read too. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The names/aliases of the mod types to fix **from**, or ``std::nullopt`` / an empty list
+for every one of them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   An empty list means *no filter* here, exactly as ``std::nullopt`` does -- it is the
+   pure-Python original&apos;s own reading, and the only one an argument parser can produce
+   (a user who names no types wants all of them, not none). That is why this differs
+   from :cpp:member:`RemapService::fromModTypeIds`, where an empty **set** is a filter
+   that accepts nothing: by then the ambiguity has been resolved, and this is where it
+   is resolved
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>defaultType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The name of the mod type to assume for an ``.ini`` file nothing could classify
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only ever in play when &apos;readAllInis&apos; is on and no &apos;forcedType&apos; was given -- otherwise
+there is either nothing unclassified to fall back for, or a forced type already
+answering the question. Left unset with &apos;readAllInis&apos; on, it is ``Raiden``, which is
+the pure-Python original&apos;s own default :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>forcedType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The name of the mod type to assume for **every** ``.ini`` file, classified or not
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>log</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <bold>folder</bold> to write the log file into, or <computeroutput>std::nullopt</computeroutput> for none. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>verbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether the fix prints its progress as it runs. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>handleExceptions</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether a failure is logged rather than thrown. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The game version to fix to, as a `PEP 440`_ string, or ``std::nullopt`` for the latest
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>remappedTypes</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The names/aliases of the mod types to fix **to**, or ``std::nullopt`` / an empty list
+for every one of them -- see &apos;types&apos; for why an empty list is not an empty filter
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>proxy</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The proxy used for file downloads. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>downloadMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The name of how file downloads are handled -- ``&quot;disabled&quot;``, ``&quot;normal&quot;`` or
+``&quot;always&quot;``, ignoring case and surrounding whitespace :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Unset means :cpp:enumerator:`DownloadMode::Normal`. The pure-Python original named a
+``HardTexDriven`` mode here that no longer exists, so its own unset case has been
+broken for as long as that member has been gone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>gameTypeId</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game to fix for, as an id. <bold>Default</bold>: <computeroutput>std::nullopt</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="184" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="31" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a0d7222ab0ecf77e275c42b5698683ae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual AGRemapCore::RemapServiceCLI::~RemapServiceCLI</definition>
+        <argsstring>()=default</argsstring>
+        <name>~RemapServiceCLI</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::~RemapServiceCLI</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="204" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac61953c89bd84dc93c4d65b766d62ebf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapServiceCLI::hasErrorsBeforeFix</definition>
+        <argsstring>() const</argsstring>
+        <name>hasErrorsBeforeFix</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::hasErrorsBeforeFix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The full path of the log file, or ``std::nullopt`` when no log is being written
+</verbatim></para>
+<para><simplesect kind="return"><para>The log file&apos;s path, if there is one<verbatim>embed:rst 
+Whether a string handed to the string constructor could not be converted
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A conversion failure is **stored rather than thrown**, and #fix raises it. Three
+reasons, all the pure-Python original&apos;s: a half-built object is still a usable one to
+inspect, a caller that never runs the fix never had a problem, and #printModsToFix has
+nothing truthful to print about mod types that could not be resolved -- so it is
+skipped entirely rather than printing a half-list :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only the **first** failure is kept. The later setups still run, but a second failure is
+dropped, so what surfaces is the first thing wrong rather than the last
+</verbatim></para>
+</simplesect>
+<simplesect kind="return"><para>Whether the conversion failed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="266" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a6e3eb9626d34357998af8b298aba0321" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::raiseErrorsBeforeFix</definition>
+        <argsstring>() const</argsstring>
+        <name>raiseErrorsBeforeFix</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::raiseErrorsBeforeFix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Rethrows the stored conversion failure, or does nothing when there was none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="274" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="73" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ae5b9925e8a7332fc92a1dc660a20998f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::optional&lt; std::string &gt; &amp;</type>
+        <definition>const std::optional&lt; std::string &gt; &amp; AGRemapCore::RemapServiceCLI::getLog</definition>
+        <argsstring>() const</argsstring>
+        <name>getLog</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::getLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="276" column="33" bodyfile="src/RemapServiceCLI.cpp" bodystart="216" bodyend="218"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1aa2ed83e32c4f5e61fd249040caf2ecfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::setLog</definition>
+        <argsstring>(std::optional&lt; std::string &gt; newLog)</argsstring>
+        <name>setLog</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::setLog</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>newLog</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Sets the folder the log file is written into, or ``std::nullopt`` to stop writing one
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Also updates #logger&apos;s ``logTxt``, so that turning logging on part-way through starts
+accumulating from that point rather than silently writing an empty file
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newLog</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder to write the log into, or <computeroutput>std::nullopt</computeroutput> for none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="290" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="220" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a00ceeb6916f434eb2e185b834aa94f18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::RemapServiceCLI::getVerbose</definition>
+        <argsstring>() const</argsstring>
+        <name>getVerbose</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::getVerbose</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the fix prints its progress as it runs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Reads straight off #logger rather than out of a copy kept here. The pure-Python
+original kept both and only ever wrote the copy through its own setter, so assigning
+``logger.verbose`` directly left the two disagreeing with no way to tell which was
+being believed. There is one answer now, and it is the view&apos;s :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Independent of whether a log file is being written -- see #setLog. A quiet run still
+accumulates a full log
+</verbatim></para>
+<para><simplesect kind="return"><para>Whether progress is printed, or <computeroutput>false</computeroutput> when there is no view to print through at all </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="310" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="228" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a827b6e02cdc4c8a6ebedcf2f81e1a1b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::setVerbose</definition>
+        <argsstring>(bool newVerbose)</argsstring>
+        <name>setVerbose</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::setVerbose</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>newVerbose</declname>
+        </param>
+        <briefdescription>
+<para>Sets whether the fix prints its progress as it runs. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>newVerbose</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether progress is printed </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="318" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="234" bodyend="238"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1afc4f86b824e35370f83664f4817e02df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::fix</definition>
+        <argsstring>()</argsstring>
+        <name>fix</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::fix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Runs the remap, then writes the log file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The log is written **whatever** happened, including when
+:cpp:member:`RemapService::handleExceptions` is off and the fix throws -- a run that
+failed is the one whose log is worth keeping. The exception still propagates
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="330" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="240" bodyend="290"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1adba16332e1650e240ccad6cfd2c15644" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::createLog</definition>
+        <argsstring>()</argsstring>
+        <name>createLog</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::createLog</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Writes everything reported so far out to the log file :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Does nothing when no log folder was given. Announces itself first, so the line naming
+the log file is itself in the log
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="342" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="365" bodyend="395"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9664300e3253b5e3a3020904825d6888" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::addTips</definition>
+        <argsstring>()</argsstring>
+        <name>addTips</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::addTips</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Prints whatever the user might find useful to know next -- **nothing at all** in this
+class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A tip is a sentence like &quot;run this script again using the ``--undo`` option&quot;, and those
+option names belong to the argument parser, which deliberately is not here (see this
+class&apos;s own note). Core has no business inventing them, so this is an empty hook and
+the layer that owns the parser overrides it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Called by #fix after the remap and **before** #createLog, so the tips land in the log
+file too, and only when :cpp:func:`RemapService::noErrors` -- advice about what to try
+next is noise on top of a run that already went wrong. That ordering and that gate are
+the pure-Python original&apos;s own
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="361" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="360" bodyend="363"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a20179a5789876342c021b4f3e1347cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::printModsToFix</definition>
+        <argsstring>()</argsstring>
+        <name>printModsToFix</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::printModsToFix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Prints the banner naming which types of mods this run will fix :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Reads :cpp:member:`RemapService::fromModTypeIds` and prints one bullet per type, sorted
+by NAME rather than by id, so the list reads alphabetically instead of in whatever order
+the ids happen to fall in :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The two empty cases are **not** the same thing, and this is the one place a user sees
+the difference: ``std::nullopt`` is &quot;no filter&quot; and prints *All mods*, while a
+present-but-empty set accepts nothing and prints *No mods*. The pure-Python original had
+only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   Called at the top of #fix, where the pure-Python original called it at the end of its
+   **constructor**. Deliberate: a virtual call from a constructor does not reach an
+   override, so a subclass reshaping this banner -- the whole reason it is virtual --
+   would silently never be used. Running it from #fix costs nothing else, since the
+   driver constructs and then immediately fixes
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="387" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="292" bodyend="335"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a891c6c13861843af83503ec3a5e9107d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::RemapServiceCLI::_modTypeName</definition>
+        <argsstring>(int modTypeId)</argsstring>
+        <name>_modTypeName</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_modTypeName</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>modTypeId</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="397" column="32" bodyfile="src/RemapServiceCLI.cpp" bodystart="338" bodyend="357"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a80512deba8ef54a02e877fb15efc0d4a" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupLogPath</definition>
+        <argsstring>(std::optional&lt; std::string &gt; newLog)</argsstring>
+        <name>_setupLogPath</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupLogPath</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string &gt;</type>
+          <declname>newLog</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="401" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="397" bodyend="406"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3d816e6b07d0f3b0eace2a7fe113861b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_recordError</definition>
+        <argsstring>(std::exception_ptr error)</argsstring>
+        <name>_recordError</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_recordError</qualifiedname>
+        <param>
+          <type>std::exception_ptr</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="406" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="79" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a418865ef4f0485c435f2df29174b29c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; int &gt;</type>
+        <definition>std::optional&lt; int &gt; AGRemapCore::RemapServiceCLI::_toModTypeId</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>_toModTypeId</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_toModTypeId</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="410" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="88" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3dfe53432e86babf86b10035306ef053" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
+        <definition>std::optional&lt; std::unordered_set&lt; int &gt; &gt; AGRemapCore::RemapServiceCLI::_toModTypeIds</definition>
+        <argsstring>(const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;names)</argsstring>
+        <name>_toModTypeIds</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_toModTypeIds</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>names</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="415" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="99" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1afd28d8b4677a3573eca895d344b730ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupForcedModType</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;forcedType)</argsstring>
+        <name>_setupForcedModType</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupForcedModType</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>forcedType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="419" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="124" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a710e6e5a8c554ae4f4242e1146394002" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupDefaultModType</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;defaultType, const std::optional&lt; std::string &gt; &amp;forcedType)</argsstring>
+        <name>_setupDefaultModType</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupDefaultModType</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>defaultType</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>forcedType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="420" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="135" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9b3ce5ceaadeec88ab3dbd7d004a4f72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupToFixModTypes</definition>
+        <argsstring>(const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;types, const std::optional&lt; std::string &gt; &amp;forcedType)</argsstring>
+        <name>_setupToFixModTypes</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupToFixModTypes</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>types</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>forcedType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="421" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="158" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7b35aa19ab1414461fcb53503f26c98c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupRemappedTypes</definition>
+        <argsstring>(const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;remappedTypes)</argsstring>
+        <name>_setupRemappedTypes</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupRemappedTypes</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::vector&lt; std::string &gt; &gt; &amp;</type>
+          <declname>remappedTypes</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="422" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="178" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ace050e1813387bb2223b0c9b692c87ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupVersion</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;version)</argsstring>
+        <name>_setupVersion</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupVersion</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="423" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="182" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac5b51eb1ed41c762071e1f3a11e4d46e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapServiceCLI::_setupDownloadMode</definition>
+        <argsstring>(const std::optional&lt; std::string &gt; &amp;downloadMode)</argsstring>
+        <name>_setupDownloadMode</name>
+        <qualifiedname>AGRemapCore::RemapServiceCLI::_setupDownloadMode</qualifiedname>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>downloadMode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="424" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="197" bodyend="214"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The command-line front end for a remap -- the **UI** half of what the pure-Python
+``RemapService`` used to be :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:class:`RemapService` is the model: it takes already-typed data (:cpp:enum:`ModTypeId`
+integers, a parsed :cpp:class:`Version`, a :cpp:enum:`DownloadMode`) and knows nothing about
+where its output goes. This class is everything on the other side of that line -- the view it
+reports through, the log file that output is written to, and (as they are added) turning what a
+user typed into the data the model wants :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Holds** a :cpp:class:`RemapService` rather than deriving from one. The model stays completely
+unaware there is a CLI, and #service is public so the caller can reach every one of its
+attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Argument parsing is deliberately **not** here. The pure-Python driver (``main.py``) parses
+   the command line and hands the results in, and that split is kept: this class takes values,
+   not an ``argv``. It is why the option *names* a tip would quote (``--revert`` and friends)
+   are not in this class either -- they belong with the parser that defines them
+
+.. note::
+   Written from the pure-Python ``RemapService``&apos;s own ``createLog``/``log`` handling
+   (``remapService.py``), which is where the log-file behaviour below comes from
+</verbatim> </para>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="5">
+        <label>AGRemapCore::CachedFileStats</label>
+        <link refid="class_a_g_remap_core_1_1_cached_file_stats"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::FileStats</label>
+        <link refid="class_a_g_remap_core_1_1_file_stats"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::RemapService</label>
+        <link refid="class_a_g_remap_core_1_1_remap_service"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RemapServiceCLI</label>
+        <link refid="class_a_g_remap_core_1_1_remap_service_c_l_i"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>service</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::RemapStats</label>
+        <link refid="class_a_g_remap_core_1_1_remap_stats"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>blend</edgelabel>
+          <edgelabel>buf</edgelabel>
+          <edgelabel>ini</edgelabel>
+          <edgelabel>other</edgelabel>
+          <edgelabel>position</edgelabel>
+          <edgelabel>texAdd</edgelabel>
+          <edgelabel>texEdit</edgelabel>
+          <edgelabel>texcoord</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>download</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/RemapServiceCLI.h" line="45" column="5" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="45" bodyend="425"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a891c6c13861843af83503ec3a5e9107d" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_modTypeName</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3d816e6b07d0f3b0eace2a7fe113861b" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_recordError</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a710e6e5a8c554ae4f4242e1146394002" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupDefaultModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac5b51eb1ed41c762071e1f3a11e4d46e" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupDownloadMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1afd28d8b4677a3573eca895d344b730ea" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupForcedModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a80512deba8ef54a02e877fb15efc0d4a" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupLogPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7b35aa19ab1414461fcb53503f26c98c" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupRemappedTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9b3ce5ceaadeec88ab3dbd7d004a4f72" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupToFixModTypes</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ace050e1813387bb2223b0c9b692c87ea" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_setupVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a418865ef4f0485c435f2df29174b29c8" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_toModTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3dfe53432e86babf86b10035306ef053" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_toModTypeIds</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9664300e3253b5e3a3020904825d6888" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>addTips</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1adba16332e1650e240ccad6cfd2c15644" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>createLog</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a50b5872177b10fc2d153fbb203461533" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>errorsBeforeFix_</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1afc4f86b824e35370f83664f4817e02df" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ae5b9925e8a7332fc92a1dc660a20998f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>getLog</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a00ceeb6916f434eb2e185b834aa94f18" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>getVerbose</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac61953c89bd84dc93c4d65b766d62ebf" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>hasErrorsBeforeFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a76c651545643a8206515078ed7b97ce0" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>log_</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7d6d9abdc25e50dc1d9f5412543d565d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a20179a5789876342c021b4f3e1347cbb" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>printModsToFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a6e3eb9626d34357998af8b298aba0321" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>raiseErrorsBeforeFix</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a29d21ac1afaa4cd4d85c8ff1f01eb860" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>RemapServiceCLI</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a33946a86547cb953f44ebf091de00248" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>RemapServiceCLI</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac3d7057c28f2267b6aba6cb4e129af8e" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>service</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1aa2ed83e32c4f5e61fd249040caf2ecfa" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>setLog</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a827b6e02cdc4c8a6ebedcf2f81e1a1b6" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>setVerbose</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a0d7222ab0ecf77e275c42b5698683ae0" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>~RemapServiceCLI</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

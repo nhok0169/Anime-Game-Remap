@@ -12,32 +12,39 @@
       <node id="32">
         <label>Algo.tpp</label>
       </node>
-      <node id="129">
+      <node id="131">
         <label>BaseAhoCorasickDFA.tpp</label>
       </node>
-      <node id="97">
+      <node id="99">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="111">
+      <node id="113">
         <label>BaseIniGraphGroupEdit.tpp</label>
       </node>
-      <node id="96">
+      <node id="98">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="38">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="128">
+      <node id="130">
         <label>BaseTrie.tpp</label>
       </node>
-      <node id="126">
+      <node id="128">
         <label>BiMap.tpp</label>
+      </node>
+      <node id="47">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="74">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="104">
+      <node id="106">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="4" relation="include">
@@ -53,19 +60,19 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="108">
+      <node id="110">
         <label>AGRemapCore/constants/IniGraphModObjKeywords.h</label>
         <link refid="_ini_graph_mod_obj_keywords_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="83">
+      <node id="85">
         <label>AGRemapCore/constants/IniKeywords.h</label>
         <link refid="_ini_keywords_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="113">
+      <node id="115">
         <label>AGRemapCore/data/HashToModObjData.h</label>
         <link refid="_hash_to_mod_obj_data_8h"/>
         <childnode refid="36" relation="include">
@@ -183,7 +190,7 @@
         <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="92">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
         <childnode refid="4" relation="include">
@@ -209,7 +216,7 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="86">
+      <node id="88">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
         <childnode refid="5" relation="include">
@@ -221,7 +228,7 @@
         <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="89">
         <label>AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
         <childnode refid="5" relation="include">
@@ -233,7 +240,7 @@
         <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="91">
+      <node id="93">
         <label>AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
         <childnode refid="9" relation="include">
@@ -250,7 +257,7 @@
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
       <node id="77">
@@ -286,6 +293,8 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
@@ -307,17 +316,17 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="89">
+      <node id="91">
         <label>AGRemapCore/model/assets/VGRemaps.h</label>
         <link refid="_v_g_remaps_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
+        <childnode refid="92" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="90">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
         <childnode refid="5" relation="include">
@@ -325,7 +334,7 @@
         <childnode refid="77" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="86">
         <label>AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
         <childnode refid="3" relation="include">
@@ -344,6 +353,8 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
         <childnode refid="74" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
@@ -354,11 +365,13 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="87" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
       <node id="19">
@@ -560,8 +573,10 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
       </node>
-      <node id="116">
+      <node id="118">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
         <childnode refid="10" relation="include">
@@ -574,12 +589,12 @@
         </childnode>
         <childnode refid="81" relation="include">
         </childnode>
-        <childnode refid="117" relation="include">
+        <childnode refid="119" relation="include">
         </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
       </node>
-      <node id="118">
+      <node id="120">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
         <childnode refid="67" relation="include">
@@ -592,10 +607,10 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="119" relation="include">
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
-      <node id="119">
+      <node id="121">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
         <childnode refid="67" relation="include">
@@ -609,15 +624,17 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="117">
+      <node id="119">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
-        <childnode refid="118" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="119" relation="include">
+        <childnode refid="120" relation="include">
+        </childnode>
+        <childnode refid="121" relation="include">
         </childnode>
       </node>
-      <node id="85">
+      <node id="87">
         <label>AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
         <childnode refid="3" relation="include">
@@ -630,36 +647,36 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
-        </childnode>
-        <childnode refid="87" relation="include">
-        </childnode>
         <childnode refid="88" relation="include">
         </childnode>
         <childnode refid="89" relation="include">
+        </childnode>
+        <childnode refid="90" relation="include">
+        </childnode>
+        <childnode refid="91" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="28" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
-        </childnode>
-        <childnode refid="98" relation="include">
-        </childnode>
         <childnode refid="95" relation="include">
-        </childnode>
-        <childnode refid="99" relation="include">
         </childnode>
         <childnode refid="100" relation="include">
         </childnode>
+        <childnode refid="97" relation="include">
+        </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
         <childnode refid="102" relation="include">
         </childnode>
+        <childnode refid="104" relation="include">
+        </childnode>
       </node>
-      <node id="106">
+      <node id="108">
         <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
         <link refid="_mod_type_id_data_8h"/>
       </node>
-      <node id="103">
+      <node id="105">
         <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
         <link refid="_base_ini_classifier_8h"/>
         <childnode refid="4" relation="include">
@@ -668,20 +685,20 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="106" relation="include">
         </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="107" relation="include">
         </childnode>
       </node>
-      <node id="105">
+      <node id="107">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
         <link refid="_ini_classify_stats_8h"/>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="106" relation="include">
+        <childnode refid="108" relation="include">
         </childnode>
       </node>
-      <node id="93">
+      <node id="95">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
         <link refid="_base_ini_fixer_8h"/>
         <childnode refid="5" relation="include">
@@ -692,18 +709,18 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="94" relation="include">
-        </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="97" relation="include">
         </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
       </node>
-      <node id="110">
+      <node id="112">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
         <link refid="_base_ini_part_edit_8h"/>
       </node>
-      <node id="98">
+      <node id="100">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -722,16 +739,16 @@
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
-        </childnode>
         <childnode refid="93" relation="include">
         </childnode>
+        <childnode refid="95" relation="include">
+        </childnode>
       </node>
-      <node id="94">
+      <node id="96">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
       </node>
-      <node id="109">
+      <node id="111">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
         <link refid="_base_ini_graph_group_edit_8h"/>
         <childnode refid="9" relation="include">
@@ -742,11 +759,11 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="110" relation="include">
+        <childnode refid="112" relation="include">
         </childnode>
         <childnode refid="71" relation="include">
         </childnode>
-        <childnode refid="111" relation="include">
+        <childnode refid="113" relation="include">
         </childnode>
       </node>
       <node id="71">
@@ -777,7 +794,7 @@
         <childnode refid="72" relation="include">
         </childnode>
       </node>
-      <node id="95">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="10" relation="include">
@@ -788,10 +805,10 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="96" relation="include">
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
-      <node id="107">
+      <node id="109">
         <label>AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
         <childnode refid="9" relation="include">
@@ -820,9 +837,9 @@
         </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="108" relation="include">
+        <childnode refid="110" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -834,22 +851,22 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="109" relation="include">
+        <childnode refid="111" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
-        <childnode refid="112" relation="include">
+        <childnode refid="114" relation="include">
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="115" relation="include">
+        <childnode refid="117" relation="include">
         </childnode>
-        <childnode refid="122" relation="include">
+        <childnode refid="124" relation="include">
         </childnode>
-        <childnode refid="130" relation="include">
+        <childnode refid="132" relation="include">
         </childnode>
       </node>
-      <node id="112">
+      <node id="114">
         <label>AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="9" relation="include">
@@ -868,9 +885,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="113" relation="include">
+        <childnode refid="115" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
@@ -884,7 +901,7 @@
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="114" relation="include">
+        <childnode refid="116" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -907,7 +924,7 @@
         <childnode refid="73" relation="include">
         </childnode>
       </node>
-      <node id="99">
+      <node id="101">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -922,7 +939,7 @@
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="95" relation="include">
+        <childnode refid="97" relation="include">
         </childnode>
       </node>
       <node id="73">
@@ -955,7 +972,7 @@
         <childnode refid="55" relation="include">
         </childnode>
       </node>
-      <node id="115">
+      <node id="117">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="10" relation="include">
@@ -972,30 +989,30 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="116" relation="include">
+        <childnode refid="118" relation="include">
         </childnode>
         <childnode refid="73" relation="include">
         </childnode>
-        <childnode refid="120" relation="include">
+        <childnode refid="122" relation="include">
         </childnode>
-        <childnode refid="121" relation="include">
+        <childnode refid="123" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="102">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
-      <node id="101">
+      <node id="103">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="102">
+      <node id="104">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -1010,7 +1027,7 @@
         </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
       <node id="29">
@@ -1025,7 +1042,7 @@
         <childnode refid="32" relation="include">
         </childnode>
       </node>
-      <node id="125">
+      <node id="127">
         <label>AGRemapCore/tools/BiMap.h</label>
         <link refid="_bi_map_8h"/>
         <childnode refid="6" relation="include">
@@ -1036,7 +1053,7 @@
         </childnode>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="126" relation="include">
+        <childnode refid="128" relation="include">
         </childnode>
       </node>
       <node id="65">
@@ -1051,6 +1068,14 @@
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="68" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="28">
@@ -1071,15 +1096,15 @@
         <childnode refid="33" relation="include">
         </childnode>
       </node>
-      <node id="127">
+      <node id="129">
         <label>AGRemapCore/tools/StringHash.h</label>
         <link refid="_string_hash_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="124" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
       </node>
-      <node id="120">
+      <node id="122">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
         <childnode refid="4" relation="include">
@@ -1247,24 +1272,24 @@
         <childnode refid="7" relation="include">
         </childnode>
       </node>
-      <node id="122">
+      <node id="124">
         <label>AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</label>
         <link refid="_base_aho_corasick_d_f_a_8h"/>
         <childnode refid="37" relation="include">
         </childnode>
-        <childnode refid="123" relation="include">
+        <childnode refid="125" relation="include">
         </childnode>
-        <childnode refid="129" relation="include">
+        <childnode refid="131" relation="include">
         </childnode>
       </node>
-      <node id="123">
+      <node id="125">
         <label>AGRemapCore/tools/tries/BaseTrie.h</label>
         <link refid="_base_trie_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="124" relation="include">
+        <childnode refid="126" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -1282,13 +1307,13 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="125" relation="include">
+        <childnode refid="127" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
-        <childnode refid="127" relation="include">
+        <childnode refid="129" relation="include">
         </childnode>
-        <childnode refid="128" relation="include">
+        <childnode refid="130" relation="include">
         </childnode>
       </node>
       <node id="55">
@@ -1307,29 +1332,44 @@
         <childnode refid="55" relation="include">
         </childnode>
       </node>
+      <node id="82">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="67" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
-        <childnode refid="84" relation="include">
+        <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="107" relation="include">
+        <childnode refid="109" relation="include">
         </childnode>
       </node>
-      <node id="47">
-        <label>CallGraph.tpp</label>
-      </node>
-      <node id="130">
+      <node id="132">
         <label>GIMIParser.tpp</label>
       </node>
-      <node id="114">
+      <node id="116">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="68">
@@ -1359,13 +1399,13 @@
       <node id="70">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="121">
+      <node id="123">
         <label>IniParseDownloadData.tpp</label>
       </node>
       <node id="69">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="92">
+      <node id="94">
         <label>ModAssets.tpp</label>
       </node>
       <node id="79">
@@ -1410,7 +1450,7 @@
       <node id="67">
         <label>exception</label>
       </node>
-      <node id="82">
+      <node id="84">
         <label>filesystem</label>
       </node>
       <node id="10">
@@ -1440,7 +1480,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="124">
+      <node id="126">
         <label>string_view</label>
       </node>
       <node id="12">
@@ -1668,40 +1708,52 @@
 <codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="190"><highlight class="normal"></highlight></codeline>
 <codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileParseContext::modTypeName()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
-<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;name;</highlight></codeline>
-<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"></highlight></codeline>
-<codeline lineno="201"><highlight class="normal"></highlight></codeline>
-<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::Assets*<sp/>IniFileParseContext::modTypeHashes()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
-<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="207"><highlight class="normal"></highlight></codeline>
-<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;hashes.get();</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight></codeline>
-<codeline lineno="211"><highlight class="normal"></highlight></codeline>
-<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::Assets*<sp/>IniFileParseContext::modTypeIndices()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
-<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="217"><highlight class="normal"></highlight></codeline>
-<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;indices.get();</highlight></codeline>
-<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight></codeline>
-<codeline lineno="221"><highlight class="normal"></highlight></codeline>
-<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::GraphGroups&amp;<sp/>IniFileParseContext::graphGroups()<sp/>{</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*groups_;</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="225"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileParseContext::log(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Straight<sp/>through<sp/>to<sp/>the<sp/>.ini<sp/>file&apos;s<sp/>own<sp/>view,<sp/>and<sp/>dropped<sp/>when<sp/>it<sp/>has<sp/>none.<sp/>Unlike</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniFileFixContext::log<sp/>this<sp/>buffers<sp/>nothing:<sp/>a<sp/>parser&apos;s<sp/>narration<sp/>is<sp/>progress,<sp/>only</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>meaningful<sp/>as<sp/>it<sp/>happens,<sp/>whereas<sp/>the<sp/>fixer&apos;s<sp/>lines<sp/>are<sp/>also<sp/>read<sp/>back<sp/>by<sp/>MultiModFixer.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni()<sp/>||<sp/>iniFile_-&gt;logger<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile_-&gt;logger-&gt;log(message);</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>IniFileParseContext::modTypeName()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;name;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::Assets*<sp/>IniFileParseContext::modTypeHashes()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;hashes.get();</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::Assets*<sp/>IniFileParseContext::modTypeIndices()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>type<sp/>=<sp/>modType();</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(type<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>type-&gt;indices.get();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>IniFileParseContext::GraphGroups&amp;<sp/>IniFileParseContext::graphGroups()<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>*groups_;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/strategies/iniParsers/IniFileParseContext.cpp"/>
   </compounddef>

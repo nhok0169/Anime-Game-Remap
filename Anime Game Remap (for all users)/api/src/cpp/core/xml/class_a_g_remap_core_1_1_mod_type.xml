@@ -796,7 +796,7 @@ Returns nothing, also matching the original: the fix it produces is written out 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="433" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="171" bodyend="178"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="433" column="18" bodyfile="src/model/strategies/ModType.cpp" bodystart="171" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_type_1ad6dab03cb8c6d73e5d22248fc8e4ed7e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -859,7 +859,7 @@ wanted -- see :cpp:func:`ModMappedAssets::hasFrom`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="180" bodyend="193"/>
+        <location file="include/AGRemapCore/model/strategies/ModType.h" line="452" column="20" bodyfile="src/model/strategies/ModType.cpp" bodystart="190" bodyend="203"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

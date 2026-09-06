@@ -37,8 +37,11 @@
 //  cext/z3/bin/libz3.dll next to test.exe before running it)
 // -----------------------------------------------------------------------------
 
+#include "AGRemapCore/constants/GIBuilder.h"
+#include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/data/HashData.h"
 #include "AGRemapCore/data/HashToModObjData.h"
+#include "AGRemapCore/data/IniParseBuilderData.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
@@ -181,6 +184,14 @@ class TestIniParseContext: public IniParseContext<std::string, std::string> {
         Assets* modTypeHashes() const override { return hashes; }
         Assets* modTypeIndices() const override { return indices; }
         GraphGroups& graphGroups() override { return groupsView_; }
+
+        // IniParseContext::log is newer than the rest of this stub -- it arrived with the C++
+        // view (AGRemapCore::BaseLogger), and its absence here is what made this class abstract
+        // and this whole file stop compiling. Collected rather than dropped so a test can assert
+        // on a parser's narration, though none does yet.
+        void log(const std::string& message) override { logged.push_back(message); }
+
+        std::vector<std::string> logged;
 
     private:
         // tsl::ordered_map so sectionNames() is genuinely declaration-ordered, matching what a real
@@ -533,6 +544,115 @@ void testDownloadModeDisabled() {
 }
 
 
+// ---------------------------------------------------------------------------------------
+// IniParseBuilderFuncs::raiden6_1 -- the first non-stub row in the parse table
+// ---------------------------------------------------------------------------------------
+
+void testRaiden6_1() {
+    std::printf("\n--- IniParseBuilderFuncs::raiden6_1 ---\n");
+
+    // The mod objects the factory is specified to carry, and the mod type whose real asset tables
+    // it classifies against.
+    const std::vector<ModObj> expectedModObjs = {ModObj("", "head"), ModObj("", "body"), ModObj("", "dress"),
+                                                 ModObj("", "blend")};
+
+    // Held by value: GIBuilder::all() returns a fresh vector, so pointing into a temporary would
+    // dangle the moment the loop ended.
+    const std::vector<ModType> modTypes = GIBuilder::all();
+
+    const ModType* raiden = nullptr;
+    for (const ModType& modType : modTypes) {
+        if (modType.name == ModTypeIdTools::getName(ModTypeId::Raiden)) {
+            raiden = &modType;
+            break;
+        }
+    }
+
+    if (raiden == nullptr) {
+        check(false, "the GI registry has a Raiden mod type");
+        return;
+    }
+
+    // ---- the parser the factory builds ----
+    // nullptr .ini file: the parser is inspected, not run. That leaves the context without a
+    // ModType (see IniFileParseContext::modType), so the classifier it wires up gets null assets --
+    // which is exactly why the classification half below is driven through a classifier built the
+    // same way but pointed at Raiden's real tables.
+    IniParseBuilder::Factory factory = IniParseBuilderFuncs::raiden6_1();
+    std::shared_ptr<BaseIniParser<>> built = factory(nullptr, static_cast<int>(ModTypeId::Raiden));
+
+    auto* parser = dynamic_cast<GIMIParser<>*>(built.get());
+    check(parser != nullptr, "raiden6_1 builds a GIMIParser, not a bare BaseIniParser");
+
+    if (parser != nullptr) {
+        check(parser->modObjs() == expectedModObjs, "and carries the head/body/dress mod objects, in order");
+        check(parser->objTargetFuncs.size() == 1, "and exactly one obj target func -- the section classifier");
+        check(!parser->disjointModObjs, "and is NOT disjoint -- one section may name several mod objects");
+    }
+
+    // Same row is reachable through the real table, not just by calling the generator directly.
+    auto row = IniParseBuilderData::repo()->get({ModTypeIdTools::getName(ModTypeId::Raiden)}, Version::parse("6.1"), false);
+    check(row.has_value(), "the 6.1 row resolves through the real parse table");
+
+    if (row.has_value()) {
+        // Held in a named shared_ptr: calling .get() straight off the factory's return value reads
+        // the parser after the temporary owning it has already been destroyed.
+        std::shared_ptr<BaseIniParser<>> tableBuilt = (*row)(nullptr, static_cast<int>(ModTypeId::Raiden));
+
+        auto* tableParser = dynamic_cast<GIMIParser<>*>(tableBuilt.get());
+        check(tableParser != nullptr && tableParser->modObjs() == expectedModObjs,
+              "and the table's own factory builds the same parser");
+    }
+
+    // ---- what that parser's classifier actually classifies ----
+    // Rebuilt here rather than reached through the parser, since the parser above has no .ini file
+    // to take assets from. The configuration is the one raiden6_1 specifies: no hash-only mapping
+    // at all, and the three mod objects reachable only through the 'ib' hash plus a
+    // match_first_index.
+    GIMISectionClassifier<> classifier({{"blend_vb", ModObj("", "blend")}}, raiden->hashes.get(),
+                                        {{"ib", {{{"", "head"}, ModObj("", "head")},
+                                                 {{"", "body"}, ModObj("", "body")},
+                                                 {{"", "dress"}, ModObj("", "dress")}}}},
+                                        raiden->indices.get(), Version::parse("6.1"));
+
+    // Raiden's real 4.3-and-later ib, and her real head/body/dress first indices.
+    const std::string ib = "7a583c12";
+    const std::vector<std::pair<std::string, std::string>> objIndices = {
+        {"head", "0"}, {"body", "17769"}, {"dress", "52473"}};
+
+    for (const auto& entry : objIndices) {
+        Colouring colouring = makeColouring({{"hash", {{0, ib}}}, {"match_first_index", {{1, entry.second}}}});
+        auto result = classifier.classify("TextureOverrideRaidenShogun", nullptr, colouring);
+
+        check(result.size() == 1 && result[0] == ModObj("", entry.first),
+              ("the ib hash plus first index " + entry.second + " classifies as " + entry.first).c_str());
+    }
+
+    // The whole point of leaving hashKeyOnlyToModObj empty: the ib alone names no object, since
+    // all three share it.
+    Colouring ibOnly = makeColouring({{"hash", {{0, ib}}}});
+    check(classifier.classify("TextureOverrideRaidenShogun", nullptr, ibOnly).empty(),
+          "the ib hash on its own classifies as nothing -- all three objects share it");
+
+    // blend IS classifiable by its hash alone -- it is the one mod object here that needs no
+    // index, since 'blend_vb' names it outright.
+    Colouring blendOnly = makeColouring({{"hash", {{0, "1a495487"}}}});
+    auto blendResult = classifier.classify("TextureOverrideRaidenShogun", nullptr, blendOnly);
+    check(blendResult.size() == 1 && blendResult[0] == ModObj("", "blend"),
+          "the blend_vb hash alone classifies as blend -- no match_first_index needed");
+
+    // A hash Raiden really has that is in neither mapping: position_vb names no mod object here,
+    // where the *default* classifier would have resolved it to one.
+    Colouring positionOnly = makeColouring({{"hash", {{0, "e48c61f3"}}}});
+    check(classifier.classify("TextureOverrideRaidenShogun", nullptr, positionOnly).empty(),
+          "a hash in neither mapping classifies as nothing -- only ib and blend_vb are wired up");
+
+    Colouring unknownIndex = makeColouring({{"hash", {{0, ib}}}, {"match_first_index", {{1, "999999"}}}});
+    check(classifier.classify("TextureOverrideRaidenShogun", nullptr, unknownIndex).empty(),
+          "an unrecognized first index classifies as nothing");
+}
+
+
 int main() {
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
@@ -542,6 +662,7 @@ int main() {
     testParse();
     testSharedDownload();
     testDownloadModeDisabled();
+    testRaiden6_1();
 
     if (failures == 0) {
         std::printf("\nALL PASSED\n");

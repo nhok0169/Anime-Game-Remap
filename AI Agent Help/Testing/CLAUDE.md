@@ -832,3 +832,31 @@ incorrect`) but imports fine from the PowerShell tool — this is a tool/environ
 real failure. See [Building](../Building/CLAUDE.md)'s "Verifying a build/binding change in Python
 directly" for the confirmed repro. Run the Unit Tester itself (`py -3 main.py ...`) from the
 PowerShell tool when testing anything that touches `core`/`cy`.
+
+
+## The suites cannot see a remap at all — run the real CLI and diff against the old script
+
+[CreatingRemaps](../CreatingRemaps/CLAUDE.md) has the full recipe; this is the short version of why
+you cannot skip it.
+
+Building Raiden's 6.1 remap produced **five** independent bugs that a green suite reported nothing
+about: a fix that generated no remapped sections, a `Blend.buf` written as an unremapped copy, a
+resource counted nowhere, an `--undo` that discarded its own result, and every `.ini` file reflowed
+from CRLF to LF. The Python suite cannot see `AGRemapCore` work with no binding, and the standalone
+`core/tests/*.cpp` only assert on a strategy's *shape* — that a fixer has two group edits and the
+right `hiddenModObjs`, not what it emits.
+
+The A/B loop that does catch them: copy a real mod, undo it with `FixRaidenBoss6.py -u` to get a
+genuinely unfixed baseline, run the old script and the new API against separate copies, and diff.
+The decisive check is that the emitted `Blend.buf` **differs from its source** — an unremapped copy
+is byte-identical, produces a correct-looking `.ini`, and reports success.
+
+Then run the fix **3-4 times in a row**. Repeat-run stability is where re-fixing your own output,
+unbounded trailing newlines, and line-ending reflow show up; none of them appear on a single run.
+
+## When you add a row to a builder table, `BuilderData_test.cpp` breaks silently
+
+`core/tests/BuilderData_test.cpp` asserts exact row and version counts for all three builder tables
+(`54 rows / 10 versions` for parse, `79` for fix, as of Raiden's 6.1 rows). Adding a character's row
+breaks it, and since nothing builds `core/tests/*.cpp`, nothing tells you. This is the same trap
+already described above for interface changes — it applies to *data* changes too.

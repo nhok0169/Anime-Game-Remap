@@ -43,20 +43,26 @@
         <link refid="_remap_tex_resource_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="3">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>

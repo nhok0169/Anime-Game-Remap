@@ -110,6 +110,47 @@ namespace AGRemapCore {
 
             std::optional<std::string> modTypeName() const override;
 
+            /**
+             * @brief
+             @rst
+             The ``hash`` assets of the ``.ini`` file's own :cpp:class:`ModType` -- **borrowed**,
+             and ``nullptr`` when the file has no mod type :raw-html:`<br />` :raw-html:`<br />`
+
+             The fix-side counterpart of :cpp:func:`IniFileParseContext::modTypeHashes`, and public
+             for the same reason that one is: a strategy legitimately needs the assets, while the
+             :cpp:class:`ModType` itself stays private :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                This sits on the **concrete** context rather than on the
+                :cpp:class:`IniFixContext` seam, unlike the parse side's equivalent. Only a fixer
+                that owns its own :cpp:class:`IniFileFixContext` (the way
+                :cpp:func:`IniFixBuilderFuncs::raiden6_1`'s does) can reach it. Promote it to the
+                seam if one reached *through* the seam ever needs it -- and remember that means
+                implementing it on the `pybind11`_ side too
+             @endrst
+             */
+            Hashes* modTypeHashes() const;
+
+            /**
+             * @brief
+             @rst
+             The ``match_first_index`` assets of the ``.ini`` file's own :cpp:class:`ModType` --
+             **borrowed**, and ``nullptr`` when the file has no mod type. The companion of
+             ef modTypeHashes, and on the concrete class for the same reason
+             @endrst
+             */
+            Indices* modTypeIndices() const;
+
+            /**
+             * @brief
+             @rst
+             The version of the ``.ini`` file being fixed, or ``std::nullopt`` when it has none --
+             the fix-side counterpart of :cpp:func:`IniFileParseContext::version`, and on the
+             concrete class for the same reason \ref modTypeHashes is
+             @endrst
+             */
+            std::optional<Version> version() const;
+
             bool hasIni() const override;
             std::vector<std::string> modsToFix() const override;
             std::optional<std::string> fixedFilePath(std::size_t groupInd) const override;
@@ -122,9 +163,22 @@ namespace AGRemapCore {
             void setIsFixed(bool isFixed) override;
             std::unique_ptr<GraphGroups> makeGraphGroups() override;
 
-        private:
-            // The .ini file's own ModType for #getModTypeId, or nullptr when there is none.
+            /**
+             * @brief
+             @rst
+             The ``.ini`` file's own :cpp:class:`ModType`, or ``nullptr`` when it has none --
+             **borrowed** :raw-html:`<br />` :raw-html:`<br />`
+
+             Public where :cpp:func:`IniFileParseContext::modType` is private, because a fixer has
+             a use the parse side never had: :cpp:func:`ModType::getVGRemap` is the only source of
+             a ``Blend.buf``'s vertex-group remap, and no narrower accessor covers it the way
+             ef modTypeHashes covers the hash table. Those two are derived from this anyway, so
+             exposing it widens nothing they did not already
+             @endrst
+             */
             const ModType* modType() const;
+
+        private:
 
             IniFile* iniFile_;
             std::optional<int> modTypeId_;

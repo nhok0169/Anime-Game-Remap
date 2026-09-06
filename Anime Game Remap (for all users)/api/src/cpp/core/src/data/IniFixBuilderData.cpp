@@ -1,5 +1,6 @@
 #include "AGRemapCore/data/IniFixBuilderData.h"
 
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -217,6 +218,14 @@ namespace AGRemapCore {
                 // ===== Raiden @ toVersion 4.0 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "4.0", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::giDefault()},
+
+                // ===== Amber @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniFixBuilderFuncs::amber6_1()},
+
+                // ===== Raiden @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},
 
                 // ===== Rosaria @ toVersion 4.0 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Rosaria),

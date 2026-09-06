@@ -46,6 +46,35 @@ did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="59" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="59" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_removal_context_1a33630e11ea39ec7445518a36584062b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniRemovalContext::keepBackups</definition>
+        <argsstring></argsstring>
+        <name>keepBackups</name>
+        <qualifiedname>AGRemapCore::IniRemovalContext::keepBackups</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the backup this fix left beside the ``.ini`` file survives the removal
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Fixing a ``.ini`` file moves the original aside as ``RemapBKUP&lt;name&gt;.txt`` (see
+:cpp:func:`IniFile::disableIni`). Removing that fix puts the ``.ini`` file back, which
+leaves the backup with nothing left to protect -- so with this ``false``, the removal
+deletes it as well :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Defaults to ``true`` because that is the side to err on: a backup kept when it did not
+   need to be is clutter, whereas one deleted when it was still wanted is the user&apos;s
+   original ``.ini`` file gone for good
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="78" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a27902a2a5e409888c4180af7d9f0f8f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
@@ -60,17 +89,22 @@ did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="61" column="9"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="80" column="9"/>
       </memberdef>
-      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a38d3a46a2e81c6a2e4683d104d9d0d8c" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a49b3069073f3d383ee567ee823d9c26d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::IniRemovalContext::IniRemovalContext</definition>
-        <argsstring>(bool ignoreModType)</argsstring>
+        <argsstring>(bool ignoreModType, bool keepBackups=true)</argsstring>
         <name>IniRemovalContext</name>
         <qualifiedname>AGRemapCore::IniRemovalContext::IniRemovalContext</qualifiedname>
         <param>
           <type>bool</type>
           <declname>ignoreModType</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>keepBackups</declname>
+          <defval>true</defval>
         </param>
         <briefdescription>
 <para>Constructs a new set of removal options. </para>
@@ -84,12 +118,20 @@ did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
 <para>See <ref refid="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" kindref="member">ignoreModType</ref>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>keepBackups</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>See <ref refid="struct_a_g_remap_core_1_1_ini_removal_context_1a33630e11ea39ec7445518a36584062b3" kindref="member">keepBackups</ref>. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="68" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="68" bodyend="68"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="88" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="88" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -114,11 +156,12 @@ asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    it once and hand the same type to every remover instantiation
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="28" bodyend="69"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="28" bodyend="90"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>ignoreModType</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a27902a2a5e409888c4180af7d9f0f8f2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>
-      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a38d3a46a2e81c6a2e4683d104d9d0d8c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a49b3069073f3d383ee567ee823d9c26d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a33630e11ea39ec7445518a36584062b3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>keepBackups</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

@@ -13,7 +13,9 @@
     <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
     <includes refid="_binary_file_8h" local="yes">AGRemapCore/model/files/BinaryFile.h</includes>
     <includedby refid="_blend_file_8h" local="yes">include/AGRemapCore/model/files/BlendFile.h</includedby>
+    <includedby refid="_ib_file_8h" local="yes">include/AGRemapCore/model/files/IbFile.h</includedby>
     <includedby refid="_position_file_8h" local="yes">include/AGRemapCore/model/files/PositionFile.h</includedby>
+    <includedby refid="_vb_file_8h" local="yes">include/AGRemapCore/model/files/VbFile.h</includedby>
     <includedby refid="_base_buf_editor_8h" local="yes">include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h</includedby>
     <includedby refid="_buf_editor_8h" local="yes">include/AGRemapCore/model/strategies/bufEditors/BufEditor.h</includedby>
     <includedby refid="_buf_file_8cpp" local="yes">src/model/files/BufFile.cpp</includedby>
@@ -136,7 +138,7 @@
         <link refid="_blend_file_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -144,19 +146,35 @@
         <link refid="_buf_file_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
+        <label>include/AGRemapCore/model/files/IbFile.h</label>
+        <link refid="_ib_file_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
         <label>include/AGRemapCore/model/files/PositionFile.h</label>
         <link refid="_position_file_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>include/AGRemapCore/model/files/VbFile.h</label>
+        <link refid="_vb_file_8h"/>
+        <childnode refid="12" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -164,47 +182,62 @@
         <link refid="_remap_blend_resource_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="13">
         <label>include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h</label>
         <link refid="_base_buf_editor_8h"/>
-        <childnode refid="9" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="14">
         <label>include/AGRemapCore/model/strategies/bufEditors/BufEditor.h</label>
         <link refid="_buf_editor_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="4">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/model/files/BlendFile.cpp</label>
         <link refid="_blend_file_8cpp"/>
       </node>
-      <node id="12">
+      <node id="17">
         <label>src/model/files/BufFile.cpp</label>
         <link refid="_buf_file_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
+        <label>src/model/files/IbFile.cpp</label>
+        <link refid="_ib_file_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/model/files/PositionFile.cpp</label>
         <link refid="_position_file_8cpp"/>
       </node>
-      <node id="4">
+      <node id="12">
+        <label>src/model/files/VbFile.cpp</label>
+        <link refid="_vb_file_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="11">
+      <node id="16">
         <label>src/model/strategies/bufEditors/BaseBufEditor.cpp</label>
         <link refid="_base_buf_editor_8cpp"/>
       </node>
-      <node id="10">
+      <node id="15">
         <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
         <link refid="_buf_editor_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_buf_file" prot="public">AGRemapCore::BufFile</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" prot="public">AGRemapCore::BufFile::BufColumnData</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -236,46 +269,70 @@
 <codeline lineno="51"><highlight class="normal"></highlight></codeline>
 <codeline lineno="60" refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">FixResult</ref><sp/>=<sp/>std::variant&lt;std::string,<sp/>ByteVec&gt;;</highlight></codeline>
 <codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src,<sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/>elements,<sp/>std::string<sp/>fileType<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Buffer&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76" refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" kindref="member">~BufFile</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" kindref="member">BufColumn</ref><sp/>=<sp/>std::variant&lt;std::vector&lt;long<sp/>long&gt;,<sp/>std::vector&lt;unsigned<sp/>long<sp/>long&gt;,<sp/>std::vector&lt;double&gt;&gt;;</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Owns<sp/>its<sp/>BufElementTypes<sp/>via<sp/>unique_ptr<sp/>--<sp/>see<sp/>BufElementType&apos;s<sp/>identical<sp/>note<sp/>for</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>why<sp/>these<sp/>are<sp/>explicit<sp/>rather<sp/>than<sp/>left<sp/>implicit.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="80" refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" kindref="member">BufFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="81" refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="82" refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" kindref="member">BufFile</ref>(<ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="83" refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" kindref="member">operator=</ref>(<ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" kindref="member">getFileType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" kindref="member">setFileType</ref>(std::string<sp/>fileType);</highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="85" refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" kindref="compound">BufColumnData</ref><sp/>{</highlight></codeline>
+<codeline lineno="89" refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a2ebd98a3ff88abfb7e7bc8fd0c403240" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a2ebd98a3ff88abfb7e7bc8fd0c403240" kindref="member">elementKey</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a353ea177e53389a6350db62ea546cf7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a353ea177e53389a6350db62ea546cf7c" kindref="member">valueInd</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a77e9a76ff119a4e6a18436d0dc4ec42a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" kindref="member">BufColumn</ref><sp/><ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a77e9a76ff119a4e6a18436d0dc4ec42a" kindref="member">values</ref>;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="101"><highlight class="normal"></highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" kindref="member">setElements</ref>(std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/>elements);</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" kindref="member">getBytesPerLine</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"></highlight></codeline>
-<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" kindref="member">read</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" kindref="member">decodeLine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"></highlight></codeline>
-<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" kindref="member">encodeLine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="151"><highlight class="normal"></highlight></codeline>
-<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">FixResult</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" kindref="member">fix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>fixedFile<sp/>=<sp/>std::nullopt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Filter&gt;&amp;<sp/>filters<sp/>=<sp/>{});</highlight></codeline>
-<codeline lineno="162"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="164" refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" kindref="member">fileType_</ref>;</highlight></codeline>
-<codeline lineno="165" refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" kindref="member">elements_</ref>;</highlight></codeline>
-<codeline lineno="166" refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" kindref="member">elementKeys_</ref>;</highlight></codeline>
-<codeline lineno="167" refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" kindref="member">bytesPerLine_</ref><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="169"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"></highlight></codeline>
-<codeline lineno="171"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>(<ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref><sp/>src,<sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/>elements,<sp/>std::string<sp/>fileType<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Buffer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" kindref="member">~BufFile</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Owns<sp/>its<sp/>BufElementTypes<sp/>via<sp/>unique_ptr<sp/>--<sp/>see<sp/>BufElementType&apos;s<sp/>identical<sp/>note<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>why<sp/>these<sp/>are<sp/>explicit<sp/>rather<sp/>than<sp/>left<sp/>implicit.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" kindref="member">BufFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122" refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" kindref="member">BufFile</ref>(<ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="123" refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" kindref="member">operator=</ref>(<ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref>&amp;&amp;)<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" kindref="member">getFileType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" kindref="member">setFileType</ref>(std::string<sp/>fileType);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" kindref="member">setElements</ref>(std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/>elements);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" kindref="member">getBytesPerLine</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" kindref="member">isValid</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" kindref="member">read</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" kindref="member">decodeLine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" kindref="member">encodeLine</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref>&amp;<sp/>src)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">FixResult</ref><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" kindref="member">fix</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;std::string&gt;&amp;<sp/>fixedFile<sp/>=<sp/>std::nullopt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;Filter&gt;&amp;<sp/>filters<sp/>=<sp/>{});</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BufColumnData&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" kindref="member">decodeAll</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" kindref="member">merge</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;const<sp/>BufFile*&gt;&amp;<sp/>bufFiles);</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7932596085360312bfd789ca6084105a" kindref="member">getDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>prefix<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;vb0&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a73af1870c0837ad41b65100886559056" kindref="member">getFlatDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>valueSep<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a60c94d25b1c7ad9b794635f09cbbe823" kindref="member">readDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" kindref="member">readFlatDumpStr</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>text,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>valueSep<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;<sp/>&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" kindref="member">encodeAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;BufColumnData&gt;&amp;<sp/>columns);</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="365" refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" kindref="member">fileType_</ref>;</highlight></codeline>
+<codeline lineno="366" refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;BufElementType&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" kindref="member">elements_</ref>;</highlight></codeline>
+<codeline lineno="367" refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" kindref="member">elementKeys_</ref>;</highlight></codeline>
+<codeline lineno="368" refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" kindref="member">bytesPerLine_</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="370"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/files/BufFile.h"/>
   </compounddef>

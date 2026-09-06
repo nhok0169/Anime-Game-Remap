@@ -387,6 +387,7 @@ RegFillMissingMode
 .. doxygenenum:: AGRemapCore::RegFillMissingMode
 
 :raw-html:`<br />`
+
 :raw-html:`<br />`
 
 Data
@@ -461,6 +462,17 @@ GraphRename
 .. cppattributetable:: AGRemapCore::GraphRename
 
 .. doxygenclass:: AGRemapCore::GraphRename
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+RegDelimitedAdd
+---------------
+
+.. cppattributetable:: AGRemapCore::RegDelimitedAdd
+
+.. doxygenclass:: AGRemapCore::RegDelimitedAdd
     :members:
     :protected-members:
 
@@ -2039,6 +2051,8 @@ Z3Predicate
 .. _binary search: https://en.wikipedia.org/wiki/Binary_search
 .. _standard base 64: https://en.wikipedia.org/wiki/Base64
 .. _Python: https://www.python.org/
+.. _Blender: https://www.blender.org/
+.. _ConfigParser: https://docs.python.org/3/library/configparser.html#configparser.ConfigParser
 .. _Python's str.strip: https://docs.python.org/3/library/stdtypes.html#str.strip
 .. _Python's str.lstrip: https://docs.python.org/3/library/stdtypes.html#str.lstrip
 .. _Python's str.rstrip: https://docs.python.org/3/library/stdtypes.html#str.rstrip

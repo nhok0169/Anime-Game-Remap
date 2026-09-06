@@ -34,6 +34,10 @@ add_library(AGRemapCore STATIC
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
     src/data/IniRemoveBuilderData.cpp
+    src/data/IniParseData/RaidenParser.cpp
+    src/data/IniParseData/AmberParser.cpp
+    src/data/IniFixData/RaidenFixer.cpp
+    src/data/IniFixData/AmberFixer.cpp
     src/constants/GlobalIniClassifiers.cpp
     src/constants/GlobalModTypes.cpp
     src/model/Version.cpp

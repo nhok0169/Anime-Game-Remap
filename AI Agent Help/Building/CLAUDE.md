@@ -672,3 +672,39 @@ PYTHONPATH=<api/src/py> py -3 -m pybind11_stubgen FixRaidenBoss2.core -o <api/sr
 **Run that from Bash, not PowerShell** — PowerShell swallows the empty-string argument and
 stubgen fails with `--root-suffix: expected one argument`. Check `pybind11.__version__` is 3.0.4
 first or the regenerated stub churns against the committed one.
+
+
+## Build hygiene: three ways a "successful" build leaves you testing something else
+
+All three cost a debugging cycle in one session. None of them is exotic; they are what happens when
+you drive `ninja` yourself instead of going through `main.py`.
+
+**1. Never run two builds against the same `cbuild/` at once.** Ninja does not lock its build
+directory. Two overlapping runs fight over the same `.obj` paths and MSVC reports
+`fatal error C1083: Cannot open compiler generated file: ... Permission denied` — which reads like a
+missing header or a broken toolchain and is neither. If you background a build, **wait for it** (or
+poll `tasklist` for `ninja`/`cl.exe`/`link.exe`) before starting the next.
+
+**2. `NINJA_EXIT=0` is not "the build landed".** The install step is a separate `copy`, and it fails
+when something holds the destination `.pyd` open — most often **a `FixRaidenBoss*.py` run still
+sitting at `== Press ENTER to exit ==`**, which keeps the module loaded indefinitely. The symptom is
+`0 file(s) copied.` and nothing else. Always
+`echo COPY_EXIT=%errorlevel%` + `if errorlevel 1 exit /b 1` after the copy, and verify by the
+destination `.pyd`'s mtime before trusting a suite result. Ask the user to close the run rather than
+killing their process.
+
+**3. A partially-written `.pyd` looks like a real one.** A link that is still running (or was killed
+mid-way) leaves a file at the destination — one session found a 2,097,152-byte `core.pyd` next to
+the real 9.8MB one. **Verify by size *and* mtime**, not existence.
+
+A build script that ends in `echo BUILD_OK` only after every step, and a wait loop that greps for
+`BUILD_OK|NINJA_EXIT=[1-9]|COPY_EXIT=[1-9]|FAILED:`, removes all three. Grep the log for
+`error C`/`FAILED` **alongside** the exit codes — a per-target failure does not always change the
+overall exit code.
+
+## A `compile_check` over a few `.cpp` files does not cover a template you changed
+
+Spot-compiling the translation units you edited is a fast inner loop, and it misses anything in a
+`.tpp` that those TUs do not instantiate. Editing `GIMIFixer.tpp` compiled clean against four
+`data/*.cpp` files and then failed in `IniFixBuilder.cpp` and `bindings.cpp`, which instantiate more
+of it. Treat a spot-compile as a syntax check; the full `ninja` is the real one.

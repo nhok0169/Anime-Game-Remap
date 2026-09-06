@@ -4,20 +4,6 @@
     <compoundname>AGRemapCore::Z3Predicate::Impl</compoundname>
     <includes refid="_z3_internal_8h" local="no">Z3Internal.h</includes>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1a226088de31594c871898cc3b3deed591" prot="public" static="no" mutable="no">
-        <type>z3::expr</type>
-        <definition>z3::expr AGRemapCore::Z3Predicate::Impl::predicate</definition>
-        <argsstring></argsstring>
-        <name>predicate</name>
-        <qualifiedname>AGRemapCore::Z3Predicate::Impl::predicate</qualifiedname>
-        <briefdescription>
-        </briefdescription>
-        <detaileddescription>
-        </detaileddescription>
-        <inbodydescription>
-        </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="59" column="22" bodyfile="src/tools/z3/Z3Internal.h" bodystart="59" bodyend="-1"/>
-      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1aae500cab8ea07824447c0c8d889f82bd" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; z3::context &gt;</type>
         <definition>std::shared_ptr&lt;z3::context&gt; AGRemapCore::Z3Predicate::Impl::ctxKeepAlive</definition>
@@ -30,7 +16,21 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="61" column="29" bodyfile="src/tools/z3/Z3Internal.h" bodystart="61" bodyend="-1"/>
+        <location file="src/tools/z3/Z3Internal.h" line="66" column="29" bodyfile="src/tools/z3/Z3Internal.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1a226088de31594c871898cc3b3deed591" prot="public" static="no" mutable="no">
+        <type>z3::expr</type>
+        <definition>z3::expr AGRemapCore::Z3Predicate::Impl::predicate</definition>
+        <argsstring></argsstring>
+        <name>predicate</name>
+        <qualifiedname>AGRemapCore::Z3Predicate::Impl::predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/tools/z3/Z3Internal.h" line="70" column="22" bodyfile="src/tools/z3/Z3Internal.h" bodystart="70" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -61,7 +61,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/tools/z3/Z3Internal.h" line="49" column="5" bodyfile="src/tools/z3/Z3Internal.h" bodystart="49" bodyend="62"/>
+    <location file="src/tools/z3/Z3Internal.h" line="49" column="5" bodyfile="src/tools/z3/Z3Internal.h" bodystart="49" bodyend="71"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1aae500cab8ea07824447c0c8d889f82bd" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate::Impl</scope><name>ctxKeepAlive</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl_1aed5fe2b7e894979864bb0c650e4bf5ba" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Predicate::Impl</scope><name>Impl</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="44" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="49" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -39,7 +39,41 @@ and reused for every later call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="55" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="5" bodyend="12"/>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="60" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="10" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_remove_builders_1a889963a7d7a5527eb05bca4ee6b744d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_builder" kindref="compound">IniRemoveBuilder</ref> &gt; &amp;</type>
+        <definition>const std::shared_ptr&lt; IniRemoveBuilder &gt; &amp; AGRemapCore::GlobalIniRemoveBuilders::globalRemoveBuilder</definition>
+        <argsstring>()</argsstring>
+        <name>globalRemoveBuilder</name>
+        <qualifiedname>AGRemapCore::GlobalIniRemoveBuilders::globalRemoveBuilder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The shared :cpp:class:`IniRemoveBuilder` that produces the **general-use**
+:cpp:class:`GlobalRemapIniRemover`, lazily constructed on first access and reused for every
+later call :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is the remover for a ``.ini`` file that belongs to a mod but could not be
+attributed to any :cpp:enum:`ModTypeId` -- see :cpp:class:`GlobalRemapIniRemover`&apos;s own note
+on when that is the right one, and :cpp:func:`IniFile::removeFix`, which is what asks
+for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Kept separate from #removeBuilder rather than replacing it. The two differ only in
+   which remover they hand out, and that difference is the whole point: #removeBuilder&apos;s
+   :cpp:class:`RemapIniRemover` asks whose a leftover `section`_ is and this one&apos;s
+   :cpp:class:`GlobalRemapIniRemover` never does, so a caller that *has* mod types to ask
+   about still wants the former
+</verbatim></para>
+<para><simplesect kind="return"><para>The shared general-use remove builder </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="84" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="19" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -71,11 +105,17 @@ own, matching the pure-Python ``ModType``&apos;s own
    The builder returned here wraps :cpp:func:`IniRemoveBuilder::defaultFactory`, so it produces
    a real :cpp:class:`RemapIniRemover` -- the same thing the pure-Python original&apos;s
    ``IniRemoveBuilder(RemapIniRemover)`` produces
+
+.. note::
+   #globalRemoveBuilder is the second one here, and produces the general-use
+   :cpp:class:`GlobalRemapIniRemover` instead. It has no pure-Python counterpart -- that class is new
+   rather than ported
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="41" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" bodystart="41" bodyend="56"/>
+    <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="46" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" bodystart="46" bodyend="85"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a583b5b3e6b46f38744083dcc22a2f365" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>GlobalIniRemoveBuilders</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a889963a7d7a5527eb05bca4ee6b744d8" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>globalRemoveBuilder</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a8c14fde4f863004588f00d2b78ce37e6" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>removeBuilder</name></member>
     </listofallmembers>
   </compounddef>

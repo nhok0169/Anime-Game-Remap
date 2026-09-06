@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="36" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="38" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -44,7 +44,7 @@ caller adding a hash must not be visible to every other one -- the same reasonin
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="52" column="32" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="11" bodyend="13"/>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="54" column="32" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="11" bodyend="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -69,7 +69,38 @@ call :cpp:func:`ModTypeIdTools::clear` first to start from empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="68" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="15" bodyend="19"/>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="70" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="26" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_mod_types_1add98f2abc25606ce97be00805a4aeb0d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::GlobalModTypes::registerMissing</definition>
+        <argsstring>()</argsstring>
+        <name>registerMissing</name>
+        <qualifiedname>AGRemapCore::GlobalModTypes::registerMissing</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Files every shipped :cpp:class:`ModType` that is **not already registered** into
+:cpp:class:`ModTypeIdTools`&apos;s global registry, leaving every id the caller registered
+for itself exactly as it found it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The difference from #registerAll is only what happens on a collision: that one
+overwrites, this one yields. This is what the *implicit* population behind
+:cpp:func:`GlobalIniClassifiers::classifier` uses, so that asking for the default
+classifier can no longer silently replace a :cpp:class:`ModType` the caller had
+already registered under one of the shipped ids -- a caller that registered an id has
+said what it wants for that id, and the default filling in the rest is a different
+statement from the default overruling it
+
+.. note::
+   A caller that genuinely wants the shipped mod types to win calls #registerAll,
+   which still overwrites. Nothing implicit does
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="92" column="25" bodyfile="src/constants/GlobalModTypes.cpp" bodystart="15" bodyend="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -86,7 +117,9 @@ aggregated here rather than at each call site
 
 .. important::
    #registerAll is **not** called automatically by anything in ``AGRemapCore``, and that is
-   deliberate. :cpp:func:`ModTypeIdTools::getModType` and
+   deliberate. (#registerMissing *is*, by
+   :cpp:func:`GlobalIniClassifiers::classifier` -- but only ever to fill gaps, never to
+   overwrite what a caller registered.) :cpp:func:`ModTypeIdTools::getModType` and
    :cpp:func:`ModTypeIdTools::findByName` deliberately report only what was explicitly
    registered, which is what lets a caller (and the core&apos;s own tests) do
    :cpp:func:`ModTypeIdTools::clear` followed by
@@ -95,11 +128,12 @@ aggregated here rather than at each call site
    that. An application wanting the shipped mod types asks for them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/GlobalModTypes.h" bodystart="33" bodyend="69"/>
+    <location file="include/AGRemapCore/constants/GlobalModTypes.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/GlobalModTypes.h" bodystart="35" bodyend="93"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>all</name></member>
       <member refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>GlobalModTypes</name></member>
       <member refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>registerAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_mod_types_1add98f2abc25606ce97be00805a4aeb0d" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalModTypes</scope><name>registerMissing</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

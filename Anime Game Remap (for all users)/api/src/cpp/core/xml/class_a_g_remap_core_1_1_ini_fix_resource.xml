@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="85" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="85" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="118" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="118" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="80" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="12" bodyend="13"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="113" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="12" bodyend="13"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -142,11 +142,12 @@ own doc comment for why the generic ``fixFunc`` mechanism isn&apos;t carried ove
         <link refid="class_a_g_remap_core_1_1_ini_resource"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="69" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="69" bodyend="86"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="102" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="102" bodyend="119"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>fixedPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>IniFixResource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>logger</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>srcPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>type</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::IniFixResource</scope><name>~IniResource</name></member>

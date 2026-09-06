@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_download_mode_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DownloadModeTools</compoundname>
+    <includes refid="_download_mode_8h" local="no">DownloadMode.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_mode_tools_1a0b25678b28fa61201437f12b7eb08383" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::DownloadModeTools::getName</definition>
+        <argsstring>(DownloadMode value)</argsstring>
+        <name>getName</name>
+        <qualifiedname>AGRemapCore::DownloadModeTools::getName</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" kindref="member">DownloadMode</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>The string a user types for a download mode. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The download mode to name</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Its name </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="66" column="32" bodyfile="src/constants/DownloadMode.cpp" bodystart="8" bodyend="18"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_mode_tools_1a8dda7dade1c1d534d5497cb264063b4e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1ad2ffe451d58071792dc814afbcf37082" kindref="member">DownloadMode</ref> &gt;</type>
+        <definition>std::optional&lt; DownloadMode &gt; AGRemapCore::DownloadModeTools::findByName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>AGRemapCore::DownloadModeTools::findByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the :cpp:enum:`DownloadMode` a string names, ignoring case and surrounding
+whitespace :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   An **exact** match on the trimmed, lowercased text, where the pure-Python
+   ``DownloadMode.search`` did a maximal-substring `Aho-Corasick`_ match. With three
+   short values that search accepted things like ``&quot;normally&quot;`` and
+   ``&quot;not disabled&quot;`` -- the latter meaning the opposite of what it was matched to.
+   Nothing needs the leniency, and a typo reported as an error beats one silently
+   resolved to the wrong mode
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text to resolve</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The download mode it names, if it names one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="87" column="34" bodyfile="src/constants/DownloadMode.cpp" bodystart="20" bodyend="36"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Turns a :cpp:enum:`DownloadMode` into the string a user types for it, and back
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The strings are the `Python`_ ``DownloadMode`` enum&apos;s own values, which are what the command
+line actually accepts. Only :cpp:class:`RemapServiceCLI` needs them -- the model takes the enum
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="56" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="56" bodyend="88"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_download_mode_tools_1a8dda7dade1c1d534d5497cb264063b4e" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadModeTools</scope><name>findByName</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_mode_tools_1a0b25678b28fa61201437f12b7eb08383" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadModeTools</scope><name>getName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/model/strategies/iniFixers/graphEdits</compoundname>
     <innerfile refid="_base_ini_graph_edit_8h">BaseIniGraphEdit.h</innerfile>
     <innerfile refid="_graph_rename_8h">GraphRename.h</innerfile>
+    <innerfile refid="_reg_delimited_add_8h">RegDelimitedAdd.h</innerfile>
     <innerfile refid="_reg_fill_missing_8h">RegFillMissing.h</innerfile>
     <innerfile refid="_reg_surrounded_add_8h">RegSurroundedAdd.h</innerfile>
     <briefdescription>

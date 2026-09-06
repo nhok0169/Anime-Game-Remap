@@ -94,10 +94,14 @@ PyRegSurroundedAdd::Core::RegMap parseRegMap(const py::object &regsObj) {
 }
 
 
-PyRegSurroundedAdd::PyRegSurroundedAdd(py::object additionObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest):
-    Core(parseAddition(additionObj), parseRegMap(beforeRegsObj), parseRegMap(afterRegsObj), latest),
+PyRegSurroundedAdd::PyRegSurroundedAdd(py::object additionObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest,
+                                       py::object optBeforeRegsObj, py::object optAfterRegsObj):
+    Core(parseAddition(additionObj), parseRegMap(beforeRegsObj), parseRegMap(afterRegsObj), latest, parseRegMap(optBeforeRegsObj),
+         parseRegMap(optAfterRegsObj)),
     beforeRegsObj(beforeRegsObj.is_none() ? py::dict() : beforeRegsObj.cast<py::dict>()),
-    afterRegsObj(afterRegsObj.is_none() ? py::dict() : afterRegsObj.cast<py::dict>()) {}
+    afterRegsObj(afterRegsObj.is_none() ? py::dict() : afterRegsObj.cast<py::dict>()),
+    optBeforeRegsObj(optBeforeRegsObj.is_none() ? py::dict() : optBeforeRegsObj.cast<py::dict>()),
+    optAfterRegsObj(optAfterRegsObj.is_none() ? py::dict() : optAfterRegsObj.cast<py::dict>()) {}
 
 
 void initCppRegSurroundedAdd(pybind11::module_ &m) {
@@ -139,15 +143,48 @@ latest: :class:`bool`
     instead of the earliest one :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``False``
+
+optBeforeRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+    Registers of which **at least one** must come before :attr:`addition` -- same format as
+    :attr:`beforeRegs`, but "any of" rather than "all of" :raw-html:`<br />` :raw-html:`<br />`
+
+    Combined with :attr:`beforeRegs` by conjunction: the window only opens once every
+    :attr:`beforeRegs` register **and** at least one of these has been seen (and accepted by its
+    predicate). ``None``/empty means no extra constraint :raw-html:`<br />` :raw-html:`<br />`
+
+    .. note::
+        Across branches/``run =`` calls each register is tracked with its own guarantee and the
+        group counts as satisfied where *some* register's guarantee holds -- a position reached
+        only through paths that each satisfy a *different* register of this group is not credited.
+        In practice that position's own predecessor parts already claimed the window, so nothing
+        is lost by the dedup that follows
+
+    :raw-html:`<br />`
+
+    **Default**: ``None``
+
+optAfterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+    Registers of which **at least one** must come after :attr:`addition` -- the "any of"
+    counterpart of :attr:`afterRegs`, exactly as :attr:`optBeforeRegs` is to :attr:`beforeRegs`
+    :raw-html:`<br />` :raw-html:`<br />`
+
+    Combined with :attr:`afterRegs` by conjunction. Nothing is inserted at all if none of these
+    registers exists anywhere in the graph (the same rule :attr:`afterRegs` applies to each of its
+    own registers). ``None``/empty means no extra constraint :raw-html:`<br />` :raw-html:`<br />`
+
+    **Default**: ``None``
     )doc");
 
     // py::init(factory) rather than py::init<...>(): the core class owns std::function members
     // through its own beforeRegs/afterRegs predicate maps, and a factory returning a unique_ptr
     // avoids ever needing to move-construct the class itself -- see PyGraphRemove.cpp's identical
     // note.
-    cls.def(py::init([](py::object addition, py::object beforeRegs, py::object afterRegs, bool latest) {
-        return std::make_unique<PyRegSurroundedAdd>(std::move(addition), std::move(beforeRegs), std::move(afterRegs), latest);
-    }), py::arg("addition"), py::arg("beforeRegs") = py::none(), py::arg("afterRegs") = py::none(), py::arg("latest") = false);
+    cls.def(py::init([](py::object addition, py::object beforeRegs, py::object afterRegs, bool latest, py::object optBeforeRegs,
+                        py::object optAfterRegs) {
+        return std::make_unique<PyRegSurroundedAdd>(std::move(addition), std::move(beforeRegs), std::move(afterRegs), latest,
+                                                    std::move(optBeforeRegs), std::move(optAfterRegs));
+    }), py::arg("addition"), py::arg("beforeRegs") = py::none(), py::arg("afterRegs") = py::none(), py::arg("latest") = false,
+        py::arg("optBeforeRegs") = py::none(), py::arg("optAfterRegs") = py::none());
 
     cls.def_property("addition", [](const PyRegSurroundedAdd &self) {
         return py::make_tuple(self.addition.first, self.addition.second);
@@ -178,6 +215,26 @@ before :attr:`addition`
     }, py::doc(R"doc(
 Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers that must come
 after :attr:`addition`
+    )doc"));
+
+    cls.def_property("optBeforeRegs", [](const PyRegSurroundedAdd &self) {
+        return self.optBeforeRegsObj;
+    }, [](PyRegSurroundedAdd &self, py::object optBeforeRegs) {
+        self.optBeforeRegsObj = optBeforeRegs.is_none() ? py::dict() : optBeforeRegs.cast<py::dict>();
+        self.optBeforeRegs = parseRegMap(self.optBeforeRegsObj);
+    }, py::doc(R"doc(
+Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
+one must come before :attr:`addition` (on top of every register in :attr:`beforeRegs`)
+    )doc"));
+
+    cls.def_property("optAfterRegs", [](const PyRegSurroundedAdd &self) {
+        return self.optAfterRegsObj;
+    }, [](PyRegSurroundedAdd &self, py::object optAfterRegs) {
+        self.optAfterRegsObj = optAfterRegs.is_none() ? py::dict() : optAfterRegs.cast<py::dict>();
+        self.optAfterRegs = parseRegMap(self.optAfterRegsObj);
+    }, py::doc(R"doc(
+Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
+one must come after :attr:`addition` (on top of every register in :attr:`afterRegs`)
     )doc"));
 
     cls.def_readwrite("latest", &PyRegSurroundedAdd::latest, py::doc(R"doc(

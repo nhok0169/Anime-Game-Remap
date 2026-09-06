@@ -65,6 +65,7 @@
 #include "model/strategies/iniFixers/graphEdits/PyGraphRename.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegFillMissing.h"
 #include "model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.h"
+#include "model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.h"
 #include "model/strategies/iniFixers/graphGroupEdits/PyGraphInherit.h"
@@ -233,6 +234,7 @@ PYBIND11_MODULE(core, m) {
     initCppGraphRename(m); // must come after initCppBaseIniGraphEdit (registers its base)
     initCppRegFillMissing(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppIfContentPart (the parts it fills)
     initCppRegSurroundedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base)
+    initCppRegDelimitedAdd(m); // must come after initCppBaseIniGraphEdit (registers its base) and initCppRegSurroundedAdd (shares its parsers)
 
     // ----- iniFixers/graphGroupEdits (full replacement of the pure-Python graphGroupEdits
     // package -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----

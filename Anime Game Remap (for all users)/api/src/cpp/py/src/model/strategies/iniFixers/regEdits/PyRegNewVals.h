@@ -50,16 +50,21 @@ class PyRegNewVals: public AGRC::RegNewVals<std::string, std::string> {
          every ``edit``, both so an in-place mutation of the `Python`_ ``dict`` is honoured and
          because this is where 'modType' gets closed over :raw-html:`<br />` :raw-html:`<br />`
 
-         A `ReplaceIf` value's predicate is invoked as ``predicate(oldValue, modType)`` here --
-         one argument wider than every ``replaceVals`` calls it with. The `Python`_ ``modType``
-         has to arrive by capture rather than through the C++ core's own
-         :cpp:type:`AGRemapCore::RegNewVals::ModTypePredicate` parameter, because the `Python`_
-         API's ``ModType`` is a pure-`Python`_ class with no :cpp:class:`AGRemapCore::ModType` to
-         cast to -- so the lambda built here ignores the ``const ModType*`` the core hands it
-         (always ``nullptr`` from this layer) and uses the captured object instead
+         Two kinds of `Python`_ callable are recognised here, and both are handed 'modType': any
+         callable sitting where a new value is expected (on its own, inside a `PyReplaceList`, or
+         as a `PyReplaceIf`'s value) becomes a
+         :cpp:type:`AGRemapCore::RegNewVals::ValProducer` invoked as ``newVal(modType)``, and a
+         `PyReplaceIf`'s predicate is invoked as ``predicate(oldValue, modType)`` -- one argument
+         wider than every ``replaceVals`` calls it with :raw-html:`<br />` :raw-html:`<br />`
+
+         In both cases the `Python`_ ``modType`` has to arrive by capture rather than through the
+         C++ core's own ``const ModType*`` parameter, because the `Python`_ API's ``ModType`` is a
+         pure-`Python`_ class with no :cpp:class:`AGRemapCore::ModType` to cast to -- so the
+         lambdas built here ignore the pointer the core hands them (always ``nullptr`` from this
+         layer) and use the captured object instead
          @endrst
          *
-         * @param modType The ``modType`` ``edit`` was called with, passed on to every ReplaceIf predicate
+         * @param modType The ``modType`` ``edit`` was called with, passed on to every callable new value and every ReplaceIf predicate
          */
         void refresh(const py::object &modType);
 };

@@ -5,6 +5,7 @@
     <includes local="no">iosfwd</includes>
     <includes local="no">string</includes>
     <includes refid="_base_logger_8h" local="yes">AGRemapCore/view/BaseLogger.h</includes>
+    <includedby refid="_remap_service_c_l_i_8h" local="yes">include/AGRemapCore/RemapServiceCLI.h</includedby>
     <includedby refid="_logger_8cpp" local="yes">src/view/Logger.cpp</includedby>
     <incdepgraph>
       <node id="10">
@@ -66,13 +67,25 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/RemapServiceCLI.h</label>
+        <link refid="_remap_service_c_l_i_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/view/Logger.h</label>
         <link refid="_logger_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="2">
+      <node id="3">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/view/Logger.cpp</label>
         <link refid="_logger_8cpp"/>
       </node>

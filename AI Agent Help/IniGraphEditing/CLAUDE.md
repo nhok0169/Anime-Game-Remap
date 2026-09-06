@@ -204,6 +204,21 @@ than hand-rolling another worklist loop inside a single edit class** — that du
 near-identical copies of predecessor-graph-building and fixpoint code inside `RegSurroundedAdd`
 alone) is exactly what this module exists to have fixed.
 
+### The cousin nobody fixed: a never-ending `run =` cycle counts as "satisfied" too
+
+Clamping handles *unreachable* nodes. It does nothing for nodes that are reachable but sit on a
+cycle no path ever leaves -- `A` runs `B`, `B` runs `A`, nothing else. The backward MUST fixpoint
+asks "does the after-register lie ahead on **every** path?", and a cycle with no escaping path has
+no path on which it *doesn't*, so the greatest fixpoint keeps the optimistic `true` there even when
+the register exists nowhere at all. Measured 2026-09-06: on that
+two-section cycle `RegSurroundedAdd(afterRegs={"drawindexed"}, latest=True)` inserts once in `B`,
+right before it calls back into `A`, exactly as if a `drawindexed` were inside the call. Even a
+*guarded* recursion (`B` only runs `A` inside an `if`) behaves the same, because the return edges
+are context-insensitive and the exit nodes end up on the cycle too. It is pinned, not fixed, by
+`test_edit_cycle_afterRegNotOnTheCycle_neverEndingCycleCountsAsClosingTheWindow`:
+an infinitely recursive `.ini` is not something a real mod contains, and switching the analysis
+to a least fixpoint would change every existing cycle test. Decide deliberately if it ever matters.
+
 ### The gotcha that actually shipped a bug: unreachable nodes keep their optimistic default forever
 
 A MUST-style fixpoint starts every non-boundary node **optimistic** (assume satisfied) and only
@@ -376,6 +391,7 @@ primitive before writing anything by hand:
 | Task | Primitive | Existing wrapper |
 | --- | --- | --- |
 | Bulk-add KVPs | `IfContentPart.addKVPs`/`addKVPsToFront`/`addKVPAt` | `RegAdd` |
+| "Exactly one `NNFix` per draw-free stretch of every execution path": right before every `drawindexed`, plus once at the very end of the path, never twice in a row | `RegDelimitedAdd(addition, delimiterRegs={"drawindexed": None, "drawindexedinstanced": None})` | Two placement rules, no fixpoint, no claiming: the addition goes **immediately before every delimiter occurrence**, and **at the end of every path-terminal part** (a part whose call-graph exit node has no successor -- the end of a root that nobody `run`s). That is exactly-once per delimiter-free segment on every path, by construction. Do NOT reach for `RegSurroundedAdd` here: it is once-per-*window* across the graph, so two draws in sequence get one insertion (before the last), and a per-part "fallback" on it -- built and deleted on 2026-09-06 -- doubled the addition on the paths that skip the draw. Known limit: a section that is both a root and a `run` target gets no trailing insertion on its direct path (its exit has a return edge), by choice never double-applying. Register roles elsewhere are the usual: `beforeRegs` come *before* the addition, `afterRegs` *after* it -- getting these backwards was a real review catch, twice |
 | Bulk-rename keys | `IfContentPart.remapKeys` | `RegRemap` |
 | Bulk-remove keys | `IfContentPart.removeKeys` | `RegRemove` |
 | Rename every `section`_ in a graph (rewrites `run =` refs too) | `IniSectionGraph.rename` | `GraphRename` |

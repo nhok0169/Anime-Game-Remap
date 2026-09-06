@@ -3,6 +3,7 @@
 
 #include <type_traits>
 
+#include "AGRemapCore/tools/StringTools.h"
 #include "GIMISectionClassifier.h"
 
 
@@ -105,12 +106,26 @@ namespace AGRemapCore {
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::vector<typename GIMISectionClassifier<K, V, KeyHash, KeyEqual>::ModObj> GIMISectionClassifier<K, V, KeyHash, KeyEqual>::classify(
             const std::string& sectionName, Section* section, const Colouring& partKeys) const {
-        // Both are part of the pure-Python original's signature and unused by its body too -- kept
-        // so a caller can swap this classifier for any other ObjTargetFunc without changing shape.
-        (void)sectionName;
+        // 'section' is part of the pure-Python original's signature and unused by its body too --
+        // kept so a caller can swap this classifier for any other ObjTargetFunc without changing
+        // shape. 'sectionName' IS read now; see below.
         (void)section;
 
         std::vector<ModObj> result;
+
+        // A section this software wrote is not part of the original mod, and must never be
+        // classified as one of its mod objects. GIMIParser::classifyByTextureOverrideName has
+        // always refused these; the by-KVP path did not, and that asymmetry is a real bug: a
+        // remapped section keeps a perfectly valid 'hash' (the TARGET mod's), so it classifies
+        // just as convincingly as the original it was made from.
+        //
+        // The visible symptom is a fix applied to its own output -- names gain a second remap
+        // prefix (…RaidenBossRemapRaidenBossRemapBlend), and the file the second pass then tries
+        // to read never existed. Reachable whenever a leftover remapped section survives into a
+        // later run.
+        if (StringTools::toLower(sectionName).find(StringTools::toLower(IniKeywords::Remap)) != std::string::npos) {
+            return result;
+        }
         std::unordered_map<ModObj, bool, ModObjHash> seen;
 
         auto addResult = [&result, &seen](const ModObj& modObj) {

@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegDelimitedAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
 class BaseBufEditor:
     """
     
@@ -4102,6 +4102,157 @@ class CppPixelFilter(CppBaseTexFilter):
         texFile: :class:`TextureFile`
             The texture to be edited
         """
+class CppRemapServiceCLI:
+    """
+    
+    The C++ half of the command-line front end for a remap
+    
+    :raw-html:`<br />`
+    
+    :class:`RemapService` is the model -- it takes already-typed data and knows nothing about where its
+    output goes. This class is the other side of that line: the view it reports through, and the log
+    file that output is written to
+    
+    .. note::
+        :meth:`addTips` is an **empty hook** here on purpose. A tip names a command-line option, and
+        those belong to the argument parser, which is not in C++. Subclass this and override it -- which
+        is exactly what the Python :class:`RemapServiceCLI` does
+    
+    There are **two** ways to build one, and which you want depends on what you are holding
+    
+    :raw-html:`<br />`
+    
+    **From strings** -- what an argument parser produced. This is the one ``main.py`` uses, and it takes
+    the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
+    ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
+    ``verbose``, ``handleExceptions``, ``version``, ``remappedTypes``, ``proxy``, ``downloadMode`` and
+    ``gameTypeId``. Mod type names/aliases become :class:`ModTypeId` ints (ignoring case and surrounding
+    whitespace), a `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a
+    :class:`DownloadMode`
+    
+    .. note::
+        Naming **no** types -- ``None`` or an empty list -- means *every* type, not none of them. That is
+        the opposite of what an empty set means on :attr:`RemapService.fromModTypeIds`, and this
+        constructor is where the ambiguity gets resolved
+    
+    .. note::
+        A string that resolves to nothing does **not** raise from the constructor. It is stored, and
+        :meth:`fix` raises it -- see :attr:`hasErrorsBeforeFix`
+    
+    :raw-html:`<br />`
+    
+    **From an already-built model** -- ``service``, ``log``, ``verbose``. For a caller that has a
+    :class:`RemapService` in hand and only wants the log file and the reporting around it. The service's
+    ``logger`` is overwritten with this object's own
+    
+    :raw-html:`<br />`
+    
+    In both, ``log`` is the **folder** to write the log file into, or ``None`` for no log -- the file's
+    own name is always ``RemapFixLog.txt`` and is never the caller's. ``verbose`` is independent of it:
+    a quiet run can still write a full log file
+        
+    """
+    @typing.overload
+    def __init__(self, service: RemapService, log: str | None = None, verbose: bool = True) -> None:
+        ...
+    @typing.overload
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, types: collections.abc.Sequence[str] | None = None, defaultType: str | None = None, forcedType: str | None = None, log: str | None = None, verbose: bool = True, handleExceptions: bool = False, version: str | None = None, remappedTypes: collections.abc.Sequence[str] | None = None, proxy: str | None = None, downloadMode: str | None = None, gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> None:
+        ...
+    def addTips(self) -> None:
+        """
+        Prints whatever the user might find useful to know next -- nothing at all in this class
+        
+        Called by :meth:`fix` after the remap and **before** :meth:`createLog`, so the tips land in the log
+        file too, and only when the run finished with nothing skipped -- advice about what to try next is
+        noise on top of a run that already went wrong
+        
+        Override this in a subclass that knows the command-line option names
+        """
+    def createLog(self) -> None:
+        """
+        Writes everything reported so far out to the log file
+        
+        Does nothing when no log folder was given. Announces itself first, so the line naming the log file
+        is itself in the log
+        """
+    def fix(self) -> None:
+        """
+        Runs the remap, prints the tips, then writes the log file
+        
+        The log is written whatever happened -- including when the fix throws, since a run that failed is
+        the one whose log is worth keeping. The exception still propagates
+        """
+    def printModsToFix(self) -> None:
+        """
+        Prints the banner naming which types of mods this run will fix
+        
+        Reads ``service.fromModTypeIds`` and prints one bullet per type, sorted by **name** rather than by
+        id
+        
+        The two empty cases are not the same thing, and this is where a user sees the difference: ``None``
+        is "no filter" and prints *All mods*, while an empty set accepts nothing and prints *No mods*
+        
+        Called at the top of :meth:`fix`, not from the constructor -- a virtual call from a C++ constructor
+        would never reach a subclass's override
+        """
+    def raiseErrorsBeforeFix(self) -> None:
+        """
+        Raises the stored conversion failure, or does nothing when there was none
+        """
+    @property
+    def hasErrorsBeforeFix(self) -> bool:
+        """
+        :class:`bool`: Whether a string handed to the string constructor could not be converted
+        
+        A conversion failure is **stored rather than raised**, and :meth:`fix` raises it. A half-built
+        object is still worth inspecting, a caller that never runs the fix never had a problem, and
+        :meth:`printModsToFix` has nothing truthful to print about mod types that did not resolve -- so it
+        is skipped entirely
+        
+        Only the **first** failure is kept
+        """
+    @property
+    def log(self) -> str | None:
+        """
+        Optional[:class:`str`]: The full path of the log file, or ``None`` when none is being written
+        
+        Assign a **folder** to it; the file's name is always ``RemapFixLog.txt``. Assigning also flips the
+        logger's ``logTxt``, so turning logging on part-way through does not write an empty file
+        """
+    @log.setter
+    def log(self, arg1: str | None) -> None:
+        ...
+    @property
+    def logger(self) -> BaseLogger:
+        """
+        :class:`Logger`: The view everything is reported through, shared with :attr:`service`
+        """
+    @logger.setter
+    def logger(self, arg0: BaseLogger) -> None:
+        ...
+    @property
+    def service(self) -> RemapService:
+        """
+        :class:`RemapService`: The remap this drives
+        
+        Public rather than forwarded: every model-side option lives on it
+        """
+    @service.setter
+    def service(self, arg0: RemapService) -> None:
+        ...
+    @property
+    def verbose(self) -> bool:
+        """
+        :class:`bool`: Whether the fix prints its progress as it runs
+        
+        Reads and writes :attr:`logger`'s own flag rather than a copy kept alongside it, so setting
+        ``logger.verbose`` directly and setting this cannot disagree
+        
+        Independent of whether a log file is being written: a quiet run still accumulates a full log
+        """
+    @verbose.setter
+    def verbose(self, arg1: bool) -> None:
+        ...
 class CppTempControl(CppBasePixelTransform):
     """
     
@@ -9953,7 +10104,7 @@ class IniFile:
         List[:class:`str`]
             The text lines read, each keeping its own line ending
         """
-    def removeFix(self, parse: bool = False, writeBack: bool = True, readAllIni: bool = False) -> str:
+    def removeFix(self, parse: bool = False, writeBack: bool = True, readAllIni: bool = False, keepBackups: bool = True) -> str:
         """
         Removes a previous fix from the .ini file
         
@@ -10137,6 +10288,17 @@ class IniFile:
         :class:`bool`: Whether the .ini file belongs to a mod -- the result of :meth:`classify`
         """
     @property
+    def logger(self) -> BaseLogger:
+        """
+        Optional[:class:`BaseLogger`]: Where this .ini file reports progress and problems
+        
+        ``None`` (the default) means nowhere -- messages are dropped rather than buffered. Set rather than
+        passed: a .ini file is routinely built before the caller has decided where its output should go
+        """
+    @logger.setter
+    def logger(self, arg0: BaseLogger) -> None:
+        ...
+    @property
     def toVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
         """
         Optional[:class:`CppVersion`]: The game version to fix the .ini file to
@@ -10179,8 +10341,9 @@ class IniFixBuilder:
         
         Returns
         -------
-        Callable[[:class:`CppBaseIniParser`, :class:`str`], :class:`CppBaseIniFixer`]
-            The default factory
+        Callable[[:class:`CppBaseIniParser`, :class:`str`, Optional[:class:`int`]], :class:`CppBaseIniFixer`]
+            The default factory -- the third argument is the :class:`ModTypeId` of the mod type being fixed
+            **from**, which is what lets the built fixer's context resolve its own mod type
         """
     @typing.overload
     def __init__(self) -> None:
@@ -10188,7 +10351,7 @@ class IniFixBuilder:
     @typing.overload
     def __init__(self, factory: typing.Any = None) -> None:
         ...
-    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None) -> CppBaseIniFixer:
+    def build(self, parser: CppBaseIniParser, fromModName: str, toModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> CppBaseIniFixer:
         """
         Builds the fixer for **one** target mod
         
@@ -10220,7 +10383,7 @@ class IniFixBuilder:
         :class:`CppBaseIniFixer`
             The built fixer -- the very same object a Python factory returned, when one was given
         """
-    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None) -> list[tuple[str, CppBaseIniFixer]]:
+    def buildAll(self, parser: CppBaseIniParser, fromModName: str, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModNames: collections.abc.Set[str] | None = None, modTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> list[tuple[str, CppBaseIniFixer]]:
         """
         Builds one fixer per mod 'fromModName' can be fixed onto
         
@@ -14678,6 +14841,135 @@ class RegAdd(BaseRegEdit):
     @vals.setter
     def vals(self, arg1: typing.Any) -> None:
         ...
+class RegDelimitedAdd(BaseIniGraphEdit):
+    """
+    
+    This class inherits from :class:`BaseIniGraphEdit`
+    
+    Adds a `KVP`_ into some caller/callee graph of :class:`IniSectionGraph` **exactly once per
+    delimiter-free stretch of every execution path**
+    
+    Cut every execution path through the graph at each accepted occurence of a register in
+    :attr:`delimiterRegs`. That leaves *segments*: from the start of the path to its first delimiter,
+    from each delimiter to the next, and from the last delimiter to the end of the path. This edit
+    places :attr:`addition` so that **every segment of every path contains it exactly once, as late as
+    possible**, using two placement rules:
+    
+    1. immediately before every accepted delimiter occurence, in every part, and
+    2. at the end of every *path-terminal* part -- a part after which nothing more executes on its
+       path (the end of a section that no other section ``run``\\s)
+    
+    The motivating case is a texture fix (``NNFix``/``ORFix``) that must be issued right before every
+    ``drawindexed`` it applies to, and issued once more -- but never twice in a row -- at the end of a
+    path that renders nothing:
+    
+    .. code-block:: ini
+    
+       a = 1
+       if $x == 2
+          insertion = NNFix      ; before the draw
+          drawindexed = a
+       else
+         foo = 2                 ; nothing here -- the shared end below covers this path
+       endif
+       b = 3
+       insertion = NNFix         ; once, at the end of both paths
+    
+    .. note::
+        Do not reach for :class:`RegSurroundedAdd` for this rule -- that edit inserts once per
+        surrounded **window** across the graph, so two delimiters in sequence get a single insertion
+        before the last of them
+    
+    .. note::
+        ``run =`` is modeled as a call with return: the end of a called section is not a path end (its
+        caller continues afterwards), so the trailing insertion lands in the caller. A section that is
+        **both** a root and a ``run`` target gets **no** trailing insertion -- a single position cannot
+        be a path end when reached directly and not when called, and this edit never doubles the
+        addition. Real mods do not ``run`` their hash-triggered sections
+    
+    Parameters
+    ----------
+    addition: Tuple[:class:`str`, :class:`str`]
+        The `KVP`_ to add
+    
+    delimiterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+        The registers whose accepted occurences cut every execution path into segments :raw-html:`<br />` :raw-html:`<br />`
+    
+        * The keys are the names of the registers (eg. ``drawindexed``, ``drawindexedinstanced``)
+        * The values are the predicates for which particular occurence of the register to accept,
+          taking in the value of the occurence -- ``None`` accepts any occurence
+    
+        ``None``/empty means every path is a single segment: :attr:`addition` is added once at the end
+        of every path and nowhere else :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, addition: typing.Any, delimiterRegs: typing.Any = None) -> None:
+        ...
+    def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
+        """
+        Adds :attr:`addition` exactly once into every delimiter-free segment of every execution path
+        through 'graph', as late as possible: immediately before every accepted delimiter, and at the end
+        of every path-terminal part
+        
+        .. note::
+            'trackKeys'/'keysToTrack' are the caller's key-tracking defaults, handed down by
+            :class:`BaseIniGraphEdit`'s contract (:class:`GraphGroupEdit` passes its own). This edit reads
+            its delimiters straight off each part and never colours the graph, so it has no use for them
+            -- they are accepted only so the shared call convention keeps working
+        
+        .. warning::
+            'partFilter' gates each candidate position on its own -- a position its ranges do not contain
+            is skipped, never relocated -- so a filter that excludes the only valid position of a segment
+            breaks the exactly-once guarantee for that segment
+        
+        Parameters
+        ----------
+        graph: :class:`IniSectionGraph`
+            The graph to edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit -- only forwarded to 'partFilter'
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partFilter: Optional[Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]]
+            Which order indices may be used within a part -- ``None`` accepts every index :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        trackKeys: :class:`bool`
+            Unused by this edit. **Default**: ``False``
+        
+        keysToTrack: Optional[Set[:class:`str`]]
+            Unused by this edit. **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IniSectionGraph`
+            The same graph that was passed in, after editing
+        """
+    @property
+    def addition(self) -> tuple[str, str]:
+        """
+        Tuple[:class:`str`, :class:`str`]: The `KVP`_ to add
+        """
+    @addition.setter
+    def addition(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def delimiterRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
+        occurences cut every execution path into the segments :attr:`addition` is added exactly once into
+        """
+    @delimiterRegs.setter
+    def delimiterRegs(self, arg1: typing.Any) -> None:
+        ...
 class RegFillMissing(BaseIniGraphEdit):
     """
     
@@ -14938,21 +15230,32 @@ class RegNewVals(BaseRegEdit):
     Class for assigning new values to specific registers for some :class:`IfContentPart`
     
     .. note::
-        A :class:`ReplaceIf` value's predicate is called as ``predicate(oldValue, modType)`` here --
-        one argument wider than every ``replaceVals`` calls it with, since a register edit always
-        knows which :class:`ModType` it is running for and deciding what to write based on that is
-        the whole point of this class over a plain :meth:`IfContentPart.replaceVals` call. A
-        single-argument predicate will raise :class:`TypeError` when :meth:`edit` runs
+        Both of the callbacks this class accepts get handed the :class:`ModType` being fixed, since a
+        register edit always knows which one it is running for and deciding what to write based on
+        that is the whole point of this class over a plain :meth:`IfContentPart.replaceVals` call:
+    
+        * a **new value** may be a callable, called as ``newVal(modType)`` to produce the value to
+          write, and
+        * a :class:`ReplaceIf` value's predicate is called as ``predicate(oldValue, modType)`` --
+          one argument wider than every ``replaceVals`` calls it with, so a single-argument predicate
+          will raise :class:`TypeError` when :meth:`edit` runs
     
     Parameters
     ----------
-    vals: Dict[:class:`str`, Union[:class:`str`, :class:`ReplaceList`, :class:`ReplaceIf`]]
+    vals: Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]
         Defines which registers will have their values changed :raw-html:`<br />` :raw-html:`<br />`
     
         The keys are the names of the register and the values are the new values. Each value also
         accepts the richer forms :meth:`IfContentPart.replaceVals` takes -- a :class:`ReplaceList`
         (positional, by existing true left-to-right order) or a :class:`ReplaceIf` (conditional, by
-        the wider predicate described above)
+        the wider predicate described above) :raw-html:`<br />` :raw-html:`<br />`
+    
+        Anywhere a new value is expected -- on its own, inside a :class:`ReplaceList`, or as a
+        :class:`ReplaceIf`'s value -- a callable may be given instead, and is called as
+        ``newVal(modType)`` when :meth:`edit` runs to produce the value :raw-html:`<br />` :raw-html:`<br />`
+    
+        eg. :raw-html:`<br />`
+        ``{"ps-t1": "newVal", "ps-t2": lambda modType: f"{modType.name}Texture"}``
     
     addNewKVPs: :class:`bool`
         Whether to add new `KVPs`_ if the register keys do not exist in the :class:`IfContentPart` :raw-html:`<br />` :raw-html:`<br />`
@@ -14976,8 +15279,9 @@ class RegNewVals(BaseRegEdit):
             The name of the `section`_ that is being editted. Unused by this edit
         
         modType: Optional[:class:`ModType`]
-            The type of mod to fix. Passed through as the second argument to every :class:`ReplaceIf`
-            predicate in :attr:`vals` -- see this class's own note
+            The type of mod to fix. Passed through as the only argument to every callable new value in
+            :attr:`vals`, and as the second argument to every :class:`ReplaceIf` predicate in it -- see
+            this class's own note
         
         modName: :class:`str`
             The name of the mod to fix to. Unused by this edit :raw-html:`<br />` :raw-html:`<br />`
@@ -15006,9 +15310,12 @@ class RegNewVals(BaseRegEdit):
     @property
     def vals(self) -> typing.Any:
         """
-        Dict[:class:`str`, Union[:class:`str`, :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
+        Dict[:class:`str`, Union[:class:`str`, Callable[[Optional[:class:`ModType`]], :class:`str`], :class:`ReplaceList`, :class:`ReplaceIf`]]: Defines which
         registers will have their values changed, where the keys are the names of the register and the
-        values are the new values
+        values are the new values :raw-html:`<br />` :raw-html:`<br />`
+        
+        Anywhere a new value is expected, a callable may be given instead and is called as
+        ``newVal(modType)`` when :meth:`edit` runs
         """
     @vals.setter
     def vals(self, arg1: typing.Any) -> None:
@@ -15168,9 +15475,39 @@ class RegSurroundedAdd(BaseIniGraphEdit):
         instead of the earliest one :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``False``
+    
+    optBeforeRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+        Registers of which **at least one** must come before :attr:`addition` -- same format as
+        :attr:`beforeRegs`, but "any of" rather than "all of" :raw-html:`<br />` :raw-html:`<br />`
+    
+        Combined with :attr:`beforeRegs` by conjunction: the window only opens once every
+        :attr:`beforeRegs` register **and** at least one of these has been seen (and accepted by its
+        predicate). ``None``/empty means no extra constraint :raw-html:`<br />` :raw-html:`<br />`
+    
+        .. note::
+            Across branches/``run =`` calls each register is tracked with its own guarantee and the
+            group counts as satisfied where *some* register's guarantee holds -- a position reached
+            only through paths that each satisfy a *different* register of this group is not credited.
+            In practice that position's own predecessor parts already claimed the window, so nothing
+            is lost by the dedup that follows
+    
+        :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    optAfterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
+        Registers of which **at least one** must come after :attr:`addition` -- the "any of"
+        counterpart of :attr:`afterRegs`, exactly as :attr:`optBeforeRegs` is to :attr:`beforeRegs`
+        :raw-html:`<br />` :raw-html:`<br />`
+    
+        Combined with :attr:`afterRegs` by conjunction. Nothing is inserted at all if none of these
+        registers exists anywhere in the graph (the same rule :attr:`afterRegs` applies to each of its
+        own registers). ``None``/empty means no extra constraint :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
         
     """
-    def __init__(self, addition: typing.Any, beforeRegs: typing.Any = None, afterRegs: typing.Any = None, latest: bool = False) -> None:
+    def __init__(self, addition: typing.Any, beforeRegs: typing.Any = None, afterRegs: typing.Any = None, latest: bool = False, optBeforeRegs: typing.Any = None, optAfterRegs: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -15246,6 +15583,24 @@ class RegSurroundedAdd(BaseIniGraphEdit):
         """
     @latest.setter
     def latest(self, arg0: bool) -> None:
+        ...
+    @property
+    def optAfterRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
+        one must come after :attr:`addition` (on top of every register in :attr:`afterRegs`)
+        """
+    @optAfterRegs.setter
+    def optAfterRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def optBeforeRegs(self) -> dict:
+        """
+        Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
+        one must come before :attr:`addition` (on top of every register in :attr:`beforeRegs`)
+        """
+    @optBeforeRegs.setter
+    def optBeforeRegs(self, arg1: typing.Any) -> None:
         ...
 class RemapBlendReplace(BaseResEdit):
     """
@@ -16036,6 +16391,240 @@ class RemapIniResourceMixin:
         :class:`bool`
             Whether the resource was already fixed
         """
+class RemapService:
+    """
+    
+    The overall class for remapping mods -- the **model** half, with no UI of its own
+    
+    :raw-html:`<br />`
+    
+    Everything on the other side of that line -- turning a user's mod-type *names*, version *strings*
+    and download-mode *strings* into the ids/versions/enums this class takes, writing the log file,
+    printing the tips -- belongs to :class:`RemapServiceCLI`, which wraps one of these
+    
+    .. note::
+        Every mod-type argument here is a **set of ids**, following :class:`IniFile`'s own convention
+        exactly: ``None`` means *no filter at all*, while an empty set means *accept nothing*. Those are
+        two different answers, which is why they are ``Optional`` rather than plain sets
+    
+    Parameters
+    ----------
+    path: Optional[:class:`str`]
+        Where to run the fix from. ``None`` runs it from wherever the software started
+    
+    keepBackups: :class:`bool`
+        Whether to keep backup versions of any .ini files the fix changes
+    
+    fixOnly: :class:`bool`
+        Whether to only fix, without removing previous fixes
+    
+    undoOnly: :class:`bool`
+        Whether to only undo previous fixes
+    
+    hideOrig: :class:`bool`
+        Whether to not show the mod on the original character
+    
+    readAllInis: :class:`bool`
+        Whether to read every .ini file encountered
+    
+    fromModTypeIds: Optional[Set[:class:`int`]]
+        The :class:`ModTypeId` values to accept when parsing
+    
+    forcedModTypeIds: Optional[Set[:class:`int`]]
+        The :class:`ModTypeId` values to forcibly assume for the parsed .ini files
+    
+    defaultModTypeIds: Optional[List[:class:`int`]]
+        The :class:`ModTypeId` values to fall back on when the classifier recognises nothing. Ordered,
+        so it crosses as a list rather than a set
+    
+    handleExceptions: :class:`bool`
+        Whether to stop the fix quietly when an exception is caught, rather than raising
+    
+    fromVersion: Optional[:class:`CppVersion`]
+        The game version the parsed .ini files originate from
+    
+    toModTypeIds: Optional[Set[:class:`int`]]
+        The :class:`ModTypeId` values to accept when fixing
+    
+    proxy: Optional[:class:`str`]
+        The proxy server used for internet requests
+    
+    downloadMode: Optional[:class:`DownloadMode`]
+        How file downloads are handled. ``None`` means :attr:`DownloadMode.Normal`
+    
+    gameTypeId: Optional[:class:`int`]
+        The :class:`GameTypeId` value of the game being remapped
+    
+    logger: Optional[:class:`BaseLogger`]
+        Where the fix reports progress. ``None`` means nowhere
+        
+    """
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, logger: BaseLogger = None) -> None:
+        ...
+    def clear(self, clearLog: bool = True) -> None:
+        """
+        Clears up all the saved data
+        
+        Parameters
+        ----------
+        clearLog: :class:`bool`
+            Whether to also clear out any saved data in :attr:`logger`
+        """
+    def fix(self) -> None:
+        """
+        Fixes every mod found from :attr:`path`
+        
+        Walks folders depth-first from :attr:`path`, handling every .ini file it finds, and reports what it
+        did at the end. Writing the log file out afterwards is :class:`RemapServiceCLI`'s
+        """
+    def setPath(self, newPath: str | None) -> None:
+        """
+        Sets where the fix runs from, clearing any statistics gathered for the previous path
+        
+        Parameters
+        ----------
+        newPath: Optional[:class:`str`]
+            The new path, or ``None`` to run from wherever the software started
+        """
+    @property
+    def defaultModTypeIds(self) -> list:
+        """
+        List[:class:`int`]: The mod types to fall back on when the classifier recognises nothing
+        
+        Reads back as a **list**, not a set: the order is the order they land in :meth:`IniFile.getModTypes`
+        """
+    @defaultModTypeIds.setter
+    def defaultModTypeIds(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def downloadMode(self) -> str:
+        """
+        :class:`DownloadMode`: How file downloads are handled
+        
+        Reads back as the :class:`DownloadMode` string value; accepts either a :class:`DownloadMode` or its
+        value when set
+        """
+    @downloadMode.setter
+    def downloadMode(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fixOnly(self) -> bool:
+        """
+        :class:`bool`: Whether to only fix, without removing previous fixes
+        """
+    @fixOnly.setter
+    def fixOnly(self, arg0: bool) -> None:
+        ...
+    @property
+    def forcedModTypeIds(self) -> set[int] | None:
+        """
+        Optional[Set[:class:`int`]]: The mod types to forcibly assume for the parsed .ini files
+        """
+    @forcedModTypeIds.setter
+    def forcedModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
+        ...
+    @property
+    def fromModTypeIds(self) -> set[int] | None:
+        """
+        Optional[Set[:class:`int`]]: The mod types to accept when parsing
+        
+        ``None`` means no filter; an empty set means accept nothing
+        """
+    @fromModTypeIds.setter
+    def fromModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
+        ...
+    @property
+    def fromVersion(self) -> FixRaidenBoss2.core.CppVersion | None:
+        """
+        Optional[:class:`CppVersion`]: The game version the parsed .ini files originate from
+        """
+    @fromVersion.setter
+    def fromVersion(self, arg0: FixRaidenBoss2.core.CppVersion | None) -> None:
+        ...
+    @property
+    def gameTypeId(self) -> int | None:
+        """
+        Optional[:class:`int`]: The :class:`GameTypeId` value of the game being remapped
+        """
+    @gameTypeId.setter
+    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex | None) -> None:
+        ...
+    @property
+    def handleExceptions(self) -> bool:
+        """
+        :class:`bool`: Whether to stop the fix quietly when an exception is caught
+        """
+    @handleExceptions.setter
+    def handleExceptions(self, arg0: bool) -> None:
+        ...
+    @property
+    def hideOrig(self) -> bool:
+        """
+        :class:`bool`: Whether to not show the mod on the original character
+        """
+    @hideOrig.setter
+    def hideOrig(self, arg0: bool) -> None:
+        ...
+    @property
+    def keepBackups(self) -> bool:
+        """
+        :class:`bool`: Whether to keep backup versions of any .ini files the fix changes
+        """
+    @keepBackups.setter
+    def keepBackups(self, arg0: bool) -> None:
+        ...
+    @property
+    def logger(self) -> BaseLogger:
+        """
+        Optional[:class:`BaseLogger`]: Where the fix reports progress
+        
+        ``None`` means nowhere -- messages are dropped rather than buffered
+        """
+    @logger.setter
+    def logger(self, arg0: BaseLogger) -> None:
+        ...
+    @property
+    def path(self) -> str:
+        """
+        :class:`str`: The file path the fix runs from
+        """
+    @property
+    def pathIsCwd(self) -> bool:
+        """
+        :class:`bool`: Whether the fix runs from the folder the software started in
+        """
+    @property
+    def proxy(self) -> str | None:
+        """
+        Optional[:class:`str`]: The proxy server used for internet requests
+        """
+    @proxy.setter
+    def proxy(self, arg0: str | None) -> None:
+        ...
+    @property
+    def readAllInis(self) -> bool:
+        """
+        :class:`bool`: Whether to read every .ini file encountered
+        """
+    @readAllInis.setter
+    def readAllInis(self, arg0: bool) -> None:
+        ...
+    @property
+    def toModTypeIds(self) -> set[int] | None:
+        """
+        Optional[Set[:class:`int`]]: The mod types to accept when fixing
+        """
+    @toModTypeIds.setter
+    def toModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
+        ...
+    @property
+    def undoOnly(self) -> bool:
+        """
+        :class:`bool`: Whether to only undo previous fixes
+        """
+    @undoOnly.setter
+    def undoOnly(self, arg0: bool) -> None:
+        ...
 class RemapStats:
     """
     

@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include <optional>
+
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/assets/Row.h"
@@ -13,7 +15,6 @@ namespace AGRemapCore {
     // written out one-per-method rather than collapsed into a single shared stub so that each
     // can be filled in independently, and so the table below reads exactly like the
     // pure-Python original's.
-    IniParseBuilder::Factory IniParseBuilderFuncs::amber4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::amberCN4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayaka4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom4_0() { return IniParseBuilder::defaultFactory(); }
@@ -141,6 +142,9 @@ namespace AGRemapCore {
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniParseBuilderFuncs::kiraraBoots5_7()},
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::LisaStudent)}, IniParseBuilderFuncs::lisaStudent5_7()},
                 {{"5.7", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniParseBuilderFuncs::nilou5_7()},
+
+                // ===== 6.1 =====
+                {{"6.1", ModTypeIdTools::getName(ModTypeId::Raiden)}, IniParseBuilderFuncs::raiden6_1()},
             };
         }
     }

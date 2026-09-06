@@ -256,7 +256,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="77" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="41" bodyend="47"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapTexResource.h" line="77" column="18" bodyfile="src/model/iniresources/RemapTexResource.cpp" bodystart="41" bodyend="54"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -373,6 +373,7 @@ pure-Python ``RemapTexAddResource`` class (``model/iniresources/RemapTexResource
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a58614ca86474a67a17051cdf3ac36970" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>fixIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>hasRequired</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>logger</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1ad87127a03cabef1e0b4f5e24d2eb9077" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>RemapTexAddResource</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a7d17cf369ac570af546369d365f9c9f4" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>srcEncounteredError</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_tex_add_resource_1a01ae377fc6942f1c198cf7179ca88cd4" prot="public" virt="virtual"><scope>AGRemapCore::RemapTexAddResource</scope><name>srcIsFixed</name></member>

@@ -17,6 +17,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Testing | [`AI Agent Help/Testing/CLAUDE.md`](AI%20Agent%20Help/Testing/CLAUDE.md) | running the unit or integration test suites |
 | Documentation | [`AI Agent Help/Documentation/CLAUDE.md`](AI%20Agent%20Help/Documentation/CLAUDE.md) | writing/building Doxygen or Sphinx docs |
 | Architecture | [`AI Agent Help/Architecture/CLAUDE.md`](AI%20Agent%20Help/Architecture/CLAUDE.md) | writing new C++ core code or pybind11 bindings |
+| Creating Remaps | [`AI Agent Help/CreatingRemaps/CLAUDE.md`](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) | adding or fixing the remap for **one character** — the `IniParser`/`IniFixer` pair, where the hash/index data comes from, and the A/B-against-the-old-script loop that is the only thing that actually proves a remap works. **Read this before touching `data/IniParseData/` or `data/IniFixData/`** |
 | Ini Graph Editing | [`AI Agent Help/IniGraphEditing/CLAUDE.md`](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md) | working on `IniSectionGraph`, `GraphTools`, `CallGraph`, or a `graphEdits/`/`graphGroupEdits/`/`regEdits/` strategy (`RegSurroundedAdd`-style .ini graph edits, `run =` call/cycle handling, dataflow analysis over the graph, or completing a simpler `GraphInherit`-style stub). **`regEdits/` is C++/pybind11 now** — pair this with **Architecture** for anything in that family |
 | Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) |
 | Buf Files | [`AI Agent Help/BufFiles/CLAUDE.md`](AI%20Agent%20Help/BufFiles/CLAUDE.md) | working on `BufFile`, `BlendFile`, `PositionFile`, `IbFile`, `VbFile`, the `BufDataType`/`BufElementType` family, `BufTools` or `bufEditors/` — and **mandatory before touching the 3dmigoto dump text format** (`getDumpStr`/`readDumpStr`), where this repo's own notebooks are a reverse-engineering rather than the spec, and the obvious sample folders will validate you in a circle |
@@ -38,6 +39,14 @@ layer: the model/UI split into `AGRemapCore::RemapService` + `AGRemapCore::Remap
 rewiring of `main.py` onto it, and the deletion of `remapService.py` and `model/Mod.py` — each file
 says so where relevant, so treat claims about less-explored subsystems as a starting point to
 verify, not gospel.
+
+**`data/IniParseBuilderData.py.txt` and `data/IniFixBuilderData.py.txt` are REFERENCE ONLY --- the
+live tables are C++.** They are the pre-migration pure-Python tables, kept so an agent can read what
+a character's fix used to do. Editing them changes nothing, and they cannot be wired back up:
+`CppIniParseBuilderArgs` is bound opaque ("there is no way to build one from Python yet"), so the
+version-keyed tables are unreachable from `ModData.IniParseBuilderArgs`. The real ones are
+`core/src/data/Ini{Parse,Fix}BuilderData.cpp`, with one file per character under
+`core/{include/AGRemapCore,src}/data/Ini{Parse,Fix}Data/`.
 
 **A "port this pure-Python class to C++" request is a well-trodden path here, not a one-off.**
 Several have landed already, and the accumulated conventions are load-bearing — read
@@ -81,7 +90,16 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**The fix does not actually fix anything right now, and that is DELIBERATE --- do not chase it.**
+**One character is real now: Raiden at 6.1.** `IniParseBuilderFuncs::raiden6_1` /
+`IniFixBuilderFuncs::raiden6_1` are the first non-stub rows in the two C++ builder tables, verified
+against the old pure-Python script (identical `Blend.buf`, byte-for-byte) and in game. They are the
+worked example every other character should be copied from --- see
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md), which also records the five *silent*
+ways a remap can be wrong while every log line still says it worked. **Everything below about the
+fix being stubbed still holds for every OTHER character.**
+
+**The fix does not actually fix anything right now for anyone but Raiden, and that is DELIBERATE ---
+do not chase it.**
 Every `IniFixer`/`IniParser` is currently stubbed with its base class, so a real end-to-end run
 classifies mods, walks the tree, writes its credit header and rewrites the `.ini` file *without
 generating a single remapped section*, and `IniFile::getResources()` comes back **empty** --- which

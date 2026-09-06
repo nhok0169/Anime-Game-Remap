@@ -3,7 +3,9 @@
   <compounddef id="_file_prefixes_8h" kind="file" language="C++">
     <compoundname>FilePrefixes.h</compoundname>
     <includes local="no">string</includes>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
+    <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/constants/FilePrefixes.h</label>
@@ -21,10 +23,22 @@
         <link refid="_file_prefixes_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
@@ -42,14 +56,18 @@
 <codeline lineno="6"><highlight class="normal"></highlight></codeline>
 <codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
-<codeline lineno="22" refid="class_a_g_remap_core_1_1_file_prefixes" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_file_prefixes" kindref="compound">FilePrefixes</ref><sp/>{</highlight></codeline>
-<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="17" refid="class_a_g_remap_core_1_1_file_prefixes" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_file_prefixes" kindref="compound">FilePrefixes</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" kindref="member">BackupFilePrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RemapBKUP&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="24"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28" refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" kindref="member">BackupFilePrefix</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;RemapBKUP&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="36" refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" kindref="member">OldBackupFilePrefixV3</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DISABLED_BossFixBackup_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" kindref="member">OldBackupFilePrefixV4_3</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DISABLED_RemapBackup_&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="47"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/FilePrefixes.h"/>
   </compounddef>

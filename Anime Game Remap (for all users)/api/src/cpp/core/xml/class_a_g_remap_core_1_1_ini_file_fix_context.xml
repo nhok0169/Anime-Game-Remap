@@ -453,7 +453,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="120" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="152" bodyend="156"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="120" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="152" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a1f113414334b539702006d6948488c27" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -495,7 +495,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="121" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="159" bodyend="169"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="121" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="164" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a98c8e8142eea6d36899d24f3047770a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -533,7 +533,7 @@ original&apos;s way, and its implementation does set it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="122" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="172" bodyend="177"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="122" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="177" bodyend="182"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1ae86336c517f06a0f85509d6eaf071cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kindref="member">GraphGroups</ref> &gt;</type>
@@ -552,7 +552,7 @@ own note on why this isn&apos;t something the fixer does for itself
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="123" column="29" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="180" bodyend="183"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="123" column="29" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="185" bodyend="188"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">

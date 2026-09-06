@@ -73,9 +73,9 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_new_vals_1aaac15af526591b7fecad9ee274fa3933" prot="public" static="no" mutable="no">
-        <type>std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt; &gt; &gt;</type>
-        <definition>std::vector&lt;std::pair&lt;K, std::variant&lt;V, std::vector&lt;V&gt;, std::pair&lt;V, std::function&lt;bool(const V&amp;, const ModType*)&gt; &gt; &gt; &gt; &gt; AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;::vals</definition>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; K, std::variant&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt;, std::vector&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt;, std::pair&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt;, std::function&lt; bool(const V &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;K, std::variant&lt; std::variant&lt;V, std::function&lt;V(const ModType*)&gt; &gt; , std::vector&lt; std::variant&lt;V, std::function&lt;V(const ModType*)&gt; &gt; &gt;, std::pair&lt; std::variant&lt;V, std::function&lt;V(const ModType*)&gt; &gt; , std::function&lt;bool(const V&amp;, const ModType*)&gt; &gt; &gt; &gt; &gt; AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;::vals</definition>
         <argsstring></argsstring>
         <name>vals</name>
         <qualifiedname>AGRemapCore::RegNewVals::vals</qualifiedname>
@@ -87,12 +87,14 @@ Defines which registers will have their values changed, as (register name, new
 value) pairs :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 See :cpp:func:`IfContentPart::replaceVals` for the full semantics of each spec,
-bearing in mind this class&apos;s own wider predicate (\ref ModTypePredicate)
+bearing in mind this class&apos;s own wider predicate (\ref ModTypePredicate) and that
+every value slot is a \ref NewVal, which may be a \ref ValProducer instead of a
+plain value
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="92" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="92" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="126" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -110,18 +112,18 @@ Whether to add new `KVPs`_ if the register keys do not exist in the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="101" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="135" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="135" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_new_vals_1a649b90c693bb06a536e57f7f9eadcf0b" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_new_vals_1a69a5a1fb4fbcf61b6f1dade0c34e8bb1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;::RegNewVals</definition>
-        <argsstring>(std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;, const ModType *)&gt; &gt; &gt; &gt; &gt; vals={}, bool addNewKVPs=false)</argsstring>
+        <argsstring>(std::vector&lt; std::pair&lt; K, std::variant&lt; std::variant&lt; V, std::function&lt; V(const ModType *)&gt; &gt;, std::vector&lt; std::variant&lt; V, std::function&lt; V(const ModType *)&gt; &gt; &gt;, std::pair&lt; std::variant&lt; V, std::function&lt; V(const ModType *)&gt; &gt;, std::function&lt; bool(const V &amp;, const ModType *)&gt; &gt; &gt; &gt; &gt; vals={}, bool addNewKVPs=false)</argsstring>
         <name>RegNewVals</name>
         <qualifiedname>AGRemapCore::RegNewVals::RegNewVals</qualifiedname>
         <param>
-          <type>std::vector&lt; std::pair&lt; K, std::variant&lt; V, std::vector&lt; V &gt;, std::pair&lt; V, std::function&lt; bool(const V &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt; &gt; &gt;</type>
+          <type>std::vector&lt; std::pair&lt; K, std::variant&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt;, std::vector&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt;, std::pair&lt; std::variant&lt; V, std::function&lt; V(const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt;, std::function&lt; bool(const V &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *)&gt; &gt; &gt; &gt; &gt;</type>
           <declname>vals</declname>
           <defval>{}</defval>
         </param>
@@ -160,7 +162,7 @@ Whether to add new `KVPs`_ if the register keys do not exist in the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="115" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="149" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref> &amp;</type>
@@ -199,8 +201,9 @@ Whether to add new `KVPs`_ if the register keys do not exist in the
 Assigns the new values in \ref vals to &apos;part&apos;, by forwarding to
 :cpp:func:`IfContentPart::replaceVals` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-Every conditional spec&apos;s \ref ModTypePredicate is first bound against &apos;modType&apos; to
-produce the plain single-argument :cpp:type:`IfContentPart::Predicate`
+Every \ref ValProducer is called with &apos;modType&apos; to get the value to write, and every
+conditional spec&apos;s \ref ModTypePredicate is bound against &apos;modType&apos; to produce the
+plain single-argument :cpp:type:`IfContentPart::Predicate`
 :cpp:func:`IfContentPart::replaceVals` expects -- which is why this class keeps its
 own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
 </verbatim></para>
@@ -225,7 +228,7 @@ own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
 <parametername>modType</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>The type of mod to fix, or <computeroutput>nullptr</computeroutput>. Unused by this edit. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
+<para>The type of mod to fix, or <computeroutput>nullptr</computeroutput>. Passed to every <ref refid="_reg_new_vals_8h_1a2d684caf2ae65abd5361165fce7561fa" kindref="member">ValProducer</ref> and <ref refid="_reg_new_vals_8h_1af4c0cac28de729bc215b3f700c31c09b" kindref="member">ModTypePredicate</ref> in <ref refid="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" kindref="member">vals</ref>. <bold>Default</bold>: <computeroutput>nullptr</computeroutput> </para>
 </parameterdescription>
 </parameteritem>
 <parameteritem>
@@ -251,7 +254,7 @@ own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="137" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="172" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -345,7 +348,7 @@ Assigns new values to specific registers for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="31" bodyend="139"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="31" bodyend="174"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>addNewKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a92d584900e886b2fef91d6f7a18488f2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>Base</name></member>
@@ -355,9 +358,9 @@ Assigns new values to specific registers for some :cpp:class:`IfContentPart`
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a6abe7383ceb199aa774a8afcab9090e1" prot="public" virt="virtual"><scope>AGRemapCore::RegNewVals</scope><name>editFromIni</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a2d401c7ecdf49ce739b149b9df614cec" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>OrderRanges</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>RangeSpec</name></member>
-      <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a649b90c693bb06a536e57f7f9eadcf0b" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>RegNewVals</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a69a5a1fb4fbcf61b6f1dade0c34e8bb1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>RegNewVals</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1a8a91f054bda96df86a050433d03c992d" prot="protected" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>toRangeSpec</name></member>
-      <member refid="class_a_g_remap_core_1_1_reg_new_vals_1aaac15af526591b7fecad9ee274fa3933" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>vals</name></member>
+      <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a5a7d32ef209660236857b877a857d4ff" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>vals</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::RegNewVals</scope><name>~BaseIniPartEdit</name></member>
     </listofallmembers>
   </compounddef>

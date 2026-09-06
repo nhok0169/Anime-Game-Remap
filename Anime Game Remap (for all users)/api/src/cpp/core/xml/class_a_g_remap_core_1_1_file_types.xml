@@ -1,0 +1,270 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_types" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileTypes</compoundname>
+    <includes refid="_file_types_8h" local="no">FileTypes.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a31fb1de6992834d30277377bacecf133" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Default</definition>
+        <argsstring></argsstring>
+        <name>Default</name>
+        <qualifiedname>AGRemapCore::FileTypes::Default</qualifiedname>
+        <initializer>= &quot;file&quot;</initializer>
+        <briefdescription>
+<para>Default file type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="28" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6c32e2abc04e82f9c69e5b2cca622d7b" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Ini</definition>
+        <argsstring></argsstring>
+        <name>Ini</name>
+        <qualifiedname>AGRemapCore::FileTypes::Ini</qualifiedname>
+        <initializer>= &quot;*.ini file&quot;</initializer>
+        <briefdescription>
+<para>Initialization files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="33" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6ba76d9155821c8bea72266b39d7b309" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Blend</definition>
+        <argsstring></argsstring>
+        <name>Blend</name>
+        <qualifiedname>AGRemapCore::FileTypes::Blend</qualifiedname>
+        <initializer>= &quot;Blend.buf&quot;</initializer>
+        <briefdescription>
+<para>Blend.buf files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="38" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a617dada4d7028e1591252a04cd931894" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Position</definition>
+        <argsstring></argsstring>
+        <name>Position</name>
+        <qualifiedname>AGRemapCore::FileTypes::Position</qualifiedname>
+        <initializer>= &quot;Position.buf&quot;</initializer>
+        <briefdescription>
+<para>Position.buf files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="43" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a48b7f0367f986d1c2a4154c087c9620e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Texture</definition>
+        <argsstring></argsstring>
+        <name>Texture</name>
+        <qualifiedname>AGRemapCore::FileTypes::Texture</qualifiedname>
+        <initializer>= &quot;*.dds&quot;</initializer>
+        <briefdescription>
+<para>Texture .dds files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="48" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a62bfcd1b6e957e9edb7c5d65b7533a3d" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapBlend</definition>
+        <argsstring></argsstring>
+        <name>RemapBlend</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapBlend</qualifiedname>
+        <initializer>= &quot;RemapBlend.buf&quot;</initializer>
+        <briefdescription>
+<para>RemapBlend.buf files created by this fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="53" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6453382c55f336446d8cceeb99ed163c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapPosition</definition>
+        <argsstring></argsstring>
+        <name>RemapPosition</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapPosition</qualifiedname>
+        <initializer>= &quot;RemapPosition.buf&quot;</initializer>
+        <briefdescription>
+<para>RemapPosition.buf files created by this fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="58" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a8d736082b577a9e1e6dd9c8214bf3d31" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Log</definition>
+        <argsstring></argsstring>
+        <name>Log</name>
+        <qualifiedname>AGRemapCore::FileTypes::Log</qualifiedname>
+        <initializer>= &quot;RemapFixLog.txt&quot;</initializer>
+        <briefdescription>
+<para>The log file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="63" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1afbee5862889d8944a392f564d78fabfb" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapTexture</definition>
+        <argsstring></argsstring>
+        <name>RemapTexture</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapTexture</qualifiedname>
+        <initializer>= &quot;RemapTex.dds&quot;</initializer>
+        <briefdescription>
+<para>RemapTex.dds files created by this fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="68" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a7ea05ba9712350eab8c434fd15c16825" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapDownload</definition>
+        <argsstring></argsstring>
+        <name>RemapDownload</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapDownload</qualifiedname>
+        <initializer>= &quot;RemapDL download&quot;</initializer>
+        <briefdescription>
+<para>RemapDL download files created by this fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="73" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1aeaf4c48186c0a298dfd320be029f50af" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::Texcoord</definition>
+        <argsstring></argsstring>
+        <name>Texcoord</name>
+        <qualifiedname>AGRemapCore::FileTypes::Texcoord</qualifiedname>
+        <initializer>= &quot;Texcoord.buf&quot;</initializer>
+        <briefdescription>
+<para>Texcoord.buf files. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="78" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1ae3bb46c82dae8ae8786f5379bcad7575" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapTexcoord</definition>
+        <argsstring></argsstring>
+        <name>RemapTexcoord</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapTexcoord</qualifiedname>
+        <initializer>= &quot;RemapTexcoord.buf&quot;</initializer>
+        <briefdescription>
+<para>RemapTexcoord.buf files created by this fix. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="83" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1ad99dfbaeb36b13de504c635e269538a4" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapBuf</definition>
+        <argsstring></argsstring>
+        <name>RemapBuf</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapBuf</qualifiedname>
+        <initializer>= &quot;Remap*.buf&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Any other ``.buf`` file created by this fix -- the catch-all for the ``.buf`` half of
+:cpp:func:`RemapIniRemover::classifyResource`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="92" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a17f9ba0293ee70e296f1e83813e2718e" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileTypes::RemapOther</definition>
+        <argsstring></argsstring>
+        <name>RemapOther</name>
+        <qualifiedname>AGRemapCore::FileTypes::RemapOther</qualifiedname>
+        <initializer>= &quot;Remap file&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A file of no recognized kind created by this fix -- the final catch-all of
+:cpp:func:`RemapIniRemover::classifyResource`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="101" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Display names for the different types of files the software encounters :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A port of the pure-Python ``FileTypes`` enum (``constants/FileTypes.py``). These are **prose**,
+not matching patterns -- the only thing that reads them is a message being written for a
+person (:cpp:func:`RemapService::reportSummary` and friends), which is why ``&quot;*.ini file&quot;``
+carries a ``*`` that no file name ever does. Anything deciding what a file *is* uses
+:cpp:class:`FileExt`/:cpp:class:`FilePrefixes`/:cpp:class:`FileSuffixes` instead
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/FileTypes.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="22" bodyend="102"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a6ba76d9155821c8bea72266b39d7b309" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Blend</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a31fb1de6992834d30277377bacecf133" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Default</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a6c32e2abc04e82f9c69e5b2cca622d7b" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Ini</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a8d736082b577a9e1e6dd9c8214bf3d31" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Log</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a617dada4d7028e1591252a04cd931894" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a62bfcd1b6e957e9edb7c5d65b7533a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapBlend</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1ad99dfbaeb36b13de504c635e269538a4" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapBuf</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a7ea05ba9712350eab8c434fd15c16825" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapDownload</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a17f9ba0293ee70e296f1e83813e2718e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapOther</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a6453382c55f336446d8cceeb99ed163c" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapPosition</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1ae3bb46c82dae8ae8786f5379bcad7575" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapTexcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1afbee5862889d8944a392f564d78fabfb" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>RemapTexture</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1aeaf4c48186c0a298dfd320be029f50af" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Texcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_file_types_1a48b7f0367f986d1c2a4154c087c9620e" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Texture</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

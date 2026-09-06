@@ -24,11 +24,18 @@
       <node id="48">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="96">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="99">
+      <node id="101">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="4" relation="include">
@@ -36,7 +43,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="106">
+      <node id="107">
         <label>AGRemapCore/constants/GlobalIniRemoveBuilders.h</label>
         <link refid="_global_ini_remove_builders_8h"/>
         <childnode refid="3" relation="include">
@@ -58,7 +65,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="105">
+      <node id="106">
         <label>AGRemapCore/data/ModDataAssets.h</label>
         <link refid="_mod_data_assets_8h"/>
         <childnode refid="3" relation="include">
@@ -275,6 +282,8 @@
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
@@ -333,6 +342,8 @@
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
         <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="59" relation="include">
@@ -345,9 +356,11 @@
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
         <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
         </childnode>
       </node>
       <node id="31">
@@ -549,6 +562,8 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>AGRemapCore/model/strategies/ModType.h</label>
@@ -588,11 +603,11 @@
         <childnode refid="93" relation="include">
         </childnode>
       </node>
-      <node id="101">
+      <node id="103">
         <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
         <link refid="_mod_type_id_data_8h"/>
       </node>
-      <node id="98">
+      <node id="100">
         <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
         <link refid="_base_ini_classifier_8h"/>
         <childnode refid="4" relation="include">
@@ -601,17 +616,17 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="99" relation="include">
+        <childnode refid="101" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
       </node>
-      <node id="100">
+      <node id="102">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
         <link refid="_ini_classify_stats_8h"/>
         <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
       </node>
       <node id="58">
@@ -750,7 +765,7 @@
         <childnode refid="82" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="99">
         <label>AGRemapCore/tools/Heading.h</label>
         <link refid="_heading_8h"/>
         <childnode refid="11" relation="include">
@@ -776,14 +791,14 @@
         <childnode refid="43" relation="include">
         </childnode>
       </node>
-      <node id="103">
+      <node id="104">
         <label>AGRemapCore/tools/StringTools.h</label>
         <link refid="_string_tools_8h"/>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="104" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -962,6 +977,24 @@
         <childnode refid="69" relation="include">
         </childnode>
       </node>
+      <node id="98">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="99" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
@@ -975,17 +1008,14 @@
         </childnode>
         <childnode refid="95" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
-        </childnode>
-        <childnode refid="105" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
         <childnode refid="106" relation="include">
         </childnode>
-      </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
+        <childnode refid="107" relation="include">
+        </childnode>
       </node>
       <node id="82">
         <label>Generator.tpp</label>
@@ -1086,7 +1116,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="104">
+      <node id="105">
         <label>string_view</label>
       </node>
       <node id="30">
@@ -1294,29 +1324,39 @@
 <codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="170"><highlight class="normal"></highlight></codeline>
 <codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>ModType::fixIni(IniFile&amp;<sp/>iniFile,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>keepBackup,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>fixOnly)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType*<sp/>iniModType<sp/>=<sp/>iniFile.getAvailableType();</highlight></codeline>
-<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(iniModType<sp/>==<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>||<sp/>iniModType-&gt;name<sp/>!=<sp/>name)<sp/>{</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="176"><highlight class="normal"></highlight></codeline>
-<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile.fix(keepBackup,<sp/>fixOnly);</highlight></codeline>
-<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="179"><highlight class="normal"></highlight></codeline>
-<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>Ranges&lt;long<sp/>long&gt;<sp/>ModType::getHashRanges(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IfContentPartColouring&lt;std::string,<sp/>std::string&gt;&amp;<sp/>partColours,</highlight></codeline>
-<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version,</highlight></codeline>
-<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::string&gt;&gt;&amp;<sp/>nonVersionVals)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/>keysExists;</highlight></codeline>
-<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keysExists.emplace(IniKeywords::Hash,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IfContentPartColouring&lt;std::string,<sp/>std::string&gt;::Filter&gt;<sp/>keyFilters;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyFilters.emplace(IniKeywords::Hash,</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;version,<sp/>&amp;nonVersionVals](std::optional&lt;long<sp/>long&gt;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
-<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hashes<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>hashes-&gt;hasFrom(value,<sp/>version,<sp/>nonVersionVals);</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
-<codeline lineno="191"><highlight class="normal"></highlight></codeline>
-<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>partColours.getRanges(keysExists,<sp/>keyFilters);</highlight></codeline>
-<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="194"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;Is<sp/>this<sp/>.ini<sp/>file<sp/>one<sp/>of<sp/>mine?&quot;<sp/>--<sp/>asked<sp/>across<sp/>ALL<sp/>the<sp/>mod<sp/>types<sp/>it<sp/>classified<sp/>as,<sp/>not</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>just<sp/>whichever<sp/>happened<sp/>to<sp/>come<sp/>first.<sp/>An<sp/>IniFile<sp/>can<sp/>hold<sp/>several,<sp/>so<sp/>a<sp/>single-type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>check<sp/>here<sp/>would<sp/>silently<sp/>skip<sp/>a<sp/>.ini<sp/>file<sp/>this<sp/>mod<sp/>type<sp/>genuinely<sp/>owns.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isMine<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>iniFile.getModTypes())<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second.name<sp/>==<sp/>name)<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>isMine<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!isMine)<sp/>{</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>iniFile.fix(keepBackup,<sp/>fixOnly);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>Ranges&lt;long<sp/>long&gt;<sp/>ModType::getHashRanges(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>IfContentPartColouring&lt;std::string,<sp/>std::string&gt;&amp;<sp/>partColours,</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::optional&lt;Version&gt;&amp;<sp/>version,</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::optional&lt;std::string&gt;&gt;&amp;<sp/>nonVersionVals)</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>bool&gt;<sp/>keysExists;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keysExists.emplace(IniKeywords::Hash,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IfContentPartColouring&lt;std::string,<sp/>std::string&gt;::Filter&gt;<sp/>keyFilters;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>keyFilters.emplace(IniKeywords::Hash,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[</highlight><highlight class="keyword">this</highlight><highlight class="normal">,<sp/>&amp;version,<sp/>&amp;nonVersionVals](std::optional&lt;long<sp/>long&gt;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>value)<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>hashes<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"><sp/>&amp;&amp;<sp/>hashes-&gt;hasFrom(value,<sp/>version,<sp/>nonVersionVals);</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>partColours.getRanges(keysExists,<sp/>keyFilters);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/strategies/ModType.cpp"/>
   </compounddef>

@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RemapService::FolderWalk</compoundname>
+    <includes refid="_remap_service_8h" local="no">RemapService.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; std::string &gt;</type>
+        <definition>std::deque&lt;std::string&gt; AGRemapCore::RemapService::FolderWalk::dirs</definition>
+        <argsstring></argsstring>
+        <name>dirs</name>
+        <qualifiedname>AGRemapCore::RemapService::FolderWalk::dirs</qualifiedname>
+        <briefdescription>
+<para>The folders still waiting to be visited, most recently added first. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapService.h" line="513" column="28" bodyfile="include/AGRemapCore/RemapService.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1ac552d2f9e034fba385ab3e07cfdebc2d" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::RemapService::FolderWalk::visited</definition>
+        <argsstring></argsstring>
+        <name>visited</name>
+        <qualifiedname>AGRemapCore::RemapService::FolderWalk::visited</qualifiedname>
+        <briefdescription>
+<para>Every folder the walk has finished with. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapService.h" line="518" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="518" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1abdc8888d9cf48291ead5a72be21d0268" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::RemapService::FolderWalk::visiting</definition>
+        <argsstring></argsstring>
+        <name>visiting</name>
+        <qualifiedname>AGRemapCore::RemapService::FolderWalk::visiting</qualifiedname>
+        <briefdescription>
+<para>Every folder currently sitting in <ref refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" kindref="member">dirs</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapService.h" line="523" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="523" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" static="no" mutable="no">
+        <type>std::unordered_set&lt; std::string &gt;</type>
+        <definition>std::unordered_set&lt;std::string&gt; AGRemapCore::RemapService::FolderWalk::gotNeighbours</definition>
+        <argsstring></argsstring>
+        <name>gotNeighbours</name>
+        <qualifiedname>AGRemapCore::RemapService::FolderWalk::gotNeighbours</qualifiedname>
+        <briefdescription>
+<para>Every folder already enumerated by some folder&apos;s recursive neighbour scan. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapService.h" line="528" column="36" bodyfile="include/AGRemapCore/RemapService.h" bodystart="528" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1afc1b9525f34043059444327f72c9c749" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::RemapService::FolderWalk::push</definition>
+        <argsstring>(const std::string &amp;folder)</argsstring>
+        <name>push</name>
+        <qualifiedname>AGRemapCore::RemapService::FolderWalk::push</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>folder</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Queues a folder to be visited, unless it has already been visited or is already
+queued
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>folder</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The folder to queue </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapService.h" line="539" column="22" bodyfile="src/RemapService.cpp" bodystart="73" bodyend="83"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The bookkeeping for #fix&apos;s depth-first folder walk :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Passed by reference into #addNeighbourFolders/#addIniNeighbourFolders rather than
+living on :cpp:class:`RemapService` itself, so a #fix leaves no walk state behind on
+the object and two walks can never see each other&apos;s :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The three sets are exactly the ones the pure-Python original&apos;s ``_fix`` kept as
+locals, under the same names, and they answer three different questions -- a folder
+already **visited** is never processed again, a folder already **visiting** is in the
+queue and must not be queued twice, and a folder already in **gotNeighbours** has
+already had the subtree beneath it enumerated by some earlier folder&apos;s recursive scan
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/RemapService.h" line="509" column="13" bodyfile="include/AGRemapCore/RemapService.h" bodystart="509" bodyend="540"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1a7b8e8ba33afa18e0fc6fb139ca5a6d35" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>dirs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1aaa51d62e58d8ce392838008ca161398b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>gotNeighbours</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1afc1b9525f34043059444327f72c9c749" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>push</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1ac552d2f9e034fba385ab3e07cfdebc2d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>visited</name></member>
+      <member refid="struct_a_g_remap_core_1_1_remap_service_1_1_folder_walk_1abdc8888d9cf48291ead5a72be21d0268" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService::FolderWalk</scope><name>visiting</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

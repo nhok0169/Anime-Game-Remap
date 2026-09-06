@@ -82,6 +82,8 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
@@ -197,8 +199,11 @@
 <codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_indices_1a3c37c8dfbb2fc3d441d2a9becfa46e30" kindref="member">Indices::Indices</ref>(std::unordered_map&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;<sp/>map):</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt;std::string,<sp/>std::string&gt;(prototypeRepo(),<sp/>std::move(map))<sp/>{}</highlight></codeline>
-<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt;std::string,<sp/>std::string&gt;(prototypeRepo(),<sp/>std::move(map))<sp/>{</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>One<sp/>deeper<sp/>than<sp/>Hashes<sp/>--<sp/>see<sp/>prototypeRepo&apos;s<sp/>own<sp/>note<sp/>on<sp/>the<sp/>extra<sp/>&apos;component&apos;<sp/>index.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nonVersionIndexNames<sp/>=<sp/>std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;component&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/assets/Indices.cpp"/>
   </compounddef>

@@ -281,15 +281,18 @@ Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BinaryFile</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1a0b006ae2521b373ef323141ad696710c" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BlendFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufColumn</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>BufFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>bytesPerLine_</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>data_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>decodeAll</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>decodeLine</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1ac62774aafbb9db93fcdd5f5e07761e1a" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>defaultElements</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elementKeys_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>elements_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>encodeAll</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>encodeLine</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>fileType_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>Filter</name></member>
@@ -297,14 +300,19 @@ Used for handling ``Blend.buf`` files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
       <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>FixResult</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getBytesPerLine</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getData</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7932596085360312bfd789ca6084105a" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getDumpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getElements</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getFileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a73af1870c0837ad41b65100886559056" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getFlatDumpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1a5a76688879af6ae15031261337b6426f" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getMissingIndicesRemap</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>getSrc</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>isValid</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>merge</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" virt="virtual"><scope>AGRemapCore::BlendFile</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a60c94d25b1c7ad9b794635f09cbbe823" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>readDumpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>readFlatDumpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1acc431d4f104395810f7c19d6e175af6a" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>remap</name></member>
       <member refid="class_a_g_remap_core_1_1_blend_file_1a0db36a8cbf7275a04037add89ab350a4" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>remapIndices</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" prot="public" virt="non-virtual"><scope>AGRemapCore::BlendFile</scope><name>setElements</name></member>

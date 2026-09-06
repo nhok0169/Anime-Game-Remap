@@ -28,6 +28,9 @@
       <node id="102">
         <label>BiMap.tpp</label>
       </node>
+      <node id="64">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="95">
         <label>AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
@@ -288,6 +291,8 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -958,9 +963,6 @@
         <childnode refid="96" relation="include">
         </childnode>
       </node>
-      <node id="64">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="83">
         <label>Generator.tpp</label>
       </node>
@@ -1111,12 +1113,23 @@
 <codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_g_i_builder_1ad9cb9533849253f3b04effcff52b8845" kindref="member">GIBuilder::all</ref>();</highlight></codeline>
 <codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" kindref="member">GlobalModTypes::registerAll</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1add98f2abc25606ce97be00805a4aeb0d" kindref="member">GlobalModTypes::registerMissing</ref>()<sp/>{</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType&amp;<sp/>modType<sp/>:<sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" kindref="member">all</ref>())<sp/>{</highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">ModTypeIdTools::registerModType</ref>(modType);</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="20"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>the<sp/>gap-filling<sp/>half<sp/>of<sp/>registerAll<sp/>--<sp/>see<sp/>this<sp/>function&apos;s<sp/>own<sp/>doc<sp/>comment<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>why<sp/>the<sp/>implicit<sp/>path<sp/>must<sp/>not<sp/>overwrite.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" kindref="member">ModTypeIdTools::getModType</ref>(modType.modTypeId).has_value())<sp/>{</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">ModTypeIdTools::registerModType</ref>(modType);</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" kindref="member">GlobalModTypes::registerAll</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>ModType&amp;<sp/>modType<sp/>:<sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" kindref="member">all</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">ModTypeIdTools::registerModType</ref>(modType);</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/constants/GlobalModTypes.cpp"/>
   </compounddef>

@@ -5,6 +5,8 @@
     <innerfile refid="_download_mode_8h">DownloadMode.h</innerfile>
     <innerfile refid="_file_ext_8h">FileExt.h</innerfile>
     <innerfile refid="_file_prefixes_8h">FilePrefixes.h</innerfile>
+    <innerfile refid="_file_suffixes_8h">FileSuffixes.h</innerfile>
+    <innerfile refid="_file_types_8h">FileTypes.h</innerfile>
     <innerfile refid="_game_type_8h">GameType.h</innerfile>
     <innerfile refid="_game_type_id_8h">GameTypeId.h</innerfile>
     <innerfile refid="_g_i_builder_8h">GIBuilder.h</innerfile>
@@ -13,6 +15,7 @@
     <innerfile refid="_global_mod_types_8h">GlobalModTypes.h</innerfile>
     <innerfile refid="_if_pred_part_type_8h">IfPredPartType.h</innerfile>
     <innerfile refid="_ini_boiler_plate_8h">IniBoilerPlate.h</innerfile>
+    <innerfile refid="_ini_comments_8h">IniComments.h</innerfile>
     <innerfile refid="_ini_graph_mod_obj_keywords_8h">IniGraphModObjKeywords.h</innerfile>
     <innerfile refid="_ini_graph_replace_mode_8h">IniGraphReplaceMode.h</innerfile>
     <innerfile refid="_ini_keywords_8h">IniKeywords.h</innerfile>

@@ -150,6 +150,7 @@ from .core import BaseIniGraphEdit
 from .core import GraphRename
 from .core import RegFillMissing
 from .core import RegSurroundedAdd
+from .core import RegDelimitedAdd
 from .core import GraphRemove
 from .core import GraphInherit
 from .core import GraphGroupRemap
@@ -357,7 +358,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "BufDataType", "BufElementType", "BufBaseFloat", "BufFloat", "BufFloat16", "BufBaseInt", "BufSignedInt", "BufUnSignedInt", "BufType", "BufUnorm",
            "BufFile", "File", "TextureFile",
            "KeepFirstDict",
-           "RegSurroundedAdd",
+           "RegSurroundedAdd", "RegDelimitedAdd",
            "IniFixBuilder",
            "IniParseBuilder",
            "CppBaseIniRemover", "BaseIniRemover", "CppIniRemoveBuilderArgs", "IniRemovalContext", "RemapIniRemover", "GlobalRemapIniRemover", "IniRemoveBuilder",

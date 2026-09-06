@@ -9,20 +9,27 @@
       <node id="31">
         <label>Algo.tpp</label>
       </node>
-      <node id="94">
+      <node id="96">
         <label>BaseIniFixer.tpp</label>
       </node>
-      <node id="93">
+      <node id="95">
         <label>BaseIniParser.tpp</label>
       </node>
       <node id="37">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="61">
+      <node id="68">
+        <label>CallGraph.tpp</label>
+      </node>
+      <node id="64">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="101">
+      <node id="103">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="13" relation="include">
@@ -38,7 +45,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="67">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="12" relation="include">
@@ -53,10 +60,10 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
       </node>
-      <node id="62">
+      <node id="65">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
         <childnode refid="12" relation="include">
@@ -73,12 +80,12 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="66" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
       </node>
-      <node id="63">
+      <node id="66">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
         <childnode refid="12" relation="include">
@@ -105,26 +112,26 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="64" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="70" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="66">
+      <node id="69">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="10" relation="include">
@@ -135,16 +142,16 @@
         </childnode>
         <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="70" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
       </node>
-      <node id="87">
+      <node id="89">
         <label>AGRemapCore/model/VGRemap.h</label>
         <link refid="_v_g_remap_8h"/>
         <childnode refid="13" relation="include">
@@ -152,7 +159,7 @@
         <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="76">
+      <node id="78">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
         <childnode refid="12" relation="include">
@@ -170,7 +177,7 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="78">
+      <node id="80">
         <label>AGRemapCore/model/assets/Hashes.h</label>
         <link refid="_hashes_8h"/>
         <childnode refid="5" relation="include">
@@ -179,10 +186,10 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="84">
+      <node id="86">
         <label>AGRemapCore/model/assets/Indices.h</label>
         <link refid="_indices_8h"/>
         <childnode refid="5" relation="include">
@@ -191,10 +198,10 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="88">
+      <node id="90">
         <label>AGRemapCore/model/assets/ModAssets.h</label>
         <link refid="_mod_assets_8h"/>
         <childnode refid="12" relation="include">
@@ -207,14 +214,14 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="89" relation="include">
+        <childnode refid="91" relation="include">
         </childnode>
       </node>
-      <node id="80">
+      <node id="82">
         <label>AGRemapCore/model/assets/ModDictAssets.h</label>
         <link refid="_mod_dict_assets_8h"/>
         <childnode refid="12" relation="include">
@@ -229,14 +236,14 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="79">
+      <node id="81">
         <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
         <link refid="_mod_mapped_assets_8h"/>
         <childnode refid="12" relation="include">
@@ -247,46 +254,48 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
-        </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
       </node>
-      <node id="81">
+      <node id="83">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="86">
+      <node id="88">
         <label>AGRemapCore/model/assets/VGRemaps.h</label>
         <link refid="_v_g_remaps_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="87" relation="include">
+        <childnode refid="89" relation="include">
         </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="90" relation="include">
         </childnode>
       </node>
-      <node id="85">
+      <node id="87">
         <label>AGRemapCore/model/assets/VertexCounts.h</label>
         <link refid="_vertex_counts_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
       </node>
-      <node id="60">
+      <node id="63">
         <label>AGRemapCore/model/files/IniFile.h</label>
         <link refid="_ini_file_8h"/>
         <childnode refid="4" relation="include">
@@ -305,21 +314,25 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
+        <childnode refid="39" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="77" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="100" relation="include">
+        <childnode refid="102" relation="include">
         </childnode>
         <childnode refid="49" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
         </childnode>
       </node>
       <node id="17">
@@ -358,7 +371,7 @@
         <childnode refid="45" relation="include">
         </childnode>
       </node>
-      <node id="67">
+      <node id="70">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
         <childnode refid="10" relation="include">
@@ -387,7 +400,7 @@
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
+        <childnode refid="71" relation="include">
         </childnode>
       </node>
       <node id="46">
@@ -521,8 +534,10 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
       </node>
-      <node id="77">
+      <node id="79">
         <label>AGRemapCore/model/strategies/ModType.h</label>
         <link refid="_mod_type_8h"/>
         <childnode refid="4" relation="include">
@@ -535,36 +550,36 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
-        </childnode>
-        <childnode refid="84" relation="include">
-        </childnode>
-        <childnode refid="85" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
         <childnode refid="86" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="87" relation="include">
+        </childnode>
+        <childnode refid="88" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
         </childnode>
         <childnode refid="27" relation="include">
         </childnode>
-        <childnode refid="90" relation="include">
-        </childnode>
-        <childnode refid="95" relation="include">
-        </childnode>
         <childnode refid="92" relation="include">
-        </childnode>
-        <childnode refid="96" relation="include">
         </childnode>
         <childnode refid="97" relation="include">
         </childnode>
+        <childnode refid="94" relation="include">
+        </childnode>
+        <childnode refid="98" relation="include">
+        </childnode>
         <childnode refid="99" relation="include">
         </childnode>
+        <childnode refid="101" relation="include">
+        </childnode>
       </node>
-      <node id="103">
+      <node id="105">
         <label>AGRemapCore/model/strategies/ModTypeIdData.h</label>
         <link refid="_mod_type_id_data_8h"/>
       </node>
-      <node id="100">
+      <node id="102">
         <label>AGRemapCore/model/strategies/iniClassifiers/BaseIniClassifier.h</label>
         <link refid="_base_ini_classifier_8h"/>
         <childnode refid="13" relation="include">
@@ -573,20 +588,20 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="101" relation="include">
+        <childnode refid="103" relation="include">
         </childnode>
-        <childnode refid="102" relation="include">
+        <childnode refid="104" relation="include">
         </childnode>
       </node>
-      <node id="102">
+      <node id="104">
         <label>AGRemapCore/model/strategies/iniClassifiers/IniClassifyStats.h</label>
         <link refid="_ini_classify_stats_8h"/>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="103" relation="include">
+        <childnode refid="105" relation="include">
         </childnode>
       </node>
-      <node id="90">
+      <node id="92">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h</label>
         <link refid="_base_ini_fixer_8h"/>
         <childnode refid="5" relation="include">
@@ -595,16 +610,16 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="91" relation="include">
-        </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="93" relation="include">
         </childnode>
         <childnode refid="94" relation="include">
         </childnode>
+        <childnode refid="96" relation="include">
+        </childnode>
       </node>
-      <node id="95">
+      <node id="97">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</label>
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -621,14 +636,14 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
-        </childnode>
-        <childnode refid="88" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
         <childnode refid="90" relation="include">
         </childnode>
+        <childnode refid="92" relation="include">
+        </childnode>
       </node>
-      <node id="91">
+      <node id="93">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
       </node>
@@ -671,8 +686,10 @@
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
       </node>
-      <node id="92">
+      <node id="94">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
         <link refid="_base_ini_parser_8h"/>
         <childnode refid="10" relation="include">
@@ -681,12 +698,12 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="93" relation="include">
+        <childnode refid="95" relation="include">
         </childnode>
       </node>
-      <node id="96">
+      <node id="98">
         <label>AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</label>
         <link refid="_ini_parse_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -697,28 +714,28 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="92" relation="include">
+        <childnode refid="94" relation="include">
         </childnode>
       </node>
-      <node id="97">
+      <node id="99">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="98" relation="include">
+        <childnode refid="100" relation="include">
         </childnode>
       </node>
-      <node id="98">
+      <node id="100">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="99">
+      <node id="101">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveBuilder.h</label>
         <link refid="_ini_remove_builder_8h"/>
         <childnode refid="10" relation="include">
@@ -729,11 +746,11 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="80" relation="include">
+        <childnode refid="82" relation="include">
         </childnode>
-        <childnode refid="97" relation="include">
+        <childnode refid="99" relation="include">
         </childnode>
       </node>
       <node id="28">
@@ -748,18 +765,26 @@
         <childnode refid="31" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="73">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
-        <childnode refid="71" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="60" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="75" relation="include">
+        </childnode>
+      </node>
+      <node id="61">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -954,26 +979,41 @@
         <childnode refid="49" relation="include">
         </childnode>
       </node>
+      <node id="59">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp</label>
         <link refid="_ini_file_res_edit_context_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="59" relation="include">
+        <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
+        <childnode refid="63" relation="include">
         </childnode>
       </node>
-      <node id="65">
-        <label>CallGraph.tpp</label>
-      </node>
-      <node id="73">
+      <node id="75">
         <label>Generator.tpp</label>
       </node>
       <node id="45">
         <label>IfContentPart.tpp</label>
       </node>
-      <node id="68">
+      <node id="71">
         <label>IfContentPartColour.tpp</label>
       </node>
       <node id="57">
@@ -988,19 +1028,19 @@
       <node id="25">
         <label>IncIdGenerator.tpp</label>
       </node>
-      <node id="75">
+      <node id="77">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="74">
+      <node id="76">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="89">
+      <node id="91">
         <label>ModAssets.tpp</label>
       </node>
-      <node id="82">
+      <node id="84">
         <label>ModDictAssets.tpp</label>
       </node>
-      <node id="83">
+      <node id="85">
         <label>ModMappedAssets.tpp</label>
       </node>
       <node id="53">
@@ -1015,7 +1055,7 @@
       <node id="32">
         <label>Ranges.tpp</label>
       </node>
-      <node id="69">
+      <node id="72">
         <label>SectionIterData.tpp</label>
       </node>
       <node id="18">
@@ -1024,7 +1064,7 @@
       <node id="43">
         <label>cmath</label>
       </node>
-      <node id="71">
+      <node id="74">
         <label>coroutine</label>
       </node>
       <node id="12">
@@ -1036,10 +1076,10 @@
       <node id="3">
         <label>deque</label>
       </node>
-      <node id="72">
+      <node id="60">
         <label>exception</label>
       </node>
-      <node id="59">
+      <node id="62">
         <label>filesystem</label>
       </node>
       <node id="10">
@@ -1177,52 +1217,61 @@
 <codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight></codeline>
 <codeline lineno="74"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileResEditContext::beginCollectingResources()<sp/>{</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collecting_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.clear();</highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;BaseLogger&gt;<sp/>IniFileResEditContext::logger()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="79"><highlight class="normal"></highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/>IniFileResEditContext::takeCollectedResources()<sp/>{</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/>result;</highlight></codeline>
-<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.swap(buffer_);</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;captureKeepAlive_&apos;<sp/>is<sp/>deliberately<sp/>NOT<sp/>touched:<sp/>the<sp/>pointers<sp/>just<sp/>handed<sp/>out<sp/>have<sp/>to<sp/>stay</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>valid,<sp/>and<sp/>this<sp/>context<sp/>is<sp/>what<sp/>keeps<sp/>them<sp/>so<sp/>--<sp/>see<sp/>this<sp/>class&apos;s<sp/>own<sp/>danger<sp/>note.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;logger;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileResEditContext::beginCollectingResources()<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collecting_<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.clear();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
 <codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileResEditContext::endCollectingResources()<sp/>{</highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collecting_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.clear();</highlight></codeline>
-<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="96"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IniFileResEditContext::Section*&gt;<sp/>IniFileResEditContext::sectionIfTemplates()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>result;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"></highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getIfTemplates())<sp/>{</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.emplace(entry.first,<sp/>entry.second.get());</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/>IniFileResEditContext::takeCollectedResources()<sp/>{</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.swap(buffer_);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;captureKeepAlive_&apos;<sp/>is<sp/>deliberately<sp/>NOT<sp/>touched:<sp/>the<sp/>pointers<sp/>just<sp/>handed<sp/>out<sp/>have<sp/>to<sp/>stay</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>valid,<sp/>and<sp/>this<sp/>context<sp/>is<sp/>what<sp/>keeps<sp/>them<sp/>so<sp/>--<sp/>see<sp/>this<sp/>class&apos;s<sp/>own<sp/>danger<sp/>note.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>IniFileResEditContext::endCollectingResources()<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>collecting_<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>buffer_.clear();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>IniFileResEditContext::Section*&gt;<sp/>IniFileResEditContext::sectionIfTemplates()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>result;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="111"><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"></highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>Z3Context*<sp/>IniFileResEditContext::z3Ctx()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entry<sp/>:<sp/>iniFile_-&gt;getIfTemplates())<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(entry.second<sp/>!=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.emplace(entry.first,<sp/>entry.second.get());</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getZ3Ctx();</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
 <codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>Z3Context*<sp/>IniFileResEditContext::z3Ctx()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!hasIni())<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>iniFile_-&gt;getZ3Ctx();</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.cpp"/>
   </compounddef>

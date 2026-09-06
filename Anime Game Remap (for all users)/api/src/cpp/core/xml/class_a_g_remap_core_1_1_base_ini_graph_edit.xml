@@ -4,6 +4,7 @@
     <compoundname>AGRemapCore::BaseIniGraphEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphPartEdit</basecompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_rename" prot="public" virt="non-virtual">AGRemapCore::GraphRename&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public" virt="non-virtual">AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public" virt="non-virtual">AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public" virt="non-virtual">AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_base_ini_graph_edit_8h" local="no">BaseIniGraphEdit.h</includes>
@@ -239,6 +240,7 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseIniGraphEdit::edit</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_delimited_add_1a7d999fb3f7d642f3d0049361ba2ac31d">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_fill_missing_1a1e9cb3ccb6fcc62f730aa7be2444ce3a">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ab4ded33966a5b623d2ac35dcede40246">edit</reimplementedby>
         <param>
@@ -419,12 +421,18 @@ Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSe
         </childnode>
       </node>
       <node id="5">
+        <label>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_delimited_add"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
         <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_surrounded_add"/>
         <childnode refid="1" relation="public-inheritance">

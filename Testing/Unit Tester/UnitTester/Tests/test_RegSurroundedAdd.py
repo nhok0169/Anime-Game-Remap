@@ -650,3 +650,314 @@ class RegSurroundedAddTest(BaseUnitTest):
         edit.edit(graph, None, partFilter = lambda iterData, modType, ini: FRB.Ranges([(0, 2)]))
 
         self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("addition", "yay"), ("b", "2"), ("c", "3")])
+
+    # ================================================
+    # ================= optBeforeRegs ==================
+    # 'optBeforeRegs' is an "any of" group: the window only needs at least one of its registers seen
+    # (and accepted), on top of every register in 'beforeRegs'.
+
+    def test_init_optBeforeRegs_storedAndDefaultsToEmpty(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        self.compareDict(edit.optBeforeRegs, {"a": None, "b": None})
+
+        self.compareDict(FRB.RegSurroundedAdd(("addition", "yay")).optBeforeRegs, {})
+
+    def test_edit_optBeforeRegs_onlyOneOfTheGroupPresent_insertsAfterIt(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "0")], "b": [(1, "2")], "y": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "0"), ("b", "2"), ("addition", "yay"), ("y", "3")])
+
+    def test_edit_optBeforeRegs_bothPresent_insertsAfterTheEarlierOne(self):
+        # "any of" opens the window at the *first* register of the group seen, unlike beforeRegs
+        # (which waits for the later one -- see test_edit_beforeRegsTwoKeys_insertsAfterTheLaterOfTheTwo)
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "x": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("addition", "yay"), ("b", "2"), ("x", "3")])
+
+    def test_edit_optBeforeRegs_nonePresent_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "y": [(1, "2")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "1"), ("y", "2")])
+
+    def test_edit_optBeforeRegs_combinedWithBeforeRegs_needsAllOfBeforeAndAnyOfOpt(self):
+        # "a" (beforeRegs) is satisfied at index 0, but the optional group ("b" or "c") only at "b"
+        # (index 2) -- the window opens after whichever bound is later
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"a": [(0, "1")], "x": [(1, "mid")], "b": [(2, "2")], "y": [(3, "3")]}, 0
+        )])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, optBeforeRegs = {"b": None, "c": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("a", "1"), ("x", "mid"), ("b", "2"), ("addition", "yay"), ("y", "3")])
+
+    def test_edit_optBeforeRegs_optSatisfiedButBeforeRegMissing_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")], "y": [(1, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, optBeforeRegs = {"b": None, "c": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("b", "2"), ("y", "3")])
+
+    def test_edit_optBeforeRegs_predicateRejectsTheOnlyPresentOne_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "bad")], "y": [(1, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": lambda val: val == "good"})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("b", "bad"), ("y", "3")])
+
+    def test_edit_optBeforeRegs_predicateAcceptsLaterOccurence_insertsAfterThatOne(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "bad"), (1, "good")], "y": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": lambda val: val == "good"})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("b", "bad"), ("b", "good"), ("addition", "yay"), ("y", "3")])
+
+    def test_edit_optBeforeRegs_withAfterRegs_insertsInsideTheWindow(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")], "x": [(1, "mid")], "c": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None}, afterRegs = {"c": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("b", "2"), ("addition", "yay"), ("x", "mid"), ("c", "3")])
+
+    def test_edit_optBeforeRegs_latestTrue_insertsAtLatestValidIndex(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")], "x": [(1, "mid")], "c": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None}, afterRegs = {"c": None}, latest = True)
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("b", "2"), ("x", "mid"), ("addition", "yay"), ("c", "3")])
+
+    def test_edit_optBeforeRegs_satisfiedInParentViaRunCall_childDoesNotInsertAgain(self):
+        # the group is satisfied in "parent" ("b"), which claims the window; "child" (reached via the
+        # run = call, with "b" only carried in) must not insert a second time
+        sections = {
+            "parent": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")], "run": [(1, "child")]}, 0)]),
+            "child": FRB.IfTemplate([FRB.IfContentPart({"y": [(0, "3")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["parent"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "parent").entries(), [("b", "2"), ("addition", "yay"), ("run", "child")])
+        self.compareList(self._getContentPart(graph, "child").entries(), [("y", "3")])
+
+    def test_edit_optBeforeRegs_satisfiedOnlyInChild_parentInsertsOnceTheCallHasReturned(self):
+        # same rule as beforeRegs (see _getForwardValidRangeForPart's call/return split): "a" is
+        # guaranteed once "parent"'s run = call has *returned*, so the position right after that call
+        # is valid, and "parent" (visited first) claims the window there -- "child" is then already
+        # claimed. Pinned against beforeRegs to make sure the group follows the exact same rule
+        def makeGraph():
+            sections = {
+                "parent": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "run": [(1, "child")]}, 0)]),
+                "child": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "2")], "y": [(1, "3")]}, 0)]),
+            }
+            return FRB.IniSectionGraph(sections, ["parent"])
+
+        graph = makeGraph()
+        FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None}).edit(graph, None)
+        self.compareList(self._getContentPart(graph, "parent").entries(), [("x", "1"), ("run", "child"), ("addition", "yay")])
+        self.compareList(self._getContentPart(graph, "child").entries(), [("a", "2"), ("y", "3")])
+
+        reference = makeGraph()
+        FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}).edit(reference, None)
+        self.compareList(self._getContentPart(reference, "parent").entries(), self._getContentPart(graph, "parent").entries())
+        self.compareList(self._getContentPart(reference, "child").entries(), self._getContentPart(graph, "child").entries())
+
+    def test_edit_optBeforeRegs_eachBranchSatisfiesADifferentMember_eachBranchInserts(self):
+        # "a" in the if-branch and "b" in the else-branch both satisfy the group, so each branch opens
+        # its own window and inserts; the part after the endIf is then already claimed by both
+        sections = {"root": FRB.IfTemplate([
+            FRB.IfContentPart({"x": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 1", FRB.IfPredPartType.If, _Z3CTX),
+            FRB.IfContentPart({"a": [(0, "branch1")]}, 1),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
+            FRB.IfContentPart({"b": [(0, "branch2")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
+            FRB.IfContentPart({"y": [(0, "9")]}, 0),
+        ])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optBeforeRegs = {"a": None, "b": None})
+        edit.edit(graph, None)
+
+        parts = sections["root"].parts
+        self.compareList(parts[0].entries(), [("x", "1")])
+        self.compareList(parts[2].entries(), [("a", "branch1"), ("addition", "yay")])
+        self.compareList(parts[4].entries(), [("b", "branch2"), ("addition", "yay")])
+        self.compareList(parts[6].entries(), [("y", "9")])
+
+    # ================================================
+    # ================= optAfterRegs ===================
+    # the "any of" counterpart of 'afterRegs': at least one of its registers must still come after
+    # 'addition', on top of every register in 'afterRegs'
+
+    def test_init_optAfterRegs_storedAndDefaultsToEmpty(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optAfterRegs = {"c": None, "d": None})
+        self.compareDict(edit.optAfterRegs, {"c": None, "d": None})
+
+        self.compareDict(FRB.RegSurroundedAdd(("addition", "yay")).optAfterRegs, {})
+
+    def test_edit_optAfterRegs_onlyOneOfTheGroupPresent_insertsBeforeIt(self):
+        # latest=True pins the insertion against the bound (see test_edit_afterRegsTwoKeys_...)
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "0")], "d": [(1, "2")], "y": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optAfterRegs = {"c": None, "d": None}, latest = True)
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "0"), ("addition", "yay"), ("d", "2"), ("y", "3")])
+
+    def test_edit_optAfterRegs_bothPresent_insertsBeforeTheLaterOne(self):
+        # "any of" only needs *some* member still ahead, so the window stays open up to the *later*
+        # member -- unlike afterRegs, which closes at the earlier one
+        # (see test_edit_afterRegsTwoKeys_insertsBeforeTheEarlierOfTheTwo)
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "1")], "c": [(1, "2")], "d": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optAfterRegs = {"c": None, "d": None}, latest = True)
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "1"), ("c", "2"), ("addition", "yay"), ("d", "3")])
+
+    def test_edit_optAfterRegs_nonePresentAnywhere_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "y": [(1, "2")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, optAfterRegs = {"c": None, "d": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("y", "2")])
+
+    def test_edit_optAfterRegs_combinedWithAfterRegs_needsAllOfAfterAndAnyOfOpt(self):
+        # "c" (afterRegs) closes the window at index 1; the optional group ("d" or "e") is still ahead
+        # there via "d" -- the window is whichever bound is *earlier*
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart(
+            {"x": [(0, "0")], "c": [(1, "1")], "y": [(2, "mid")], "d": [(3, "2")]}, 0
+        )])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), afterRegs = {"c": None}, optAfterRegs = {"d": None, "e": None}, latest = True)
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(),
+                         [("x", "0"), ("addition", "yay"), ("c", "1"), ("y", "mid"), ("d", "2")])
+
+    def test_edit_optAfterRegs_optSatisfiedButAfterRegMissing_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "0")], "d": [(1, "2")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), afterRegs = {"c": None}, optAfterRegs = {"d": None, "e": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "0"), ("d", "2")])
+
+    def test_edit_optAfterRegs_predicateRejectsTheOnlyPresentOne_noInsertion(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "0")], "d": [(1, "bad")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optAfterRegs = {"c": None, "d": lambda val: val == "good"})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("x", "0"), ("d", "bad")])
+
+    def test_edit_optAfterRegs_withBeforeRegs_insertsInsideTheWindow(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "x": [(1, "mid")], "d": [(2, "2")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, optAfterRegs = {"c": None, "d": None})
+        edit.edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("addition", "yay"), ("x", "mid"), ("d", "2")])
+
+    def test_edit_optAfterRegs_satisfiedOnlyInChildViaRunCall_matchesAfterRegs(self):
+        # "d" is only reachable through "parent"'s run = call -- the group must follow the same
+        # call/return rule afterRegs does, so both are pinned to the same result
+        def makeGraph():
+            sections = {
+                "parent": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "child")]}, 0)]),
+                "child": FRB.IfTemplate([FRB.IfContentPart({"d": [(0, "2")], "y": [(1, "3")]}, 0)]),
+            }
+            return FRB.IniSectionGraph(sections, ["parent"])
+
+        graph = makeGraph()
+        FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, optAfterRegs = {"c": None, "d": None}).edit(graph, None)
+        self.compareList(self._getContentPart(graph, "parent").entries(), [("a", "1"), ("addition", "yay"), ("run", "child")])
+        self.compareList(self._getContentPart(graph, "child").entries(), [("d", "2"), ("y", "3")])
+
+        reference = makeGraph()
+        FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, afterRegs = {"d": None}).edit(reference, None)
+        self.compareList(self._getContentPart(reference, "parent").entries(), self._getContentPart(graph, "parent").entries())
+        self.compareList(self._getContentPart(reference, "child").entries(), self._getContentPart(graph, "child").entries())
+
+    def test_edit_optAfterRegs_eachBranchProvidesADifferentMember_eachBranchInserts(self):
+        # "c" in the if-branch and "d" in the else-branch: the part before the "if" is followed by
+        # *some* member on every path, but by a *different* one on each, so no single member is
+        # guaranteed after it and the group (an "or" of per-register guarantees -- see the
+        # attribute's own note) does not credit it. Each branch part then opens its own window
+        # right before its member, and the part after the endIf is already claimed by both
+        sections = {"root": FRB.IfTemplate([
+            FRB.IfContentPart({"x": [(0, "1")]}, 0),
+            FRB.IfPredPart("if $i == 1", FRB.IfPredPartType.If, _Z3CTX),
+            FRB.IfContentPart({"c": [(0, "branch1")]}, 1),
+            FRB.IfPredPart("else", FRB.IfPredPartType.Else, _Z3CTX),
+            FRB.IfContentPart({"d": [(0, "branch2")]}, 1),
+            FRB.IfPredPart("endIf", FRB.IfPredPartType.EndIf, _Z3CTX),
+            FRB.IfContentPart({"y": [(0, "9")]}, 0),
+        ])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        edit = FRB.RegSurroundedAdd(("addition", "yay"), optAfterRegs = {"c": None, "d": None})
+        edit.edit(graph, None)
+
+        parts = sections["root"].parts
+        self.compareList(parts[0].entries(), [("x", "1")])
+        self.compareList(parts[2].entries(), [("addition", "yay"), ("c", "branch1")])
+        self.compareList(parts[4].entries(), [("addition", "yay"), ("d", "branch2")])
+        self.compareList(parts[6].entries(), [("y", "9")])
+
+    def test_edit_cycle_afterRegNotOnTheCycle_neverEndingCycleCountsAsClosingTheWindow(self):
+        # A calls B, B calls back into A, and no drawindexed sits anywhere on the cycle (the only one
+        # is in an unrelated root, so the "exists nowhere" early exit does not fire). The after-side
+        # analysis is a MUST ("on every path ahead") fixpoint, and a `run =` cycle that never ends has
+        # no path that escapes it, so "drawindexed lies ahead on every path" is vacuously true for the
+        # nodes on the cycle: the window counts as closing inside the cycle and the ordinary
+        # once-per-window insertion applies -- B gets it as late as possible (right before it calls
+        # back into A), and A, whose window B claimed, gets nothing. Pinned so the pre-existing
+        # semantics of the analysis on a never-ending cycle (an infinitely recursive .ini, which no
+        # real mod has) stay visible; see IniGraphEditing/CLAUDE.md
+        sections = {
+            "A": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "h")], "run": [(1, "B")]}, 0)]),
+            "B": FRB.IfTemplate([FRB.IfContentPart({"x": [(0, "0")], "run": [(1, "A")]}, 0)]),
+            "unrelated": FRB.IfTemplate([FRB.IfContentPart({"drawindexed": [(0, "d")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["A", "unrelated"])
+
+        FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"hash": None}, afterRegs = {"drawindexed": None}, latest = True).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "A").entries(), [("hash", "h"), ("run", "B")])
+        self.compareList(self._getContentPart(graph, "B").entries(), [("x", "0"), ("addition", "yay"), ("run", "A")])
+        self.compareList(self._getContentPart(graph, "unrelated").entries(), [("drawindexed", "d")])

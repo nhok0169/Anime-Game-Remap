@@ -137,6 +137,100 @@ namespace AGRemapCore {
             static inline const std::string Null = "null";
 
             /**
+             * @brief
+             @rst
+             The `KVP`_ key naming a `section`_'s index buffer -- also the last index column of the
+             :cpp:class:`Hashes` row holding that buffer's hash
+             @endrst
+             */
+            static inline const std::string Ib = "ib";
+
+            /**
+             * @brief The `KVP`_ key naming a `section`_'s position vertex buffer
+             */
+            static inline const std::string Vb0 = "vb0";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key naming a `section`_'s blend **or** texcoord vertex buffer -- which of
+             the two it is depends on the `section`_, not on the key
+             @endrst
+             */
+            static inline const std::string Vb1 = "vb1";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key controlling how a draw call is handled -- ``skip`` is the only value
+             this software writes, alongside \ref Draw, after a downloaded ``Blend.buf``
+             @endrst
+             */
+            static inline const std::string Handling = "handling";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key issuing a non-indexed draw, written as ``<vertex count>,0`` -- the pair
+             \ref Handling completes after a downloaded ``Blend.buf``
+             @endrst
+             */
+            static inline const std::string Draw = "draw";
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ key that actually draws a model. What a texture fix has to be issued in
+             front of -- see :cpp:class:`RegDelimitedAdd`
+             @endrst
+             */
+            static inline const std::string DrawIndexed = "drawindexed";
+
+            /**
+             * @brief
+             @rst
+             The sub-command call to `ORFix`_ (Outline Reflection Fix) :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             One of the two fixes shipped by an external ``3dmigoto`` library that work around
+             textures the game breaks each version. A ``run =`` naming this is a call into that
+             library, not into the mod's own `sections`_
+             @endrst
+             */
+            static inline const std::string ORFixPath = "CommandList\\global\\ORFix\\ORFix";
+
+            /**
+             * @brief
+             @rst
+             The sub-command call to ``NNFix`` (No Normal Fix) -- the other half of the same
+             external library as \ref ORFixPath :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                It lives under the library's ``ORFix`` folder, **not** an ``NNFix`` one. That
+                asymmetry is the library's, not a typo here
+             @endrst
+             */
+            static inline const std::string NNFixPath = "CommandList\\global\\ORFix\\NNFix";
+
+            /**
+             * @brief
+             @rst
+             Written in place of a ``hash`` that has no mapping onto the mod being fixed to --
+             see :cpp:class:`RegAssetRemap`
+             @endrst
+             */
+            static inline const std::string HashNotFound = "HashNotFound";
+
+            /**
+             * @brief
+             @rst
+             Written in place of a ``match_first_index`` that has no mapping onto the mod being
+             fixed to -- the index counterpart of ef HashNotFound
+             @endrst
+             */
+            static inline const std::string IndexNotFound = "IndexNotFound";
+
+            /**
              * @brief The comment marker used to hide (comment out) a previously-fixed original `section`_
              */
             static inline const std::string HideOriginalComment = ";RemapFixHideOrig -->";

@@ -59,6 +59,11 @@ namespace AGRemapCore {
         }
     }
 
+    const std::string& IniFile::lineEnding() const {
+        return lineEnding_;
+    }
+
+
     const std::optional<std::string>& IniFile::getFile() const {
         return file_;
     }
@@ -741,16 +746,32 @@ namespace AGRemapCore {
         // leaves getFileTxt() alone. See this method's own note in the header.
         const std::string& content = txt.has_value() ? *txt : fileTxt_;
 
-        // Binary mode, matching readFromDisk's own: the newline normalization this class does is
-        // its own (see readFromDisk), so letting the OS re-translate a written newline back into a
-        // carriage-return pair here would make a written-then-read round trip lossy on Windows and
-        // not on Linux.
+        // Binary mode, matching readFromDisk's own -- the newline handling is this class's own
+        // business rather than the OS's, so it behaves identically on every platform. What IS put
+        // back here is the file's ORIGINAL line ending (see lineEnding_): readFromDisk normalized
+        // it away, and writing that normalized text verbatim rewrote every line of a CRLF .ini
+        // file as LF.
         std::ofstream out(*file_, std::ios::binary | std::ios::trunc);
         if (!out) {
             throw std::runtime_error("Unable to open file for writing: " + *file_);
         }
 
-        out.write(content.data(), static_cast<std::streamsize>(content.size()));
+        if (lineEnding_ == "\n") {
+            out.write(content.data(), static_cast<std::streamsize>(content.size()));
+        } else {
+            std::string outTxt;
+            outTxt.reserve(content.size() + content.size() / 8);
+
+            for (char c : content) {
+                if (c == '\n') {
+                    outTxt += lineEnding_;
+                } else {
+                    outTxt.push_back(c);
+                }
+            }
+
+            out.write(outTxt.data(), static_cast<std::streamsize>(outTxt.size()));
+        }
         out.close();
 
         return content;
@@ -766,6 +787,21 @@ namespace AGRemapCore {
         std::ostringstream buf;
         buf << file.rdbuf();
         std::string txt = buf.str();
+
+        // Remembered before it is normalized away, so write() can put it back -- see lineEnding_.
+        // The FIRST ending in the file decides: a file with mixed endings has no single right
+        // answer, and the first is what a reader would call "the file's".
+        lineEnding_ = "\n";
+        for (size_t i = 0; i < txt.size(); ++i) {
+            if (txt[i] == '\n') {
+                break;
+            }
+
+            if (txt[i] == '\r') {
+                lineEnding_ = (i + 1 < txt.size() && txt[i + 1] == '\n') ? "\r\n" : "\r";
+                break;
+            }
+        }
 
         // Normalize "\r\n"/lone "\r" line endings down to "\n", matching the universal-newline
         // translation Python's text-mode "open(path, 'r')" performs on read -- done manually (rather

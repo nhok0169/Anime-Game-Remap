@@ -48,7 +48,9 @@ namespace AGRemapCore {
 
             #ifdef AGREMAPCORE_DOCS_PARSE
             #define ModTypePredicate std::function<bool(const V&, const ModType*)>
-            #define NewValSpec std::variant<V, std::vector<V>, std::pair<V, std::function<bool(const V&, const ModType*)>>>
+            #define ValProducer std::function<V(const ModType*)>
+            #define NewVal std::variant<V, std::function<V(const ModType*)>>
+            #define NewValSpec std::variant<NewVal, std::vector<NewVal>, std::pair<NewVal, std::function<bool(const V&, const ModType*)>>>
             #else
             /**
              * @brief
@@ -69,14 +71,44 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The per-key replacement rule -- the same three alternatives
-             :cpp:func:`IfContentPart::replaceVals` takes (a bare replacement value, a positional
-             list of values, or a conditional (value, predicate) pair), except that the
-             conditional form uses \ref ModTypePredicate rather than
-             :cpp:type:`IfContentPart::Predicate`
+             A new register value that is computed rather than fixed -- takes the
+             :cpp:class:`ModType` being fixed (whatever was handed to \ref edit, and may be
+             ``nullptr``) and returns the value to write :raw-html:`<br />` :raw-html:`<br />`
+
+             This is the "which value" counterpart to \ref ModTypePredicate's "whether to
+             replace": both exist because a register edit always knows the :cpp:class:`ModType`
+             it is running for, which is the whole point of this class living in the fixer layer
+             rather than being a plain :cpp:func:`IfContentPart::replaceVals` call
              @endrst
              */
-            using NewValSpec = std::variant<V, std::vector<V>, std::pair<V, ModTypePredicate>>;
+            using ValProducer = std::function<V(const ModType*)>;
+
+            /**
+             * @brief
+             @rst
+             A single new value -- either the value itself, or a \ref ValProducer that computes it
+             from the :cpp:class:`ModType` being fixed :raw-html:`<br />` :raw-html:`<br />`
+
+             Every place :cpp:func:`IfContentPart::replaceVals` accepts a bare ``V``, \ref
+             NewValSpec accepts one of these instead
+             @endrst
+             */
+            using NewVal = std::variant<V, ValProducer>;
+
+            /**
+             * @brief
+             @rst
+             The per-key replacement rule -- the same three alternatives
+             :cpp:func:`IfContentPart::replaceVals` takes (a bare replacement value, a positional
+             list of values, or a conditional (value, predicate) pair), except that
+
+             * every value slot is a \ref NewVal rather than a bare ``V``, so any of them may be
+               computed from the :cpp:class:`ModType` at \ref edit time, and
+             * the conditional form uses \ref ModTypePredicate rather than
+               :cpp:type:`IfContentPart::Predicate`
+             @endrst
+             */
+            using NewValSpec = std::variant<NewVal, std::vector<NewVal>, std::pair<NewVal, ModTypePredicate>>;
             #endif
 
             /**
@@ -86,7 +118,9 @@ namespace AGRemapCore {
              value) pairs :raw-html:`<br />` :raw-html:`<br />`
 
              See :cpp:func:`IfContentPart::replaceVals` for the full semantics of each spec,
-             bearing in mind this class's own wider predicate (\ref ModTypePredicate)
+             bearing in mind this class's own wider predicate (\ref ModTypePredicate) and that
+             every value slot is a \ref NewVal, which may be a \ref ValProducer instead of a
+             plain value
              @endrst
              */
             std::vector<std::pair<K, NewValSpec>> vals;
@@ -120,15 +154,16 @@ namespace AGRemapCore {
              Assigns the new values in \ref vals to 'part', by forwarding to
              :cpp:func:`IfContentPart::replaceVals` :raw-html:`<br />` :raw-html:`<br />`
 
-             Every conditional spec's \ref ModTypePredicate is first bound against 'modType' to
-             produce the plain single-argument :cpp:type:`IfContentPart::Predicate`
+             Every \ref ValProducer is called with 'modType' to get the value to write, and every
+             conditional spec's \ref ModTypePredicate is bound against 'modType' to produce the
+             plain single-argument :cpp:type:`IfContentPart::Predicate`
              :cpp:func:`IfContentPart::replaceVals` expects -- which is why this class keeps its
              own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
              @endrst
              *
              * @param part The part of the `IfTemplate` being edited, modified in place
              * @param sectionName The name of the `section`_ being edited. Unused by this edit
-             * @param modType The type of mod to fix, or ``nullptr``. Unused by this edit. **Default**: ``nullptr``
+             * @param modType The type of mod to fix, or ``nullptr``. Passed to every \ref ValProducer and \ref ModTypePredicate in \ref vals. **Default**: ``nullptr``
              * @param modName The name of the mod to fix to. Unused by this edit. **Default**: ``""``
              * @param partRanges The valid order indices to process for 'part', or ``nullptr`` for all of them. **Default**: ``nullptr``
              *

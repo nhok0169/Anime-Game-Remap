@@ -11,7 +11,9 @@
     <includes refid="_buf_value_8h" local="yes">AGRemapCore/model/buffers/BufValue.h</includes>
     <includedby refid="_blend_file_8h" local="yes">include/AGRemapCore/model/files/BlendFile.h</includedby>
     <includedby refid="_buf_file_8h" local="yes">include/AGRemapCore/model/files/BufFile.h</includedby>
+    <includedby refid="_ib_file_8h" local="yes">include/AGRemapCore/model/files/IbFile.h</includedby>
     <includedby refid="_position_file_8h" local="yes">include/AGRemapCore/model/files/PositionFile.h</includedby>
+    <includedby refid="_vb_file_8h" local="yes">include/AGRemapCore/model/files/VbFile.h</includedby>
     <includedby refid="_remap_blend_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapBlendResource.h</includedby>
     <includedby refid="_buf_element_type_8cpp" local="yes">src/model/buffers/BufElementType.cpp</includedby>
     <incdepgraph>
@@ -93,13 +95,17 @@
         <link refid="_buf_element_type_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -107,27 +113,43 @@
         <link refid="_blend_file_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>include/AGRemapCore/model/files/BufFile.h</label>
         <link refid="_buf_file_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
+        <label>include/AGRemapCore/model/files/IbFile.h</label>
+        <link refid="_ib_file_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
         <label>include/AGRemapCore/model/files/PositionFile.h</label>
         <link refid="_position_file_8h"/>
-        <childnode refid="8" relation="include">
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>include/AGRemapCore/model/files/VbFile.h</label>
+        <link refid="_vb_file_8h"/>
+        <childnode refid="13" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -135,46 +157,60 @@
         <link refid="_remap_blend_resource_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
-      </node>
-      <node id="9">
-        <label>include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h</label>
-        <link refid="_base_buf_editor_8h"/>
-        <childnode refid="10" relation="include">
-        </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>include/AGRemapCore/model/strategies/bufEditors/BufEditor.h</label>
-        <link refid="_buf_editor_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="14">
+        <label>include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h</label>
+        <link refid="_base_buf_editor_8h"/>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>include/AGRemapCore/model/strategies/bufEditors/BufEditor.h</label>
+        <link refid="_buf_editor_8h"/>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="19">
         <label>src/model/buffers/BufElementType.cpp</label>
         <link refid="_buf_element_type_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/files/BlendFile.cpp</label>
         <link refid="_blend_file_8cpp"/>
       </node>
-      <node id="13">
+      <node id="18">
         <label>src/model/files/BufFile.cpp</label>
         <link refid="_buf_file_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
+        <label>src/model/files/IbFile.cpp</label>
+        <link refid="_ib_file_8cpp"/>
+      </node>
+      <node id="11">
         <label>src/model/files/PositionFile.cpp</label>
         <link refid="_position_file_8cpp"/>
       </node>
-      <node id="4">
+      <node id="13">
+        <label>src/model/files/VbFile.cpp</label>
+        <link refid="_vb_file_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="12">
+      <node id="17">
         <label>src/model/strategies/bufEditors/BaseBufEditor.cpp</label>
         <link refid="_base_buf_editor_8cpp"/>
       </node>
-      <node id="11">
+      <node id="16">
         <label>src/model/strategies/bufEditors/BufEditor.cpp</label>
         <link refid="_buf_editor_8cpp"/>
       </node>

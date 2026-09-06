@@ -200,8 +200,20 @@ A class to handle binary files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
       <node id="4">
+        <label>AGRemapCore::IbFile</label>
+        <link refid="class_a_g_remap_core_1_1_ib_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="5">
         <label>AGRemapCore::PositionFile</label>
         <link refid="class_a_g_remap_core_1_1_position_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>AGRemapCore::VbFile</label>
+        <link refid="class_a_g_remap_core_1_1_vb_file"/>
         <childnode refid="2" relation="public-inheritance">
         </childnode>
       </node>

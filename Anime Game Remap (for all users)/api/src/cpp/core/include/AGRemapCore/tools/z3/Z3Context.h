@@ -26,7 +26,7 @@ namespace AGRemapCore {
         described that interleaved case as a "known limitation of Z3's own C++ API"; it was in
         fact a member-declaration-order bug in ``Z3Predicate``'s pimpl (the keep-alive was
         destroyed *before* the ``z3::expr`` it protected, so the last predicate on a context
-        ``dec_ref``'d into a freed context), fixed on 2026-09-03 and pinned by
+        ``dec_ref``'d into a freed context), fixed on 2026-09-05 and pinned by
         ``core/tests/Z3Predicate_MemberOrder_test.cpp``. Sharing one long-lived ``Z3Context`` per
         ``.ini`` file (``IniFile``'s own shape) is still the right design, since predicates from
         different contexts cannot be combined -- but it is no longer needed for memory safety.

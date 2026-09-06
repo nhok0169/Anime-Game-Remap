@@ -20,14 +20,17 @@ namespace AGRemapCore {
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. warning::
-        **Every method here is currently a stub**: they all return
-        :cpp:func:`IniParseBuilder::defaultFactory`, which builds a plain
-        :cpp:class:`BaseIniParser`. The real pure-Python generators pick between concrete
-        subclasses (``GIMIParser``, ``GIMIObjParser``) and pass per-mod
-        arguments, none of which have been ported to C++ yet. The methods exist now so
-        that the *table* is real and version selection genuinely works -- fill them in one at a
-        time as concrete strategies land, without touching :cpp:class:`IniParseBuilderData` or
-        anything downstream
+        **Every method here is a stub except** \ref raiden6_1: the rest all return
+        :cpp:func:`IniParseBuilder::defaultFactory`. The real pure-Python generators pick between
+        concrete subclasses (``GIMIParser``, ``GIMIObjParser``) and pass per-mod arguments, and
+        ``GIMIObjParser`` has not been ported to C++ yet. The methods exist now so that the
+        *table* is real and version selection genuinely works -- fill them in one at a time as
+        concrete strategies land, without touching :cpp:class:`IniParseBuilderData` or anything
+        downstream :raw-html:`<br />` :raw-html:`<br />`
+
+        \ref raiden6_1 is the first one filled in, and shows the shape the others take: a factory
+        capturing whatever per-mod data it needs, returning a parser subclass that owns both its
+        :cpp:class:`IniParseContext` and anything else it hands to the parser by borrowed pointer
 
      .. note::
         The pure-Python original also carries per-mod texture-edit helpers such as ``_ayakaEditDressDiffuse``
@@ -509,6 +512,33 @@ namespace AGRemapCore {
              @endrst
              */
             static IniParseBuilder::Factory nilou5_7();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniParseBuilderFuncs.raiden6_1`` -- **not** a stub, unlike every
+             other method here :raw-html:`<br />` :raw-html:`<br />`
+
+             Builds a :cpp:class:`GIMIParser` over four mod objects, classified by a single
+             :cpp:class:`GIMISectionClassifier` in the two ways it supports:
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             * ``("", "head")``/``("", "body")``/``("", "dress")`` are attributed only when a
+               part's ``hash`` resolves to Raiden's ``ib`` **and** a ``match_first_index``
+               following it resolves to that object's own :cpp:class:`Indices` row. All three
+               share the one ``ib``, so the hash alone cannot tell them apart -- which is why they
+               are in the classifier's ``indexKeyToModObj`` rather than its ``hashKeyOnlyToModObj``
+             * ``("", "blend")`` is the ``Blend.buf`` the fix remaps, and its ``blend_vb`` hash
+               names it outright -- so it *is* in ``hashKeyOnlyToModObj``, with no index involved
+
+             :raw-html:`<br />`
+
+             The parser is also built with ``disjointModObjs`` **false**, so one `section`_ may be
+             attributed to several mod objects -- see the constructed parser's own comment for the
+             3dmigoto grammar bug behind that
+             @endrst
+             */
+            static IniParseBuilder::Factory raiden6_1();
 
     };
 

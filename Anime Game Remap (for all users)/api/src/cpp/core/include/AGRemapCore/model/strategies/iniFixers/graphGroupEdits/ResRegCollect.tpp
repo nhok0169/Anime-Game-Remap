@@ -262,6 +262,22 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::editFromIni(
+            GraphGroups& graphGroups, IniFile* ini, const ModType* modType, const std::string& modName) {
+        if constexpr (std::is_same_v<K, std::string> && std::is_same_v<V, std::string>) {
+            if (ini != nullptr) {
+                // Owned for exactly this call: the context is scratch state for one edit pass, and
+                // nothing outlives it -- the resources it collects are handed to the .ini file.
+                IniFileResEditContext resCtx(ini);
+                return editImpl(graphGroups, &resCtx, modType, modName);
+            }
+        }
+
+        return edit(graphGroups, modType, modName);
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     typename ResRegCollect<K, V, KeyHash, KeyEqual>::GraphGroups& ResRegCollect<K, V, KeyHash, KeyEqual>::edit(GraphGroups& graphGroups,
                                                                                                                const ModType* modType,
                                                                                                                const std::string& modName) {

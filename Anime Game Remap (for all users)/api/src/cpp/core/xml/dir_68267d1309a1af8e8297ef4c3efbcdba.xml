@@ -7,6 +7,9 @@
     <innerdir refid="dir_5dd65160827af56e6353642206b80129">src/model</innerdir>
     <innerdir refid="dir_1563a38af0d3a5e4a6330d6d45e9792a">src/tools</innerdir>
     <innerdir refid="dir_b39b5091e8d1d2be4b7fc59d57749634">src/view</innerdir>
+    <innerfile refid="_remap_service_8cpp">RemapService.cpp</innerfile>
+    <innerfile refid="_remap_service_c_l_i_8cpp">RemapServiceCLI.cpp</innerfile>
+    <innerfile refid="_remap_service_c_l_i_errors_8cpp">RemapServiceCLIErrors.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

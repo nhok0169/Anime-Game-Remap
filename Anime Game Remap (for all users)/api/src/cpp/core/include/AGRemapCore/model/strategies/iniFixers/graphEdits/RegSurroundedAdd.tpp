@@ -18,16 +18,25 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::RegSurroundedAdd(std::pair<K, V> addition, RegMap beforeRegs, RegMap afterRegs, bool latest):
-        addition(std::move(addition)), beforeRegs(std::move(beforeRegs)), afterRegs(std::move(afterRegs)), latest(latest) {
+    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::RegSurroundedAdd(std::pair<K, V> addition, RegMap beforeRegs, RegMap afterRegs, bool latest,
+                                                                 RegMap optBeforeRegs, RegMap optAfterRegs):
+        addition(std::move(addition)), beforeRegs(std::move(beforeRegs)), optBeforeRegs(std::move(optBeforeRegs)),
+        afterRegs(std::move(afterRegs)), optAfterRegs(std::move(optAfterRegs)), latest(latest) {
 
         _beforeFilters = buildKeyFilters(this->beforeRegs);
+        _optBeforeFilters = buildKeyFilters(this->optBeforeRegs);
         _afterFilters = buildKeyFilters(this->afterRegs);
 
         for (const auto& [reg, pred] : this->beforeRegs) {
             _trackedKeys.insert(reg);
         }
+        for (const auto& [reg, pred] : this->optBeforeRegs) {
+            _trackedKeys.insert(reg);
+        }
         for (const auto& [reg, pred] : this->afterRegs) {
+            _trackedKeys.insert(reg);
+        }
+        for (const auto& [reg, pred] : this->optAfterRegs) {
             _trackedKeys.insert(reg);
         }
     }
@@ -113,9 +122,7 @@ namespace AGRemapCore {
     RegSurroundedAdd<K, V, KeyHash, KeyEqual>::getForwardValidRangeForPart(const ContentPart& part, const K& runKey,
                                                                             const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeEntryFacts,
                                                                             const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeReturnFacts) const {
-        using RegSurroundedAddInternal::getFact;
-
-        if (beforeRegs.empty()) {
+        if (beforeRegs.empty() && optBeforeRegs.empty()) {
             return OrderRanges::createFull();
         }
 
@@ -126,42 +133,64 @@ namespace AGRemapCore {
             }
         }
 
-        std::vector<OrderRanges> perRegRanges;
+        // beforeRegs: every register must already be satisfied -- intersect their ranges
+        OrderRanges result = OrderRanges::createFull();
         for (const auto& [reg, pred] : beforeRegs) {
-            std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> filters;
-            auto filterIt = _beforeFilters.find(reg);
-            if (filterIt != _beforeFilters.end()) {
-                filters[reg] = filterIt->second;
-            }
-
-            Colouring localColouring;
-            KeySet targetKeys{reg};
-            localColouring.updateColouring(part, targetKeys);
-
-            if (!localColouring.contains(reg)) {
-                OrderRanges regRange = getFact(beforeEntryFacts, reg, false) ? OrderRanges::createFull() : OrderRanges::createEmpty();
-                if (lastCallInd.has_value() && getFact(beforeReturnFacts, reg, false)) {
-                    regRange = regRange.unionWith({OrderRanges({{*lastCallInd + 1, std::nullopt}}, true)});
-                }
-                perRegRanges.push_back(regRange);
-                continue;
-            }
-
-            OrderRanges localRange = getSatisfiedRange(localColouring, KeySet{reg}, filters, false);
-            if (getFact(beforeEntryFacts, reg, false)) {
-                std::optional<long long> firstInd;
-                for (const auto& indVal : part.getValsWithInds(reg)) {
-                    if (!firstInd.has_value() || indVal.first < *firstInd) {
-                        firstInd = indVal.first;
-                    }
-                }
-                localRange = localRange.unionWith({OrderRanges({{0, *firstInd + 1}}, true)});
-            }
-
-            perRegRanges.push_back(localRange);
+            result = result.intersect({forwardRangeForReg(part, reg, _beforeFilters, lastCallInd, beforeEntryFacts, beforeReturnFacts)});
         }
 
-        return perRegRanges[0].intersect(std::vector<OrderRanges>(perRegRanges.begin() + 1, perRegRanges.end()));
+        // optBeforeRegs: at least one register must already be satisfied -- union their ranges,
+        // then the group as a whole is one more conjunct
+        if (!optBeforeRegs.empty()) {
+            OrderRanges anyRange = OrderRanges::createEmpty();
+            for (const auto& [reg, pred] : optBeforeRegs) {
+                anyRange = anyRange.unionWith({forwardRangeForReg(part, reg, _optBeforeFilters, lastCallInd, beforeEntryFacts, beforeReturnFacts)});
+            }
+            result = result.intersect({anyRange});
+        }
+
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegSurroundedAdd<K, V, KeyHash, KeyEqual>::OrderRanges
+    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::forwardRangeForReg(const ContentPart& part, const K& reg,
+                                                                   const std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual>& allFilters,
+                                                                   const std::optional<long long>& lastCallInd,
+                                                                   const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeEntryFacts,
+                                                                   const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeReturnFacts) const {
+        using RegSurroundedAddInternal::getFact;
+
+        std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> filters;
+        auto filterIt = allFilters.find(reg);
+        if (filterIt != allFilters.end()) {
+            filters[reg] = filterIt->second;
+        }
+
+        Colouring localColouring;
+        KeySet targetKeys{reg};
+        localColouring.updateColouring(part, targetKeys);
+
+        if (!localColouring.contains(reg)) {
+            OrderRanges regRange = getFact(beforeEntryFacts, reg, false) ? OrderRanges::createFull() : OrderRanges::createEmpty();
+            if (lastCallInd.has_value() && getFact(beforeReturnFacts, reg, false)) {
+                regRange = regRange.unionWith({OrderRanges({{*lastCallInd + 1, std::nullopt}}, true)});
+            }
+            return regRange;
+        }
+
+        OrderRanges localRange = getSatisfiedRange(localColouring, KeySet{reg}, filters, false);
+        if (getFact(beforeEntryFacts, reg, false)) {
+            std::optional<long long> firstInd;
+            for (const auto& indVal : part.getValsWithInds(reg)) {
+                if (!firstInd.has_value() || indVal.first < *firstInd) {
+                    firstInd = indVal.first;
+                }
+            }
+            localRange = localRange.unionWith({OrderRanges({{0, *firstInd + 1}}, true)});
+        }
+
+        return localRange;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -169,9 +198,7 @@ namespace AGRemapCore {
     RegSurroundedAdd<K, V, KeyHash, KeyEqual>::getBackwardValidRangeForPart(const ContentPart& part, const K& runKey,
                                                                              const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterExitFacts,
                                                                              const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterReturnFacts) const {
-        using RegSurroundedAddInternal::getFact;
-
-        if (afterRegs.empty()) {
+        if (afterRegs.empty() && optAfterRegs.empty()) {
             return OrderRanges::createFull();
         }
 
@@ -182,33 +209,55 @@ namespace AGRemapCore {
             }
         }
 
-        std::vector<OrderRanges> perRegRanges;
+        // afterRegs: every register must still come after -- intersect their ranges
+        OrderRanges result = OrderRanges::createFull();
         for (const auto& [reg, pred] : afterRegs) {
-            std::vector<typename OrderRanges::Range> acceptedRanges;
-            for (const auto& indVal : part.getValsWithInds(reg)) {
-                if (!pred || pred(indVal.second)) {
-                    acceptedRanges.push_back({std::nullopt, indVal.first + 1});
-                }
-            }
-            OrderRanges regRange = acceptedRanges.empty() ? OrderRanges::createEmpty() : OrderRanges(acceptedRanges);
-
-            if (!lastCallInd.has_value()) {
-                if (getFact(afterExitFacts, reg, false)) {
-                    regRange = regRange.unionWith({OrderRanges::createFull()});
-                }
-            } else {
-                if (getFact(afterExitFacts, reg, false)) {
-                    regRange = regRange.unionWith({OrderRanges({{0, *lastCallInd + 1}}, true)});
-                }
-                if (getFact(afterReturnFacts, reg, false)) {
-                    regRange = regRange.unionWith({OrderRanges({{*lastCallInd + 1, std::nullopt}}, true)});
-                }
-            }
-
-            perRegRanges.push_back(regRange);
+            result = result.intersect({backwardRangeForReg(part, reg, pred, lastCallInd, afterExitFacts, afterReturnFacts)});
         }
 
-        return perRegRanges[0].intersect(std::vector<OrderRanges>(perRegRanges.begin() + 1, perRegRanges.end()));
+        // optAfterRegs: at least one register must still come after -- union their ranges, then
+        // the group as a whole is one more conjunct
+        if (!optAfterRegs.empty()) {
+            OrderRanges anyRange = OrderRanges::createEmpty();
+            for (const auto& [reg, pred] : optAfterRegs) {
+                anyRange = anyRange.unionWith({backwardRangeForReg(part, reg, pred, lastCallInd, afterExitFacts, afterReturnFacts)});
+            }
+            result = result.intersect({anyRange});
+        }
+
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    typename RegSurroundedAdd<K, V, KeyHash, KeyEqual>::OrderRanges
+    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::backwardRangeForReg(const ContentPart& part, const K& reg, const Predicate& pred,
+                                                                    const std::optional<long long>& lastCallInd,
+                                                                    const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterExitFacts,
+                                                                    const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterReturnFacts) {
+        using RegSurroundedAddInternal::getFact;
+
+        std::vector<typename OrderRanges::Range> acceptedRanges;
+        for (const auto& indVal : part.getValsWithInds(reg)) {
+            if (!pred || pred(indVal.second)) {
+                acceptedRanges.push_back({std::nullopt, indVal.first + 1});
+            }
+        }
+        OrderRanges regRange = acceptedRanges.empty() ? OrderRanges::createEmpty() : OrderRanges(acceptedRanges);
+
+        if (!lastCallInd.has_value()) {
+            if (getFact(afterExitFacts, reg, false)) {
+                regRange = regRange.unionWith({OrderRanges::createFull()});
+            }
+        } else {
+            if (getFact(afterExitFacts, reg, false)) {
+                regRange = regRange.unionWith({OrderRanges({{0, *lastCallInd + 1}}, true)});
+            }
+            if (getFact(afterReturnFacts, reg, false)) {
+                regRange = regRange.unionWith({OrderRanges({{*lastCallInd + 1, std::nullopt}}, true)});
+            }
+        }
+
+        return regRange;
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -306,7 +355,7 @@ namespace AGRemapCore {
         using NodeFactMap = std::unordered_map<Node, bool, NodeHash>;
         using RegNodeFactMap = std::unordered_map<K, NodeFactMap, KeyHash, KeyEqual>;
 
-        if (beforeRegs.empty() && afterRegs.empty()) {
+        if (beforeRegs.empty() && optBeforeRegs.empty() && afterRegs.empty() && optAfterRegs.empty()) {
             return {RegNodeFactMap{}, RegNodeFactMap{}};
         }
 
@@ -320,24 +369,41 @@ namespace AGRemapCore {
         std::unordered_set<Node, NodeHash> reachableNodes = GraphTools::getReachableNodes<Node, NodeHash>(callGraph->forwardEdges(), rootNodes);
 
         RegNodeFactMap beforeEntryFacts;
-        for (const auto& [reg, pred] : beforeRegs) {
-            std::unordered_map<Node, std::pair<bool, bool>, NodeHash> localFacts;
-            for (ContentPart* part : callGraph->parts()) {
-                localFacts[Node{part, false}] = computeLocalForwardFact(*part, reg, pred);
+        auto computeForwardFacts = [&](const RegMap& regs) {
+            for (const auto& [reg, pred] : regs) {
+                // A register in both beforeRegs and optBeforeRegs keeps the beforeRegs-computed
+                // facts (see optBeforeRegs's own doc note)
+                if (beforeEntryFacts.find(reg) != beforeEntryFacts.end()) {
+                    continue;
+                }
+                std::unordered_map<Node, std::pair<bool, bool>, NodeHash> localFacts;
+                for (ContentPart* part : callGraph->parts()) {
+                    localFacts[Node{part, false}] = computeLocalForwardFact(*part, reg, pred);
+                }
+                NodeFactMap rawFacts = GraphTools::runForwardMustFixpoint<Node, NodeHash>(callGraph->forwardEdges(), callGraph->backwardEdges(), rootNodes, localFacts);
+                beforeEntryFacts[reg] = GraphTools::clampFactsToReachable<Node, NodeHash>(rawFacts, reachableNodes);
             }
-            NodeFactMap rawFacts = GraphTools::runForwardMustFixpoint<Node, NodeHash>(callGraph->forwardEdges(), callGraph->backwardEdges(), rootNodes, localFacts);
-            beforeEntryFacts[reg] = GraphTools::clampFactsToReachable<Node, NodeHash>(rawFacts, reachableNodes);
-        }
+        };
+        computeForwardFacts(beforeRegs);
+        computeForwardFacts(optBeforeRegs);
 
         RegNodeFactMap afterExitFacts;
-        for (const auto& [reg, pred] : afterRegs) {
-            NodeFactMap localFacts;
-            for (ContentPart* part : callGraph->parts()) {
-                localFacts[Node{part, false}] = computeLocalBackwardFact(*part, reg, pred);
+        auto computeBackwardFacts = [&](const RegMap& regs) {
+            for (const auto& [reg, pred] : regs) {
+                // A register in both afterRegs and optAfterRegs keeps the afterRegs-computed facts
+                if (afterExitFacts.find(reg) != afterExitFacts.end()) {
+                    continue;
+                }
+                NodeFactMap localFacts;
+                for (ContentPart* part : callGraph->parts()) {
+                    localFacts[Node{part, false}] = computeLocalBackwardFact(*part, reg, pred);
+                }
+                NodeFactMap rawFacts = GraphTools::runBackwardMustFixpoint<Node, NodeHash>(callGraph->forwardEdges(), callGraph->backwardEdges(), localFacts);
+                afterExitFacts[reg] = GraphTools::clampFactsToReachable<Node, NodeHash>(rawFacts, reachableNodes);
             }
-            NodeFactMap rawFacts = GraphTools::runBackwardMustFixpoint<Node, NodeHash>(callGraph->forwardEdges(), callGraph->backwardEdges(), localFacts);
-            afterExitFacts[reg] = GraphTools::clampFactsToReachable<Node, NodeHash>(rawFacts, reachableNodes);
-        }
+        };
+        computeBackwardFacts(afterRegs);
+        computeBackwardFacts(optAfterRegs);
 
         return {beforeEntryFacts, afterExitFacts};
     }
@@ -466,6 +532,21 @@ namespace AGRemapCore {
                 afterKeys.insert(reg);
             }
             if (!keysExistSomewhere(graph, afterKeys)) {
+                return graph;
+            }
+        }
+
+        // The "any of" counterpart: nothing can ever be surrounded if *none* of the optional
+        // after-registers exists anywhere in the graph
+        if (!optAfterRegs.empty()) {
+            bool anyExists = false;
+            for (const auto& [reg, pred] : optAfterRegs) {
+                if (keysExistSomewhere(graph, KeySet{reg})) {
+                    anyExists = true;
+                    break;
+                }
+            }
+            if (!anyExists) {
                 return graph;
             }
         }

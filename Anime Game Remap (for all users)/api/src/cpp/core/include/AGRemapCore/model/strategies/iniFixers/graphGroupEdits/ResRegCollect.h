@@ -14,6 +14,7 @@
 #include "AGRemapCore/model/SectionIterData.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 #include "AGRemapCore/tools/Ranges.h"
 
@@ -234,6 +235,39 @@ namespace AGRemapCore {
              * @brief Clears \ref resCalls and every resource edit's own saved state
              */
             void clear() override;
+
+            /**
+             * @brief
+             @rst
+             \ref edit, against a real ``.ini`` file -- **the only form that actually builds
+             anything** :raw-html:`<br />` :raw-html:`<br />`
+
+             This class does two things: it *collects* the references to a resource, and it *builds*
+             that resource. Only the first happens without a :cpp:class:`IniResEditContext` to build
+             into -- and :cpp:func:`BaseIniGraphGroupEdit::editFromIni` deliberately drops its
+             ``ini``, so inheriting it left a plain C++ caller with no way to reach the second half
+             at all. The resources were silently never built, the references silently never
+             repointed, and the run reported zero of them :raw-html:`<br />` :raw-html:`<br />`
+
+             The `pybind11`_ layer has always overridden this to supply its own context; this is the
+             C++ counterpart, over :cpp:class:`IniFileResEditContext`
+
+             :raw-html:`<br />`
+
+             .. note::
+                Only an instantiation whose ``K``/``V`` are both ``std::string`` gets a context --
+                :cpp:class:`IniFileResEditContext` is that instantiation specifically, the same
+                constraint :cpp:func:`GIMISectionClassifier::defaultConfig` works under. Any other
+                falls back to the collect-only behaviour, exactly as before
+             @endrst
+             *
+             * @param graphGroups The group of graphs to edit for each .ini file, modified in place
+             * @param ini The .ini file the resources are built for -- **nullptr collects without building**
+             * @param modType The type of mod to fix. Unused directly -- reaches the resource edits only
+             * @param modName The name of the mod to fix to. **Default**: ``""``
+             */
+            GraphGroups& editFromIni(GraphGroups& graphGroups, IniFile* ini, const ModType* modType,
+                                      const std::string& modName = "") override;
 
             /**
              * @brief Collects, remaps and builds -- see this class's own description

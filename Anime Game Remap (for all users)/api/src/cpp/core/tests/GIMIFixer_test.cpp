@@ -30,7 +30,11 @@
 //  cbuild/curl/lib/libcurl.dll and cbuild/utf8proc/utf8proc.dll next to test.exe before running it)
 // -----------------------------------------------------------------------------
 
+#include "AGRemapCore/constants/ModTypeId.h"
+#include "AGRemapCore/data/IniFixBuilderData.h"
+#include "AGRemapCore/model/assets/Row.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
+#include "AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h"
 #include "AGRemapCore/constants/IniKeywords.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixingContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
@@ -536,7 +540,11 @@ void testFixHideOrigAndBackup() {
     check(firstCtx.disabledIni, "the first mod type's fixer does take it...");
     check(!firstCtx.hidOriginalSections, "...and still doesn't hide, not being the last");
 
-    // The condition the flag gates is otherwise the pure-Python original's, untouched.
+    // A PLAIN fix run backs up too, as of 2026-09-06. This used to require 'fixOnly' as well, which
+    // meant a normal run silently produced no RemapBKUP at all -- while --deleteBackup happily
+    // deleted them and the CLI's own tips told users to look for them. 'fixOnly' now only selects
+    // the "OLD STINKY ini" wording, since that mode is the one with an existing fixed file to
+    // talk about.
     TestIniFixContext noFixOnlyCtx;
     noFixOnlyCtx.existsOnDisk = true;
     std::vector<std::unique_ptr<Section>> noFixOnlySections;
@@ -547,9 +555,282 @@ void testFixHideOrigAndBackup() {
     GIMIFixer<> noFixOnlyFixer(nullptr, &noFixOnlyCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
     noFixOnlyFixer.fix(noFixOnlyParseData, true, false, false, IniFixingContext(true, true));
 
-    check(!noFixOnlyCtx.disabledIni, "being first is not enough on its own -- fixOnly still has to be on");
+    check(noFixOnlyCtx.disabledIni, "a plain fix run backs the .ini file up too -- fixOnly is not required");
+
+    // What DOES still gate it: keepBackup, being the first mod type, and the file existing at all.
+    TestIniFixContext noBackupCtx;
+    noBackupCtx.existsOnDisk = true;
+    std::vector<std::unique_ptr<Section>> noBackupSections;
+
+    GIMIFixer<>::ParseData noBackupParseData;
+    noBackupParseData.push_back(makeParsedGroup(noBackupCtx, z3Ctx, noBackupSections));
+
+    GIMIFixer<> noBackupFixer(nullptr, &noBackupCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+    noBackupFixer.fix(noBackupParseData, false, false, false, IniFixingContext(true, true));
+
+    check(!noBackupCtx.disabledIni, "but keepBackup = false still means no backup");
+
+    TestIniFixContext noFileCtx;
+    noFileCtx.existsOnDisk = false;
+    std::vector<std::unique_ptr<Section>> noFileSections;
+
+    GIMIFixer<>::ParseData noFileParseData;
+    noFileParseData.push_back(makeParsedGroup(noFileCtx, z3Ctx, noFileSections));
+
+    GIMIFixer<> noFileFixer(nullptr, &noFileCtx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+    noFileFixer.fix(noFileParseData, true, false, false, IniFixingContext(true, true));
+
+    check(!noFileCtx.disabledIni, "and a file that is not on disk has nothing to back up");
 }
 
+}
+
+
+// ---------------------------------------------------------------------------------------
+// GIMIFixer::hiddenModObjs
+// ---------------------------------------------------------------------------------------
+
+void testHiddenModObjs() {
+    std::printf("\n--- GIMIFixer::hiddenModObjs ---\n");
+
+    const std::string iniTxt =
+        "[TextureOverrideblend]\nvb1 = ResourceFoo\n\n[TextureOverridetestPosition]\nvb0 = ResourceBar\n";
+
+    // ---- hiddenModObjs hides its objects with hideOrig OFF ----
+    // The whole point of the attribute: this is the fixer's own decision, not the user's.
+    {
+        Z3Context z3Ctx;
+        TestIniFixContext ctx;
+        std::vector<std::unique_ptr<Section>> sections;
+
+        GIMIFixer<>::ParseData parseData;
+        parseData.push_back(makeParsedGroup(ctx, z3Ctx, sections));
+        ctx.txt = iniTxt;
+
+        GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+        fixer.hiddenModObjs = {ModObj("", "blend")};
+
+        fixer.fix(parseData, false, false, /*hideOrig*/ false);
+
+        check(ctx.hidOriginalSections, "hiddenModObjs hides even though hideOrig is off");
+        check(ctx.hiddenSectionNames == std::unordered_set<std::string>{"TextureOverrideblend"},
+              "and hides exactly the named mod object's own sections");
+
+        const std::string& written = ctx.written.at(ctx.path);
+        check(written.find(IniKeywords::HideOriginalComment + "[TextureOverrideblend]") != std::string::npos,
+              "the named object really is commented out of the appended source");
+        check(written.find("\n[TextureOverridetestPosition]") != std::string::npos,
+              "and an object nobody named is left alone");
+        check(ctx.txt == iniTxt, "the .ini file's own text is put back afterwards");
+    }
+
+    // ---- an empty hiddenModObjs with hideOrig off hides nothing at all ----
+    {
+        Z3Context z3Ctx;
+        TestIniFixContext ctx;
+        std::vector<std::unique_ptr<Section>> sections;
+
+        GIMIFixer<>::ParseData parseData;
+        parseData.push_back(makeParsedGroup(ctx, z3Ctx, sections));
+        ctx.txt = iniTxt;
+
+        GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+        fixer.fix(parseData, false, false, /*hideOrig*/ false);
+
+        check(!ctx.hidOriginalSections, "with neither hideOrig nor hiddenModObjs, nothing is hidden");
+    }
+
+    // ---- hiddenModObjs is taken at its word, unlike touchedSectionNames ----
+    // A Download object and a 'remap'-keyword one are both filtered OUT of touchedSectionNames.
+    // Named explicitly here, they are hidden -- see hiddenModObjs' own note.
+    {
+        Z3Context z3Ctx;
+        TestIniFixContext ctx;
+        std::vector<std::unique_ptr<Section>> sections;
+
+        GIMIFixer<>::ParseData parseData;
+        parseData.push_back(makeParsedGroup(ctx, z3Ctx, sections));
+        ctx.txt = iniTxt;
+
+        GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+        fixer.hiddenModObjs = {ModObj(IniGraphModObjKeywords::Download, "testPosition"),
+                                ModObj("", "blendRemapBlend"),
+                                ModObj("", "notAThingThisIniHas")};
+
+        fixer.fix(parseData, false, false, /*hideOrig*/ false);
+
+        check(ctx.hiddenSectionNames.count("TextureOverridetestPosition") == 1,
+              "a Download mod object is hidden when named explicitly");
+        check(ctx.hiddenSectionNames.count("TextureOverrideblendRemapBlend") == 1,
+              "so is one carrying the 'remap' keyword");
+        check(ctx.hiddenSectionNames.size() == 2,
+              "and a named mod object this .ini file does not have contributes nothing, without raising");
+    }
+
+    // ---- hideOrig and hiddenModObjs union rather than override ----
+    {
+        Z3Context z3Ctx;
+        TestIniFixContext ctx;
+        std::vector<std::unique_ptr<Section>> sections;
+
+        GIMIFixer<>::ParseData parseData;
+        parseData.push_back(makeParsedGroup(ctx, z3Ctx, sections));
+        ctx.txt = iniTxt;
+
+        GIMIFixer<> fixer(nullptr, &ctx, {}, std::vector<std::string>{"Raiden"}, nullptr, fixerConfig());
+        fixer.hiddenModObjs = {ModObj(IniGraphModObjKeywords::Download, "testPosition")};
+
+        fixer.fix(parseData, false, false, /*hideOrig*/ true);
+
+        check(ctx.hiddenSectionNames == std::unordered_set<std::string>{"TextureOverrideblend",
+                                                                        "TextureOverridetestPosition"},
+              "hideOrig's touched sections and hiddenModObjs' sections are hidden together");
+    }
+}
+
+
+// ---------------------------------------------------------------------------------------
+// IniFixBuilderFuncs::raiden6_1 -- the first non-stub row in the fix table
+// ---------------------------------------------------------------------------------------
+
+void testRaiden6_1Fixer() {
+    std::printf("\n--- IniFixBuilderFuncs::raiden6_1 ---\n");
+
+    // nullptr parser: the fixer is inspected, not run. That is all this can assert without a real
+    // .ini file to fix -- what the two group edits actually DO to a mod is not covered here, and
+    // needs a real run over a real mod.
+    IniFixBuilder::Factory factory = IniFixBuilderFuncs::raiden6_1();
+    std::shared_ptr<BaseIniFixer<>> built = factory(nullptr, "RaidenBoss", static_cast<int>(ModTypeId::Raiden));
+
+    auto* fixer = dynamic_cast<GIMIFixer<>*>(built.get());
+    check(fixer != nullptr, "raiden6_1 builds a GIMIFixer, not a bare BaseIniFixer");
+    if (fixer == nullptr) {
+        return;
+    }
+
+    check(fixer->graphGroupEdits.size() == 2,
+          "and carries two group edits -- the blend collector and the head/body/dress edits");
+    for (const auto* edit : fixer->graphGroupEdits) {
+        check(edit != nullptr, "neither group edit is null");
+    }
+
+    // The three objects the fix rewrites in place, and NOT blend -- see raiden6_1's own doc.
+    const std::unordered_set<ModObj, GIMIFixer<>::ModObjHash> expectedHidden = {
+        ModObj("", "head"), ModObj("", "body"), ModObj("", "dress")};
+
+    check(fixer->hiddenModObjs == expectedHidden, "and hides head/body/dress");
+    check(fixer->hiddenModObjs.count(ModObj("", "blend")) == 0,
+          "but NOT blend -- its section is what the remapped Blend.buf is referenced from");
+
+    // buildAll fans out one fixer per target, so the target it was built for is the one it fixes to.
+    check(fixer->getModsToFix() == std::vector<std::string>{"RaidenBoss"},
+          "and fixes to the one target it was built for");
+
+    // The same row, reached through the real table rather than by calling the generator directly.
+    auto rows = IniFixBuilderData::repo()->getAll(
+        {ModTypeIdTools::getName(ModTypeId::Raiden), std::nullopt},
+        {Version::parse("1.0"), Version::parse("6.1")});
+
+    bool foundBoss = false;
+    for (const auto& row : rows) {
+        if (row.first[1] == ModTypeIdTools::getName(ModTypeId::RaidenBoss)) {
+            foundBoss = true;
+
+            std::shared_ptr<BaseIniFixer<>> tableBuilt =
+                row.second(nullptr, "RaidenBoss", static_cast<int>(ModTypeId::Raiden));
+
+            auto* tableFixer = dynamic_cast<GIMIFixer<>*>(tableBuilt.get());
+            check(tableFixer != nullptr && tableFixer->hiddenModObjs == expectedHidden,
+                  "and the table's own factory builds the same fixer");
+        }
+    }
+
+    check(foundBoss, "the 6.1 Raiden -> RaidenBoss row resolves through the real fix table");
+}
+
+
+// ---------------------------------------------------------------------------------------
+// GIMIObjPartFilter
+// ---------------------------------------------------------------------------------------
+
+namespace {
+
+using Colouring = GIMIObjPartFilter<>::Colouring;
+
+Colouring makeColouring(const std::vector<std::pair<std::string, std::vector<std::pair<long long, std::string>>>>& src) {
+    Colouring result;
+    for (const auto& entry : src) {
+        result.set(entry.first, entry.second);
+    }
+    return result;
+}
+
+ModMappedAssets<std::string, std::string> makeFilterAssets(std::size_t totalIndices,
+                                                            std::vector<Row<std::string, std::string>> rows) {
+    ModDictAssets<std::string, std::string> repo(totalIndices, 0,
+                                                  [](const std::string& raw) { return Version::parse(raw); },
+                                                  std::move(rows));
+    return ModMappedAssets<std::string, std::string>(std::move(repo));
+}
+
+}
+
+void testObjPartFilter() {
+    std::printf("\n--- GIMIObjPartFilter ---\n");
+
+    // Hashes' index columns: version, name, type. Two objects sharing one 'ib', plus a blend_vb
+    // that is NOT an index-qualified type.
+    auto hashes = makeFilterAssets(3, {{{"1.0", "testrika", "ib"}, "test-ib"},
+                                        {{"1.0", "testrika", "blend_vb"}, "test-blend"}});
+    // Indices' index columns: version, name, component, object.
+    auto indices = makeFilterAssets(4, {{{"1.0", "testrika", "", "head"}, "0"},
+                                         {{"1.0", "testrika", "", "body"}, "500"}});
+
+    GIMIObjPartFilter<> filter(&hashes, &indices, GIMIObjPartFilter<>::KeySet{"ib"});
+
+    check(filter.keysToTrack() == GIMIObjPartFilter<>::KeySet{"hash", "match_first_index"},
+          "keysToTrack is exactly the two keys the filter reads");
+
+    // One part holding BOTH objects, the way a disjointModObjs=false section really does:
+    //   0: hash = ib      1: match_first_index = 0     (head)
+    //   2: hash = ib      3: match_first_index = 500   (body)
+    Colouring shared = makeColouring({{"hash", {{0, "test-ib"}, {2, "test-ib"}}},
+                                       {"match_first_index", {{1, "0"}, {3, "500"}}}});
+
+    auto headRanges = filter.window(ModObj("", "head"), shared);
+    check(headRanges.has(0) && headRanges.has(1), "head's window covers its own hash and index");
+    check(!headRanges.has(2) && !headRanges.has(3), "and stops at the next hash -- body's half is excluded");
+
+    auto bodyRanges = filter.window(ModObj("", "body"), shared);
+    check(!bodyRanges.has(0) && !bodyRanges.has(1), "body's window excludes head's half");
+    check(bodyRanges.has(2) && bodyRanges.has(3), "and covers its own");
+
+    // The last hash's window runs to the end of the part, so anything after it is still governed.
+    check(bodyRanges.has(99), "the last hash's window is open-ended");
+
+    auto dressRanges = filter.window(ModObj("", "dress"), shared);
+    check(dressRanges.isEmpty(), "a mod object this part does not hold gets an empty window");
+
+    // A hash type that is not index-qualified opens no window at all -- see indexHashKeys' doc.
+    Colouring blendOnly = makeColouring({{"hash", {{0, "test-blend"}}},
+                                          {"match_first_index", {{1, "0"}}}});
+    check(filter.window(ModObj("", "head"), blendOnly).isEmpty(),
+          "a non-index-qualified hash opens no window, even with a matching index after it");
+
+    // An index BEFORE its hash belongs to an earlier hash, not this one.
+    Colouring outOfWindow = makeColouring({{"hash", {{5, "test-ib"}}},
+                                            {"match_first_index", {{1, "0"}}}});
+    check(filter.window(ModObj("", "head"), outOfWindow).isEmpty(),
+          "a match_first_index before its hash is outside that hash's window");
+
+    // Null asset tables match nothing rather than crashing.
+    GIMIObjPartFilter<> noAssets(nullptr, nullptr, GIMIObjPartFilter<>::KeySet{"ib"});
+    check(noAssets.window(ModObj("", "head"), shared).isEmpty(), "a filter with no asset tables matches nothing");
+
+    // The PartFilter wrapper: no colouring means no answer, which is empty rather than "all of it".
+    GIMIObjPartFilter<>::IterData noColouring("SomeSection", nullptr, nullptr, 0, nullptr);
+    check(filter.filter(ModObj("", "head"))(noColouring, nullptr, nullptr).isEmpty(),
+          "a part with no colouring yields empty ranges, not the whole part");
 }
 
 
@@ -563,6 +844,9 @@ int main() {
     testRemapBoilerPlate();
     testFixNoPath();
     testFixHideOrigAndBackup();
+    testHiddenModObjs();
+    testObjPartFilter();
+    testRaiden6_1Fixer();
 
     if (failures == 0) {
         std::printf("\nALL PASSED\n");

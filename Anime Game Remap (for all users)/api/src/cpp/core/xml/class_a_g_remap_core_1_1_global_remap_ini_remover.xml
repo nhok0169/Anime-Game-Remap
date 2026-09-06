@@ -1,0 +1,353 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_global_remap_ini_remover" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GlobalRemapIniRemover</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">RemapIniRemover&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt;, BaseIniRemover&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt; &gt;</basecompoundref>
+    <includes refid="_global_remap_ini_remover_8h" local="no">GlobalRemapIniRemover.h</includes>
+    <templateparamlist>
+      <param>
+        <type>typename K</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename V</type>
+        <defval>std::string</defval>
+      </param>
+      <param>
+        <type>typename KeyHash</type>
+        <defval>std::hash&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename KeyEqual</type>
+        <defval>std::equal_to&lt;K&gt;</defval>
+      </param>
+      <param>
+        <type>typename RemoverBase</type>
+        <defval><ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref>&lt;K, V, KeyHash, KeyEqual&gt;</defval>
+      </param>
+    </templateparamlist>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1ac5d35446f0bc14afed3b2b29286732a6" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_remap_ini_remover" kindref="compound">RemapIniRemover</ref>&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;</type>
+        <definition>using AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::Base = RemapIniRemover&lt;K, V, KeyHash, KeyEqual, RemoverBase&gt;</definition>
+        <argsstring></argsstring>
+        <name>Base</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::Base</qualifiedname>
+        <briefdescription>
+<para>The remover this specializes <ndash/> everything but <ref refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad091c7ccb8e24a53be5bf3fce25f27cb" kindref="member">remove</ref> comes from here. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="83" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad93643fba230488af6574ec50ce7e57d" prot="public" static="no">
+        <type>typename <ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Base::Context</ref></type>
+        <definition>using AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::Context = typename Base::Context</definition>
+        <argsstring></argsstring>
+        <name>Context</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::Context</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput> file this reads and rewrites, behind an interface. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1a2ca182d519ede8b9cd74becc44558d13" prot="public" static="no">
+        <type>typename Base::RemoverConfig</type>
+        <definition>using AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::RemoverConfig = typename Base::RemoverConfig</definition>
+        <argsstring></argsstring>
+        <name>RemoverConfig</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::RemoverConfig</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>.ini</computeroutput>-domain customization points this needs <ndash/> :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_ini_remover" kindref="compound">RemapIniRemover</ref></computeroutput>&apos;s own. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1a6dd9a296fb11f03f53e1a792b911858c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref>&lt;&gt; &gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
+        <definition>static std::function&lt; std::shared_ptr&lt; BaseIniRemover&lt;&gt; &gt;(IniFile *)&gt; AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::factory</definition>
+        <argsstring>()</argsstring>
+        <name>factory</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::factory</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+An :cpp:type:`IniRemoveBuilder::Factory` that builds one of these over an
+:cpp:class:`IniFileRemoveContext` -- the counterpart of
+:cpp:func:`RemapIniRemover::factory`, and what
+:cpp:func:`GlobalIniRemoveBuilders::globalRemoveBuilder` is built on :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Only meaningful for the plain ``&lt;std::string, std::string&gt;`` instantiation, since
+:cpp:class:`IniFileRemoveContext` is the only thing an :cpp:class:`IniFile*` can be
+turned into
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="109" column="36"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1a9e6bb4154f5d40aef6e6ff88c2b17724" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::GlobalRemapIniRemover</definition>
+        <argsstring>(Context *ctx=nullptr, RemoverConfig config=Base::defaultConfig())</argsstring>
+        <name>GlobalRemapIniRemover</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::GlobalRemapIniRemover</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad93643fba230488af6574ec50ce7e57d" kindref="member">Context</ref> *</type>
+          <declname>ctx</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a2ca182d519ede8b9cd74becc44558d13" kindref="member">RemoverConfig</ref></type>
+          <declname>config</declname>
+          <defval><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">Base::defaultConfig</ref>()</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a new remover. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The ``.ini`` file to remove the fix from, behind its interface -- non-owning, and it
+must outlive this remover. See :cpp:func:`RemapIniRemover::RemapIniRemover`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``nullptr``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The .ini-domain customization points to use. <bold>Default</bold>: :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">RemapIniRemover::defaultConfig</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="124" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad091c7ccb8e24a53be5bf3fce25f27cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;::remove</definition>
+        <argsstring>(bool parse=false, bool writeBack=true, IniRemovalContext context=IniRemovalContext()) override</argsstring>
+        <name>remove</name>
+        <qualifiedname>AGRemapCore::GlobalRemapIniRemover::remove</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>parse</declname>
+          <defval>false</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>writeBack</declname>
+          <defval>true</defval>
+        </param>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_ini_removal_context" kindref="compound">IniRemovalContext</ref></type>
+          <declname>context</declname>
+          <defval><ref refid="struct_a_g_remap_core_1_1_ini_removal_context" kindref="compound">IniRemovalContext</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+:cpp:func:`RemapIniRemover::remove`, with
+:cpp:member:`IniRemovalContext::ignoreModType` forced on :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   &apos;context&apos; is taken **by value** and the flag is set on this copy, so a caller&apos;s own
+   :cpp:class:`IniRemovalContext` is never written through -- it simply does not get a
+   say on that one member. Every other member of it is honoured normally
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parse</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ignored <ndash/> see :cpp:func:<computeroutput><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ac67760c8cc974b893e9ede9ba88229f3" kindref="member">RemapIniRemover::remove</ref></computeroutput>. <bold>Default</bold>: <computeroutput>false</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>writeBack</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Whether to write back the new text content of the .ini file. <bold>Default</bold>: <computeroutput>true</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>context</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The per-call options for this removal, with
+:cpp:member:`IniRemovalContext::ignoreModType` ignored :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: a default-constructed one
+</verbatim></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The new text content of the .ini file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="152" column="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`RemapIniRemover`, and so from
+:cpp:class:`BaseIniRemover` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The **general-use** remover: a :cpp:class:`RemapIniRemover` that always removes the fix without
+asking which :cpp:class:`ModType` it belongs to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Everything about how the fix is found is :cpp:class:`RemapIniRemover`&apos;s -- read that class for
+the algorithm. The only difference is that #remove forces
+:cpp:member:`IniRemovalContext::ignoreModType` on, whatever the caller passed, so every
+candidate `section`_ is a target: everything the fix boilerplate surrounds, plus every
+``Remap``-named leftover outside it, whoever they belong to :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   **When this is the right remover.** :cpp:class:`RemapIniRemover`&apos;s strict rule decides a
+   ``Remap``-named leftover *outside* the boilerplate by asking whether its ``hash`` belongs to
+   one of the ``.ini`` file&apos;s :cpp:class:`ModType`\\s. A file that has **no** mod types cannot
+   answer that question at all, so on that file the strict rule can only ever recognize the
+   boilerplate half and would leave every leftover standing forever. This class is the answer
+   for exactly that file: one the classifier says belongs to a mod
+   (:cpp:member:`IniClassifyStats::isMod`) but could not attribute to any
+   :cpp:enum:`ModTypeId`. :cpp:func:`IniFile::removeFix` reaches for it in that state, and only
+   when its ``readAllIni`` was asked for -- see that method
+
+.. note::
+   A subclass rather than &quot;construct a :cpp:class:`RemapIniRemover` and pass
+   ``IniRemovalContext(true)``&quot;, deliberately. The sweep is then a property of *the remover*
+   rather than of every call site that happens to remember to ask for it, which is what lets it
+   be handed out by an :cpp:class:`IniRemoveBuilder` (see
+   :cpp:func:`GlobalIniRemoveBuilders::globalRemoveBuilder`) and reached through
+   :cpp:member:`ModType::iniRemoveBuilder` like any other remover -- neither of which carries a
+   :cpp:class:`IniRemovalContext` anywhere in its signature
+
+.. note::
+   It inherits :cpp:class:`RemapIniRemover` rather than :cpp:class:`BaseIniRemover` directly
+   because it *is* one -- &quot;a :cpp:class:`RemapIniRemover` that assumes
+   :cpp:member:`IniRemovalContext::ignoreModType`&quot; is the whole specification, and every knob
+   (#headings, #remapKeyword, #hideOriginalComment, the resource keywords) means the same thing
+   here. Deriving straight from :cpp:class:`BaseIniRemover` would mean carrying a second copy
+   of an 800-line algorithm that has to stay bug-for-bug identical
+</verbatim></para>
+<para><parameterlist kind="templateparam"><parameteritem>
+<parameternamelist>
+<parametername>K</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the keys stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>V</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The type of the values stored in a referenced :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref></computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyHash</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A hasher for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::hash&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>KeyEqual</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>An equality comparator for <computeroutput>K</computeroutput>. Defaults to <computeroutput>std::equal_to&lt;K&gt;</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>RemoverBase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The :cpp:class:`BaseIniRemover` specialization to inherit from, spliced through
+:cpp:class:`RemapIniRemover` -- see that class&apos;s own parameter of the same name
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``BaseIniRemover&lt;K, V, KeyHash, KeyEqual&gt;``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_global_remap_ini_remover"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>RemapIniRemover&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, BaseIniRemover&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt; &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::GlobalRemapIniRemover&lt; K, V, KeyHash, KeyEqual, RemoverBase &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_global_remap_ini_remover"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>RemapIniRemover&lt; std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;, BaseIniRemover&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt; &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" line="77" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h" bodystart="77" bodyend="153"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ac5d35446f0bc14afed3b2b29286732a6" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>Base</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad93643fba230488af6574ec50ce7e57d" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>Context</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a6dd9a296fb11f03f53e1a792b911858c" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>factory</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a9e6bb4154f5d40aef6e6ff88c2b17724" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>GlobalRemapIniRemover</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1ad091c7ccb8e24a53be5bf3fce25f27cb" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>remove</name></member>
+      <member refid="class_a_g_remap_core_1_1_global_remap_ini_remover_1a2ca182d519ede8b9cd74becc44558d13" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalRemapIniRemover</scope><name>RemoverConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -4,6 +4,7 @@
     <compoundname>GlobalModTypes.h</compoundname>
     <includes local="no">vector</includes>
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
+    <includedby refid="_remap_service_c_l_i_8cpp" local="yes">src/RemapServiceCLI.cpp</includedby>
     <includedby refid="_global_ini_classifiers_8cpp" local="yes">src/constants/GlobalIniClassifiers.cpp</includedby>
     <includedby refid="_global_mod_types_8cpp" local="yes">src/constants/GlobalModTypes.cpp</includedby>
     <incdepgraph>
@@ -18,6 +19,9 @@
       </node>
       <node id="48">
         <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="1">
         <label>include/AGRemapCore/constants/GlobalModTypes.h</label>
@@ -243,6 +247,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
@@ -835,9 +841,6 @@
         <childnode refid="69" relation="include">
         </childnode>
       </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="82">
         <label>Generator.tpp</label>
       </node>
@@ -973,12 +976,18 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/RemapServiceCLI.cpp</label>
+        <link refid="_remap_service_c_l_i_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
@@ -1000,18 +1009,20 @@
 <codeline lineno="8"><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="33" refid="class_a_g_remap_core_1_1_global_mod_types" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" kindref="member">GlobalModTypes</ref><sp/>{</highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="36" refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" kindref="member">GlobalModTypes</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="35" refid="class_a_g_remap_core_1_1_global_mod_types" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" kindref="member">GlobalModTypes</ref><sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" kindref="member">all</ref>();</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" kindref="member">registerAll</ref>();</highlight></codeline>
-<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="38" refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a129d660e40f9e501bcaa1b50e370c29c" kindref="member">GlobalModTypes</ref>()<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1a84c644a53e1576ba5c7b03f833f56994" kindref="member">all</ref>();</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1ab1bb56a560aaeb05a853d5419e3c810f" kindref="member">registerAll</ref>();</highlight></codeline>
 <codeline lineno="71"><highlight class="normal"></highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_global_mod_types_1add98f2abc25606ce97be00805a4aeb0d" kindref="member">registerMissing</ref>();</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/GlobalModTypes.h"/>
   </compounddef>

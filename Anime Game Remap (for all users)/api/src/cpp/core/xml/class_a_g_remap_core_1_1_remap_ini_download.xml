@@ -517,6 +517,7 @@ mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIn
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>fixIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>hasRequired</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>logger</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>remapFix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>RemapIniDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>srcEncounteredError</name></member>

@@ -4,14 +4,14 @@
     <compoundname>RemapStats.cpp</compoundname>
     <includes refid="_remap_stats_8h" local="yes">AGRemapCore/model/stats/RemapStats.h</includes>
     <incdepgraph>
-      <node id="3">
+      <node id="4">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -23,11 +23,11 @@
       <node id="9">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -39,6 +39,8 @@
         <link refid="_remap_stats_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
       </node>
@@ -48,13 +50,13 @@
         <childnode refid="2" relation="include">
         </childnode>
       </node>
-      <node id="4">
+      <node id="5">
         <label>exception</label>
       </node>
-      <node id="5">
+      <node id="6">
         <label>optional</label>
       </node>
-      <node id="6">
+      <node id="3">
         <label>string</label>
       </node>
       <node id="7">
@@ -85,7 +87,29 @@
 <codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kindref="member">texAdd</ref>.clear();</highlight></codeline>
 <codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kindref="member">download</ref>.clear();</highlight></codeline>
 <codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="16"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_file_stats" kindref="compound">FileStats</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_stats_1a3853fd921c9c931d2573a705d924f4aa" kindref="member">RemapStats::get</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>resourceType)<sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Spelled<sp/>out<sp/>rather<sp/>than<sp/>driven<sp/>off<sp/>RemapIniRemover::ResourceType&apos;s<sp/>members:<sp/>this<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cannot<sp/>see<sp/>that<sp/>class<sp/>(RemapIniRemover<sp/>is<sp/>a<sp/>template,<sp/>and<sp/>including<sp/>it<sp/>here<sp/>would<sp/>be<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cycle),<sp/>and<sp/>a<sp/>member-by-member<sp/>map<sp/>is<sp/>what<sp/>makes<sp/>the<sp/>two<sp/>sets<sp/>of<sp/>names<sp/>provably<sp/>line<sp/>up</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>anyway<sp/>--<sp/>add<sp/>a<sp/>kind<sp/>there<sp/>and<sp/>the<sp/>compiler<sp/>says<sp/>nothing,<sp/>but<sp/>a<sp/>caller<sp/>looking<sp/>it<sp/>up<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>gets<sp/>nullptr,<sp/>which<sp/>is<sp/>the<sp/>failure<sp/>that<sp/>is<sp/>easy<sp/>to<sp/>notice.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;blend&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a2ca31e8587d3d032b663ae61e339bed3" kindref="member">blend</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;position&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1aefe50b51ad87a69203e5fe0e5aa06976" kindref="member">position</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;texcoord&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1ac98420338579447325f45132a39787c7" kindref="member">texcoord</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;buf&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a7f0244de901cac508ca5b1697011b26d" kindref="member">buf</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a0d90f5d23a3135c800f7f044c26c1e91" kindref="member">other</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;ini&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1ab6c134c115a60940dabbc21396ce4b41" kindref="member">ini</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;texEdit&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a19dee02ce117c23e553a1c156b06eb1a" kindref="member">texEdit</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;texAdd&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a8e2cff9ddea21cd7d431618541651835" kindref="member">texAdd</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>CachedFileStats<sp/>is<sp/>a<sp/>FileStats,<sp/>so<sp/>a<sp/>caller<sp/>sorting<sp/>removed<sp/>paths<sp/>into<sp/>buckets<sp/>treats</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>downloads<sp/>like<sp/>anything<sp/>else<sp/>--<sp/>only<sp/>the<sp/>cache-hit<sp/>half<sp/>needs<sp/>the<sp/>derived<sp/>type.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(resourceType<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;download&quot;</highlight><highlight class="normal">)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>&amp;<ref refid="class_a_g_remap_core_1_1_remap_stats_1a9e17d95a32ff9fd6a2d9c205a05f32f7" kindref="member">download</ref>;<sp/>}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="38"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/stats/RemapStats.cpp"/>
   </compounddef>

@@ -38,7 +38,7 @@ The initial `adjacency list`_ mapping the indices to fix **from** to the indices
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Indices.h" line="47" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="38" bodyend="39"/>
+        <location file="include/AGRemapCore/model/assets/Indices.h" line="47" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="38" bodyend="42"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -108,6 +108,7 @@ sharing only the underlying data (:cpp:func:`Data::getIndexDataRows`) :raw-html:
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>keys_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>map_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab735cc18f1788a268316d0ed60ae9544" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>ModMappedAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>nonVersionIndexNames</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>rebuildKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>replace</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>replaceAll</name></member>

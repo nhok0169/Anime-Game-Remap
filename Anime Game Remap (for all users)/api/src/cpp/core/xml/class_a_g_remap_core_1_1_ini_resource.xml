@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="51" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="53" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -34,7 +34,47 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="56" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="58" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;BaseLogger&gt; AGRemapCore::IniResource::logger</definition>
+        <argsstring></argsstring>
+        <name>logger</name>
+        <qualifiedname>AGRemapCore::IniResource::logger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where this resource reports progress and problems, or ``nullptr`` for nowhere
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Set by whoever registers the resource (see
+:cpp:func:`IniResEditContext::logger`), rather than passed to a ``fix``. It lives here,
+on the base, for two reasons :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+* every ``fix`` in this hierarchy is declared per concrete leaf with its own signature
+  (see this class&apos;s own note on why there is no generic one), and each leaf also carries
+  a ``fixFunc`` letting a caller replace that fix wholesale. Threading a view through as
+  a *parameter* would mean either denying it to those custom fixes -- the case where
+  narration matters most -- or reshaping every one of those ``std::function`` typedefs,
+  each of which is pinned by a `pybind11`_ binding
+* a plain :cpp:class:`IniResource` is what actually gets registered today, not one of
+  the ``Remap`` subclasses, so a view attached only to those would reach nothing
+
+:raw-html:`&lt;br /&gt;`
+
+A ``shared_ptr``, so a :cpp:class:`BaseLogger` subclass defined in `Python`_ stays alive
+for exactly as long as this resource holds it
+
+.. note::
+   :cpp:class:`IniGroupedResource` is **not** an :cpp:class:`IniResource` -- it is its
+   own root -- so it carries its own copy of this member rather than inheriting one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="89" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="89" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -89,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="44" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="9" bodyend="10"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="46" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="9" bodyend="10"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -103,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="46" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="48" column="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -176,9 +216,10 @@ Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="34" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="34" bodyend="57"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="36" bodyend="90"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>logger</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>srcPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1a1a89276cd64472806d89e52ec4bed401" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>type</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" virt="virtual"><scope>AGRemapCore::IniResource</scope><name>~IniResource</name></member>

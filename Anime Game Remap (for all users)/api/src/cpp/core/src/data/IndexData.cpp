@@ -117,6 +117,10 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getIndexDat
         {{"4.0", "NingguangOrchid", "", "head"}, "0"},
         {{"4.0", "NingguangOrchid", "", "body"}, "43539"},
         {{"4.0", "NingguangOrchid", "", "dress"}, "56124"},
+        // Raiden
+        {{"4.0", "Raiden", "", "head"}, "0"},
+        {{"4.0", "Raiden", "", "body"}, "17769"},
+        {{"4.0", "Raiden", "", "dress"}, "52473"},
         // Rosaria
         {{"4.0", "Rosaria", "", "head"}, "0"},
         {{"4.0", "Rosaria", "", "body"}, "11139"},

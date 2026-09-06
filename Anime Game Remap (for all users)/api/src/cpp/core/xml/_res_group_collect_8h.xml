@@ -26,11 +26,14 @@
       <node id="30">
         <label>Algo.tpp</label>
       </node>
-      <node id="75">
+      <node id="77">
         <label>BaseIniGraphGroupEdit.tpp</label>
       </node>
       <node id="35">
         <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="70">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="48">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -40,11 +43,11 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="79">
+      <node id="81">
         <label>AGRemapCore/constants/IniGraphReplaceMode.h</label>
         <link refid="_ini_graph_replace_mode_8h"/>
       </node>
-      <node id="66">
+      <node id="69">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="2" relation="include">
@@ -59,10 +62,10 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="70" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="67">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
         <childnode refid="2" relation="include">
@@ -79,12 +82,12 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
       </node>
-      <node id="65">
+      <node id="68">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
         <childnode refid="2" relation="include">
@@ -111,7 +114,7 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
         <childnode refid="13" relation="include">
         </childnode>
@@ -121,13 +124,13 @@
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
+        <childnode refid="71" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
       </node>
       <node id="13">
@@ -349,12 +352,14 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
       </node>
-      <node id="62">
+      <node id="65">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
         <link refid="_base_ini_part_edit_8h"/>
       </node>
-      <node id="61">
+      <node id="64">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
         <link refid="_base_ini_graph_group_edit_8h"/>
         <childnode refid="2" relation="include">
@@ -365,14 +370,14 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="66" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
       </node>
-      <node id="76">
+      <node id="78">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h</label>
         <link refid="_graph_group_remap_8h"/>
         <childnode refid="4" relation="include">
@@ -383,12 +388,12 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="77" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="63">
+      <node id="66">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
         <link refid="_i_ini_graph_groups_8h"/>
         <childnode refid="2" relation="include">
@@ -405,18 +410,18 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="64" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
         </childnode>
-        <childnode refid="74" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
       </node>
-      <node id="80">
+      <node id="82">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h</label>
         <link refid="_ini_res_edit_context_8h"/>
         <childnode refid="4" relation="include">
@@ -436,6 +441,8 @@
         <childnode refid="60" relation="include">
         </childnode>
         <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -467,11 +474,11 @@
         </childnode>
         <childnode refid="60" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="80" relation="include">
         </childnode>
         <childnode refid="25" relation="include">
         </childnode>
@@ -479,10 +486,10 @@
         </childnode>
         <childnode refid="51" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
-      <node id="78">
+      <node id="80">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
         <link refid="_res_edit_8h"/>
         <childnode refid="2" relation="include">
@@ -499,13 +506,13 @@
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
-        </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-        <childnode refid="80" relation="include">
-        </childnode>
         <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -520,18 +527,26 @@
         <childnode refid="30" relation="include">
         </childnode>
       </node>
-      <node id="68">
+      <node id="71">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
-        <childnode refid="69" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="62" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="73" relation="include">
+        </childnode>
+      </node>
+      <node id="63">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -726,16 +741,31 @@
         <childnode refid="50" relation="include">
         </childnode>
       </node>
-      <node id="67">
-        <label>CallGraph.tpp</label>
+      <node id="61">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
       </node>
-      <node id="71">
+      <node id="73">
         <label>Generator.tpp</label>
       </node>
-      <node id="77">
+      <node id="79">
         <label>GraphGroupRemap.tpp</label>
       </node>
-      <node id="74">
+      <node id="76">
         <label>IIniGraphGroups.tpp</label>
       </node>
       <node id="43">
@@ -756,10 +786,10 @@
       <node id="22">
         <label>IncIdGenerator.tpp</label>
       </node>
-      <node id="73">
+      <node id="75">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="72">
+      <node id="74">
         <label>IniSectionGraph.tpp</label>
       </node>
       <node id="54">
@@ -774,10 +804,10 @@
       <node id="31">
         <label>Ranges.tpp</label>
       </node>
-      <node id="81">
+      <node id="83">
         <label>ResEdit.tpp</label>
       </node>
-      <node id="82">
+      <node id="84">
         <label>ResGroupCollect.tpp</label>
       </node>
       <node id="59">
@@ -789,7 +819,7 @@
       <node id="41">
         <label>cmath</label>
       </node>
-      <node id="69">
+      <node id="72">
         <label>coroutine</label>
       </node>
       <node id="2">
@@ -801,7 +831,7 @@
       <node id="3">
         <label>deque</label>
       </node>
-      <node id="70">
+      <node id="62">
         <label>exception</label>
       </node>
       <node id="4">

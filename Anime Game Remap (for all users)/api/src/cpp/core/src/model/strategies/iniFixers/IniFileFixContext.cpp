@@ -66,6 +66,35 @@ namespace AGRemapCore {
     }
 
 
+
+    Hashes* IniFileFixContext::modTypeHashes() const {
+        const ModType* type = modType();
+        if (type == nullptr) {
+            return nullptr;
+        }
+
+        return type->hashes.get();
+    }
+
+
+    Indices* IniFileFixContext::modTypeIndices() const {
+        const ModType* type = modType();
+        if (type == nullptr) {
+            return nullptr;
+        }
+
+        return type->indices.get();
+    }
+
+
+    std::optional<Version> IniFileFixContext::version() const {
+        if (!hasIni()) {
+            return std::nullopt;
+        }
+
+        return iniFile_->fromVersion;
+    }
+
     std::optional<std::string> IniFileFixContext::modTypeName() const {
         const ModType* type = modType();
         if (type == nullptr) {
@@ -162,12 +191,37 @@ namespace AGRemapCore {
 
 
     void IniFileFixContext::writeFixedFile(const std::string& path, const std::string& content) {
-        // Binary mode and an explicit truncate, matching IniFile::write's own: the newline
-        // normalization this codebase does is its own, so letting the OS re-translate a written
-        // newline would make a written-then-read round trip lossy on Windows and not on Linux.
+        // Binary mode and an explicit truncate, matching IniFile::write's own -- the newline
+        // handling is this codebase's own business rather than the OS's, so it behaves identically
+        // on every platform.
+        //
+        // And, like IniFile::write, the SOURCE .ini file's own line ending is restored here. Every
+        // generated file goes out through this method rather than through IniFile::write, so
+        // leaving it out meant the fix rewrote a CRLF mod as LF even once IniFile::write itself
+        // preserved it -- the undo that came afterwards then faithfully preserved the LF it was
+        // handed. A generated copy takes its ending from the file it was generated from, which is
+        // the only sensible answer for a file that has no prior ending of its own.
         std::ofstream out(path, std::ios::binary | std::ios::trunc);
         if (!out) {
             throw std::runtime_error("Unable to open file for writing: " + path);
+        }
+
+        const std::string lineEnding = (iniFile_ != nullptr) ? iniFile_->lineEnding() : std::string("\n");
+        if (lineEnding != "\n") {
+            std::string converted;
+            converted.reserve(content.size() + content.size() / 8);
+
+            for (char c : content) {
+                if (c == '\n') {
+                    converted += lineEnding;
+                } else {
+                    converted.push_back(c);
+                }
+            }
+
+            out.write(converted.data(), static_cast<std::streamsize>(converted.size()));
+            out.close();
+            return;
         }
 
         out.write(content.data(), static_cast<std::streamsize>(content.size()));

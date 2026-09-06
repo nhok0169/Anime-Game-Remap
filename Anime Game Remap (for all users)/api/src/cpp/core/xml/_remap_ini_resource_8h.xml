@@ -12,6 +12,7 @@
     <includedby refid="_remap_blend_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapBlendResource.h</includedby>
     <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
     <includedby refid="_ini_parse_download_data_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</includedby>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
     <includedby refid="_remap_ini_resource_8cpp" local="yes">src/model/iniresources/RemapIniResource.cpp</includedby>
     <incdepgraph>
       <node id="6">
@@ -27,6 +28,8 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/iniresources/RemapIniResource.h</label>
@@ -41,15 +44,15 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="15" relation="include">
         </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="10">
+      <node id="16">
         <label>AGRemapCore/model/stats/CachedFileStats.h</label>
         <link refid="_cached_file_stats_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -59,13 +62,13 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="12">
+      <node id="17">
         <label>AGRemapCore/model/stats/FileStats.h</label>
         <link refid="_file_stats_8h"/>
-        <childnode refid="11" relation="include">
+        <childnode refid="12" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
@@ -76,25 +79,59 @@
         <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="9">
+      <node id="15">
         <label>AGRemapCore/model/stats/RemapStats.h</label>
         <link refid="_remap_stats_8h"/>
-        <childnode refid="10" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="14">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
         <childnode refid="14" relation="include">
         </childnode>
       </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
       <node id="11">
+        <label>deque</label>
+      </node>
+      <node id="12">
         <label>exception</label>
       </node>
       <node id="2">
@@ -109,7 +146,7 @@
       <node id="5">
         <label>string</label>
       </node>
-      <node id="14">
+      <node id="19">
         <label>tuple</label>
       </node>
       <node id="7">
@@ -118,6 +155,9 @@
       <node id="8">
         <label>unordered_set</label>
       </node>
+      <node id="13">
+        <label>vector</label>
+      </node>
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
@@ -125,62 +165,78 @@
         <link refid="_remap_blend_resource_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/iniresources/RemapIniResource.h</label>
         <link refid="_remap_ini_resource_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="11" relation="include">
-        </childnode>
       </node>
-      <node id="4">
-        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
-        <link refid="_remap_tex_resource_8h"/>
-        <childnode refid="5" relation="include">
-        </childnode>
-      </node>
-      <node id="7">
+      <node id="8">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="8" relation="include">
-        </childnode>
         <childnode refid="9" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="3">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/model/iniresources/RemapBlendResource.cpp</label>
         <link refid="_remap_blend_resource_8cpp"/>
       </node>
-      <node id="11">
+      <node id="13">
         <label>src/model/iniresources/RemapIniResource.cpp</label>
         <link refid="_remap_ini_resource_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="8">
+      <node id="10">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="10">
+      <node id="12">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>

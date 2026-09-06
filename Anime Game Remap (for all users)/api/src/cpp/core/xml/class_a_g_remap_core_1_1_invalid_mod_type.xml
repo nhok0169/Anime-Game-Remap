@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invalid_mod_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvalidModType</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_remap_service_c_l_i_errors_8h" local="no">RemapServiceCLIErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_invalid_mod_type_1a62e2f51b9c46a544a4040333ebee748c" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidModType::modType_</definition>
+        <argsstring></argsstring>
+        <name>modType_</name>
+        <qualifiedname>AGRemapCore::InvalidModType::modType_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="43" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_mod_type_1a222f5f8076b5fc2a8b9e37fcfd6fa21a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::InvalidModType::InvalidModType</definition>
+        <argsstring>(std::string modType)</argsstring>
+        <name>InvalidModType</name>
+        <qualifiedname>AGRemapCore::InvalidModType::InvalidModType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>modType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string that matched no mod type </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="35" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="15" bodyend="16"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_mod_type_1aa8f6f37d486afdb377236118556ee413" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::InvalidModType::modType</definition>
+        <argsstring>() const</argsstring>
+        <name>modType</name>
+        <qualifiedname>AGRemapCore::InvalidModType::modType</qualifiedname>
+        <briefdescription>
+<para>The string that matched no mod type. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="40" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="18" bodyend="20"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_mod_type_1a101d25c0caf0c06108601c99b69edbee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidModType::buildMessage</definition>
+        <argsstring>(const std::string &amp;modType)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::InvalidModType::buildMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="45" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="11" bodyend="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when a string naming a type of mod matches no mod type :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Only :cpp:class:`RemapServiceCLI` can raise this. :cpp:class:`RemapService` takes
+:cpp:enum:`ModTypeId` integers, which cannot be wrong in this way -- it is turning what a user
+*typed* into one of those that can fail, and that is the CLI&apos;s job :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A minimal, `Python`_-free data carrier for the string that could not be resolved. The
+`pybind11`_ layer that catches this constructs the real
+``FixRaidenBoss2.exceptions.InvalidModType.InvalidModType`` instead, so that exception&apos;s own
+message lives in one place -- the same pattern :cpp:class:`BadBufData` uses
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidModType</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_mod_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidModType</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_mod_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="27" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="27" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1a101d25c0caf0c06108601c99b69edbee" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1a222f5f8076b5fc2a8b9e37fcfd6fa21a" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>InvalidModType</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1aa8f6f37d486afdb377236118556ee413" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>modType</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1a62e2f51b9c46a544a4040333ebee748c" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>modType_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

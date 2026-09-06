@@ -613,7 +613,15 @@ namespace AGRemapCore {
             // names is a RemapStats member name -- see RemapStats::get. That is what lets this sort
             // them without a lookup table of its own.
             std::unordered_map<std::string, std::vector<std::unique_ptr<IniResource>>> removedResources;
-            ini.removeFix(false, !undoOnly, readAllInis, keepBackups, &removedResources);
+            // writeBack is unconditionally true, and was '!undoOnly' -- which had it exactly
+            // backwards. An undo-only run is the ONE case where nothing else writes the file
+            // afterwards, so passing false there meant --undo computed a perfectly good removal
+            // and then threw it away: the fix sections stayed, the ;RemapFixHideOrig prefixes
+            // stayed, and the run still reported "Removed fix from up to N .ini files".
+            //
+            // A fix run writes its own result afterwards regardless, so writing here costs it one
+            // extra write and changes nothing observable.
+            ini.removeFix(false, true, readAllInis, keepBackups, &removedResources);
 
             bool removedAny = false;
             for (auto& entry : removedResources) {

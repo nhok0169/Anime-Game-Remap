@@ -120,6 +120,11 @@ namespace AGRemapCore {
             using ModObj = std::pair<std::string, std::string>;
 
             /**
+             * @copydoc IniGraphGroup::ModObjHash
+             */
+            using ModObjHash = typename IniGraphGroup<K, V, KeyHash, KeyEqual>::ModObjHash;
+
+            /**
              * @brief The kind of edit #graphGroupEdits holds
              */
             using GroupEdit = BaseIniGraphGroupEdit<K, V, KeyHash, KeyEqual>;
@@ -226,6 +231,44 @@ namespace AGRemapCore {
              @endrst
              */
             std::string copyPreamble;
+
+            /**
+             * @brief
+             @rst
+             Mod objects whose **original** `sections`_ are commented out of the source text this
+             fix appends :raw-html:`<br />` :raw-html:`<br />`
+
+             Every fix that runs with ``withSrc`` opens with the ``.ini`` file's own content, so the
+             original mod keeps working alongside the remap. That is usually what you want, but not
+             always: when the fix *replaces* what a mod object drew rather than adding beside it,
+             leaving the original in means the game draws both. Naming that mod object here
+             comments its `sections`_ out with :cpp:member:`IniKeywords::HideOriginalComment`, so
+             the appended source still explains what was there without it still being live
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Raiden's 6.1 fix is the case this exists for: it rewrites ``head``/``body``/``dress``
+             in place, so the original three have to go :raw-html:`<br />` :raw-html:`<br />`
+
+             :raw-html:`<br />`
+
+             .. note::
+                This is **independent of the ``hideOrig`` flag** #fixImpl is handed. That flag is
+                the *user's* "hide the original mod entirely" request and hides everything
+                #touchedSectionNames covers; this is the *fixer's* own "these particular objects
+                cannot survive my fix", and applies whether or not the user asked for anything.
+                When both are in play the two sets are hidden together
+
+             .. note::
+                Unlike #touchedSectionNames, nothing is filtered out of this set -- no
+                :cpp:member:`IniGraphModObjKeywords::Download` check, no
+                :cpp:member:`IniKeywords::Remap` check. Those exist to stop an *inferred* set from
+                hiding something it shouldn't; this set is written out by hand, so it is taken at
+                its word
+
+             **Default**: empty -- hide nothing beyond what ``hideOrig`` asks for
+             @endrst
+             */
+            std::unordered_set<ModObj, ModObjHash> hiddenModObjs;
 
             /**
              * @brief
@@ -404,6 +447,22 @@ namespace AGRemapCore {
              */
             std::unordered_set<std::string> touchedSectionNames() const;
 
+            /**
+             * @brief
+             @rst
+             The names of every `section`_ belonging to a mod object in #hiddenModObjs -- the
+             second half of what :cpp:func:`IniFixContext::hideOriginalSections` is handed
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Read off the built groups, so these are the `sections`_ as the fix left them. A mod
+             object named in #hiddenModObjs that no group actually has a graph for contributes
+             nothing rather than raising -- naming an object this ``.ini`` file happens not to
+             contain is a normal thing for a per-mod-type table to do. Empty until #graphGroups has
+             been built
+             @endrst
+             */
+            std::unordered_set<std::string> hiddenSectionNames() const;
+
         protected:
 
             /**
@@ -433,6 +492,23 @@ namespace AGRemapCore {
              * @brief This fixer's own groups -- owned, see #graphGroups
              */
             std::unique_ptr<GraphGroups> graphGroups_;
+
+            /**
+             * @brief
+             @rst
+             Every graph's `section`_ names **as they were before any** #graphGroupEdits **ran**,
+             one entry per group :raw-html:`<br />` :raw-html:`<br />`
+
+             Both #touchedSectionNames and #hiddenSectionNames read this rather than the live
+             graphs, and must: hiding comments out `sections`_ **in the original ``.ini`` file's own
+             text**, so it needs the names that text actually contains. An edit that renames
+             `sections`_ (:cpp:class:`GraphRename`, which is how a remapped `section`_ gets its
+             name at all) leaves the live graphs holding names the original file has no line of --
+             hiding on those would comment out nothing and leave the original mod live *alongside*
+             the fix
+             @endrst
+             */
+            std::vector<tsl::ordered_map<ModObj, std::vector<std::string>, ModObjHash>> preEditSectionNames_;
 
             /**
              * @brief Where each group of the last #fixImpl was written -- see #fixTargets

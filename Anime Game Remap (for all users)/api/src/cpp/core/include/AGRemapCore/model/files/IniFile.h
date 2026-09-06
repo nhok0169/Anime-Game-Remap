@@ -344,6 +344,19 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The line ending this ``.ini`` file was read with -- see the private ``lineEnding_``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Public because the fix does not write through this class: every generated file goes out
+             via :cpp:func:`IniFileFixContext::writeFixedFile`, which has to restore the same ending
+             or a ``CRLF`` mod ends up half rewritten as ``LF``
+             @endrst
+             */
+            const std::string& lineEnding() const;
+
+            /**
+             * @brief
+             @rst
              The text content of the .ini file, as of the last call to #readFileLines (or the
              constructor's ``txt`` argument, if #getFile is ``std::nullopt``)
              @endrst
@@ -1095,6 +1108,28 @@ namespace AGRemapCore {
             std::vector<std::unique_ptr<IniResource>> fileDownloads_;
 
             bool isClassified_ = false;
+
+            /**
+             * @brief
+             @rst
+             The line ending this file was read with, restored when it is written back
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             #readFromDisk normalizes every ``\r\n``/``\r`` down to ``\n``, matching the
+             universal-newline translation `Python`_'s text-mode ``open(path, "r")`` does. The
+             original did the same on the way *out* -- a text-mode ``open(path, "w")`` translates
+             ``\n`` back to ``os.linesep`` -- so on Windows a fixed ``.ini`` file kept its
+             ``CRLF`` endings. Writing the normalized text verbatim instead silently reflowed
+             **every line of every** ``.ini`` **file the fix touched**
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Remembering what the file actually had is better than either: it is portable (unlike
+             ``os.linesep``), and it leaves an ``LF`` file alone on Windows and a ``CRLF`` file
+             alone on Linux, where translating on write would corrupt one of them. Defaults to
+             ``"\n"`` for an ``.ini`` file built from raw text rather than read from disk
+             @endrst
+             */
+            std::string lineEnding_ = "\n";
 
             // There is deliberately no parser_/fixer_ member: both are *built* per file, per mod
             // type, from the ModType's own builders, and this file owns the ones it built -- see

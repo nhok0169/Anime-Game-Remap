@@ -488,9 +488,19 @@ namespace AGRemapCore {
                 DownloadTargets targets;
                 targets.refToSection = download->refToSection();
 
+                // 'needed' is deliberately NOT "targets ended up non-empty".
+                //
+                // The visitedParts dedup below stops one part being handed the same KVP twice when
+                // several registers share a download, so the second register's 'targets.parts' is
+                // legitimately empty even though that register is genuinely missing its file --
+                // and it still needs its resource graph (testSharedDownload pins this). So the
+                // question is "is this register missing ANYWHERE", asked before the dedup.
+                bool needed = false;
+
                 if (!targets.refToSection) {
                     for (const auto& sectionEntry : commandGraph->getKeyMissingParts(reg)) {
                         for (ContentPart* part : sectionEntry.second) {
+                            needed = true;
                             if (visitedParts.insert(part).second) {
                                 targets.parts.insert(part);
                             }
@@ -499,13 +509,23 @@ namespace AGRemapCore {
                 } else if (ctx_->downloadMode() != DownloadMode::Always) {
                     for (const auto& coverEntry : commandGraph->rootsAreFullyCovered(reg)) {
                         if (!coverEntry.second) {
+                            needed = true;
                             targets.sections.insert(commandGraph->getSection(coverEntry.first));
                         }
                     }
                 } else {
                     for (Section* section : commandGraph->getRootSections()) {
+                        needed = true;
                         targets.sections.insert(section);
                     }
+                }
+
+                // A register the mod already has needs nothing, and recording it anyway made
+                // addDownloads build a '[Resource<Mod><Name>RemapDL]' section naming a file that is
+                // never downloaded -- six of them on an Amber mod that was missing nothing. This
+                // method's own contract is "the registers whose file the mod is MISSING".
+                if (!needed) {
+                    continue;
                 }
 
                 result[modObj][reg] = std::move(targets);
@@ -595,6 +615,14 @@ namespace AGRemapCore {
                     continue;
                 }
 
+                // Every entry that reaches here is a register the mod really is missing --
+                // getDownloads no longer records one for a register that is present, so the
+                // resource section below is only ever built for a file that will be downloaded.
+                //
+                // An entry with an EMPTY parts set is still normal and still gets its resource: it
+                // means another register already claimed those parts (see getDownloads' visitedParts
+                // dedup, which stops one part being given the same KVP twice). That register's
+                // resource graph must still be registered, which is what testSharedDownload pins.
                 DownloadData& downloadData = *foundDownload->second;
                 std::string resourceSectionName = createDownloadResource(modTypeName, modObj, reg, downloadData, iniFolder);
                 V resourceSectionVal = config_.valOfSectionName(resourceSectionName);

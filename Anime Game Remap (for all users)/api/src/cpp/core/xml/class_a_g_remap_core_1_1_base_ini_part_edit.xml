@@ -106,7 +106,7 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <label>AGRemapCore::BaseIniPartEdit</label>
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
-      <node id="21">
+      <node id="22">
         <label>AGRemapCore::BaseRegEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_base_reg_edit"/>
         <childnode refid="12" relation="public-inheritance">
@@ -160,37 +160,43 @@ Base class for a filter that edits some part of a ``.ini`` file :raw-html:`&lt;b
         <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>AGRemapCore::RegAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_add"/>
-        <childnode refid="21" relation="public-inheritance">
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
       </node>
       <node id="19">
+        <label>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_delimited_add"/>
+        <childnode refid="17" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="20">
         <label>AGRemapCore::RegFillMissing&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_fill_missing"/>
         <childnode refid="17" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_new_vals"/>
-        <childnode refid="21" relation="public-inheritance">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
-        <childnode refid="21" relation="public-inheritance">
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
       </node>
       <node id="25">
-        <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
-        <link refid="class_a_g_remap_core_1_1_reg_remove"/>
-        <childnode refid="21" relation="public-inheritance">
+        <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remap"/>
+        <childnode refid="22" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="20">
+      <node id="26">
+        <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_remove"/>
+        <childnode refid="22" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="21">
         <label>AGRemapCore::RegSurroundedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_surrounded_add"/>
         <childnode refid="17" relation="public-inheritance">

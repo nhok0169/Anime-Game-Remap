@@ -43,6 +43,9 @@
       <node id="101">
         <label>BiMap.tpp</label>
       </node>
+      <node id="64">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="2">
         <label>AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
@@ -327,6 +330,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
@@ -1026,9 +1031,6 @@
         </childnode>
         <childnode refid="92" relation="include">
         </childnode>
-      </node>
-      <node id="64">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="83">
         <label>Generator.tpp</label>

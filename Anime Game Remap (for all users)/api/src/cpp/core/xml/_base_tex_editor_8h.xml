@@ -30,6 +30,8 @@
         <link refid="_remap_tex_resource_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
@@ -38,9 +40,9 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="8" relation="include">
+        <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
       </node>
       <node id="4">
@@ -48,34 +50,38 @@
         <link refid="_tex_creator_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>include/AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="5" relation="include">
         </childnode>
-        <childnode refid="9" relation="include">
+        <childnode refid="10" relation="include">
         </childnode>
+      </node>
+      <node id="6">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
       </node>
       <node id="3">
         <label>src/model/iniresources/IniTexModel.cpp</label>
         <link refid="_ini_tex_model_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="10">
+      <node id="11">
         <label>src/model/strategies/texEditors/BaseTexEditor.cpp</label>
         <link refid="_base_tex_editor_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>

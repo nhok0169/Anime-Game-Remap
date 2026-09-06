@@ -9,6 +9,7 @@
     <includes refid="_ini_keywords_8h" local="yes">AGRemapCore/constants/IniKeywords.h</includes>
     <includes refid="_ini_fix_context_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixContext.h</includes>
     <includes local="yes">RemapIniFixContext.tpp</includes>
+    <includedby refid="_g_i_m_i_fixer_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</includedby>
     <includedby refid="_ini_file_fix_context_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</includedby>
     <incdepgraph>
       <node id="34">
@@ -16,6 +17,9 @@
       </node>
       <node id="40">
         <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="49">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="55">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -607,9 +611,6 @@
         <childnode refid="57" relation="include">
         </childnode>
       </node>
-      <node id="49">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="70">
         <label>Generator.tpp</label>
       </node>
@@ -736,6 +737,14 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h</label>
+        <link refid="_g_i_m_i_fixer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
         <label>include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h</label>
         <link refid="_ini_file_fix_context_8h"/>
         <childnode refid="3" relation="include">
@@ -747,6 +756,8 @@
         <label>include/AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h</label>
         <link refid="_remap_ini_fix_context_8h"/>
         <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="3">

@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_file_suffixes" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::FileSuffixes</compoundname>
+    <includes refid="_file_suffixes_8h" local="no">FileSuffixes.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_suffixes_1a3a789c421ed86494a6e0de554ac7aec4" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::FileSuffixes::RemapFixCopy</definition>
+        <argsstring></argsstring>
+        <name>RemapFixCopy</name>
+        <qualifiedname>AGRemapCore::FileSuffixes::RemapFixCopy</qualifiedname>
+        <initializer>= &quot;RemapFix&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What marks a ``.ini`` file as a *copy* this software generated, rather than one a mod
+author wrote :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:func:`RemapService::fix` filters these out of its walk -- handing one back to the
+fix would be feeding it its own output
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/FileSuffixes.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FileSuffixes.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Suffixes this software puts on the files it creates :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A complete port of the pure-Python ``FileSuffixes`` enum (``constants/FileSuffixes.py``)
+
+.. note::
+   Despite the class name, these are markers looked for **anywhere** in a file&apos;s base name,
+   not only at its end -- the pure-Python original searches for them with the same
+   substring-matching machinery it uses for :cpp:class:`FilePrefixes`, and a remap copy is
+   named ``&lt;something&gt;RemapFix.ini``, so the marker never actually sits at the very end
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/FileSuffixes.h" line="23" column="5" bodyfile="include/AGRemapCore/constants/FileSuffixes.h" bodystart="23" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_file_suffixes_1a3a789c421ed86494a6e0de554ac7aec4" prot="public" virt="non-virtual"><scope>AGRemapCore::FileSuffixes</scope><name>RemapFixCopy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

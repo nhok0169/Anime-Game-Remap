@@ -192,6 +192,8 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h</label>
@@ -232,6 +234,8 @@
         </childnode>
         <childnode refid="48" relation="include">
         </childnode>
+        <childnode refid="58" relation="include">
+        </childnode>
       </node>
       <node id="27">
         <label>AGRemapCore/tools/Algo.h</label>
@@ -243,6 +247,14 @@
         <childnode refid="29" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="60">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="26">
@@ -437,6 +449,24 @@
         <childnode refid="48" relation="include">
         </childnode>
       </node>
+      <node id="58">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
       <node id="44">
         <label>IfContentPart.tpp</label>
       </node>
@@ -478,6 +508,9 @@
       </node>
       <node id="2">
         <label>deque</label>
+      </node>
+      <node id="59">
+        <label>exception</label>
       </node>
       <node id="9">
         <label>functional</label>
@@ -584,30 +617,31 @@
 <codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a5205e9208c0ddea96c38c4bb70952fb4" kindref="member">isCollecting</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="100"><highlight class="normal"></highlight></codeline>
 <codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1af1a270a66a5cf618b36989ddcfc1e9d3" kindref="member">iniFolder</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae934d7baf983e940891a156f71667cdb" kindref="member">storeResource</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fileKey,<sp/>std::unique_ptr&lt;IniResource&gt;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aa91f615f42a1b79b6aeeac5d862c0c4c" kindref="member">beginCollectingResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a88f080825ac48f4a3cc22634fa9b5fee" kindref="member">takeCollectedResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae77672b27b05c1c106b3617240113c89" kindref="member">endCollectingResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a296e3a167176a1b6f28368fbe43d7bae" kindref="member">hasIni</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1af5e2a67da58fe463caaf30f8de3eaa8b" kindref="member">sectionIfTemplates</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ac2961cf575eb3d7e55d24bdf8f5822f0" kindref="member">z3Ctx</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="109"><highlight class="normal"></highlight></codeline>
-<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="111" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a2a88c4d8b3ec55596c38c72f2f944f22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a2a88c4d8b3ec55596c38c72f2f944f22" kindref="member">iniFile_</ref>;</highlight></codeline>
-<codeline lineno="112" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aecb23b7e17ea68ce175c261af4dfbe85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ac02b6e992a9b080232d47c100dc0b1fe" kindref="member">Collected</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aecb23b7e17ea68ce175c261af4dfbe85" kindref="member">collected_</ref>;</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aee136daebf7e68e5549009f06b825522" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aee136daebf7e68e5549009f06b825522" kindref="member">collecting_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>What<sp/>a<sp/>capture<sp/>pass<sp/>has<sp/>taken<sp/>so<sp/>far,<sp/>and<sp/>what<sp/>owns<sp/>it.<sp/>Kept<sp/>apart<sp/>from<sp/>&apos;buffer_&apos;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>takeCollectedResources<sp/>hands<sp/>back<sp/>bare<sp/>pointers<sp/>while<sp/>promising<sp/>the<sp/>models</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stay<sp/>alive<sp/>--<sp/>so<sp/>the<sp/>ownership<sp/>has<sp/>to<sp/>outlive<sp/>the<sp/>hand-off,<sp/>and<sp/>every<sp/>capture<sp/>this</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>context<sp/>ever<sp/>made<sp/>stays<sp/>here<sp/>until<sp/>the<sp/>context<sp/>itself<sp/>goes.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="120" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a594721e0d6bb7356880b237a662bede8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;IniResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a594721e0d6bb7356880b237a662bede8" kindref="member">captureKeepAlive_</ref>;</highlight></codeline>
-<codeline lineno="121" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ad0af4f970108e821f2a75116f2007bb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ad0af4f970108e821f2a75116f2007bb7" kindref="member">buffer_</ref>;</highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::shared_ptr&lt;BaseLogger&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a7ae388825b44346738a6d50009f29d38" kindref="member">logger</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae934d7baf983e940891a156f71667cdb" kindref="member">storeResource</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>fileKey,<sp/>std::unique_ptr&lt;IniResource&gt;<sp/>resource)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aa91f615f42a1b79b6aeeac5d862c0c4c" kindref="member">beginCollectingResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a88f080825ac48f4a3cc22634fa9b5fee" kindref="member">takeCollectedResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ae77672b27b05c1c106b3617240113c89" kindref="member">endCollectingResources</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a296e3a167176a1b6f28368fbe43d7bae" kindref="member">hasIni</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1af5e2a67da58fe463caaf30f8de3eaa8b" kindref="member">sectionIfTemplates</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ac2961cf575eb3d7e55d24bdf8f5822f0" kindref="member">z3Ctx</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="112" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a2a88c4d8b3ec55596c38c72f2f944f22" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a2a88c4d8b3ec55596c38c72f2f944f22" kindref="member">iniFile_</ref>;</highlight></codeline>
+<codeline lineno="113" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aecb23b7e17ea68ce175c261af4dfbe85" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ac02b6e992a9b080232d47c100dc0b1fe" kindref="member">Collected</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aecb23b7e17ea68ce175c261af4dfbe85" kindref="member">collected_</ref>;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aee136daebf7e68e5549009f06b825522" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1aee136daebf7e68e5549009f06b825522" kindref="member">collecting_</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>What<sp/>a<sp/>capture<sp/>pass<sp/>has<sp/>taken<sp/>so<sp/>far,<sp/>and<sp/>what<sp/>owns<sp/>it.<sp/>Kept<sp/>apart<sp/>from<sp/>&apos;buffer_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>because<sp/>takeCollectedResources<sp/>hands<sp/>back<sp/>bare<sp/>pointers<sp/>while<sp/>promising<sp/>the<sp/>models</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>stay<sp/>alive<sp/>--<sp/>so<sp/>the<sp/>ownership<sp/>has<sp/>to<sp/>outlive<sp/>the<sp/>hand-off,<sp/>and<sp/>every<sp/>capture<sp/>this</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>context<sp/>ever<sp/>made<sp/>stays<sp/>here<sp/>until<sp/>the<sp/>context<sp/>itself<sp/>goes.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a594721e0d6bb7356880b237a662bede8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;IniResource&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1a594721e0d6bb7356880b237a662bede8" kindref="member">captureKeepAlive_</ref>;</highlight></codeline>
+<codeline lineno="122" refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ad0af4f970108e821f2a75116f2007bb7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>IniResource*&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_res_edit_context_1ad0af4f970108e821f2a75116f2007bb7" kindref="member">buffer_</ref>;</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"/>
   </compounddef>

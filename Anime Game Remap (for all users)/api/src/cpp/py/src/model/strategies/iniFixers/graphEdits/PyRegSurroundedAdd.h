@@ -55,14 +55,27 @@ class PyRegSurroundedAdd: public AGRC::RegSurroundedAdd<std::string, std::string
         py::dict afterRegsObj;
 
         /**
+         * @brief The same mirror as #beforeRegsObj, for ``optBeforeRegs``
+         */
+        py::dict optBeforeRegsObj;
+
+        /**
+         * @brief The same mirror as #beforeRegsObj, for ``optAfterRegs``
+         */
+        py::dict optAfterRegsObj;
+
+        /**
          * @brief Constructs a new `surrounded`_-window-adding edit
          *
          * @param additionObj The `KVP`_ tuple to add
          * @param beforeRegsObj The registers that must come before 'additionObj', or ``None`` for none
          * @param afterRegsObj The registers that must come after 'additionObj', or ``None`` for none
          * @param latest Whether to add 'additionObj' at the latest valid location instead of the earliest
+         * @param optBeforeRegsObj Registers of which at least one must come before 'additionObj', or ``None`` for none
+         * @param optAfterRegsObj Registers of which at least one must come after 'additionObj', or ``None`` for none
          */
-        PyRegSurroundedAdd(py::object additionObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest);
+        PyRegSurroundedAdd(py::object additionObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest,
+                           py::object optBeforeRegsObj, py::object optAfterRegsObj);
 };
 
 

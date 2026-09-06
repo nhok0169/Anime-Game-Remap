@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="49" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="64" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -39,7 +39,7 @@ belongs to some mod, lazily constructed on first access and reused for every lat
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="60" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="55" bodyend="69"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="75" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="44" bodyend="82"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -69,10 +69,25 @@ thread-safe, exactly-once initialization) :raw-html:`&lt;br /&gt;` :raw-html:`&l
    port. A caller wanting an empty classifier constructs an :cpp:class:`IniClassifier`
    directly instead of going through this class :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-   Building it also calls :cpp:func:`GlobalModTypes::registerAll`, because the two are halves
-   of one default: a classifier finds mod type *ids*, and :cpp:class:`IniFile` then asks
+   Asking for it also files the shipped mod types into :cpp:class:`ModTypeIdTools`&apos;s registry
+   (via :cpp:func:`GlobalModTypes::registerMissing`), because the two are halves of one
+   default: a classifier finds mod type *ids*, and :cpp:class:`IniFile` then asks
    :cpp:class:`ModTypeIdTools` to turn each one back into a :cpp:class:`ModType`. Filling only
    one leaves :cpp:func:`IniFile::classify` naming an id it cannot resolve :raw-html:`&lt;br /&gt;`
+   :raw-html:`&lt;br /&gt;`
+
+   Two things about *that* half specifically, both of which it used to get wrong by being
+   welded to this function&apos;s one-shot lazy initializer:
+
+   * it is re-done whenever :cpp:func:`ModTypeIdTools::clear` has emptied the registry since
+     the last look (tracked by :cpp:func:`ModTypeIdTools::generation`). Before, a ``clear()``
+     after the first use left this classifier naming ids nothing could resolve for the rest of
+     the process -- every ``.ini`` file coming back ``isMod == true`` with no mod types at all
+   * it uses :cpp:func:`GlobalModTypes::registerMissing`, not
+     :cpp:func:`GlobalModTypes::registerAll`, so a :cpp:class:`ModType` the caller registered
+     for itself under one of the shipped ids is left alone rather than silently replaced the
+     first time anything classifies
+
    :raw-html:`&lt;br /&gt;`
 
    That does **not** make registration implicit in general -- see
@@ -80,7 +95,7 @@ thread-safe, exactly-once initialization) :raw-html:`&lt;br /&gt;` :raw-html:`&l
    classifier never comes through here and keeps full control of the registry
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="46" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="46" bodyend="61"/>
+    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="61" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="61" bodyend="76"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1a0e369ef6f6d6f237879a653a908c8b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>classifier</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>GlobalIniClassifiers</name></member>

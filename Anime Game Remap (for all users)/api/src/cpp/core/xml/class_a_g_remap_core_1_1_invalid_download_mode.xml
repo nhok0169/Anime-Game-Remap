@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invalid_download_mode" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvalidDownloadMode</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_remap_service_c_l_i_errors_8h" local="no">RemapServiceCLIErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_invalid_download_mode_1a58324fa71883fba74c8076dfa9c60786" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidDownloadMode::downloadMode_</definition>
+        <argsstring></argsstring>
+        <name>downloadMode_</name>
+        <qualifiedname>AGRemapCore::InvalidDownloadMode::downloadMode_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="75" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_download_mode_1abd9326539f771841345110a6dc240291" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::InvalidDownloadMode::InvalidDownloadMode</definition>
+        <argsstring>(std::string downloadMode)</argsstring>
+        <name>InvalidDownloadMode</name>
+        <qualifiedname>AGRemapCore::InvalidDownloadMode::InvalidDownloadMode</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>downloadMode</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>downloadMode</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string that matched no download mode </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="67" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="27" bodyend="28"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_download_mode_1a16557d4059d0c8147bae7b818554074a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::InvalidDownloadMode::downloadMode</definition>
+        <argsstring>() const</argsstring>
+        <name>downloadMode</name>
+        <qualifiedname>AGRemapCore::InvalidDownloadMode::downloadMode</qualifiedname>
+        <briefdescription>
+<para>The string that matched no download mode. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="72" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="30" bodyend="32"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_download_mode_1a5ac336892537c0c4c79d4a6736f9601e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidDownloadMode::buildMessage</definition>
+        <argsstring>(const std::string &amp;downloadMode)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::InvalidDownloadMode::buildMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>downloadMode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="77" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when a string naming a download mode matches no :cpp:enum:`DownloadMode`
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+See :cpp:class:`InvalidModType` for why this can only come from :cpp:class:`RemapServiceCLI`,
+and for why the message is rebuilt on the `Python`_ side rather than crossing as text
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidDownloadMode</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_download_mode"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidDownloadMode</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_download_mode"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="59" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="59" bodyend="78"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_invalid_download_mode_1a5ac336892537c0c4c79d4a6736f9601e" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidDownloadMode</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_download_mode_1a16557d4059d0c8147bae7b818554074a" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidDownloadMode</scope><name>downloadMode</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_download_mode_1a58324fa71883fba74c8076dfa9c60786" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidDownloadMode</scope><name>downloadMode_</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_download_mode_1abd9326539f771841345110a6dc240291" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidDownloadMode</scope><name>InvalidDownloadMode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

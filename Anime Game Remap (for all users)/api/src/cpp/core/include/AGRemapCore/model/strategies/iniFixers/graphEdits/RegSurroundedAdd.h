@@ -139,12 +139,54 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Registers of which **at least one** must come before \ref addition -- same format as
+             \ref beforeRegs, but "any of" rather than "all of" :raw-html:`<br />` :raw-html:`<br />`
+
+             Combined with \ref beforeRegs by conjunction: the window only opens once every
+             \ref beforeRegs register **and** at least one of these has been seen (and accepted by
+             its predicate). Empty means no extra constraint :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Across branches/``run =`` calls each register is tracked with its own `MUST`_
+                fact and the group is satisfied where *some* register's fact holds -- so a
+                position reached only through paths that each satisfy a *different* register of
+                this group is not credited (a conservative, never-unsound approximation). In
+                practice that position's own predecessor parts already claimed the window, so
+                nothing is lost by the dedup that follows
+
+             A register listed both here and in \ref beforeRegs takes its predicate from
+             \ref beforeRegs for the cross-part facts
+             @endrst
+             */
+            RegMap optBeforeRegs;
+
+            /**
+             * @brief
+             @rst
              The registers that must come after \ref addition (ie. \ref addition gets added before
              these registers) -- same format/semantics as \ref beforeRegs, except the condition
              applies for coming after \ref addition instead of before it
              @endrst
              */
             RegMap afterRegs;
+
+            /**
+             * @brief
+             @rst
+             Registers of which **at least one** must come after \ref addition -- the "any of"
+             counterpart of \ref afterRegs, exactly as \ref optBeforeRegs is to \ref beforeRegs
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Combined with \ref afterRegs by conjunction: a position is valid only if every
+             \ref afterRegs register **and** at least one of these still comes after it. Empty
+             means no extra constraint. Nothing is inserted at all if none of these registers
+             exists anywhere in the graph (the same rule \ref afterRegs applies to each of its own
+             registers). Same cross-branch/call approximation as \ref optBeforeRegs, and a register
+             listed both here and in \ref afterRegs takes its predicate from \ref afterRegs for the
+             cross-part facts
+             @endrst
+             */
+            RegMap optAfterRegs;
 
             /**
              * @brief
@@ -164,8 +206,11 @@ namespace AGRemapCore {
              * @param beforeRegs The registers that must come before 'addition'. **Default**: empty
              * @param afterRegs The registers that must come after 'addition'. **Default**: empty
              * @param latest Whether to add 'addition' at the latest valid location instead of the earliest. **Default**: ``false``
+             * @param optBeforeRegs Registers of which at least one must come before 'addition' (see \ref optBeforeRegs). **Default**: empty
+             * @param optAfterRegs Registers of which at least one must come after 'addition' (see \ref optAfterRegs). **Default**: empty
              */
-            explicit RegSurroundedAdd(std::pair<K, V> addition = {}, RegMap beforeRegs = {}, RegMap afterRegs = {}, bool latest = false);
+            explicit RegSurroundedAdd(std::pair<K, V> addition = {}, RegMap beforeRegs = {}, RegMap afterRegs = {}, bool latest = false,
+                                       RegMap optBeforeRegs = {}, RegMap optAfterRegs = {});
 
             /**
              * @brief
@@ -208,8 +253,26 @@ namespace AGRemapCore {
         private:
 
             std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> _beforeFilters;
+            std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> _optBeforeFilters;
             std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> _afterFilters;
             KeySet _trackedKeys;
+
+            // The per-register half of getForwardValidRangeForPart: the indices of 'part' at which
+            // 'reg' alone counts as already satisfied (beforeRegs intersect these; optBeforeRegs
+            // union them). 'lastCallInd' is the index of 'part's last 'run =' call, if any.
+            OrderRanges forwardRangeForReg(const ContentPart& part, const K& reg,
+                                           const std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual>& allFilters,
+                                           const std::optional<long long>& lastCallInd,
+                                           const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeEntryFacts,
+                                           const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeReturnFacts) const;
+
+            // The per-register half of getBackwardValidRangeForPart: the indices of 'part' at which
+            // some accepted occurence of 'reg' alone still comes after (afterRegs intersect these;
+            // optAfterRegs union them). 'lastCallInd' as for forwardRangeForReg.
+            static OrderRanges backwardRangeForReg(const ContentPart& part, const K& reg, const Predicate& pred,
+                                                   const std::optional<long long>& lastCallInd,
+                                                   const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterExitFacts,
+                                                   const std::unordered_map<K, bool, KeyHash, KeyEqual>& afterReturnFacts);
 
             static std::unordered_map<K, typename Colouring::Filter, KeyHash, KeyEqual> buildKeyFilters(const RegMap& regs);
 

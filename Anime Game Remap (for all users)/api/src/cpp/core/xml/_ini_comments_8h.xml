@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_ini_comments_8h" kind="file" language="C++">
+    <compoundname>IniComments.h</compoundname>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/constants/IniComments.h</label>
+        <link refid="_ini_comments_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_comments" prot="public">AGRemapCore::IniComments</innerclass>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_IniComments_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_IniComments_H</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_a_g_remap_core_1_1_ini_comments" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_comments" kindref="compound">IniComments</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41" refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_comments_1a230dbe747ebb0b8f16e558c07475e949" kindref="member">GIMIObjMergerPreamble</ref><sp/>=</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>This<sp/>is<sp/>really<sp/>bad!!<sp/>Don&apos;t<sp/>do<sp/>this!\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>************************************\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>jk,<sp/>but<sp/>joking<sp/>aside...\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>The<sp/>goal<sp/>is<sp/>to<sp/>display<sp/>n<sp/>mod<sp/>objects<sp/>from<sp/>the<sp/>mod<sp/>to<sp/>be<sp/>remapped<sp/>to<sp/>the<sp/>mod<sp/>onto<sp/>a<sp/>single<sp/>mod<sp/>object<sp/>of<sp/>the<sp/>remapped<sp/>mod.\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>Therefore<sp/>we<sp/>will<sp/>have<sp/>n<sp/>sets<sp/>of<sp/>resources<sp/>all<sp/>mapping<sp/>onto<sp/>a<sp/>single<sp/>index<sp/>(and<sp/>same<sp/>hash).\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>Ideally,<sp/>we<sp/>would<sp/>want<sp/>all<sp/>the<sp/>sections<sp/>to<sp/>be<sp/>within<sp/>a<sp/>single<sp/>.ini<sp/>file.<sp/>The<sp/>naive<sp/>approach<sp/>would<sp/>be<sp/>to<sp/>create<sp/>n<sp/>sets<sp/>of<sp/>sections\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>(not<sp/>a<sp/>single<sp/>section,<sp/>cuz<sp/>you<sp/>need<sp/>to<sp/>include<sp/>the<sp/>case<sp/>of<sp/>sections<sp/>depending<sp/>on<sp/>other<sp/>sections,<sp/>which<sp/>form<sp/>a<sp/>section<sp/>caller/callee<sp/>graph)<sp/>\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/><sp/>where<sp/>the<sp/>sections<sp/>names<sp/>are<sp/>all<sp/>unique.<sp/>However,<sp/>this<sp/>approach<sp/>will<sp/>trigger<sp/>a<sp/>warning<sp/>on<sp/>GIMI<sp/>(or<sp/>any<sp/>GIMI<sp/>like<sp/>importer)<sp/>of<sp/>multiple<sp/>sections\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>mapping<sp/>to<sp/>the<sp/>same<sp/>hash<sp/>and<sp/>only<sp/>1<sp/>of<sp/>the<sp/>mod<sp/>objects<sp/>will<sp/>be<sp/>displayed\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>The<sp/>next<sp/>attempt<sp/>would<sp/>be<sp/>to<sp/>take<sp/>advantage<sp/>of<sp/>GIMI&apos;s<sp/>overlapping<sp/>mod<sp/>bug/feature<sp/>from<sp/>loading<sp/>multiple<sp/>mods<sp/>of<sp/>the<sp/>same<sp/>character\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>Apart<sp/>from<sp/>the<sp/>original<sp/>.ini<sp/>file,<sp/>there<sp/>would<sp/>be<sp/>n-1<sp/>newly<sp/>generated<sp/>.ini<sp/>files<sp/>(total<sp/>of<sp/>n<sp/>.ini<sp/>files).<sp/>Each<sp/>.ini<sp/>file<sp/>would<sp/>uniquely\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>display<sp/>a<sp/>single<sp/>set<sp/>of<sp/>sections<sp/>from<sp/>the<sp/>n<sp/>sets<sp/>of<sp/>sections.<sp/>The<sp/>overlapping<sp/>property<sp/>from<sp/>the<sp/>bug/feature<sp/>would<sp/>allow<sp/>for<sp/>all<sp/>the<sp/>objects<sp/>to<sp/>be<sp/>displayed.\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/>For<sp/>now,<sp/>we<sp/>were<sp/>lazy<sp/>and<sp/>just<sp/>simply<sp/>copied<sp/>the<sp/>original<sp/>.ini<sp/>file<sp/>onto<sp/>the<sp/>generated<sp/>.ini<sp/>files,<sp/>which<sp/>results<sp/>in<sp/>the<sp/>original<sp/>mod<sp/>to<sp/>have<sp/>overlapping<sp/>copies.\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/>But<sp/>since<sp/>the<sp/>mod<sp/>used<sp/>in<sp/>all<sp/>the<sp/>.ini<sp/>files<sp/>are<sp/>exactly<sp/>the<sp/>same,<sp/>the<sp/>user<sp/>would<sp/>not<sp/>see<sp/>the<sp/>overlap<sp/>(they<sp/>may<sp/>have<sp/>some<sp/>performance<sp/>issues<sp/>depending<sp/>on<sp/>the<sp/>size<sp/>of<sp/>n.<sp/>But\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>usually<sp/>remaps<sp/>only<sp/>merge<sp/>2<sp/>mod<sp/>objects<sp/>into<sp/>a<sp/>single<sp/>mod<sp/>object,<sp/>which<sp/>should<sp/>not<sp/>cause<sp/>much<sp/>of<sp/>an<sp/>issue)\n&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight><highlight class="stringliteral">&quot;;<sp/><sp/><sp/>We<sp/>could<sp/>optimize<sp/>the<sp/>amount<sp/>of<sp/>space<sp/>taken<sp/>up<sp/>by<sp/>the<sp/>newly<sp/>generated<sp/>.ini<sp/>files,<sp/>by<sp/>only<sp/>putting<sp/>the<sp/>necessary<sp/>sections,<sp/>but<sp/>that<sp/>is<sp/>for<sp/>another<sp/>day...&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="include/AGRemapCore/constants/IniComments.h"/>
+  </compounddef>
+</doxygen>

@@ -167,6 +167,7 @@ mirrors the pure-Python ``RemapIniResource`` class (``model/iniresources/RemapIn
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a834d81a7a3c140d3f92f8fc9ae2eeffd" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>fixIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1ae692ae425c1870f916320b252cbdc03b" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>hasRequired</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniResource</scope><name>IniResource</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniResource</scope><name>logger</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9acac27178b78b45048a4069138ee623" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>srcEncounteredError</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a6206223d798977172f9b26c4e880b027" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>srcIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniResource</scope><name>srcPath</name></member>

@@ -7,6 +7,9 @@
     <innerdir refid="dir_e253fc737fd26520fa518b4295da2866">include/AGRemapCore/model</innerdir>
     <innerdir refid="dir_067fdac686df85c6c242b72face67be5">include/AGRemapCore/tools</innerdir>
     <innerdir refid="dir_5b19de6b0f65de17ef4f2279d39d7fe4">include/AGRemapCore/view</innerdir>
+    <innerfile refid="_remap_service_8h">RemapService.h</innerfile>
+    <innerfile refid="_remap_service_c_l_i_8h">RemapServiceCLI.h</innerfile>
+    <innerfile refid="_remap_service_c_l_i_errors_8h">RemapServiceCLIErrors.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

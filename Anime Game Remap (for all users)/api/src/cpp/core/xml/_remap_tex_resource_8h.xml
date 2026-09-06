@@ -7,6 +7,7 @@
     <includes refid="_remap_ini_resource_8h" local="yes">AGRemapCore/model/iniresources/RemapIniResource.h</includes>
     <includes refid="_tex_creator_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexCreator.h</includes>
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
     <includedby refid="_remap_tex_resource_8cpp" local="yes">src/model/iniresources/RemapTexResource.cpp</includedby>
     <incdepgraph>
       <node id="7">
@@ -22,6 +23,8 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="4">
         <label>AGRemapCore/model/iniresources/RemapIniResource.h</label>
@@ -36,9 +39,9 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="10" relation="include">
+        <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="14" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -50,58 +53,44 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="16" relation="include">
+        <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
-      </node>
-      <node id="11">
-        <label>AGRemapCore/model/stats/CachedFileStats.h</label>
-        <link refid="_cached_file_stats_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
-      </node>
-      <node id="13">
-        <label>AGRemapCore/model/stats/FileStats.h</label>
-        <link refid="_file_stats_8h"/>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="8" relation="include">
-        </childnode>
-        <childnode refid="9" relation="include">
-        </childnode>
-      </node>
-      <node id="10">
-        <label>AGRemapCore/model/stats/RemapStats.h</label>
-        <link refid="_remap_stats_8h"/>
-        <childnode refid="11" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="17">
-        <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
-        <link refid="_base_tex_editor_8h"/>
+        <label>AGRemapCore/model/stats/CachedFileStats.h</label>
+        <link refid="_cached_file_stats_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>AGRemapCore/model/stats/FileStats.h</label>
+        <link refid="_file_stats_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="16">
-        <label>AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
-        <link refid="_tex_creator_8h"/>
+        <label>AGRemapCore/model/stats/RemapStats.h</label>
+        <link refid="_remap_stats_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="17" relation="include">
@@ -109,42 +98,87 @@
         <childnode refid="18" relation="include">
         </childnode>
       </node>
-      <node id="20">
+      <node id="22">
+        <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
+        <link refid="_base_tex_editor_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="21">
+        <label>AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="21" relation="include">
+        <childnode refid="14" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
+        <childnode refid="22" relation="include">
         </childnode>
       </node>
-      <node id="18">
+      <node id="23">
         <label>AGRemapCore/model/textures/Colour.h</label>
         <link refid="_colour_8h"/>
-        <childnode refid="19" relation="include">
+        <childnode refid="11" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
-        <childnode refid="15" relation="include">
+        <childnode refid="20" relation="include">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="19">
         <label>AGRemapCore/tools/files/FileDownload.h</label>
         <link refid="_file_download_8h"/>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="19">
+      <node id="11">
         <label>cstddef</label>
       </node>
       <node id="12">
+        <label>deque</label>
+      </node>
+      <node id="13">
         <label>exception</label>
       </node>
       <node id="2">
@@ -159,7 +193,7 @@
       <node id="3">
         <label>string</label>
       </node>
-      <node id="15">
+      <node id="20">
         <label>tuple</label>
       </node>
       <node id="8">
@@ -168,7 +202,7 @@
       <node id="9">
         <label>unordered_set</label>
       </node>
-      <node id="21">
+      <node id="14">
         <label>vector</label>
       </node>
     </incdepgraph>
@@ -178,8 +212,14 @@
         <link refid="_remap_tex_resource_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>

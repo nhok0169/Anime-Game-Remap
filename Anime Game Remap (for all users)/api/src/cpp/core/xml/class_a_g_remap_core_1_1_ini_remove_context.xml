@@ -333,6 +333,33 @@ the pure-Python original&apos;s way, and its implementation does clear it :raw-h
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="197" column="26"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_context_1acd79d7d6be7a727fd2916216f9252c3b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IniRemoveContext&lt; K, V, KeyHash, KeyEqual &gt;::removeBackup</definition>
+        <argsstring>()=0</argsstring>
+        <name>removeBackup</name>
+        <qualifiedname>AGRemapCore::IniRemoveContext::removeBackup</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_remove_context_1ac22791325a32611d04a89c4fba8c10af">removeBackup</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Deletes the backup this fix left beside the ``.ini`` file, if one is there
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The counterpart to :cpp:func:`IniFile::disableIni`, which is what created it. A
+backup that is not there is not an error -- a ``.ini`` file fixed without
+``keepBackup``, or one already cleaned up, simply has nothing to delete
+
+.. note::
+   Only called when :cpp:member:`IniRemovalContext::keepBackups` is ``false``, so an
+   implementation does not decide *whether* to delete -- only how
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="214" column="26"/>
+      </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
@@ -400,7 +427,7 @@ there and the remover would be inert.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="54" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" bodystart="54" bodyend="198"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" line="54" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h" bodystart="54" bodyend="215"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a7ad19c6c3790253dfb0050663c4ef76e" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>Assets</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a0192f492d2d19536d990e56fe771288d" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>clearRead</name></member>
@@ -409,6 +436,7 @@ there and the remover would be inert.
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a5b92d37e4bd1f0e7b9e62ae911493400" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>iniFolder</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1ac71dc98afca7a877db39a20b7b41528f" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>modTypeHashes</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a1c2bac9d534d586fcdbab0463ef4af00" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>readFileLines</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_remove_context_1acd79d7d6be7a727fd2916216f9252c3b" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>removeBackup</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a30f234dbf2b0b99edfea3096efcfb46b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a639aafa2056e064c701842c8c2706af7" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>sectionIfTemplates</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_context_1a46b9a6c0379a96892b787ce7eeb88af6" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniRemoveContext</scope><name>setFileTxt</name></member>

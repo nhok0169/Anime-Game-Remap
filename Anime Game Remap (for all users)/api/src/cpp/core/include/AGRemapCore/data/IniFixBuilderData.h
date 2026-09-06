@@ -20,7 +20,7 @@ namespace AGRemapCore {
      :raw-html:`<br />` :raw-html:`<br />`
 
      .. warning::
-        **Every method here is currently a stub**: they all return
+        **Every method here is a stub except** \ref raiden6_1: they all return
         :cpp:func:`IniFixBuilder::defaultFactory`, which builds a plain
         :cpp:class:`BaseIniFixer`. The real pure-Python generators pick between concrete
         subclasses (``GIMIFixer``, ``GIMIObjRegEditFixer``, ``GIMIObjSplitFixer``, ``MultiModFixer``) and pass per-mod
@@ -689,6 +689,54 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory shenheFrostFlower5_7();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.raiden6_1`` -- **not** a stub, unlike every other
+             method here :raw-html:`<br />` :raw-html:`<br />`
+
+             Builds a :cpp:class:`GIMIFixer` over the four mod objects
+             :cpp:func:`IniParseBuilderFuncs::raiden6_1` classifies, doing three things:
+
+             #. **Remaps the** ``Blend.buf``. A :cpp:class:`ResRegCollect` over the
+                ``("", "blend")`` graph collects every ``vb1`` reference and hands it to a
+                :cpp:class:`RemapBlendReplace`. Its ``partPredicates`` entry windows collection to
+                the order indices governed by a ``hash`` naming Raiden's own ``blend_vb``, so a
+                `section`_ carrying several hashes contributes only the references belonging to
+                this one
+             #. **Reissues the texture fixes on head/body/dress.** A :cpp:class:`GraphGroupEdit`
+                first drops every ``run =`` into the external ``ORFix`` library
+                (:cpp:member:`IniKeywords::ORFixPath` and :cpp:member:`IniKeywords::NNFixPath`
+                both), then uses :cpp:class:`RegDelimitedAdd` to reissue ``NNFix`` immediately
+                before every ``drawindexed`` and once at the end of any path that draws nothing
+             #. **Hides the originals.** ``head``/``body``/``dress`` go into
+                :cpp:member:`GIMIFixer::hiddenModObjs`, since this fix rewrites them in place
+                rather than adding beside them. ``blend`` deliberately does not -- its `section`_
+                is what the remapped ``Blend.buf`` is referenced from
+             @endrst
+             */
+            static IniFixBuilder::Factory raiden6_1();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.amber6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The same skeleton as \ref raiden6_1, differing where remapping onto a **CN skin**
+             differs from remapping onto a boss that shares the source's geometry:
+
+             #. **Both** the ``hash`` and the ``match_first_index`` are remapped, on every mod
+                object -- the two models are genuinely different, where Raiden's boss draws the same
+                geometry and only her blend weights change
+             #. The shared ``drawindexed`` is removed from ``("", "ib")`` and re-issued per drawn
+                object with :cpp:class:`RegFillMissing`, since each remapped object now draws its
+                own geometry
+             #. ``position`` and ``texcoord`` are remapped too
+             @endrst
+             */
+            static IniFixBuilder::Factory amber6_1();
 
     };
 

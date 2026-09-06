@@ -29,6 +29,46 @@
         <defval>std::equal_to&lt;T&gt;</defval>
       </param>
     </templateparamlist>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::optional&lt;std::vector&lt;std::string&gt; &gt; AGRemapCore::ModMappedAssets&lt; K, T, KeyHash, KeyEqual, ValueHash, ValueEqual &gt;::nonVersionIndexNames</definition>
+        <argsstring></argsstring>
+        <name>nonVersionIndexNames</name>
+        <qualifiedname>AGRemapCore::ModMappedAssets::nonVersionIndexNames</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The names of the non-version index columns, in position order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Purely descriptive: every query method on this class takes its non-version index values
+**positionally**, and none of them consults this. It records what those positions
+*mean*, so a caller holding only the table can say &quot;the second one is ``type``&quot; without
+having to know which subclass built it -- :cpp:class:`Hashes`&apos;s own doc comment already
+names its columns (``version``, ``name``, ``type``) in prose; this is that same
+statement, in a form something can read :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``std::nullopt`` (the default) means the columns are unnamed, which is the right answer
+for any table not backed by named indices :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   The binding layer is the main consumer: with names present it accepts the flexible
+   bare-value / list / dict-keyed-by-name argument shape the pure-Python
+   ``Hashes``/``Indices`` used to provide through their own
+   ``_convertNonVersionVals`` override, instead of requiring an already-positional
+   list. That convenience used to live on a pybind-only ``PyModMappedAssets``
+   subclass, which is why this member reads as Python-flavoured -- it is the one thing
+   that subclass added, and it moved here so the core class and the `Python`_-facing
+   one could stop being two different types
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="87" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
     <sectiondef kind="private-attrib">
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1abbf8953ecadf9a2e8dfa5a17e7477823" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; K, T, KeyHash, KeyEqual &gt;</type>
@@ -42,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="241" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="241" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="271" column="27" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="271" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; K, std::vector&lt; K &gt;, KeyHash, KeyEqual &gt;</type>
@@ -56,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="242" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="242" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="272" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="272" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; T, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_version_bucket" kindref="compound">VersionBucket</ref> &gt;, ValueHash, ValueEqual &gt;</type>
@@ -74,7 +114,7 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="251" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="251" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="281" column="32" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="281" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -118,7 +158,7 @@ see the class-level note on how (and why) this is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="57" column="22"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="58" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -150,7 +190,7 @@ to reflect them :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="68" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="98" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -197,7 +237,7 @@ order, matching the pure-Python original&apos;s `OrderedSet`_-based ``addMap``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="83" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="113" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a936849fbb63c5ac026b0f605e9bf4a88" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; T &gt;</type>
@@ -226,7 +266,7 @@ order, matching the pure-Python original&apos;s `OrderedSet`_-based ``addMap``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="89" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="119" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a390fe6691c965210ff4b7682b7cd32b3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -284,7 +324,7 @@ Determines whether &apos;asset&apos; exists in the assets to map from -- a cheap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="102" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="132" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ab51afd0f07a882f814d8f0993a9e8f2b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::vector&lt; K &gt; &gt;</type>
@@ -401,7 +441,7 @@ always the &quot;name&quot; value -- see the class-level note on index ordering)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="155" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="185" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; T &gt;</type>
@@ -506,7 +546,7 @@ Whether to throw if &apos;asset&apos; (or a mapping for it) isn&apos;t found at 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="184" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="214" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; K, T, KeyHash, KeyEqual &gt;</type>
@@ -608,7 +648,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="209" column="32"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="239" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a045ec005d9787d97d8acd5fedb84899f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; T &gt;</type>
@@ -624,7 +664,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="215" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="245" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e70f402274e6a74a465ee179a0b61fc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_mod_dict_assets" kindref="compound">ModDictAssets</ref>&lt; K, T, KeyHash, KeyEqual &gt; &amp;</type>
@@ -639,7 +679,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="220" column="33"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="250" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1af89593939d32cd68d893dae4b22947d9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; K, std::vector&lt; K &gt;, KeyHash, KeyEqual &gt; &amp;</type>
@@ -654,7 +694,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="225" column="38"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="255" column="38"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -670,7 +710,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="253" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="283" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1ad7398e7c9ca99a32c5abff110facd0c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::vector&lt; K &gt; &gt;</type>
@@ -692,7 +732,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="254" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="284" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_mapped_assets_1aab5be6556c035009d3af76e4cc452f37" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result" kindref="compound">InternalKeyResult</ref> &gt;</type>
@@ -723,7 +763,7 @@ names have data at the queried version
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="261" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="291" column="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -810,7 +850,7 @@ this is a `bipartite graph`_ that maps assets to fix from to assets to fix to :r
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="47" column="5" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="47" bodyend="262"/>
+    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="48" column="5" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="48" bodyend="292"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>addMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>addRepoRows</name></member>
@@ -824,6 +864,7 @@ this is a `bipartite graph`_ that maps assets to fix from to assets to fix to :r
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>keys_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>map_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab735cc18f1788a268316d0ed60ae9544" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>ModMappedAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>nonVersionIndexNames</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>rebuildKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>replace</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets</scope><name>replaceAll</name></member>

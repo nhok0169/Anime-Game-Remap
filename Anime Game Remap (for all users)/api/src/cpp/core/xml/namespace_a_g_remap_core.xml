@@ -51,11 +51,14 @@
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_service" prot="public">AGRemapCore::FileService</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_stats" prot="public">AGRemapCore::FileStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_suffixes" prot="public">AGRemapCore::FileSuffixes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_file_types" prot="public">AGRemapCore::FileTypes</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_filtered_tokenizer" prot="public">AGRemapCore::FilteredTokenizer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
@@ -68,6 +71,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_remove_builders" prot="public">AGRemapCore::GlobalIniRemoveBuilders</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_mod_types" prot="public">AGRemapCore::GlobalModTypes</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_global_remap_ini_remover" prot="public">AGRemapCore::GlobalRemapIniRemover</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_iterator" prot="public">AGRemapCore::GraphemeIterator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_grapheme_range" prot="public">AGRemapCore::GraphemeRange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
@@ -84,6 +88,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_heading" prot="public">AGRemapCore::Heading</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_highlight_shadow" prot="public">AGRemapCore::HighlightShadow</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_hue_adjust" prot="public">AGRemapCore::HueAdjust</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ib_file" prot="public">AGRemapCore::IbFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part" prot="public">AGRemapCore::IfContentPart</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colour_change" prot="public">AGRemapCore::IfContentPartColourChange</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_if_content_part_colouring" prot="public">AGRemapCore::IfContentPartColouring</innerclass>
@@ -105,6 +110,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_boiler_plate" prot="public">AGRemapCore::IniBoilerPlate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classifier" prot="public">AGRemapCore::IniClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_classify_stats" prot="public">AGRemapCore::IniClassifyStats</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ini_comments" prot="public">AGRemapCore::IniComments</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_download_model" prot="public">AGRemapCore::IniDownloadModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_file" prot="public">AGRemapCore::IniFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_file_fix_context" prot="public">AGRemapCore::IniFileFixContext</innerclass>
@@ -141,6 +147,9 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_src_resource_model" prot="public">AGRemapCore::IniSrcResourceModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_download_mode" prot="public">AGRemapCore::InvalidDownloadMode</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_mod_type" prot="public">AGRemapCore::InvalidModType</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_version" prot="public">AGRemapCore::InvalidVersion</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
@@ -167,6 +176,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
@@ -182,6 +192,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource" prot="public">AGRemapCore::RemapIniResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin" prot="public">AGRemapCore::RemapIniResourceMixin</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remapped_key_data" prot="public">AGRemapCore::RemappedKeyData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_service" prot="public">AGRemapCore::RemapService</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_remap_service_c_l_i" prot="public">AGRemapCore::RemapServiceCLI</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_stats" prot="public">AGRemapCore::RemapStats</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_tex_add_resource" prot="public">AGRemapCore::RemapTexAddResource</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_remap_tex_edit_resource" prot="public">AGRemapCore::RemapTexEditResource</innerclass>
@@ -210,6 +222,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_transparency" prot="public">AGRemapCore::Transparency</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_transparency_adjust_filter" prot="public">AGRemapCore::TransparencyAdjustFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_uuid_id_generator" prot="public">AGRemapCore::UuidIdGenerator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_vb_file" prot="public">AGRemapCore::VbFile</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version" prot="public">AGRemapCore::Version</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_vertex_counts" prot="public">AGRemapCore::VertexCounts</innerclass>
@@ -270,7 +283,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/DownloadMode.h" line="21" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="21" bodyend="40"/>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="24" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="24" bodyend="43"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" prot="public" static="no" strong="yes">
         <type></type>
@@ -1413,7 +1426,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="68" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="68" bodyend="70"/>
+        <location file="src/tools/z3/Z3Internal.h" line="77" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="77" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Z3Context::Impl</ref> &amp;</type>
@@ -1431,7 +1444,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="74" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="74" bodyend="76"/>
+        <location file="src/tools/z3/Z3Internal.h" line="83" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="83" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &amp;</type>
@@ -1449,13 +1462,13 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="78" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="78" bodyend="80"/>
+        <location file="src/tools/z3/Z3Internal.h" line="87" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="87" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/DownloadMode.h" line="5" column="1"/>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="8" column="1"/>
   </compounddef>
 </doxygen>

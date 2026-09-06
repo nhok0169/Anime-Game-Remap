@@ -27,6 +27,9 @@
       <node id="41">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="50">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="56">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -344,6 +347,8 @@
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
       </node>
       <node id="11">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
@@ -416,6 +421,8 @@
         </childnode>
         <childnode refid="58" relation="include">
         </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</label>
@@ -440,7 +447,7 @@
         </childnode>
         <childnode refid="76" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -467,6 +474,14 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="71" relation="include">
+        </childnode>
+      </node>
+      <node id="79">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="31">
@@ -661,8 +676,23 @@
         <childnode refid="58" relation="include">
         </childnode>
       </node>
-      <node id="50">
-        <label>CallGraph.tpp</label>
+      <node id="78">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="70" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
       </node>
       <node id="71">
         <label>Generator.tpp</label>
@@ -706,7 +736,7 @@
       <node id="36">
         <label>Ranges.tpp</label>
       </node>
-      <node id="78">
+      <node id="80">
         <label>ResEdit.tpp</label>
       </node>
       <node id="67">

@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::BufFile::BufColumnData</compoundname>
+    <includes refid="_buf_file_8h" local="no">BufFile.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a2ebd98a3ff88abfb7e7bc8fd0c403240" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::BufFile::BufColumnData::elementKey</definition>
+        <argsstring></argsstring>
+        <name>elementKey</name>
+        <qualifiedname>AGRemapCore::BufFile::BufColumnData::elementKey</qualifiedname>
+        <briefdescription>
+<para>The key of the element this column belongs to (see <ref refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" kindref="member">getElements</ref>). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="89" column="29" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a353ea177e53389a6350db62ea546cf7c" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::BufFile::BufColumnData::valueInd</definition>
+        <argsstring></argsstring>
+        <name>valueInd</name>
+        <qualifiedname>AGRemapCore::BufFile::BufColumnData::valueInd</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>The position of this column&apos;s data type within that element. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="94" column="29" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a77e9a76ff119a4e6a18436d0dc4ec42a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" kindref="member">BufColumn</ref></type>
+        <definition>BufColumn AGRemapCore::BufFile::BufColumnData::values</definition>
+        <argsstring></argsstring>
+        <name>values</name>
+        <qualifiedname>AGRemapCore::BufFile::BufColumnData::values</qualifiedname>
+        <briefdescription>
+<para>This column&apos;s value for every line, in line order. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="99" column="27" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+One decoded column of a ``.buf`` file (see :cpp:type:`BufColumn`), tagged with which
+element it belongs to and its position within that element
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/files/BufFile.h" line="85" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="85" bodyend="100"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a2ebd98a3ff88abfb7e7bc8fd0c403240" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile::BufColumnData</scope><name>elementKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a353ea177e53389a6350db62ea546cf7c" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile::BufColumnData</scope><name>valueInd</name></member>
+      <member refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data_1a77e9a76ff119a4e6a18436d0dc4ec42a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile::BufColumnData</scope><name>values</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

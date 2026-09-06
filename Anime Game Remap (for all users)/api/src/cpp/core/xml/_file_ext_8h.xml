@@ -4,8 +4,10 @@
     <compoundname>FileExt.h</compoundname>
     <includes local="no">string</includes>
     <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
+    <includedby refid="_remap_service_8cpp" local="yes">src/RemapService.cpp</includedby>
     <includedby refid="_ini_naming_tools_8cpp" local="yes">src/model/IniNamingTools.cpp</includedby>
     <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
+    <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/constants/FileExt.h</label>
@@ -23,9 +25,19 @@
         <link refid="_file_ext_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="4" relation="include">
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</label>
+        <link refid="_global_remap_ini_remover_8h"/>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -33,8 +45,20 @@
         <link refid="_remap_ini_remover_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>src/RemapService.cpp</label>
+        <link refid="_remap_service_8cpp"/>
       </node>
       <node id="4">
+        <label>src/constants/GlobalIniRemoveBuilders.cpp</label>
+        <link refid="_global_ini_remove_builders_8cpp"/>
+      </node>
+      <node id="8">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>
@@ -42,7 +66,11 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="3">
+      <node id="9">
+        <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>
+        <link refid="_ini_file_remove_context_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
         <link refid="_ini_remove_builder_8cpp"/>
       </node>

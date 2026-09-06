@@ -10,6 +10,7 @@
     <includedby refid="_buf_float_8cpp" local="yes">src/model/buffers/BufFloat.cpp</includedby>
     <includedby refid="_blend_file_8cpp" local="yes">src/model/files/BlendFile.cpp</includedby>
     <includedby refid="_position_file_8cpp" local="yes">src/model/files/PositionFile.cpp</includedby>
+    <includedby refid="_vb_file_8cpp" local="yes">src/model/files/VbFile.cpp</includedby>
     <incdepgraph>
       <node id="5">
         <label>AGRemapCore/model/buffers/BufDataType.h</label>
@@ -89,6 +90,8 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/model/buffers/BufFloat.cpp</label>
@@ -101,6 +104,10 @@
       <node id="4">
         <label>src/model/files/PositionFile.cpp</label>
         <link refid="_position_file_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/model/files/VbFile.cpp</label>
+        <link refid="_vb_file_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_buf_base_float" prot="public">AGRemapCore::BufBaseFloat</innerclass>

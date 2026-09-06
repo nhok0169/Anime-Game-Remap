@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invalid_version" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvalidVersion</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_remap_service_c_l_i_errors_8h" local="no">RemapServiceCLIErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_invalid_version_1ad51275aab1fa5f620de8065f197736bf" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidVersion::version_</definition>
+        <argsstring></argsstring>
+        <name>version_</name>
+        <qualifiedname>AGRemapCore::InvalidVersion::version_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="108" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_version_1a83a7d3efa60bb5379796ea82f802c689" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::InvalidVersion::InvalidVersion</definition>
+        <argsstring>(std::string version)</argsstring>
+        <name>InvalidVersion</name>
+        <qualifiedname>AGRemapCore::InvalidVersion::InvalidVersion</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string that could not be parsed as a version </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="100" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_version_1a82478a3cb1cbb6e5b135f1b8e056761b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::InvalidVersion::version</definition>
+        <argsstring>() const</argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::InvalidVersion::version</qualifiedname>
+        <briefdescription>
+<para>The string that could not be parsed as a version. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="105" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when a string meant to be a game version is not one :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The pure-Python original raised a bare ``ValueError`` here rather than one of its own
+``Error`` subclasses, so this does **not** carry the ``ERROR:`` prefix the other two do -- see
+:cpp:func:`InvalidModType::buildMessage`
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidVersion</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_version"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidVersion</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_version"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="92" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="92" bodyend="109"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_invalid_version_1a83a7d3efa60bb5379796ea82f802c689" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidVersion</scope><name>InvalidVersion</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_version_1a82478a3cb1cbb6e5b135f1b8e056761b" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidVersion</scope><name>version</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_version_1ad51275aab1fa5f620de8065f197736bf" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidVersion</scope><name>version_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

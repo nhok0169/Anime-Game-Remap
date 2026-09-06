@@ -430,6 +430,43 @@ pure-Python original&apos;s own
         </inbodydescription>
         <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="227" column="33"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_context_1a224502a12c624c8af657dc5a0c234be9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void AGRemapCore::IniParseContext&lt; K, V, KeyHash, KeyEqual &gt;::log</definition>
+        <argsstring>(const std::string &amp;message)=0</argsstring>
+        <name>log</name>
+        <qualifiedname>AGRemapCore::IniParseContext::log</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a13716390422b81bc543c6c1bb97e61fd">log</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>message</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reports one line of progress, wherever this environment&apos;s ``.ini`` file sends such
+things -- which may be nowhere at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The counterpart to :cpp:func:`IniFixContext::log`, and the same contract: a parser
+narrates through this rather than holding a view of its own, so it works identically
+whether it was reached from `Python`_ or from a plain C++ caller
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>message</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The line to report </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="242" column="26"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref> *</type>
         <definition>virtual Assets * AGRemapCore::IniParseContext&lt; K, V, KeyHash, KeyEqual &gt;::modTypeHashes</definition>
@@ -447,7 +484,7 @@ The mod type&apos;s ``hash`` assets (``ini.availableType.hashes``), or ``nullptr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="236" column="28"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="251" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref> *</type>
@@ -466,7 +503,7 @@ The mod type&apos;s ``match_first_index`` assets (``ini.availableType.indices``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="245" column="28"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="260" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref> &amp;</type>
@@ -485,7 +522,7 @@ creation is here rather than in the parser
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="254" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="269" column="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -557,7 +594,7 @@ edits genuinely never read the ``.ini`` file), reading -- and writing -- the ``.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" bodystart="62" bodyend="255"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h" bodystart="62" bodyend="270"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a3725b8d549ae8922c9eaa327bd4464b4" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>addFileDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a3d9a15c1ce7e3d914975988767e86573" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>addSection</name></member>
@@ -570,6 +607,7 @@ edits genuinely never read the ``.ini`` file), reading -- and writing -- the ``.
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1aa981ad30cca74933ba2acc7e221dccbe" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>hasIni</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a59774b4c7af7e1c989f2183700d9bf36" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>hasModType</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1ababa11d3a1a89d24364804b7c30fa566" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>iniFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a224502a12c624c8af657dc5a0c234be9" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>log</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>modTypeHashes</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>modTypeIndices</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_parse_context_1a6c2fd248f3bbdf026276740db6dc7672" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniParseContext</scope><name>modTypeName</name></member>

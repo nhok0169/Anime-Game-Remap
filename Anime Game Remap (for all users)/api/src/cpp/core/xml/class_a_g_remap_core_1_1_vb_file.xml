@@ -1,0 +1,352 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_vb_file" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::VbFile</compoundname>
+    <basecompoundref refid="class_a_g_remap_core_1_1_buf_file" prot="public" virt="non-virtual">AGRemapCore::BufFile</basecompoundref>
+    <includes refid="_vb_file_8h" local="no">VbFile.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a9e5935a42cc669a810e12b2152aa782e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::VbFile::VbFile</definition>
+        <argsstring>(BinarySrc src, std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; elements)</argsstring>
+        <name>VbFile</name>
+        <qualifiedname>AGRemapCore::VbFile::VbFile</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref></type>
+          <declname>src</declname>
+        </param>
+        <param>
+          <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+          <declname>elements</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new <computeroutput>.vb</computeroutput> file and immediately reads it. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>src</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The source file or bytes for the <computeroutput>.vb</computeroutput> file </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>elements</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The sequence of elements within a vertex line, in byte order. Required rather than defaulted: unlike a :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_blend_file" kindref="compound">BlendFile</ref></computeroutput> or a :cpp:class:<computeroutput><ref refid="class_a_g_remap_core_1_1_position_file" kindref="compound">PositionFile</ref></computeroutput>, a <computeroutput>.vb</computeroutput> file has no single fixed layout <ndash/> how many texture coordinates it carries varies by mod </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="43" column="13" bodyfile="src/model/files/VbFile.cpp" bodystart="43" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a37f410faf58ab1c2db47ba5b75114be8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::size_t</type>
+        <definition>std::size_t AGRemapCore::VbFile::getVertexCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getVertexCount</name>
+        <qualifiedname>AGRemapCore::VbFile::getVertexCount</qualifiedname>
+        <briefdescription>
+<para>The number of vertices making up the mod&apos;s mesh. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="48" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="46" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a7f2ebd5e53857f5178c9b742282e6232" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VbFile::makeDumpHeader</definition>
+        <argsstring>() const</argsstring>
+        <name>makeDumpHeader</name>
+        <qualifiedname>AGRemapCore::VbFile::makeDumpHeader</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes the header for a dumped *vb.txt* file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+An element&apos;s ``SemanticIndex`` is its occurrence among the elements sharing its
+:cpp:func:`BufType::getName` -- so the first ``TEXCOORD`` is index 0, the next is 1,
+which is how 3dmigoto tells several same-named elements apart
+</verbatim></para>
+<para><simplesect kind="return"><para>The header text, ending with the <computeroutput>vertex-data:</computeroutput> marker the data section follows </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="62" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="55" bodyend="89"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a2c74a6558cc95631c3626c500048ef2f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::VbFile::getDumpStr</definition>
+        <argsstring>(const std::string &amp;prefix=&quot;vb0&quot;) const</argsstring>
+        <name>getDumpStr</name>
+        <qualifiedname>AGRemapCore::VbFile::getDumpStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+          <defval>&quot;vb0&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The full text for converting this ``.vb`` file into a dumped *vb.txt* file --
+#makeDumpHeader followed by :cpp:func:`BufFile::getDumpStr`&apos;s data section
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. warning::
+   This deliberately **hides** :cpp:func:`BufFile::getDumpStr` rather than overriding
+   it -- that one is documented as returning only the data section, and code holding a
+   plain :cpp:class:`BufFile` should keep getting exactly that
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The buffer name each entry is prefixed with</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The text for the dumped <emphasis>vb.txt</emphasis> file </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="81" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="91" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a18a10cc98d900636326d48c1138e4b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::VbFile::readDumpStr</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>readDumpStr</name>
+        <qualifiedname>AGRemapCore::VbFile::readDumpStr</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Reads a dumped *vb.txt* file&apos;s text back into this file&apos;s bytes -- the inverse of
+#getDumpStr :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Unlike :cpp:func:`BufFile::readDumpStr`, which encodes against whatever #getElements the
+file already has, this first rebuilds those elements from the dump&apos;s own header (see
+#parseDumpHeader) when there is one -- so a dump can be read straight back without
+being told its layout. A header-less text falls through to the current elements
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text of the dumped <emphasis>vb.txt</emphasis> file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the parsed bytes do not divide evenly into vertex lines </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="99" column="18" bodyfile="src/model/files/VbFile.cpp" bodystart="98" bodyend="105"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a10d610a996bd76686104e0ab20076d31" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; BufDataType &gt; &gt; AGRemapCore::VbFile::parseFormatName</definition>
+        <argsstring>(const std::string &amp;formatName)</argsstring>
+        <name>parseFormatName</name>
+        <qualifiedname>AGRemapCore::VbFile::parseFormatName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>formatName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the data types making up an element from the `DXGI format`_ name a dump&apos;s header
+gives for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The channels decide *how many* data types there are and how wide each one is, and the
+suffix decides what kind they are -- so ``R32G32B32_FLOAT`` is 3 four-byte floats,
+``R8G8B8A8_UNORM`` is 4 one-byte `unsigned normalized integers`_, and
+``R32G32B32A32_SINT`` is 4 four-byte signed integers
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>formatName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The format name to parse, eg. <computeroutput>"R32G32B32_FLOAT"</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The data types making up the element. Empty if the format is not one this understands </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="118" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="107" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1ae6f10c050865926e4dbd124a1329db8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
+        <definition>std::vector&lt; std::unique_ptr&lt; BufElementType &gt; &gt; AGRemapCore::VbFile::parseDumpHeader</definition>
+        <argsstring>(const std::string &amp;text)</argsstring>
+        <name>parseDumpHeader</name>
+        <qualifiedname>AGRemapCore::VbFile::parseDumpHeader</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>text</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the elements of a vertex line out of a dumped *vb.txt* file&apos;s header
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The header names each element and gives its `DXGI format`_, which together are
+everything a ``.vb`` file needs -- so a dump can be read back without being told what
+its layout was
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>text</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The text of the dumped <emphasis>vb.txt</emphasis> file</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The elements the header declares, in byte order. Empty when the text has no header to read them from, or when one of its formats could not be parsed </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="136" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="172" bodyend="198"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+This class inherits from :cpp:class:`BufFile` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Used for handling ``.vb`` (vertex buffer) files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   A GI character&apos;s ``.vb`` data does not live in one file -- it is split across a
+   ``Position.buf``, a ``Blend.buf`` and a ``Texcoord.buf``, one line each per vertex. Use
+   :cpp:func:`BufFile::merge` to stitch such a set back together, which fills in both the bytes
+   and the elements
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="3">
+        <label>AGRemapCore::BinaryFile</label>
+        <link refid="class_a_g_remap_core_1_1_binary_file"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufFile</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VbFile</label>
+        <link refid="class_a_g_remap_core_1_1_vb_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BinaryFile</label>
+        <link refid="class_a_g_remap_core_1_1_binary_file"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::BufFile</label>
+        <link refid="class_a_g_remap_core_1_1_buf_file"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::VbFile</label>
+        <link refid="class_a_g_remap_core_1_1_vb_file"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/files/VbFile.h" line="31" column="5" bodyfile="include/AGRemapCore/model/files/VbFile.h" bodystart="31" bodyend="137"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BinaryFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BufColumn</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BufFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>bytesPerLine_</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>data_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>decodeAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>decodeLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>elementKeys_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>elements_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>encodeAll</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>encodeLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>fileType_</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>Filter</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>fix</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>FixResult</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getBytesPerLine</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getData</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a2c74a6558cc95631c3626c500048ef2f" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getDumpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getFileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a73af1870c0837ad41b65100886559056" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getFlatDumpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getSrc</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a37f410faf58ab1c2db47ba5b75114be8" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getVertexCount</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>isValid</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a7f2ebd5e53857f5178c9b742282e6232" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>makeDumpHeader</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>merge</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1ae6f10c050865926e4dbd124a1329db8f" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>parseDumpHeader</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a10d610a996bd76686104e0ab20076d31" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>parseFormatName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" virt="virtual"><scope>AGRemapCore::VbFile</scope><name>read</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a18a10cc98d900636326d48c1138e4b9c" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>readDumpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>readFlatDumpStr</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>setElements</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>setFileType</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>setSrc</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a443bf8bb2ae564fc382a079ce73caac5" prot="protected" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>src_</name></member>
+      <member refid="class_a_g_remap_core_1_1_vb_file_1a9e5935a42cc669a810e12b2152aa782e" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>VbFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_binary_file_1a403d1d7ed483dd886a78b36ee109dd6d" prot="public" virt="virtual"><scope>AGRemapCore::VbFile</scope><name>~BinaryFile</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" prot="public" virt="virtual"><scope>AGRemapCore::VbFile</scope><name>~BufFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

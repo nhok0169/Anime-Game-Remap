@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_remap_service_c_l_i_errors_8cpp" kind="file" language="C++">
+    <compoundname>RemapServiceCLIErrors.cpp</compoundname>
+    <includes refid="_remap_service_c_l_i_errors_8h" local="yes">AGRemapCore/RemapServiceCLIErrors.h</includes>
+    <includes local="no">utility</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>AGRemapCore/RemapServiceCLIErrors.h</label>
+        <link refid="_remap_service_c_l_i_errors_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/RemapServiceCLIErrors.cpp</label>
+        <link refid="_remap_service_c_l_i_errors_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="5">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_remap_service_c_l_i_errors_8h" kindref="compound">AGRemapCore/RemapServiceCLIErrors.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>&quot;ERROR:<sp/>&quot;<sp/>prefix<sp/>is<sp/>the<sp/>pure-Python<sp/>&apos;Error&apos;<sp/>base<sp/>class&apos;s,<sp/>not<sp/>this<sp/>exception&apos;s<sp/>own<sp/>--</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>every<sp/>exception<sp/>in<sp/>that<sp/>hierarchy<sp/>carries<sp/>it,<sp/>so<sp/>a<sp/>message<sp/>built<sp/>here<sp/>without<sp/>it<sp/>would<sp/>read</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>differently<sp/>from<sp/>the<sp/>same<sp/>failure<sp/>raised<sp/>on<sp/>the<sp/>Python<sp/>side.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_invalid_mod_type_1a101d25c0caf0c06108601c99b69edbee" kindref="member">InvalidModType::buildMessage</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>modType)<sp/>{</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR:<sp/>Unable<sp/>to<sp/>find<sp/>the<sp/>type<sp/>of<sp/>mod<sp/>by<sp/>the<sp/>search<sp/>string,<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/><ref refid="class_a_g_remap_core_1_1_invalid_mod_type_1aa8f6f37d486afdb377236118556ee413" kindref="member">modType</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_invalid_mod_type_1a222f5f8076b5fc2a8b9e37fcfd6fa21a" kindref="member">InvalidModType::InvalidModType</ref>(std::string<sp/>modType):</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error(buildMessage(modType)),<sp/>modType_(std::move(modType))<sp/>{}</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidModType::modType()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>modType_;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>InvalidDownloadMode::buildMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>downloadMode)<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR:<sp/>Unable<sp/>to<sp/>find<sp/>the<sp/>download<sp/>mode<sp/>by<sp/>the<sp/>string,<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>downloadMode<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>InvalidDownloadMode::InvalidDownloadMode(std::string<sp/>downloadMode):</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::runtime_error(buildMessage(downloadMode)),<sp/>downloadMode_(<ref refid="namespacestd" kindref="compound">std</ref>::move(downloadMode))<sp/>{}</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidDownloadMode::downloadMode()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>downloadMode_;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>&quot;ERROR:<sp/>&quot;<sp/>prefix<sp/>and<sp/>no<sp/>mention<sp/>of<sp/>the<sp/>offending<sp/>string,<sp/>both<sp/>deliberate:<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>raised<sp/>a<sp/>plain<sp/>ValueError<sp/>with<sp/>exactly<sp/>this<sp/>sentence,<sp/>and<sp/>it<sp/>is<sp/>worth<sp/>staying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>word-for-word<sp/>since<sp/>it<sp/>is<sp/>the<sp/>one<sp/>that<sp/>tells<sp/>a<sp/>user<sp/>WHAT<sp/>a<sp/>valid<sp/>version<sp/>looks<sp/>like.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>InvalidVersion::InvalidVersion(std::string<sp/>version):</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::runtime_error(</highlight><highlight class="stringliteral">&quot;Please<sp/>enter<sp/>a<sp/>valid<sp/>version<sp/>that<sp/>conforms<sp/>to<sp/>PEP<sp/>440<sp/>for<sp/>the<sp/>game<sp/>version&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_(<ref refid="namespacestd" kindref="compound">std</ref>::move(version))<sp/>{}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidVersion::version()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version_;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/RemapServiceCLIErrors.cpp"/>
+  </compounddef>
+</doxygen>

@@ -26,9 +26,16 @@
       <node id="41">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="71">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="8">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -38,7 +45,7 @@
         <childnode refid="5" relation="include">
         </childnode>
       </node>
-      <node id="67">
+      <node id="70">
         <label>AGRemapCore/model/CallGraph.h</label>
         <link refid="_call_graph_8h"/>
         <childnode refid="10" relation="include">
@@ -53,10 +60,10 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="68" relation="include">
+        <childnode refid="71" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="68">
         <label>AGRemapCore/model/IniGraphGroup.h</label>
         <link refid="_ini_graph_group_8h"/>
         <childnode refid="10" relation="include">
@@ -73,17 +80,17 @@
         </childnode>
         <childnode refid="26" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
       </node>
-      <node id="65">
+      <node id="69">
         <label>AGRemapCore/model/IniSectionGraph.h</label>
         <link refid="_ini_section_graph_8h"/>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="66" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
         <childnode refid="2" relation="include">
         </childnode>
@@ -105,26 +112,26 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="67" relation="include">
+        <childnode refid="70" relation="include">
         </childnode>
-        <childnode refid="69" relation="include">
+        <childnode refid="72" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="76" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-        <childnode refid="77" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
       </node>
-      <node id="69">
+      <node id="72">
         <label>AGRemapCore/model/SectionIterData.h</label>
         <link refid="_section_iter_data_8h"/>
         <childnode refid="2" relation="include">
@@ -135,13 +142,13 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="70" relation="include">
+        <childnode refid="73" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
       </node>
       <node id="9">
@@ -194,6 +201,8 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
@@ -252,7 +261,7 @@
         <childnode refid="49" relation="include">
         </childnode>
       </node>
-      <node id="70">
+      <node id="73">
         <label>AGRemapCore/model/iftemplate/IfContentPartColour.h</label>
         <link refid="_if_content_part_colour_8h"/>
         <childnode refid="2" relation="include">
@@ -281,7 +290,7 @@
         </childnode>
         <childnode refid="32" relation="include">
         </childnode>
-        <childnode refid="71" relation="include">
+        <childnode refid="74" relation="include">
         </childnode>
       </node>
       <node id="50">
@@ -415,8 +424,10 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
+        <childnode refid="63" relation="include">
+        </childnode>
       </node>
-      <node id="63">
+      <node id="67">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
         <link refid="_i_ini_graph_groups_8h"/>
         <childnode refid="10" relation="include">
@@ -433,15 +444,15 @@
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
-        <childnode refid="64" relation="include">
+        <childnode refid="68" relation="include">
         </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="69" relation="include">
         </childnode>
         <childnode refid="19" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -469,7 +480,7 @@
         </childnode>
         <childnode refid="62" relation="include">
         </childnode>
-        <childnode refid="63" relation="include">
+        <childnode refid="67" relation="include">
         </childnode>
         <childnode refid="53" relation="include">
         </childnode>
@@ -486,18 +497,26 @@
         <childnode refid="35" relation="include">
         </childnode>
       </node>
-      <node id="73">
+      <node id="76">
         <label>AGRemapCore/tools/Generator.h</label>
         <link refid="_generator_8h"/>
-        <childnode refid="74" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
+        </childnode>
+      </node>
+      <node id="66">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="32">
@@ -692,19 +711,34 @@
         <childnode refid="53" relation="include">
         </childnode>
       </node>
-      <node id="68">
-        <label>CallGraph.tpp</label>
+      <node id="63">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="65" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
       </node>
-      <node id="76">
+      <node id="78">
         <label>Generator.tpp</label>
       </node>
-      <node id="79">
+      <node id="81">
         <label>IIniGraphGroups.tpp</label>
       </node>
       <node id="49">
         <label>IfContentPart.tpp</label>
       </node>
-      <node id="71">
+      <node id="74">
         <label>IfContentPartColour.tpp</label>
       </node>
       <node id="61">
@@ -719,10 +753,10 @@
       <node id="30">
         <label>IncIdGenerator.tpp</label>
       </node>
-      <node id="78">
+      <node id="80">
         <label>IniGraphGroup.tpp</label>
       </node>
-      <node id="77">
+      <node id="79">
         <label>IniSectionGraph.tpp</label>
       </node>
       <node id="17">
@@ -743,7 +777,7 @@
       <node id="36">
         <label>Ranges.tpp</label>
       </node>
-      <node id="72">
+      <node id="75">
         <label>SectionIterData.tpp</label>
       </node>
       <node id="24">
@@ -752,7 +786,7 @@
       <node id="47">
         <label>cmath</label>
       </node>
-      <node id="74">
+      <node id="77">
         <label>coroutine</label>
       </node>
       <node id="10">
@@ -761,10 +795,10 @@
       <node id="11">
         <label>cstdint</label>
       </node>
-      <node id="66">
+      <node id="64">
         <label>deque</label>
       </node>
-      <node id="75">
+      <node id="65">
         <label>exception</label>
       </node>
       <node id="2">
@@ -832,19 +866,25 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
         <link refid="_ini_file_parse_context_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -852,28 +892,32 @@
         <link refid="_ini_parse_context_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="6" relation="include">
-        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
-      <node id="8">
+      <node id="9">
         <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
         <link refid="_ini_parse_download_data_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="3">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
@@ -946,15 +990,17 @@
 <codeline lineno="217"><highlight class="normal"></highlight></codeline>
 <codeline lineno="227" refid="class_a_g_remap_core_1_1_ini_parse_context_1a6c2fd248f3bbdf026276740db6dc7672" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a6c2fd248f3bbdf026276740db6dc7672" kindref="member">modTypeName</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
 <codeline lineno="228"><highlight class="normal"></highlight></codeline>
-<codeline lineno="236" refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" kindref="member">modTypeHashes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="237"><highlight class="normal"></highlight></codeline>
-<codeline lineno="245" refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" kindref="member">modTypeIndices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="246"><highlight class="normal"></highlight></codeline>
-<codeline lineno="254" refid="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1" kindref="member">graphGroups</ref>()<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"></highlight></codeline>
-<codeline lineno="258"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="242" refid="class_a_g_remap_core_1_1_ini_parse_context_1a224502a12c624c8af657dc5a0c234be9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a224502a12c624c8af657dc5a0c234be9" kindref="member">log</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a7ff909f1b9214ec4e92f25c62e6391c1" kindref="member">modTypeHashes</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1adfb5f53feecf7a7b50ac05ae9956a738" kindref="member">modTypeIndices</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269" refid="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a708235ffad34a0dbf5410ad0d20ed3a1" kindref="member">graphGroups</ref>()<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="271"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h"/>
   </compounddef>

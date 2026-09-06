@@ -38,7 +38,7 @@ The initial `adjacency list`_ mapping the hashes to fix **from** to the hashes t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Hashes.h" line="56" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="42" bodyend="47"/>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="56" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="42" bodyend="52"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -117,6 +117,7 @@ is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a07c2957893d1932b649f29f6702a6071" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>keys_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a079af5420aefa3286f05d662d46a446b" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>map_</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1ab735cc18f1788a268316d0ed60ae9544" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>ModMappedAssets</name></member>
+      <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1afb387b5ab1d7d05660b4388431e6486b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>nonVersionIndexNames</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1aeae6b17af7c0b58c046021bb4af2a9dd" prot="private" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>rebuildKeys</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1abf0154f0866cb25fc1e2779f56c35265" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>replace</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a53acfeee2b9c39370d1312ae99637689" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>replaceAll</name></member>

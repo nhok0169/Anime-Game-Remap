@@ -20,6 +20,7 @@
     <includes refid="_ini_parse_context_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseContext.h</includes>
     <includes local="yes">GIMISectionClassifier.tpp</includes>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
+    <includedby refid="_ini_parse_builder_data_8cpp" local="yes">src/data/IniParseBuilderData.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
@@ -27,9 +28,16 @@
       <node id="39">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="79">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="54">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -213,6 +221,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
         </childnode>
@@ -434,8 +444,10 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
       </node>
-      <node id="81">
+      <node id="83">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
         <link refid="_i_ini_graph_groups_8h"/>
         <childnode refid="2" relation="include">
@@ -460,7 +472,7 @@
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -498,7 +510,7 @@
         </childnode>
         <childnode refid="78" relation="include">
         </childnode>
-        <childnode refid="83" relation="include">
+        <childnode refid="85" relation="include">
         </childnode>
       </node>
       <node id="78">
@@ -526,7 +538,7 @@
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
@@ -555,6 +567,14 @@
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="30">
@@ -749,16 +769,31 @@
         <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
+      <node id="81">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
       </node>
-      <node id="83">
+      <node id="85">
         <label>GIMISectionClassifier.tpp</label>
       </node>
       <node id="69">
         <label>Generator.tpp</label>
       </node>
-      <node id="82">
+      <node id="84">
         <label>IIniGraphGroups.tpp</label>
       </node>
       <node id="47">
@@ -892,22 +927,30 @@
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
         <link refid="_g_i_m_i_section_classifier_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="3">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="5">
+      <node id="6">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>

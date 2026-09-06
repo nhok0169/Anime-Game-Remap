@@ -8,14 +8,18 @@
 // IniRemoveBuilderData.h's own warning) -- it is one row per GI mod type, all at
 // the 4.0 baseline -- so it is checked against this codebase's contract instead.
 //
-// Every generator in those tables is currently a STUB returning the builder's
-// defaultFactory(), so this test deliberately does NOT assert on which concrete
-// strategy comes back -- there is only one. What it does assert is that the
-// *table* is faithful and that version selection works through it, which is the
-// part that has to stay correct while the stubs get filled in one by one:
-//   * row and version counts match the pure-Python originals exactly
-//     (53 rows / 9 versions for parse, 73 rows / 10 versions for fix), and the
-//     remove table is 43 rows all at 4.0
+// Every generator in those tables is a STUB returning the builder's
+// defaultFactory() EXCEPT IniParseBuilderFuncs::raiden6_1, so this test asserts
+// on which concrete strategy comes back only for that one row. What it asserts
+// everywhere else is that the *table* is faithful and that version selection
+// works through it, which is the part that has to stay correct while the stubs
+// get filled in one by one:
+//   * row and version counts match the pure-Python originals, plus whatever this
+//     port has added on top of them (the parse table is 54 rows / 10 versions:
+//     53 rows / 9 versions from the Python file, plus Raiden's 6.1 row; the fix
+//     table is 80: 73 Python rows fanned out to 78, plus Raiden's and Amber's
+//     own 6.1 rows;
+//     the remove table is 43 rows all at 4.0)
 //   * spot-checked rows exist at the versions the Python file lists them at,
 //     including the mods that legitimately appear more than once
 //   * floor-matching through the real table: a mod listed only at 4.0 still
@@ -88,8 +92,9 @@ void testTableShape() {
 
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
-    check(IniParseBuilderData::repo()->size() == 53, "the parse table has all 53 rows from IniParseBuilderData.py");
-    check(IniFixBuilderData::repo()->size() == 78, "the fix table has 78 rows -- the 73 Python rows fanned out per target mod");
+    check(IniParseBuilderData::repo()->size() == 54, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row");
+    check(IniFixBuilderData::repo()->size() == 80,
+          "the fix table has 80 rows -- the 73 Python rows fanned out per target mod to 78, plus Raiden's and Amber's 6.1 rows");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
     check(IniRemoveBuilderData::repo()->size() == 43, "the remove table has one row per GI mod type");
@@ -119,9 +124,10 @@ void testVersionCoverage() {
     });
 
 
-    const std::set<std::string> expectedParse = {"4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7"};
+    // 6.1 is this port's own, carrying Raiden's real parser -- the Python file stops at 5.7.
+    const std::set<std::string> expectedParse = {"4.0", "4.4", "4.6", "4.8", "5.3", "5.4", "5.5", "5.6", "5.7", "6.1"};
 
-    check(parseVers == expectedParse, "the parse table covers exactly the 9 versions the Python file lists");
+    check(parseVers == expectedParse, "the parse table covers the 9 versions the Python file lists, plus 6.1");
     check(parseVers.count("5.0") == 0, "and the parse table has no 5.0, matching its Python original");
 
     std::set<std::string> removeVers;
@@ -144,6 +150,7 @@ void testRowsResolve() {
     check(parse.get({nameOf(ModTypeId::Arlecchino)}, ver("4.6"), false).has_value(), "parse: Arlecchino has its 4.6 row (giDefault)");
     check(parse.get({nameOf(ModTypeId::AyakaSpringbloom)}, ver("5.6"), false).has_value(), "parse: AyakaSpringBloom has its 5.6 row");
     check(parse.get({nameOf(ModTypeId::Nilou)}, ver("5.7"), false).has_value(), "parse: Nilou has its 5.7 row");
+    check(parse.get({nameOf(ModTypeId::Raiden)}, ver("6.1"), false).has_value(), "parse: Raiden has its 6.1 row");
 
     // The fix table is 4-column now: (fromVersion, fromModName, toVersion, toModName), with
     // fromVersion 1.0 on every row. getAll fans out over the target mod.
@@ -162,6 +169,13 @@ void testRowsResolve() {
     std::set<std::string> jeanTargets = fixTargets(ModTypeId::Jean, "4.0");
     check(jeanTargets.size() == 2, "fix: Jean has TWO targets");
     check(jeanTargets.count(nameOf(ModTypeId::JeanCN)) == 1, "fix: one of them is JeanCN");
+
+    // Raiden's own 6.1 fix row -- the one row in this table that is a real factory rather than a
+    // stub. She resolves at 4.0 too (that row is the stub), so the assertion worth making is that
+    // 6.1 still finds RaidenBoss rather than losing her to the newer row.
+    std::set<std::string> raidenTargets = fixTargets(ModTypeId::Raiden, "6.1");
+    check(raidenTargets.size() == 1, "fix: Raiden has one target at 6.1");
+    check(raidenTargets.count(nameOf(ModTypeId::RaidenBoss)) == 1, "fix: and it is RaidenBoss");
     check(jeanTargets.count(nameOf(ModTypeId::JeanSea)) == 1, "fix: and the other is JeanSea");
 
     check(fixTargets(ModTypeId::Amber, "4.0") == std::set<std::string>{nameOf(ModTypeId::AmberCN)},

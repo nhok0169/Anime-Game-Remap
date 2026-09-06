@@ -63,6 +63,7 @@ pybind11_add_module(core
     src/model/strategies/iniFixers/graphEdits/PyGraphRename.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegFillMissing.cpp
     src/model/strategies/iniFixers/graphEdits/PyRegSurroundedAdd.cpp
+    src/model/strategies/iniFixers/graphEdits/PyRegDelimitedAdd.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyIniGraphGroups.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyBaseIniGraphGroupEdit.cpp
     src/model/strategies/iniFixers/graphGroupEdits/PyGraphRemove.cpp

@@ -26,6 +26,9 @@
       <node id="34">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="66">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="47">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -343,6 +346,8 @@
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
       </node>
       <node id="60">
         <label>AGRemapCore/model/strategies/iniFixers/BaseIniPartEdit.h</label>
@@ -431,6 +436,8 @@
         </childnode>
         <childnode refid="49" relation="include">
         </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
       </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h</label>
@@ -461,7 +468,7 @@
         </childnode>
         <childnode refid="23" relation="include">
         </childnode>
-        <childnode refid="82" relation="include">
+        <childnode refid="84" relation="include">
         </childnode>
       </node>
       <node id="77">
@@ -487,7 +494,7 @@
         </childnode>
         <childnode refid="79" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="83" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -514,6 +521,14 @@
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="70" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="23">
@@ -708,8 +723,23 @@
         <childnode refid="49" relation="include">
         </childnode>
       </node>
-      <node id="66">
-        <label>CallGraph.tpp</label>
+      <node id="81">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="64" relation="include">
+        </childnode>
+        <childnode refid="69" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
       </node>
       <node id="70">
         <label>Generator.tpp</label>
@@ -756,10 +786,10 @@
       <node id="29">
         <label>Ranges.tpp</label>
       </node>
-      <node id="81">
+      <node id="83">
         <label>ResEdit.tpp</label>
       </node>
-      <node id="82">
+      <node id="84">
         <label>ResRegCollect.tpp</label>
       </node>
       <node id="58">

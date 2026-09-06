@@ -88,7 +88,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="177" column="32" bodyfile="src/tools/z3/Z3Internal.h" bodystart="68" bodyend="70"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="177" column="32" bodyfile="src/tools/z3/Z3Internal.h" bodystart="77" bodyend="79"/>
       </memberdef>
       <memberdef kind="friend" id="class_a_g_remap_core_1_1_z3_predicate_1a84c009e673ba25656e3d5d04516cca9b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Impl</ref> &amp;</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="182" column="31" bodyfile="src/tools/z3/Z3Internal.h" bodystart="78" bodyend="80"/>
+        <location file="include/AGRemapCore/tools/z3/Z3Predicate.h" line="182" column="31" bodyfile="src/tools/z3/Z3Internal.h" bodystart="87" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">

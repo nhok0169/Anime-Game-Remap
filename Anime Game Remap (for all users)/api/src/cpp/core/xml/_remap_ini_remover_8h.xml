@@ -20,6 +20,8 @@
     <includes refid="_ini_removal_context_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</includes>
     <includes refid="_ini_remove_context_8h" local="yes">AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</includes>
     <includes local="yes">RemapIniRemover.tpp</includes>
+    <includedby refid="_global_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</includedby>
+    <includedby refid="_ini_file_8cpp" local="yes">src/model/files/IniFile.cpp</includedby>
     <includedby refid="_ini_remove_builder_8cpp" local="yes">src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</includedby>
     <incdepgraph>
       <node id="33">
@@ -27,6 +29,9 @@
       </node>
       <node id="39">
         <label>BaseOrderedMultiMap.tpp</label>
+      </node>
+      <node id="48">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="10">
         <label>AGRemapCore/constants/FileExt.h</label>
@@ -140,7 +145,7 @@
         <childnode refid="65" relation="include">
         </childnode>
       </node>
-      <node id="75">
+      <node id="77">
         <label>AGRemapCore/model/Version.h</label>
         <link refid="_version_8h"/>
         <childnode refid="2" relation="include">
@@ -158,7 +163,7 @@
         <childnode refid="9" relation="include">
         </childnode>
       </node>
-      <node id="77">
+      <node id="79">
         <label>AGRemapCore/model/assets/ModDictAssets.h</label>
         <link refid="_mod_dict_assets_8h"/>
         <childnode refid="2" relation="include">
@@ -173,14 +178,14 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="80" relation="include">
         </childnode>
-        <childnode refid="79" relation="include">
+        <childnode refid="81" relation="include">
         </childnode>
       </node>
-      <node id="76">
+      <node id="78">
         <label>AGRemapCore/model/assets/ModMappedAssets.h</label>
         <link refid="_mod_mapped_assets_8h"/>
         <childnode refid="2" relation="include">
@@ -191,22 +196,24 @@
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
         <childnode refid="7" relation="include">
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
-        </childnode>
         <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="78" relation="include">
+        <childnode refid="79" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
         </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
       </node>
-      <node id="78">
+      <node id="80">
         <label>AGRemapCore/model/assets/Row.h</label>
         <link refid="_row_8h"/>
         <childnode refid="9" relation="include">
@@ -411,22 +418,24 @@
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
+        <childnode refid="72" relation="include">
+        </childnode>
       </node>
-      <node id="72">
+      <node id="74">
         <label>AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h</label>
         <link refid="_base_ini_remover_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
-        <childnode refid="73" relation="include">
+        <childnode refid="75" relation="include">
         </childnode>
       </node>
-      <node id="73">
+      <node id="75">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h</label>
         <link refid="_ini_removal_context_8h"/>
       </node>
-      <node id="74">
+      <node id="76">
         <label>AGRemapCore/model/strategies/iniRemovers/IniRemoveContext.h</label>
         <link refid="_ini_remove_context_8h"/>
         <childnode refid="3" relation="include">
@@ -439,9 +448,9 @@
         </childnode>
         <childnode refid="9" relation="include">
         </childnode>
-        <childnode refid="75" relation="include">
+        <childnode refid="77" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="78" relation="include">
         </childnode>
         <childnode refid="52" relation="include">
         </childnode>
@@ -477,13 +486,13 @@
         </childnode>
         <childnode refid="71" relation="include">
         </childnode>
-        <childnode refid="72" relation="include">
-        </childnode>
-        <childnode refid="73" relation="include">
-        </childnode>
         <childnode refid="74" relation="include">
         </childnode>
-        <childnode refid="81" relation="include">
+        <childnode refid="75" relation="include">
+        </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
       </node>
       <node id="30">
@@ -510,6 +519,14 @@
         <childnode refid="16" relation="include">
         </childnode>
         <childnode refid="69" relation="include">
+        </childnode>
+      </node>
+      <node id="73">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="29">
@@ -704,8 +721,23 @@
         <childnode refid="56" relation="include">
         </childnode>
       </node>
-      <node id="48">
-        <label>CallGraph.tpp</label>
+      <node id="72">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="68" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="73" relation="include">
+        </childnode>
       </node>
       <node id="69">
         <label>Generator.tpp</label>
@@ -731,10 +763,10 @@
       <node id="70">
         <label>IniSectionGraph.tpp</label>
       </node>
-      <node id="79">
+      <node id="81">
         <label>ModDictAssets.tpp</label>
       </node>
-      <node id="80">
+      <node id="82">
         <label>ModMappedAssets.tpp</label>
       </node>
       <node id="60">
@@ -749,7 +781,7 @@
       <node id="34">
         <label>Ranges.tpp</label>
       </node>
-      <node id="81">
+      <node id="83">
         <label>RemapIniRemover.tpp</label>
       </node>
       <node id="65">
@@ -832,13 +864,31 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniRemovers/GlobalRemapIniRemover.h</label>
+        <link refid="_global_remap_ini_remover_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</label>
         <link refid="_remap_ini_remover_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
-      <node id="2">
+      <node id="3">
+        <label>src/constants/GlobalIniRemoveBuilders.cpp</label>
+        <link refid="_global_ini_remove_builders_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/model/files/IniFile.cpp</label>
+        <link refid="_ini_file_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/model/strategies/iniRemovers/IniRemoveBuilder.cpp</label>
         <link refid="_ini_remove_builder_8cpp"/>
       </node>
@@ -907,7 +957,7 @@
 <codeline lineno="179" refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1a8f78684f8e98125c533c54be1a3e5d13" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig&lt;K, V&gt;</ref><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1a8f78684f8e98125c533c54be1a3e5d13" kindref="member">runConfig</ref>;</highlight></codeline>
 <codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="181"><highlight class="normal"></highlight></codeline>
-<codeline lineno="195" refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kindref="compound">RemoverConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">defaultConfig</ref>();</highlight></codeline>
+<codeline lineno="195" refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>RemoverConfig<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">defaultConfig</ref>();</highlight></codeline>
 <codeline lineno="196"><highlight class="normal"></highlight></codeline>
 <codeline lineno="219" refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" kindref="compound">BoilerPlateHeading</ref><sp/>{</highlight></codeline>
 <codeline lineno="228" refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a9ccea04f6ae37337b62ae66db52a2e16" kindref="member">titleSuffix</ref>;</highlight></codeline>
@@ -943,7 +993,7 @@
 <codeline lineno="309"><highlight class="normal"></highlight></codeline>
 <codeline lineno="324" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1214017982696a4960029d043f559364" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::function&lt;std::shared_ptr&lt;BaseIniRemover&lt;&gt;&gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*)&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1214017982696a4960029d043f559364" kindref="member">factory</ref>();</highlight></codeline>
 <codeline lineno="325"><highlight class="normal"></highlight></codeline>
-<codeline lineno="342" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1694827be2911d096fd53e6d80cc9065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1694827be2911d096fd53e6d80cc9065" kindref="member">RemapIniRemover</ref>(<ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref>*<sp/>ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kindref="compound">RemoverConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" kindref="member">config</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">defaultConfig</ref>());</highlight></codeline>
+<codeline lineno="342" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1694827be2911d096fd53e6d80cc9065" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1694827be2911d096fd53e6d80cc9065" kindref="member">RemapIniRemover</ref>(<ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref>*<sp/>ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>RemoverConfig<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" kindref="member">config</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1aec78a09361ff8b9337d9f6261a543c8c" kindref="member">defaultConfig</ref>());</highlight></codeline>
 <codeline lineno="343"><highlight class="normal"></highlight></codeline>
 <codeline lineno="347" refid="class_a_g_remap_core_1_1_remap_ini_remover_1ad0af0e7ebcbfef856164d340f4ace14e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;BoilerPlateHeading&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ad0af0e7ebcbfef856164d340f4ace14e" kindref="member">headings</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a1617c42fbea6de8c423c80cec6fc9342" kindref="member">defaultHeadings</ref>();</highlight></codeline>
 <codeline lineno="348"><highlight class="normal"></highlight></codeline>
@@ -967,7 +1017,7 @@
 <codeline lineno="475"><highlight class="normal"></highlight></codeline>
 <codeline lineno="483" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a909ad09a64a538e038c40d1f60208db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a909ad09a64a538e038c40d1f60208db2" kindref="member">bufExt</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_file_ext_1a9a1d79657cbbf64e7e41e203c38098c3" kindref="member">FileExt::Buf</ref>;</highlight></codeline>
 <codeline lineno="484"><highlight class="normal"></highlight></codeline>
-<codeline lineno="488" refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kindref="compound">RemoverConfig</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" kindref="member">config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="488" refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>RemoverConfig&amp;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" kindref="member">config</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="489"><highlight class="normal"></highlight></codeline>
 <codeline lineno="497" refid="class_a_g_remap_core_1_1_remap_ini_remover_1adf33e22b5cdc9c321d290c385f252668" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1adf33e22b5cdc9c321d290c385f252668" kindref="member">getContext</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="498"><highlight class="normal"></highlight></codeline>
@@ -1036,18 +1086,18 @@
 <codeline lineno="731"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="732"><highlight class="normal"></highlight></codeline>
 <codeline lineno="733"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Walks<sp/>&apos;lines&apos;<sp/>once,<sp/>finding<sp/>every<sp/>boilerplate<sp/>region<sp/>and<sp/>every<sp/>section<sp/>occurrence.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="734" refid="class_a_g_remap_core_1_1_remap_ini_remover_1abfa0b5d086c4c02f0791b7e494ea67e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan" kindref="compound">FileScan</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1abfa0b5d086c4c02f0791b7e494ea67e3" kindref="member">scanFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>lines)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="734" refid="class_a_g_remap_core_1_1_remap_ini_remover_1abfa0b5d086c4c02f0791b7e494ea67e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FileScan<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1abfa0b5d086c4c02f0791b7e494ea67e3" kindref="member">scanFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;&amp;<sp/>lines)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="735"><highlight class="normal"></highlight></codeline>
 <codeline lineno="736"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>&apos;line&apos;<sp/>opens<sp/>a<sp/>boilerplate<sp/>region,<sp/>and<sp/>what<sp/>would<sp/>close<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="737" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a6005484dfed7b15449e1ef2271ec6ed2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;OpenMatch&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a6005484dfed7b15449e1ef2271ec6ed2" kindref="member">matchBoilerPlateOpen</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="738"><highlight class="normal"></highlight></codeline>
 <codeline lineno="739"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>&apos;line&apos;<sp/>closes<sp/>the<sp/>boilerplate<sp/>region<sp/>&apos;open&apos;<sp/>described.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="740" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" kindref="member">isBoilerPlateClose</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match" kindref="compound">OpenMatch</ref>&amp;<sp/>open);</highlight></codeline>
+<codeline lineno="740" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a3e7d10c937bdfd56831a12511a9bba37" kindref="member">isBoilerPlateClose</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>line,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>OpenMatch&amp;<sp/>open);</highlight></codeline>
 <codeline lineno="741"><highlight class="normal"></highlight></codeline>
 <codeline lineno="742"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>names<sp/>of<sp/>the<sp/>candidate<sp/>sections<sp/>found<sp/>by<sp/>&apos;scan&apos;,<sp/>in<sp/>file<sp/>order<sp/>and<sp/>de-duplicated:</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="743"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>everything<sp/>inside<sp/>a<sp/>boilerplate<sp/>region,<sp/>plus<sp/>everything<sp/>outside<sp/>one<sp/>whose<sp/>name</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="744"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>contains<sp/>remapKeyword.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="745" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" kindref="member">collectCandidates</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_file_scan" kindref="compound">FileScan</ref>&amp;<sp/>scan)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="745" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" kindref="member">collectCandidates</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>FileScan&amp;<sp/>scan)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="746"><highlight class="normal"></highlight></codeline>
 <codeline lineno="747"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>candidates<sp/>this<sp/>software<sp/>is<sp/>taken<sp/>to<sp/>have<sp/>written<sp/>--<sp/>see<sp/>this<sp/>class&apos;s<sp/>own<sp/>doc.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="748"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;graph&apos;<sp/>must<sp/>already<sp/>be<sp/>built<sp/>over<sp/>the<sp/>whole<sp/>candidate<sp/>pool,<sp/>and<sp/>&apos;boilerPlateSections&apos;</highlight><highlight class="normal"></highlight></codeline>
@@ -1109,7 +1159,7 @@
 <codeline lineno="804"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Every<sp/>occurrence<sp/>of<sp/>&apos;target&apos;<sp/>removed<sp/>from<sp/>&apos;txt&apos;.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="805" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a110fc8ff6c734f6c93f829039d87cf66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a110fc8ff6c734f6c93f829039d87cf66" kindref="member">removeAll</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>txt,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target);</highlight></codeline>
 <codeline lineno="806"><highlight class="normal"></highlight></codeline>
-<codeline lineno="807" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a03257af142306fb5d433041e108f754d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kindref="compound">RemoverConfig</ref><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a03257af142306fb5d433041e108f754d" kindref="member">config_</ref>;</highlight></codeline>
+<codeline lineno="807" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a03257af142306fb5d433041e108f754d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RemoverConfig<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a03257af142306fb5d433041e108f754d" kindref="member">config_</ref>;</highlight></codeline>
 <codeline lineno="808"><highlight class="normal"></highlight></codeline>
 <codeline lineno="809"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Borrowed.<sp/>Points<sp/>at<sp/>ownedCtx_<sp/>when<sp/>this<sp/>remover<sp/>built<sp/>its<sp/>own<sp/>--<sp/>see<sp/>setIniFile.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="810" refid="class_a_g_remap_core_1_1_remap_ini_remover_1a7b6241eaaeff857986895862dfcc8ebb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a7b6241eaaeff857986895862dfcc8ebb" kindref="member">ctx_</ref><sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;</highlight></codeline>

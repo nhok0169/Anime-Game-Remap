@@ -71,7 +71,7 @@ Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashData.cpp" line="11" column="19" bodyfile="src/data/HashData.cpp" bodystart="11" bodyend="1019" declfile="include/AGRemapCore/data/HashData.h" declline="33" declcolumn="27"/>
+        <location file="src/data/HashData.cpp" line="11" column="19" bodyfile="src/data/HashData.cpp" bodystart="11" bodyend="1035" declfile="include/AGRemapCore/data/HashData.h" declline="33" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a3317564d38bd694ce4c148659cb87521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref></type>
@@ -204,7 +204,7 @@ shape :cpp:func:`convertRows` already expects, so building a :cpp:class:`PyModDi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IndexData.cpp" line="12" column="19" bodyfile="src/data/IndexData.cpp" bodystart="12" bodyend="189" declfile="include/AGRemapCore/data/IndexData.h" declline="33" declcolumn="27"/>
+        <location file="src/data/IndexData.cpp" line="12" column="19" bodyfile="src/data/IndexData.cpp" bodystart="12" bodyend="193" declfile="include/AGRemapCore/data/IndexData.h" declline="33" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1ae7a673359e8b593af164a336741f2214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, int &gt; &gt; &amp;</type>

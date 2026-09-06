@@ -1293,6 +1293,18 @@ RegAdd
 
 :raw-html:`<br />`
 
+RegDelimitedAdd
+===============
+
+.. attributetable:: FixRaidenBoss2.RegDelimitedAdd
+
+.. autoclass:: FixRaidenBoss2.RegDelimitedAdd
+    :inherited-members:
+    :members:
+    :private-members:
+
+:raw-html:`<br />`
+
 RegFillMissing
 ==============
 
@@ -4043,6 +4055,7 @@ Z3Predicate
 .. _call graph: https://en.wikipedia.org/wiki/Call_graph
 .. _call-with-return: https://en.wikipedia.org/wiki/Subroutine
 .. _goto: https://en.wikipedia.org/wiki/Goto
+.. _Python: https://www.python.org/
 .. _branch: https://en.wikipedia.org/wiki/Branch_(computer_science)
 .. _BFS: https://en.wikipedia.org/wiki/Breadth-first_search
 .. _dataflow analysis: https://en.wikipedia.org/wiki/Data-flow_analysis

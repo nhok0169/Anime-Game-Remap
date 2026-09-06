@@ -10,6 +10,7 @@
     <includes refid="_ini_graph_group_8h" local="yes">AGRemapCore/model/IniGraphGroup.h</includes>
     <includes refid="_i_ini_graph_groups_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</includes>
     <includes refid="_ini_parse_context_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseContext.h</includes>
+    <includedby refid="_ini_parse_builder_data_8cpp" local="yes">src/data/IniParseBuilderData.cpp</includedby>
     <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <includedby refid="_ini_parse_builder_8cpp" local="yes">src/model/strategies/iniParsers/IniParseBuilder.cpp</includedby>
     <incdepgraph>
@@ -19,9 +20,16 @@
       <node id="37">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="73">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -187,6 +195,8 @@
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -408,6 +418,8 @@
         </childnode>
         <childnode refid="15" relation="include">
         </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
       </node>
       <node id="70">
         <label>AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</label>
@@ -511,6 +523,14 @@
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="67" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/tools/Heading.h</label>
+        <link refid="_heading_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
       </node>
       <node id="27">
@@ -705,8 +725,23 @@
         <childnode refid="54" relation="include">
         </childnode>
       </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
+      <node id="81">
+        <label>AGRemapCore/view/BaseLogger.h</label>
+        <link refid="_base_logger_8h"/>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="66" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
       </node>
       <node id="67">
         <label>Generator.tpp</label>
@@ -843,12 +878,18 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
+        <label>src/data/IniParseBuilderData.cpp</label>
+        <link refid="_ini_parse_builder_data_8cpp"/>
+      </node>
+      <node id="3">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="3">
+      <node id="4">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
@@ -907,27 +948,28 @@
 <codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac3adfc1a8a735f247dba16754998a358" kindref="member">addFileDownload</ref>(std::unique_ptr&lt;IniResource&gt;<sp/>download)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1aaa0d1ad9555cb15c313d7ea9c568c57c" kindref="member">hasModType</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2ce12d1033f69de0cbe5710af63aca3f" kindref="member">modTypeName</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2be7baa85470498766aa68d5a77b965c" kindref="member">modTypeHashes</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab123a80a89cc09c638c0a0242bb4ba9f" kindref="member">modTypeIndices</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a43682ba1db942be5c28d7321f2d11ae9" kindref="member">graphGroups</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="121"><highlight class="normal"></highlight></codeline>
-<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>.ini<sp/>file&apos;s<sp/>own<sp/>ModType<sp/>for<sp/>#getModTypeId,<sp/>or<sp/>nullptr<sp/>when<sp/>there<sp/>is<sp/>none.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac4d23f0eb9fda01284b46dfcb99d24ae" kindref="member">modType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="126" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" kindref="member">iniFile_</ref>;</highlight></codeline>
-<codeline lineno="127" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" kindref="member">modTypeId_</ref>;</highlight></codeline>
-<codeline lineno="128"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>storage<sp/>IniGraphGroupsVec<sp/>is<sp/>only<sp/>a<sp/>*view*<sp/>over<sp/>--<sp/>it<sp/>has<sp/>to<sp/>outlive<sp/>the<sp/>view,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>both<sp/>live<sp/>here<sp/>and<sp/>in<sp/>this<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="131" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IniGraphGroup&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" kindref="member">groupStorage_</ref>;</highlight></codeline>
-<codeline lineno="132" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Groups&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" kindref="member">groups_</ref>;</highlight></codeline>
-<codeline lineno="133"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8c8508aa17495a02bd7e2a2ea8eab5ed" kindref="member">rebuildGroups</ref>();</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="137"><highlight class="normal"></highlight></codeline>
-<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a13716390422b81bc543c6c1bb97e61fd" kindref="member">log</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a2be7baa85470498766aa68d5a77b965c" kindref="member">modTypeHashes</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a453697d9ca7af1c04bc999eb02f492a8" kindref="member">Assets</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ab123a80a89cc09c638c0a0242bb4ba9f" kindref="member">modTypeIndices</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_parse_context_1a13de3b9da1a42008d48c78348ecb08e7" kindref="member">GraphGroups</ref>&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a43682ba1db942be5c28d7321f2d11ae9" kindref="member">graphGroups</ref>()<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>.ini<sp/>file&apos;s<sp/>own<sp/>ModType<sp/>for<sp/>#getModTypeId,<sp/>or<sp/>nullptr<sp/>when<sp/>there<sp/>is<sp/>none.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1ac4d23f0eb9fda01284b46dfcb99d24ae" kindref="member">modType</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a5b359f4250d6f95a19b88fbe2f884db2" kindref="member">iniFile_</ref>;</highlight></codeline>
+<codeline lineno="128" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a68d991c14110e354e51ac2925d5f69c0" kindref="member">modTypeId_</ref>;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>storage<sp/>IniGraphGroupsVec<sp/>is<sp/>only<sp/>a<sp/>*view*<sp/>over<sp/>--<sp/>it<sp/>has<sp/>to<sp/>outlive<sp/>the<sp/>view,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>both<sp/>live<sp/>here<sp/>and<sp/>in<sp/>this<sp/>order.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;IniGraphGroup&lt;std::string,<sp/>std::string&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a6279de584832674d3ebc978787f3f961" kindref="member">groupStorage_</ref>;</highlight></codeline>
+<codeline lineno="133" refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::unique_ptr&lt;Groups&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8d8a2ad7dd488c7fc3d13385fd8f94de" kindref="member">groups_</ref>;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_file_parse_context_1a8c8508aa17495a02bd7e2a2ea8eab5ed" kindref="member">rebuildGroups</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"/>
   </compounddef>

@@ -82,6 +82,8 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="11" relation="include">
@@ -205,8 +207,13 @@
 <codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(addRepoRows/addMap),<sp/>and<sp/>the<sp/>pure-Python<sp/>original<sp/>gives<sp/>every<sp/>Hashes<sp/>its<sp/>own<sp/>table,<sp/>so</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>one<sp/>mod<sp/>type<sp/>adding<sp/>a<sp/>hash<sp/>must<sp/>not<sp/>be<sp/>visible<sp/>to<sp/>every<sp/>other<sp/>one.<sp/>Only<sp/>the<sp/>*parsing*<sp/>of</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>raw<sp/>rows<sp/>is<sp/>shared.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt;std::string,<sp/>std::string&gt;(prototypeRepo(),<sp/>std::move(map))<sp/>{}</highlight></codeline>
-<codeline lineno="48"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt;std::string,<sp/>std::string&gt;(prototypeRepo(),<sp/>std::move(map))<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>What<sp/>the<sp/>two<sp/>non-version<sp/>index<sp/>positions<sp/>mean.<sp/>Purely<sp/>descriptive<sp/>--<sp/>every<sp/>query<sp/>method</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>still<sp/>takes<sp/>them<sp/>positionally<sp/>--<sp/>but<sp/>it<sp/>is<sp/>what<sp/>lets<sp/>a<sp/>caller<sp/>(the<sp/>binding<sp/>layer<sp/>above</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>all)<sp/>accept<sp/>them<sp/>keyed<sp/>by<sp/>name.<sp/>Used<sp/>to<sp/>be<sp/>set<sp/>by<sp/>the<sp/>pybind-only<sp/>PyHashes<sp/>subclass.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>nonVersionIndexNames<sp/>=<sp/>std::vector&lt;std::string&gt;{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;type&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/model/assets/Hashes.cpp"/>
   </compounddef>

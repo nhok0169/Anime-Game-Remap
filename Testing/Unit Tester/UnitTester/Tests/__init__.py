@@ -101,6 +101,7 @@ from .test_RegNewVals import RegNewValsTest
 from .test_RegRemap import RegRemapTest
 from .test_RegRemove import RegRemoveTest
 from .test_RegSurroundedAdd import RegSurroundedAddTest
+from .test_RegDelimitedAdd import RegDelimitedAddTest
 from .test_RemapServiceCLI import RemapServiceCLITest
 from .test_ResGroupCollect import ResGroupCollectTest
 from .test_ResRegCollect import ResRegCollectTest
@@ -152,7 +153,7 @@ __all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest"
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]
-__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest"]
+__all__ += ["BaseRegEditTest", "RegAddTest", "RegNewValsTest", "RegRemapTest", "RegRemoveTest", "RegSurroundedAddTest", "RegDelimitedAddTest"]
 __all__ += ["TokenTest", "ParseContextTest", "BaseTokenizerTest", "FilteredTokenizerTest"]
 __all__ += ["CallGraphTest", "SectionIterDataTest", "GraphToolsTest"]
 __all__ += ["BufDataTypeTest", "BufElementTypeTest", "BinaryFileTest", "CppBufFileTest", "VGRemapTest", "BufToolsTest"]

@@ -246,7 +246,7 @@ contexts whose predicates might end up interleaved during teardown. If you're ad
 builds many `Z3Context`s (e.g. one per test case, or one per worker), keep this constraint in
 mind.
 
-**Bug #3 (fixed 2026-09-03), and very probably the real cause of Bug #2: `Z3Predicate::Impl`'s
+**Bug #3 (fixed 2026-09-05), and the real cause of Bug #2: `Z3Predicate::Impl`'s
 member declaration order.** `ctxKeepAlive` (the `shared_ptr<z3::context>`) was declared *after*
 `z3::expr predicate`, so it was destroyed *first* — for the last `Z3Predicate` alive on a context,
 that freed the `z3::context` and only then ran the `z3::expr` destructor, whose `Z3_dec_ref` read
@@ -1356,6 +1356,47 @@ since every access after the first returns the identical cached object — grep 
 `_generate`/definition for where that value flows, not just the enum's call sites; (3) any
 module-level constant list built once and referenced from multiple places. If none of that turns
 up, unique-ownership/disown is still fine (and cheaper); if it does, clone-and-copy is required.
+
+## A class can be fully "ported" and still be inert from C++ — check who overrides what
+
+The `Cpp`-prefix rule below tells you whether a class has been *bound*. It says nothing about
+whether the C++ half of it actually **does** anything, and in the fixer layer several classes turned
+out to work only through `pybind11`. Each one fails silently: it runs, returns, reports success, and
+produces nothing.
+
+Found while building the first real `IniFixer` (see
+[CreatingRemaps](../CreatingRemaps/CLAUDE.md)):
+
+- **`ResRegCollect`** collects references *and* builds the resource, and the build half is gated on
+  `ctx != nullptr && ctx->hasIni()`. Its `edit()` passes `nullptr`, and it did not override
+  `editFromIni` — so it inherited `BaseIniGraphGroupEdit`'s, which **deliberately discards its
+  `ini`**. Only `PyResRegCollect` overrode it. A plain C++ caller therefore collected everything and
+  built nothing, reporting `0 Blend.buf files`.
+- **`RemapBlendReplace::buildResModel`** inherits `ResReplace`'s, which builds a plain
+  `IniFixResource` — a straight *copy* of the `Blend.buf`, vertex-group weights untouched. Only the
+  binding overrode it. (`VGRemapBlendReplace` is now the C++ counterpart.)
+- **`GraphGroupEdit`** stores a `PartEdit` dispatch interface and had **no core implementation of
+  it** — only `PyPartEdit`. A `GraphGroupEdit` built outside the binding layer could not be given a
+  single edit. (`GraphGroupPartEdits.h` is now the core pair.)
+- **`GIMIFixer::applyGraphGroupEdits`** hands every group edit a `nullptr` ini, which is fine for an
+  edit that only rewrites graphs and fatal for one that has to build.
+
+**The check**: when a `graphGroupEdits/`/`resEdits/` class has a `Py*` counterpart, grep that
+counterpart for `override`. Anything it overrides that core does not is a path that exists for
+Python and no-ops for C++. `grep -n "override" py/src/.../PyXxx.cpp` against the core class's own
+declarations takes a minute and is the difference between a working fix and a plausible one.
+
+This is the same shape as the "concrete derived class sits unbound" trap below, mirrored: there, the
+Python side was missing; here, the C++ side is. Both are invisible because nothing errors.
+
+## Two accessors a fixer needs that the parse-side context has and the fix side did not
+
+`IniParseContext` exposes `modTypeHashes()`/`modTypeIndices()`/`version()`; `IniFixContext` exposed
+none of them, so a fixer had no way to reach the asset tables it is remapping *onto*. These now live
+on the **concrete** `IniFileFixContext` (plus `modType()`, which `ModType::getVGRemap` needs) rather
+than on the `IniFixContext` seam — promoting them to the seam would mean implementing them on the
+`pybind11` side too, and only a fixer that owns its own `IniFileFixContext` currently needs them.
+Promote them if one reached *through* the seam ever does.
 
 ## A concrete derived class can sit unbound to Python for a long time after its abstract base was bound "temporarily" to unblock other work
 

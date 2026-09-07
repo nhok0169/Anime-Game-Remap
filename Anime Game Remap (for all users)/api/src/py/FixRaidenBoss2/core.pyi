@@ -4409,6 +4409,32 @@ class CppTextureFile:
         originally :meth:`open`-ed with -- or, for a texture file that was never successfully opened (eg. a
         brand new file), BC7
         """
+    def saveAs(self, dest: str) -> bool:
+        """
+        Saves :meth:`getPixels` to 'dest', leaving both :attr:`src` and :meth:`getPixels` untouched -- the
+        on-disk format is chosen from 'dest's own file extension
+        
+        A ``.dds`` destination is re-encoded to the same compressed format :meth:`save` would use; **any
+        other extension is written uncompressed**, straight from the RGBA8 buffer. `Compressonator`_
+        handles ``.png``, ``.bmp`` and ``.jpg`` itself this way, which is what makes this the "convert a
+        texture into something an ordinary image viewer can open" entry point
+        
+        .. note::
+            Unlike :meth:`save`, this **never** applies :attr:`gamma`. Gamma here is a pre-correction for
+            the ``.dds``/BCn sRGB round trip specifically (and :meth:`save` applies it destructively, in
+            place, to :meth:`getPixels`) -- neither is wanted when the point is to look at the texture's
+            actual decoded pixels
+        
+        Parameters
+        ----------
+        dest: :class:`str`
+            The file path to write to
+        
+        Returns
+        -------
+        :class:`bool`
+            Whether the file was actually written
+        """
     def setPixel(self, x: typing.SupportsInt | typing.SupportsIndex, y: typing.SupportsInt | typing.SupportsIndex, colour: CppColour) -> None:
         """
         Sets the colour of the pixel at ('x', 'y'). No bounds checking is performed

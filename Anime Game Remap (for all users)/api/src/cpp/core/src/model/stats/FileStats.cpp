@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/stats/FileStats.h"
 
 #include <filesystem>
@@ -43,7 +44,7 @@ namespace AGRemapCore {
     }
 
     void FileStats::addSkipped(const std::string& filePath, std::exception_ptr error, std::optional<std::string> modFolder) {
-        std::string resolvedModFolder = modFolder.has_value() ? *modFolder : std::filesystem::path(filePath).parent_path().string();
+        std::string resolvedModFolder = modFolder.has_value() ? *modFolder : FileService::pathToStr(FileService::strToPath(filePath).parent_path());
 
         skipped[filePath] = error;
         skippedByMods[resolvedModFolder][filePath] = error;

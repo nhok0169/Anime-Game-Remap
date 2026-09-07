@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/BinaryFile.h"
 
 #include <fstream>
@@ -23,7 +24,7 @@ namespace AGRemapCore {
     ByteVec BinaryFile::read() {
         if (std::holds_alternative<std::string>(src_)) {
             const std::string& path = std::get<std::string>(src_);
-            std::ifstream file(path, std::ios::binary | std::ios::ate);
+            std::ifstream file(FileService::strToPath(path), std::ios::binary | std::ios::ate);
             if (!file) {
                 throw std::runtime_error("Unable to open file: " + path);
             }

@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/BufFile.h"
 
 #include <algorithm>
@@ -155,7 +156,7 @@ namespace AGRemapCore {
         }
 
         if (fixedFile.has_value()) {
-            std::ofstream file(*fixedFile, std::ios::binary);
+            std::ofstream file(FileService::strToPath(*fixedFile), std::ios::binary);
             if (!file) {
                 throw std::runtime_error("Unable to open file for writing: " + *fixedFile);
             }

@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 
 #include <cstdint>
@@ -12,7 +13,7 @@ namespace AGRemapCore {
 
     void TexCreator::fix(TextureFile &texFile, const std::string &fixedTexFile) {
         std::error_code ec;
-        if (std::filesystem::is_regular_file(texFile.getSrc(), ec)) {
+        if (std::filesystem::is_regular_file(FileService::strToPath(texFile.getSrc()), ec)) {
             return;
         }
 

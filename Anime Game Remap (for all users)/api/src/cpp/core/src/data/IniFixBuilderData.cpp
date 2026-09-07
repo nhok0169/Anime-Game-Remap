@@ -223,6 +223,44 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),
                   "6.1", ModTypeIdTools::getName(ModTypeId::AmberCN)}, IniFixBuilderFuncs::amber6_1()},
 
+                // ===== AmberCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AmberCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Amber)}, IniFixBuilderFuncs::amberCN6_1()},
+
+                // ===== Mona @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Mona),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::MonaCN)}, IniFixBuilderFuncs::mona6_1()},
+
+                // ===== MonaCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::MonaCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Mona)}, IniFixBuilderFuncs::monaCN6_1()},
+
+                // ===== Rosaria @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Rosaria),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::RosariaCN)}, IniFixBuilderFuncs::rosaria6_1()},
+
+                // ===== RosariaCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::RosariaCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Rosaria)}, IniFixBuilderFuncs::rosariaCN6_1()},
+
+                // ===== Jean @ toVersion 6.1 =====
+                //
+                // TWO ROWS, TWO FIXERS -- and this is what replaces the pure-Python MultiModFixer.
+                // The original held a {target -> fixer} map inside one fixer because its table was
+                // keyed only by the source; this one is keyed by the pair, so the two targets are
+                // simply two rows. They are genuinely different fixes: JeanCN is an ordinary CN
+                // remap, JeanSea splits Jean's body into a body and a dress.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jean6_1ToJeanCN()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Jean),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jean6_1ToJeanSea()},
+
+                // ===== JeanCN @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanCN6_1ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jeanCN6_1ToJeanSea()},
+
                 // ===== Raiden @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},

@@ -1,5 +1,7 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/IniFile.h"
 
+#include <exception>
 #include <fstream>
 #include <filesystem>
 #include <sstream>
@@ -307,6 +309,34 @@ namespace AGRemapCore {
             return result;
         }
 
+        // RESTORE THE FILE IF ANYTHING BELOW THROWS.
+        //
+        // A fix moves the .ini file aside before it writes one (GIMIFixer -> disableIni, which
+        // renames it to RemapBKUP<name>.txt and does NOT copy it back), so from that rename until
+        // the write there is no .ini file on disk. Any exception in that window -- and the fixers
+        // below can throw for a dozen reasons, an unmapped asset among them -- used to leave the
+        // user's mod with no .ini at all. That is the same shape as the bug that once emptied every
+        // .ini file it touched, and it is not acceptable for a tool people point at their own mods.
+        //
+        // Restored from memory rather than from the backup: a run with keepBackups off deletes the
+        // backup afterwards, and the rename may have overwritten an older one. fileTxt_ is what the
+        // fix is working from anyway.
+        //
+        // The guard fires ONLY while unwinding -- std::uncaught_exceptions() rising between
+        // construction and destruction is what distinguishes "thrown past" from "returned
+        // normally", so none of the ordinary returns below need to disarm it.
+        struct RestoreOnThrow {
+            IniFile* ini;
+            std::string originalTxt;
+            int depth = std::uncaught_exceptions();
+
+            ~RestoreOnThrow() {
+                if (std::uncaught_exceptions() > depth) {
+                    ini->restoreAfterFailedFix(originalTxt);
+                }
+            }
+        } restoreGuard{this, fileTxt_};
+
         if (!parseData_.has_value()) {
             parseData_.emplace();
         }
@@ -371,8 +401,21 @@ namespace AGRemapCore {
         // wins there.
         std::size_t pendingCount = pending.size();
 
+        // Shared by every fixer of this .ini file, and the reason two of them no longer erase each
+        // other. Each appends its own block and re-renders the lot, so the last one to run produces
+        // the complete file and the overwrite below becomes harmless rather than lossy.
+        // See IniFixingContext::priorFixBlocks.
+        std::unordered_map<std::string, std::string> fixBlocks;
+
         for (std::size_t i = 0; i < pendingCount; ++i) {
             IniFixingContext fixingCtx(i == 0, i + 1 == pendingCount);
+            fixingCtx.priorFixBlocks = &fixBlocks;
+
+            // Label the blocks only when this mod type really does have several targets to tell
+            // apart. One target needs no heading -- the credit line above it already names the
+            // only mod in the file -- and adding one would change the output of every character
+            // that came before Jean.
+            fixingCtx.labelTargets = (pending[i].second->size() > 1);
 
             for (const std::pair<std::string, std::shared_ptr<BaseIniFixer<>>>& fixerEntry : *pending[i].second) {
                 if (fixerEntry.second == nullptr) {
@@ -476,7 +519,7 @@ namespace AGRemapCore {
         // Prefix on the name and a .txt extension, matching FileService.disableFile exactly -- the
         // extension change is what stops a mod loader from reading it as a .ini file at all.
         std::filesystem::path backup = path.parent_path() /
-            (FilePrefixes::BackupFilePrefix + path.stem().string() + FileExt::Txt);
+            (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
 
         std::filesystem::rename(path, backup, err);
         if (err) {
@@ -487,7 +530,23 @@ namespace AGRemapCore {
             std::filesystem::copy_file(backup, path, std::filesystem::copy_options::overwrite_existing, err);
         }
 
-        return backup.string();
+        return FileService::pathToStr(backup);
+    }
+
+
+    void IniFile::restoreAfterFailedFix(const std::string& originalTxt) noexcept {
+        if (!file_.has_value()) {
+            return;
+        }
+
+        try {
+            // write() re-applies the file's own line ending, so this puts the bytes back the way
+            // they were rather than the way readFromDisk normalized them.
+            write(originalTxt);
+        } catch (...) {
+            // Called during unwinding; there is nothing better to do than let the original
+            // exception carry on to RemapService, which reports the file as skipped.
+        }
     }
 
 
@@ -518,7 +577,7 @@ namespace AGRemapCore {
             // Every path here is already absolute -- IniResource's constructor resolves both
             // 'srcPath' and 'fixedPath' against the .ini file's own folder -- so no second
             // resolution is needed.
-            std::string folder = std::filesystem::path(filePath).parent_path().string();
+            std::string folder = FileService::pathToStr(FileService::strToPath(filePath).parent_path());
             if (seen.insert(folder).second) {
                 result.push_back(std::move(folder));
             }
@@ -561,7 +620,7 @@ namespace AGRemapCore {
 
         // The same derivation every core-side context already does for its own iniFolder() -- see
         // IniFileRemoveContext::iniFolder.
-        return std::filesystem::path(*file_).parent_path().string();
+        return FileService::pathToStr(FileService::strToPath(*file_).parent_path());
     }
 
 
@@ -751,7 +810,7 @@ namespace AGRemapCore {
         // back here is the file's ORIGINAL line ending (see lineEnding_): readFromDisk normalized
         // it away, and writing that normalized text verbatim rewrote every line of a CRLF .ini
         // file as LF.
-        std::ofstream out(*file_, std::ios::binary | std::ios::trunc);
+        std::ofstream out(FileService::strToPath(*file_), std::ios::binary | std::ios::trunc);
         if (!out) {
             throw std::runtime_error("Unable to open file for writing: " + *file_);
         }
@@ -779,7 +838,7 @@ namespace AGRemapCore {
 
 
     void IniFile::readFromDisk(const std::string& path) {
-        std::ifstream file(path, std::ios::binary);
+        std::ifstream file(FileService::strToPath(path), std::ios::binary);
         if (!file) {
             throw std::runtime_error("Unable to open file: " + path);
         }

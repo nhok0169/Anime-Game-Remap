@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/tools/files/FileDownload.h"
 
 #include <curl/curl.h>
@@ -74,8 +75,8 @@ namespace AGRemapCore {
     std::string FileDownload::download(const std::string& folder, std::optional<std::string> proxy) {
         ensureCurlGlobalInit();
 
-        std::filesystem::create_directories(folder);
-        std::string path = (std::filesystem::path(folder) / std::filesystem::path(filename).filename()).string();
+        std::filesystem::create_directories(FileService::strToPath(folder));
+        std::string path = FileService::pathToStr((FileService::strToPath(folder) / FileService::strToPath(filename).filename()));
 
         std::ofstream out(path, std::ios::binary | std::ios::trunc);
         if (!out) {
@@ -103,7 +104,7 @@ namespace AGRemapCore {
 
         if (result != CURLE_OK) {
             std::error_code removeError;
-            std::filesystem::remove(path, removeError);  // best-effort -- don't leave a partial file behind
+            std::filesystem::remove(FileService::strToPath(path), removeError);  // best-effort -- don't leave a partial file behind
             throw std::runtime_error(std::string("FileDownload::download: request failed: ") + curl_easy_strerror(result));
         }
 
@@ -126,7 +127,7 @@ namespace AGRemapCore {
             return std::make_tuple(*prevPath_, true, isFirstDownload);
         }
 
-        std::string resolvedFilename = (std::filesystem::path(folder) / std::filesystem::path(filename).filename()).string();
+        std::string resolvedFilename = FileService::pathToStr((FileService::strToPath(folder) / FileService::strToPath(filename).filename()));
         bool downloadRequired = false;
 
         if (*prevPath_ == resolvedFilename) {
@@ -134,7 +135,7 @@ namespace AGRemapCore {
         }
 
         std::error_code copyError;
-        std::filesystem::copy_file(*prevPath_, resolvedFilename, std::filesystem::copy_options::overwrite_existing, copyError);
+        std::filesystem::copy_file(FileService::strToPath(*prevPath_), resolvedFilename, std::filesystem::copy_options::overwrite_existing, copyError);
 
         if (copyError) {
             prevPath_ = download(folder, proxy);

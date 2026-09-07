@@ -36,6 +36,23 @@ add_library(AGRemapCore STATIC
     src/data/IniRemoveBuilderData.cpp
     src/data/IniParseData/RaidenParser.cpp
     src/data/IniParseData/AmberParser.cpp
+    src/data/IniFixData/AmberCNFixer.cpp
+    src/data/IniFixData/GIMICharFixer.cpp
+    src/data/IniFixData/MonaCNFixer.cpp
+    src/data/IniFixData/MonaFixer.cpp
+    src/data/IniFixData/RosariaCNFixer.cpp
+    src/data/IniFixData/RosariaFixer.cpp
+    src/data/IniParseData/AmberCNParser.cpp
+    src/data/IniParseData/GIMICharParser.cpp
+    src/data/IniParseData/MonaCNParser.cpp
+    src/data/IniParseData/MonaParser.cpp
+    src/data/IniParseData/RosariaCNParser.cpp
+    src/data/IniParseData/RosariaParser.cpp
+    src/data/IniFixData/JeanFixer.cpp
+    src/data/IniFixData/JeanCNFixer.cpp
+    src/data/IniFixData/JeanShading.cpp
+    src/data/IniParseData/JeanParser.cpp
+    src/data/IniParseData/JeanCNParser.cpp
     src/data/IniFixData/RaidenFixer.cpp
     src/data/IniFixData/AmberFixer.cpp
     src/constants/GlobalIniClassifiers.cpp
@@ -47,6 +64,7 @@ add_library(AGRemapCore STATIC
     src/view/Logger.cpp
     src/tools/StringHash.cpp
     src/tools/StringTools.cpp
+    src/tools/DownloadTools.cpp
     src/tools/TextTools.cpp
     src/tools/grapheme/GraphemeIterator.cpp
     src/tools/grapheme/GraphemeRange.cpp

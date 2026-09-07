@@ -26,10 +26,15 @@ native-code change.
 > `bin/python` by absolute path does not activate that venv. Check with
 > `command -v cmake ninja doxygen` (or `where` on Windows) first.
 
-- **Python 3.13 at `py -3`** — the installed module is `core.cp313-win_amd64.pyd` and the existing
-  `cbuild/` tree is configured against `Python313` (check `_Python_EXECUTABLE` in
-  `cbuild/CMakeCache.txt`). An older version of this bullet said 3.9 / `core.cp39`; nothing is
-  committed for any version (see Overview), so the only thing that matters is that the interpreter
+- **Read the Python version off the machine — this bullet has now been wrong in both directions.**
+  `py -0p` lists what is installed; `cbuild/CMakeCache.txt`'s
+  `FIND_PACKAGE_MESSAGE_DETAILS_Python` line says what the existing build tree was configured
+  against. As of **2026-09-06** those agree on **3.9** (`py -0p` lists only 3.9, so `py -3` *is*
+  3.9; the installed module is `core.cp39-win_amd64.pyd`; the cache reads `v3.9.3`). Successive
+  revisions of this file have asserted 3.9, then 3.13, then 3.9 again — the machine's interpreter
+  set genuinely changed underneath it, so treat every `cp313` in the rest of this file as
+  illustrative of the *shape* of the filename, not of the version you will actually see. Nothing
+  is committed for any version (see Overview); the only thing that matters is that the interpreter
   running the tests matches the one the `.pyd` was built for. Ask before changing it.
 - Visual Studio (MSVC) with the C++ toolchain, CMake, Ninja.
 - The MSVC dev environment must be initialized in-shell first:
@@ -38,10 +43,12 @@ native-code change.
   ```
   Find the exact path once with
   `find "/c/Program Files/Microsoft Visual Studio" "/c/Program Files (x86)/Microsoft Visual Studio" -maxdepth 6 -iname vcvarsall.bat`
-  — on this machine it is the **Build Tools** install under `Program Files (x86)`:
-  `C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`,
-  and searching only `Program Files` returns nothing
-  (installation path/version varies by machine). Everything below assumes this has been run in
+  — and actually run it, because this path has moved. As of **2026-09-06** the only VS 18 on this
+  machine is the **Community** install under `Program Files`:
+  `C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvarsall.bat`,
+  and `Program Files (x86)\Microsoft Visual Studio\18` does not exist at all — the exact reverse
+  of what an earlier revision of this file recorded (a `BuildTools` install under `(x86)`, with
+  `Program Files` returning nothing). Everything below assumes this has been run in
   the same shell.
   - **If you're an AI agent driving this through a tool whose shell state doesn't persist between
     separate tool calls** (env vars set in one call are gone by the next, even though the working
@@ -192,6 +199,23 @@ file by hand.
     unconditionally, no case-by-case judgment needed. `core.pyi` is the opposite: keep it whenever
     you touched the pybind binding surface at all (new class/method/docstring), since it's the one
     artifact that actually reflects pybind11 registrations, not Doxygen's C++ header sweep.
+  - **The committed `core/xml` is itself far out of date, so "keep it" does not mean "commit
+    whatever Doxygen just produced".** Measured 2026-09-06: a single clean `doxygen Doxyfile` run
+    (Doxygen 1.17.0, matching the pin) produced **147 modified files plus 31 brand-new ones**, on a
+    change that touched exactly one header's doc comments. Practically none of that is yours —
+    it's accumulated drift from every earlier session that (correctly, per the rule above) discarded
+    the XML. Committing all of it buries your actual change under ~178 unrelated files and makes the
+    diff unreviewable. **Keep only the XML files for the header(s) you actually edited** and revert
+    the rest; the kept files' remaining noise is just `<location line="...">` shifts from your own
+    insertion, which is fine. Concretely, for `TextureFile.h` that meant keeping
+    `_texture_file_8h.xml`, `_texture_file_8cpp.xml` and
+    `class_a_g_remap_core_1_1_texture_file.xml` and `git checkout --`-ing the other 144 (plus
+    `git clean` for the 31 untracked ones, which belong to *other* classes that were never
+    regenerated). Resyncing `core/xml` repo-wide is a legitimate task — just make it its own commit,
+    not a passenger on a feature.
+  - Judge a Doxygen run by its log, not its exit code: piping `doxygen Doxyfile` through
+    PowerShell's `Select-String` reported a non-zero exit while the same run redirected to a file
+    exited 0. Redirect to a log and grep it for `warning:` lines mentioning *your* file.
 - Build artifacts land in `cbuild/` (CMake build dir), external deps in `cext/`/`cebuild/`, all
   at the repo root — these are safe to delete and let the next build regenerate
   (`-b /`, `-pir /`, `-p /` to do that explicitly; `*` instead of `/` nukes every suffixed
@@ -487,10 +511,22 @@ cl /std:c++latest /EHsc /nologo /MD ^
    <repo>/cbuild/src/cpp/core/AGRemapCore.lib ^
    <repo>/cbuild/utf8proc/utf8proc.lib ^
    <repo>/cext/z3/lib/libz3.lib ^
-   <repo>/cbuild/curl/lib/libcurl_imp.lib
+   <repo>/cbuild/curl/lib/libcurl_imp.lib ^
+   <repo>/cbuild/Compressonator/cmp_compressonatorlib/CMP_Compressonator.lib ^
+   <repo>/cbuild/Compressonator/cmp_framework/CMP_Framework.lib ^
+   <repo>/cbuild/Compressonator/cmp_core/CMP_Core.lib ^
+   <repo>/cbuild/Compressonator/cmp_core/CMP_Core_SSE.lib ^
+   <repo>/cbuild/Compressonator/cmp_core/CMP_Core_AVX.lib ^
+   <repo>/cbuild/Compressonator/cmp_core/CMP_Core_AVX512.lib ole32.lib
 ```
 
 Three details on that line are load-bearing:
+- **The six Compressonator libs, plus `ole32.lib`.** Needed the moment anything in the binary
+  reaches `TextureFile` -- which now includes every fixer with a texture edit, since
+  `TexEditorReplace` pulls in `RemapTexEditResource`. Without them you get seven `LNK2019`s naming
+  `CMP_LoadTexture`/`CMP_ConvertMipTexture`/... and one for `CoInitializeEx`, which is what
+  `ole32.lib` answers (Compressonator's DDS plugin constructor calls it). The failure appears when
+  you add a texture edit to a character, not when you touch the tests.
 - **The three `/NODEFAULTLIB` flags.** `AGRemapCore.lib` is built against the DLL CRT (`/MD`) while
   `utf8proc.lib`/`libz3.lib` carry `/DEFAULTLIB` directives for the *static* one. Without them the
   link dies in a wall of `LNK2005 ... already defined in libcpmt.lib(cout.obj)`; switching to `/MT`

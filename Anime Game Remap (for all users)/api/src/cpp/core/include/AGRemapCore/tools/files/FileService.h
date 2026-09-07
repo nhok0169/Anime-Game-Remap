@@ -1,10 +1,12 @@
 #ifndef AGRemapCore_FileService_H
 #define AGRemapCore_FileService_H
 
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <utility>
 #include <vector>
+#include "AGRemapCore/tools/files/FileService.h"
 
 
 namespace AGRemapCore {
@@ -23,6 +25,49 @@ namespace AGRemapCore {
      */
     class FileService {
         public:
+
+            /**
+             * @brief
+             @rst
+             A ``std::filesystem::path`` as a **UTF-8** ``std::string``
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. danger::
+                **Use this instead of** ``path.string()`` **, always.** On Windows ``string()``
+                converts through the process's *active code page*, which throws
+                ``std::system_error`` ("No mapping for the Unicode character exists in the target
+                multi-byte code page") the moment a path holds a character that page cannot
+                represent -- and there is no such character in most code pages for, say, a Chinese
+                file name :raw-html:`<br />` :raw-html:`<br />`
+
+                That is not hypothetical: a real Mona CN mod ships a file called ``命令.txt``, and
+                it took down the **entire run** -- the folder walk threw before a single ``.ini``
+                file was fixed. Measured, the same path gives ``string()`` -> throws and
+                ``u8string()`` -> 17 correct UTF-8 bytes
+             @endrst
+             *
+             * @param path The path to convert
+             */
+            static std::string pathToStr(const std::filesystem::path& path);
+
+            /**
+             * @brief
+             @rst
+             A ``std::filesystem::path`` built from a **UTF-8** ``std::string`` -- the inverse of
+             \ref pathToStr :raw-html:`<br />` :raw-html:`<br />`
+
+             .. danger::
+                **Use this instead of** ``std::filesystem::path(str)`` **, and instead of passing a
+                narrow string straight to a** ``std::filesystem`` **function or an** ``fstream``.
+                Those all read the bytes as the active code page, so a UTF-8 name round-trips into a
+                *different* path -- silently, and usually into "file not found" rather than an error
+                that says what happened
+             @endrst
+             *
+             * @param path The UTF-8 path to convert
+             */
+            static std::filesystem::path strToPath(const std::string& path);
+
 
             /**
              * @brief

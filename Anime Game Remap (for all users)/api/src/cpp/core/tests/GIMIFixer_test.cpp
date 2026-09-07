@@ -709,16 +709,24 @@ void testRaiden6_1Fixer() {
     }
 
     check(fixer->graphGroupEdits.size() == 2,
-          "and carries two group edits -- the blend collector and the head/body/dress edits");
+          "and carries two group edits -- the blend collector and "
+          "the head/body/dress edits");
     for (const auto* edit : fixer->graphGroupEdits) {
         check(edit != nullptr, "neither group edit is null");
     }
 
-    // The three objects the fix rewrites in place, and NOT blend -- see raiden6_1's own doc.
+    // Everything whose remap keeps the SOURCE's hash, and so would fire on the same draw as the
+    // original -- and NOT blend, whose section is what the remapped Blend.buf is pointed at from.
+    //
+    // 'face' qualifies for exactly the same reason head/body/dress do: RaidenBoss has no
+    // tex_face_diffuse row because it does not need one, so the remapped face section carries
+    // Raiden's own hash. Left visible, the original would bind the diffuse to ps-t0 while the
+    // remapped one binds it to ps-t1, leaving a diffuse in both slots -- worse than the white
+    // cheek spots the swap exists to remove.
     const std::unordered_set<ModObj, GIMIFixer<>::ModObjHash> expectedHidden = {
-        ModObj("", "head"), ModObj("", "body"), ModObj("", "dress")};
+        ModObj("", "head"), ModObj("", "body"), ModObj("", "dress"), ModObj("", "face")};
 
-    check(fixer->hiddenModObjs == expectedHidden, "and hides head/body/dress");
+    check(fixer->hiddenModObjs == expectedHidden, "and hides head/body/dress/face");
     check(fixer->hiddenModObjs.count(ModObj("", "blend")) == 0,
           "but NOT blend -- its section is what the remapped Blend.buf is referenced from");
 

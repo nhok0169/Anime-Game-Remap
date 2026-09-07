@@ -4,27 +4,40 @@
 
 
 namespace AGRemapCore {
+    std::string FileService::pathToStr(const std::filesystem::path& path) {
+        // u8string() rather than string(): the latter goes through the active code page and throws
+        // on anything it cannot represent. See this function's own docs for the mod that proved it.
+        const std::u8string utf8 = path.u8string();
+        return std::string(reinterpret_cast<const char*>(utf8.data()), utf8.size());
+    }
+
+    std::filesystem::path FileService::strToPath(const std::string& path) {
+        // Constructing from char8_t is what tells std::filesystem these bytes are UTF-8; from a
+        // plain char sequence it would read them as the active code page instead.
+        return std::filesystem::path(std::u8string(reinterpret_cast<const char8_t*>(path.data()), path.size()));
+    }
+
     std::string FileService::absPathOfRelPath(const std::string& dstPath, const std::string& relFolder) {
-        std::filesystem::path path(dstPath);
+        std::filesystem::path path = strToPath(dstPath);
 
         if (path.is_absolute()) {
-            return path.lexically_normal().string();
+            return pathToStr(path.lexically_normal());
         }
 
-        std::filesystem::path absFolder = std::filesystem::absolute(std::filesystem::path(relFolder));
-        return (absFolder / path).lexically_normal().string();
+        std::filesystem::path absFolder = std::filesystem::absolute(strToPath(relFolder));
+        return pathToStr((absFolder / path).lexically_normal());
     }
 
     const std::string& FileService::defaultPath() {
         // Captured on first use, mirroring FilePathConsts.DefaultPath being evaluated once at
         //   import time rather than re-read per call -- RemapService compares against this to
         //   decide 'pathIsCwd', so it has to stay stable across any later chdir.
-        static const std::string startupPath = std::filesystem::current_path().string();
+        static const std::string startupPath = pathToStr(std::filesystem::current_path());
         return startupPath;
     }
 
     std::string FileService::parseOSPath(const std::string& path) {
-        return std::filesystem::path(path).lexically_normal().string();
+        return pathToStr(strToPath(path).lexically_normal());
     }
 
     std::string FileService::getPath(const std::optional<std::string>& path) {
@@ -50,16 +63,16 @@ namespace AGRemapCore {
             // A broken symlink, or an entry deleted between listing and stat-ing it, answers
             // neither question -- skip it rather than guessing which list it belongs in.
             if (entry.is_directory(entryErr) && !entryErr) {
-                dirs.push_back(entry.path().string());
+                dirs.push_back(pathToStr(entry.path()));
             } else if (entry.is_regular_file(entryErr) && !entryErr) {
-                files.push_back(entry.path().string());
+                files.push_back(pathToStr(entry.path()));
             }
         };
 
         if (recursive) {
             // skip_permission_denied so one unreadable subfolder doesn't abort the whole walk,
             // matching os.walk's own silent-by-default error handling.
-            std::filesystem::recursive_directory_iterator it(path,
+            std::filesystem::recursive_directory_iterator it(strToPath(path),
                                                              std::filesystem::directory_options::skip_permission_denied,
                                                              err);
             if (err) {
@@ -73,7 +86,7 @@ namespace AGRemapCore {
             return {std::move(files), std::move(dirs)};
         }
 
-        std::filesystem::directory_iterator it(path, std::filesystem::directory_options::skip_permission_denied, err);
+        std::filesystem::directory_iterator it(strToPath(path), std::filesystem::directory_options::skip_permission_denied, err);
         if (err) {
             return {std::move(files), std::move(dirs)};
         }
@@ -86,7 +99,7 @@ namespace AGRemapCore {
     }
 
     std::string FileService::getRelPath(const std::string& path, const std::string& start) {
-        std::filesystem::path relPath = std::filesystem::path(path).lexically_relative(std::filesystem::path(start));
+        std::filesystem::path relPath = strToPath(path).lexically_relative(strToPath(start));
 
         // lexically_relative returns an empty path when no relation exists (eg. two different
         // Windows drives) -- that is the case the pure-Python original catches a ValueError for,
@@ -95,6 +108,6 @@ namespace AGRemapCore {
             return path;
         }
 
-        return relPath.string();
+        return pathToStr(relPath);
     }
 }

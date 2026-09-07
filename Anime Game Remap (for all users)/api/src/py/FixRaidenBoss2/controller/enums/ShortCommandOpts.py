@@ -26,6 +26,8 @@ class ShortCommandOpts(Enum):
     All = '-a'
     Types = "-t"
     FixedTypes = "-rt"
+    GameType = "-g"
+    UnCompress = "-c"
     ForceType = "-ft"
     Version = "-v"
     Log = "-l"

@@ -12,8 +12,7 @@ namespace AGRemapCore {
      Amber's own ``.ini`` fixers, one per game version she needed a new one at
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Pair this with :cpp:class:`AmberParser`: the fixer's mod objects are the ones that parser
-     classifies, and neither half makes sense alone
+     Pair this with :cpp:class:`AmberParser`
      @endrst
      */
     class AmberFixer {

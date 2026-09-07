@@ -127,12 +127,52 @@ Opens the texture file at :attr:`src`, decoding it into :meth:`getPixels`
 If the file does not exist, :attr:`hasImage` becomes ``False`` and :meth:`getPixels` is cleared
         )doc"))
 
-        .def("save", &AGRC::TextureFile::save, py::doc(R"doc(
+        .def("save", &AGRC::TextureFile::save, py::arg("compress") = true, py::doc(R"doc(
 Saves :meth:`getPixels` to the texture file at :attr:`src`
 
 If :attr:`gamma` is set, the R/G/B channels of :meth:`getPixels` are gamma-corrected first (see
 :class:`CppGammaFilter`), in place. The file is re-encoded to whatever compressed format it was
 originally :meth:`open`-ed with -- or, for a texture file that was never successfully opened (eg. a
 brand new file), BC7
+
+Parameters
+----------
+compress: :class:`bool`
+    Whether to re-encode to that compressed format, or write the RGBA8 buffer out as a plain
+    32-bit uncompressed ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+
+    BCn encoding is almost the whole cost of an edit -- on a 4096x2048 ``BC7_UNORM`` texture,
+    ~1.5s to decode against ~15.5s to re-encode -- so ``False`` makes the round trip roughly eight
+    times faster in exchange for a file about four times larger. It is also exactly what the
+    `Pillow`_ engine does unconditionally, which never encodes BCn at all :raw-html:`<br />`
+    :raw-html:`<br />`
+
+    **Default**: ``True``
+        )doc"))
+
+        .def("saveAs", &AGRC::TextureFile::saveAs, py::arg("dest"), py::doc(R"doc(
+Saves :meth:`getPixels` to 'dest', leaving both :attr:`src` and :meth:`getPixels` untouched -- the
+on-disk format is chosen from 'dest's own file extension
+
+A ``.dds`` destination is re-encoded to the same compressed format :meth:`save` would use; **any
+other extension is written uncompressed**, straight from the RGBA8 buffer. `Compressonator`_
+handles ``.png``, ``.bmp`` and ``.jpg`` itself this way, which is what makes this the "convert a
+texture into something an ordinary image viewer can open" entry point
+
+.. note::
+    Unlike :meth:`save`, this **never** applies :attr:`gamma`. Gamma here is a pre-correction for
+    the ``.dds``/BCn sRGB round trip specifically (and :meth:`save` applies it destructively, in
+    place, to :meth:`getPixels`) -- neither is wanted when the point is to look at the texture's
+    actual decoded pixels
+
+Parameters
+----------
+dest: :class:`str`
+    The file path to write to
+
+Returns
+-------
+:class:`bool`
+    Whether the file was actually written
         )doc"));
 }

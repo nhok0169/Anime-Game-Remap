@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/IniNamingTools.h"
 
 #include <filesystem>
@@ -191,25 +192,25 @@ namespace AGRemapCore {
     std::string IniNamingTools::getFixedFile(const std::string& file, const std::string& modName, std::optional<std::string> fileExt) {
         fs::path path(file);
         fs::path folder = pathlibStyleParent(path);
-        std::string baseName = path.stem().string();
-        std::string ext = fileExt.has_value() ? *fileExt : path.extension().string();
+        std::string baseName = FileService::pathToStr(path.stem());
+        std::string ext = fileExt.has_value() ? *fileExt : FileService::pathToStr(path.extension());
 
         std::string newName = getRemapFixName(baseName, modName) + ext;
-        return (folder / newName).string();
+        return FileService::pathToStr((folder / newName));
     }
 
     std::string IniNamingTools::getFixedElementFile(const std::string& file, const std::string& elementName, const std::string& modName, std::optional<std::string> fileExt) {
         fs::path path(file);
         fs::path folder = pathlibStyleParent(path);
-        std::string baseName = path.stem().string();
-        std::string ext = fileExt.has_value() ? *fileExt : path.extension().string();
+        std::string baseName = FileService::pathToStr(path.stem());
+        std::string ext = fileExt.has_value() ? *fileExt : FileService::pathToStr(path.extension());
 
         std::string newName = getRemapElementName(baseName, elementName, modName) + ext;
         if (folder == fs::path(".")) {
             return newName;
         }
 
-        return (folder / newName).string();
+        return FileService::pathToStr((folder / newName));
     }
 
     std::string IniNamingTools::getFixedBlendFile(const std::string& blendFile, const std::string& modName) {
@@ -223,7 +224,7 @@ namespace AGRemapCore {
     std::string IniNamingTools::getFixedTexFile(const std::string& texFile, const std::string& modName) {
         fs::path path(texFile);
         fs::path folder = path.parent_path();  // no "." fallback here -- see pathlibStyleParent's comment
-        std::string baseName = path.filename().string();
+        std::string baseName = FileService::pathToStr(path.filename());
 
         // Matches Python's "basename.rsplit('.', 1)[0]" -- strip only the LAST "." extension,
         // keeping everything before it (including any earlier dots). NOT the same as
@@ -237,7 +238,7 @@ namespace AGRemapCore {
         }
 
         std::string newName = getRemapTexName(baseName, modName) + FileExt::DDS;
-        return (folder / newName).string();
+        return FileService::pathToStr((folder / newName));
     }
 
     std::string IniNamingTools::getTextureOverrideRemapFix(const std::string& component, const std::string& obj, const std::string& modName) {

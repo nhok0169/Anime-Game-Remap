@@ -11,7 +11,7 @@ build/test/doc pipelines from scratch when they're already written down.
 
 | Topic | File | Read it when you're... |
 | --- | --- | --- |
-| Overview | [`AI Agent Help/Overview/CLAUDE.md`](AI%20Agent%20Help/Overview/CLAUDE.md) | new to the repo — project purpose, full directory layout, branch/PR norms |
+| Overview | [`AI Agent Help/Overview/CLAUDE.md`](AI%20Agent%20Help/Overview/CLAUDE.md) | new to the repo — project purpose, full directory layout, branch/PR norms. **Also opens with "Working a feature or bug request here" — read that before starting any task, whatever the subsystem** |
 | Setup | [`AI Agent Help/Setup/CLAUDE.md`](AI%20Agent%20Help/Setup/CLAUDE.md) | bootstrapping the API from a fresh clone, **on Windows or Linux** — prerequisites (which VS components, which Python, the exact `pybind11`/Doxygen versions), submodules, the cold-start `-pb -pi -d` build, the Linux/WSL port and its cross-OS traps, and how to tell a broken setup from the suite's pre-existing failures. **Read this before [Building](AI%20Agent%20Help/Building/CLAUDE.md) if `import FixRaidenBoss2` doesn't work yet** |
 | Building | [`AI Agent Help/Building/CLAUDE.md`](AI%20Agent%20Help/Building/CLAUDE.md) | compiling the C++ core, pybind11 bindings, or Cython extensions (assumes Setup is done) |
 | Testing | [`AI Agent Help/Testing/CLAUDE.md`](AI%20Agent%20Help/Testing/CLAUDE.md) | running the unit or integration test suites |
@@ -19,8 +19,16 @@ build/test/doc pipelines from scratch when they're already written down.
 | Architecture | [`AI Agent Help/Architecture/CLAUDE.md`](AI%20Agent%20Help/Architecture/CLAUDE.md) | writing new C++ core code or pybind11 bindings |
 | Creating Remaps | [`AI Agent Help/CreatingRemaps/CLAUDE.md`](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) | adding or fixing the remap for **one character** — the `IniParser`/`IniFixer` pair, where the hash/index data comes from, and the A/B-against-the-old-script loop that is the only thing that actually proves a remap works. **Read this before touching `data/IniParseData/` or `data/IniFixData/`** |
 | Ini Graph Editing | [`AI Agent Help/IniGraphEditing/CLAUDE.md`](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md) | working on `IniSectionGraph`, `GraphTools`, `CallGraph`, or a `graphEdits/`/`graphGroupEdits/`/`regEdits/` strategy (`RegSurroundedAdd`-style .ini graph edits, `run =` call/cycle handling, dataflow analysis over the graph, or completing a simpler `GraphInherit`-style stub). **`regEdits/` is C++/pybind11 now** — pair this with **Architecture** for anything in that family |
-| Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) |
+| Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) — **also read its first section if you just want to *look at* a `.dds`**, which the Read tool cannot open directly |
 | Buf Files | [`AI Agent Help/BufFiles/CLAUDE.md`](AI%20Agent%20Help/BufFiles/CLAUDE.md) | working on `BufFile`, `BlendFile`, `PositionFile`, `IbFile`, `VbFile`, the `BufDataType`/`BufElementType` family, `BufTools` or `bufEditors/` — and **mandatory before touching the 3dmigoto dump text format** (`getDumpStr`/`readDumpStr`), where this repo's own notebooks are a reverse-engineering rather than the spec, and the obvious sample folders will validate you in a circle |
+
+**Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
+feature or bug request here: the habits that pay" first.** It is nine short habits, none of them
+about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
+is the one that has cost the most time by far: **code that runs, logs success, and does nothing.**
+"The run was clean" is never evidence here. It also covers the two test trees (grep both, or you
+will conclude there is no coverage when there is), when a divergence from the old script is *not*
+a bug, and how to prove a refactor changed nothing.
 
 If you're unsure which applies, start with **Overview** — it's the map the rest assume you have.
 These files were authored from hands-on, verified work in five subsystems: the C++ core / pybind11
@@ -90,13 +98,22 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**One character is real now: Raiden at 6.1.** `IniParseBuilderFuncs::raiden6_1` /
-`IniFixBuilderFuncs::raiden6_1` are the first non-stub rows in the two C++ builder tables, verified
-against the old pure-Python script (identical `Blend.buf`, byte-for-byte) and in game. They are the
-worked example every other character should be copied from --- see
-[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md), which also records the five *silent*
-ways a remap can be wrong while every log line still says it worked. **Everything below about the
-fix being stubbed still holds for every OTHER character.**
+**Two characters are real now, and they are deliberately the two DIFFERENT shapes a remap comes
+in.** `raiden6_1` remaps onto a boss that shares the source's geometry (hashes kept, originals
+hidden); `amber4_0`/`amber6_1` remap onto a **CN skin**, a genuinely different model (hashes
+replaced, originals left alone, indices forward-looked-up). Both are verified against the old
+pure-Python script and in game. **Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)
+and copy whichever shape matches your character** --- it opens with the order of operations, and
+records the silent ways a remap can be wrong while every log line still says it worked.
+**Everything below about the fix being stubbed still holds for every OTHER character.**
+
+All seven characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
+away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
+6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
+a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. The fix is a two-way
+`RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
+hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
 **The fix does not actually fix anything right now for anyone but Raiden, and that is DELIBERATE ---
 do not chase it.**
@@ -129,17 +146,31 @@ model conversion) -> `AGRemapCore::RemapService` (the model: folder walk, per-`.
 summary). Argparse stays out of core on purpose. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s
 "The `RemapService` / `RemapServiceCLI` split".
 
-**Four repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
+**Six repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
 reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
-return + `ef`), so write patch scripts with the Write tool and run them by path; (3) the dev Python is
-**3.13** (`core.cp313-win_amd64.pyd`) and `vcvarsall.bat` lives under `Program Files (x86)\Microsoft
-Visual Studio\18\BuildTools` on this machine -- see **Building**'s prerequisites for the exact lines;
+return + `ef`), so write patch scripts with the Write tool and run them by path; (3) the dev
+Python and the VS install root have both MOVED since much of this documentation was written, and
+that pair has now flipped twice -- as of 2026-09-06 `py -0p` lists **only 3.9** (so `py -3` is 3.9,
+`core.cp39-win_amd64.pyd`, and `cbuild/CMakeCache.txt` reads `v3.9.3`) and `vcvarsall.bat` lives
+under `Program Files\Microsoft Visual Studio\18\Community`, with no `Program Files (x86)` VS 18
+existing at all. **Read the version off `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a
+`find` rather than trusting any number or path written down anywhere, this line included** -- see
+**Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with
-`cmd /c "<full path>"` instead, and verify by the `.pyd`'s mtime (see **Building**).
+`cmd /c "<full path>"` instead, and verify by the `.pyd`'s mtime (see **Building**); (5) checking
+out `nhok0169` **deletes `api/src/cpp` out from under you** (that branch predates the C++ core) and
+strands `development`'s submodules under `api/extern/` as part of ~11k untracked files, so move your
+working directory to the repo root before switching and **never `git add -A` there** -- see
+**Overview**'s operating norms; (6) **every repo path contains both spaces and parentheses**
+(`Anime Game Remap (for all users)`), so an unquoted shell variable holding a path silently
+shatters into pieces -- `for f in $(git diff --name-only ...); do git checkout -- $f; done` reports
+`error: pathspec 'Anime' did not match any file(s)` and **changes nothing while looking like it
+ran**. Quote every expansion (`"$f"`), or do path-list work in a Python script with a real argument
+list (`subprocess.run(["git", "checkout", "--", *paths])`) instead of the shell.
 
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)

@@ -44,7 +44,7 @@ users)/.gitignore`), so this step is unavoidable for every fresh clone.
 | Tool | Confirmed working | Needed for | Notes |
 | --- | --- | --- | --- |
 | Git | 2.49.0.windows.1 | clone + submodules | needs `http.sslBackend=schannel` here, see below |
-| Python | **3.13.1** (x64) | everything | `requires-python = ">=3.8"`; see "Which Python" below |
+| Python | whatever `py -0p` reports (x64) | everything | `requires-python = ">=3.8"`; **3.9.3** on this machine as of 2026-09-06 — see "Which Python" below |
 | VS Build Tools | 2026 (18.4), MSVC 19.50 | the C++/Cython compile | supplies `cl`, **and** `ninja` + `cmake` |
 | CMake | 4.0.2 | configure/build/install | VS's bundled one also works |
 | Ninja | 1.12.1 (VS-bundled) | the generator APIBuilder hard-codes | **no separate install needed** |
@@ -112,6 +112,9 @@ CMake picks the interpreter itself — `find_package(Python REQUIRED COMPONENTS 
 Development)` — and nothing in APIBuilder passes `-DPython_EXECUTABLE`. With CMake's default
 `VERSION` find-strategy it takes the **highest** version it can find, not the first on `PATH`. On a
 machine with 3.13/3.11/3.7 installed it selected 3.13.1, producing `core.cp313-win_amd64.pyd`.
+That machine state has since changed — as of **2026-09-06** `py -0p` lists only 3.9, so CMake
+selects 3.9.3 and produces `core.cp39-win_amd64.pyd`. The **highest-version rule** is the durable
+fact here; the specific version is not, and has flipped twice. Check, don't assume.
 
 That matters because the interpreter CMake picks must be the same one you later run tests with —
 `py -3` here — or the `.pyd` won't be importable. If you have several Pythons and want a specific
@@ -177,6 +180,12 @@ C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\Common7\IDE\CommonE
 --- cl ---
 C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Tools\MSVC\14.50.35717\bin\Hostx64\x64\cl.exe
 ```
+
+That transcript is from a **Build Tools** install under `Program Files (x86)`, which is no longer
+what is on this machine — as of 2026-09-06 it is the **Community** install under
+`C:\Program Files\Microsoft Visual Studio\18\Community\`, and the `(x86)` VS 18 tree is gone.
+The point the transcript makes (`cmake` and `ninja` arrive bundled with the CMake component, so
+don't install them separately) is unaffected; only the install root moved.
 
 A standalone Ninja (`winget install Ninja-build.Ninja`) is a harmless fallback if the VS CMake
 component is missing, but it isn't part of the happy path. If you do install it that way, note

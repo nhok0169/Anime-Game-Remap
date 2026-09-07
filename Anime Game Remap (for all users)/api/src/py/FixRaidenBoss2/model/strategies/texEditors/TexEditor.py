@@ -76,10 +76,14 @@ class TexEditor(CppTexEditor):
     readPillowImg: :class:`bool`
         Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
         :attr:`TexEngine.Compressonator`
+
+    compress: :class:`bool`
+        Whether the edited texture is written back compressed -- see :attr:`CppTexEditor.compress`
     """
 
-    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False):
-        super().__init__()
+    def __init__(self, filters: Optional[List[Union[BaseTexFilter, Callable[[TextureFile], Any]]]] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,
+                 compress: bool = True):
+        super().__init__(compress = compress)
         self.filters = [] if (filters is None) else filters
         self.engine = engine
         self.readPillowImg = readPillowImg
@@ -98,7 +102,39 @@ class TexEditor(CppTexEditor):
             filter(texFile)
 
         texFile.src = fixedTexFile
-        texFile.save()
+        texFile.save(compress = self.compress)
+
+    @classmethod
+    def _ensureImg(cls, texFile: TextureFile) -> bool:
+        """
+        Makes sure :attr:`TextureFile.img` is a real `Pillow`_ image before a `Pillow`_-only edit
+        touches it :raw-html:`<br />` :raw-html:`<br />`
+
+        The three classmethods below are implemented with `Pillow`_ (`PIL.ImageEnhance`_ has no
+        `Compressonator`_ equivalent), so unlike every ported filter they cannot run against the
+        native pixel buffer. Since :attr:`TextureFile.readPillowImg` defaults to ``False``,
+        :attr:`TextureFile.img` is normally ``None`` and reaching straight for it raises
+        ``AttributeError: 'NoneType' object has no attribute ...``. :meth:`TextureFile.read` is the
+        documented on-demand escape hatch for exactly this -- it builds :attr:`TextureFile.img`
+        whatever ``readPillowImg`` says -- and once it exists, :meth:`TextureFile.save` picks the
+        edit back up from it
+
+        Parameters
+        ----------
+        texFile: :class:`TextureFile`
+            The texture file about to be editted
+
+        Returns
+        -------
+        :class:`bool`
+            Whether there is now an image to edit -- ``False`` if the texture has no pixels at all
+            (eg. its file doesn't exist), in which case the caller should do nothing
+        """
+
+        if (texFile.img is None):
+            texFile.read()
+
+        return texFile.img is not None
 
     @classmethod
     def adjustBrightness(cls, texFile: TextureFile, brightness: float):
@@ -117,6 +153,9 @@ class TexEditor(CppTexEditor):
             1 => original brightness of the image
             >1 => make the image brighter
         """
+
+        if (not cls._ensureImg(texFile)):
+            return
 
         ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
 
@@ -140,6 +179,9 @@ class TexEditor(CppTexEditor):
             255 => Opaque
         """
 
+        if (not cls._ensureImg(texFile)):
+            return
+
         texFile.img.putalpha(alpha)
 
     @classmethod
@@ -159,6 +201,9 @@ class TexEditor(CppTexEditor):
             1 => original saturation of the image
             >1 => make the image really saturated like a TV
         """
+
+        if (not cls._ensureImg(texFile)):
+            return
 
         ImageEnhance = GlobalPackageManager.get(PackageModules.PIL_ImageEnhance.value)
 

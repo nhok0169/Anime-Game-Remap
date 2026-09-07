@@ -165,7 +165,7 @@ namespace AGRemapCore {
 
 
     std::string RemapService::_warnSkippedIniResource(const std::string& modPath, const FileStats& resourceStats) const {
-        const std::string parentFolder = std::filesystem::path(path_).parent_path().string();
+        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
         Heading modHeading("Mod: " + FileService::getRelPath(modPath, parentFolder), 5);
 
         std::string message = modHeading.open() + "\n\n";
@@ -264,6 +264,7 @@ namespace AGRemapCore {
 
         const std::size_t fixedEditTextures = stats.texEdit.fixed.size();
         const std::size_t skippedEditTextures = stats.texEdit.skipped.size();
+        const std::size_t removedEditTextures = stats.texEdit.removed.size();
         const std::size_t foundEditTextures = fixedEditTextures + skippedEditTextures;
 
         const std::size_t downloadedFiles = stats.download.fixed.size();
@@ -332,6 +333,13 @@ namespace AGRemapCore {
             lines.push_back("Removed " + num(removedTextures) + " old " + FileTypes::RemapTexture + " files");
         }
 
+        // Edited textures are removed through their OWN stats bucket, and reporting only texAdd's
+        // meant a run that cleaned up edited textures said nothing about them at all.
+        if (!fixOnly && removedEditTextures > 0) {
+            lines.push_back("Removed " + num(removedEditTextures) + " old editted "
+                            + FileTypes::RemapTexture + " files");
+        }
+
         if (!fixOnly && removedDownloads > 0) {
             lines.push_back("Removed " + num(removedDownloads) + " old " + FileTypes::RemapDownload + " files");
         }
@@ -348,10 +356,16 @@ namespace AGRemapCore {
     void RemapService::_fix() {
         // The walk reports each folder relative to the parent of where it started, so the starting
         // folder itself still shows up by name rather than as ".".
-        const std::string parentFolder = std::filesystem::path(path_).parent_path().string();
+        const std::string parentFolder = FileService::pathToStr(FileService::strToPath(path_).parent_path());
 
         FolderWalk walk;
         walk.push(path_);
+
+        // The separator below goes BETWEEN folders, so the first one does not get one. Without
+        // this the run opened with a bare "#  -->" line: split() ran before the first
+        // setPrefix(), so it printed an empty line under the empty prefix, immediately after the
+        // "Types of Mods To Fix" banner had already spaced things out.
+        bool firstFolder = true;
 
         while (!walk.dirs.empty()) {
             const std::string folder = std::move(walk.dirs.back());
@@ -365,9 +379,14 @@ namespace AGRemapCore {
             walk.visited.insert(folder);
 
             if (logger != nullptr) {
-                logger->split();
+                if (!firstFolder) {
+                    logger->split();
+                }
+
                 logger->setPrefix(FileService::getRelPath(folder, parentFolder));
             }
+
+            firstFolder = false;
 
             // Before anything in the folder is handled, and only for a folder being seen for the
             // first time. The pure-Python original does this per MOD (fixMod's own
@@ -421,7 +440,7 @@ namespace AGRemapCore {
     }
 
     bool RemapService::_isBackupIni(const std::string& file) {
-        const std::string baseName = std::filesystem::path(file).filename().string();
+        const std::string baseName = FileService::pathToStr(FileService::strToPath(file).filename());
 
         // Either extension: the backup this fix writes is a .txt (disableIni changes the extension
         // so a mod loader stops reading it), while the ones older versions left behind kept .ini.
@@ -457,18 +476,18 @@ namespace AGRemapCore {
                 continue;
             }
 
-            log("Removing the backup ini, " + std::filesystem::path(file).filename().string());
+            log("Removing the backup ini, " + FileService::pathToStr(FileService::strToPath(file).filename()));
 
             // A backup that is already gone is not a failure -- the pure-Python original swallows
             // exactly this as a FileNotFoundError.
             std::error_code err;
-            std::filesystem::remove(file, err);
+            std::filesystem::remove(FileService::strToPath(file), err);
         }
     }
 
 
     bool RemapService::_isSrcIni(const std::string& file) {
-        const std::string baseName = std::filesystem::path(file).filename().string();
+        const std::string baseName = FileService::pathToStr(FileService::strToPath(file).filename());
 
         // Case-insensitively: a mod folder in the wild is as likely to hold a ".INI" as a ".ini",
         // and Windows itself does not distinguish them.
@@ -496,7 +515,7 @@ namespace AGRemapCore {
     }
 
     bool RemapService::_isRemapCopyIni(const std::string& file) {
-        const std::string baseName = std::filesystem::path(file).filename().string();
+        const std::string baseName = FileService::pathToStr(FileService::strToPath(file).filename());
 
         return StringTools::endsWithIgnoreCase(baseName, FileExt::Ini)
             && baseName.find(FileSuffixes::RemapFixCopy) != std::string::npos;
@@ -505,7 +524,7 @@ namespace AGRemapCore {
 
     std::string RemapService::_origIniPath(const std::string& remapCopyPath) {
         const std::filesystem::path path(remapCopyPath);
-        const std::string baseName = path.filename().string();
+        const std::string baseName = FileService::pathToStr(path.filename());
 
         // Split on the LAST occurrence: a mod's own .ini file is free to have "RemapFix" in its
         // name, and it is the suffix this fix appended that has to come off, not the first match.
@@ -526,7 +545,7 @@ namespace AGRemapCore {
             tail = tail.substr(extPos);
         }
 
-        return (path.parent_path() / (head + tail)).string();
+        return FileService::pathToStr((path.parent_path() / (head + tail)));
     }
 
 
@@ -536,7 +555,7 @@ namespace AGRemapCore {
         }
 
         const std::string iniPath = *ini.getFile();
-        const std::string folder = std::filesystem::path(iniPath).parent_path().string();
+        const std::string folder = FileService::pathToStr(FileService::strToPath(iniPath).parent_path());
 
         // Found by walking the folder and mapping each copy back to its source, rather than by
         // guessing how many copies exist: that is what the pure-Python original's
@@ -561,11 +580,11 @@ namespace AGRemapCore {
             copy->removeFix(false, true, readAllInis, false);
 
             std::error_code err;
-            if (!std::filesystem::remove(file, err) || err) {
+            if (!std::filesystem::remove(FileService::strToPath(file), err) || err) {
                 continue;
             }
 
-            log("Removing the .ini remap copy, " + std::filesystem::path(file).filename().string());
+            log("Removing the .ini remap copy, " + FileService::pathToStr(FileService::strToPath(file).filename()));
             removedAny = true;
         }
 
@@ -632,12 +651,33 @@ namespace AGRemapCore {
                         continue;
                     }
 
+                    // NEVER DELETE SOMETHING THIS RUN JUST PRODUCED.
+                    //
+                    // A mod folder is handled one .ini file at a time, removal then fix, so a
+                    // later .ini file's removal runs *after* an earlier one's fix. When several
+                    // .ini files in a folder name the same resource -- which is the normal case for
+                    // a DISABLED_ copy, or a mod that shipped with an old fix still in it -- the
+                    // second removal would otherwise delete the Blend.buf the first fix had just
+                    // written.
+                    //
+                    // Confirmed on a real AmberCN mod with three .ini files: the run logged
+                    // "Fixing blend for AmberCNAmberRemapBlend.buf...", summarised "fixed 1
+                    // Blend.buf files", and left no such file behind. In game the body collapsed
+                    // and left a floating head, because the .ini named a blend that was not there.
+                    //
+                    // Skipping the delete is better than rebuilding afterwards: it keeps the file
+                    // that is already correct, does no redundant work, and cannot be defeated by a
+                    // later removal in the same run.
+                    if (resourceStats != nullptr && resourceStats->fixed.count(resource->srcPath) > 0) {
+                        continue;
+                    }
+
                     if (!removedAny) {
                         log("Removing the fixed resources from " + iniName + "...");
                     }
 
                     std::error_code removeError;
-                    std::filesystem::remove(resource->srcPath, removeError);
+                    std::filesystem::remove(FileService::strToPath(resource->srcPath), removeError);
 
                     // A file already gone is a removal that has nothing left to do, not a failure --
                     // the pure-Python original swallows exactly this as a FileNotFoundError.
@@ -724,45 +764,84 @@ namespace AGRemapCore {
         // "fixing the resources" and then silently fixing none of them is worse than saying nothing.
         std::vector<IniResource*> toFix;
 
-        for (std::unique_ptr<IniResource>& resource : ini.getResources()) {
-            if (resource == nullptr) {
-                continue;
-            }
-
-            // Not every resource is a remap resource -- one that is not carries none of the
-            // questions below and no fix() this class knows how to call.
-            RemapIniResourceMixin* remap = dynamic_cast<RemapIniResourceMixin*>(resource.get());
-            if (remap == nullptr) {
-                continue;
-            }
-
-            if (!remap->hasRequired()) {
-                // Recorded, not silently dropped: the pure-Python original raises a
-                // RemapMissingBlendFile here and files it under skipped, and a resource that cannot
-                // be fixed is exactly the thing a summary needs to be able to report.
-                FileStats* resourceStats = stats.get(resource->type);
-                if (resourceStats != nullptr) {
-                    resourceStats->addSkipped(resource->srcPath,
-                                              std::make_exception_ptr(std::runtime_error(
-                                                  "Missing the file(s) required to fix " + resource->srcPath)));
+        // BOTH lists, and the downloads FIRST.
+        //
+        // A .ini file keeps its downloads apart from its other resource models (getFileDownloads vs
+        // getResources), and this loop used to walk only the second -- so every download a parser
+        // recorded was written into the .ini file as a '[Resource...RemapDL]' section and then never
+        // actually fetched. _fixResource has always known how to run one; nothing ever handed it
+        // one. The whole download feature was inert on this path.
+        //
+        // Their order relative to each other is load-bearing, not tidiness: a resource may be built
+        // FROM a downloaded file. Amber's face diffuse is exactly that -- the fix edits the
+        // downloaded texture to make the blush mask transparent -- and with the resources screened
+        // first, the edit runs against a file that has not been downloaded yet, finds nothing, and
+        // silently writes no output.
+        auto screen = [&](std::vector<std::unique_ptr<IniResource>>& resources) {
+            for (std::unique_ptr<IniResource>& resource : resources) {
+                if (resource == nullptr) {
+                    continue;
                 }
-                continue;
-            }
 
-            // Already dealt with, successfully or not -- on this .ini file or an earlier one, since
-            // several .ini files can name the same source or fixed file.
-            if (remap->srcIsFixed(stats) || remap->srcEncounteredError(stats)
-                    || remap->fixIsFixed(stats) || remap->fixEncounteredError(stats)) {
-                continue;
-            }
+                // Not every resource is a remap resource -- one that is not carries none of the
+                // questions below and no fix() this class knows how to call.
+                RemapIniResourceMixin* remap = dynamic_cast<RemapIniResourceMixin*>(resource.get());
+                if (remap == nullptr) {
+                    continue;
+                }
 
-            // "Fix without removing previous fixes" -- a fixed file already on disk is left alone.
-            if (fixOnly && remap->fixExists(stats)) {
-                continue;
-            }
+                if (!remap->hasRequired()) {
+                    // Recorded, not silently dropped: the pure-Python original raises a
+                    // RemapMissingBlendFile here and files it under skipped, and a resource that cannot
+                    // be fixed is exactly the thing a summary needs to be able to report.
+                    FileStats* resourceStats = stats.get(resource->type);
+                    if (resourceStats != nullptr) {
+                        resourceStats->addSkipped(resource->srcPath,
+                                                  std::make_exception_ptr(std::runtime_error(
+                                                      "Missing the file(s) required to fix " + resource->srcPath)));
+                    }
+                    continue;
+                }
 
-            toFix.push_back(resource.get());
-        }
+                // Already FAILED, on this .ini file or an earlier one. Retrying a resource that
+                // is known not to work would just repeat the same error per .ini file.
+                if (remap->srcEncounteredError(stats) || remap->fixEncounteredError(stats)) {
+                    continue;
+                }
+
+                // Already BUILT by an earlier .ini file -- but only skip it if the file is still
+                // there, and that qualifier is the whole point.
+                //
+                // A mod folder with several .ini files is handled one file at a time, removal then
+                // fix, removal then fix. So the SECOND file's removal runs after the FIRST file's
+                // fix has already written the shared resource -- and if that second file still
+                // carries stale remap sections naming it (a mod that shipped with an old fix in it,
+                // or a DISABLED_ copy nobody cleaned up), the removal deletes the file that was
+                // just created. Without the existence check the fix then skips it as "already
+                // done", and the run ends with an .ini file referencing a resource that is not on
+                // disk.
+                //
+                // Confirmed on a real mod: an AmberCN folder with three .ini files logged "Fixing
+                // blend for AmberCNAmberRemapBlend.buf..." and summarised "fixed 1 Blend.buf
+                // files", and no such file existed when it finished. In game the body collapsed and
+                // left a floating head, because the blend the .ini pointed at was missing. The same
+                // folder with the other two .ini files taken away produced the blend correctly,
+                // which is what pinned it on the cross-file interaction rather than on the fixer.
+                if ((remap->srcIsFixed(stats) || remap->fixIsFixed(stats)) && remap->fixExists(stats)) {
+                    continue;
+                }
+
+                // "Fix without removing previous fixes" -- a fixed file already on disk is left alone.
+                if (fixOnly && remap->fixExists(stats)) {
+                    continue;
+                }
+
+                toFix.push_back(resource.get());
+            }
+        };
+
+        screen(ini.getFileDownloads());
+        screen(ini.getResources());
 
         if (toFix.empty()) {
             return;
@@ -847,7 +926,7 @@ namespace AGRemapCore {
             return "the .ini file";
         }
 
-        return std::filesystem::path(*ini.getFile()).filename().string();
+        return FileService::pathToStr(FileService::strToPath(*ini.getFile()).filename());
     }
 
 
@@ -913,7 +992,7 @@ namespace AGRemapCore {
             return;
         }
 
-        path_ = FileService::parseOSPath(std::filesystem::absolute(std::filesystem::path(*newPath)).string());
+        path_ = FileService::parseOSPath(FileService::pathToStr(std::filesystem::absolute(FileService::strToPath(*newPath))));
         pathIsCwd_ = (path_ == FileService::defaultPath());
     }
 }

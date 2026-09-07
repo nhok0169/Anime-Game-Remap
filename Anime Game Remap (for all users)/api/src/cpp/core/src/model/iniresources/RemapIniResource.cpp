@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
 
 #include <filesystem>
@@ -13,13 +14,13 @@ namespace AGRemapCore {
         // filesystems/drives, which std::filesystem::rename doesn't handle the way shutil.move does).
         void moveFile(const std::string& from, const std::string& to) {
             std::error_code renameError;
-            std::filesystem::rename(from, to, renameError);
+            std::filesystem::rename(FileService::strToPath(from), to, renameError);
             if (!renameError) {
                 return;
             }
 
-            std::filesystem::copy_file(from, to, std::filesystem::copy_options::overwrite_existing);
-            std::filesystem::remove(from);
+            std::filesystem::copy_file(FileService::strToPath(from), to, std::filesystem::copy_options::overwrite_existing);
+            std::filesystem::remove(FileService::strToPath(from));
         }
     }
 
@@ -66,7 +67,7 @@ namespace AGRemapCore {
 
     bool RemapIniFixResource::fixExists(const RemapStats& stats) const {
         (void)stats;
-        return std::filesystem::exists(fixedPath);
+        return std::filesystem::exists(FileService::strToPath(fixedPath));
     }
 
     RemapIniDownload::RemapIniDownload(const std::string& iniFolderPath, const std::string& srcPath, std::unique_ptr<FileDownload> download,
@@ -94,7 +95,7 @@ namespace AGRemapCore {
     }
 
     bool RemapIniDownload::_fix(CachedFileStats& downloadStats, std::optional<std::string> proxy) {
-        std::string downloadFolder = std::filesystem::path(srcPath).parent_path().string();
+        std::string downloadFolder = FileService::pathToStr(FileService::strToPath(srcPath).parent_path());
         auto [rawDownloadFullPath, downloaded, downloadExisted] = download->get(downloadFolder, proxy);
         (void)downloadExisted;
 

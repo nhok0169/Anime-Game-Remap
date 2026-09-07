@@ -44,6 +44,8 @@ Testing/
   Integration Tester/           <- end-to-end suite, run via its own main.py
 Tools/
   APIBuilder/                   <- the build driver for api/ (what you use to compile everything)
+  TexConverter/                 <- converts .dds textures to .png/.bmp/.jpg so they can actually be
+                                   looked at (the Read tool can't open a .dds) -- see Texture Editing
   Utilities/                    <- shared helper package used by the test runners
   ModToDumpConverter/GI/        <- Jupyter notebooks that CONSUME the API -- see the note below,
   DumpToModConverter/GI/           they go stale when you change it
@@ -73,9 +75,93 @@ you've committed one. Whether/how CI's Linux job (which does no C++/Cython build
 from this angle; don't assume a green CI run proves your native-code change is correct beyond what
 you've verified locally.
 
+## Working a feature or bug request here: the habits that pay
+
+Written after several sessions where the *diagnosis* cost far more than the fix. None of this is
+about the domain -- it is about how this particular codebase fails.
+
+**1. Assume the failure is silent, and go looking for it.** This repo's dominant bug shape is not a
+crash or a wrong value; it is a code path that runs, logs success, and does nothing. Confirmed
+examples, all found the hard way: a fixer that renamed sections and wrote no remapped geometry; a
+texture edit that logged `Editting texture for X.dds` and produced no file; downloads written into
+the `.ini` and never fetched; a `.buf` copied without being remapped. **So "the run succeeded" is
+never evidence.** Check the artifact -- the file exists, its bytes changed, the count went up.
+
+**2. "Recorded" is not "consumed" -- grep the getter.** Several features were fully built, wired
+into a model, and then read by nobody. The whole download feature was inert because
+`RemapService::fixResources` walked `getResources()` and never `getFileDownloads()`. When you add
+something to a registry, or find something already in one, `grep -rn "getTheThing"` across `core/`
+and `py/` and confirm a real consumer exists.
+
+**3. When a C++ path is inert, suspect the pybind layer took the override.** Whole halves of the
+fixer layer were only ever reached from Python: the core class does the naming and the `Py*`
+subclass does the work. This has now bitten twice in the same way (`RemapBlendReplace` needed
+`VGRemapBlendReplace`; `TexReplace` needed `TexEditorReplace`). Before using any `resEdits/` or
+`graphGroupEdits/` class from plain C++, check whether its `Py*` counterpart overrides something
+core does not. See [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "Seams that work from Python and
+do nothing from C++".
+
+**4. Find the tests before you claim there are none.** There are **two** test trees and they do not
+overlap: `api/src/cpp/core/tests/` (standalone C++, built by nothing) and
+`Testing/Unit Tester/UnitTester/Tests/` (the Python suite). Grep **both**, and confirm your path
+actually resolved -- a relative path that resolves nowhere greps clean and is indistinguishable from
+real absence. That mistake led to "no tests cover this", a behaviour change, and nine red tests.
+
+**5. A divergence from the old script is not automatically a bug in the new code.** Much of the
+C++ layer is a *replacement* whose semantics the maintainer specified, not a port. When new output
+disagrees with `FixRaidenBoss6.py`, work out which one is actually wrong before changing anything --
+and if the behaviour was specified for you, raise it rather than silently re-specifying it. A
+"fix" to `RegDelimitedAdd`'s documented placement rule broke nine tests that existed precisely to
+pin it, and the maintainer then confirmed the original behaviour was correct.
+
+**6. Prove a refactor by byte-identical output, not by green tests.** The suites here do not cover
+the data layer well enough to catch a behaviour change in an extraction. Run the real entry point
+before and after, and `cmp`/`md5sum` the produced `.ini` **and** the produced binaries. That is what
+demonstrated the `DownloadTools` extraction changed nothing.
+
+**7. Measure a third-party failure; do not infer it.** When Compressonator refused a `.dds`, reading
+its source went nowhere. Two things settled it in minutes: a *cheap hypothesis test* with no build
+(rewriting the file's header to say `mipMapCount = 1` -- it then loaded), and a ~50-line standalone
+`.cpp` calling the two suspect functions and printing both status codes. Reach for those before a
+long code read.
+
+**8. Know what state your verification harness leaves behind.** The A/B scripts under the scratchpad
+run several fixes **and then an undo**, so the tree you inspect afterwards is the *undone* one.
+Inspecting it and concluding the feature did nothing is a mistake that costs a full cycle -- run a
+single fix into its own directory when you want to look at fixed output.
+
+**9. Rebuild, then verify the `.pyd` actually moved.** A stale `core.*.pyd` makes every subsequent
+observation a lie. See [Building](../Building/CLAUDE.md) for the build-batch hygiene and the
+mtime check; and note a run parked at `== Press ENTER to exit ==` holds the `.pyd` open and makes
+the next build's copy step fail.
+
+<br>
+
 ## Operating norms
 
 - Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.
+- **Switching to `nhok0169` is not a cheap `git checkout` -- it removes your working directory and
+  strands `development`'s submodules.** Confirmed hands-on 2026-09-06, doing a data-only change
+  that had to land on both branches. Three things bite, in order:
+  - **`api/src/cpp` does not exist on `nhok0169`** -- that branch predates the entire C++ core, and
+    its API package is `api/src/FixRaidenBoss2/` rather than `api/src/py/FixRaidenBoss2/`. If your
+    session's working directory is anywhere under `api/src/cpp`, move it to the repo root *first*;
+    otherwise every command after the checkout runs from a path git has just deleted. Check what a
+    branch actually contains with `git ls-tree <branch> --name-only <path>` before switching.
+  - **`development` has submodules; `nhok0169` has no `.gitmodules` at all.** After the switch,
+    `api/extern/` (utf8proc, xxHash, z3, curl, Compressonator, common, ordered-map) survives as a
+    plain *untracked* directory full of nested git repos, alongside `api/src/py/`, `api/cbuild/`,
+    `api/wheelhouse/`, `cbuild/` and `cebuild/` -- ~11k untracked files in total, because git
+    cannot remove a directory that still holds ignored/untracked content. **Never `git add -A` on
+    `nhok0169`**: it would record those nested repos as bare gitlinks with no `.gitmodules` to
+    resolve them, which no clone can check out. Stage explicit paths instead
+    (`git add "Data/Mod Downloads"`), then confirm nothing else came along with
+    `git diff --cached --name-only | grep -v "^<your path>/"`.
+  - **Leave the leftovers where they are.** They are untracked on `nhok0169` and harmless; deleting
+    them costs a full submodule re-clone and native rebuild when you switch back to `development`.
+  - **Content under `Data/` is shared byte-for-byte between the two branches**, so a data-only
+    change there generally has to be committed twice, once on each — see
+    [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "The download assets" section.
 - **If you're running in a `git worktree` (not the user's main checkout), don't trust that its
   branch is actually based on `development` just because that's the norm** — verify before relying
   on any file being present. Confirmed the hard way: a worktree's branch had been created off

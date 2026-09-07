@@ -26,6 +26,8 @@ class CommandOpts(Enum):
     All = '--all'
     Types = "--types"
     FixedTypes = "--remappedTypes"
+    GameType = "--game"
+    UnCompress = "--uncompressTextures"
     ForceType = "--forceType"
     Version = "--version"
     Log = "--log"

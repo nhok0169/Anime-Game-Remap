@@ -553,8 +553,10 @@ void testRaiden6_1() {
 
     // The mod objects the factory is specified to carry, and the mod type whose real asset tables
     // it classifies against.
+    // 'face' is last, and is there for its TEXTURES rather than its geometry -- the fix collects
+    // the ps-t0 its graph points at and makes the blush mask in the alpha channel transparent.
     const std::vector<ModObj> expectedModObjs = {ModObj("", "head"), ModObj("", "body"), ModObj("", "dress"),
-                                                 ModObj("", "blend")};
+                                                 ModObj("", "blend"), ModObj("", "face")};
 
     // Held by value: GIBuilder::all() returns a fresh vector, so pointing into a temporary would
     // dangle the moment the loop ended.
@@ -585,7 +587,7 @@ void testRaiden6_1() {
     check(parser != nullptr, "raiden6_1 builds a GIMIParser, not a bare BaseIniParser");
 
     if (parser != nullptr) {
-        check(parser->modObjs() == expectedModObjs, "and carries the head/body/dress mod objects, in order");
+        check(parser->modObjs() == expectedModObjs, "and carries the head/body/dress/blend/face mod objects, in order");
         check(parser->objTargetFuncs.size() == 1, "and exactly one obj target func -- the section classifier");
         check(!parser->disjointModObjs, "and is NOT disjoint -- one section may name several mod objects");
     }

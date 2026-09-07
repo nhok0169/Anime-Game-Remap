@@ -1,0 +1,223 @@
+#ifndef AGRemapCore_GIMICharFixer_H
+#define AGRemapCore_GIMICharFixer_H
+
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
+
+
+namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     What one character's fix does differently, for the **standard GIMI character shape** --
+     everything :cpp:func:`makeGIMICharFixer` needs that is not the same for every character
+     @endrst
+     */
+    struct GIMICharFixerConfig {
+        /**
+         * @brief
+         @rst
+         The objects that actually draw, lowercase -- **the SOURCE's**, not the target's. **Must
+         match the paired :cpp:member:`GIMICharParserConfig::drawnObjs` exactly** -- the parser is
+         what decides these names exist at all :raw-html:`<br />` :raw-html:`<br />`
+
+         Where the target draws a different set, see \ref objSplits
+         @endrst
+         */
+        std::vector<std::string> drawnObjs;
+
+        /**
+         * @brief
+         @rst
+         Which of the target's drawn objects each of the source's becomes -- **empty (the default)
+         means one-to-one**, every object keeping its own name :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Two characters of the same "shape" need not draw the same objects. Jean draws
+         ``head``/``body``; JeanSea draws ``head``/``body``/``dress``, its cape being geometry Jean
+         simply does not have. Remapping between them is not a rename, it is a **split** (one source
+         graph emitted once per target object, each carrying that object's own hash and
+         ``match_first_index``) or a **merge** (several source graphs landing on one target object)
+
+         .. code-block::
+
+            split                            merge
+            =====                            =====
+            Jean          JeanSea            JeanSea        Jean
+            head  ------>  head               head   ----->  head
+            body  --+--->  body               body   --+-->  body
+                    +--->  dress              dress  --+
+
+         Written as ``{{"head", {"head"}}, {"body", {"body", "dress"}}}`` and
+         ``{{"head", {"head"}}, {"body", {"body"}}, {"dress", {"body"}}}`` respectively. A source
+         object left out of the list is dropped from the remap entirely :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         .. note::
+            **A merge produces MORE THAN ONE ``.ini`` file.** Two sources naming one target collide,
+            and :cpp:func:`GraphGroupRemap::remapGraphs` puts the loser in an additional
+            :cpp:class:`IniGraphGroup` for the same ``.ini`` file, which the fixer writes out as
+            ``<name>RemapFix1.ini``. That is deliberate and is how the pure-Python
+            ``GIMIObjMergeFixer`` worked: the game loads both and overlaps them. Set
+            :cpp:member:`GIMIFixer::copyPreamble` so the extra file says what it is
+
+         .. warning::
+            **Order matters.** These are applied in sequence, and the FIRST target to claim a
+            ``(component, object)`` key keeps the main group. List the objects in the order the
+            target draws them
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::string>>> objSplits;
+
+        /**
+         * @brief
+         @rst
+         Registers forced onto one **target** object's parts, after the split :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Written as ``{{"dress", {{"ib", "null"}}}}`` -- which is exactly what Jean -> JeanSea needs,
+         the split's second copy having inherited an ``ib`` that is not its own :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Existing values are replaced; a part with no such register does **not** grow one
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>> objNewRegVals;
+
+        /**
+         * @brief One texture edit -- a texture the fix rewrites and repoints a register at
+         */
+        struct TexEdit {
+            /**
+             * @brief The **target** object whose graph holds the register
+             */
+            std::string obj;
+
+            /**
+             * @brief The register the texture hangs off, eg. ``"ps-t1"``
+             */
+            std::string reg;
+
+            /**
+             * @brief
+             @rst
+             What the edited texture is called in the ``.ini`` file it is written into, eg.
+             ``"ShadeLightMap"``
+             @endrst
+             */
+            std::string name;
+
+            /**
+             * @brief What the edit does to the texture
+             */
+            TexEditor::Filter filter;
+
+            /**
+             * @brief
+             @rst
+             Whether the edited texture is written back compressed -- see
+             :cpp:func:`TexEditor::getCompress` for the speed/size trade. **Default**: ``true``
+             @endrst
+             */
+            bool compress = true;
+        };
+
+        /**
+         * @brief
+         @rst
+         Textures this fix rewrites, repointing the register at the rewritten copy -- the direct
+         equivalent of the pure-Python parser's ``texEdits`` plus the fixer's ``RegTexEdit``, which
+         are one thing here :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: empty -- most characters need none
+         @endrst
+         */
+        std::vector<TexEdit> texEdits;
+
+        /**
+         * @brief
+         @rst
+         Whether the fix takes the shared ``drawindexed`` off ``("", "ib")`` and re-issues one per
+         drawn object :raw-html:`<br />` :raw-html:`<br />`
+
+         **Per character, and not guessable from the ``.ini`` file's shape** -- Amber and Mona both
+         ship a ``[TextureOverride<Char>IB]`` carrying ``handling = skip`` and ``drawindexed = auto``,
+         yet Amber's fix moves the draw call and Mona's leaves it exactly where it is. Check what
+         the pure-Python row for that character does (the ``Ib*`` entries in its
+         ``IniFixBuilderData`` row), or read a mod the old script has already fixed
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false`` -- the commoner of the two
+         @endrst
+         */
+        bool moveDrawIndexed = false;
+
+        /**
+         * @brief
+         @rst
+         The register the face diffuse USED to hang off, and the first half of the swap the fix
+         applies :raw-html:`<br />` :raw-html:`<br />`
+
+         GI 6.x swapped which register the shader reads the face diffuse and the face lightmap out
+         of, so the fix swaps \ref faceDiffuseReg and \ref faceLightMapReg back -- see
+         :cpp:func:`makeGIMICharFixer` :raw-html:`<br />` :raw-html:`<br />`
+
+         **Read it off the mod's own ``.ini`` file** -- which ``ps-tN`` a character's face sits on is
+         not derivable in general, though every character so far uses ``ps-t0``.
+         **Default**: ``"ps-t0"``
+         @endrst
+         */
+        std::string faceDiffuseReg = "ps-t0";
+
+        /**
+         * @brief
+         @rst
+         The other half of that swap -- the register the face lightmap used to hang off, and the one
+         the diffuse has to move to :raw-html:`<br />` :raw-html:`<br />`
+
+         A mod that binds no lightmap at all is the common case and needs nothing extra: this half
+         of the swap simply finds nothing to move. **Default**: ``"ps-t1"``
+         @endrst
+         */
+        std::string faceLightMapReg = "ps-t1";
+    };
+
+
+    /**
+     * @brief
+     @rst
+     Builds the fixer for a character with the **standard GIMI shape**, paired with
+     :cpp:func:`makeGIMICharParser` :raw-html:`<br />` :raw-html:`<br />`
+
+     What it does, for a remap onto a genuinely different model (a CN skin, or a skin's base
+     character):
+
+     #. remaps every ``hash`` with :cpp:class:`RegAssetRemap`, and every drawn object's
+        ``match_first_index`` with a **forward** lookup -- see :cpp:class:`RegAssetRemap`'s own
+        warning for why the index cannot use the same tool
+     #. rebuilds the ``Blend.buf`` through :cpp:class:`VGRemapBlendReplace`
+     #. swaps the face's diffuse and lightmap registers with :cpp:class:`RegRemap` -- the cure for
+        the white cheek spots, GI 6.x having swapped which register the shader reads each out of --
+        and **hides the original face section**, the one thing it hides, because a CN pair shares
+        its ``tex_face_diffuse`` hash and the two would otherwise both bind
+     #. drops the mod's own ``ORFix``/``NNFix`` calls and re-issues ``NNFix`` where it belongs
+     #. renames each graph with the convention belonging to **its own kind**
+
+     .. note::
+        This is **not** the shape for remapping onto a boss that shares the source's geometry --
+        that keeps the source's hashes and has to hide the originals instead. Raiden has her own
+        fixer for exactly that reason; see `Creating Remaps <../CreatingRemaps/CLAUDE.md>`_'s
+        "Two shapes of remap"
+     @endrst
+     *
+     * @param config What this character does differently -- see #GIMICharFixerConfig
+     */
+    IniFixBuilder::Factory makeGIMICharFixer(GIMICharFixerConfig config);
+}
+
+#endif

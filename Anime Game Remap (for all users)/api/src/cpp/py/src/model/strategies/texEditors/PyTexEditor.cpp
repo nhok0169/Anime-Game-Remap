@@ -1,5 +1,8 @@
 #include "PyTexEditor.h"
 
+#include <memory>
+#include <vector>
+
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 #include "AGRemapCore/model/strategies/texEditors/BaseTexEditor.h"
 
@@ -22,5 +25,19 @@ filter list was passed to the constructor.
     Python-visible behavior
     )doc")
 
-        .def(py::init<>());
+        .def(py::init([](bool compress) {
+                 return std::make_unique<AGRC::TexEditor>(std::vector<AGRC::TexEditor::Filter>{}, compress);
+             }),
+             py::arg("compress") = true)
+
+        .def_property("compress", &AGRC::TexEditor::getCompress, &AGRC::TexEditor::setCompress, py::doc(R"doc(
+Whether :meth:`~CppBaseTexEditor.fix` writes the edited texture back in its original compressed
+format, or as a plain 32-bit uncompressed ``.dds``
+
+Handed straight to :meth:`CppTextureFile.save`, which documents the trade. The short version: BCn
+encoding is almost the entire cost of an edit, and turning it off is roughly eight times faster for
+a file about four times larger.
+
+**Default**: ``True``
+        )doc"));
 }

@@ -23,6 +23,33 @@ for how these conventions show up in rendered docs.
   a real `std::unordered_set`/`std::unordered_map` locally, e.g. `getKeys()`, even though the
   `IOrderedMultiMap` interface it talks to can't — see the delegation-chain section below).
 
+## Never use `path.string()`, `std::filesystem::path(str)`, or hand a narrow string to `std::filesystem` / an `fstream`
+
+Use **`FileService::pathToStr` / `FileService::strToPath`** instead. Every path-shaped `std::string`
+in `core/` is UTF-8, and these two are the only conversions that keep it that way.
+
+On Windows, `path::string()` converts through the process's **active code page** and *throws*
+`std::system_error` ("No mapping for the Unicode character exists in the target multi-byte code
+page") the moment a path holds a character that page cannot represent. Constructing a path from a
+narrow string is the same bug pointing the other way: the bytes are read as the active code page, so
+a UTF-8 name silently becomes a *different* path — usually surfacing much later as "file not found".
+
+This is not theoretical. A real Mona CN mod ships a file called `命令.txt`, and it took down the
+**entire run** — the folder walk threw before a single `.ini` file was fixed. Measured on that exact
+path: `string()` throws, `u8string()` returns 17 correct bytes. All ~96 conversion sites in `core/`
+were routed through the helpers on 2026-09-07.
+
+Two things worth knowing if you touch this again:
+
+- **`setlocale(LC_ALL, ".UTF-8")` genuinely fixes all of it in one line** — measured, `string()`
+  then returns proper UTF-8. It was rejected on purpose: this ships as a Python extension module,
+  and a library has no business mutating its host process's global locale.
+- **Compressonator's C API is still a narrow-`char` interface** (`CMP_LoadTexture(src.c_str())`), so
+  a texture whose *path* contains non-ASCII may still fail to load. Out of reach without patching
+  the vendored library; the `.ini` layer above it is now correct.
+
+<br>
+
 ## `std::make_tuple(*ptr1, *ptr2)` silently returns dangling references when the declared return type is a tuple of references
 
 A method declared `std::tuple<const std::string&, const TrieVal&> getXxx(...)` but implemented as

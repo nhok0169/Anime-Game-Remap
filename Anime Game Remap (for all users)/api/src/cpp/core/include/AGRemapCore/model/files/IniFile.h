@@ -647,6 +647,33 @@ namespace AGRemapCore {
             std::optional<std::string> disableIni(bool makeCopy = false);
 
             /**
+             * @brief
+             @rst
+             Puts the ``.ini`` file back to 'originalTxt' after a fix threw part-way through
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A fix **moves the file aside before it writes** -- \ref disableIni renames
+             ``X.ini`` to ``RemapBKUPX.txt`` and does not copy it back -- so between that rename and
+             the write there is no ``.ini`` file at all. An exception in that window used to leave
+             the mod with nothing: the rename done, the write never reached
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                Restoring from **memory** rather than from the backup on disk is deliberate. The
+                backup is not something to rely on: a run with ``keepBackups`` off deletes it, and
+                the rename may itself have overwritten an older backup the modder was keeping.
+                \ref getFileTxt is what the fix was working from anyway, so it is both the most
+                faithful copy and the one that is always there
+
+             .. note::
+                ``noexcept``, because \ref fix calls it while unwinding -- see its own guard
+             @endrst
+             *
+             * @param originalTxt The content the file had before the fix started
+             */
+            void restoreAfterFailedFix(const std::string& originalTxt) noexcept;
+
+            /**
              * @brief Parses all the :cpp:class:`IfTemplate`\\s for the .ini file -- see #getIfTemplates for the cached version
              *
              * @return The parsed :cpp:class:`IfTemplate`\\s, keyed by `section`_ name

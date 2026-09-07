@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 
 #include <filesystem>
@@ -127,16 +128,16 @@ namespace AGRemapCore {
 
         std::filesystem::path path(*iniFile_->getFile());
         if (groupInd == 0) {
-            return path.string();
+            return FileService::pathToStr(path);
         }
 
         // Group 0 is the .ini file's own path; every later group is a copy, named by appending the
         // RemapFix suffix and the index to the base name -- the equivalent of the pure-Python
         // original mutating a deep copy of its FilePath's baseName as it walks the groups.
         std::filesystem::path copy = path.parent_path() /
-            (path.stem().string() + IniKeywords::RemapFix + std::to_string(groupInd) + path.extension().string());
+            (FileService::pathToStr(path.stem()) + IniKeywords::RemapFix + std::to_string(groupInd) + FileService::pathToStr(path.extension()));
 
-        return copy.string();
+        return FileService::pathToStr(copy);
     }
 
 
@@ -146,7 +147,7 @@ namespace AGRemapCore {
         }
 
         std::error_code err;
-        bool result = std::filesystem::exists(*iniFile_->getFile(), err);
+        bool result = std::filesystem::exists(FileService::strToPath(*iniFile_->getFile()), err);
         return result && !err;
     }
 

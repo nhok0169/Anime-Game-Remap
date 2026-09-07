@@ -144,6 +144,30 @@ namespace AGRemapCore {
             std::string toModName;
 
             /**
+             * @brief
+             @rst
+             The name of the mod being fixed **from**, used to constrain the reverse lookup
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. warning::
+                **Leaving this empty is a real bug risk, not a convenience.**
+                :cpp:func:`ModMappedAssets::replace` starts by reverse-looking-up the value to find
+                which row owns it, and when the source and the target **share** that value -- which
+                every CN pair does for at least one asset -- the row it lands on is whichever the
+                map happens to yield. Land on the *target*'s row and the forward step then asks the
+                remap graph for ``target -> target``, which is not an edge, so the whole remap
+                returns nothing and the register is written as ``HashNotFound``
+                :raw-html:`<br />` :raw-html:`<br />`
+
+                That is exactly what happened to Rosaria's face hash (``2abd61ee``, shared with
+                RosariaCN) while Amber's and Mona's identical situations worked purely by map
+                ordering -- a silent, character-dependent failure. Filling this in makes the reverse
+                lookup deterministic
+             @endrst
+             */
+            std::string fromModName;
+
+            /**
              * @brief The version of the ``.ini`` file being fixed, or ``std::nullopt`` for "the latest"
              */
             std::optional<Version> fromVersion;
@@ -158,10 +182,12 @@ namespace AGRemapCore {
              *
              * @param assets Which registers to remap, and against which table
              * @param toModName The name of the mod being fixed to
+             * @param fromModName The name of the mod being fixed from -- see \ref fromModName for why leaving it empty is risky. **Default**: ``""``
              * @param fromVersion The version of the .ini file being fixed. **Default**: ``std::nullopt``
              * @param toVersion The version being fixed to. **Default**: ``std::nullopt``
              */
             explicit RegAssetRemap(std::vector<std::pair<K, AssetSpec>> assets = {}, std::string toModName = "",
+                                    std::string fromModName = "",
                                     std::optional<Version> fromVersion = std::nullopt,
                                     std::optional<Version> toVersion = std::nullopt);
 

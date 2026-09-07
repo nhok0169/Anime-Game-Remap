@@ -126,6 +126,84 @@ class CppTextureFileTest(BaseUnitTest):
         self.assertNotEqual(pxNoGamma[0], pxGamma[0], "gamma correction should have changed the red channel")
         self.assertTrue(_closeToColour(pxGamma, 0, (pxGamma[0], pxGamma[1], pxGamma[2], 128)), "alpha should be untouched by gamma correction")
 
+    # ================================================
+    # ================ saveAs ========================
+
+    def test_saveAs_png_writesFileAndLeavesSrcAlone(self):
+        srcPath = self._tmpPath("cpp_texturefile_saveas_src.dds")
+        tf = FRB.CppTextureFile(srcPath)
+        tf.setPixels(bytes([10, 20, 30, 255] * (4 * 4)), 4, 4)
+        tf.save()
+
+        pngPath = self._tmpPath("cpp_texturefile_saveas_out.png")
+        self.assertTrue(tf.saveAs(pngPath))
+        self.assertTrue(os.path.isfile(pngPath))
+
+        # saveAs must not repoint the texture at its destination
+        self.assertEqual(tf.src, srcPath)
+
+    def test_saveAs_png_isARealPng(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_saveas_magic_src.dds"))
+        tf.setPixels(bytes([1, 2, 3, 255] * (2 * 2)), 2, 2)
+
+        pngPath = self._tmpPath("cpp_texturefile_saveas_magic.png")
+        self.assertTrue(tf.saveAs(pngPath))
+
+        with open(pngPath, "rb") as f:
+            self.assertEqual(f.read(8), b"\x89PNG\r\n\x1a\n", "should be written with a real PNG signature")
+
+    def test_saveAs_png_isLosslessUnlikeTheDdsPath(self):
+        # the whole point of exporting to .png: no BCn block compression in the way, so the pixels
+        # come back exactly, not merely close
+        pixels = bytes([13, 57, 201, 255] * (4 * 4))
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_saveas_lossless_src.dds"))
+        tf.setPixels(pixels, 4, 4)
+
+        pngPath = self._tmpPath("cpp_texturefile_saveas_lossless.png")
+        self.assertTrue(tf.saveAs(pngPath))
+
+        result = FRB.CppTextureFile(pngPath)
+        result.open()
+        self.assertTrue(result.hasImage)
+        self.assertEqual((result.width, result.height), (4, 4))
+        self.assertEqual(result.getPixels(), pixels)
+
+    def test_saveAs_doesNotApplyGamma(self):
+        # unlike save(), which gamma-corrects destructively in place
+        pixels = bytes([100, 100, 100, 128] * (2 * 2))
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_saveas_gamma_src.dds"))
+        tf.setPixels(pixels, 2, 2)
+        tf.gamma = 2.2
+
+        pngPath = self._tmpPath("cpp_texturefile_saveas_gamma.png")
+        self.assertTrue(tf.saveAs(pngPath))
+
+        self.assertEqual(tf.getPixels(), pixels, "saveAs must not mutate the pixel buffer")
+
+        result = FRB.CppTextureFile(pngPath)
+        result.open()
+        self.assertEqual(result.getPixels(), pixels, "saveAs must not gamma-correct what it writes")
+
+    def test_saveAs_dds_stillCompresses(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_saveas_dds_src.dds"))
+        tf.setPixels(bytes([50, 60, 70, 255] * (4 * 4)), 4, 4)
+
+        ddsPath = self._tmpPath("cpp_texturefile_saveas_dds_out.dds")
+        self.assertTrue(tf.saveAs(ddsPath))
+
+        result = FRB.CppTextureFile(ddsPath)
+        result.open()
+        self.assertTrue(result.hasImage)
+        self.assertEqual((result.width, result.height), (4, 4))
+        self.assertTrue(_closeToColour(result.getPixels(), 0, (50, 60, 70, 255)))
+
+    def test_saveAs_nothingLoaded_returnsFalse(self):
+        tf = FRB.CppTextureFile(self._tmpPath("cpp_texturefile_saveas_empty.dds"))
+        pngPath = self._tmpPath("cpp_texturefile_saveas_empty.png")
+
+        self.assertFalse(tf.saveAs(pngPath))
+        self.assertFalse(os.path.isfile(pngPath))
+
     def test_save_preservesOriginalFormatOnReSave(self):
         # A texture opened from an existing file remembers its compressed format and re-encodes to
         # it on save, rather than always falling back to CppTextureFile.DefaultFormat.

@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 
 #include <filesystem>
@@ -68,7 +69,7 @@ namespace AGRemapCore {
         }
 
         // Derived rather than stored, the same way IniFileRemoveContext does it.
-        return std::filesystem::path(*iniFile_->getFile()).parent_path().string();
+        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
     }
 
 

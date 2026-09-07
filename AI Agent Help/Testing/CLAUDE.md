@@ -454,7 +454,27 @@ has been actively fixing these incrementally (a large batch — `test_FileServic
 `test_IfPredLogicGenerator`, `test_SympyIfPredGenerator`, `test_IntTools`, `test_Version`,
 `test_IfTemplateNormTree`, `test_IfTemplateTree`, and the old pre-C++-port `test_IfContentPart` —
 all went from broken to fully passing in one pass), so **don't trust this list blindly; re-run and
-re-verify rather than assuming stale entries are still accurate**, in either direction. Confirmed
+re-verify rather than assuming stale entries are still accurate**, in either direction.
+
+> **Current baseline — verified 2026-09-06: 2005 tests, 0 failures, 7 errors, all from ONE cause.**
+> Every one of the seven is a `setUpClass` error reading
+> `AttributeError: module 'src.py.FixRaidenBoss2' has no attribute 'IniClassifierOld'`, and they
+> all come from two lines: `baseIniFileTest.py:19-20` calls `FRB.IniClassifierOld()` /
+> `FRB.IniClassifierBuilderOld()`, but the package exports `IniClassifier` and `BaseIniClassifier`
+> (both C++-backed) and **no `...Old` variant of either** — the test base was left pointing at names
+> that don't exist. Blocked modules: `test_GIMIFixer`, `test_GIMIParser`,
+> `test_GlobalRemapIniRemover`, `test_GraphGroupRemap`, `test_RemapIniRemover`,
+> `test_ResGroupCollect`, `test_ResRegCollect`. A `setUpClass` failure aborts its whole class
+> silently, so "7 errors" badly understates how many individual tests are actually blocked.
+> **If you see exactly these 7, that is the baseline, not your change** — and if you want to fix it,
+> it's a two-line edit in one file, not seven investigations.
+>
+> Note how much smaller this is than every snapshot below it: the long `ModMappedAssets.updateKeys`
+> / `VGRemaps.updateRepo` / stale-`src.FixRaidenBoss2`-import cascades those describe are **gone**.
+> Treat everything after this box as history that explains how the suite got here, not as a
+> description of what you'll see today.
+
+Confirmed
 right after this file's own warning above was written: the `test_Mod`/`test_ModType`/etc. root
 cause named two paragraphs below (`ModMappedAssets.updateKeys`, `TypeError: string indices must be
 integers`) had *already* drifted by the time it was re-checked — `test_ModType` now fails with a

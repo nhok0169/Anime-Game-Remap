@@ -165,6 +165,70 @@ class TexEditorTest(BaseUnitTest):
         self.assertEqual(tf.src, outPath)
 
     # ================================================
+    # ====== Pillow-only classmethods ==================
+
+    # These three are implemented with Pillow (PIL.ImageEnhance has no Compressonator equivalent),
+    # so they need a real .img. Since readPillowImg defaults to False, .img is normally None --
+    # reaching straight for it used to raise AttributeError, which is what these pin down.
+
+    def test_setTransparency_readPillowImgFalse_buildsImgOnDemand(self):
+        srcPath = self._makeSourceTexture("texeditor_settransparency.dds", colour = (10, 20, 30, 255))
+        tf = FRB.TextureFile(srcPath)  # readPillowImg=False (default), so .img starts out None
+        tf.open()
+        self.assertIsNone(tf.img)
+
+        FRB.TexEditor.setTransparency(tf, 1)
+
+        self.assertIsNotNone(tf.img, "should have built .img on demand rather than raising")
+        self.assertEqual(tf.img.getpixel((0, 0))[3], 1)
+
+    def test_setTransparency_survivesSaveAndReload(self):
+        srcPath = self._makeSourceTexture("texeditor_settransparency_rt.dds", colour = (10, 20, 30, 255))
+        outPath = self._tmpPath("texeditor_settransparency_rt_out.dds")
+
+        tf = FRB.TextureFile(srcPath)
+        tf.open()
+        FRB.TexEditor.setTransparency(tf, 1)
+        tf.src = outPath
+        tf.save()
+
+        result = FRB.TextureFile(outPath)
+        result.open()
+        self.assertTrue(abs(result.read()[0, 0][3] - 1) <= 8, "the edit must reach the saved file")
+
+    def test_adjustBrightness_readPillowImgFalse_doesNotRaise(self):
+        srcPath = self._makeSourceTexture("texeditor_brightness.dds", colour = (100, 100, 100, 255))
+        tf = FRB.TextureFile(srcPath)
+        tf.open()
+
+        FRB.TexEditor.adjustBrightness(tf, 0.5)
+
+        self.assertIsNotNone(tf.img)
+        self.assertLess(tf.img.getpixel((0, 0))[0], 100, "halving brightness should darken it")
+
+    def test_adjustSaturation_readPillowImgFalse_doesNotRaise(self):
+        srcPath = self._makeSourceTexture("texeditor_saturation.dds", colour = (200, 50, 50, 255))
+        tf = FRB.TextureFile(srcPath)
+        tf.open()
+
+        FRB.TexEditor.adjustSaturation(tf, 0)
+
+        self.assertIsNotNone(tf.img)
+        px = tf.img.getpixel((0, 0))
+        self.assertTrue(abs(px[0] - px[1]) <= 8 and abs(px[1] - px[2]) <= 8, f"0 saturation should be ~greyscale, got {px}")
+
+    def test_classmethods_missingFile_areNoOps(self):
+        # nothing loaded at all -> _ensureImg reports no image, and the edit quietly does nothing
+        tf = FRB.TextureFile(self._tmpPath("texeditor_classmethod_missing.dds"))
+
+        FRB.TexEditor.setTransparency(tf, 1)
+        FRB.TexEditor.adjustBrightness(tf, 0.5)
+        FRB.TexEditor.adjustSaturation(tf, 0)
+
+        self.assertIsNone(tf.img)
+        self.assertFalse(tf.hasImage)
+
+    # ================================================
     # ================ readPillowImg ===================
 
     def test_readPillowImg_defaultsToFalse(self):

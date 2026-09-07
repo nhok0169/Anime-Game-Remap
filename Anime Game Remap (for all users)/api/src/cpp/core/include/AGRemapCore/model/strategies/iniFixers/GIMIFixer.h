@@ -15,7 +15,9 @@
 #include "AGRemapCore/model/IniGraphGroup.h"
 #include "AGRemapCore/model/IniSectionGraph.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
+#include "AGRemapCore/constants/IniBoilerPlate.h"
 #include "AGRemapCore/model/strategies/iniFixers/BaseIniFixer.h"
+#include "AGRemapCore/tools/Heading.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
 // For the dynamic_cast in fixImpl: modTypeName() -- the mod type being fixed FROM -- lives on
 //   RemapIniFixContext rather than on the IniFixContext this class's Context typedef names.
@@ -406,6 +408,24 @@ namespace AGRemapCore {
              *
              * @return The key to file this group's fix under -- never empty
              */
+            /**
+             * @brief
+             @rst
+             Wraps one group's rendered `sections`_ in a heading naming the mod this fixer remaps
+             onto -- ``; ***** JeanCN *****`` ... ``; ******************`` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Only used when :cpp:member:`IniFixingContext::labelTargets` says the ``.ini`` file has
+             more than one target to tell apart. See
+             :cpp:member:`IniBoilerPlate::DefaultModHeadingSideLen`
+             @endrst
+             *
+             * @param content The rendered group, returned unchanged when there is no target to name
+             *
+             * @return The labelled block
+             */
+            std::string labelTargetBlock(const std::string& content) const;
+
             virtual std::string fixKey(std::size_t groupInd,
                                         const std::optional<std::string>& fixedFilePath) const;
 

@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/strategies/iniRemovers/IniFileRemoveContext.h"
 
 #include <filesystem>
@@ -29,7 +30,7 @@ namespace AGRemapCore {
             return "";
         }
 
-        return std::filesystem::path(*iniFile_->getFile()).parent_path().string();
+        return FileService::pathToStr(FileService::strToPath(*iniFile_->getFile()).parent_path());
     }
 
 
@@ -132,7 +133,7 @@ namespace AGRemapCore {
         // second copy for.
         std::filesystem::path path(*iniFile_->getFile());
         std::filesystem::path backup = path.parent_path() /
-            (FilePrefixes::BackupFilePrefix + path.stem().string() + FileExt::Txt);
+            (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
 
         // No existence check first: remove() reports "there was nothing there" the same way it
         // reports success, and a backup that is already gone is not a failure.

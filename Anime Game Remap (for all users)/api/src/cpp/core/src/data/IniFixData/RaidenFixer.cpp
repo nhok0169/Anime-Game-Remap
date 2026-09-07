@@ -26,6 +26,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
+#include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 
@@ -72,6 +73,43 @@ namespace AGRemapCore {
         // The register a mod object's section points its Blend.buf through.
         const std::string BlendReg = "vb1";
 
+        // The face's own diffuse, given a mod object of its own so the fix can reach the registers
+        // its textures hang off. See the swap below for why that is worth a mod object.
+        const ModObj FaceObj{"", "face"};
+
+        // ---- the face diffuse / lightmap register swap ----
+        //
+        // WHAT IT IS FOR: several months ago character faces started showing white shiny spots on
+        // the cheeks. The cause is NOT the texture. GI 6.x swapped which register the shader reads
+        // the face diffuse and the face lightmap out of, so a section still binding its diffuse to
+        // ps-t0 is handing it to the slot the shader now treats as the LIGHTMAP -- and the blush
+        // mask living in that texture's alpha channel comes back as the shiny spots.
+        //
+        // Swapping the two registers back is the whole fix. It is also one of the things the
+        // external NNFix library does under the hood -- "an overglorified RegEdit", in the
+        // maintainer's words.
+        //
+        // A mod binding only ps-t0 (the common case -- see any of the CN mods, whose face section
+        // is three lines long) simply ends up binding only ps-t1, which is right: the game supplies
+        // the slot the mod says nothing about.
+        //
+        // Read the register numbers off the mod's own .ini rather than assuming them -- which ps-tN
+        // a character's face sits on is not derivable in general (see CreatingRemaps' note on the
+        // download assets), though every character so far uses ps-t0/ps-t1.
+        const std::string FaceDiffuseReg = "ps-t0";
+        const std::string FaceLightMapReg = "ps-t1";
+
+        // BOTH DIRECTIONS IN ONE RegRemap, which is what makes this a swap rather than two renames
+        // that collapse into one. IfContentPart::remapKeys rebuilds the whole part in a single pass,
+        // consulting the rules once per ORIGINAL key, so the ps-t0 -> ps-t1 result can never be
+        // re-read as an input to the ps-t1 -> ps-t0 rule.
+        std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> makeFaceRegSwap(
+                const std::string& diffuseReg, const std::string& lightMapReg) {
+            using RemapTo = RemapList<std::string, std::string>;
+            return {{diffuseReg, RegRemap<>::KeyRemapValue(RemapTo{lightMapReg})},
+                    {lightMapReg, RegRemap<>::KeyRemapValue(RemapTo{diffuseReg})}};
+        }
+
         /**
          * Everything AGRemapCore::GIMIFixer borrows rather than owns, kept alive for exactly as
          * long as the fixer: its context (as OwnedContextGIMIFixer already does), plus the resource
@@ -101,6 +139,18 @@ namespace AGRemapCore {
                     // remapped Blend.buf is pointed at from, and commenting it out would break the
                     // very fix this is protecting.
                     this->hiddenModObjs.insert(RaidenDrawnObjs.begin(), RaidenDrawnObjs.end());
+
+                    // The face IS hidden, for the same reason head/body/dress are: this remap keeps
+                    // the source's hash, so the original and the remapped face section trigger on
+                    // exactly the same draw.
+                    //
+                    // Left in, the original would bind the diffuse to ps-t0 while the remapped one
+                    // binds it to ps-t1, and the face would end up with a diffuse in BOTH slots --
+                    // the lightmap slot included. That is worse than the bug being fixed, and not
+                    // something to leave to whichever section the game happens to apply last.
+                    // Hiding the original makes the swapped binding the only answer, and costs
+                    // nothing on Raiden herself, since the remapped section carries her own hash.
+                    this->hiddenModObjs.insert(FaceObj);
                 }
 
             protected:
@@ -167,7 +217,7 @@ namespace AGRemapCore {
                     blendAssetRemap_ = std::make_unique<RegAssetRemap<>>(
                         std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
                             {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes(), IniKeywords::HashNotFound)}},
-                        toModName_, ctx_.version(), toVersion);
+                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
 
                     blendAssetAdapter_ = std::make_unique<RegPartEdit<>>(blendAssetRemap_.get());
 
@@ -272,7 +322,15 @@ namespace AGRemapCore {
                             return IniNamingTools::getRemapBlendName(sectionName, toModName);
                         });
 
+                    // The face's register swap -- a plain register edit, applied to every part of
+                    // the face graph. That reach is the point for Raiden, whose face graph is a
+                    // TextureOverride running a CommandList that binds a DIFFERENT texture per
+                    // $swapvar branch: each branch is a part of its own, and each one needs the
+                    // swap.
+                    faceRegSwap_ = std::make_unique<RegRemap<>>(makeFaceRegSwap(FaceDiffuseReg, FaceLightMapReg));
+
                     renameBlendAdapter_ = std::make_unique<GraphPartEdit<>>(renameBlendGraph_.get());
+                    faceSwapAdapter_ = std::make_unique<RegPartEdit<>>(faceRegSwap_.get());
                     removeAdapter_ = std::make_unique<RegPartEdit<>>(removeFixCalls_.get());
                     addAdapter_ = std::make_unique<GraphPartEdit<>>(addNNFix_.get());
 
@@ -309,10 +367,25 @@ namespace AGRemapCore {
                     iniEdits.keyFilters[RaidenBlendObj] = {ObjGroupEdit::PartFilter{}, ObjGroupEdit::PartFilter{}};
                     iniEdits.trackKeys[RaidenBlendObj] = false;
 
+                    // The face gets the RENAME and the register swap. Its hash is deliberately not
+                    // remapped: RaidenBoss has no tex_face_diffuse row of its own and does not need
+                    // one, the face being the same.
+                    //
+                    // Without the rename the copied face graph renders under the original's exact
+                    // section names and is a verbatim duplicate of the source text -- the same trap
+                    // the blend fell into. Neither edit wants a key window: the rename works on
+                    // whole sections, and the swap is wanted on every register it finds.
+                    iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceSwapAdapter_.get()};
+                    iniEdits.keyFilters[FaceObj] = {ObjGroupEdit::PartFilter{}, ObjGroupEdit::PartFilter{}};
+                    iniEdits.trackKeys[FaceObj] = false;
+
                     objEdits_ = ObjGroupEdit({iniEdits}, false);
                 }
 
                 IniFileFixContext ctx_;
+
+                std::unique_ptr<RegRemap<>> faceRegSwap_;
+                std::unique_ptr<RegPartEdit<>> faceSwapAdapter_;
 
                 std::unique_ptr<VGRemapBlendReplace<>> blendReplace_;
                 std::unique_ptr<RegAssetRemap<>> blendAssetRemap_;

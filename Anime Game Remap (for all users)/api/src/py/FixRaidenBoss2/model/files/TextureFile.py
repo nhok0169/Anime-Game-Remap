@@ -221,7 +221,7 @@ class TextureFile(CppTextureFile):
 
         return self.img.load()
 
-    def save(self, img: Optional[Image] = None):
+    def save(self, img: Optional[Image] = None, compress: bool = True):
         """
         Saves the pixels defined at 'img' to the texture .dds file
 
@@ -231,6 +231,23 @@ class TextureFile(CppTextureFile):
             the new image to set for the texture file :raw-html:`<br />` :raw-html:`<br />`
 
             **Default**: ``None``
+
+        compress: :class:`bool`
+            Whether to re-encode the texture to its compressed format, or write it out as a plain
+            32-bit uncompressed ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+
+            BCn encoding is almost the whole cost of an edit (on a 4096x2048 ``BC7_UNORM`` texture,
+            ~1.5s to decode against ~15.5s to re-encode), so ``False`` is roughly eight times faster
+            for a file about four times larger :raw-html:`<br />` :raw-html:`<br />`
+
+            .. note::
+                Only the :attr:`TexEngine.Compressonator` engine can honour this.
+                :attr:`TexEngine.Pillow` writes 32-bit uncompressed either way -- `Pillow`_ has no
+                BCn encoder -- so under that engine ``True`` is silently what ``False`` does here.
+                That is the one real difference between the two engines' output, and why the
+                pure-Python implementation was so much faster than this one
+
+            **Default**: ``True``
         """
 
         Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
@@ -265,10 +282,67 @@ class TextureFile(CppTextureFile):
             self.setPixels(self.img.tobytes(), self.img.width, self.img.height)
 
         self.gamma = gamma
-        super().save()
+        super().save(compress = compress)
 
         if (self.readPillowImg):
             self.img = Image.frombytes(ImgFormats.RGBA.value, (CppTextureFile.width.fget(self), CppTextureFile.height.fget(self)), self.getPixels())
         else:
             self.img = None
+
+    def saveAs(self, dest: str) -> bool:
+        """
+        Saves the texture's current pixels to 'dest', leaving both :attr:`src` and the texture's own
+        pixels untouched -- the on-disk format is picked from 'dest's own file extension :raw-html:`<br />` :raw-html:`<br />`
+
+        This is the "convert this texture into something an ordinary image viewer can open" entry
+        point -- eg. turning a ``.dds`` into a ``.png`` so it can actually be looked at. If nothing
+        is loaded yet, the texture is :meth:`open`-ed first, so this works standalone::
+
+            TextureFile("SomeTexture.dds").saveAs("SomeTexture.png")
+
+        .. note::
+            Unlike :meth:`save`, this **never** applies the ``"gamma"`` metadata from :attr:`info`.
+            That gamma is a pre-correction for the ``.dds``/BCn sRGB round trip specifically (and
+            :meth:`save` applies it destructively, in place) -- neither is wanted when the point is
+            to look at the texture's actual decoded pixels
+
+        .. note::
+            A ``.dds`` destination is re-encoded to a compressed format, the same as :meth:`save`.
+            Any other extension is written uncompressed -- `Compressonator`_ handles ``.png``,
+            ``.bmp`` and ``.jpg`` itself, and when :attr:`engine` is :attr:`TexEngine.Pillow`,
+            `Pillow`_ handles whatever it supports instead
+
+        Parameters
+        ----------
+        dest: :class:`str`
+            The file path to write to
+
+        Returns
+        -------
+        :class:`bool`
+            Whether the file was actually written -- ``False`` if there was no texture to write
+            (eg. :attr:`src` doesn't exist)
+        """
+
+        if (not self.hasImage):
+            self.open()
+
+        if (not self.hasImage):
+            return False
+
+        if (self.engine == TexEngine.Pillow):
+            # Pillow engine: .img is the only pixel representation, so it's also what gets written
+            if (self.img is None):
+                Image = GlobalPackageManager.get(PackageModules.PIL_Image.value)
+                self.img = Image.frombytes(ImgFormats.RGBA.value, (CppTextureFile.width.fget(self), CppTextureFile.height.fget(self)), self.getPixels())
+
+            self.img.save(dest)
+            return True
+
+        # Compressonator engine: .img, when it's being maintained at all, is the live copy a filter
+        # chain may have just edited -- push it back into the native buffer before writing
+        if (self.img is not None):
+            self.setPixels(self.img.tobytes(), self.img.width, self.img.height)
+
+        return super().saveAs(dest)
 ##### EndScript

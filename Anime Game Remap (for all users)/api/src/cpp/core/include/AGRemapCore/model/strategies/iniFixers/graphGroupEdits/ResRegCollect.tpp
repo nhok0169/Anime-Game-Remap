@@ -220,9 +220,24 @@ namespace AGRemapCore {
 
         bool hasIni = ctx != nullptr && ctx->hasIni();
 
-        // copySections only matters once more than one subtype is built from the same collected
-        // set -- otherwise every subtype would be editing the same sections in place.
-        bool copySections = resEdits.size() > 1;
+        // ALWAYS COPY. createGraph is handed ctx.sectionIfTemplates() -- the .ini FILE'S OWN parsed
+        // sections -- so without this the resource graph holds pointers straight into them, and
+        // ResReplace::buildResModels' `part->setValByInd(ind, newVal)` rewrites the mod's real
+        // `filename = ` line rather than the copy the fix renders.
+        //
+        // This used to be `resEdits.size() > 1`, which named the hazard too narrowly: "two subtypes
+        // built from one collected set would edit the same sections in place". The same thing
+        // happens between two FIXERS of the same .ini file, and there it is not cosmetic. Jean is
+        // the first character to remap onto two targets, and the JeanCN fixer left
+        // `[ResourceJeanBlend]` saying `filename = JeanJeanCNRemapBlend.buf`; the JeanSea fixer then
+        // took that as its source and produced JeanJeanCNRemapJeanSeaRemapBlend.buf -- a Blend.buf
+        // remapped TWICE. In game JeanSea came out warped, vertices stretched into spikes
+        // (Images/Jean/JeanSeaWarped.jpg), which is what wrong vertex-group weights look like.
+        //
+        // Copying costs one section clone per collected resource and makes the edit idempotent,
+        // which is what it should always have been: a fix must never mutate the parse of the file
+        // it is reading.
+        const bool copySections = true;
 
         for (const auto& srcEntry : srcRegs) {
             collectFromGraphGroup(graphGroups, srcEntry.first, srcEntry.second);

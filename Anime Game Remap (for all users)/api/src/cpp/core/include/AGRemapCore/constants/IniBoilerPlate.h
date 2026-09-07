@@ -65,6 +65,41 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             How many characters one side of a **per-target** heading's border has
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A fix that remaps one mod onto several targets writes them all into one file, under one
+             credit header, with each target's own sections wrapped in a heading of their own:
+
+             .. code-block::
+
+                ; --------------- Jean Remap ---------------
+                ; Jean remapped by ...
+                ;
+                ; ***** JeanCN *****
+                ...
+                ; ******************
+                ;
+                ; ***** JeanSea *****
+                ...
+                ; *******************
+                ;
+                ; ------------------------------------------
+
+             Only written when there really is more than one target -- a single-target fix has
+             nothing to tell apart, and every character before Jean had exactly one
+             @endrst
+             */
+            static inline const std::size_t DefaultModHeadingSideLen = 5;
+
+            /**
+             * @brief The character a per-target heading's border is drawn with
+             */
+            static inline const std::string DefaultModHeadingSideChar = "*";
+
+            /**
+             * @brief
+             @rst
              The name a heading falls back to when the ``.ini`` file was never classified as any
              mod type (``ini.getFixModTypeHeadingname``'s own fallback)
              @endrst

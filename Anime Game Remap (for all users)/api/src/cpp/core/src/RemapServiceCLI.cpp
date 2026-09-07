@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/RemapServiceCLI.h"
 
 #include <algorithm>
@@ -402,6 +403,6 @@ namespace AGRemapCore {
 
         // A FOLDER comes in and a FILE path goes out -- the pure-Python original's own
         // "os.path.join(self._log, FileTypes.Log.value)". The file's name is never the caller's.
-        log_ = (std::filesystem::path(*newLog) / FileTypes::Log).string();
+        log_ = FileService::pathToStr((FileService::strToPath(*newLog) / FileTypes::Log));
     }
 }

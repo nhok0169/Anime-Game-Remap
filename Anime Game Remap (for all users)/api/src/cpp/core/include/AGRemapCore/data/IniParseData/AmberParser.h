@@ -12,10 +12,8 @@ namespace AGRemapCore {
      Amber's own ``.ini`` parsers, one per game version she needed a new one at
      :raw-html:`<br />` :raw-html:`<br />`
 
-     Split out of :cpp:class:`IniParseBuilderData`'s own translation unit for the reason
-     :cpp:class:`RaidenParser` is -- a real generator is an order of magnitude larger than the stub
-     it replaces. :cpp:class:`IniParseBuilderFuncs` still declares the entry point; only the
-     *definition* lives here
+     Pair this with :cpp:class:`AmberFixer`: the fixer's mod objects are the ones this parser
+     classifies, and neither half makes sense alone
      @endrst
      */
     class AmberParser {

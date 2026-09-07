@@ -29,6 +29,20 @@ namespace AGRemapCore {
         if (resourceType == "texEdit") { return &texEdit; }
         if (resourceType == "texAdd") { return &texAdd; }
 
+        // The same two buckets under the names the RESOURCE classes carry.
+        //
+        // The remover classifies with RemapIniRemover::ResourceType ("texEdit"/"texAdd") while the
+        // fixer builds RemapTexEditResource/RemapTexAddResource, whose 'type' defaults to
+        // "resourceRemapTexEdit"/"resourceRemapTexAdd" -- so a texture the fixer EDITED looked up a
+        // name this function did not know, got nullptr, and was silently never counted. The summary
+        // line for edited textures existed the whole time and simply never had anything to print.
+        //
+        // Both spellings are answered here rather than renaming either side: the resource-type
+        // strings are the maintainer's explicit call (see RemapIniRemover's own note on
+        // "RemapTexAdd"), and the remover's names are what the removal half already records under.
+        if (resourceType == "resourceRemapTexEdit") { return &texEdit; }
+        if (resourceType == "resourceRemapTexAdd") { return &texAdd; }
+
         // CachedFileStats is a FileStats, so a caller sorting removed paths into buckets treats
         // downloads like anything else -- only the cache-hit half needs the derived type.
         if (resourceType == "download") { return &download; }

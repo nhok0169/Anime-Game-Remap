@@ -15,7 +15,6 @@ namespace AGRemapCore {
     // written out one-per-method rather than collapsed into a single shared stub so that each
     // can be filled in independently, and so the table below reads exactly like the
     // pure-Python original's.
-    IniParseBuilder::Factory IniParseBuilderFuncs::amberCN4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayaka4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::barbara4_0() { return IniParseBuilder::defaultFactory(); }
@@ -26,8 +25,6 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::fischlHighness4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ganyu4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::hutao4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::jean4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::jeanCN4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::jeanSea4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeya4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeyaSailwind4_0() { return IniParseBuilder::defaultFactory(); }
@@ -38,14 +35,10 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::kleeBlossomingStarlight4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisa4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::mona4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::monaCN4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::nilou4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ningguang4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ningguangOrchid4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::rosaria4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::rosariaCN4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::shenhe4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xiangling4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xingqiu4_0() { return IniParseBuilder::defaultFactory(); }
@@ -57,8 +50,6 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::cherryHutao5_3() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xianglingCheer5_3() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::arlecchino5_4() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::jean5_5() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::jeanCN5_5() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_6() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_7() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ganyuTwilight5_7() { return IniParseBuilder::defaultFactory(); }

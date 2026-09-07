@@ -233,6 +233,88 @@ class TextureFileTest(BaseUnitTest):
         tf.save(img = Image.new("RGBA", (2, 2), (10, 20, 30, 255)))
         self.assertIsNotNone(tf.img)
 
+    # ================================================
+    # ================ saveAs ==========================
+
+    def test_saveAs_png_opensOnDemandWhenNothingLoaded(self):
+        # the one-liner case this method exists for: TextureFile(x).saveAs(y), no open() first
+        path = self._makeSavedTexture("texturefile_saveas_ondemand.dds", size = (4, 4), colour = (10, 20, 30, 255))
+        pngPath = self._tmpPath("texturefile_saveas_ondemand.png")
+
+        self.assertTrue(FRB.TextureFile(path).saveAs(pngPath))
+        self.assertTrue(os.path.isfile(pngPath))
+
+        # 'with' (here and below): an un-closed Pillow handle keeps the file locked on Windows, and
+        # tearDown's os.remove would then fail
+        with Image.open(pngPath) as written:
+            self.assertEqual(written.size, (4, 4))
+
+    def test_saveAs_png_keepsSrcPointingAtTheDds(self):
+        path = self._makeSavedTexture("texturefile_saveas_src.dds")
+        pngPath = self._tmpPath("texturefile_saveas_src.png")
+
+        tf = FRB.TextureFile(path)
+        tf.saveAs(pngPath)
+        self.assertEqual(tf.src, path)
+
+    def test_saveAs_missingFile_returnsFalse(self):
+        tf = FRB.TextureFile(self._tmpPath("texturefile_saveas_missing.dds"))
+        pngPath = self._tmpPath("texturefile_saveas_missing.png")
+
+        self.assertFalse(tf.saveAs(pngPath))
+        self.assertFalse(os.path.isfile(pngPath))
+
+    def test_saveAs_png_writesTheEditedPixelsNotTheOnesOnDisk(self):
+        path = self._makeSavedTexture("texturefile_saveas_edited.dds", size = (2, 2), colour = (10, 20, 30, 255))
+        pngPath = self._tmpPath("texturefile_saveas_edited.png")
+
+        tf = FRB.TextureFile(path)
+        tf.open()
+        tf.setPixels(bytes([200, 100, 50, 255] * (2 * 2)), 2, 2)
+        self.assertTrue(tf.saveAs(pngPath))
+
+        with Image.open(pngPath) as written:
+            self.assertEqual(written.convert("RGBA").getpixel((0, 0)), (200, 100, 50, 255))
+
+    def test_saveAs_png_syncsFromImgWhenItIsBeingMaintained(self):
+        path = self._makeSavedTexture("texturefile_saveas_fromimg.dds", size = (2, 2), colour = (10, 20, 30, 255))
+        pngPath = self._tmpPath("texturefile_saveas_fromimg.png")
+
+        tf = FRB.TextureFile(path, readPillowImg = True)
+        tf.open()
+        tf.img.putpixel((0, 0), (7, 8, 9, 255))
+        self.assertTrue(tf.saveAs(pngPath))
+
+        with Image.open(pngPath) as written:
+            self.assertEqual(written.convert("RGBA").getpixel((0, 0)), (7, 8, 9, 255))
+
+    def test_saveAs_doesNotApplyInfoGamma(self):
+        # save() gamma-corrects; saveAs() deliberately does not -- it's meant to show the texture's
+        # actual decoded pixels
+        path = self._makeSavedTexture("texturefile_saveas_gamma.dds", size = (2, 2), colour = (100, 100, 100, 255))
+        pngPath = self._tmpPath("texturefile_saveas_gamma.png")
+
+        tf = FRB.TextureFile(path)
+        tf.open()
+        tf.info["gamma"] = 2.2
+        self.assertTrue(tf.saveAs(pngPath))
+
+        with Image.open(pngPath) as written:
+            px = written.convert("RGBA").getpixel((0, 0))
+        self.assertTrue(abs(px[0] - 100) <= 8, f"expected an uncorrected ~100 red channel, got {px}")
+
+    def test_saveAs_pillowEngine_alsoWorks(self):
+        path = self._tmpPath("texturefile_saveas_pillow.dds")
+        src = FRB.TextureFile(path, engine = FRB.TexEngine.Pillow)
+        src.save(img = Image.new("RGBA", (3, 3), (11, 22, 33, 255)))
+
+        pngPath = self._tmpPath("texturefile_saveas_pillow.png")
+        self.assertTrue(FRB.TextureFile(path, engine = FRB.TexEngine.Pillow).saveAs(pngPath))
+
+        with Image.open(pngPath) as written:
+            self.assertEqual(written.size, (3, 3))
+            self.assertEqual(written.convert("RGBA").getpixel((0, 0)), (11, 22, 33, 255))
+
     def test_readPillowImgFalse_read_stillBuildsImgOnDemand(self):
         # read() is the on-demand escape hatch: regardless of readPillowImg, it must build .img
         # when a caller actually asks for pixel data through it

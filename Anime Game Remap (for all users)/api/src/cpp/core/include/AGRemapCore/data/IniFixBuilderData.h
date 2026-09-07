@@ -738,6 +738,118 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory amber6_1();
 
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.amberCN6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             AmberCN remapped onto Amber. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with AmberCN's own choices in
+             ``data/IniFixData/AmberCNFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory amberCN6_1();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.mona6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Mona remapped onto MonaCN. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with Mona's own choices in
+             ``data/IniFixData/MonaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory mona6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Jean onto JeanCN** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The ordinary CN-skin remap. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with Jean's own choices in
+             ``data/IniFixData/JeanFixer.cpp`` :raw-html:`<br />` :raw-html:`<br />`
+
+             Jean is the first character with **two** fixers rather than one, because her two
+             targets are different shapes -- see :cpp:class:`JeanFixer`
+             @endrst
+             */
+            static IniFixBuilder::Factory jean6_1ToJeanCN();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Jean onto JeanSea** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The same shape plus a **split**: JeanSea draws a ``dress`` Jean has no geometry for, so
+             Jean's ``body`` graph is emitted once as each. See
+             :cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/JeanFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory jean6_1ToJeanSea();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
+             :cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCNFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory jeanCN6_1ToJean();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split as
+             :cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCNFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory jeanCN6_1ToJeanSea();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             MonaCN remapped onto Mona. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with MonaCN's own choices in
+             ``data/IniFixData/MonaCNFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory monaCN6_1();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.rosaria6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with Rosaria's own choices in
+             ``data/IniFixData/RosariaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory rosaria6_1();
+
+            /**
+             * @brief
+             @rst
+             The pure-Python ``IniFixBuilderFuncs.rosariaCN6_1`` -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
+             :cpp:func:`makeGIMICharFixer` -- with RosariaCN's own choices in
+             ``data/IniFixData/RosariaCNFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory rosariaCN6_1();
+
     };
 
     /**

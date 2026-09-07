@@ -1,0 +1,218 @@
+#include "AGRemapCore/data/IniParseData/GIMICharParser.h"
+
+#include <algorithm>
+#include <memory>
+#include <optional>
+#include <string>
+#include <unordered_map>
+#include <utility>
+#include <vector>
+
+#include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
+#include "AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
+#include "AGRemapCore/tools/DownloadTools.h"
+#include "AGRemapCore/tools/TextTools.h"
+
+
+namespace AGRemapCore {
+    namespace {
+        using Parser = GIMIParser<>;
+        using Classifier = Parser::Classifier;
+        using ModObj = Parser::ModObj;
+
+        // Hash-data keys, not .ini register names -- spelled literally for the same reason
+        // HashToModObjData.cpp spells them that way.
+        const std::string IbHashKey = "ib";
+        const std::string BlendHashKey = "blend_vb";
+        const std::string PositionHashKey = "position_vb";
+        const std::string TexcoordHashKey = "texcoord_vb";
+
+        // The VertexLimitRaise section: a hash type belonging to no drawn object of its own, and a
+        // plain hash swap with no geometry behind it. That is what ("", "other") is for.
+        const std::string DrawHashKey = "draw_vb";
+
+        // The face's own diffuse. It gets a mod object of its own -- rather than sharing
+        // ("", "other") with the above, which is where it used to live -- because the fix reaches
+        // into this graph to swap the diffuse and lightmap registers, which GI 6.x swapped under
+        // everyone's feet. See GIMICharFixer.
+        const std::string FaceDiffuseHashKey = "tex_face_diffuse";
+
+        // The version VertexCountData is keyed under. Every row in that table is 4.0; it is the
+        // count of the model itself, which no game version since has changed.
+        const std::string VertexCountVersion = "4.0";
+
+
+        /**
+         * A GIMIParser that owns its context, its classifier AND every download it was given.
+         *
+         * GIMIParser's 'downloads' map holds BORROWED pointers, so the DownloadData objects have to
+         * outlive the parser -- the same ownership story as the context and the classifier, and the
+         * same reason a Factory subclass exists at all rather than a bare lambda.
+         */
+        class GIMICharGIMIParser: public Parser {
+            public:
+                GIMICharGIMIParser(IniFile* iniFile, std::optional<int> modTypeId, std::vector<ModObj> modObjs,
+                                    std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj,
+                                    std::unordered_map<std::string, Classifier::IndexModObjs> indexKeyToModObj,
+                                    const GIMICharParserConfig& config, long long vertexCount):
+                    Parser(nullptr, std::move(modObjs)), ctx_(iniFile, modTypeId) {
+                    this->setCtx(&ctx_);
+                    this->setIniFile(iniFile);
+
+                    // One section may name several mod objects -- see RaidenParser for the 3dmigoto
+                    // grammar bug this works around.
+                    this->disjointModObjs = false;
+
+                    classifier_ = std::make_unique<Classifier>(
+                        std::move(hashKeyOnlyToModObj), ctx_.modTypeHashes(),
+                        std::move(indexKeyToModObj), ctx_.modTypeIndices(), ctx_.version());
+
+                    Classifier* classifier = classifier_.get();
+                    this->objTargetFuncs.emplace_back(
+                        [classifier](Parser&, const std::string& sectionName, Section* section, bool,
+                                      ContentPart*, const Colouring* kvps) {
+                            if (kvps == nullptr) {
+                                return std::vector<ModObj>();
+                            }
+
+                            return classifier->classify(sectionName, section, *kvps);
+                        });
+
+                    buildDownloads(config, vertexCount);
+                }
+
+            private:
+                /**
+                 * The default parts a modder may have left out, so a fix can still reference them.
+                 *
+                 * The pure-Python original splits these across two arguments -- 'objFileDownloads'
+                 * (per mod object) and 'bufDownloads' (per .buf kind). The C++ 'downloads' map is
+                 * keyed by mod object throughout, and the .buf kinds ARE mod objects here (the
+                 * parser classifies blend/position/texcoord in their own right), so the two
+                 * collapse into one map with no information lost.
+                 *
+                 * The shape is the same for every character this builds: two textures and an index
+                 * buffer per drawn object, the three buffers, and the face. Only the names differ.
+                 */
+                void buildDownloads(const GIMICharParserConfig& config, long long vertexCount) {
+                    for (const std::string& obj : config.drawnObjs) {
+                        // "head" is the mod object; "Head" is the middle of the file name.
+                        const std::string file = TextTools::capitalize(obj);
+
+                        add(config, {"", obj}, "ps-t0", "Diffuse", file + "Diffuse", ".dds");
+                        add(config, {"", obj}, "ps-t1", "LightMap", file + "LightMap", ".dds");
+                        add(config, {"", obj}, IniKeywords::Ib, "Ib", file, ".ib",
+                             DownloadTools::ibResourceKVPs());
+                    }
+
+                    // The face diffuse. Named for the character rather than for an object, so
+                    // 'FaceDiffuse' serves as both the .ini name and the middle of the file name.
+                    //
+                    // Filled on the register the mod WOULD have used, ps-t0, and left for the
+                    // fixer's swap to move to ps-t1 along with everything else in the graph. The
+                    // parser adds a download's KVP straight into the part it is missing from
+                    // (GIMIParser::addDownloads), so by the time the fix runs a downloaded diffuse
+                    // is indistinguishable from one the mod shipped -- which is exactly what makes
+                    // the ordering work.
+                    add(config, {"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");
+
+                    // Per buffer kind. The blend is the one that needs downloadRefKVPs -- see
+                    // DownloadTools::blendRefKVPs for why a downloaded Blend.buf has to be drawn
+                    // by hand.
+                    add(config, {"", "blend"}, IniKeywords::Vb1, IniKeywords::Blend, "Blend", ".buf",
+                         DownloadTools::bufResourceKVPs(config.blendStride),
+                         DownloadTools::blendRefKVPs(vertexCount));
+                    add(config, {"", "position"}, IniKeywords::Vb0, IniKeywords::Position, "Position", ".buf",
+                         DownloadTools::bufResourceKVPs(config.positionStride));
+                    add(config, {"", "texcoord"}, IniKeywords::Vb1, IniKeywords::Texcoord, "Texcoord", ".buf",
+                         DownloadTools::bufResourceKVPs(config.texcoordStride));
+                }
+
+                /**
+                 * One download, named the same way on both sides.
+                 *
+                 * 'kind' is what the download is called in the .ini file it creates; 'file' is the
+                 * middle of the file name on GitHub and on disk. They differ where the file name
+                 * carries the object ("HeadDiffuse") but the .ini name does not ("Diffuse").
+                 */
+                void add(const GIMICharParserConfig& config, const ModObj& modObj, const std::string& reg,
+                          const std::string& kind, const std::string& file, const std::string& ext,
+                          DownloadTools::KVPs resourceKVPs = {}, DownloadTools::KVPs downloadRefKVPs = {}) {
+                    downloadStore_.add(
+                        this->downloads, modObj, reg,
+                        DownloadTools::make(kind,
+                                             DownloadTools::urlPath(config.downloadCharFolder,
+                                                                     config.downloadVersionFolder,
+                                                                     config.downloadPrefix, file, ext),
+                                             DownloadTools::fixedFileName(config.downloadPrefix, file, ext),
+                                             std::move(resourceKVPs), std::move(downloadRefKVPs)));
+                }
+
+                IniFileParseContext ctx_;
+                std::unique_ptr<Classifier> classifier_;
+                DownloadStore downloadStore_;
+        };
+    }
+
+
+    IniParseBuilder::Factory makeGIMICharParser(GIMICharParserConfig config) {
+        // FOUR kinds of mod object, and only the first needs anything the classifier does not
+        // already do on its own:
+        //
+        //  * the drawn objects all share one 'ib' and are told apart by the match_first_index that
+        //    follows it -- each keyed by the last two index columns of its own Indices row,
+        //    (component, object)
+        //  * blend/position/texcoord are each named outright by their own hash
+        //  * ("", "ib") is the section carrying the 'ib' hash and NO match_first_index at all --
+        //    the shared draw call the objects run into. GIMISectionClassifier already does this:
+        //    with "ib" in BOTH maps, a part whose index matches resolves to a drawn object, and one
+        //    with no index falls through to the hash-only entry. See its classify(), where
+        //    'inHashOnly' is what catches the no-index case
+        //  * ("", "other") and ("", "face") are each named by a hash of their own, like the buffers
+        std::vector<ModObj> ibModObjs;
+        for (const std::string& obj : config.drawnObjs) {
+            ibModObjs.emplace_back("", obj);
+        }
+
+        const ModObj otherObj{"", "other"};
+        const ModObj faceObj{"", "face"};
+        const std::vector<std::pair<std::string, ModObj>> hashOnlyObjs = {
+            {IbHashKey, {"", "ib"}},
+            {BlendHashKey, {"", "blend"}},
+            {PositionHashKey, {"", "position"}},
+            {TexcoordHashKey, {"", "texcoord"}},
+            {DrawHashKey, otherObj},
+            {FaceDiffuseHashKey, faceObj}};
+
+        // Deduplicated, because the map above may be many-hash-types-to-one-object: an object
+        // appearing twice there must appear once here, or the parser is handed a duplicate graph.
+        std::vector<ModObj> modObjs = ibModObjs;
+        for (const auto& entry : hashOnlyObjs) {
+            if (std::find(modObjs.begin(), modObjs.end(), entry.second) == modObjs.end()) {
+                modObjs.push_back(entry.second);
+            }
+        }
+
+        Classifier::IndexModObjs indexModObjs;
+        for (const ModObj& modObj : ibModObjs) {
+            indexModObjs.emplace(Classifier::IndexKey(modObj.first, modObj.second), modObj);
+        }
+
+        const std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj(hashOnlyObjs.begin(), hashOnlyObjs.end());
+        const std::unordered_map<std::string, Classifier::IndexModObjs> indexKeyToModObj = {
+            {IbHashKey, std::move(indexModObjs)}};
+
+        // Baked in once, exactly as the pure-Python original bakes 'VertexCountData[4.0][<char>]'
+        // into its own table.
+        const long long vertexCount = DownloadTools::vertexCountOf(
+            VertexCountVersion, ModTypeIdTools::getName(config.modTypeId), "");
+
+        return [modObjs, hashKeyOnlyToModObj, indexKeyToModObj, config, vertexCount](
+                   IniFile* iniFile, std::optional<int> modTypeId) {
+            return std::make_shared<GIMICharGIMIParser>(iniFile, modTypeId, modObjs, hashKeyOnlyToModObj,
+                                                         indexKeyToModObj, config, vertexCount);
+        };
+    }
+}

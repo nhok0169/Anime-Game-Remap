@@ -26,6 +26,12 @@ namespace AGRemapCore {
         const std::string IbHashKey = "ib";
         const std::string BlendHashKey = "blend_vb";
 
+        // The face's own diffuse, classified by a hash of its own. It draws nothing and has no
+        // index; it exists as a mod object purely so the fix can reach the TEXTURES its graph
+        // points at -- see the fixer, which collects that graph's ps-t0 and makes the blush mask
+        // in the alpha channel transparent.
+        const std::string FaceDiffuseHashKey = "tex_face_diffuse";
+
         /**
          * A GIMIParser that owns both the context it reads through and the classifier it
          * classifies with. GIMIParser holds a bare Context* and stores its ObjTargetFuncs as
@@ -97,18 +103,23 @@ namespace AGRemapCore {
         //    object), which for Raiden is exactly the mod object itself
         //  * blend is the Blend.buf the fix remaps, and its 'blend_vb' hash names it outright --
         //    no index needed, so it goes in the hash-only mapping instead
+        //  * face is the same shape as blend -- named outright by 'tex_face_diffuse' -- and is
+        //    tracked for its textures rather than its geometry
         const std::vector<ModObj> ibModObjs = {{"", "head"}, {"", "body"}, {"", "dress"}};
         const ModObj blendModObj{"", "blend"};
+        const ModObj faceModObj{"", "face"};
 
         std::vector<ModObj> modObjs = ibModObjs;
         modObjs.push_back(blendModObj);
+        modObjs.push_back(faceModObj);
 
         Classifier::IndexModObjs indexModObjs;
         for (const ModObj& modObj : ibModObjs) {
             indexModObjs.emplace(Classifier::IndexKey(modObj.first, modObj.second), modObj);
         }
 
-        const std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj = {{BlendHashKey, blendModObj}};
+        const std::unordered_map<std::string, ModObj> hashKeyOnlyToModObj = {{BlendHashKey, blendModObj},
+                                                                              {FaceDiffuseHashKey, faceModObj}};
         const std::unordered_map<std::string, Classifier::IndexModObjs> indexKeyToModObj = {{IbHashKey, std::move(indexModObjs)}};
 
         return [modObjs, hashKeyOnlyToModObj, indexKeyToModObj](IniFile* iniFile, std::optional<int> modTypeId) {

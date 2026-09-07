@@ -127,8 +127,52 @@ namespace AGRemapCore {
              format it was originally #open-ed with -- or, for a texture file that was never
              successfully opened (eg. a brand new file), :cpp:member:`DefaultFormat`
              @endrst
+             *
+             * @param compress
+             @rst
+             Whether to re-encode to that compressed format, or write the RGBA8 buffer out as a
+             **plain 32-bit uncompressed** ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+
+             **This is a speed/size trade, and a large one.** BCn encoding dominates the cost of
+             editing a texture: on Jean's 4096x2048 ``BC7_UNORM`` body lightmap, decoding takes
+             ~1.5s and re-encoding ~15.5s, so ``false`` turns a 17-second edit into a 2-second one.
+             What it costs is file size and format -- that same texture comes out at 32MB
+             uncompressed against 8MB as BC7 :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                ``false`` is exactly what the pure-Python `Pillow`_ engine always did:
+                ``img.save(src, 'DDS')`` writes 32-bit uncompressed and never encodes BCn at all.
+                That is worth knowing when comparing the two implementations' speed -- they were
+                never doing the same work
+
+             **Default**: ``true``
+             @endrst
              */
-            void save();
+            void save(bool compress = true);
+
+            /**
+             * @brief
+             @rst
+             Saves #getPixels to 'dest', leaving both #getSrc and #getPixels untouched -- the
+             on-disk format is chosen from 'dest's own file extension :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A ``.dds`` destination is re-encoded to the same compressed format #save would use;
+             **any other extension is written uncompressed**, straight from the RGBA8 buffer.
+             `Compressonator`_ handles ``.png``, ``.bmp`` and ``.jpg`` itself this way, which is
+             what makes this the "convert a texture into something an ordinary image viewer can
+             open" entry point :raw-html:`<br />` :raw-html:`<br />`
+
+             Unlike #save, this **never** applies #getGamma. Gamma here is a pre-correction for the
+             ``.dds``/BCn sRGB round trip specifically (and #save applies it destructively, in
+             place, to #getPixels) -- neither is wanted when the point is to look at the texture's
+             actual decoded pixels
+             @endrst
+             *
+             * @param dest The file path to write to
+             * @return Whether the file was actually written
+             */
+            bool saveAs(const std::string &dest) const;
 
             /**
              * @brief
@@ -140,6 +184,15 @@ namespace AGRemapCore {
             static constexpr CMP_FORMAT DefaultFormat = CMP_FORMAT_BC7;
 
         private:
+            /**
+             * @brief Writes #getPixels to 'dest', optionally compressing it to #format_ first
+             *
+             * @param dest The file path to write to
+             * @param compress Whether to re-encode to the remembered compressed format first
+             * @return Whether the file was actually written
+             */
+            bool writeTo(const std::string &dest, bool compress) const;
+
             std::string src_;
             std::vector<std::uint8_t> pixels_;
             int width_ = 0;

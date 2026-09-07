@@ -9,6 +9,90 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## Start here: adding a character, in order
+
+Two characters are done and they are deliberately the two different *shapes*. **Work out which one
+you have first, because four separate decisions follow from it** (see "Two shapes of remap" below):
+
+| | Source and target share geometry | Target is a different model |
+| --- | --- | --- |
+| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN** (`amber4_0`/`amber6_1`) |
+| Hashes | kept | replaced |
+| Originals | **hidden** | left alone |
+
+Then, in this order -- each step is verifiable before the next, and skipping ahead is how sessions
+get lost:
+
+1. **Ask which game version** the parser and fixer rows are for. They are version-keyed and are not
+   necessarily the same version (Amber is `amber4_0` + `amber6_1`).
+2. **Get the hashes and indices in** (`data/HashData.cpp`, `data/IndexData.cpp`) from the
+   GI-Model-Importer-Assets checkout -- see "Before writing anything" below. Nothing downstream can
+   be right until these are.
+3. **Write the parser**: one mod object per thing the fix has something to say about. Verify by
+   running the CLI and reading which sections got classified, before writing any fixer.
+4. **Write the fixer**, using the table above to decide hiding/hashes/indices.
+5. **Wire downloads** if the character needs them -- one line each via `tools/DownloadTools.h`.
+6. **A/B against the old script**, then **ask for an in-game screenshot**. Both, always.
+7. **Update the counts in `core/tests/BuilderData_test.cpp`** -- it hardcodes the number of rows in
+   each builder table, nothing builds it, and adding a character silently breaks it.
+
+**Ask rather than guess about these three**, every time. They are not derivable and a wrong guess is
+silent: the game version(s), the `CommandList` path of any external library the fix re-issues (eg.
+`NNFix` lives under `CommandList\global\ORFix\`, *not* an `NNFix` folder), and which `ps-tN` a
+given texture hangs off.
+
+**And know what "done" means here.** A remap is not done when the run is clean, nor when the tests
+pass. It is done when the A/B diff against the old script is explained line by line -- every
+remaining difference either intended or a bug you have named -- and the maintainer has confirmed it
+in game.
+
+<br>
+
+## Most characters are two short files, not two long ones
+
+Seven characters are done. Six of them (Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN) share the
+**standard GIMI shape** and are written against a template rather than copied:
+
+- `data/IniParseData/GIMICharParser.h` — `makeGIMICharParser(GIMICharParserConfig)`
+- `data/IniFixData/GIMICharFixer.h` — `makeGIMICharFixer(GIMICharFixerConfig)`
+
+A whole character is then this much:
+
+```cpp
+GIMICharParserConfig config{};
+config.modTypeId = ModTypeId::Mona;
+config.downloadCharFolder = "Mona";
+config.downloadVersionFolder = "4_0";
+config.downloadPrefix = "Mona";
+config.drawnObjs = {"head", "body"};
+config.texcoordStride = 12;
+return makeGIMICharParser(std::move(config));
+```
+
+**Check these four per character; none is guessable, and three have already differed:**
+
+| | Amber / AmberCN | Mona / MonaCN | Rosaria / RosariaCN |
+| --- | --- | --- | --- |
+| `drawnObjs` | head, body | head, body | head, body, **dress, extra** |
+| `texcoordStride` | 12 | 12 | **20** |
+| `moveDrawIndexed` | **true** | false | false |
+| download prefix | = folder | = folder | = folder (**not always**) |
+
+`moveDrawIndexed` is the nasty one. Amber and Mona ship *identically shaped*
+`[TextureOverride<Char>IB]` sections — `handling = skip` plus `drawindexed = auto` — and Amber's fix
+moves that draw call onto the drawn objects while Mona's leaves it exactly where it is. You cannot
+read it off the `.ini` file. Read the character's pure-Python `IniFixBuilderData` row (the `Ib*`
+entries are the tell) **and** confirm against a mod the old script has already fixed.
+
+Raiden is the exception and stays hand-written: a boss remap is the other shape entirely (see "Two
+shapes of remap"), not a variation on this one.
+
+**When you change the template, prove it by byte-identical output.** Porting Amber onto it produced
+an `.ini` byte-for-byte identical to her hand-written version, which is the only reason the port was
+trustworthy. The suites do not cover this layer well enough to catch a behaviour change.
+
+<br>
+
 ## The one thing to internalise: **almost every failure here is silent**
 
 A remap can be wrong in five different ways and *every observable signal still says it worked* —
@@ -86,6 +170,106 @@ For Raiden this showed the 4.1 commit changed *only* `draw_vb` and the 4.3 commi
 
 `object_indexes` maps positionally onto `object_classifications`. Cross-check against the
 `<Character><Obj>-ib=*.txt` dumps' `first index:` headers, which are independent of `hash.json`.
+
+<br>
+
+## The download assets (`Data/Mod Downloads`)
+
+Step 3 of `Docs/src/createRemap.rst` -- the textures and binaries a fix can *download* for the
+character it is remapping onto. The layout is `Data/Mod Downloads/GI/<CharFolder>/<X_Y>/`: one
+folder per download character, one subfolder per game version. The sources are the same
+**GI-Model-Importer-Assets** checkout the hashes come from (`PlayerCharacterData/<AssetFolder>/`).
+
+**Three separate name spaces collide here and none of them can be composed from another**, so
+copying one asset in means resolving all three rather than string-formatting the character's name:
+
+- **Derive the destination file prefix from the files already in that version subfolder**, never
+  from the folder name. `AyakaSpringbloom/4_0` uses `AyakaSpringBloom` (capital B) while
+  `AyakaSpringbloom/5_4` uses `AyakaSpringbloom`; the `Raiden/` download folder holds
+  `RaidenShogun`-prefixed files (its `4_0` is byte-identical to `RaidenShogun/4_0`). Anchor on
+  `*Position.buf` / `*Blend.buf` / `*Head.ib`, and fall back to `*HeadDiffuse.dds` -- `Nilou/5_4`
+  is a `.dds`-only folder with no buf/ib to anchor on.
+- **Glob the asset-side file, don't compose its name either.**
+  `GaMing/GamingFaceHeadDiffuse.dds` and `RosariaCN/RosariaFaceHeadDiffuse.dds` are each named for
+  something other than their own folder.
+- **Asset folder names differ from download folder names**: `Ayaka` -> `KamisatoAyaka`,
+  `Raiden` -> `RaidenShogun`. Every other character matched 1:1 as of 2026-09-06.
+
+Two more things that look like mistakes and are not:
+
+- **CN variants legitimately share the base character's texture.** Amber/AmberCN and
+  Rosaria/RosariaCN faces are md5-identical *in the asset repo itself*, so writing the same bytes
+  under both prefixes is correct -- don't "deduplicate" it.
+- **Nine skins have no face texture of their own**: five with no asset folder at all (CherryHuTao,
+  JeanSea, KiraraBoots, NilouBreeze, XianglingCheer) and four whose asset folder ships no
+  `*FaceHeadDiffuse.dds` (GanyuTwilight, KleeBlossomingStarlight, ShenheFrostFlower,
+  XingqiuBamboo). The maintainer's ruling (2026-09-06) is to fall back to the base character's
+  texture, renamed to the skin's own prefix. Where a character has several version subfolders the
+  **newest** is the target -- the asset repo only ever holds the current game version.
+
+**Putting a file here does not wire it up.** Downloads are registered per character in
+`core/src/data/IniParseData/<Name>Parser.cpp` -- but the boilerplate lives in
+**`tools/DownloadTools.h`** as of 2026-09-06, so a new character writes only its own choices:
+
+```cpp
+add({"", "head"}, "ps-t0", "Diffuse", "HeadDiffuse", ".dds");
+add({"", "blend"}, IniKeywords::Vb1, IniKeywords::Blend, "Blend", ".buf",
+     DownloadTools::bufResourceKVPs(32), DownloadTools::blendRefKVPs(vertexCount));
+```
+
+`DownloadTools` owns the GitHub base URL, the `DownloadConfig`, the `RemapDL` naming
+(`fixedFileName`), the URL layout (`urlPath`), the common resource `KVPs`, and `vertexCountOf`;
+`DownloadStore` owns the `unique_ptr`s, because `GIMIParser::downloads` holds **borrowed** pointers.
+Two things it deliberately will not do for you: `urlPath` takes the character folder and the file
+prefix **separately** (`Raiden/` holds `RaidenShogun`-prefixed files), and it does not guess which
+`ps-tN` anything hangs off.
+
+Do **not** alias it as `Downloads` inside a parser class -- `GIMIParser` already inherits that name
+for the borrowed-pointer map, and the inherited one wins. Spell out `DownloadTools::`.
+
+The legacy pure-Python table is `api/src/py/FixRaidenBoss2/data/FileDownloadData.py`, keyed modType -> part
+(`"head"`/`"body"`/`"dress"`) -> texture register (`ps-t0`, `ps-t1`, ...). As of 2026-09-06 neither
+carries a `"face"` row anywhere, even though `AmberParser.cpp` already treats `tex_face_diffuse` as
+a hash swap -- so the `<Prefix>FaceDiffuse.dds` files committed on both branches are present but
+referenced by nothing. Which `ps-tN` a given character's face sits on is not derivable from the
+folder contents; ask rather than guess. (Coverage is complete as of 2026-09-06: all **44** GI
+character folders now ship a `*FaceDiffuse.dds`. They were added deliberately -- the repo used to
+omit face textures to save space, and the fix now needs them -- so wiring them up is pending work,
+not a mistake to undo.)
+
+**The pure-Python `FileDownloadData.py` has no face rows and never will.** The face textures did not
+exist in the downloads back then and fixing faces was not necessary, so its absence there is not a
+gap to mirror -- it is simply older than the problem. Add the row to the character's C++ parser:
+
+```cpp
+add({"", "face"}, "ps-t0", "FaceDiffuse", "FaceDiffuse", ".dds");   // GI/<Char>/<X_Y>/<Prefix>FaceDiffuse.dds
+```
+
+Amber has one. **Raiden deliberately does not** -- the maintainer's call, and her parser has no
+downloads at all.
+
+**Before you eyeball a face diffuse, read
+[Texture Editing](../TextureEditing/CLAUDE.md)'s first section.** These files put a *blush mask*
+in their alpha channel rather than transparency (alpha averages ~3/255 on
+`Amber/4_0/AmberFaceDiffuse.dds`, with zero fully-opaque pixels), so a straight `.dds` -> `.png`
+conversion renders the face **blank** and looks exactly like an empty or broken texture. Use
+`Tools/TexConverter` (its `--alpha` defaults to `drop` for precisely this reason) rather than
+concluding the asset is bad.
+
+**Downloads were inert on the C++ path until 2026-09-06, and the symptom was silence.** A
+parser recorded them onto `IniFile::getFileDownloads()`, but `RemapService::fixResources` walked
+only `getResources()` -- so a download was written into the `.ini` file as a
+`[Resource<Mod><Name>RemapDL]` section and the file was never fetched. `_fixResource` had always
+known how to run one; nothing ever handed it one. `fixResources` now screens both lists, and
+**downloads go first**, because a resource can be built *from* a downloaded file --- in the other
+order the edit finds no file and silently writes nothing. If you add a download and see its
+`RemapDL` section but no file on disk, check that ordering first.
+
+<br>
+
+**`Data/Mod Downloads` is identical on `development` and `nhok0169`**, so a data-only change here
+has to be committed on both -- read [Overview](../Overview/CLAUDE.md)'s norm on switching branches
+before you do the second one, because that checkout has teeth.
 
 <br>
 
@@ -225,6 +409,164 @@ exactly one. Amber shows it because `RegFillMissing` appends the `drawindexed` t
 The header's "never twice in a row" line means *two insertions with nothing between them*, not an
 insertion following a delimiter. Reading it the other way costs a build cycle and nine red tests.
 
+### The face diffuse: white cheek spots are a REGISTER SWAP, not a bad texture
+
+A problem that is **not** in the pure-Python original: character faces show white shiny spots on
+the cheeks.
+
+**Read this before you touch it, because the obvious diagnosis is wrong and was built, shipped and
+thrown away once already (2026-09-06, replaced 2026-09-07).** The blush mask really does live in
+the face diffuse's alpha channel and really is opaque, so "erase the mask -- set alpha to 1" is a
+fix that *sounds* right, produces a plausible edited `.dds`, and is not what is wrong. What is
+wrong is that **GI 6.x swapped which register the shader reads the face diffuse and the face
+lightmap out of.** A section still binding its diffuse to `ps-t0` is handing it to the slot the
+shader now treats as the lightmap, and the mask in its alpha channel is what comes back as the
+spots.
+
+So the fix is a **two-way `RegRemap` over the face graph** -- `ps-t0` -> `ps-t1` and `ps-t1` ->
+`ps-t0` -- and nothing else. It is one of the things the external `NNFix` library does under the
+hood ("an overglorified RegEdit", in the maintainer's words), which is also why a mod that calls
+NNFix for itself was never showing the bug.
+
+Two pieces:
+
+1. **Parser** -- give the face a mod object of its own, keyed by the `tex_face_diffuse` hash:
+   `hashKeyOnlyToModObj = {..., {FaceDiffuseHashKey, faceObj}}`. It draws nothing; the object exists
+   only so the fix can reach the registers its graph binds.
+2. **Fixer** -- a `RegRemap` in that mod object's edit list, alongside its `GraphRename`:
+
+   ```cpp
+   using RemapTo = RemapList<std::string, std::string>;
+   faceRegSwap_ = std::make_unique<RegRemap<>>(
+       std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>>{
+           {"ps-t0", RegRemap<>::KeyRemapValue(RemapTo{"ps-t1"})},
+           {"ps-t1", RegRemap<>::KeyRemapValue(RemapTo{"ps-t0"})}});
+
+   iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceSwapAdapter_.get()};
+   ```
+
+Four things worth knowing:
+
+- **Both directions must be in ONE `RegRemap`.** `IfContentPart::remapKeys` rebuilds the part in a
+  single pass, consulting the rules once per *original* key, so one edit gives a true swap. Two
+  edits in sequence collapse both registers onto one.
+- **A mod binding only `ps-t0` is the common case, and needs nothing extra.** Every CN mod checked
+  has a three-line face section. It ends up binding only `ps-t1`, which is right -- the game
+  supplies the slot the mod says nothing about.
+- **It reaches every part of the graph.** That matters for Raiden, whose face is a `TextureOverride`
+  running a `CommandList` that binds a different texture per `$swapvar` branch: each branch is a
+  part of its own and each one gets the swap.
+- **Which `ps-tN` is per character.** Read it off the mod's `.ini` file; it is not derivable, though
+  every character so far uses `ps-t0`/`ps-t1`. `GIMICharFixerConfig` carries both.
+
+**Hide the original face section.** Every remap here keeps the source's face hash (RaidenBoss has no
+`tex_face_diffuse` row because it does not need one; each CN pair shares one outright -- Amber
+`1d064079`, Mona `8e116301`, Rosaria `2abd61ee`), so the original and the remap fire on the same
+draw. Left visible the original binds the diffuse to `ps-t0` while the remap binds it to `ps-t1`,
+and the face gets a diffuse in **both** slots -- worse than the bug being fixed.
+
+**The face diffuse downloads stay** even though nothing edits the texture any more: a mod missing
+its face diffuse entirely still wants one, and the download's KVP is added straight into the part
+during *parsing* (`GIMIParser::addDownloads`), so the fixer's swap moves it to `ps-t1` along with
+everything else. The ordering works out only because of that -- a download applied after the fix
+would land on the wrong register.
+
+### Editing a texture, if you ever do need to
+
+Nothing needs this today -- the face fix above used to and no longer does -- but the machinery is
+built, tested and the pure-Python `_hutaoEditHeadDiffuse` row does exactly this, so the next
+character that wants it should not have to rediscover the traps.
+
+A `ResRegCollect` over the graph, collecting the register, with a **`TexEditorReplace`**
+(`resEdits/TexEditorEdit.h`):
+
+```cpp
+faceReplace_ = std::make_unique<TexEditorReplace<>>(
+    faceResGraph, TexEditor({[](TextureFile& tf) { TexEditor::setTransparency(tf, 1); }}),
+    makeResEditConfig(), "resourceRemapTexEdit", std::string("FaceDiffuse"));
+
+faceCollect_.srcRegs  = {{faceGraph, "ps-t0"}};
+faceCollect_.resEdits = {{"face", faceReplace_.get()}};
+```
+
+- **`TexReplace` alone writes nothing from C++.** Exactly like `RemapBlendReplace`, it names
+  everything correctly and does not override `buildResModel`, because the editor that does the work
+  reaches it from Python. `TexEditorReplace` exists for that; using the base gives you a correct
+  `.ini` file naming a texture that was never created.
+- **`resModObj` must differ from the source graph** (`("", "face")` -> `("", "faceRemapTex")`), or
+  the resource overwrites the graph it was collected from.
+- **The collecting graph still needs its own `GraphRename`**, like everything else -- see below.
+- `TexEditor::setTransparency(texFile, alpha)` mirrors the pure-Python helper of the same name
+  (`putalpha`) and **overwrites** alpha rather than adjusting it -- which is what separates it from
+  the `Transparency` pixel transform, and the right operation when alpha is a mask rather than
+  opacity. Expect the written `.dds` to come back with alpha in 0..4 rather than exactly 1: that is
+  BC7 re-encoding a uniform value, not a bug.
+
+### A character with TWO targets, and a target that draws different objects
+
+Jean is the first of both, and the two things go together. She remaps onto **JeanCN** (an ordinary CN
+skin) and onto **JeanSea** (Sea Breeze Dandelion), and JeanSea draws a `dress` -- her cape -- that
+Jean has no geometry for at all.
+
+**Two targets means two rows, not a `MultiModFixer`.** The pure-Python original wrapped both fixers
+in one because its table was keyed only by the source; `IniFixBuilderData` is keyed by
+`(fromVersion, fromMod, toVersion, toMod)`, so they are simply two rows pointing at two factories.
+(`MultiModFixer` still exists, for the different job of one `.ini` classified as several *mod types*.)
+
+**A different object set means a split**, and `GIMICharFixerConfig::objSplits` expresses it:
+
+```cpp
+config.objSplits    = {{"head", {"head"}}, {"body", {"body", "dress"}}};
+config.objNewRegVals = {{"dress", {{IniKeywords::Ib, "null"}}}};
+```
+
+Jean's `body` graph is emitted twice, once carrying JeanSea's body index and once her dress index,
+both under JeanSea's `ib` hash. Underneath it is `GraphGroupRemap`, which needed no changes: distinct
+targets share the `.ini` group, and a **colliding** target lands in an extra group -- which is how the
+opposite direction (JeanSea's body+dress *merging* onto Jean's body) produces `<name>RemapFix1.ini`.
+
+Three things to know:
+
+- **The split runs FIRST in `graphGroupEdits`.** After it, every later edit is keyed by the *target's*
+  object names, so the index rewrite and asset remap need not know a split happened.
+- **`GIMIObjPartFilter` is the exception** -- it reads the *source's* own hash and index, so the dress
+  copy has to ask about `body`. Ask about a "dress" the source never had and the window comes back
+  empty and the edit silently does nothing.
+- **`Testing/Integration Tester/.../expected_fullFix_someFix/multiFix/select/Jean/` is a full golden
+  for this character.** Read it before guessing: it pins the indices, the `ib = null`, and the fact
+  that the `ShadeLightMap` texture edit lands on the body and *not* the dress.
+
+<br>
+
+### A fix must never mutate the parse of the file it is reading
+
+The rule, and the bug that produced it (2026-09-07). `ResRegCollect` built its resource graph with
+`copySections = resEdits.size() > 1`, while `createGraph` is handed `ctx.sectionIfTemplates()` -- the
+**`IniFile`'s own parsed sections**. With one resource edit the graph pointed straight at them, and
+`ResReplace::buildResModels`' `part->setValByInd(ind, newVal)` rewrote the mod's real `filename =`
+line.
+
+With one fixer per `.ini` file nobody noticed. With two, the JeanCN fixer left `[ResourceJeanBlend]`
+saying `filename = JeanJeanCNRemapBlend.buf`, and the JeanSea fixer took *that* as its source and
+produced a `Blend.buf` remapped **twice**.
+
+**Every text-level check passed the whole time** -- correct section names, correct `vb1`, zero dangling
+references -- because the `.ini` is rendered from the raw source text plus the fixer's own graph
+copies. Only the resource *model* carried the wrong path. The visible symptom was in game: JeanSea
+warped, vertices stretched into spikes (`Images/Jean/JeanSeaWarped.jpg`), which is what wrong
+vertex-group weights look like.
+
+**So diff the generated `Blend.buf` byte for byte against the old script's, per sub-mod.** A section
+diff cannot see this, and neither can `check_dangling.py`:
+
+```bash
+cmp old/<sub>/<Mod><Target>RemapBlend.buf new/<sub>/<Mod><Target>RemapBlend.buf
+```
+
+`copySections` is now unconditionally true. If you add a resource edit of any kind, keep it that way.
+
+<br>
+
 ### `GraphRename` is not optional
 
 `GIMIFixer` edits a deep **copy** of what the parser found; renaming that copy is what makes it the
@@ -320,6 +662,13 @@ fix builds nothing, check these before anything else:
   its own `IniFileFixContext` must override it and pass `ctx_.getIniFile()`.
 - **`GraphGroupEdit` had no core-side `PartEdit` adapters** — only `PyPartEdit`. Use
   `GraphPartEdit`/`RegPartEdit` from `graphGroupEdits/GraphGroupPartEdits.h`.
+- **`RemapBlendReplace` copies a `Blend.buf` without remapping it**, and **`TexReplace` writes no
+  texture at all** — both name everything correctly and leave `buildResModel` to the binding layer.
+  Use `VGRemapBlendReplace` and `TexEditorReplace`. Two instances of one pattern: if you find a
+  third, it will look exactly like these.
+- **Downloads were recorded and never fetched** until `RemapService::fixResources` was taught to
+  walk `getFileDownloads()` as well as `getResources()`. Not a seam you have to fix any more, but
+  the same shape: a model built by one half and read by nobody.
 
 General rule: when a `graphGroupEdits/` or `resEdits/` class has a `Py*` counterpart that overrides
 something, **check whether core overrides it too**. If only the binding does, the plain-C++ path is
@@ -339,6 +688,37 @@ Two launchers live in the user's mods folder (ask for the path — Raiden's was
 - **`FixRaidenBoss7.py`** — a thin launcher onto the development checkout's live `main.py`.
 
 Both take `-s <abs path>`. **Always run them against scratch copies**, never the user's real mods.
+
+### The A/B diff cannot see a missing file — check the references too
+
+A section diff compares `.ini` **text**. An `.ini` that names a resource the run never produced --
+or produced and then deleted -- diffs perfectly and is broken in game. Add this to every
+verification:
+
+```bash
+# every "filename = ..." in a fixed .ini must exist on disk
+python check_dangling.py <fixed mod folder>
+```
+
+**And run it on a tree that was NOT undone first.** This is the trap that cost a full in-game
+debugging round: undoing to get a pristine baseline is exactly what hides the bug, because the bug
+only appears when a folder still carries an old fix.
+
+The real case: a mod folder with three `.ini` files, two of them `DISABLED_` copies still holding
+stale remap sections. A folder is handled one `.ini` at a time, **removal then fix**, so the second
+file's *removal* deleted the `Blend.buf` the first file's *fix* had just written, and the fix then
+skipped rebuilding it as "already done on an earlier .ini". The run logged
+`Fixing blend for ...RemapBlend.buf...`, summarised `fixed 1 Blend.buf files`, and left no such file
+on disk. In game the body collapsed and left a floating head
+(`Images/Amber/6_1/AmberFloatingHead.jpg`).
+
+Guarded twice now: the removal **skips any path already in `resourceStats->fixed`** (never delete
+what this run just produced -- the real fix), and `fixResources` treats "already fixed" as true only
+when the file is **still there** (a safety net). But the general lesson is the check: **the summary
+counting a file as fixed is not evidence that it exists.**
+
+And do not test that guard with the summary's `Removed N old ...` line: `addRemoved` is recorded
+even when the file was never on disk, so a phantom removal makes the line appear either way.
 
 ### Getting a genuinely unfixed baseline — two traps
 
@@ -407,6 +787,12 @@ Learned by doing them:
   and is not.
 - **Do not let output grow across runs.** The fix appends a `\n\n` separator every run and the
   removal does not take the previous one back out, so `srcTxt` is `rstrip`'d first.
+- **Do not leave a mod without its `.ini` file when something throws.** A fix *moves the file
+  aside before it writes* (`disableIni` renames `X.ini` to `RemapBKUP<name>.txt` and does not copy
+  it back), so every exception between those two points used to destroy the user's mod.
+  `IniFile::fix` now carries a scope guard that restores from `fileTxt_` on unwind. **Restore from
+  memory, never from the backup** -- a run with `keepBackups` off deletes the backup, and the
+  rename may have overwritten an older one the modder was keeping.
 - **Do not re-classify this software's own output.** `GIMISectionClassifier::classify` refuses
   sections whose name carries `Remap` (as `classifyByTextureOverrideName` always has). A leftover
   remapped section keeps a perfectly valid hash and classifies just as convincingly as the original,

@@ -1,6 +1,9 @@
 #ifndef AGRemapCore_IniFixingContext_H
 #define AGRemapCore_IniFixingContext_H
 
+#include <string>
+#include <unordered_map>
+
 
 namespace AGRemapCore {
 
@@ -71,6 +74,46 @@ namespace AGRemapCore {
          @endrst
          */
         bool isLastModType = true;
+
+        /**
+         * @brief
+         @rst
+         Where the fix blocks already written for this ``.ini`` file live, keyed by
+         :cpp:func:`GIMIFixer::fixKey` -- **borrowed**, ``nullptr`` for "this fixer is on its own"
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         **This is what stops one .ini file's second fixer erasing its first.** Every fixer renders
+         the file's *whole* new content -- the original text, the credit boilerplate, and its own
+         sections -- and :cpp:func:`IniFile::fix` keeps the last one it is handed for a given path.
+         With one fixer per ``.ini`` file that is exactly right; with two, the second silently threw
+         the first away. Jean is the first character to remap onto two targets and so the first to
+         show it, but nothing about the failure is Jean-specific :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Each fixer appends its own block here and renders everything accumulated so far, so the
+         last one to run produces the complete file and winning the overwrite is harmless
+
+         .. note::
+            Blocks only -- never the source text or the boilerplate, which are added around the
+            accumulated blocks once per render rather than once per fixer. Two credit headers in one
+            file is exactly what this exists to avoid
+         @endrst
+         */
+        std::unordered_map<std::string, std::string>* priorFixBlocks = nullptr;
+
+        /**
+         * @brief
+         @rst
+         Whether each fixer's block is labelled with the target it remaps onto -- see
+         :cpp:member:`IniBoilerPlate::DefaultModHeadingSideLen` for what that looks like
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: ``false``, which is right for the single-target fix every character before Jean
+         had: there is only one block, and a heading naming it would say nothing the credit line
+         above it does not
+         @endrst
+         */
+        bool labelTargets = false;
 
         IniFixingContext() = default;
 

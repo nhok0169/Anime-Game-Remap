@@ -17,8 +17,8 @@
 //   * row and version counts match the pure-Python originals, plus whatever this
 //     port has added on top of them (the parse table is 54 rows / 10 versions:
 //     53 rows / 9 versions from the Python file, plus Raiden's 6.1 row; the fix
-//     table is 80: 73 Python rows fanned out to 78, plus Raiden's and Amber's
-//     own 6.1 rows;
+//     table is 89: 73 Python rows fanned out to 78, plus the eleven real 6.1 rows
+//     (Raiden, Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN);
 //     the remove table is 43 rows all at 4.0)
 //   * spot-checked rows exist at the versions the Python file lists them at,
 //     including the mods that legitimately appear more than once
@@ -93,8 +93,10 @@ void testTableShape() {
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
     check(IniParseBuilderData::repo()->size() == 54, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row");
-    check(IniFixBuilderData::repo()->size() == 80,
-          "the fix table has 80 rows -- the 73 Python rows fanned out per target mod to 78, plus Raiden's and Amber's 6.1 rows");
+    check(IniFixBuilderData::repo()->size() == 89,
+          "the fix table has 89 rows -- the 73 Python rows fanned out per target mod to 78, plus the eleven real 6.1 "
+          "rows (Raiden, Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN, and Jean/JeanCN with TWO each -- "
+          "one per target mod, which is what replaced the pure-Python MultiModFixer)");
 
     // The remove table has no Python original -- one row per GI mod type, all at 4.0.
     check(IniRemoveBuilderData::repo()->size() == 43, "the remove table has one row per GI mod type");

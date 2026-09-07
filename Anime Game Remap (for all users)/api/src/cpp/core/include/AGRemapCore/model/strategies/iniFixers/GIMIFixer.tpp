@@ -211,6 +211,26 @@ namespace AGRemapCore {
 
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
+    std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::labelTargetBlock(const std::string& content) const {
+        const std::vector<std::string> targets = getModsToFix();
+
+        // Nothing to name, or nothing to name it over. Both are normal: a fixed-factory builder
+        // leaves 'modsToFix' unset (see getFix's own note), and a group can render empty.
+        if (targets.empty() || content.empty()) {
+            return content;
+        }
+
+        // Only the FIRST target names the block. A fixer reaches this with more than one only if
+        // something built it that way by hand -- IniFixBuilder::buildAll fans one fixer out per
+        // target precisely so each has exactly one, which is what makes this label meaningful.
+        const Heading heading(targets.front(), IniBoilerPlate::DefaultModHeadingSideLen,
+                               IniBoilerPlate::DefaultModHeadingSideChar);
+
+        return "; " + heading.open() + "\n" + content + "\n\n; " + heading.close();
+    }
+
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual, typename FixerBase>
     std::string GIMIFixer<K, V, KeyHash, KeyEqual, FixerBase>::fixKey(
             std::size_t groupInd, const std::optional<std::string>& fixedFilePath) const {
         if (fixedFilePath.has_value()) {
@@ -380,6 +400,35 @@ namespace AGRemapCore {
 
         for (std::size_t i = 0; i < fixTargets_.size(); ++i) {
             std::string content = groupToStr(i);
+
+            // ---- one .ini file, several fixers ----
+            //
+            // This fixer renders the file's WHOLE new content, and IniFile::fix keeps the last
+            // content it is handed for a given path. With one fixer per file that is right; with
+            // two it would silently throw the first away. So each fixer contributes its own block
+            // to a shared accumulator and renders everything in it, which makes the last render the
+            // complete one -- see IniFixingContext::priorFixBlocks for the whole story.
+            //
+            // Deliberately BEFORE the boilerplate and the source text: those wrap the accumulated
+            // blocks once, not once per fixer, so the file gets one credit header rather than one
+            // per target.
+            const std::string blockKey = fixKey(i, fixTargets_[i]);
+
+            if (fixingCtx.labelTargets) {
+                content = labelTargetBlock(content);
+            }
+
+            if (fixingCtx.priorFixBlocks != nullptr) {
+                std::string& accumulated = (*fixingCtx.priorFixBlocks)[blockKey];
+
+                if (content.empty()) {
+                    content = accumulated;
+                } else if (!accumulated.empty()) {
+                    content = accumulated + "\n\n" + content;
+                }
+
+                accumulated = content;
+            }
 
             if (withBoilerPlate) {
                 content = ctx_->addFixBoilerPlate(content);

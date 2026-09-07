@@ -1,3 +1,4 @@
+#include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
 
 #include <filesystem>
@@ -29,7 +30,7 @@ namespace AGRemapCore {
 
     bool RemapTexAddResource::fixExists(const RemapStats& stats) const {
         (void)stats;
-        return std::filesystem::exists(srcPath);
+        return std::filesystem::exists(FileService::strToPath(srcPath));
     }
 
     bool RemapTexAddResource::_fix() {
@@ -43,7 +44,7 @@ namespace AGRemapCore {
         // at all -- srcPath is both source and destination (see this class's own note). Naming the
         // file it writes keeps it consistent with its editing sibling.
         if (logger != nullptr) {
-            logger->log("Creating texture for " + std::filesystem::path(srcPath).filename().string());
+            logger->log("Creating texture for " + FileService::pathToStr(FileService::strToPath(srcPath).filename()));
         }
 
         if (fixFunc) {
@@ -84,7 +85,7 @@ namespace AGRemapCore {
     bool RemapTexEditResource::fix() {
         // See RemapBlendResource::fix for why this goes before the work rather than after.
         if (logger != nullptr) {
-            logger->log("Editting texture for " + std::filesystem::path(fixedPath).filename().string());
+            logger->log("Editting texture for " + FileService::pathToStr(FileService::strToPath(fixedPath).filename()));
         }
 
         if (fixFunc) {

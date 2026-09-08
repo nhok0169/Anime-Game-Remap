@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_rosaria_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RosariaParser</compoundname>
+    <includes refid="_rosaria_parser_8h" local="no">RosariaParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rosaria_parser_1a22637ec9b28315677112c1758af3ef90" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RosariaParser::RosariaParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>RosariaParser</name>
+        <qualifiedname>AGRemapCore::RosariaParser::RosariaParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/RosariaParser.h" line="22" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_rosaria_parser_1a798dba815bac66b30a246b1820818eb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::RosariaParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::RosariaParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Rosaria ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::rosaria4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/RosariaParser.h" line="31" column="45" bodyfile="src/data/IniParseData/RosariaParser.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Rosaria&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`RosariaFixer`: the fixer&apos;s mod objects are the ones this parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/RosariaParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/RosariaParser.h" bodystart="19" bodyend="32"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_rosaria_parser_1a22637ec9b28315677112c1758af3ef90" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaParser</scope><name>RosariaParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_rosaria_parser_1a798dba815bac66b30a246b1820818eb0" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

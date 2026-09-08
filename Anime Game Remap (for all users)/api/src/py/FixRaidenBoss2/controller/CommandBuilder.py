@@ -14,6 +14,7 @@
 
 ##### ExtImports
 import argparse
+from typing import List
 ##### EndExtImports
 
 ##### LocalImports
@@ -48,6 +49,11 @@ class CommandBuilder():
         if (self._args.remappedTypes is not None):
             self._args.remappedTypes = self._args.remappedTypes.split(",")
 
+        # Split the same way the mod type options are, so a game is named by name/alias exactly as a
+        # mod type is -- RemapServiceCLI resolves each one through GameTypeIdTools.findByName.
+        if (self._args.game is not None):
+            self._args.game = self._args.game.split(",")
+
     def _addArguments(self):
         self._argParser.add_argument(ShortCommandOpts.Src.value, CommandOpts.Src.value, action='store', type=str, help="The starting path to run this fix. If this option is not specified, then will run the fix from the current directory.")
         self._argParser.add_argument(ShortCommandOpts.Version.value, CommandOpts.Version.value, action='store', type=str, help="The game version we want the fix to be compatible with. If this option is not specified, then will use the latest game version")
@@ -74,7 +80,7 @@ This option supersedes the {CommandOpts.Types.value} option and the {CommandOpts
 
 See below for the different names/aliases of the supported types of mods.""")
 
-        self._argParser.add_argument('-t', CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
+        self._argParser.add_argument(ShortCommandOpts.Types.value, CommandOpts.Types.value, action='store', type=str, help=f'''Parses {FileTypes.Ini.value}s that the program encounters for only specific types of mods. If the {CommandOpts.Types.value} option has been specified, this option has no effect. 
 By default, if this option is not specified, will parse the {FileTypes.Ini.value}s for all the supported types of mods. 
 
 Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,)
@@ -107,13 +113,16 @@ eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
 
-        self._argParser.add_argument(ShortCommandOpts.GameType, CommandOpts.GameType, action='store', type=str, help=f"""Fixes mods only for the specified games. By default, fixes mods for all games.
+        # '.value' on both, like every other option here -- passing the enum MEMBERS makes
+        # argparse raise from this constructor (it indexes the option string), so the CLI died
+        # before parsing a single argument. Same for --uncompressTextures below.
+        self._argParser.add_argument(ShortCommandOpts.GameType.value, CommandOpts.GameType.value, action='store', type=str, help=f"""Fixes mods only for the specified games. By default, fixes mods for all games.
         
 Please specify the types of games by their names/aliases, then seperate each name/alias with a comma(,)
 eg. GI,WuWa
 
 See below for the different names/aliases of the supported type of games""")
-        self._argParser.add_argument(ShortCommandOpts.UnCompress, CommandOpts.UnCompress, action='store_true', help=f"""Whether to leave textures uncompressed. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
+        self._argParser.add_argument(ShortCommandOpts.UnCompress.value, CommandOpts.UnCompress.value, action='store_true', help=f"""Whether to leave textures uncompressed. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
 
         allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
         allDownloadModes = "".join(allDownloadModes)
@@ -132,4 +141,21 @@ https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-mode
 
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog
+
+    def addEpilogs(self, epilogs: List[str]):
+        """
+        Sets the epilog to several sections, one after another
+
+        :raw-html:`<br />`
+
+        :meth:`addEpilog` *replaces* the epilog, so the supported mod types and the supported game
+        types cannot each be added with their own call -- the second would silently drop the first
+
+        Parameters
+        ----------
+        epilogs: List[:class:`str`]
+            The sections to show, in order
+        """
+
+        self.addEpilog("\n\n".join(epilogs))
 ##### EndScript

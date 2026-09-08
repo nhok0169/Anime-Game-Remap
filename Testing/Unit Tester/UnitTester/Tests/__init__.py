@@ -86,6 +86,7 @@ from .test_Hashes import HashesTest
 from .test_Indices import IndicesTest
 from .test_VertexCounts import VertexCountsTest
 from .test_VGRemaps import VGRemapsTest
+from .test_GameTypeId import GameTypeIdTest, GameTypesTest
 from .test_ModTypeId import ModTypeIdTest
 from .test_ModTypeIdData import ModTypeIdDataTest
 from .test_ModTypes import ModTypesTest
@@ -149,7 +150,7 @@ __all__ += ["ModAssetsTest", "ModDictAssetsTest", "ModMappedAssetsTest", "Hashes
 __all__ += ["BaseIniGraphGroupEditTest", "GraphGroupEditTest", "BaseResEditTest", "ResEditsTest", "ResCollectsTest"]
 __all__ += ["BaseIniGraphEditTest", "RegFillMissingTest"]
 __all__ += ["SympyIfPredGeneratorTest", "CppAhoCorasickDFATest", "CppTrieTest"]
-__all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest"]
+__all__ += ["ModTypeIdDataTest", "ModTypeTest", "GIBuilderTest", "ModTypeIdTest", "GameTypeIdTest", "GameTypesTest"]
 __all__ += ["OrderedMultiMapTest", "OrderedMultiMapSqrtTest", "OrderedMultiMapCrossCheckTest", "IOrderedMultiMapTest", "CppIfContentPartTest"]
 __all__ += ["IfContentPartColourTest", "IfContentPartColourChangeTest"]
 __all__ += ["Hash64Test", "Hash128Test", "CppHashToolsTest", "HashToolsTest", "ListToolsTest"]

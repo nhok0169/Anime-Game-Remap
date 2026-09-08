@@ -363,12 +363,17 @@ static void testCreateIniPropagatesOptions() {
                                 std::unordered_set<int>{1, 2}, std::nullopt,
                                 tsl::ordered_set<int>{40, 50}, false,
                                 AGRC::Version::parse("4.2"), std::unordered_set<int>{7},
-                                std::nullopt, AGRC::DownloadMode::Always, 0);
+                                std::nullopt, AGRC::DownloadMode::Always,
+                                std::unordered_set<int>{static_cast<int>(AGRC::GameTypeId::GI)}, true);
 
     std::unique_ptr<AGRC::IniFile> ini = service.createIni(norm(scratchRoot() / "root" / "a.ini"));
 
     check(ini != nullptr, "createIni builds an IniFile");
     check(ini->downloadMode == AGRC::DownloadMode::Always, "the download mode is propagated");
+    check(service.gameTypeIds.has_value() && *service.gameTypeIds ==
+              std::unordered_set<int>{static_cast<int>(AGRC::GameTypeId::GI)},
+          "the game type ids are kept as the set they were given");
+    check(service.uncompressTextures, "uncompressTextures is kept");
     check(ini->fromVersion.has_value(), "the from-version is propagated");
     check(ini->filteredToModTypeIds.has_value(), "a toModTypeIds with a value stays a real filter");
     checkEqual(ini->filteredToModTypeIds->size(), static_cast<std::size_t>(1), "and carries its one id");
@@ -603,7 +608,7 @@ static std::shared_ptr<CapturingLogger> runReport(bool fixOnly, bool undoOnly,
     RealRemapService service((scratchRoot() / "empty").string(), true, fixOnly, undoOnly, false, false,
                              std::nullopt, std::nullopt, tsl::ordered_set<int>{}, false, std::nullopt,
                              std::nullopt, std::nullopt, AGRC::DownloadMode::Normal, std::nullopt,
-                             capture);
+                             false, capture);
     seed(service.stats);
     service.fix();
 
@@ -711,7 +716,7 @@ static void testCreateIniPassesTheLoggerDown() {
     ExposedRemapService service((scratchRoot() / "root").string(), true, false, false, false, false,
                                 std::nullopt, std::nullopt, tsl::ordered_set<int>{}, false,
                                 std::nullopt, std::nullopt, std::nullopt, AGRC::DownloadMode::Normal,
-                                std::nullopt, capture);
+                                std::nullopt, false, capture);
 
     std::unique_ptr<AGRC::IniFile> ini = service.createIni(norm(scratchRoot() / "root" / "a.ini"));
 

@@ -165,7 +165,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="66" column="13" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="22" bodyend="26"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="66" column="13" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="23" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a84cff9e08dc50328833fe54952947fe2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -272,7 +272,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="100" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="28" bodyend="30"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="100" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="29" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1aa921c35aab0b6f3a7fbbea5d5a3eed02" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -304,7 +304,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="101" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="101" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a735066e6e88d045f814e4626b09260fe" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -336,7 +336,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="102" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="36" bodyend="38"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="102" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="37" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1ab56513c5b5991a91f9bd2ec1cd549506" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -368,7 +368,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="103" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="40" bodyend="42"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="103" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="41" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1ab7aa1d71252544dbb854825604958c40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_blend_file" kindref="compound">BlendFile</ref></type>
@@ -386,7 +386,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="110" column="23" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="44" bodyend="46"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="110" column="23" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="45" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_blend_resource_1a4f6e0bcc9eca68fcdbd5c43241939572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -404,7 +404,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="117" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="54" bodyend="66"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="117" column="18" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="55" bodyend="67"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -424,7 +424,7 @@ The sequence of elements for constructing the ``Blend.buf`` file -- if this is e
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="126" column="26" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="48" bodyend="52"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapBlendResource.h" line="126" column="26" bodyfile="src/model/iniresources/RemapBlendResource.cpp" bodystart="49" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

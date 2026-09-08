@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_raiden_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RaidenParser</compoundname>
+    <includes refid="_raiden_parser_8h" local="no">RaidenParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_raiden_parser_1a6cff272f04b287b40d4a2ec1411d08a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RaidenParser::RaidenParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>RaidenParser</name>
+        <qualifiedname>AGRemapCore::RaidenParser::RaidenParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="25" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_raiden_parser_1af84f0c7a7931873466e4f564c46ea39e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::RaidenParser::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::RaidenParser::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 6.1-era Raiden ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::raiden6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="34" column="45" bodyfile="src/data/IniParseData/RaidenParser.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Raiden&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Split out of :cpp:class:`IniParseBuilderData`&apos;s own translation unit because a real generator
+is an order of magnitude larger than the stub it replaces -- a stub is one line, and
+\ref v6_1 is a parser subclass, a classifier configuration and the mapping tables behind it.
+:cpp:class:`IniParseBuilderFuncs` still declares the entry point (the table refers to it by
+that name); only the *definition* lives here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="22" column="5" bodyfile="include/AGRemapCore/data/IniParseData/RaidenParser.h" bodystart="22" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_raiden_parser_1a6cff272f04b287b40d4a2ec1411d08a8" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenParser</scope><name>RaidenParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_raiden_parser_1af84f0c7a7931873466e4f564c46ea39e" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenParser</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

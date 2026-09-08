@@ -663,14 +663,61 @@ rebuilt `.pyd` fails to import under Git Bash). Then compare every file's size b
 
 - **Files that GREW** --- expected. The fix appends to a mod, it does not replace it.
 - **Any file that SHRANK** --- stop and investigate. That is the failure mode above.
-- **No remapped sections in the output, and `getResources()` empty** --- **expected right now**, not
-  a bug. Every `IniFixer`/`IniParser` is deliberately stubbed with its base class, so the run writes
-  its header and nothing else. Diffing against
-  `Testing/Integration Tester/.../expected_fullFix_modFixed/fullFix/RaidenShogun/Mod/ei.ini` (61
-  lines, with `[TextureOverrideRaidenShogunRaidenBossRemapBlend]` and friends) shows what it will
-  produce once those strategies are real. **Do not "fix" the goldens to match current output.**
-- **`.buf` files unchanged** --- same cause. `fixResources` screens on `RemapIniResourceMixin` and
-  `getResources()` is empty, so no blend or texture is ever reached.
+- **No remapped sections, and `getResources()` empty** --- this used to be the expected state for
+  *everyone* and this file said so. **It is not any more (checked 2026-09-07).** Nine characters have
+  real fixers, so over one of those you should see remap sections, `RemapBlend.buf` files and (for
+  Jean) `.dds` files appear. Over a character with no fixer you still get only the credit header, and
+  that is still the stub rather than a bug --- so **check which case you are in** before drawing a
+  conclusion, with
+  `ls "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/"`.
+- **`.buf`/`.dds` files unchanged** --- read the summary line the run prints rather than guessing.
+  It says exactly what it touched (`Out of the 2 *.dds files within the found mods, editted 2 ...`),
+  which distinguishes "nothing was there to fix" from "the fix skipped them".
+- **Do not "fix" the goldens to match current output.** They are pre-migration and some naming has
+  legitimately moved (the Jean texture golden reads `JeanSeaBodyRemapTex...`; the C++ fixer writes
+  `...ShadeLightMap...`). Regenerating them is its own task.
+
+### Real mod data: what is in the repo, and which path each fixture exercises
+
+**You do not need the maintainer's GIMI install to verify a fix end to end.** Everything below is
+committed, and picking the right fixture is the difference between "I could not test this" and a
+two-minute proof. Copy a fixture to a scratch dir first --- never run over the repo's own copy.
+
+| Fixture | Path (under `Testing/Integration Tester/IntegrationTester/Tests/APIDocsTests/inputs/`) | Exercises |
+| --- | --- | --- |
+| Raiden | `fullFix/RaidenShogun/` | `.ini` rewriting, 4 files across nested folders. **No textures** --- `RaidenFixer` has no `texEdits` |
+| **Jean** | `multiFix/select/Jean/` | **the texture path** --- 3 `.ini` files, and the Jean -> JeanSea remap writes `.dds` files |
+| Amber | `multiFix/select/Amber/` | the CN-skin remap shape (hashes replaced, indices forward-looked-up) |
+| Kequeen | `multiFix/select/Kequeen/` | a `[KeySwap]`/`$swapvar` mod, and several `.ini` files in one mod folder |
+| (the whole `select/` tree) | `multiFix/select/` | **`--types` name/alias filtering.** Its own `fullFix_someFixed.py` runs `types = ["kequeen", "aMbEr", "ACTINGGRANDMASTER"]` --- a misspelling, odd casing and an alias, deliberately |
+| Old versions | `multiFix/oldVers/` | `--version` / `--hideOriginal`, over an AmberCN mod |
+
+Plus **`Data/Mod Downloads/GI/<Character>/<version>/`** --- real `.dds`/`.buf`/`.ib` assets the
+download step pulls from. A run resolves downloads out of here, so a `*RemapDL.dds` in the output is
+a byte-identical copy of one of these, not something the fix encoded. **Read from it, never write to
+it**, and confirm afterwards with `git status --porcelain -- Data` (must be empty).
+
+**Textures: only Jean and JeanCN currently write one.** Their fixer carries
+`config.texEdits = {{"body", "ps-t1", "ShadeLightMap", &JeanShading::liftLowAlpha}}`
+(`core/src/data/IniFixData/JeanFixer.cpp`), which is the only live `texEdits` row in the repo --- so
+a change to the texture pipeline that you verify against the Raiden fixture has been verified against
+nothing at all. Measured over the Jean fixture (2026-09-07), a default run against `-c`
+(`--uncompressTextures`):
+
+| written file | default | `-c` |
+| --- | --- | --- |
+| `SmollerJeanRemapTex.dds` (50x50) | 2852 | 10128 |
+| `CuteJean/JeanHeadLightMapRemapDLRemapTex.dds` (1024x1024) | 1048724 | 4194432 |
+
+The second is the interesting one: a texture that is **downloaded and then edited**, so it covers
+download -> edit chaining in one file. Those numbers are a useful regression baseline --- exactly 4x
+on the large one is RGBA8 against BC.
+
+**Checking a written texture is worth more than checking its size.** A size change alone does not
+prove a valid file. Open both with `FRB.TextureFile`, confirm `hasImage` and the dimensions, and
+compare `getPixels()` --- they should differ only slightly (~5-9% of bytes, small deltas), which is
+BC being lossy. Identical sizes, a failure to open, or wildly different pixels all mean something
+else went wrong.
 
 ### Two entry-point bugs this check has already caught that no test could
 
@@ -683,6 +730,57 @@ Both were in code no unit test imports, and both made the CLI unrunnable end to 
 
 If you change anything in `controller/`, `main.py`, or `remapServiceCLI.py`, the suites will not
 tell you whether the program still starts. Run it.
+
+## Grepping `core/tests/` for the changed TYPE name is not enough --- grep for its CALL SITES too
+
+`core/tests/*.cpp` are built by nothing, so a `core/` interface change silently breaks them (this is
+covered elsewhere in this file). The refinement, learned the hard way on 2026-09-07: **following the
+"grep for the changed name" rule to the letter can still leave a test broken.**
+
+The change was `RemapService::gameTypeId` (an `optional<int>`) becoming `gameTypeIds` (an
+`optional<unordered_set<int>>`). Grepping `core/tests/` for `GameTypeId` found four files, all
+fixed. `RemapService_fix_test.cpp` was not among them --- it never mentions the type. It just
+constructs a `RemapService` positionally with `..., AGRC::DownloadMode::Always, 0)`, and that `0` no
+longer converts. Nothing in the file names anything that changed.
+
+So when you change a **signature**, grep for the *thing being called*, not only the types in it:
+
+```bash
+grep -rln "ClassName(" core/tests/          # constructor call sites
+grep -rln "methodName(" core/tests/         # method call sites
+grep -rln "<TypeYouRenamed>" core/tests/    # the obvious one
+```
+
+Two related traps from the same change:
+
+- **Appending a parameter is not source-compatible when a trailing parameter is commonly passed
+  positionally.** `RemapService`'s last parameter is `logger`; inserting `uncompressTextures` before
+  it turned `..., std::nullopt, capture)` into "pass a `shared_ptr` where a `bool` goes". It fails to
+  compile rather than silently misbehaving, which is the good case --- but only because nothing
+  builds those files by default did it stay invisible.
+- **A test that "compiles and passes" after your change may have been broken *before* it.** Two of
+  the files in that sweep were already un-compilable for unrelated reasons
+  (`RemapIniRemover_test.cpp` had not built since `removeBackup` joined `IniRemoveContext`). Compile
+  every hit *first*, note which were already broken, and say so --- otherwise you cannot tell your
+  breakage from the inherited kind.
+
+The cheap way to do all of this at once is one `.bat` that compiles **and runs** every affected test
+and prints a per-test `COMPILE_OK`/`COMPILE_FAILED` + `RUN_OK`/`RUN_FAILED` line. 19 tests took
+about four minutes end to end. Note `if exist "<out>.exe"` rather than `%errorlevel%` to decide
+whether the compile worked --- inside a `for` loop, `%errorlevel%` is expanded once before the loop
+body runs and reports the *previous* command's code, so a failing `cl` prints `COMPILE EXIT: 0`.
+
+**A standalone test that touches `TextureFile` needs one extra include dir** beyond the link line
+documented in [Building](../Building/CLAUDE.md): `TextureFile.h` includes `compressonator.h`, so add
+`/I "<api>/extern/Compressonator/cmp_compressonatorlib"` or you get
+`fatal error C1083: Cannot open include file: 'compressonator.h'`.
+
+## Known-flaky: `IniParseBuilder_test`'s post-clear identity check
+
+`[FAIL] the post-clear parser is a genuinely new instance` failed once and passed on every rerun of
+the same binary (2026-09-07). It compares pointer identity after a registry clear, so a fresh
+allocation landing on the freed address makes it fail with nothing wrong. Re-run before treating it
+as a regression.
 
 ## C++-only work is invisible to the Python suite --- write a standalone C++ test
 

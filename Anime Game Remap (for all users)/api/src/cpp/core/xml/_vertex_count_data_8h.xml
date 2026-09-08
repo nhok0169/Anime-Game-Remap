@@ -7,6 +7,7 @@
     <includes local="no">vector</includes>
     <includedby refid="_vertex_count_data_8cpp" local="yes">src/data/VertexCountData.cpp</includedby>
     <includedby refid="_vertex_counts_8cpp" local="yes">src/model/assets/VertexCounts.cpp</includedby>
+    <includedby refid="_download_tools_8cpp" local="yes">src/tools/DownloadTools.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/data/VertexCountData.h</label>
@@ -36,6 +37,8 @@
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/VertexCountData.cpp</label>
@@ -44,6 +47,10 @@
       <node id="3">
         <label>src/model/assets/VertexCounts.cpp</label>
         <link refid="_vertex_counts_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/tools/DownloadTools.cpp</label>
+        <link refid="_download_tools_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

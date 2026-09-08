@@ -4,6 +4,7 @@
     <compoundname>include/AGRemapCore/model/strategies/iniFixers/regEdits</compoundname>
     <innerfile refid="_base_reg_edit_8h">BaseRegEdit.h</innerfile>
     <innerfile refid="_reg_add_8h">RegAdd.h</innerfile>
+    <innerfile refid="_reg_asset_remap_8h">RegAssetRemap.h</innerfile>
     <innerfile refid="_reg_new_vals_8h">RegNewVals.h</innerfile>
     <innerfile refid="_reg_remap_8h">RegRemap.h</innerfile>
     <innerfile refid="_reg_remove_8h">RegRemove.h</innerfile>

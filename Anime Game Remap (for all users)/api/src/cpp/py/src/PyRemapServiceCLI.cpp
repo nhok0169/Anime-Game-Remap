@@ -36,7 +36,7 @@ namespace {
 
     // Runs one of the CLI's virtual methods, translating whichever conversion failure it lets
     // through. Wrapped rather than registered as a global exception translator because these are
-    // the only three places that can raise them, and a translator would need registering against a
+    // the only places that can raise them, and a translator would need registering against a
     // Python class this module does not otherwise touch.
     template <typename Fn>
     void translatingErrors(Fn &&fn) {
@@ -44,6 +44,8 @@ namespace {
             fn();
         } catch (const AGRC::InvalidModType &e) {
             raisePyError("InvalidModType", "type", e.modType());
+        } catch (const AGRC::InvalidGameType &e) {
+            raisePyError("InvalidGameType", "game", e.gameType());
         } catch (const AGRC::InvalidDownloadMode &e) {
             raisePyError("InvalidDownloadMode", "mode", e.downloadMode());
         } catch (const AGRC::InvalidVersion &e) {
@@ -88,14 +90,15 @@ There are **two** ways to build one, and which you want depends on what you are 
 the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
 ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
 ``verbose``, ``handleExceptions``, ``version``, ``remappedTypes``, ``proxy``, ``downloadMode`` and
-``gameTypeId``. Mod type names/aliases become :class:`ModTypeId` ints (ignoring case and surrounding
-whitespace), a `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a
-:class:`DownloadMode`
+``gameTypes`` and ``uncompressTextures``. Mod type and game names/aliases become
+:class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
+`PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`
 
 .. note::
-    Naming **no** types -- ``None`` or an empty list -- means *every* type, not none of them. That is
-    the opposite of what an empty set means on :attr:`RemapService.fromModTypeIds`, and this
-    constructor is where the ambiguity gets resolved
+    Naming **no** types (or **no** games) -- ``None`` or an empty list -- means *every* one of them,
+    not none of them. That is the opposite of what an empty set means on
+    :attr:`RemapService.fromModTypeIds`/:attr:`RemapService.gameTypeIds`, and this constructor is
+    where the ambiguity gets resolved
 
 .. note::
     A string that resolves to nothing does **not** raise from the constructor. It is stored, and
@@ -121,7 +124,8 @@ a quiet run can still write a full log file
                       std::optional<std::vector<std::string>>, std::optional<std::string>,
                       std::optional<std::string>, std::optional<std::string>, bool, bool,
                       std::optional<std::string>, std::optional<std::vector<std::string>>,
-                      std::optional<std::string>, std::optional<std::string>, std::optional<int>>(),
+                      std::optional<std::string>, std::optional<std::string>,
+                      std::optional<std::vector<std::string>>, bool>(),
              py::arg("path") = py::none(), py::arg("keepBackups") = true,
              py::arg("fixOnly") = false, py::arg("undoOnly") = false, py::arg("hideOrig") = false,
              py::arg("readAllInis") = false, py::arg("types") = py::none(),
@@ -129,7 +133,8 @@ a quiet run can still write a full log file
              py::arg("log") = py::none(), py::arg("verbose") = true,
              py::arg("handleExceptions") = false, py::arg("version") = py::none(),
              py::arg("remappedTypes") = py::none(), py::arg("proxy") = py::none(),
-             py::arg("downloadMode") = py::none(), py::arg("gameTypeId") = py::none())
+             py::arg("downloadMode") = py::none(), py::arg("gameTypes") = py::none(),
+             py::arg("uncompressTextures") = false)
 
         .def_property_readonly("hasErrorsBeforeFix", &AGRC::RemapServiceCLI::hasErrorsBeforeFix,
     py::doc(R"doc(:class:`bool`: Whether a string handed to the string constructor could not be converted

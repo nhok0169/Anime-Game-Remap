@@ -46,7 +46,7 @@ class BaseIniClassifier:
     def __init__(self) -> None:
         ...
     @typing.overload
-    def checkIsFixedMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
+    def checkIsFixedMod(self, iniTxt: str, gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> tuple[bool, bool]:
         """
         Determines whether the .ini file is fixed and/or belongs to a mod
         
@@ -61,8 +61,8 @@ class BaseIniClassifier:
             * the full text OR
             * lines of text with each line ending with a newline character
         
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
+        gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+            The games the .ini file may belong to, or ``None`` for every game
         
             **Default**: ``None``
         
@@ -72,10 +72,10 @@ class BaseIniClassifier:
             Whether the .ini file is fixed, and whether it belongs to a mod, in that order
         """
     @typing.overload
-    def checkIsFixedMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> tuple[bool, bool]:
+    def checkIsFixedMod(self, iniTxt: collections.abc.Sequence[str], gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> tuple[bool, bool]:
         ...
     @typing.overload
-    def checkIsMod(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
+    def checkIsMod(self, iniTxt: str, gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> bool:
         """
         Determines whether the .ini file belongs to a mod
         
@@ -90,8 +90,8 @@ class BaseIniClassifier:
             * the full text OR
             * lines of text with each line ending with a newline character
         
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
+        gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+            The games the .ini file may belong to, or ``None`` for every game
         
             **Default**: ``None``
         
@@ -101,10 +101,10 @@ class BaseIniClassifier:
             Whether the .ini file belongs to a mod
         """
     @typing.overload
-    def checkIsMod(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> bool:
+    def checkIsMod(self, iniTxt: collections.abc.Sequence[str], gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> bool:
         ...
     @typing.overload
-    def classify(self, iniTxt: str, gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> IniClassifyStats:
+    def classify(self, iniTxt: str, gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> IniClassifyStats:
         """
         Determines the type of mod given the text from the mod's .ini file
         
@@ -116,8 +116,8 @@ class BaseIniClassifier:
             * the full text OR
             * lines of text with each line ending with a newline character
         
-        gameTypeId: Optional[:class:`GameTypeId`]
-            The game the .ini file is expected to belong to, if known
+        gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+            The games the .ini file may belong to, or ``None`` for every game
         
             **Default**: ``None``
         
@@ -127,7 +127,7 @@ class BaseIniClassifier:
             The stats about the classification of the .ini file
         """
     @typing.overload
-    def classify(self, iniTxt: collections.abc.Sequence[str], gameTypeId: FixRaidenBoss2.core.GameTypeId | None = None) -> IniClassifyStats:
+    def classify(self, iniTxt: collections.abc.Sequence[str], gameTypeIds: collections.abc.Set[GameTypeId] | None = None) -> IniClassifyStats:
         ...
     def clear(self) -> None:
         """
@@ -4126,14 +4126,15 @@ class CppRemapServiceCLI:
     the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
     ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
     ``verbose``, ``handleExceptions``, ``version``, ``remappedTypes``, ``proxy``, ``downloadMode`` and
-    ``gameTypeId``. Mod type names/aliases become :class:`ModTypeId` ints (ignoring case and surrounding
-    whitespace), a `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a
-    :class:`DownloadMode`
+    ``gameTypes`` and ``uncompressTextures``. Mod type and game names/aliases become
+    :class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
+    `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`
     
     .. note::
-        Naming **no** types -- ``None`` or an empty list -- means *every* type, not none of them. That is
-        the opposite of what an empty set means on :attr:`RemapService.fromModTypeIds`, and this
-        constructor is where the ambiguity gets resolved
+        Naming **no** types (or **no** games) -- ``None`` or an empty list -- means *every* one of them,
+        not none of them. That is the opposite of what an empty set means on
+        :attr:`RemapService.fromModTypeIds`/:attr:`RemapService.gameTypeIds`, and this constructor is
+        where the ambiguity gets resolved
     
     .. note::
         A string that resolves to nothing does **not** raise from the constructor. It is stored, and
@@ -4156,7 +4157,7 @@ class CppRemapServiceCLI:
     def __init__(self, service: RemapService, log: str | None = None, verbose: bool = True) -> None:
         ...
     @typing.overload
-    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, types: collections.abc.Sequence[str] | None = None, defaultType: str | None = None, forcedType: str | None = None, log: str | None = None, verbose: bool = True, handleExceptions: bool = False, version: str | None = None, remappedTypes: collections.abc.Sequence[str] | None = None, proxy: str | None = None, downloadMode: str | None = None, gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None) -> None:
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, types: collections.abc.Sequence[str] | None = None, defaultType: str | None = None, forcedType: str | None = None, log: str | None = None, verbose: bool = True, handleExceptions: bool = False, version: str | None = None, remappedTypes: collections.abc.Sequence[str] | None = None, proxy: str | None = None, downloadMode: str | None = None, gameTypes: collections.abc.Sequence[str] | None = None, uncompressTextures: bool = False) -> None:
         ...
     def addTips(self) -> None:
         """
@@ -4288,7 +4289,7 @@ class CppTexCreator(CppBaseTexEditor):
     Creates a brand new ``.dds`` file if the file does not already exist
         
     """
-    def __init__(self, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, colour: CppColour = ...) -> None:
+    def __init__(self, width: typing.SupportsInt | typing.SupportsIndex, height: typing.SupportsInt | typing.SupportsIndex, colour: CppColour = ..., compress: bool = True) -> None:
         """
         Constructs a new texture creator
         
@@ -4302,6 +4303,10 @@ class CppTexCreator(CppBaseTexEditor):
         
         colour: :class:`CppColour`
             The fill colour of the texture to create. **Default**: opaque white
+        
+        compress: :class:`bool`
+            Whether the created texture is written compressed, or as a plain 32-bit uncompressed ``.dds``.
+            **Default**: ``True``
         """
     @property
     def colour(self) -> CppColour:
@@ -4310,6 +4315,17 @@ class CppTexCreator(CppBaseTexEditor):
         """
     @colour.setter
     def colour(self, arg0: CppColour) -> None:
+        ...
+    @property
+    def compress(self) -> bool:
+        """
+        :class:`bool`: Whether the created texture is written in a compressed format, or as a plain 32-bit
+        uncompressed ``.dds``
+        
+        The :class:`CppTexCreator` counterpart of :attr:`CppTexEditor.compress`
+        """
+    @compress.setter
+    def compress(self, arg0: bool) -> None:
         ...
     @property
     def height(self) -> int:
@@ -4343,7 +4359,22 @@ class CppTexEditor(CppBaseTexEditor):
         Python-visible behavior
         
     """
-    def __init__(self) -> None:
+    def __init__(self, compress: bool = True) -> None:
+        ...
+    @property
+    def compress(self) -> bool:
+        """
+        Whether :meth:`~CppBaseTexEditor.fix` writes the edited texture back in its original compressed
+        format, or as a plain 32-bit uncompressed ``.dds``
+        
+        Handed straight to :meth:`CppTextureFile.save`, which documents the trade. The short version: BCn
+        encoding is almost the entire cost of an edit, and turning it off is roughly eight times faster for
+        a file about four times larger.
+        
+        **Default**: ``True``
+        """
+    @compress.setter
+    def compress(self, arg1: bool) -> None:
         ...
 class CppTextureFile:
     """
@@ -4400,7 +4431,7 @@ class CppTextureFile:
         
         If the file does not exist, :attr:`hasImage` becomes ``False`` and :meth:`getPixels` is cleared
         """
-    def save(self) -> None:
+    def save(self, compress: bool = True) -> None:
         """
         Saves :meth:`getPixels` to the texture file at :attr:`src`
         
@@ -4408,6 +4439,20 @@ class CppTextureFile:
         :class:`CppGammaFilter`), in place. The file is re-encoded to whatever compressed format it was
         originally :meth:`open`-ed with -- or, for a texture file that was never successfully opened (eg. a
         brand new file), BC7
+        
+        Parameters
+        ----------
+        compress: :class:`bool`
+            Whether to re-encode to that compressed format, or write the RGBA8 buffer out as a plain
+            32-bit uncompressed ``.dds`` :raw-html:`<br />` :raw-html:`<br />`
+        
+            BCn encoding is almost the whole cost of an edit -- on a 4096x2048 ``BC7_UNORM`` texture,
+            ~1.5s to decode against ~15.5s to re-encode -- so ``False`` makes the round trip roughly eight
+            times faster in exchange for a file about four times larger. It is also exactly what the
+            `Pillow`_ engine does unconditionally, which never encodes BCn at all :raw-html:`<br />`
+            :raw-html:`<br />`
+        
+            **Default**: ``True``
         """
     def saveAs(self, dest: str) -> bool:
         """
@@ -6565,6 +6610,60 @@ class GameTypeIdTools:
         
     """
     @staticmethod
+    def findByName(name: str) -> FixRaidenBoss2.core.GameTypeId | None:
+        """
+        Finds the :class:`GameTypeId` whose name or alias maximally matches some string -- the
+        :class:`GameTypeId` counterpart of :meth:`ModTypeIdTools.findByName`
+        
+        Case and surrounding whitespace are ignored, matching how a mod type's name resolves
+        
+        .. note::
+            Unlike :meth:`ModTypeIdTools.findByName` there is no registry to consult and nothing to
+            register: the games are the :class:`GameTypeId` members themselves, so every one of them is
+            always findable
+        
+        Parameters
+        ----------
+        name: :class:`str`
+            The string to search for a game's name/alias within
+        
+        Returns
+        -------
+        Optional[:class:`GameTypeId`]
+            The matched :class:`GameTypeId`, if 'name' names one
+        """
+    @staticmethod
+    def getAliases(value: GameTypeId) -> list[str]:
+        """
+        Retrieves the other names a :class:`GameTypeId` also answers to
+        
+        Mirrors :attr:`ModType.aliases` -- every one of these resolves through :meth:`findByName` exactly as
+        :meth:`getName`'s answer does
+        
+        Parameters
+        ----------
+        value: :class:`GameTypeId`
+            The :class:`GameTypeId` to retrieve the aliases for
+        
+        Returns
+        -------
+        List[:class:`str`]
+            The aliases for 'value', empty if it has none
+        """
+    @staticmethod
+    def getAll() -> list[GameTypeId]:
+        """
+        Retrieves every :class:`GameTypeId`, in declaration order
+        
+        The order is stable across runs, so anything listing the supported games (the CLI's ``--help``
+        epilog) prints them the same way every time
+        
+        Returns
+        -------
+        List[:class:`GameTypeId`]
+            All the supported games
+        """
+    @staticmethod
     def getEnum(value: typing.SupportsInt | typing.SupportsIndex) -> FixRaidenBoss2.core.GameTypeId | None:
         """
         Retrieves the corresponding :class:`GameTypeId` for some integer value, checking that the value
@@ -6579,6 +6678,24 @@ class GameTypeIdTools:
         -------
         Optional[:class:`GameTypeId`]
             The corresponding :class:`GameTypeId`, if 'value' is valid
+        """
+    @staticmethod
+    def getHelpStr(value: GameTypeId) -> str:
+        """
+        The ``--help`` text describing a single :class:`GameTypeId` -- its name and its aliases
+        
+        Mirrors :meth:`ModType.getHelpStr`, so the CLI's list of supported games reads exactly like its list
+        of supported mods
+        
+        Parameters
+        ----------
+        value: :class:`GameTypeId`
+            The :class:`GameTypeId` to describe
+        
+        Returns
+        -------
+        :class:`str`
+            The help text for 'value'
         """
     @staticmethod
     def getName(value: GameTypeId) -> str:
@@ -9844,8 +9961,8 @@ class IniFile:
     
         **Default**: ``""``
     
-    gameTypeId: Optional[:class:`int`]
-        The id for the game the .ini file's mod belongs to :raw-html:`<br />` :raw-html:`<br />`
+    gameTypeIds: Optional[Set[:class:`int`]]
+        The ids of the games the .ini file's mod may belong to, or ``None`` for every game :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
@@ -9924,7 +10041,7 @@ class IniFile:
         :class:`bool`
             Whether the line declares a `section`_
         """
-    def __init__(self, file: str | None = None, txt: str = '', gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
+    def __init__(self, file: str | None = None, txt: str = '', gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, filteredFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedFromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, overrideModTypes: collections.abc.Mapping[typing.SupportsInt | typing.SupportsIndex, ModType] | None = None, iniClassifier: BaseIniClassifier = None, downloadMode: typing.Any = None, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toVersion: FixRaidenBoss2.core.CppVersion | None = None, filteredToModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None) -> None:
         ...
     def classify(self) -> None:
         """
@@ -16478,14 +16595,18 @@ class RemapService:
     downloadMode: Optional[:class:`DownloadMode`]
         How file downloads are handled. ``None`` means :attr:`DownloadMode.Normal`
     
-    gameTypeId: Optional[:class:`int`]
-        The :class:`GameTypeId` value of the game being remapped
+    gameTypeIds: Optional[Set[:class:`int`]]
+        The :class:`GameTypeId` values of the games being remapped. ``None`` means every game
+    
+    uncompressTextures: :class:`bool`
+        Whether every texture the fix writes is left uncompressed. ``False`` leaves each texture edit's
+        own answer alone
     
     logger: Optional[:class:`BaseLogger`]
         Where the fix reports progress. ``None`` means nowhere
         
     """
-    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeId: typing.SupportsInt | typing.SupportsIndex | None = None, logger: BaseLogger = None) -> None:
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, uncompressTextures: bool = False, logger: BaseLogger = None) -> None:
         ...
     def clear(self, clearLog: bool = True) -> None:
         """
@@ -16568,12 +16689,14 @@ class RemapService:
     def fromVersion(self, arg0: FixRaidenBoss2.core.CppVersion | None) -> None:
         ...
     @property
-    def gameTypeId(self) -> int | None:
+    def gameTypeIds(self) -> set[int] | None:
         """
-        Optional[:class:`int`]: The :class:`GameTypeId` value of the game being remapped
+        Optional[Set[:class:`int`]]: The :class:`GameTypeId` values of the games being remapped
+        
+        ``None`` means every game; an empty set is a filter no game satisfies
         """
-    @gameTypeId.setter
-    def gameTypeId(self, arg0: typing.SupportsInt | typing.SupportsIndex | None) -> None:
+    @gameTypeIds.setter
+    def gameTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
         ...
     @property
     def handleExceptions(self) -> bool:
@@ -16642,6 +16765,18 @@ class RemapService:
         """
     @toModTypeIds.setter
     def toModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
+        ...
+    @property
+    def uncompressTextures(self) -> bool:
+        """
+        :class:`bool`: Whether every texture this fix writes is left uncompressed -- a plain
+        32-bit ``.dds`` rather than the BCn format it would otherwise be encoded to
+        
+        A **one-way** override, applied right before a texture resource is written: set, it ignores whatever
+        compression each mod type's own texture edit asked for. ``False`` (the default) overrides nothing
+        """
+    @uncompressTextures.setter
+    def uncompressTextures(self, arg0: bool) -> None:
         ...
     @property
     def undoOnly(self) -> bool:

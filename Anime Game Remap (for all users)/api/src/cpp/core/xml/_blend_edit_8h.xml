@@ -7,6 +7,8 @@
     <includes local="no">string</includes>
     <includes refid="_res_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h</includes>
     <includes local="yes">BlendEdit.tpp</includes>
+    <includedby refid="_v_g_remap_blend_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</includedby>
+    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/RaidenFixer.cpp</includedby>
     <incdepgraph>
       <node id="36">
         <label>Algo.tpp</label>
@@ -19,9 +21,6 @@
       </node>
       <node id="82">
         <label>BlendEdit.tpp</label>
-      </node>
-      <node id="51">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="57">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -701,6 +700,9 @@
         <childnode refid="80" relation="include">
         </childnode>
       </node>
+      <node id="51">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="72">
         <label>Generator.tpp</label>
       </node>
@@ -825,6 +827,32 @@
         <label>vector</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/BlendEdit.h</label>
+        <link refid="_blend_edit_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</label>
+        <link refid="_v_g_remap_blend_edit_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_remap_blend_replace" prot="public">AGRemapCore::RemapBlendReplace</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>

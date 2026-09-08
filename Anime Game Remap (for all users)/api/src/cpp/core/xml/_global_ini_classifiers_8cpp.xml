@@ -37,15 +37,16 @@
       <node id="23">
         <label>BiMap.tpp</label>
       </node>
-      <node id="80">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="10">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -663,6 +664,10 @@
       <node id="102">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
       </node>
       <node id="103">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
@@ -1061,6 +1066,9 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
+      </node>
+      <node id="80">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="99">
         <label>Generator.tpp</label>

@@ -173,13 +173,41 @@ class IniClassifierTest(BaseUnitTest):
 
         self.assertIn(self.amberId, stats.modType)
 
-    def test_gameTypeIdArg_restrictsSectionKeywordMatchingToThatGame(self):
+    def test_gameTypeIdsArg_restrictsSectionKeywordMatchingToThoseGames(self):
         c = FRB.IniClassifier()
         c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
 
-        stats = c.classify("[TextureOverrideAmberKeyword]\n", FRB.GameTypeId.GI)
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", {FRB.GameTypeId.GI})
 
         self.assertIn(self.amberId, stats.modType)
+
+    def test_gameTypeIdsArg_matchesWhenAnyOfSeveralGamesClaimsTheKeyword(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        # The point of taking a set: the keyword belongs to GI only, and naming GI alongside
+        # another game still has to match it.
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", {FRB.GameTypeId.GI, FRB.GameTypeId.WuWa})
+
+        self.assertIn(self.amberId, stats.modType)
+
+    def test_gameTypeIdsArg_excludesAKeywordNoNamedGameClaims(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", {FRB.GameTypeId.WuWa})
+
+        self.compareDict(stats.modType, {})
+
+    def test_gameTypeIdsArg_emptySetMatchesNothing(self):
+        c = FRB.IniClassifier()
+        c.addGIModType(FRB.ModTypeIdData(self.gi, self.amberId), set(), {"AmberKeyword"})
+
+        # An empty set is a filter no game satisfies, NOT "every game" -- ``None`` is the only way
+        # to say the latter, and RemapServiceCLI is what turns "the user named no games" into it.
+        stats = c.classify("[TextureOverrideAmberKeyword]\n", set())
+
+        self.compareDict(stats.modType, {})
 
     # ---- checkHasTextureOverride ----
 

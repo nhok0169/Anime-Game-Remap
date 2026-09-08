@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="89" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a3fa8df9d2cfc70e1bee6e48ec192d7f1" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="90" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="90" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="92" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2ea43bd3e033adcfd162ba40f5d5c38a" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a569d00b6d3dd14f43c155142efb365d1" kindref="member">Core::ParseData</ref></type>
@@ -77,7 +77,7 @@ what every ``graphEdits``/``graphGroupEdits`` filter does), and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="95" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="95" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="97" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a697c7277e73024af055a2164acf0cd99" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_fixer_1a6e21686df301b6e049b3c7d9200c5f89" kindref="member">Core::FixResult</ref></type>
@@ -95,7 +95,7 @@ path each one should be written to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="100" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="102" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5464afcc74a1ab38ec3d3cf1c40d0d47" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -110,7 +110,7 @@ path each one should be written to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="105" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="107" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aad3455517baa883f0cf6bb55ed1fea62" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -125,7 +125,7 @@ path each one should be written to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="110" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="110" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="112" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a590c358b38ec1290820cac93ae90e2a7" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -140,7 +140,7 @@ path each one should be written to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="115" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="115" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="117" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a55ba66ec457cf085228b3794166dabd1" prot="public" static="no">
         <type>std::pair&lt; std::string, std::string &gt;</type>
@@ -158,7 +158,7 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="120" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="122" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="122" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4679067d2e786b4077ee89100360a371" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash</type>
@@ -180,7 +180,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="125" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="125" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="127" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="127" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5bcddb1d5c9ab03248f9d3fd3c880870" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit" kindref="compound">BaseIniGraphGroupEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -195,7 +195,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="130" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="132" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aeec8c9ee49d5ed873de7d3cc190568ec" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_context" kindref="compound">IniFixContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -210,7 +210,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="135" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="137" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="137" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0984802e6e220309334a6bde2ef0f0ac" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -225,7 +225,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="140" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="140" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="142" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" prot="public" static="no">
         <type>std::vector&lt; std::optional&lt; std::string &gt; &gt;</type>
@@ -244,7 +244,7 @@ own note on why this isn&apos;t a ``Dict[Union[str, int], ...]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="150" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="150" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="152" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="152" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8173db7e04d0a54256a0557476ddb6c6" prot="public" static="no">
         <type>std::function&lt; std::string(<ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a590c358b38ec1290820cac93ae90e2a7" kindref="member">Section</ref> &amp;, const std::string &amp;, bool)&gt;</type>
@@ -264,7 +264,7 @@ so what a `section`_ *looks like* is the caller&apos;s business
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="161" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="161" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="163" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="163" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -284,7 +284,7 @@ borrowed, not owned
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="207" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="207" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="209" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="209" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a69dae513284d257e88c97583cd3db751" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::vector&lt; std::string &gt; &gt;</type>
@@ -299,7 +299,7 @@ borrowed, not owned
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="212" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="214" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="214" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab7ebcd6914b22794cef0bb9f2027d854" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -329,7 +329,7 @@ itself is the quieter default, and a caller that wants the explanation opts in.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="233" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="233" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="235" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="235" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" prot="public" static="no" mutable="no">
         <type>std::unordered_set&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a55ba66ec457cf085228b3794166dabd1" kindref="member">ModObj</ref>, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4679067d2e786b4077ee89100360a371" kindref="member">ModObjHash</ref> &gt;</type>
@@ -376,7 +376,7 @@ in place, so the original three have to go :raw-html:`&lt;br /&gt;` :raw-html:`&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="271" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="271" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="273" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="273" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a582e90393e44b4ef49203796dd32e3c6" kindref="member">GIMIFixer</ref>&lt; K, V, KeyHash, KeyEqual, FixerBase &gt; *</type>
@@ -399,7 +399,7 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="285" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="285" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="287" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="287" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -416,7 +416,7 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="489" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="489" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="509" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="509" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5ee6baf4220af9c4d3c4e29d9e5f803c" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0984802e6e220309334a6bde2ef0f0ac" kindref="member">GraphGroups</ref> &gt;</type>
@@ -431,7 +431,33 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="494" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="494" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="514" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a280d4bdafd151b00b2f0b10061d67c93" prot="protected" static="no" mutable="no">
+        <type>std::vector&lt; tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a55ba66ec457cf085228b3794166dabd1" kindref="member">ModObj</ref>, std::vector&lt; std::string &gt;, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4679067d2e786b4077ee89100360a371" kindref="member">ModObjHash</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;tsl::ordered_map&lt;ModObj, std::vector&lt;std::string&gt;, ModObjHash&gt; &gt; AGRemapCore::GIMIFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::preEditSectionNames_</definition>
+        <argsstring></argsstring>
+        <name>preEditSectionNames_</name>
+        <qualifiedname>AGRemapCore::GIMIFixer::preEditSectionNames_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every graph&apos;s `section`_ names **as they were before any** #graphGroupEdits **ran**,
+one entry per group :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Both #touchedSectionNames and #hiddenSectionNames read this rather than the live
+graphs, and must: hiding comments out `sections`_ **in the original ``.ini`` file&apos;s own
+text**, so it needs the names that text actually contains. An edit that renames
+`sections`_ (:cpp:class:`GraphRename`, which is how a remapped `section`_ gets its
+name at all) leaves the live graphs holding names the original file has no line of --
+hiding on those would comment out nothing and leave the original mod live *alongside*
+the fix
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="531" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="531" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a20fa330cc7b17baf32d8fe2019f3df26" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" kindref="member">FixTargets</ref></type>
@@ -446,7 +472,7 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="499" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="499" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="536" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="536" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a1cec0133b1b43cbdedc741e848f8f33d" prot="protected" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -461,7 +487,7 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="504" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="504" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="541" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="541" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -477,7 +503,7 @@ the original&apos;s ``self.prevFixer.getFix(onlyEditObjGraphs = True)`` /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="507" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="507" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="544" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="544" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -578,7 +604,7 @@ A fixer whose already-edited groups this one continues from instead of starting 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="194" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="196" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a354493b8b21dc43a261a6885b1b39950" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aeec8c9ee49d5ed873de7d3cc190568ec" kindref="member">Context</ref> *</type>
@@ -593,7 +619,7 @@ A fixer whose already-edited groups this one continues from instead of starting 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="290" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="292" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ae2c624a14d5c090257cba4e57d62a9a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -612,7 +638,7 @@ A fixer whose already-edited groups this one continues from instead of starting 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="295" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="297" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1ab29e16d0a2e7f666bc59150b079b64a7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0984802e6e220309334a6bde2ef0f0ac" kindref="member">GraphGroups</ref> *</type>
@@ -632,7 +658,7 @@ The equivalent of the pure-Python original&apos;s ``graphGroups`` list
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="306" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="308" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1aab3dbcce5dbd3bdc54955640acc728e5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_fixer_1_1_fixer_config" kindref="compound">FixerConfig</ref> &amp;</type>
@@ -647,7 +673,7 @@ The equivalent of the pure-Python original&apos;s ``graphGroups`` list
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="311" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="313" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a9139ad401288080bf8bc95da585f6634" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" kindref="member">FixTargets</ref> &amp;</type>
@@ -665,7 +691,7 @@ Where each group of the last #fixImpl was written, one entry per group -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="320" column="30"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="322" column="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8932760b0afad16b510b9b3c2e1526f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -687,7 +713,7 @@ necessarily drops those
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="333" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="335" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af09d678281a7085fe5bf84d970f8fcca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -705,7 +731,7 @@ The mods to fix to -- #modsToFix when it was set explicitly, otherwise whatever 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="342" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="344" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7f7530373bbe67640f73148937563055" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -720,7 +746,7 @@ The mods to fix to -- #modsToFix when it was set explicitly, otherwise whatever 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="347" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="349" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a7b7ca3c58f9e764065c856ab9b78462c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a5eac3c432029608e3d161aed56716ceb" kindref="member">FixTargets</ref></type>
@@ -771,7 +797,7 @@ what a #prevFixer is run with. **Default**: ``false``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="366" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="368" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a6e3af844525b5994c4e0864ed5e8e497" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -806,21 +832,17 @@ then no way to turn a `section`_ into text at all
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="380" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="382" column="25"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a37e315f6fb844029a649ea10c0a902de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af06a9cf5f45f8ce1ba6ae512447626a6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
-        <definition>virtual std::string AGRemapCore::GIMIFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::fixKey</definition>
-        <argsstring>(std::size_t groupInd, const std::optional&lt; std::string &gt; &amp;fixedFilePath) const</argsstring>
-        <name>fixKey</name>
-        <qualifiedname>AGRemapCore::GIMIFixer::fixKey</qualifiedname>
+        <definition>std::string AGRemapCore::GIMIFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::labelTargetBlock</definition>
+        <argsstring>(const std::string &amp;content) const</argsstring>
+        <name>labelTargetBlock</name>
+        <qualifiedname>AGRemapCore::GIMIFixer::labelTargetBlock</qualifiedname>
         <param>
-          <type>std::size_t</type>
-          <declname>groupInd</declname>
-        </param>
-        <param>
-          <type>const std::optional&lt; std::string &gt; &amp;</type>
-          <declname>fixedFilePath</declname>
+          <type>const std::string &amp;</type>
+          <declname>content</declname>
         </param>
         <briefdescription>
         </briefdescription>
@@ -860,13 +882,54 @@ Where that group will be written, or ``std::nullopt`` when there is nowhere -- s
 </parameterdescription>
 </parameteritem>
 </parameterlist>
-<simplesect kind="return"><para>The key to file this group&apos;s fix under <ndash/> never empty </para>
+<simplesect kind="return"><para>The key to file this group&apos;s fix under <ndash/> never empty<verbatim>embed:rst 
+Wraps one group&apos;s rendered `sections`_ in a heading naming the mod this fixer remaps
+onto -- ``; ***** JeanCN *****`` ... ``; ******************`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Only used when :cpp:member:`IniFixingContext::labelTargets` says the ``.ini`` file has
+more than one target to tell apart. See
+:cpp:member:`IniBoilerPlate::DefaultModHeadingSideLen`
+</verbatim></para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>content</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The rendered group, returned unchanged when there is no target to name</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The labelled block </para>
 </simplesect>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="409" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="427" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a37e315f6fb844029a649ea10c0a902de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string AGRemapCore::GIMIFixer&lt; K, V, KeyHash, KeyEqual, FixerBase &gt;::fixKey</definition>
+        <argsstring>(std::size_t groupInd, const std::optional&lt; std::string &gt; &amp;fixedFilePath) const</argsstring>
+        <name>fixKey</name>
+        <qualifiedname>AGRemapCore::GIMIFixer::fixKey</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>groupInd</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>fixedFilePath</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="429" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2b1221020a6bee72fe0271eda1ef27f0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -913,7 +976,7 @@ only the remap. Empty until #graphGroups has been built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="448" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="468" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0c9c06898d7ceb9f601b86463242c32d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -938,7 +1001,7 @@ been built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="464" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="484" column="32"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -976,7 +1039,7 @@ layer overrides this and passes the real `Python`_ objects instead
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="481" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="501" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2d333cb908e828d8d82fa45c73431fd7" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a697c7277e73024af055a2164acf0cd99" kindref="member">FixResult</ref></type>
@@ -1018,7 +1081,7 @@ layer overrides this and passes the real `Python`_ objects instead
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="483" column="23"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="503" column="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1147,7 +1210,7 @@ documentation
         <label>BaseIniFixer&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="84" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="84" bodyend="508"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" line="86" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIFixer.h" bodystart="86" bodyend="545"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a1ed24fea6441ec0ece5d87bd19f6987b" prot="protected" virt="virtual"><scope>AGRemapCore::GIMIFixer</scope><name>applyGraphGroupEdits</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a48836dbabf78fc8353a871dfd4d8cbf3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>Base</name></member>
@@ -1180,10 +1243,12 @@ documentation
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a6e3af844525b5994c4e0864ed5e8e497" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>groupToStr</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4d9123ab804410bcd9ce99afcc4580e2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>hiddenModObjs</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a0c9c06898d7ceb9f601b86463242c32d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>hiddenSectionNames</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1af06a9cf5f45f8ce1ba6ae512447626a6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>labelTargetBlock</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a55ba66ec457cf085228b3794166dabd1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>ModObj</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a4679067d2e786b4077ee89100360a371" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>ModObjHash</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a69dae513284d257e88c97583cd3db751" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>modsToFix</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a2ea43bd3e033adcfd162ba40f5d5c38a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>ParseData</name></member>
+      <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a280d4bdafd151b00b2f0b10061d67c93" prot="protected" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>preEditSectionNames_</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8bbfcfba559d366f4e4e35674affe1b9" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>prevFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a590c358b38ec1290820cac93ae90e2a7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>Section</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_fixer_1a8173db7e04d0a54256a0557476ddb6c6" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIFixer</scope><name>SectionToStr</name></member>

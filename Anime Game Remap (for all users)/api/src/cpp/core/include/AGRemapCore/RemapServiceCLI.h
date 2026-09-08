@@ -97,9 +97,9 @@ namespace AGRemapCore {
              original's own behaviour :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
-                There is no ``gameType`` **string**: nothing resolves a game type by name (there is
-                no :cpp:func:`ModTypeIdTools::findByName` equivalent for one) and no command-line
-                option asks for one, so 'gameTypeId' is taken as the id it already is
+                'gameTypes' is converted here like every other name/alias, through
+                :cpp:func:`GameTypeIdTools::findByName`. That was not always true -- there was a
+                time when nothing resolved a game by name at all and this took only the id
              @endrst
              *
              * @param path The folder the fix runs from, or ``std::nullopt`` for the current one
@@ -179,7 +179,26 @@ namespace AGRemapCore {
              **Default**: ``std::nullopt``
              @endrst
              *
-             * @param gameTypeId The game to fix for, as an id. **Default**: ``std::nullopt``
+             * @param gameTypes
+             @rst
+             The names/aliases of the games to fix mods for, or ``std::nullopt`` / an empty list for
+             every one of them -- see 'types' for why an empty list is not an empty filter
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``std::nullopt``
+             @endrst
+             *
+             * @param uncompressTextures
+             @rst
+             Whether every texture the fix writes is left uncompressed -- see
+             :cpp:member:`RemapService::uncompressTextures` :raw-html:`<br />` :raw-html:`<br />`
+
+             Already unambiguous as a ``bool``, so unlike the options around it there is nothing to
+             convert and nothing that can fail -- it goes straight onto the model :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
              */
             explicit RemapServiceCLI(std::optional<std::string> path,
                                       bool keepBackups = true,
@@ -197,7 +216,8 @@ namespace AGRemapCore {
                                       std::optional<std::vector<std::string>> remappedTypes = std::nullopt,
                                       std::optional<std::string> proxy = std::nullopt,
                                       std::optional<std::string> downloadMode = std::nullopt,
-                                      std::optional<int> gameTypeId = std::nullopt);
+                                      std::optional<std::vector<std::string>> gameTypes = std::nullopt,
+                                      bool uncompressTextures = false);
 
             // Subclassable from outside core (the CLI layer that owns the argument parser
             //   overrides addTips), so destruction has to go through the vtable.
@@ -414,6 +434,12 @@ namespace AGRemapCore {
             //   same thing here and not on RemapService.
             std::optional<std::unordered_set<int>> _toModTypeIds(const std::optional<std::vector<std::string>>& names);
 
+            // The same pair for games. Records InvalidGameType and skips the name when nothing
+            //   matches, and reads an absent OR empty list as "every game" for the same reason
+            //   _toModTypeIds does.
+            std::optional<int> _toGameTypeId(const std::string& name);
+            std::optional<std::unordered_set<int>> _toGameTypeIds(const std::optional<std::vector<std::string>>& names);
+
             // The string -> model conversions, in the pure-Python original's own order (the forced
             //   type first, since the two after it read whether one was given).
             void _setupForcedModType(const std::optional<std::string>& forcedType);
@@ -422,6 +448,7 @@ namespace AGRemapCore {
             void _setupRemappedTypes(const std::optional<std::vector<std::string>>& remappedTypes);
             void _setupVersion(const std::optional<std::string>& version);
             void _setupDownloadMode(const std::optional<std::string>& downloadMode);
+            void _setupGameTypes(const std::optional<std::vector<std::string>>& gameTypes);
     };
 }
 

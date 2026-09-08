@@ -61,12 +61,50 @@ class RemapServiceCLITest(BaseUnitTest):
                                   types = ["Raiden"], defaultType = None, forcedType = None,
                                   log = None, verbose = False, handleExceptions = True,
                                   remappedTypes = ["Ayaka"], version = "4.0", proxy = None,
-                                  downloadMode = "disabled")
+                                  downloadMode = "disabled", gameTypes = ["GI"],
+                                  uncompressTextures = True)
 
         self.assertFalse(cli.hasErrorsBeforeFix)
         self.assertFalse(cli.service.keepBackups)
         self.assertTrue(cli.service.hideOrig)
         self.assertTrue(cli.service.handleExceptions)
+        self.assertTrue(cli.service.uncompressTextures)
+
+    # ---- --game ----
+
+    def test_gameNamesBecomeIds(self):
+        cli = self.makeCLI(gameTypes = ["GI"])
+
+        self.assertEqual(cli.service.gameTypeIds, {int(FRB.GameTypeId.GI)})
+        self.assertFalse(cli.hasErrorsBeforeFix)
+
+    def test_gameAliasesAndCaseAndWhitespaceConvert(self):
+        cli = self.makeCLI(gameTypes = ["  genshinIMPACT ", "wutheringwaves"])
+
+        self.assertEqual(cli.service.gameTypeIds,
+                         {int(FRB.GameTypeId.GI), int(FRB.GameTypeId.WuWa)})
+        self.assertFalse(cli.hasErrorsBeforeFix)
+
+    def test_namingNoGamesMeansEveryGame(self):
+        # None and [] are the SAME answer -- an argument parser produces one or the other for "the
+        # user left the option off", and neither can mean "no games at all".
+        self.assertIsNone(self.makeCLI().service.gameTypeIds)
+        self.assertIsNone(self.makeCLI(gameTypes = []).service.gameTypeIds)
+
+    def test_aBadGameNameRaisesTheRealPythonException(self):
+        cli = self.makeCLI(gameTypes = ["notagame"])
+
+        self.assertTrue(cli.hasErrorsBeforeFix)
+        with self.assertRaises(FRB.InvalidGameType):
+            cli.raiseErrorsBeforeFix()
+
+    # ---- --uncompressTextures ----
+
+    def test_uncompressTexturesReachesTheModel(self):
+        self.assertTrue(self.makeCLI(uncompressTextures = True).service.uncompressTextures)
+
+    def test_uncompressTexturesDefaultsToFalse(self):
+        self.assertFalse(self.makeCLI().service.uncompressTextures)
 
     def test_modTypeNamesBecomeIds(self):
         cli = self.makeCLI(types = ["Raiden"], remappedTypes = ["Ayaka"])

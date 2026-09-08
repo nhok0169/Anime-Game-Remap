@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="129" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="129" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="185" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="185" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a831d282e7e3c47efbb57918be2444785" prot="private" static="no" mutable="no">
         <type>std::optional&lt; int &gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="130" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="186" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="186" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a9f8bcfdb1aca53df155bf9bae9d06d06" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="132" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="188" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="188" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_file_fix_context_1af772ae334d00c5abded5cc284d81f480" prot="private" static="no" mutable="no">
         <type>std::deque&lt; std::unique_ptr&lt; std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; std::string, std::string &gt; &gt; &gt; &gt;</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="138" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="138" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="194" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="194" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -159,7 +159,7 @@ none -- what #modTypeName answers from, and so what the boilerplate is named aft
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="78" column="22" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="78" column="22" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="28" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a69f5af1f485eee4715238764802534a8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -174,7 +174,7 @@ none -- what #modTypeName answers from, and so what the boilerplate is named aft
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="85" column="21" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="85" column="21" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="34" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1aae8cc5063a7c6425a187f2f7bd9d31d4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; int &gt; &amp;</type>
@@ -189,7 +189,7 @@ none -- what #modTypeName answers from, and so what the boilerplate is named aft
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="90" column="33" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="38" bodyend="40"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="90" column="33" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="39" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a0ca3f9e6a7cad5ac2afb13b191230e65" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -218,7 +218,7 @@ none -- what #modTypeName answers from, and so what the boilerplate is named aft
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="97" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="43" bodyend="45"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="97" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="44" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a52fc0cc6a5911cdff696c5ba84588730" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -239,7 +239,7 @@ lines are kept here for a caller to do something with instead of being dropped
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="109" column="31" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="48" bodyend="50"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="109" column="31" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="49" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a3c2b6125001f7ca6594b10d6b146587c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -270,7 +270,76 @@ as -- a subclass with a mod type overrides it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="111" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="69" bodyend="76"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="111" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="99" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a37cfce621f166a496caa891ce0e4bbeb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_hashes" kindref="compound">Hashes</ref> *</type>
+        <definition>Hashes * AGRemapCore::IniFileFixContext::modTypeHashes</definition>
+        <argsstring>() const</argsstring>
+        <name>modTypeHashes</name>
+        <qualifiedname>AGRemapCore::IniFileFixContext::modTypeHashes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``hash`` assets of the ``.ini`` file&apos;s own :cpp:class:`ModType` -- **borrowed**,
+and ``nullptr`` when the file has no mod type :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The fix-side counterpart of :cpp:func:`IniFileParseContext::modTypeHashes`, and public
+for the same reason that one is: a strategy legitimately needs the assets, while the
+:cpp:class:`ModType` itself stays private :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   This sits on the **concrete** context rather than on the
+   :cpp:class:`IniFixContext` seam, unlike the parse side&apos;s equivalent. Only a fixer
+   that owns its own :cpp:class:`IniFileFixContext` (the way
+   :cpp:func:`IniFixBuilderFuncs::raiden6_1`&apos;s does) can reach it. Promote it to the
+   seam if one reached *through* the seam ever needs it -- and remember that means
+   implementing it on the `pybind11`_ side too
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="132" column="20" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="71" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1affd11ee98228920e7425766026f65b95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_indices" kindref="compound">Indices</ref> *</type>
+        <definition>Indices * AGRemapCore::IniFileFixContext::modTypeIndices</definition>
+        <argsstring>() const</argsstring>
+        <name>modTypeIndices</name>
+        <qualifiedname>AGRemapCore::IniFileFixContext::modTypeIndices</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+             The ``match_first_index`` assets of the ``.ini`` file&apos;s own :cpp:class:`ModType` --
+             **borrowed**, and ``nullptr`` when the file has no mod type. The companion of
+             
+ef modTypeHashes, and on the concrete class for the same reason
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="143" column="21" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a658ddade943b611089411bad31d51485" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+        <definition>std::optional&lt; Version &gt; AGRemapCore::IniFileFixContext::version</definition>
+        <argsstring>() const</argsstring>
+        <name>version</name>
+        <qualifiedname>AGRemapCore::IniFileFixContext::version</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The version of the ``.ini`` file being fixed, or ``std::nullopt`` when it has none --
+the fix-side counterpart of :cpp:func:`IniFileParseContext::version`, and on the
+concrete class for the same reason \ref modTypeHashes is
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="153" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="91" bodyend="97"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1ad415226afb696c45f3f9a36725dce82e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -286,7 +355,7 @@ as -- a subclass with a mod type overrides it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="113" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="79" bodyend="81"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="155" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="109" bodyend="111"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1aae911e5f559d93efe1a708131d0aa4e3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -308,7 +377,7 @@ Only consulted when :cpp:member:`GIMIFixer::modsToFix` was not set explicitly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="114" column="25" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="84" bodyend="91"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="156" column="25" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="114" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a358f2cc42c526f32646f3d9e8c3d898a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; std::string &gt;</type>
@@ -345,7 +414,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="115" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="94" bodyend="111"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="157" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="124" bodyend="141"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1afc4a54ad75599e0b8739979de55848da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -361,7 +430,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="116" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="114" bodyend="122"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="158" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="144" bodyend="152"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a5f12f37dac1940f0738c2db2460f1ea0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -377,7 +446,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="117" column="25" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="125" bodyend="131"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="159" column="25" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="155" bodyend="161"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a1f83b0d6ef77ecbf5fadb8deae314bf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -407,7 +476,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="118" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="134" bodyend="140"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="160" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="164" bodyend="170"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1af047b9f3ca0f0c00f1da382a699f7a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -423,7 +492,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="119" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="143" bodyend="149"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="161" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="173" bodyend="179"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a5ac89e6433a1bdf807168c9f81173fe7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -453,7 +522,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="120" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="152" bodyend="161"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="162" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="182" bodyend="191"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a1f113414334b539702006d6948488c27" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -495,7 +564,7 @@ of the pure-Python original mutating ``iniFilePath.baseName`` as it walks the gr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="121" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="164" bodyend="174"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="163" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="194" bodyend="229"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1a98c8e8142eea6d36899d24f3047770a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -533,7 +602,7 @@ original&apos;s way, and its implementation does set it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="122" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="177" bodyend="182"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="164" column="18" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="232" bodyend="237"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1ae86336c517f06a0f85509d6eaf071cf0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_fix_context_1aae1aaacec327c0a95e452402a3874f2a" kindref="member">GraphGroups</ref> &gt;</type>
@@ -552,11 +621,9 @@ own note on why this isn&apos;t something the fixer does for itself
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="123" column="29" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="185" bodyend="188"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="165" column="29" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="240" bodyend="243"/>
       </memberdef>
-    </sectiondef>
-    <sectiondef kind="private-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1addb47eef040aa8be0f8ca51155518176" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_file_fix_context_1addb47eef040aa8be0f8ca51155518176" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
         <definition>const ModType * AGRemapCore::IniFileFixContext::modType</definition>
         <argsstring>() const</argsstring>
@@ -565,10 +632,21 @@ own note on why this isn&apos;t something the fixer does for itself
         <briefdescription>
         </briefdescription>
         <detaileddescription>
+<para><verbatim>embed:rst 
+             The ``.ini`` file&apos;s own :cpp:class:`ModType`, or ``nullptr`` when it has none --
+             **borrowed** :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+             Public where :cpp:func:`IniFileParseContext::modType` is private, because a fixer has
+             a use the parse side never had: :cpp:func:`ModType::getVGRemap` is the only source of
+             a ``Blend.buf``&apos;s vertex-group remap, and no narrower accessor covers it the way
+             
+ef modTypeHashes covers the hash table. Those two are derived from this anyway, so
+             exposing it widens nothing they did not already
+</verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="127" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="53" bodyend="66"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="181" column="27" bodyfile="src/model/strategies/iniFixers/IniFileFixContext.cpp" bodystart="54" bodyend="67"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -656,7 +734,7 @@ This is what lets :cpp:func:`IniFixBuilder::defaultFactory` build a real
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="48" bodyend="139"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h" bodystart="48" bodyend="195"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a59eff8cd80ddf4796bbc1abba4669ab4" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>addFixBoilerPlate</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a7fc11a395e62cc00dd14356c4ecd567e" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>cleanModTypeName</name></member>
@@ -685,15 +763,18 @@ This is what lets :cpp:func:`IniFixBuilder::defaultFactory` build a real
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a9f8bcfdb1aca53df155bf9bae9d06d06" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>logs_</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1ae86336c517f06a0f85509d6eaf071cf0" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>makeGraphGroups</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1aae911e5f559d93efe1a708131d0aa4e3" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modsToFix</name></member>
-      <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1addb47eef040aa8be0f8ca51155518176" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1addb47eef040aa8be0f8ca51155518176" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modType</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a37cfce621f166a496caa891ce0e4bbeb" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modTypeHashes</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1a9687a0154c1e1b3610ed994361db496f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modTypeHeadingName</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a831d282e7e3c47efbb57918be2444785" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modTypeId_</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1affd11ee98228920e7425766026f65b95" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modTypeIndices</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a3c2b6125001f7ca6594b10d6b146587c" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>modTypeName</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1af24002d90d60ea59e7acd9dd89600161" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>RemapIniFixContext</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_fix_context_1afe999716d96acef65186f93830f0c773" prot="private" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>replaceAll</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a1f83b0d6ef77ecbf5fadb8deae314bf1" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>setFileTxt</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a98c8e8142eea6d36899d24f3047770a4" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>setIsFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a0ca3f9e6a7cad5ac2afb13b191230e65" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>setModTypeId</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a658ddade943b611089411bad31d51485" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>version</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_file_fix_context_1a1f113414334b539702006d6948488c27" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>writeFixedFile</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_context_1ac2d58821ec28f907490f2ae938388b4d" prot="public" virt="virtual"><scope>AGRemapCore::IniFileFixContext</scope><name>~IniFixContext</name></member>
     </listofallmembers>

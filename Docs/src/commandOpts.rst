@@ -100,6 +100,23 @@ Options
        | See :ref:`Download Modes` for details on the available download modes.
        |
        | By default, the download mode used is: **HardTexDriven**
+   * - -g str, -\-game str
+     - | Fixes mods only for the specified games.
+       | By default, if this option is not specified, will fix mods for all the supported games.
+       |
+       | Please specify the types of games using the game type's name or alias,
+       | then seperate each name/alias with a comma(,)
+       | *eg. GI,WuWa*
+       |
+       | See :ref:`Game Types` for the different names/aliases of the supported types of games.
+   * - -c, -\-uncompressTextures
+     - | Whether to leave textures uncompressed.
+       |
+       | Pick your poison: do you want the fix to run faster, but your textures take up
+       | more space, OR your fix to run slower, but textures take minimal space.
+       |
+       | This option only turns compression *off*. If it is not specified, each mod type's
+       | own texture edits decide for themselves whether to compress what they write.
    * - -p str, -\-proxy str
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
@@ -441,6 +458,32 @@ Below are the supported types of mods
        | XingqiuLanternRite
      - | check if the .ini file contains a section matching the regex, 
        | ``^\s*\[\s*textureoverride.*(xingqiubamboo).*\]``
+
+
+:raw-html:`<br />`
+:raw-html:`<br />`
+
+Game Types
+----------
+
+Below are the supported types of games
+
+:raw-html:`<br />`
+
+.. note::
+    The names/aliases for the game types are not case sensitive
+
+.. list-table::
+   :widths: 25 75
+   :header-rows: 1
+
+   * - Name
+     - Aliases
+   * - **GI**
+     - | Genshin,
+       | GenshinImpact
+   * - **WuWa**
+     - | WutheringWaves
 
 
 :raw-html:`<br />`

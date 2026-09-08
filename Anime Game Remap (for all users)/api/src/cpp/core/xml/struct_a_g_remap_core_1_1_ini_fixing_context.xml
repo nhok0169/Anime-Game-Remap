@@ -32,7 +32,7 @@ again on a later mod type would be backing up a file the first pass already move
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="51" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="54" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -64,7 +64,67 @@ the original mod&apos;s `sections`_ is the whole file&apos;s business, not one m
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="73" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="73" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="76" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1ae16416147de15372dd79485ee7b3d934" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt; *</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt;* AGRemapCore::IniFixingContext::priorFixBlocks</definition>
+        <argsstring></argsstring>
+        <name>priorFixBlocks</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::priorFixBlocks</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where the fix blocks already written for this ``.ini`` file live, keyed by
+:cpp:func:`GIMIFixer::fixKey` -- **borrowed**, ``nullptr`` for &quot;this fixer is on its own&quot;
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**This is what stops one .ini file&apos;s second fixer erasing its first.** Every fixer renders
+the file&apos;s *whole* new content -- the original text, the credit boilerplate, and its own
+sections -- and :cpp:func:`IniFile::fix` keeps the last one it is handed for a given path.
+With one fixer per ``.ini`` file that is exactly right; with two, the second silently threw
+the first away. Jean is the first character to remap onto two targets and so the first to
+show it, but nothing about the failure is Jean-specific :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Each fixer appends its own block here and renders everything accumulated so far, so the
+last one to run produces the complete file and winning the overwrite is harmless
+
+.. note::
+   Blocks only -- never the source text or the boilerplate, which are added around the
+   accumulated blocks once per render rather than once per fixer. Two credit headers in one
+   file is exactly what this exists to avoid
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="102" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a4bbe2424cbee397676033aaf545ec877" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::IniFixingContext::labelTargets</definition>
+        <argsstring></argsstring>
+        <name>labelTargets</name>
+        <qualifiedname>AGRemapCore::IniFixingContext::labelTargets</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether each fixer&apos;s block is labelled with the target it remaps onto -- see
+:cpp:member:`IniBoilerPlate::DefaultModHeadingSideLen` for what that looks like
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false``, which is right for the single-target fix every character before Jean
+had: there is only one block, and a heading naming it would say nothing the credit line
+above it does not
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="116" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="116" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -80,7 +140,7 @@ the original mod&apos;s `sections`_ is the whole file&apos;s business, not one m
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="75" column="9"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="118" column="9"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -121,7 +181,7 @@ the original mod&apos;s `sections`_ is the whole file&apos;s business, not one m
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="86" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="86" bodyend="87"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="129" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="129" bodyend="130"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -150,12 +210,14 @@ asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    it once and hand the same type to every fixer instantiation
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="32" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="32" bodyend="88"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="35" bodyend="131"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a5c6f94f70afb769b63eff888f8b5c259" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1ad8b8403bdf2111a6ae76cd8901565b08" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>isFirstModType</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>isLastModType</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a4bbe2424cbee397676033aaf545ec877" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>labelTargets</name></member>
+      <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1ae16416147de15372dd79485ee7b3d934" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>priorFixBlocks</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

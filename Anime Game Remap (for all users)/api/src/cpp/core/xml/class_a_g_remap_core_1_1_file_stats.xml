@@ -138,7 +138,7 @@ folder path :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="76" column="26" bodyfile="src/model/stats/FileStats.cpp" bodystart="7" bodyend="14"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="76" column="26" bodyfile="src/model/stats/FileStats.cpp" bodystart="8" bodyend="15"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1adcaddb25b5492d81adcbde97b5a39d45" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -167,7 +167,7 @@ folder path :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="83" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="16" bodyend="18"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="83" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="17" bodyend="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a84854abb77ead0772ff01a87329296a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -196,7 +196,7 @@ folder path :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="90" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="20" bodyend="22"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="90" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="21" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a3414cfef600c22b8cc4b410db3574aab" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -243,7 +243,7 @@ instead read from that entry&apos;s own file path (see #addSkipped)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="104" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="24" bodyend="43"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="104" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="25" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1ae244b19fe0203e73073b3b0d652bef08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -302,7 +302,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="119" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="45" bodyend="50"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="119" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="46" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a53439b1c0500345ce010eff1ec13e8d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -331,7 +331,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="126" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="52" bodyend="54"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="126" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="53" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1aae211e3ee7cfb5cb694fbb4750cafcf9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -360,7 +360,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="133" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="56" bodyend="58"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="133" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1aef3b2cfbccdfb57c582290f5b84e215f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -389,7 +389,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="140" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="60" bodyend="62"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="140" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="61" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1af08886541932906b7ef02c46129a740c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -418,7 +418,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="147" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="64" bodyend="66"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="147" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="65" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a61ed213a6cf3602d29ad8c5f1f39d126" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -447,7 +447,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="154" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="68" bodyend="70"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="154" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="69" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a38ea882dbb9a1aec5f498c44644dc545" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -476,7 +476,7 @@ directory
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="161" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="72" bodyend="74"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="161" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="73" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_file_stats_1a50ca90503ece3a6be509470e8d09bc18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -574,7 +574,7 @@ Updates the overall file paths in this class -- see #updateFixed, #updateSkipped
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/FileStats.h" line="177" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="76" bodyend="100"/>
+        <location file="include/AGRemapCore/model/stats/FileStats.h" line="177" column="18" bodyfile="src/model/stats/FileStats.cpp" bodystart="77" bodyend="101"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

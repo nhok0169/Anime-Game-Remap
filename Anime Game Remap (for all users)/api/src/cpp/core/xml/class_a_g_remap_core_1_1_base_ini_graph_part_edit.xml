@@ -82,6 +82,12 @@ the rest (:cpp:class:`BaseIniGraphGroupEdit`, for instance, deliberately derives
         <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
+      <node id="14">
+        <label>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_asset_remap"/>
+        <childnode refid="12" relation="public-inheritance">
+        </childnode>
+      </node>
       <node id="9">
         <label>AGRemapCore::RegDelimitedAdd&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_delimited_add"/>
@@ -94,19 +100,19 @@ the rest (:cpp:class:`BaseIniGraphGroupEdit`, for instance, deliberately derives
         <childnode refid="7" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="14">
+      <node id="15">
         <label>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_new_vals"/>
         <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="15">
+      <node id="16">
         <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_remap"/>
         <childnode refid="12" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="16">
+      <node id="17">
         <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_remove"/>
         <childnode refid="12" relation="public-inheritance">

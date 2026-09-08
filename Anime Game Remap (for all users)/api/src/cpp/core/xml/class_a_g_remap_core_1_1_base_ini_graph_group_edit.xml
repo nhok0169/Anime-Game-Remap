@@ -88,6 +88,8 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         <name>editFromIni</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::editFromIni</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1ab33bdc2d5a64a124d00f5025ac637f57">editFromIni</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_res_reg_collect_1a49a20da6ec9db9f9d763c6d941632f9e">editFromIni</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">GraphGroups</ref> &amp;</type>
           <declname>graphGroups</declname>
@@ -164,6 +166,7 @@ Edits a group of caller/callee graphs with state info from &apos;ini&apos; :raw-
         <argsstring>(GraphGroups &amp;graphGroups, const ModType *modType, const std::string &amp;modName=&quot;&quot;)</argsstring>
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseIniGraphGroupEdit::edit</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_edit_1a7b75a38f5c1b0c15f127a01e2d6849c2">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_graph_group_remap_1a9a367cbccdb7e492237aa1fe7c893074">edit</reimplementedby>

@@ -32,7 +32,7 @@
 
 
 namespace AGRemapCore {
-    IniFile::IniFile(std::optional<std::string> file, std::string txt, std::optional<int> gameTypeId,
+    IniFile::IniFile(std::optional<std::string> file, std::string txt, std::optional<std::unordered_set<int>> gameTypeIds,
                       std::optional<std::unordered_set<int>> filteredFromModTypeIds,
                       std::optional<std::unordered_set<int>> forcedFromModTypeIds,
                       std::optional<std::unordered_map<int, ModType>> overrideModTypes,
@@ -47,7 +47,7 @@ namespace AGRemapCore {
         toVersion(std::move(toVersion)),
         filteredToModTypeIds(std::move(filteredToModTypeIds)),
         file_(std::move(file)),
-        gameTypeId_(gameTypeId),
+        gameTypeIds_(std::move(gameTypeIds)),
         filteredFromModTypeIds_(std::move(filteredFromModTypeIds)),
         forcedFromModTypeIds_(std::move(forcedFromModTypeIds)),
         overrideModTypes_(overrideModTypes.has_value() ? std::move(*overrideModTypes) : std::unordered_map<int, ModType>()),
@@ -908,18 +908,37 @@ namespace AGRemapCore {
             readFileLines();
         }
 
-        // gameTypeId_ is kept as a plain int (see the constructor's own doc comment on why) -- the
-        // classifier's API only understands a real GameTypeId, so an unrecognized custom id simply
-        // can't be expressed there and falls back to "unfiltered" (std::nullopt) for classification
-        // purposes.
-        std::optional<GameTypeId> gameTypeIdEnum = gameTypeId_.has_value() ? GameTypeIdTools::getEnum(*gameTypeId_) : std::nullopt;
+        // gameTypeIds_ is kept as plain ints (see the constructor's own doc comment on why) -- the
+        // classifier's API only understands real GameTypeIds, so an unrecognized custom id simply
+        // can't be expressed there and is dropped here.
+        //
+        // Dropping every id leaves the filter UNSET rather than empty: an empty set means "no game
+        // matches" to the classifier, which would silently classify nothing at all. A caller naming
+        // only ids that no GameTypeId recognizes is in exactly the position of a caller naming none
+        // -- nothing expressible to narrow by -- and that used to be, and stays, "unfiltered".
+        GameTypeIdFilter gameTypeIdEnums = std::nullopt;
+
+        if (gameTypeIds_.has_value()) {
+            std::unordered_set<GameTypeId> recognized;
+
+            for (int gameTypeId : *gameTypeIds_) {
+                std::optional<GameTypeId> gameTypeIdEnum = GameTypeIdTools::getEnum(gameTypeId);
+                if (gameTypeIdEnum.has_value()) {
+                    recognized.insert(*gameTypeIdEnum);
+                }
+            }
+
+            if (!recognized.empty()) {
+                gameTypeIdEnums = std::move(recognized);
+            }
+        }
 
         modTypes.clear();
 
         if (forcedFromModTypeIds_.has_value()) {
             bool isFixedResult = false;
             bool isModResult = false;
-            iniClassifier_->checkIsFixedMod(fileLines_, &isFixedResult, &isModResult, gameTypeIdEnum);
+            iniClassifier_->checkIsFixedMod(fileLines_, &isFixedResult, &isModResult, gameTypeIdEnums);
             isFixed = isFixedResult;
             isMod = isModResult;
 
@@ -936,7 +955,7 @@ namespace AGRemapCore {
             return;
         }
 
-        IniClassifyStats stats = iniClassifier_->classify(fileLines_, gameTypeIdEnum);
+        IniClassifyStats stats = iniClassifier_->classify(fileLines_, gameTypeIdEnums);
         isMod = stats.isMod;
         isFixed = stats.isFixed;
 

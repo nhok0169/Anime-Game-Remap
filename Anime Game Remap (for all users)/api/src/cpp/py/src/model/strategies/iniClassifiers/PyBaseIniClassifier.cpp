@@ -32,8 +32,8 @@ Base class to help classify the type of mod given the mod's .ini files
         // same registration-order reasoning as ParseContext's constructor (see PyParseContext.cpp):
         // the str overload is tried first and a Python str can never successfully cast to
         // List[str], so there's no ambiguity the other way either.
-        .def("classify", py::overload_cast<const std::string&, std::optional<AGRC::GameTypeId>>(&AGRC::BaseIniClassifier::classify),
-    py::arg("iniTxt"), py::arg("gameTypeId") = py::none(), py::doc(R"doc(
+        .def("classify", py::overload_cast<const std::string&, AGRC::GameTypeIdFilter>(&AGRC::BaseIniClassifier::classify),
+    py::arg("iniTxt"), py::arg("gameTypeIds") = py::none(), py::doc(R"doc(
 Determines the type of mod given the text from the mod's .ini file
 
 Parameters
@@ -44,8 +44,8 @@ iniTxt: Union[:class:`str`, List[:class:`str`]]
     * the full text OR
     * lines of text with each line ending with a newline character
 
-gameTypeId: Optional[:class:`GameTypeId`]
-    The game the .ini file is expected to belong to, if known
+gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+    The games the .ini file may belong to, or ``None`` for every game
 
     **Default**: ``None``
 
@@ -55,12 +55,12 @@ Returns
     The stats about the classification of the .ini file
         )doc"))
 
-        .def("classify", py::overload_cast<const std::vector<std::string>&, std::optional<AGRC::GameTypeId>>(&AGRC::BaseIniClassifier::classify),
-    py::arg("iniTxt"), py::arg("gameTypeId") = py::none())
+        .def("classify", py::overload_cast<const std::vector<std::string>&, AGRC::GameTypeIdFilter>(&AGRC::BaseIniClassifier::classify),
+    py::arg("iniTxt"), py::arg("gameTypeIds") = py::none())
 
         // Same str/List[str] overload-order reasoning as classify() above.
-        .def("checkIsMod", py::overload_cast<const std::string&, std::optional<AGRC::GameTypeId>>(&AGRC::BaseIniClassifier::checkIsMod),
-    py::arg("iniTxt"), py::arg("gameTypeId") = py::none(), py::doc(R"doc(
+        .def("checkIsMod", py::overload_cast<const std::string&, AGRC::GameTypeIdFilter>(&AGRC::BaseIniClassifier::checkIsMod),
+    py::arg("iniTxt"), py::arg("gameTypeIds") = py::none(), py::doc(R"doc(
 Determines whether the .ini file belongs to a mod
 
 Cheaper than :meth:`classify` when only this yes/no answer is needed -- see :meth:`classify`'s own
@@ -74,8 +74,8 @@ iniTxt: Union[:class:`str`, List[:class:`str`]]
     * the full text OR
     * lines of text with each line ending with a newline character
 
-gameTypeId: Optional[:class:`GameTypeId`]
-    The game the .ini file is expected to belong to, if known
+gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+    The games the .ini file may belong to, or ``None`` for every game
 
     **Default**: ``None``
 
@@ -85,8 +85,8 @@ Returns
     Whether the .ini file belongs to a mod
         )doc"))
 
-        .def("checkIsMod", py::overload_cast<const std::vector<std::string>&, std::optional<AGRC::GameTypeId>>(&AGRC::BaseIniClassifier::checkIsMod),
-    py::arg("iniTxt"), py::arg("gameTypeId") = py::none())
+        .def("checkIsMod", py::overload_cast<const std::vector<std::string>&, AGRC::GameTypeIdFilter>(&AGRC::BaseIniClassifier::checkIsMod),
+    py::arg("iniTxt"), py::arg("gameTypeIds") = py::none())
 
         // No overload_cast here -- checkIsFixedMod's bool* out-params have no Python-facing
         // equivalent, so each overload is bound via a lambda that declares real local bools,
@@ -94,12 +94,12 @@ Returns
         // correctly to IniClassifier's override the same as classify()/checkIsMod() do), and
         // returns them bundled as a tuple -- same pattern as PyDFA.cpp's 'pytransition' wrapping
         // BaseDFA::transition's own bool*/out-param signature.
-        .def("checkIsFixedMod", [](AGRC::BaseIniClassifier &self, const std::string &iniTxt, std::optional<AGRC::GameTypeId> gameTypeId) -> std::tuple<bool, bool> {
+        .def("checkIsFixedMod", [](AGRC::BaseIniClassifier &self, const std::string &iniTxt, AGRC::GameTypeIdFilter gameTypeIds) -> std::tuple<bool, bool> {
             bool isFixed;
             bool isMod;
-            self.checkIsFixedMod(iniTxt, &isFixed, &isMod, gameTypeId);
+            self.checkIsFixedMod(iniTxt, &isFixed, &isMod, gameTypeIds);
             return {isFixed, isMod};
-        }, py::arg("iniTxt"), py::arg("gameTypeId") = py::none(), py::doc(R"doc(
+        }, py::arg("iniTxt"), py::arg("gameTypeIds") = py::none(), py::doc(R"doc(
 Determines whether the .ini file is fixed and/or belongs to a mod
 
 Cheaper than :meth:`classify` when only these yes/no answers are needed -- see :meth:`classify`'s
@@ -113,8 +113,8 @@ iniTxt: Union[:class:`str`, List[:class:`str`]]
     * the full text OR
     * lines of text with each line ending with a newline character
 
-gameTypeId: Optional[:class:`GameTypeId`]
-    The game the .ini file is expected to belong to, if known
+gameTypeIds: Optional[Set[:class:`GameTypeId`]]
+    The games the .ini file may belong to, or ``None`` for every game
 
     **Default**: ``None``
 
@@ -124,12 +124,12 @@ Tuple[:class:`bool`, :class:`bool`]
     Whether the .ini file is fixed, and whether it belongs to a mod, in that order
         )doc"))
 
-        .def("checkIsFixedMod", [](AGRC::BaseIniClassifier &self, const std::vector<std::string> &iniTxt, std::optional<AGRC::GameTypeId> gameTypeId) -> std::tuple<bool, bool> {
+        .def("checkIsFixedMod", [](AGRC::BaseIniClassifier &self, const std::vector<std::string> &iniTxt, AGRC::GameTypeIdFilter gameTypeIds) -> std::tuple<bool, bool> {
             bool isFixed;
             bool isMod;
-            self.checkIsFixedMod(iniTxt, &isFixed, &isMod, gameTypeId);
+            self.checkIsFixedMod(iniTxt, &isFixed, &isMod, gameTypeIds);
             return {isFixed, isMod};
-        }, py::arg("iniTxt"), py::arg("gameTypeId") = py::none())
+        }, py::arg("iniTxt"), py::arg("gameTypeIds") = py::none())
 
         .def("clear", &AGRC::BaseIniClassifier::clear, py::doc(R"doc(
 Clears the state of the classifier

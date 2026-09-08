@@ -25,7 +25,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="128" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="63" bodyend="65"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="128" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="64" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="135" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="67" bodyend="70"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="135" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="68" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>

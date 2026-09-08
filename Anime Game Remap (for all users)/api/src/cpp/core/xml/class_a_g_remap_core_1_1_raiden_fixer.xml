@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_raiden_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::RaidenFixer</compoundname>
+    <includes refid="_raiden_fixer_8h" local="no">RaidenFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_raiden_fixer_1aa96d59cda5fdf3a9727b3e70ec46ea30" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RaidenFixer::RaidenFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>RaidenFixer</name>
+        <qualifiedname>AGRemapCore::RaidenFixer::RaidenFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RaidenFixer.h" line="27" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_raiden_fixer_1af4596660e3a270a9948f5555f33002e1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::RaidenFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::RaidenFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Raiden ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::raiden6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/RaidenFixer.h" line="36" column="43" bodyfile="src/data/IniFixData/RaidenFixer.cpp" bodystart="417" bodyend="419"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Raiden&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Split out of :cpp:class:`IniFixBuilderData`&apos;s own translation unit for the same reason
+:cpp:class:`RaidenParser` is -- a real generator is a fixer subclass plus every edit it owns,
+where the stub it replaces is one line. :cpp:class:`IniFixBuilderFuncs` still declares the
+entry point; only the *definition* lives here :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`RaidenParser`: the fixer&apos;s mod objects are the ones that parser
+classifies, and neither half makes sense alone
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/RaidenFixer.h" line="24" column="5" bodyfile="include/AGRemapCore/data/IniFixData/RaidenFixer.h" bodystart="24" bodyend="37"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_raiden_fixer_1aa96d59cda5fdf3a9727b3e70ec46ea30" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenFixer</scope><name>RaidenFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_raiden_fixer_1af4596660e3a270a9948f5555f33002e1" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

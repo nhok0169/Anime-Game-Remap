@@ -28,9 +28,6 @@
       <node id="102">
         <label>BiMap.tpp</label>
       </node>
-      <node id="64">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="95">
         <label>AGRemapCore/constants/GIBuilder.h</label>
         <link refid="_g_i_builder_8h"/>
@@ -45,6 +42,10 @@
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -602,6 +603,10 @@
       <node id="86">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
       </node>
       <node id="87">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
@@ -962,6 +967,9 @@
         </childnode>
         <childnode refid="96" relation="include">
         </childnode>
+      </node>
+      <node id="64">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="83">
         <label>Generator.tpp</label>

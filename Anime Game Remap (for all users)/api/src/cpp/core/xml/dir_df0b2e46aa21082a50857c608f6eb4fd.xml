@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_df0b2e46aa21082a50857c608f6eb4fd" kind="dir">
+    <compoundname>src/data/IniParseData</compoundname>
+    <innerfile refid="_amber_c_n_parser_8cpp">AmberCNParser.cpp</innerfile>
+    <innerfile refid="_amber_parser_8cpp">AmberParser.cpp</innerfile>
+    <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
+    <innerfile refid="_jean_c_n_parser_8cpp">JeanCNParser.cpp</innerfile>
+    <innerfile refid="_jean_parser_8cpp">JeanParser.cpp</innerfile>
+    <innerfile refid="_mona_c_n_parser_8cpp">MonaCNParser.cpp</innerfile>
+    <innerfile refid="_mona_parser_8cpp">MonaParser.cpp</innerfile>
+    <innerfile refid="_raiden_parser_8cpp">RaidenParser.cpp</innerfile>
+    <innerfile refid="_rosaria_c_n_parser_8cpp">RosariaCNParser.cpp</innerfile>
+    <innerfile refid="_rosaria_parser_8cpp">RosariaParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/"/>
+  </compounddef>
+</doxygen>

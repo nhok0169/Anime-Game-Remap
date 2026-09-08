@@ -2,6 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_b92a30438a15d3d9f8193085ca7b9396" kind="dir">
     <compoundname>include/AGRemapCore/data</compoundname>
+    <innerdir refid="dir_a5a0c61a355e4e836464b9c4059f7aff">include/AGRemapCore/data/IniFixData</innerdir>
+    <innerdir refid="dir_f84cfb36ef4ce5c21d7f7dc4baa85c19">include/AGRemapCore/data/IniParseData</innerdir>
     <innerfile refid="_hash_data_8h">HashData.h</innerfile>
     <innerfile refid="_hash_to_mod_obj_data_8h">HashToModObjData.h</innerfile>
     <innerfile refid="_index_data_8h">IndexData.h</innerfile>

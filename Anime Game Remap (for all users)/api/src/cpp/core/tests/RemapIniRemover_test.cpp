@@ -108,11 +108,11 @@ const std::string UnknownHash = "deadbeef";
 // it only has to exist and answer checkIsFixedMod.
 class StubIniClassifier: public BaseIniClassifier {
     public:
-        IniClassifyStats classify(const std::vector<std::string>&, std::optional<GameTypeId>) override {
+        IniClassifyStats classify(const std::vector<std::string>&, GameTypeIdFilter) override {
             return IniClassifyStats({}, true, true);
         }
 
-        void checkIsFixedMod(const std::vector<std::string>&, bool* isFixedOut, bool* isModOut, std::optional<GameTypeId>) override {
+        void checkIsFixedMod(const std::vector<std::string>&, bool* isFixedOut, bool* isModOut, GameTypeIdFilter) override {
             *isFixedOut = true;
             *isModOut = true;
         }
@@ -693,6 +693,7 @@ class FakeRemoveContext: public IniRemoveContext<> {
         std::unordered_map<std::string, std::unique_ptr<Section>> sections;
         int writeCount = 0;
         int clearReadCount = 0;
+        int removeBackupCount = 0;
         int isFixed = -1;   // -1 = never told
 
         explicit FakeRemoveContext(std::string txt): txt(std::move(txt)) {}
@@ -733,6 +734,12 @@ class FakeRemoveContext: public IniRemoveContext<> {
         std::string write() override { writeCount++; return txt; }
         void clearRead() override { clearReadCount++; }
         void setIsFixed(bool newIsFixed) override { isFixed = newIsFixed ? 1 : 0; }
+
+        // Counted rather than acted on -- there is no .ini file behind this context, so there is no
+        // backup to delete. Added when 'removeBackup' joined the seam: this file is built by
+        // nothing (no CMake entry, no CTest, not run by CI), so it had stopped compiling entirely
+        // and nothing said so.
+        void removeBackup() override { removeBackupCount++; }
 };
 
 

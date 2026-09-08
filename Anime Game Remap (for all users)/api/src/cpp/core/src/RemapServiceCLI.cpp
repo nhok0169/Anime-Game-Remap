@@ -10,6 +10,7 @@
 #include "AGRemapCore/RemapServiceCLIErrors.h"
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/constants/FileTypes.h"
+#include "AGRemapCore/constants/GameTypeId.h"
 #include "AGRemapCore/constants/GlobalModTypes.h"
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/Version.h"
@@ -39,7 +40,8 @@ namespace AGRemapCore {
                                      std::optional<std::vector<std::string>> remappedTypes,
                                      std::optional<std::string> proxy,
                                      std::optional<std::string> downloadMode,
-                                     std::optional<int> gameTypeId):
+                                     std::optional<std::vector<std::string>> gameTypes,
+                                     bool uncompressTextures):
         // Everything already unambiguous goes straight in. The seven string-shaped options are left
         // at their defaults here and filled in by the setups below, which is where they can fail.
         service(std::move(path), keepBackups, fixOnly, undoOnly, hideOrig, readAllInis),
@@ -49,7 +51,7 @@ namespace AGRemapCore {
         service.logger = logger;
         service.handleExceptions = handleExceptions;
         service.proxy = std::move(proxy);
-        service.gameTypeId = gameTypeId;
+        service.uncompressTextures = uncompressTextures;
 
         // Nothing resolves a mod type by name until the shipped ones are filed, and on a normal run
         // nothing has filed them yet -- the registry is otherwise populated as a side effect of the
@@ -65,6 +67,7 @@ namespace AGRemapCore {
         _setupRemappedTypes(remappedTypes);
         _setupVersion(version);
         _setupDownloadMode(downloadMode);
+        _setupGameTypes(gameTypes);
     }
 
     bool RemapServiceCLI::hasErrorsBeforeFix() const {
@@ -120,6 +123,44 @@ namespace AGRemapCore {
         }
 
         return result;
+    }
+
+    std::optional<int> RemapServiceCLI::_toGameTypeId(const std::string& name) {
+        const std::optional<GameTypeId> found = GameTypeIdTools::findByName(name);
+
+        if (!found.has_value()) {
+            _recordError(std::make_exception_ptr(InvalidGameType(name)));
+            return std::nullopt;
+        }
+
+        return static_cast<int>(*found);
+    }
+
+    std::optional<std::unordered_set<int>> RemapServiceCLI::_toGameTypeIds(const std::optional<std::vector<std::string>>& names) {
+        // Absent and empty are the SAME answer, for the same reason they are in _toModTypeIds:
+        // naming no games is asking for all of them, which is what an argument parser produces when
+        // the option is left off. RemapService's own empty set means the opposite.
+        if (!names.has_value() || names->empty()) {
+            return std::nullopt;
+        }
+
+        std::unordered_set<int> result;
+
+        for (const std::string& name : *names) {
+            const std::optional<int> gameTypeId = _toGameTypeId(name);
+
+            // Keep going past a bad name, as _toModTypeIds does -- the error is already recorded
+            // and the run will raise it.
+            if (gameTypeId.has_value()) {
+                result.insert(*gameTypeId);
+            }
+        }
+
+        return result;
+    }
+
+    void RemapServiceCLI::_setupGameTypes(const std::optional<std::vector<std::string>>& gameTypes) {
+        service.gameTypeIds = _toGameTypeIds(gameTypes);
     }
 
     void RemapServiceCLI::_setupForcedModType(const std::optional<std::string>& forcedType) {

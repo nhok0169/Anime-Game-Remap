@@ -21,7 +21,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="164" column="41" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="164" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="184" column="41" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="184" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -37,7 +37,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="176" column="25" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="176" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="196" column="25" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="196" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::uint8_t &gt;</type>
@@ -51,7 +51,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="177" column="25" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="177" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="197" column="25" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="197" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1a2ccf0ca5bec45aa47d71f2c4f590efb3" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -66,7 +66,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="178" column="17" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="198" column="17" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="198" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" prot="private" static="no" mutable="no">
         <type>int</type>
@@ -81,7 +81,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="179" column="17" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="179" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="199" column="17" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1a6d6a5a97839bb6dffc0a51d110c07078" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -96,7 +96,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="180" column="18" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="180" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="200" column="18" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" prot="private" static="no" mutable="no">
         <type>CMP_FORMAT</type>
@@ -111,7 +111,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="181" column="24" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="181" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="201" column="24" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_texture_file_1a7722c8fca4c379f63bcc83b2168e8fe8" prot="private" static="no" mutable="no">
         <type>std::optional&lt; double &gt;</type>
@@ -125,7 +125,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="182" column="27" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="182" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="202" column="27" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="202" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -157,7 +157,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="36" column="22" bodyfile="src/model/files/TextureFile.cpp" bodystart="22" bodyend="22"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="36" column="22" bodyfile="src/model/files/TextureFile.cpp" bodystart="23" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1ae7b51f107fa5f0c6119ce67c4e69d6e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -172,7 +172,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="41" column="31" bodyfile="src/model/files/TextureFile.cpp" bodystart="24" bodyend="26"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="41" column="31" bodyfile="src/model/files/TextureFile.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a6cb8bae651573f5a3508f940a841456f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -191,7 +191,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="46" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="28" bodyend="30"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="46" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="29" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1aeae7efd77576220a7c67d82326684572" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -206,7 +206,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="51" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="32" bodyend="34"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="51" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a88e8bcfc7181369575f0fcef0a2f8c46" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -221,7 +221,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="56" column="17" bodyfile="src/model/files/TextureFile.cpp" bodystart="36" bodyend="38"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="56" column="17" bodyfile="src/model/files/TextureFile.cpp" bodystart="37" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a1378bf922aa218260eecd6e516f352bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -236,7 +236,7 @@ The compressed format used for a texture file that&apos;s never been successfull
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="61" column="17" bodyfile="src/model/files/TextureFile.cpp" bodystart="40" bodyend="42"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="61" column="17" bodyfile="src/model/files/TextureFile.cpp" bodystart="41" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a39508e6c51347eefbf690181bd178079" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; double &gt;</type>
@@ -254,7 +254,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="70" column="27" bodyfile="src/model/files/TextureFile.cpp" bodystart="44" bodyend="46"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="70" column="27" bodyfile="src/model/files/TextureFile.cpp" bodystart="45" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1ad07873565678e6f96d7fd7dbdbdebcd8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -273,7 +273,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="75" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="48" bodyend="50"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="75" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="49" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a236878438a59be2848050296790b1926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::uint8_t &gt; &amp;</type>
@@ -288,7 +288,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="81" column="31" bodyfile="src/model/files/TextureFile.cpp" bodystart="52" bodyend="54"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="81" column="31" bodyfile="src/model/files/TextureFile.cpp" bodystart="53" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1aed4d4a9f5aa6a9ae6ac72244c635d7d2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -342,7 +342,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="90" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="56" bodyend="66"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="90" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="57" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a3bdd3031b4efb8ce13e508664ba74429" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
@@ -384,7 +384,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="98" column="20" bodyfile="src/model/files/TextureFile.cpp" bodystart="68" bodyend="71"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="98" column="20" bodyfile="src/model/files/TextureFile.cpp" bodystart="69" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1ace7a7c132728c22d2fb8ddc91e9bb287" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -438,7 +438,7 @@ The luminance parameter used to gamma-correct the R/G/B channels on the next #sa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="107" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="73" bodyend="79"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="107" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="74" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a75cd5f48ec490257298f826a3133f1b8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -458,14 +458,19 @@ If the file does not exist, #hasImage becomes ``false`` and #getPixels is cleare
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="118" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="81" bodyend="138"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="118" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="82" bodyend="159"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a9331cadd7bb21874dde9552f92e39639" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a3993e88d773a2f9474ba17c9a1f5a1c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
         <definition>void AGRemapCore::TextureFile::save</definition>
-        <argsstring>()</argsstring>
+        <argsstring>(bool compress=true)</argsstring>
         <name>save</name>
         <qualifiedname>AGRemapCore::TextureFile::save</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>compress</declname>
+          <defval>true</defval>
+        </param>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -476,11 +481,38 @@ If #getGamma is set, the R/G/B channels of #getPixels are gamma-corrected first 
 :cpp:class:`GammaFilter`), in place. The file is re-encoded to whatever compressed
 format it was originally #open-ed with -- or, for a texture file that was never
 successfully opened (eg. a brand new file), :cpp:member:`DefaultFormat`
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>compress</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether to re-encode to that compressed format, or write the RGBA8 buffer out as a
+**plain 32-bit uncompressed** ``.dds`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**This is a speed/size trade, and a large one.** BCn encoding dominates the cost of
+editing a texture: on Jean&apos;s 4096x2048 ``BC7_UNORM`` body lightmap, decoding takes
+~1.5s and re-encoding ~15.5s, so ``false`` turns a 17-second edit into a 2-second one.
+What it costs is file size and format -- that same texture comes out at 32MB
+uncompressed against 8MB as BC7 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   ``false`` is exactly what the pure-Python `Pillow`_ engine always did:
+   ``img.save(src, &apos;DDS&apos;)`` writes 32-bit uncompressed and never encodes BCn at all.
+   That is worth knowing when comparing the two implementations&apos; speed -- they were
+   never doing the same work
+
+**Default**: ``true``
 </verbatim> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="131" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="140" bodyend="149"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="151" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="161" bodyend="174"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_texture_file_1a26b6fad2ced6d5c19c5d577ad33c4539" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -526,7 +558,7 @@ actual decoded pixels
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="155" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="151" bodyend="157"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="175" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="176" bodyend="182"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -571,7 +603,7 @@ actual decoded pixels
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/TextureFile.h" line="174" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="159" bodyend="204"/>
+        <location file="include/AGRemapCore/model/files/TextureFile.h" line="194" column="18" bodyfile="src/model/files/TextureFile.cpp" bodystart="184" bodyend="237"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -589,7 +621,7 @@ this buffer (remembering the original format), and #save re-encodes the (possibl
 buffer back to that same remembered format
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/files/TextureFile.h" line="28" column="5" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="28" bodyend="183"/>
+    <location file="include/AGRemapCore/model/files/TextureFile.h" line="28" column="5" bodyfile="include/AGRemapCore/model/files/TextureFile.h" bodystart="28" bodyend="203"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_texture_file_1a14c159180494e3df8a0d91c69e2e9ceb" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>DefaultFormat</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1ad4e434fe63911bc615c29762c4dd12bc" prot="private" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>format_</name></member>
@@ -605,7 +637,7 @@ buffer back to that same remembered format
       <member refid="class_a_g_remap_core_1_1_texture_file_1a4c7e584fae9c9d37cb8f42290d499a3d" prot="private" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>height_</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1a75cd5f48ec490257298f826a3133f1b8" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>open</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1acf611e463fbf39b4dd379d65557d5466" prot="private" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>pixels_</name></member>
-      <member refid="class_a_g_remap_core_1_1_texture_file_1a9331cadd7bb21874dde9552f92e39639" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>save</name></member>
+      <member refid="class_a_g_remap_core_1_1_texture_file_1a3993e88d773a2f9474ba17c9a1f5a1c6" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>save</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1a26b6fad2ced6d5c19c5d577ad33c4539" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>saveAs</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1ad07873565678e6f96d7fd7dbdbdebcd8" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>setGamma</name></member>
       <member refid="class_a_g_remap_core_1_1_texture_file_1ace7a7c132728c22d2fb8ddc91e9bb287" prot="public" virt="non-virtual"><scope>AGRemapCore::TextureFile</scope><name>setPixel</name></member>

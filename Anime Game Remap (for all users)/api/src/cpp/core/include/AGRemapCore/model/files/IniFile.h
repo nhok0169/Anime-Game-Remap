@@ -64,18 +64,21 @@ namespace AGRemapCore {
              * @param file The file path to the .ini file. If this is ``std::nullopt``, 'txt' is
              *      used as the content of the .ini file instead
              * @param txt Used as the text content of the .ini file if 'file' is ``std::nullopt``
-             * @param gameTypeId
+             * @param gameTypeIds
              @rst
-             The specific game to filter classification on, if known -- passed through to
+             The specific games to filter classification on, if known -- passed through to
              :cpp:func:`BaseIniClassifier::classify`/:cpp:func:`BaseIniClassifier::checkIsFixedMod`
-             as the corresponding :cpp:enum:`GameTypeId`, when 'gameTypeId' maps to one (see
+             as the corresponding :cpp:enum:`GameTypeId`\\s, for those ids that map to one (see
              :cpp:func:`GameTypeIdTools::getEnum`) :raw-html:`<br />` :raw-html:`<br />`
 
-             Stored as a plain ``int`` (not :cpp:enum:`GameTypeId` itself), matching this codebase's
+             Stored as plain ``int``\\s (not :cpp:enum:`GameTypeId` itself), matching this codebase's
              usual convention of keeping id-shaped config data as plain ints so a custom game id
              not registered in :cpp:enum:`GameTypeId` can still be stored, even though it won't
-             actually narrow classification (the classifier's own API only accepts a real
-             :cpp:enum:`GameTypeId`) :raw-html:`<br />` :raw-html:`<br />`
+             actually narrow classification (the classifier's own API only accepts real
+             :cpp:enum:`GameTypeId`\\s) :raw-html:`<br />` :raw-html:`<br />`
+
+             ``std::nullopt`` means every game -- see :cpp:type:`GameTypeIdFilter` for why an
+             **empty** set does not :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
              @endrst
@@ -159,7 +162,7 @@ namespace AGRemapCore {
              @endrst
              */
             explicit IniFile(std::optional<std::string> file = std::nullopt, std::string txt = "",
-                                  std::optional<int> gameTypeId = std::nullopt,
+                                  std::optional<std::unordered_set<int>> gameTypeIds = std::nullopt,
                                   std::optional<std::unordered_set<int>> filteredFromModTypeIds = std::nullopt,
                                   std::optional<std::unordered_set<int>> forcedFromModTypeIds = std::nullopt,
                                   std::optional<std::unordered_map<int, ModType>> overrideModTypes = std::nullopt,
@@ -1212,7 +1215,7 @@ namespace AGRemapCore {
             std::vector<std::string> fileLines_;
             bool fileLinesRead_ = false;
 
-            std::optional<int> gameTypeId_;
+            std::optional<std::unordered_set<int>> gameTypeIds_;
             std::optional<std::unordered_set<int>> filteredFromModTypeIds_;
             std::optional<std::unordered_set<int>> forcedFromModTypeIds_;
             std::unordered_map<int, ModType> overrideModTypes_;

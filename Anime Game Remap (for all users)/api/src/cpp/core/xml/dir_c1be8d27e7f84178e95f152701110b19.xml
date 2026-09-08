@@ -2,6 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_c1be8d27e7f84178e95f152701110b19" kind="dir">
     <compoundname>src/data</compoundname>
+    <innerdir refid="dir_82009e210a73cd366840ef294f589db5">src/data/IniFixData</innerdir>
+    <innerdir refid="dir_df0b2e46aa21082a50857c608f6eb4fd">src/data/IniParseData</innerdir>
     <innerfile refid="_hash_data_8cpp">HashData.cpp</innerfile>
     <innerfile refid="_hash_to_mod_obj_data_8cpp">HashToModObjData.cpp</innerfile>
     <innerfile refid="_index_data_8cpp">IndexData.cpp</innerfile>

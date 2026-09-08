@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMIObjPartFilter::FilterConfig</compoundname>
+    <includes refid="_g_i_m_i_obj_part_filter_8h" local="no">GIMIObjPartFilter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a1550f9a75bb8f206765c778193c9b118" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GIMIObjPartFilter&lt; K, V, KeyHash, KeyEqual &gt;::FilterConfig::hashKey</definition>
+        <argsstring></argsstring>
+        <name>hashKey</name>
+        <qualifiedname>AGRemapCore::GIMIObjPartFilter::FilterConfig::hashKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key holding a model hash <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a1135e121a755d9d4a26c68688f0a4b2c" kindref="member">IniKeywords::Hash</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="126" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a5449b9bf89f1ad435f323170be2d774e" prot="public" static="no" mutable="no">
+        <type>K</type>
+        <definition>K AGRemapCore::GIMIObjPartFilter&lt; K, V, KeyHash, KeyEqual &gt;::FilterConfig::matchFirstIndexKey</definition>
+        <argsstring></argsstring>
+        <name>matchFirstIndexKey</name>
+        <qualifiedname>AGRemapCore::GIMIObjPartFilter::FilterConfig::matchFirstIndexKey</qualifiedname>
+        <briefdescription>
+<para>The <computeroutput>KVP</computeroutput>_ key holding a first-drawn index <ndash/> :cpp:member:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_keywords_1af7976ed49b790b6eea9902f4fe2643b9" kindref="member">IniKeywords::MatchFirstIndex</ref></computeroutput> for a plain C++ caller. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="131" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points this class needs, for the same reason
+:cpp:class:`GIMISectionClassifier::ClassifierConfig` exists: ``K`` is not
+``std::string`` for every instantiation, so the `KVP`_ keys cannot be spelled as
+literals here
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="122" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="122" bodyend="132"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a1550f9a75bb8f206765c778193c9b118" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter::FilterConfig</scope><name>hashKey</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a5449b9bf89f1ad435f323170be2d774e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter::FilterConfig</scope><name>matchFirstIndexKey</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

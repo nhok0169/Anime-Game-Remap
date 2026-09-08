@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_download_tools" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DownloadTools</compoundname>
+    <includes refid="_download_tools_8h" local="no">DownloadTools.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_download_data" kindref="compound">DownloadData</ref>&lt;&gt;</type>
+        <definition>using AGRemapCore::DownloadTools::Download = DownloadData&lt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>Download</name>
+        <qualifiedname>AGRemapCore::DownloadTools::Download</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The **concrete** download class. :cpp:class:`IniParseDownloadData` is the abstract base
+and has no ``DownloadConfig`` of its own, which is a trap worth spelling out once here
+rather than rediscovering per parser
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="43" column="13" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_tools_1a2ad5bea3df3528ae8f035f142603eabc" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" kindref="compound">GIMIParser</ref>&lt;&gt;::ModObj</type>
+        <definition>using AGRemapCore::DownloadTools::ModObj = GIMIParser&lt;&gt;::ModObj</definition>
+        <argsstring></argsstring>
+        <name>ModObj</name>
+        <qualifiedname>AGRemapCore::DownloadTools::ModObj</qualifiedname>
+        <briefdescription>
+<para>The mod object a download is registered against. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="48" column="13" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_tools_1a7c194a329029017164e9fa0377c1f753" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_parser" kindref="compound">GIMIParser</ref>&lt;&gt;::Downloads</type>
+        <definition>using AGRemapCore::DownloadTools::Downloads = GIMIParser&lt;&gt;::Downloads</definition>
+        <argsstring></argsstring>
+        <name>Downloads</name>
+        <qualifiedname>AGRemapCore::DownloadTools::Downloads</qualifiedname>
+        <briefdescription>
+<para>The per-mod-object, per-register download map <ref refid="class_a_g_remap_core_1_1_download_store" kindref="compound">DownloadStore</ref> fills in. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="53" column="13" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" prot="public" static="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>using AGRemapCore::DownloadTools::KVPs = std::vector&lt;std::pair&lt;std::string, std::string&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>KVPs</name>
+        <qualifiedname>AGRemapCore::DownloadTools::KVPs</qualifiedname>
+        <briefdescription>
+<para>A resource <computeroutput>section</computeroutput>_&apos;s <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ <ndash/> <computeroutput>type</computeroutput>/<computeroutput>stride</computeroutput>/<computeroutput>format</computeroutput> and friends. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="58" column="13" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a06b758391894d8415affdbe8a391371c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::DownloadTools::DownloadTools</definition>
+        <argsstring>()=delete</argsstring>
+        <name>DownloadTools</name>
+        <qualifiedname>AGRemapCore::DownloadTools::DownloadTools</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="60" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a293cacb720816c22680cfe62b49b1e4c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::DownloadTools::downloadFolder</definition>
+        <argsstring>()</argsstring>
+        <name>downloadFolder</name>
+        <qualifiedname>AGRemapCore::DownloadTools::downloadFolder</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Where every downloadable default part is published -- the pure-Python original&apos;s own
+``GithubDownloadFolder`` (``data/FileDownloadData.py``)
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="69" column="38" bodyfile="src/tools/DownloadTools.cpp" bodystart="13" bodyend="17"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>long long</type>
+        <definition>long long AGRemapCore::DownloadTools::vertexCountOf</definition>
+        <argsstring>(const std::string &amp;version, const std::string &amp;modName, const std::string &amp;component)</argsstring>
+        <name>vertexCountOf</name>
+        <qualifiedname>AGRemapCore::DownloadTools::vertexCountOf</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>component</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+One row out of :cpp:class:`VertexCountData`, by its ``(version, mod name, component)``
+key :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``VertexCountData.h`` exposes only the raw row list -- there is no lookup helper -- so
+this is the small scan the pure-Python original gets for free from a nested dict
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The game version the row is keyed under, eg. <computeroutput>"4.0"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the mod type, eg. <computeroutput>"Amber"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>component</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The component the count belongs to, usually <computeroutput>""</computeroutput></para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The vertex count, or <computeroutput>0</computeroutput> when there is no such row <ndash/> which produces a visibly wrong <computeroutput>draw = 0,0</computeroutput> rather than a silently plausible one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="88" column="30" bodyfile="src/tools/DownloadTools.cpp" bodystart="20" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aa959dd4ec5d3bdd374bbcc39b12085c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config" kindref="compound">Download::DownloadConfig</ref></type>
+        <definition>DownloadTools::Download::DownloadConfig AGRemapCore::DownloadTools::makeConfig</definition>
+        <argsstring>()</argsstring>
+        <name>makeConfig</name>
+        <qualifiedname>AGRemapCore::DownloadTools::makeConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The ``.ini``-domain customization points every download shares -- the plain-``std::string``
+counterpart of what the `pybind11`_ layer supplies for its own ``py::object``
+instantiation. ``filename`` is the register naming a resource&apos;s file, and both
+conversions are the identity because ``K`` and ``V`` already *are* ``std::string`` here
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="100" column="45" bodyfile="src/tools/DownloadTools.cpp" bodystart="33" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a16b58cfceba9f215e2f1fd5be9e078e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" kindref="member">Download</ref> &gt;</type>
+        <definition>std::unique_ptr&lt; DownloadTools::Download &gt; AGRemapCore::DownloadTools::make</definition>
+        <argsstring>(const std::string &amp;name, const std::string &amp;urlPath, const std::string &amp;fixedName, KVPs resourceKVPs={}, KVPs downloadRefKVPs={})</argsstring>
+        <name>make</name>
+        <qualifiedname>AGRemapCore::DownloadTools::make</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>urlPath</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fixedName</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
+          <declname>resourceKVPs</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
+          <declname>downloadRefKVPs</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   &apos;fixedName&apos; is what the file is saved as locally, and must carry
+   :cpp:member:`IniKeywords::RemapDL` -- that is how the remover later recognises a
+   file this software downloaded rather than one the modder shipped. Build it with
+   \ref fixedFileName rather than by hand
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name for the kind of download, folded into the resource <computeroutput>section</computeroutput>_&apos;s name </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>urlPath</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The path under <ref refid="class_a_g_remap_core_1_1_download_tools_1a293cacb720816c22680cfe62b49b1e4c" kindref="member">downloadFolder</ref>, eg. <computeroutput>"GI/Amber/4_0/AmberBlend.buf"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fixedName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the downloaded file is saved as locally </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resourceKVPs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ of the resource <computeroutput>section</computeroutput>_ this creates. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>downloadRefKVPs</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ written after the reference to this download. <bold>Default</bold>: none </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="120" column="36" bodyfile="src/tools/DownloadTools.cpp" bodystart="47" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a432a9e7c90eb8771c21631a16b42e807" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::DownloadTools::fixedFileName</definition>
+        <argsstring>(const std::string &amp;prefix, const std::string &amp;kind, const std::string &amp;ext)</argsstring>
+        <name>fixedFileName</name>
+        <qualifiedname>AGRemapCore::DownloadTools::fixedFileName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``&lt;prefix&gt;&lt;kind&gt;&lt;RemapDL&gt;&lt;ext&gt;`` -- eg. ``&quot;AmberBlendRemapDL.buf&quot;``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The character&apos;s own file prefix, eg. <computeroutput>"Amber"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>kind</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What the file holds, eg. <computeroutput>"Blend"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ext</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The file extension, <bold>including</bold> the dot </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="134" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::DownloadTools::urlPath</definition>
+        <argsstring>(const std::string &amp;charFolder, const std::string &amp;versionFolder, const std::string &amp;prefix, const std::string &amp;kind, const std::string &amp;ext)</argsstring>
+        <name>urlPath</name>
+        <qualifiedname>AGRemapCore::DownloadTools::urlPath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>charFolder</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>versionFolder</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>kind</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>ext</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+``GI/&lt;charFolder&gt;/&lt;versionFolder&gt;/&lt;prefix&gt;&lt;kind&gt;&lt;ext&gt;`` -- the path under
+\ref downloadFolder a download is fetched from :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   &apos;charFolder&apos; and &apos;prefix&apos; are **separate arguments on purpose**, and composing one
+   from the other is the mistake to avoid: ``Raiden/`` holds ``RaidenShogun``-prefixed
+   files, and ``AyakaSpringbloom/4_0`` uses a different prefix from the same
+   character&apos;s ``5_4``. See CreatingRemaps&apos; &quot;The download assets&quot;
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="150" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="66" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
+        <definition>DownloadTools::KVPs AGRemapCore::DownloadTools::bufResourceKVPs</definition>
+        <argsstring>(int stride)</argsstring>
+        <name>bufResourceKVPs</name>
+        <qualifiedname>AGRemapCore::DownloadTools::bufResourceKVPs</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>stride</declname>
+        </param>
+        <briefdescription>
+<para>A plain buffer resource&apos;s <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ <ndash/> <computeroutput>type = Buffer</computeroutput> and the given stride. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stride</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The byte size of one vertex in the buffer </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="159" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="73" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
+        <definition>DownloadTools::KVPs AGRemapCore::DownloadTools::ibResourceKVPs</definition>
+        <argsstring>()</argsstring>
+        <name>ibResourceKVPs</name>
+        <qualifiedname>AGRemapCore::DownloadTools::ibResourceKVPs</qualifiedname>
+        <briefdescription>
+<para>An index buffer resource&apos;s <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ <ndash/> <computeroutput>type = Buffer</computeroutput> and a 32-bit uint format. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="164" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="78" bodyend="80"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
+        <definition>DownloadTools::KVPs AGRemapCore::DownloadTools::blendRefKVPs</definition>
+        <argsstring>(long long vertexCount)</argsstring>
+        <name>blendRefKVPs</name>
+        <qualifiedname>AGRemapCore::DownloadTools::blendRefKVPs</qualifiedname>
+        <param>
+          <type>long long</type>
+          <declname>vertexCount</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The two `KVPs`_ that must follow a **vb1** blend reference: ``handling = skip`` and
+``draw = &lt;vertexCount&gt;,0`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Without them the downloaded blend is bound but never drawn from
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vertexCount</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>How many vertices the drawn model has <ndash/> see <ref refid="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" kindref="member">vertexCountOf</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="177" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="83" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The parts of a character&apos;s downloads that are the same for **every** character
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Almost every character needs downloads -- the default `blend`_/position/texcoord buffers and
+head/body textures a mod may be missing -- and before this existed, all of it was spelled out
+again per parser: the GitHub base URL, the :cpp:class:`DownloadData::DownloadConfig`, the
+``RemapDL`` naming, the resource `KVPs`_ and the ``std::unique_ptr`` bookkeeping. That is a lot
+of identical code to get subtly wrong forty times over :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What is deliberately **not** here is anything a character actually chooses: which mod objects
+have downloads, which register each hangs off, the strides, and the file names. Those live in
+the character&apos;s own ``&lt;Name&gt;Parser.cpp``, which is where somebody adding a character will be
+looking
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/tools/DownloadTools.h" line="33" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="33" bodyend="178"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>blendRefKVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>bufResourceKVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>Download</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a293cacb720816c22680cfe62b49b1e4c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>downloadFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a7c194a329029017164e9fa0377c1f753" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>Downloads</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a06b758391894d8415affdbe8a391371c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>DownloadTools</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a432a9e7c90eb8771c21631a16b42e807" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>fixedFileName</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>ibResourceKVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>KVPs</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a16b58cfceba9f215e2f1fd5be9e078e7" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>make</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1aa959dd4ec5d3bdd374bbcc39b12085c5" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>makeConfig</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a2ad5bea3df3528ae8f035f142603eabc" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>ModObj</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>urlPath</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1a7e18d2f83d61a2718ca1f04e50c2238d" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>vertexCountOf</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

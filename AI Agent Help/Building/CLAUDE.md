@@ -29,10 +29,11 @@ native-code change.
 - **Read the Python version off the machine — this bullet has now been wrong in both directions.**
   `py -0p` lists what is installed; `cbuild/CMakeCache.txt`'s
   `FIND_PACKAGE_MESSAGE_DETAILS_Python` line says what the existing build tree was configured
-  against. As of **2026-09-06** those agree on **3.9** (`py -0p` lists only 3.9, so `py -3` *is*
-  3.9; the installed module is `core.cp39-win_amd64.pyd`; the cache reads `v3.9.3`). Successive
-  revisions of this file have asserted 3.9, then 3.13, then 3.9 again — the machine's interpreter
-  set genuinely changed underneath it, so treat every `cp313` in the rest of this file as
+  against. As of **2026-09-07** those agree on **3.13** (`py -0p` lists 3.13 as the default plus
+  3.11 and 3.7; the installed module is `core.cp313-win_amd64.pyd`; the cache reads `v3.13.1`).
+  Successive revisions of this file have asserted 3.9, then 3.13, then 3.9, and now 3.13 again —
+  **four flips.** Do not read the number above as fact either; it is a dated observation and the
+  next agent's `py -0p` is the authority. Treat every `cp313` in the rest of this file as
   illustrative of the *shape* of the filename, not of the version you will actually see. Nothing
   is committed for any version (see Overview); the only thing that matters is that the interpreter
   running the tests matches the one the `.pyd` was built for. Ask before changing it.
@@ -43,13 +44,14 @@ native-code change.
   ```
   Find the exact path once with
   `find "/c/Program Files/Microsoft Visual Studio" "/c/Program Files (x86)/Microsoft Visual Studio" -maxdepth 6 -iname vcvarsall.bat`
-  — and actually run it, because this path has moved. As of **2026-09-06** the only VS 18 on this
-  machine is the **Community** install under `Program Files`:
-  `C:\Program Files\Microsoft Visual Studio\18\Community\VC\Auxiliary\Build\vcvarsall.bat`,
-  and `Program Files (x86)\Microsoft Visual Studio\18` does not exist at all — the exact reverse
-  of what an earlier revision of this file recorded (a `BuildTools` install under `(x86)`, with
-  `Program Files` returning nothing). Everything below assumes this has been run in
-  the same shell.
+  — and actually run it, because this path keeps moving. As of **2026-09-07** the only VS 18 on
+  this machine is the **BuildTools** install under `Program Files (x86)`:
+  `C:\Program Files (x86)\Microsoft Visual Studio\18\BuildTools\VC\Auxiliary\Build\vcvarsall.bat`,
+  and `Program Files\Microsoft Visual Studio\18` does not exist. That is the reverse of what the
+  2026-09-06 revision recorded, which was itself the reverse of the one before it. **This path and
+  the Python version have now flipped back and forth three times between them. Run the `find` — do
+  not paste either value out of this file, this sentence included.** Everything below assumes
+  `vcvarsall.bat` has been run in the same shell.
   - **If you're an AI agent driving this through a tool whose shell state doesn't persist between
     separate tool calls** (env vars set in one call are gone by the next, even though the working
     directory may persist) — `vcvarsall.bat` and the actual build command must happen inside one

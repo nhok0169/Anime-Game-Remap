@@ -7,6 +7,8 @@
     <includes local="no">string</includes>
     <includes refid="_base_ini_graph_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h</includes>
     <includes local="yes">GraphRename.tpp</includes>
+    <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
+    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/RaidenFixer.cpp</includedby>
     <incdepgraph>
       <node id="31">
         <label>Algo.tpp</label>
@@ -16,9 +18,6 @@
       </node>
       <node id="37">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -562,6 +561,9 @@
         <childnode refid="54" relation="include">
         </childnode>
       </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="67">
         <label>Generator.tpp</label>
       </node>
@@ -680,6 +682,24 @@
         <label>vector</label>
       </node>
     </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</label>
+        <link refid="_graph_rename_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
+      </node>
+    </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_graph_rename" prot="public">AGRemapCore::GraphRename</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>

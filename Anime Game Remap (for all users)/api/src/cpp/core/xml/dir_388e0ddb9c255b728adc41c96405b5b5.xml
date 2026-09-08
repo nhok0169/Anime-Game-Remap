@@ -5,6 +5,8 @@
     <innerfile refid="_blend_edit_8h">BlendEdit.h</innerfile>
     <innerfile refid="_res_edit_8h">ResEdit.h</innerfile>
     <innerfile refid="_tex_edit_8h">TexEdit.h</innerfile>
+    <innerfile refid="_tex_editor_edit_8h">TexEditorEdit.h</innerfile>
+    <innerfile refid="_v_g_remap_blend_edit_8h">VGRemapBlendEdit.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

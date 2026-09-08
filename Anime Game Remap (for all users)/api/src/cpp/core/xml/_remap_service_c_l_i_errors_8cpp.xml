@@ -71,17 +71,31 @@
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
 <codeline lineno="34"><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>&quot;ERROR:<sp/>&quot;<sp/>prefix<sp/>and<sp/>no<sp/>mention<sp/>of<sp/>the<sp/>offending<sp/>string,<sp/>both<sp/>deliberate:<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>raised<sp/>a<sp/>plain<sp/>ValueError<sp/>with<sp/>exactly<sp/>this<sp/>sentence,<sp/>and<sp/>it<sp/>is<sp/>worth<sp/>staying</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>word-for-word<sp/>since<sp/>it<sp/>is<sp/>the<sp/>one<sp/>that<sp/>tells<sp/>a<sp/>user<sp/>WHAT<sp/>a<sp/>valid<sp/>version<sp/>looks<sp/>like.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>InvalidVersion::InvalidVersion(std::string<sp/>version):</highlight></codeline>
-<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::runtime_error(</highlight><highlight class="stringliteral">&quot;Please<sp/>enter<sp/>a<sp/>valid<sp/>version<sp/>that<sp/>conforms<sp/>to<sp/>PEP<sp/>440<sp/>for<sp/>the<sp/>game<sp/>version&quot;</highlight><highlight class="normal">),</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_(<ref refid="namespacestd" kindref="compound">std</ref>::move(version))<sp/>{}</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidVersion::version()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version_;</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="45"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Worded<sp/>off<sp/>InvalidModType&apos;s<sp/>rather<sp/>than<sp/>InvalidDownloadMode&apos;s:<sp/>a<sp/>game,<sp/>like<sp/>a<sp/>mod<sp/>type,<sp/>is</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>named<sp/>by<sp/>a<sp/>name<sp/>OR<sp/>an<sp/>alias,<sp/>so<sp/>&quot;search<sp/>string&quot;<sp/>is<sp/>the<sp/>accurate<sp/>word<sp/>for<sp/>what<sp/>failed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>InvalidGameType::buildMessage(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>gameType)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="stringliteral">&quot;ERROR:<sp/>Unable<sp/>to<sp/>find<sp/>the<sp/>type<sp/>of<sp/>game<sp/>by<sp/>the<sp/>search<sp/>string,<sp/>&apos;&quot;</highlight><highlight class="normal"><sp/>+<sp/>gameType<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;&apos;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>InvalidGameType::InvalidGameType(std::string<sp/>gameType):</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::runtime_error(buildMessage(gameType)),<sp/>gameType_(<ref refid="namespacestd" kindref="compound">std</ref>::move(gameType))<sp/>{}</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidGameType::gameType()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>gameType_;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>&quot;ERROR:<sp/>&quot;<sp/>prefix<sp/>and<sp/>no<sp/>mention<sp/>of<sp/>the<sp/>offending<sp/>string,<sp/>both<sp/>deliberate:<sp/>the<sp/>pure-Python</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>raised<sp/>a<sp/>plain<sp/>ValueError<sp/>with<sp/>exactly<sp/>this<sp/>sentence,<sp/>and<sp/>it<sp/>is<sp/>worth<sp/>staying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>word-for-word<sp/>since<sp/>it<sp/>is<sp/>the<sp/>one<sp/>that<sp/>tells<sp/>a<sp/>user<sp/>WHAT<sp/>a<sp/>valid<sp/>version<sp/>looks<sp/>like.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>InvalidVersion::InvalidVersion(std::string<sp/>version):</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacestd" kindref="compound">std</ref>::runtime_error(</highlight><highlight class="stringliteral">&quot;Please<sp/>enter<sp/>a<sp/>valid<sp/>version<sp/>that<sp/>conforms<sp/>to<sp/>PEP<sp/>440<sp/>for<sp/>the<sp/>game<sp/>version&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>version_(<ref refid="namespacestd" kindref="compound">std</ref>::move(version))<sp/>{}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>InvalidVersion::version()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>version_;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/RemapServiceCLIErrors.cpp"/>
   </compounddef>

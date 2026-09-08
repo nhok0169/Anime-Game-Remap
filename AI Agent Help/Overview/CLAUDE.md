@@ -101,6 +101,16 @@ subclass does the work. This has now bitten twice in the same way (`RemapBlendRe
 core does not. See [Creating Remaps](../CreatingRemaps/CLAUDE.md)'s "Seams that work from Python and
 do nothing from C++".
 
+**3b. The mirror image, when you are ADDING to a C++ class rather than calling it: a `Py*`/pure-Python
+subclass that overrides the method will ignore your new option unless you route it twice.** Adding
+`compress` to `AGRemapCore::TexCreator` gave the pure-Python `TexCreator` (which subclasses the
+binding) a `compress` attribute it *inherited and silently ignored*, because its `fix()` replaces the
+C++ one wholesale and called `texFile.save(img = img)` with no `compress` argument. An inherited
+option that does nothing is worse than no option: it reads as supported. The sibling
+`TexEditor.py` already did this correctly (`texFile.save(compress = self.compress)`), which is the
+tell to look for --- **when you add a member to a bound C++ class, grep the pure-Python side for a
+subclass of it and check every method that overrides one you touched.**
+
 **4. Find the tests before you claim there are none.** There are **two** test trees and they do not
 overlap: `api/src/cpp/core/tests/` (standalone C++, built by nothing) and
 `Testing/Unit Tester/UnitTester/Tests/` (the Python suite). Grep **both**, and confirm your path

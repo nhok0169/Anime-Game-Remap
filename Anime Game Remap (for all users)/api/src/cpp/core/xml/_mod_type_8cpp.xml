@@ -24,9 +24,6 @@
       <node id="48">
         <label>BaseOrderedMultiMap.tpp</label>
       </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="96">
         <label>AGRemapCore/constants/DownloadMode.h</label>
         <link refid="_download_mode_8h"/>
@@ -41,6 +38,10 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
         </childnode>
       </node>
       <node id="107">
@@ -674,6 +675,10 @@
       <node id="85">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
       </node>
       <node id="86">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
@@ -1016,6 +1021,9 @@
         </childnode>
         <childnode refid="107" relation="include">
         </childnode>
+      </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="82">
         <label>Generator.tpp</label>

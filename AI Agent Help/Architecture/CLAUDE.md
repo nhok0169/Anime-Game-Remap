@@ -1962,7 +1962,22 @@ of these leaves the option *looking* supported, which is worse than absent. In o
    `--game` arrives as `args.game`, not `args.gameType`.
 9. **The place the option actually does something.** This is the step that gets skipped, and the
    only one with no compiler to remind you --- see the next section.
-10. `Docs/src/commandOpts.rst` --- a row in the Options table.
+10. **The user-facing docs --- there are TWO of them, and they must agree.** This step was written
+    as "a row in `commandOpts.rst`" the first time and that was wrong; the maintainer had to point
+    out the second. Both need the option row *and* a section for any new name/alias table:
+    - `Docs/src/commandOpts.rst` (Sphinx / readthedocs)
+    - `Anime Game Remap (for all users)/api/README.md` (GitHub / PyPI) --- same content, different
+      markup, and its cross-links are plain anchors (`[GameTypes](#game-types)`)
+
+    Two things to get right in both:
+    - **Order the rows the way `--help` prints them** (`... -t -rt -g -c -dl -p`). A reader compares
+      the table against their terminal; appending to the end quietly breaks that.
+    - **A Sphinx `:ref:` needs the document prefix.** `Docs/src/conf.py` sets
+      `autosectionlabel_prefix_document = True`, so ``:ref:`Game Types` `` silently does not resolve
+      --- it builds fine and emits only a `WARNING: undefined label`. Write
+      ``:ref:`Game Types <commandOpts:Game Types>` ``. Do not copy the surrounding bare-`:ref:`
+      lines: several of them are broken, which is exactly how this mistake got made. See
+      [Documentation](../Documentation/CLAUDE.md)'s note on it.
 11. `Testing/Unit Tester/.../test_RemapServiceCLI.py` --- add the keyword to
     `test_ctorKeywordsMatchWhatMainPasses`. That test exists precisely to catch a `py::arg` rename,
     and it only catches the keywords it names.

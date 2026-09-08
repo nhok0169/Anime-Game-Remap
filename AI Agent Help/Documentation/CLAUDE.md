@@ -762,6 +762,45 @@ reopened) survives untouched.
   that class was made live, so don't assume existing docstrings in a still-commented class are
   already correct; check before/while making anything newly live.
 
+## An UNPREFIXED `:ref:` label in the `.rst` docs does not resolve --- and the existing ones are the bad example
+
+`Docs/src/conf.py` sets **`autosectionlabel_prefix_document = True`**, so every section label is
+namespaced by its document. ``:ref:`Download Modes` `` therefore resolves to nothing; the correct
+form is ``:ref:`Download Modes <commandOpts:Download Modes>` `` (conf.py's own comment says so, right
+above the setting).
+
+It is the **label** that needs the prefix, not the syntax --- both spellings break the same way:
+
+```rst
+:ref:`Download Modes`                             .. broken (bare, unprefixed)
+:ref:`Some Text <Choice A: Quickstart>`           .. ALSO broken -- explicit target, still unprefixed
+:ref:`Download Modes <commandOpts:Download Modes>`   .. correct
+```
+
+**Why this bites:** the build still *succeeds*. You get a `WARNING: undefined label:` line buried in
+the log and a rendered page where the link is plain text, so nothing fails and nothing looks wrong
+unless you click it. And **copying the file's existing style actively leads you astray** --- as of
+2026-09-07, 15 refs in the tree were broken this way (12 in `apiExamples.rst`, 3 in `tutorial.rst`,
+counted off the build log rather than by grep, which under-counts the `<target>` form), so whatever
+line you copy from is more likely wrong than right.
+
+**Check it, don't eyeball it.** Sphinx is installed (7.4.7) and a full build takes a few minutes,
+mostly Breathe on `coreAPI`:
+
+```bash
+py -3 -m sphinx -b html src <scratch>/out 2>&1 | tee <scratch>/sphinx.log
+grep -i "undefined label" <scratch>/sphinx.log
+```
+
+Compare the warning count before and after your change rather than aiming for zero --- the tree has
+a standing backlog (28 warnings after the `commandOpts.rst` ones were fixed). Then confirm the link
+actually landed by grepping the generated HTML for the pair:
+
+```bash
+grep -o 'href="#your-section"' <scratch>/out/commandOpts.html
+grep -o 'id="your-section"'    <scratch>/out/commandOpts.html
+```
+
 ## Anonymous namespaces churn `core/xml` file *names*, not just contents
 
 Doxygen names the XML for an anonymous namespace by a hash of its contents

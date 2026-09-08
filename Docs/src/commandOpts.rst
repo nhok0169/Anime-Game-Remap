@@ -94,12 +94,6 @@ Options
        | *eg. raiden,arlecchino,ayaya*
        |
        | See below for the different names/aliases of the supported types of mods.
-   * - -dl str, -\-download str
-     - | The download mode to handle file downloads need. The below are the available download modes:
-       | 
-       | See :ref:`Download Modes` for details on the available download modes.
-       |
-       | By default, the download mode used is: **HardTexDriven**
    * - -g str, -\-game str
      - | Fixes mods only for the specified games.
        | By default, if this option is not specified, will fix mods for all the supported games.
@@ -108,7 +102,7 @@ Options
        | then seperate each name/alias with a comma(,)
        | *eg. GI,WuWa*
        |
-       | See :ref:`Game Types` for the different names/aliases of the supported types of games.
+       | See :ref:`Game Types <commandOpts:Game Types>` for the different names/aliases of the supported types of games.
    * - -c, -\-uncompressTextures
      - | Whether to leave textures uncompressed.
        |
@@ -117,6 +111,12 @@ Options
        |
        | This option only turns compression *off*. If it is not specified, each mod type's
        | own texture edits decide for themselves whether to compress what they write.
+   * - -dl str, -\-download str
+     - | The download mode to handle file downloads need. The below are the available download modes:
+       | 
+       | See :ref:`Download Modes <commandOpts:Download Modes>` for details on the available download modes.
+       |
+       | By default, the download mode used is: **Normal**
    * - -p str, -\-proxy str
      - | The link to the proxy server for those whose internet access must go through a proxy. 
        | The software will make all internet network requests through this proxy
@@ -502,37 +502,12 @@ Below are the differents download modes supported by the software.
      - Description
    * - **Disabled**
      - Will not perform any file downloads for any mods
+   * - **Normal**
+     - | Only perform file downloads at places in a .ini file where a resource is missing
+       |
+       | This is the default when the option is not specified
    * - **Always**
-     - Will always perform file downloads for every mod
-   * - **AlwaysTex**
-     - Only download textures or .ib files
-   * - **AlwaysBuf**
-     - Only download .buf files, if possible
-   * - **Tex**
-     - Only download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-   * - **Buf**
-     - Only download .buf files if there is a specified branch in the .vb `sections`_ that does not reference the files
-   * - **HardTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources
-   * - **HardTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources
-   * - **SoftTexDriven**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources
-   * - **SoftTexDrivenAll**
-     - | Will perform file downloads based off the following heuristics:
-       |
-       |    1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files
-       |    2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources
-
+     - Will always perform file downloads for every mod, if possible, using pessimistic assumptions
 
 .. _section: https://en.wikipedia.org/wiki/INI_file#Sections
 .. _sections: https://en.wikipedia.org/wiki/INI_file#Sections

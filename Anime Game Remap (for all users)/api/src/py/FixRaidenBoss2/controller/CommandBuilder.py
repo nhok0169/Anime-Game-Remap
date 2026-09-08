@@ -107,13 +107,13 @@ eg. raiden,arlecchino,ayaya
 
 See below for the different names/aliases of the supported types of mods.""")
 
-        self._argParser.add_argument(ShortCommandOpts.GameType, CommandOpts.GameType, action='store', type=str, help=f"""Fixes mods only for the specified games. By default, fixes mods for all games.
+        self._argParser.add_argument(ShortCommandOpts.GameType.value, CommandOpts.GameType.value, action='store', type=str, help=f"""Fixes mods only for the specified games. By default, fixes mods for all games.
         
 Please specify the types of games by their names/aliases, then seperate each name/alias with a comma(,)
 eg. GI,WuWa
 
 See below for the different names/aliases of the supported type of games""")
-        self._argParser.add_argument(ShortCommandOpts.UnCompress, CommandOpts.UnCompress, action='store_true', help=f"""Whether to leave textures uncompressed. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
+        self._argParser.add_argument(ShortCommandOpts.UnCompress.value, CommandOpts.UnCompress.value, action='store_true', help=f"""Whether to leave textures uncompressed. Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space.""")
 
         allDownloadModes = list(map(lambda mode: f"\n- {TextTools.capitalize(mode.value)}", DownloadMode))
         allDownloadModes = "".join(allDownloadModes)

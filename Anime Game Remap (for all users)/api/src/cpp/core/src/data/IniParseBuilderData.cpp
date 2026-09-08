@@ -25,7 +25,6 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::fischlHighness4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ganyu4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::hutao4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::jeanSea4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeya4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeyaSailwind4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::keqing4_0() { return IniParseBuilder::defaultFactory(); }

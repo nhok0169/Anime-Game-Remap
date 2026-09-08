@@ -11,14 +11,19 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 ## Start here: adding a character, in order
 
-Two characters are done and they are deliberately the two different *shapes*. **Work out which one
-you have first, because four separate decisions follow from it** (see "Two shapes of remap" below):
+Nine characters are done, in three *shapes*. **Work out which one you have first, because several
+decisions follow from it** (see "Two shapes of remap" below, and "A character with TWO targets" for
+the third):
 
-| | Source and target share geometry | Target is a different model |
-| --- | --- | --- |
-| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN** (`amber4_0`/`amber6_1`) |
-| Hashes | kept | replaced |
-| Originals | **hidden** | left alone |
+| | Source and target share geometry | Target is a different model | Target draws different objects |
+| --- | --- | --- | --- |
+| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN**, Mona, Rosaria | **Jean -> JeanSea** (`jean6_1ToJeanSea`) |
+| Hashes | kept | replaced | replaced |
+| Originals | **hidden** | left alone | left alone |
+| Objects | one-to-one | one-to-one | **split** via `objSplits` |
+
+A character may need **more than one fixer** -- one row per target in `IniFixBuilderData`, not a
+`MultiModFixer`. Jean is the worked example: she remaps onto JeanCN (ordinary) and JeanSea (split).
 
 Then, in this order -- each step is verifiable before the next, and skipping ahead is how sessions
 get lost:
@@ -35,6 +40,16 @@ get lost:
 6. **A/B against the old script**, then **ask for an in-game screenshot**. Both, always.
 7. **Update the counts in `core/tests/BuilderData_test.cpp`** -- it hardcodes the number of rows in
    each builder table, nothing builds it, and adding a character silently breaks it.
+
+**Before writing anything, find out what already exists for this character.** Four places, and
+each can save an afternoon:
+
+| where | what you get |
+| --- | --- |
+| `Testing/Integration Tester/.../APIDocsTests/expected_*/` | **a full golden `.ini` for some characters** -- Raiden, Amber, AmberCN, Jean and Keqing all have one. That is a free specification: exact section names, hashes, indices, which sections get which edit. Read it before guessing |
+| `api/src/py/FixRaidenBoss2/data/Ini{Parse,Fix}BuilderData.py.txt` | the character's pre-migration row -- reference only, but it says what the fix *used* to do |
+| `data/HashData.cpp`, `IndexData.cpp`, `VGRemapData.cpp` | whether the asset data is already in (it usually is, across several game versions) |
+| `Importer/GIMI/Mods/` **and its parent** | real mods to test with. The maintainer swaps folders in and out of `Mods/`, so check the parent directory too |
 
 **Ask rather than guess about these three**, every time. They are not derivable and a wrong guess is
 silent: the game version(s), the `CommandList` path of any external library the fix re-issues (eg.
@@ -538,6 +553,39 @@ Three things to know:
 
 <br>
 
+### The merge, and why "per group" has to be asked twice
+
+The reverse of the split: several of the source's objects becoming one of the target's, which is
+`objSplits = {{"head", {"head"}}, {"body", {"body"}}, {"dress", {"body"}}}`. Two targets collide, so
+`GraphGroupRemap` puts the loser in an additional `IniGraphGroup` and the fixer writes it as
+`<name>RemapFix1.ini` -- the importer overlaps the two files and both halves draw. Set
+`copyPreamble = IniComments::GIMIObjMergerPreamble` so the generated file says why it exists.
+
+**Everything addressed by group has to be built per group, and there are three such things.** Each
+was a separate bug on the way in:
+
+1. **`GraphGroupEdit`'s edits vector is indexed by group**, and a group past its end gets *nothing*.
+   One `IniEdits` means the second file comes out an unrenamed verbatim copy.
+2. **The index window differs per group.** `GIMIObjPartFilter` reads the *source's* hash and index,
+   and group 1's `body` was copied from `dress` -- ask about `body` and the window comes back empty
+   and the rewrite silently does nothing.
+3. **A `ResRegCollect` is addressed by `GraphId`, whose `iniIndex` is the GROUP.** A blend collector
+   built for group 0 never sees group 1, so the second file keeps `vb1 = Resource<Mod>Blend` -- the
+   original -- and never gets a `[Resource<Mod><Target>RemapBlend]` section. **Every text-level check
+   passes**: the names match, the reference resolves (the original blend is right there), and the
+   binaries are byte-identical because the missing file is one nothing referenced.
+
+Also: the graphs the merge does **not** touch -- blend, position, texcoord, ib, VertexLimitRaise,
+face -- must be duplicated into every group, or the second file names buffers it does not contain.
+Ask for that by listing the same target twice, and give those targets an **identity rename function**
+-- `copyGraph` renames as it copies, and these already have a rename of their own, so letting both
+run yields `...JeanRemapBlendJeanRemapFix`.
+
+Read the old script's own `JeanSeaRemapFix1.ini` before building one of these. It settles every one
+of the questions above in about a minute.
+
+<br>
+
 ### A fix must never mutate the parse of the file it is reading
 
 The rule, and the bug that produced it (2026-09-07). `ResRegCollect` built its resource graph with
@@ -735,11 +783,22 @@ makes the next build's install step fail — see [Building](../Building/CLAUDE.m
 ### What to check
 
 ```bash
-# The load-bearing one. An unremapped .buf is byte-identical to its source,
-# produces a correct-looking .ini, and reports success.
+# 1. Was it remapped at all? An unremapped .buf is byte-identical to its source,
+#    produces a correct-looking .ini, and reports success.
 cmp -s "$d/<Folder>/<Char>Blend.buf" "$d/<Folder>/<Char><Target>RemapBlend.buf" \
   && echo "NOT remapped" || echo "remapped"
+
+# 2. Was it remapped CORRECTLY? Check 1 cannot tell you -- a file remapped twice
+#    passes it. Diff against the old script's output instead, for every sub-mod
+#    and every target.
+cmp "$old/<Folder>/<Char><Target>RemapBlend.buf" "$new/<Folder>/<Char><Target>RemapBlend.buf"
 ```
+
+**Check 2 is not optional on a character with more than one target.** It is the only thing that
+caught Jean -> JeanSea being remapped through JeanCN first: the `.ini` was perfect, references all
+resolved, and the model came out warped in game. If you write that comparison yourself, read
+[Overview](../Overview/CLAUDE.md)'s habit 10 first -- a mistyped filename makes `cmp` report a
+mismatch that is really your harness.
 
 Then: the set of generated sections vs the old script's, each section's content diffed, and
 **repeat-run stability** — run the fix 3-4 times and confirm `merged.ini` comes out byte-identical

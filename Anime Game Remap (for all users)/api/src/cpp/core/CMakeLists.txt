@@ -50,7 +50,9 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/RosariaParser.cpp
     src/data/IniFixData/JeanFixer.cpp
     src/data/IniFixData/JeanCNFixer.cpp
+    src/data/IniFixData/JeanSeaFixer.cpp
     src/data/IniFixData/JeanShading.cpp
+    src/data/IniParseData/JeanSeaParser.cpp
     src/data/IniParseData/JeanParser.cpp
     src/data/IniParseData/JeanCNParser.cpp
     src/data/IniFixData/RaidenFixer.cpp

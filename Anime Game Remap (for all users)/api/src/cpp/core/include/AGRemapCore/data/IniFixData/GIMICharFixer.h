@@ -142,6 +142,21 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         What every ``.ini`` file this fix GENERATES opens with -- see
+         :cpp:member:`GIMIFixer::copyPreamble` :raw-html:`<br />` :raw-html:`<br />`
+
+         Only a **merge** generates one: a file the user never asked for and did not write should say
+         why it exists. :cpp:member:`IniComments::GIMIObjMergerPreamble` is the paragraph written for
+         that, and is what the pure-Python merge used :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: empty -- right for every shape that writes only the mod's own file
+         @endrst
+         */
+        std::string copyPreamble;
+
+        /**
+         * @brief
+         @rst
          Whether the fix takes the shared ``drawindexed`` off ``("", "ib")`` and re-issues one per
          drawn object :raw-html:`<br />` :raw-html:`<br />`
 

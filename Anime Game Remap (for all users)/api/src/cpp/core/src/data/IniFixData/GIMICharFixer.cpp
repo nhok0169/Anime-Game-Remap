@@ -141,6 +141,8 @@ namespace AGRemapCore {
                     config_(std::move(config)) {
                     this->setCtx(&ctx_);
 
+                    // buildObjMap FIRST -- it is what works out groupCount_, and both collectors
+                    // below build one instance per group.
                     buildObjMap();
                     buildBlendCollector();
                     buildTexEdits();
@@ -157,7 +159,10 @@ namespace AGRemapCore {
                         this->graphGroupEdits.push_back(objSplitRemap_.get());
                     }
 
-                    this->graphGroupEdits.push_back(&blendCollect_);
+                    for (auto& collect : blendCollects_) {
+                        this->graphGroupEdits.push_back(collect.get());
+                    }
+
                     for (auto& collect : texCollects_) {
                         this->graphGroupEdits.push_back(collect.get());
                     }
@@ -195,6 +200,8 @@ namespace AGRemapCore {
                     // nothing on the source character, since the remapped section carries her own
                     // hash.
                     this->hiddenModObjs.insert(FaceObj);
+
+                    this->copyPreamble = config_.copyPreamble;
                 }
 
             protected:
@@ -229,6 +236,7 @@ namespace AGRemapCore {
                         targetObjs_ = drawnObjs_;
                         for (const ModObj& modObj : drawnObjs_) {
                             objMap_.emplace_back(modObj, modObj);
+                            pairGroups_.push_back(0);
                         }
 
                         return;
@@ -236,13 +244,23 @@ namespace AGRemapCore {
 
                     ObjGroupRemap::RemapList remap;
 
+                    // WHICH GROUP EACH PAIR LANDS IN, worked out the same way GraphGroupRemap does
+                    // it: a target's first claimant keeps the main group, the second goes to an
+                    // additional one, and so on. Mirroring that here rather than asking afterwards
+                    // is what lets the edits below be built before the groups exist.
+                    std::unordered_map<ModObj, std::size_t, Fixer::ModObjHash> claims;
+
                     for (const auto& split : config_.objSplits) {
                         const ModObj srcObj("", split.first);
                         std::vector<ObjGroupRemap::RemapTarget> targets;
 
                         for (const std::string& toObj : split.second) {
                             const ModObj tgtObj("", toObj);
+                            const std::size_t group = claims[tgtObj]++;
+
                             objMap_.emplace_back(srcObj, tgtObj);
+                            pairGroups_.push_back(group);
+                            groupCount_ = std::max(groupCount_, group + 1);
 
                             if (std::find(targetObjs_.begin(), targetObjs_.end(), tgtObj) == targetObjs_.end()) {
                                 targetObjs_.push_back(tgtObj);
@@ -252,6 +270,39 @@ namespace AGRemapCore {
                         }
 
                         remap.emplace_back(GraphId(0, srcObj.first, srcObj.second), std::move(targets));
+                    }
+
+                    // EVERY OTHER GRAPH HAS TO BE IN EVERY GROUP, and this is the half of a merge
+                    // that is easy to miss. A second .ini file holding only the merged object would
+                    // name a Blend.buf, a position and a texcoord that are not in it. The old
+                    // script's own output settles it -- JeanSeaRemapFix1.ini carries the full
+                    // blend/position/texcoord/ib/VertexLimitRaise/face set exactly as the first file
+                    // does, and differs only in which drawn object it holds.
+                    //
+                    // Listing the same target twice is how that is asked for: the first lands in
+                    // group 0, the second collides and lands in group 1 -- the same mechanism that
+                    // creates the extra group in the first place.
+                    if (groupCount_ > 1) {
+                        // AND THEY MUST COME OUT UNRENAMED. copyGraph renames as it copies, falling
+                        // back to IniNamingTools::getObjRemapFixName -- right for a drawn object,
+                        // which is being renamed from one object to another, and wrong for these,
+                        // which already have a rename of their own further down (the blend uses the
+                        // blend convention, the ib the ib one, and so on). Letting both run gives
+                        // ...JeanRemapBlendJeanRemapFix, a name no other tool recognises.
+                        //
+                        // An IDENTITY function rather than an empty one: empty is what asks for the
+                        // default. This is the one place in this file that wants copyGraph to do
+                        // nothing but copy.
+                        const ObjGroupRemap::RenameFunc keepName = [](const std::string& name) { return name; };
+
+                        for (const ModObj& modObj : {IbObj, BlendObj, PositionObj, TexcoordObj, OtherObj, FaceObj}) {
+                            std::vector<ObjGroupRemap::RemapTarget> targets;
+                            for (std::size_t i = 0; i < groupCount_; ++i) {
+                                targets.emplace_back(GraphId(0, modObj.first, modObj.second), keepName);
+                            }
+
+                            remap.emplace_back(GraphId(0, modObj.first, modObj.second), std::move(targets));
+                        }
                     }
 
                     // An empty renameFunc on every target, which is what asks copyGraph for the
@@ -270,24 +321,27 @@ namespace AGRemapCore {
                 // One collector per edit rather than one shared: each names a resource graph of its
                 // own, and a shared one would have the second edit overwrite the first's resources.
                 void buildTexEdits() {
-                    for (const GIMICharFixerConfig::TexEdit& texEdit : config_.texEdits) {
-                        const GraphId srcGraph(0, "", texEdit.obj);
+                    // Per group, for the same reason as the blend collector above.
+                    for (std::size_t group = 0; group < groupCount_; ++group) {
+                        for (const GIMICharFixerConfig::TexEdit& texEdit : config_.texEdits) {
+                            const GraphId srcGraph(group, "", texEdit.obj);
 
-                        // A DISTINCT mod object from the source graph, exactly as the blend needs:
-                        // pointing it at srcGraph would have the resource overwrite the graph it was
-                        // collected from.
-                        const GraphId resGraph(0, "", texEdit.obj + "RemapTex");
+                            // A DISTINCT mod object from the source graph, exactly as the blend
+                            // needs: pointing it at srcGraph would have the resource overwrite the
+                            // graph it was collected from.
+                            const GraphId resGraph(group, "", texEdit.obj + "RemapTex");
 
-                        auto replace = std::make_unique<TexEditorReplace<>>(
-                            resGraph, TexEditor({texEdit.filter}, texEdit.compress), makeCharResEditConfig(),
-                            "resourceRemapTexEdit", texEdit.name);
+                            auto replace = std::make_unique<TexEditorReplace<>>(
+                                resGraph, TexEditor({texEdit.filter}, texEdit.compress), makeCharResEditConfig(),
+                                "resourceRemapTexEdit", texEdit.name);
 
-                        auto collect = std::make_unique<Collector>();
-                        collect->srcRegs = {{srcGraph, texEdit.reg}};
-                        collect->resEdits = {{texEdit.obj, replace.get()}};
+                            auto collect = std::make_unique<Collector>();
+                            collect->srcRegs = {{srcGraph, texEdit.reg}};
+                            collect->resEdits = {{texEdit.obj, replace.get()}};
 
-                        texReplaces_.push_back(std::move(replace));
-                        texCollects_.push_back(std::move(collect));
+                            texReplaces_.push_back(std::move(replace));
+                            texCollects_.push_back(std::move(collect));
+                        }
                     }
                 }
 
@@ -297,23 +351,38 @@ namespace AGRemapCore {
                     return config;
                 }
 
+                // ONE COLLECTOR PER GROUP. A Collector is addressed by GraphId, and a GraphId's
+                // iniIndex is the GROUP index -- so a collector built for group 0 simply does not
+                // see the graphs a merge put in group 1.
+                //
+                // Left that way the second .ini file keeps `vb1 = Resource<Mod>Blend`, the mod's
+                // ORIGINAL blend, and never gets a [Resource<Mod><Target>RemapBlend] section at all.
+                // Every text-level check passes -- the reference resolves, because the original
+                // blend really is there -- and in game that half of the model draws with unremapped
+                // weights. Only reading the section's content catches it.
                 void buildBlendCollector() {
-                    const GraphId blendGraph(0, BlendObj.first, BlendObj.second);
-                    const GraphId blendResGraph(0, BlendObj.first, BlendObj.second + "RemapBlend");
-
                     IniFile* iniFile = ctx_.getIniFile();
                     const std::optional<Version> toVersion = (iniFile == nullptr) ? std::nullopt : iniFile->toVersion;
 
-                    blendReplace_ = std::make_unique<VGRemapBlendReplace<>>(
-                        blendResGraph, makeCharResEditConfig(), ctx_.modType(), ctx_.version(), toVersion);
+                    for (std::size_t group = 0; group < groupCount_; ++group) {
+                        const GraphId blendGraph(group, BlendObj.first, BlendObj.second);
+                        const GraphId blendResGraph(group, BlendObj.first, BlendObj.second + "RemapBlend");
 
-                    blendCollect_.srcRegs = {{blendGraph, BlendReg}};
-                    blendCollect_.resEdits = {{IniKeywords::Blend, blendReplace_.get()}};
-                    blendCollect_.partPredicates = {{blendGraph, blendHashParts()}};
+                        auto replace = std::make_unique<VGRemapBlendReplace<>>(
+                            blendResGraph, makeCharResEditConfig(), ctx_.modType(), ctx_.version(), toVersion);
 
-                    blendCollect_.trackKeysIsGlobal = false;
-                    blendCollect_.trackKeys = {{blendGraph, true}};
-                    blendCollect_.keysToTrack = {{blendGraph, std::unordered_set<std::string>{IniKeywords::Hash}}};
+                        auto collect = std::make_unique<Collector>();
+                        collect->srcRegs = {{blendGraph, BlendReg}};
+                        collect->resEdits = {{IniKeywords::Blend, replace.get()}};
+                        collect->partPredicates = {{blendGraph, blendHashParts()}};
+
+                        collect->trackKeysIsGlobal = false;
+                        collect->trackKeys = {{blendGraph, true}};
+                        collect->keysToTrack = {{blendGraph, std::unordered_set<std::string>{IniKeywords::Hash}}};
+
+                        blendReplaces_.push_back(std::move(replace));
+                        blendCollects_.push_back(std::move(collect));
+                    }
                 }
 
                 // Whole-part accept/reject, not a sub-part window -- the qualifying hash and the
@@ -365,7 +434,6 @@ namespace AGRemapCore {
                     }
 
                     for (const auto& entry : objMap_) {
-                        const ModObj& srcObj = entry.first;
                         const ModObj& modObj = entry.second;
 
                         std::optional<std::string> target =
@@ -377,11 +445,6 @@ namespace AGRemapCore {
                             continue;
                         }
 
-                        // The window is read off the SOURCE's own hash and index, so a split copy
-                        // asks about the object it was copied FROM. Jean's body becomes JeanSea's
-                        // dress; the copy still carries Jean's body index, and asking about a
-                        // "dress" Jean never had would come back empty.
-                        indexSrcObjs_[modObj] = srcObj;
 
                         auto edit = std::make_unique<RegNewVals<>>(
                             std::vector<std::pair<std::string, RegNewVals<>::NewValSpec>>{
@@ -412,23 +475,38 @@ namespace AGRemapCore {
                     // so run
                     // the other way round the window comes back empty and this silently does
                     // nothing. That is exactly how the NNFix placement went missing.
-                    ObjGroupEdit::IniEdits indexIniEdits;
-                    for (const auto& indexEntry : indexAdapters_) {
-                        const ModObj& modObj = indexEntry.first;
+                    // ONE IniEdits PER GROUP, because the WINDOW differs per group even though the
+                    // edit does not. GraphGroupEdit indexes this vector by group and gives a group
+                    // past its end nothing at all, so a merge whose second group is missing here
+                    // comes out as an unrenamed verbatim copy.
+                    //
+                    // The value written is the same in every group -- the target's index for that
+                    // object -- but the filter that finds the part to write it into reads the
+                    // SOURCE's hash and index, and group 1's "body" was copied from the source's
+                    // "dress". Ask about the wrong one and the window comes back empty and the
+                    // rewrite silently does nothing.
+                    std::vector<ObjGroupEdit::IniEdits> indexIniEdits(groupCount_);
 
-                        auto srcEntry = indexSrcObjs_.find(modObj);
-                        const ModObj& srcObj = (srcEntry == indexSrcObjs_.end()) ? modObj : srcEntry->second;
+                    for (std::size_t i = 0; i < objMap_.size(); ++i) {
+                        const ModObj& srcObj = objMap_[i].first;
+                        const ModObj& modObj = objMap_[i].second;
+                        const std::size_t group = pairGroups_[i];
 
-                        indexIniEdits.edits[modObj] = {indexEntry.second.get()};
-                        indexIniEdits.keyFilters[modObj] = {objFilter_->filter(srcObj)};
+                        auto adapter = indexAdapters_.find(modObj);
+                        if (adapter == indexAdapters_.end() || group >= indexIniEdits.size()) {
+                            continue;
+                        }
+
+                        indexIniEdits[group].edits[modObj] = {adapter->second.get()};
+                        indexIniEdits[group].keyFilters[modObj] = {objFilter_->filter(srcObj)};
 
                         // Asked for rather than restated, so this can never drift out of step with
                         // what the filter actually reads.
-                        indexIniEdits.keysToTrack[modObj] = objFilter_->keysToTrack();
-                        indexIniEdits.trackKeys[modObj] = true;
+                        indexIniEdits[group].keysToTrack[modObj] = objFilter_->keysToTrack();
+                        indexIniEdits[group].trackKeys[modObj] = true;
                     }
 
-                    objIndexEdits_ = ObjGroupEdit({indexIniEdits}, false);
+                    objIndexEdits_ = ObjGroupEdit(std::move(indexIniEdits), false);
                 }
 
                 // ---- every other graph and register edit ----
@@ -640,7 +718,11 @@ namespace AGRemapCore {
                                                 faceSwapAdapter_.get()};
                     iniEdits.trackKeys[FaceObj] = false;
 
-                    objEdits_ = ObjGroupEdit({iniEdits}, false);
+                    // Repeated per group. Unlike the index edits these carry no key window, so
+                    // every group wants exactly the same set -- and an entry for an object a given
+                    // group does not hold costs nothing, since GraphGroupEdit walks the GROUP's mod
+                    // objects and looks each one up here rather than the other way round.
+                    objEdits_ = ObjGroupEdit(std::vector<ObjGroupEdit::IniEdits>(groupCount_, iniEdits), false);
                 }
 
                 IniFileFixContext ctx_;
@@ -652,7 +734,11 @@ namespace AGRemapCore {
                 std::vector<ModObj> drawnObjs_;
                 std::vector<ModObj> targetObjs_;
                 std::vector<std::pair<ModObj, ModObj>> objMap_;
-                std::unordered_map<ModObj, ModObj, Fixer::ModObjHash> indexSrcObjs_;
+
+                // Which group each objMap_ pair lands in, and how many groups that makes. Both are
+                // 0/1 for every shape but a merge.
+                std::vector<std::size_t> pairGroups_;
+                std::size_t groupCount_ = 1;
 
                 std::unique_ptr<ObjGroupRemap> objSplitRemap_;
                 std::unordered_map<ModObj, std::unique_ptr<RegNewVals<>>, Fixer::ModObjHash> newRegVals_;
@@ -664,8 +750,8 @@ namespace AGRemapCore {
                 std::unique_ptr<RegRemap<>> faceRegSwap_;
                 std::unique_ptr<RegPartEdit<>> faceSwapAdapter_;
 
-                std::unique_ptr<VGRemapBlendReplace<>> blendReplace_;
-                Collector blendCollect_;
+                std::vector<std::unique_ptr<VGRemapBlendReplace<>>> blendReplaces_;
+                std::vector<std::unique_ptr<Collector>> blendCollects_;
 
                 std::unique_ptr<GraphRename<>> renameGraph_;
                 std::unique_ptr<GraphRename<>> renameBlendGraph_;

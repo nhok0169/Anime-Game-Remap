@@ -98,16 +98,23 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**Two characters are real now, and they are deliberately the two DIFFERENT shapes a remap comes
-in.** `raiden6_1` remaps onto a boss that shares the source's geometry (hashes kept, originals
-hidden); `amber4_0`/`amber6_1` remap onto a **CN skin**, a genuinely different model (hashes
-replaced, originals left alone, indices forward-looked-up). Both are verified against the old
-pure-Python script and in game. **Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)
-and copy whichever shape matches your character** --- it opens with the order of operations, and
-records the silent ways a remap can be wrong while every log line still says it worked.
+**Nine characters are real now, in three DIFFERENT shapes, and which one you have decides almost
+everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry** (hashes
+kept, originals hidden). Amber/AmberCN, Mona/MonaCN and Rosaria/RosariaCN remap onto a **CN skin** --
+a genuinely different model (hashes replaced, originals left alone, indices forward-looked-up).
+Jean/JeanCN add the third: **two targets, and one of them draws objects the source does not have**,
+so Jean's `body` graph is *split* into JeanSea's `body` + `dress`. All are verified against the old
+pure-Python script and in game.
+
+**A character with several targets is several rows in `IniFixBuilderData`, NOT a `MultiModFixer`** --
+that table is keyed by `(from mod, to mod)`, which is what made the pure-Python indirection
+unnecessary. **Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) and copy whichever
+shape matches your character** --- it opens with the order of operations, with where to find a free
+specification for the character (several have full Integration Tester goldens), and records the
+silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All seven characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+All nine characters also carry the **face diffuse register swap** (white shiny cheek spots), which
 has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
@@ -115,11 +122,11 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**The fix does not actually fix anything right now for anyone but Raiden, and that is DELIBERATE ---
-do not chase it.**
-Every `IniFixer`/`IniParser` is currently stubbed with its base class, so a real end-to-end run
-classifies mods, walks the tree, writes its credit header and rewrites the `.ini` file *without
-generating a single remapped section*, and `IniFile::getResources()` comes back **empty** --- which
+**The fix still does nothing for every character OTHER than the nine listed above, and that is
+DELIBERATE --- do not chase it.**
+Every OTHER character's `IniFixer`/`IniParser` is still stubbed with its base class, so for those a
+real end-to-end run classifies mods, walks the tree, writes its credit header and rewrites the
+`.ini` file *without generating a single remapped section*, and `IniFile::getResources()` comes back **empty** --- which
 in turn means `RemapService::fixResources` corrects no `Blend.buf` and no textures. One cause, both
 symptoms. An agent who runs the CLI over a real mod, diffs against
 `Testing/Integration Tester/.../expected_fullFix_modFixed/`, and sees the remap sections missing has

@@ -814,6 +814,28 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **JeanSea onto Jean** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The **merge**: JeanSea's ``body`` and ``dress`` both become Jean's ``body``, which takes
+             a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
+             :cpp:member:`GIMICharFixerConfig::objSplits`
+             @endrst
+             */
+            static IniFixBuilder::Factory jeanSea6_1ToJean();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge as
+             :cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSeaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory jeanSea6_1ToJeanCN();
+
+            /**
+             * @brief
+             @rst
              The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`<br />`
              :raw-html:`<br />`
 

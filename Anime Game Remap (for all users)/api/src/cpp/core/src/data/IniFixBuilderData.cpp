@@ -261,6 +261,15 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanCN),
                   "6.1", ModTypeIdTools::getName(ModTypeId::JeanSea)}, IniFixBuilderFuncs::jeanCN6_1ToJeanSea()},
 
+                // ===== JeanSea @ toVersion 6.1 =====
+                //
+                // The other direction of the same family, and the one that MERGES -- see
+                // JeanSeaFixer for why that writes a second .ini file.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Jean)}, IniFixBuilderFuncs::jeanSea6_1ToJean()},
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jeanSea6_1ToJeanCN()},
+
                 // ===== Raiden @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},

@@ -135,6 +135,61 @@ observation a lie. See [Building](../Building/CLAUDE.md) for the build-batch hyg
 mtime check; and note a run parked at `== Press ENTER to exit ==` holds the `.pyd` open and makes
 the next build's copy step fail.
 
+**10. A FAILING check is a claim too -- validate it before you report it.** Habit 1 says a success
+can be fake. The inverse bites just as hard and is easier to believe, because a failure feels like
+diligence. A comparison harness built the filename `"JeanJean" + "JeanCN"` -- a file that never
+existed -- and `cmp -s` on two absent files returns non-zero, which is indistinguishable from a real
+mismatch. That produced two confident, wrong "the blends differ" reports to the maintainer before
+the paths were checked. **Before believing a negative, assert the thing you compared exists**: print
+the resolved paths, `ls` them, confirm the anchor matched. The same rule as habit 4's "confirm your
+path actually resolved", generalised past grep to every check you write.
+
+The same harness fails the other way too, and that one reads as success. An A/B script whose source
+mod folder had been moved copied nothing, fixed nothing, and reported *"(identical), 0 dangling"* --
+a clean pass over two empty directories. **The maintainer swaps mod folders in and out of `Mods/`**
+(3dmigoto tolerates only one mod per character, or the models interfere -- see
+`CreatingRemaps/Images/Jean/JeanSeaAmalgamation.jpg`), so a path that worked an hour ago may be gone.
+Assert the inputs exist and are non-empty before reporting either outcome.
+
+**11. For anything that is the first of its kind, suspect core before suspecting yourself.** Code
+paths here are exercised by whatever characters happen to exist, so a genuinely new *shape* tends to
+land on machinery nobody has run. Jean was the first character to remap onto **two** targets, and
+that alone surfaced two independent core bugs -- fixers overwriting each other's `.ini` text, and a
+resource edit mutating the `.ini` file's own parsed sections. Neither was in the new data; both had
+been waiting. When new data behaves oddly, ask early: *has this path ever actually run before?*
+
+**12. Three layers, three separate checks: the text, the references, the bytes.** They fail
+independently and an earlier one passing says nothing about a later one. Two bugs in one session
+made this concrete: a `.ini` that named a `Blend.buf` a later removal had deleted (text fine,
+reference dangling), and a `.ini` that was *perfect* while its `Blend.buf` had been remapped twice
+(text fine, references fine, bytes wrong -- visible only as a warped model in game). So:
+
+| layer | check |
+| --- | --- |
+| text | diff the generated section **names** against the old script's |
+| references | `CreatingRemaps/check_dangling.py` -- every `filename =` exists on disk |
+| **content** | diff each section's **body**, not just its name |
+| bytes | `cmp` **every** produced `.buf`/`.dds` against the old script's, per sub-mod |
+
+The bytes check is the one people skip and the only one that catches a *wrongly* remapped file, as
+opposed to an unremapped one. Note that comparing the source against the output -- the check
+`CreatingRemaps` documents for "was this remapped at all" -- passes happily on a file remapped
+twice.
+
+**And the content layer exists because a reference can resolve to the WRONG thing.** JeanSea's merge
+left its second `.ini` file saying `vb1 = ResourceJeanSeaBlend` -- the mod's own untouched blend --
+instead of the remapped one. Section names matched the old script exactly, every reference resolved
+(that blend really is on disk), and both produced binaries were byte-identical, because the file that
+was missing was one nothing asked for. Three of the four layers passed. Only reading the section body
+found it, and in game it would have been another warped model.
+
+**13. If the old implementation is faster or smaller, check it was doing the same work.** Not every
+difference from `FixRaidenBoss6.py` is a regression in ours, and not every place it looks better is
+a place it *was* better. Its texture editing ran ~250x faster than the C++ path, which looked
+alarming until the file headers were read: `Pillow` has no BCn encoder, so it wrote 32-bit
+uncompressed `.dds` and never encoded at all -- 32MB where ours writes 8MB of BC7. Compare the
+artifacts' *format*, not just the clock.
+
 <br>
 
 ## Operating norms

@@ -4,6 +4,7 @@
     <compoundname>AGRemapCore::BaseRegEdit</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_base_ini_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::BaseIniGraphPartEdit</basecompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_add" prot="public" virt="non-virtual">AGRemapCore::RegAdd&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_asset_remap" prot="public" virt="non-virtual">AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public" virt="non-virtual">AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_remap" prot="public" virt="non-virtual">AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_remove" prot="public" virt="non-virtual">AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
@@ -209,6 +210,7 @@ original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         <name>edit</name>
         <qualifiedname>AGRemapCore::BaseRegEdit::edit</qualifiedname>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_add_1a387a8ff6fb5e2c135e9b07b895355c85">edit</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_asset_remap_1aab12eee6b1cabb9227f68a48652e8e81">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d">edit</reimplementedby>
         <reimplementedby refid="class_a_g_remap_core_1_1_reg_remove_1aa6319b98eee53e3f0247a4a032da06ca">edit</reimplementedby>
@@ -405,18 +407,24 @@ Base class for a filter that edits some registers within an :cpp:class:`IfConten
         </childnode>
       </node>
       <node id="5">
+        <label>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_asset_remap"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
         <label>AGRemapCore::RegNewVals&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_new_vals"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="6">
+      <node id="7">
         <label>AGRemapCore::RegRemap&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_remap"/>
         <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
-      <node id="7">
+      <node id="8">
         <label>AGRemapCore::RegRemove&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_reg_remove"/>
         <childnode refid="1" relation="public-inheritance">

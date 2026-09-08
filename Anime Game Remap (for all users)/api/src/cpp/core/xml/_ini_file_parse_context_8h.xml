@@ -10,7 +10,8 @@
     <includes refid="_ini_graph_group_8h" local="yes">AGRemapCore/model/IniGraphGroup.h</includes>
     <includes refid="_i_ini_graph_groups_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</includes>
     <includes refid="_ini_parse_context_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseContext.h</includes>
-    <includedby refid="_ini_parse_builder_data_8cpp" local="yes">src/data/IniParseBuilderData.cpp</includedby>
+    <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
+    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/RaidenParser.cpp</includedby>
     <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <includedby refid="_ini_parse_builder_8cpp" local="yes">src/model/strategies/iniParsers/IniParseBuilder.cpp</includedby>
     <incdepgraph>
@@ -19,9 +20,6 @@
       </node>
       <node id="37">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="73">
         <label>AGRemapCore/constants/DownloadMode.h</label>
@@ -743,6 +741,9 @@
         <childnode refid="82" relation="include">
         </childnode>
       </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="67">
         <label>Generator.tpp</label>
       </node>
@@ -880,16 +881,22 @@
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="2">
-        <label>src/data/IniParseBuilderData.cpp</label>
-        <link refid="_ini_parse_builder_data_8cpp"/>
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="3">
+        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <link refid="_raiden_parser_8cpp"/>
+      </node>
+      <node id="4">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="4">
+      <node id="5">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>

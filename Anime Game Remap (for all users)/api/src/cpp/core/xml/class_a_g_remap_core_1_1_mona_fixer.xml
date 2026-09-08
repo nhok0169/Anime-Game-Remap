@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_mona_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::MonaFixer</compoundname>
+    <includes refid="_mona_fixer_8h" local="no">MonaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mona_fixer_1af896048ce12bf26fef3d0b8ba3bdd68d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::MonaFixer::MonaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>MonaFixer</name>
+        <qualifiedname>AGRemapCore::MonaFixer::MonaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/MonaFixer.h" line="21" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_mona_fixer_1a7d4a17a13aacd94d88d96323fd1aaffe" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::MonaFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::MonaFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Mona ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::mona6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/MonaFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/MonaFixer.cpp" bodystart="23" bodyend="25"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Mona&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`MonaParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/MonaFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/MonaFixer.h" bodystart="18" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_mona_fixer_1af896048ce12bf26fef3d0b8ba3bdd68d" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaFixer</scope><name>MonaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_mona_fixer_1a7d4a17a13aacd94d88d96323fd1aaffe" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

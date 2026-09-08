@@ -53,6 +53,7 @@ Special Thanks to ❤:
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%A4%F0%9F%A7%BF%20The%20Grapheme%20Warden-1-%2314b8a6?style=flat-square&labelColor=%23042f2e)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%94%8C%F0%9F%9B%9F%20The%20Entry%20Point%20Lifeguard-1-%2306b6d4?style=for-the-badge&labelColor=%23083344)
 - ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AD%F0%9F%93%AE%20The%20Face%20Courier-1-%23f472b6?style=for-the-badge&labelColor=%234a044e)
+- ![Static Badge](https://img.shields.io/badge/%F0%9F%8E%AE%E2%9B%B4%EF%B8%8F%20The%20Flag%20Ferryman-1-%23ff6b35?style=plastic&labelColor=%233b0d11)
 
 <br>
 

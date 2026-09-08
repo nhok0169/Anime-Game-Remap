@@ -70,6 +70,12 @@ class TexCreator(CppTexCreator):
 
         **Default**: ``False``
 
+    compress: :class:`bool`
+        Whether the created texture is written compressed -- see :attr:`CppTexCreator.compress`
+        :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``True``
+
     Attributes
     ----------
     engine: :class:`TexEngine`
@@ -78,13 +84,17 @@ class TexCreator(CppTexCreator):
     readPillowImg: :class:`bool`
         Whether to maintain :attr:`TextureFile.img` when :attr:`engine` is
         :attr:`TexEngine.Compressonator`
+
+    compress: :class:`bool`
+        Whether the created texture is written compressed -- see :attr:`CppTexCreator.compress`
     """
 
-    def __init__(self, width: int, height: int, colour: Optional[Colour] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False):
+    def __init__(self, width: int, height: int, colour: Optional[Colour] = None, engine: TexEngine = TexEngine.Compressonator, readPillowImg: bool = False,
+                 compress: bool = True):
         if (colour is None):
-            super().__init__(width, height)
+            super().__init__(width, height, compress = compress)
         else:
-            super().__init__(width, height, colour)
+            super().__init__(width, height, colour, compress = compress)
         self.engine = engine
         self.readPillowImg = readPillowImg
 
@@ -98,5 +108,10 @@ class TexCreator(CppTexCreator):
         texFile.engine = self.engine
         texFile.readPillowImg = self.readPillowImg
         texFile.src = fixedTexFile
-        texFile.save(img = img)
+
+        # Passed on rather than left to default, exactly as TexEditor.fix does. This method
+        # replaces CppTexCreator's own fix() wholesale, so anything the C++ one honours has to be
+        # honoured again here -- an inherited 'compress' that silently did nothing would be worse
+        # than not having one.
+        texFile.save(img = img, compress = self.compress)
 ##### EndScript

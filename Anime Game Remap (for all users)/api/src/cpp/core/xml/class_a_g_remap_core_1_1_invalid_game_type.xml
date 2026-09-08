@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_invalid_game_type" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::InvalidGameType</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::runtime_error</basecompoundref>
+    <includes refid="_remap_service_c_l_i_errors_8h" local="no">RemapServiceCLIErrors.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_invalid_game_type_1af157711ceeabe20f04a86d04ce727865" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidGameType::gameType_</definition>
+        <argsstring></argsstring>
+        <name>gameType_</name>
+        <qualifiedname>AGRemapCore::InvalidGameType::gameType_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="107" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_game_type_1a3d8d7ab24440da01876264cd864709dd" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::InvalidGameType::InvalidGameType</definition>
+        <argsstring>(std::string gameType)</argsstring>
+        <name>InvalidGameType</name>
+        <qualifiedname>AGRemapCore::InvalidGameType::InvalidGameType</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>gameType</declname>
+        </param>
+        <briefdescription>
+<para>Constructs a new error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>gameType</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string that matched no game </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="99" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="41" bodyend="42"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_game_type_1af800c76533adb19594f25e8eae86523c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; AGRemapCore::InvalidGameType::gameType</definition>
+        <argsstring>() const</argsstring>
+        <name>gameType</name>
+        <qualifiedname>AGRemapCore::InvalidGameType::gameType</qualifiedname>
+        <briefdescription>
+<para>The string that matched no game. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="104" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="44" bodyend="46"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_game_type_1a3a9b0d3fec74535686bed5005770752c" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::InvalidGameType::buildMessage</definition>
+        <argsstring>(const std::string &amp;gameType)</argsstring>
+        <name>buildMessage</name>
+        <qualifiedname>AGRemapCore::InvalidGameType::buildMessage</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>gameType</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="109" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="37" bodyend="39"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Thrown when a string naming a game matches no :cpp:enum:`GameTypeId` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+See :cpp:class:`InvalidModType` for why this can only come from :cpp:class:`RemapServiceCLI`,
+and for why the message is rebuilt on the `Python`_ side rather than crossing as text
+</verbatim> </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidGameType</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_game_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AGRemapCore::InvalidGameType</label>
+        <link refid="class_a_g_remap_core_1_1_invalid_game_type"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>std::runtime_error</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="91" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="91" bodyend="110"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_invalid_game_type_1a3a9b0d3fec74535686bed5005770752c" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>buildMessage</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_game_type_1af800c76533adb19594f25e8eae86523c" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>gameType</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_game_type_1af157711ceeabe20f04a86d04ce727865" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>gameType_</name></member>
+      <member refid="class_a_g_remap_core_1_1_invalid_game_type_1a3d8d7ab24440da01876264cd864709dd" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>InvalidGameType</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

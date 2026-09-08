@@ -229,7 +229,7 @@ case it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="131" column="23" bodyfile="src/model/stats/RemapStats.cpp" bodystart="17" bodyend="37"/>
+        <location file="include/AGRemapCore/model/stats/RemapStats.h" line="131" column="23" bodyfile="src/model/stats/RemapStats.cpp" bodystart="17" bodyend="51"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

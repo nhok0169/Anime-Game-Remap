@@ -32,11 +32,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The full text of the .ini file to read from
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              *
              * @return The stats about the classification of the .ini file
              */
-            virtual IniClassifyStats classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual IniClassifyStats classify(const std::string& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -45,11 +45,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The lines of text of the .ini file to read from, with each line ending with a newline character
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              *
              * @return The stats about the classification of the .ini file
              */
-            virtual IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual IniClassifyStats classify(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -62,11 +62,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The full text of the .ini file to read from
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              *
              * @return Whether the .ini file belongs to a mod
              */
-            virtual bool checkIsMod(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual bool checkIsMod(const std::string& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -79,11 +79,11 @@ namespace AGRemapCore {
              @endrst
              *
              * @param iniTxt The lines of text of the .ini file to read from, with each line ending with a newline character
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              *
              * @return Whether the .ini file belongs to a mod
              */
-            virtual bool checkIsMod(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual bool checkIsMod(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -98,9 +98,9 @@ namespace AGRemapCore {
              * @param iniTxt The full text of the .ini file to read from
              * @param isFixed Set to whether the .ini file is fixed
              * @param isMod Set to whether the .ini file belongs to a mod
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              */
-            virtual void checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual void checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -116,9 +116,9 @@ namespace AGRemapCore {
              * @param iniTxt The lines of text of the .ini file to read from, with each line ending with a newline character
              * @param isFixed Set to whether the .ini file is fixed
              * @param isMod Set to whether the .ini file belongs to a mod
-             * @param gameTypeId The game the .ini file is expected to belong to, if known
+             * @param gameTypeIds The games the .ini file may belong to, or ``std::nullopt`` for every game
              */
-            virtual void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief Clears the state of the classifier

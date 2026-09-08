@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_jean_c_n_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::JeanCNFixer</compoundname>
+    <includes refid="_jean_c_n_fixer_8h" local="no">JeanCNFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_c_n_fixer_1a1565e2ec9a904fd594d6250eb0f65f5a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::JeanCNFixer::JeanCNFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>JeanCNFixer</name>
+        <qualifiedname>AGRemapCore::JeanCNFixer::JeanCNFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCNFixer.h" line="41" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_c_n_fixer_1af1edf32f37be89ffbe25f702492c1250" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::JeanCNFixer::v6_1ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToJean</name>
+        <qualifiedname>AGRemapCore::JeanCNFixer::v6_1ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping JeanCN onto **Jean** -- what
+:cpp:func:`IniFixBuilderFuncs::jeanCN6_1ToJean` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCNFixer.h" line="50" column="43" bodyfile="src/data/IniFixData/JeanCNFixer.cpp" bodystart="58" bodyend="60"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_c_n_fixer_1aa5a804084f70dd1cc1ee7109487981ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::JeanCNFixer::v6_1ToJeanSea</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToJeanSea</name>
+        <qualifiedname>AGRemapCore::JeanCNFixer::v6_1ToJeanSea</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping JeanCN onto **JeanSea** -- what
+:cpp:func:`IniFixBuilderFuncs::jeanCN6_1ToJeanSea` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCNFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/JeanCNFixer.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+JeanCN&apos;s own ``.ini`` fixers -- **two per game version**, one per character she remaps onto
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+JeanCN has the same two-fixer shape Jean does, and for the same reason whose fix is not a single fixer, and the reason is that her
+two targets are genuinely different shapes:
+
+================  ==============================================================================
+Target            What the fix has to do
+================  ==============================================================================
+``Jean``          the ordinary skin remap -- a different model, so hashes and indices are
+                  replaced and the originals left alone. The same shape as MonaCN -&gt; Mona
+``JeanSea``       the same, **plus a split**: JeanSea draws a ``dress`` (her cape) that JeanCN
+                  simply does not have, so JeanCN&apos;s ``body`` graph is emitted twice, once as
+                  JeanSea&apos;s ``body`` and once as her ``dress``
+================  ==============================================================================
+
+.. note::
+   **The pure-Python original expressed this as one ``MultiModFixer`` holding a
+   ``{target -&gt; fixer}`` map.** That indirection is unnecessary here:
+   :cpp:class:`IniFixBuilderData`&apos;s table is keyed by ``(from mod, to mod)`` already, so the
+   two fixers are simply two rows. :cpp:class:`MultiModFixer` still exists for fixes that
+   genuinely need one fixer to run over another&apos;s output
+
+Pair these with :cpp:class:`JeanCNParser`, which is shared between them
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/JeanCNFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanCNFixer.h" bodystart="38" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_jean_c_n_fixer_1a1565e2ec9a904fd594d6250eb0f65f5a" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNFixer</scope><name>JeanCNFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_c_n_fixer_1af1edf32f37be89ffbe25f702492c1250" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNFixer</scope><name>v6_1ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_c_n_fixer_1aa5a804084f70dd1cc1ee7109487981ea" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNFixer</scope><name>v6_1ToJeanSea</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1935,6 +1935,77 @@ Things that will otherwise cost you a cycle:
   set means on `RemapService::fromModTypeIds`, and the constructor is where the ambiguity is
   resolved. Don't "fix" the asymmetry.
 
+## Adding a new command-line option: the eleven places, in order
+
+Done twice on 2026-09-07 (`--game`, `--uncompressTextures`). It is mechanical, but missing any one
+of these leaves the option *looking* supported, which is worse than absent. In order:
+
+1. `controller/enums/CommandOpts.py` + `ShortCommandOpts.py` --- the long and short names.
+2. `controller/CommandBuilder.py` `_addArguments` --- **pass `.value` on BOTH enums.** Passing the
+   enum *member* makes `argparse.add_argument` raise `TypeError: 'ShortCommandOpts' object is not
+   subscriptable` from `CommandBuilder.__init__`, so the CLI dies before parsing anything, `--help`
+   included. Two options shipped this way and neither could ever have run.
+3. `CommandBuilder.parseArgs` --- if the option is a comma-separated list, split it here, like
+   `types`/`remappedTypes` do.
+4. `AGRemapCore::RemapService` --- a new public member + constructor parameter, if the *model* needs
+   it. **Append it before `logger` and you break every positional caller**; see Testing's note on
+   grepping `core/tests/` for call sites, which is how three of them were found.
+5. `AGRemapCore::RemapServiceCLI`'s **string** constructor --- a `bool`/path goes straight through to
+   `service.x`; anything a user types as a name gets a `_toXxx`/`_setupXxx` pair beside
+   `_toModTypeIds`/`_setupDownloadMode`, recording a typed error rather than throwing.
+6. `RemapServiceCLIErrors.h/.cpp` + `exceptions/InvalidXxx.py` --- if a bad value is possible. The
+   C++ exception is a bare data carrier; `PyRemapServiceCLI.cpp`'s `translatingErrors` rebuilds the
+   real Python class from it, so the message lives in one place.
+7. `PyRemapService.cpp` / `PyRemapServiceCLI.cpp` --- the `py::init<...>` type list, the `py::arg`
+   name, and a `def_readwrite` for a new model member.
+8. `main.py` --- pass it by keyword. Note argparse's `dest` is derived from the long name, so
+   `--game` arrives as `args.game`, not `args.gameType`.
+9. **The place the option actually does something.** This is the step that gets skipped, and the
+   only one with no compiler to remind you --- see the next section.
+10. **The user-facing docs --- there are TWO of them, and they must agree.** This step was written
+    as "a row in `commandOpts.rst`" the first time and that was wrong; the maintainer had to point
+    out the second. Both need the option row *and* a section for any new name/alias table:
+    - `Docs/src/commandOpts.rst` (Sphinx / readthedocs)
+    - `Anime Game Remap (for all users)/api/README.md` (GitHub / PyPI) --- same content, different
+      markup, and its cross-links are plain anchors (`[GameTypes](#game-types)`)
+
+    Two things to get right in both:
+    - **Order the rows the way `--help` prints them** (`... -t -rt -g -c -dl -p`). A reader compares
+      the table against their terminal; appending to the end quietly breaks that.
+    - **A Sphinx `:ref:` needs the document prefix.** `Docs/src/conf.py` sets
+      `autosectionlabel_prefix_document = True`, so ``:ref:`Game Types` `` silently does not resolve
+      --- it builds fine and emits only a `WARNING: undefined label`. Write
+      ``:ref:`Game Types <commandOpts:Game Types>` ``. Do not copy the surrounding bare-`:ref:`
+      lines: several of them are broken, which is exactly how this mistake got made. See
+      [Documentation](../Documentation/CLAUDE.md)'s note on it.
+11. `Testing/Unit Tester/.../test_RemapServiceCLI.py` --- add the keyword to
+    `test_ctorKeywordsMatchWhatMainPasses`. That test exists precisely to catch a `py::arg` rename,
+    and it only catches the keywords it names.
+
+### Where a run-level option is *applied* --- and why not where you'd guess
+
+For anything that has to override per-character fix data, the answer is **`RemapService::_fixResource`**,
+not the place the thing was built. `--uncompressTextures` is the worked example: the texture writer
+is configured by `GIMICharFixerConfig::TexEdit::compress`, which is *data*, several layers down a
+builder chain, and knows nothing about how the run was invoked. `_fixResource` is the last place
+that holds both the run's options and the concrete resource, and it already dispatches on resource
+type, so applying it there is one `if` rather than threading a flag through `IniFixBuilder::buildAll`.
+
+Three things that generalise from it:
+
+- **Put the "is the option even on?" guard inside the helper, not at the call sites.** Then "the
+  option is off" and "this resource is not the kind I affect" are the same no-op decided in one
+  place, and the off case is directly testable.
+- **`IniGroupedResource` fixes its own members**, so they never reach `_fixResource` individually.
+  Push the override down into `grouped->resources` too, or a resource inside a group quietly keeps
+  the old behaviour while every one outside a group changes.
+- **Make it one-way if the command line is one-way.** `--uncompressTextures` forces compression
+  *off*; unset it overrides nothing and each character's own edit keeps its answer. A flag that
+  could also force compression *on* would let a run undo a deliberate choice in the data.
+
+`_applyUncompressTextures` is `protected` rather than `private` on purpose: it is the seam a
+standalone test drives to prove the option is not merely recorded. That is worth copying.
+
 ## Resolving a mod type by name --- two things that bite
 
 - **`ModTypeIdTools::findByName` is case- and whitespace-insensitive** (since 2026-09-05). Names and

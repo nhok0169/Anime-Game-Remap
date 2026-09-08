@@ -81,6 +81,38 @@ namespace AGRemapCore {
     /**
      * @brief
      @rst
+     Thrown when a string naming a game matches no :cpp:enum:`GameTypeId` :raw-html:`<br />`
+     :raw-html:`<br />`
+
+     See :cpp:class:`InvalidModType` for why this can only come from :cpp:class:`RemapServiceCLI`,
+     and for why the message is rebuilt on the `Python`_ side rather than crossing as text
+     @endrst
+     */
+    class InvalidGameType: public std::runtime_error {
+        public:
+
+            /**
+             * @brief Constructs a new error
+             *
+             * @param gameType The string that matched no game
+             */
+            explicit InvalidGameType(std::string gameType);
+
+            /**
+             * @brief The string that matched no game
+             */
+            const std::string& gameType() const;
+
+        private:
+            std::string gameType_;
+
+            static std::string buildMessage(const std::string& gameType);
+    };
+
+
+    /**
+     * @brief
+     @rst
      Thrown when a string meant to be a game version is not one :raw-html:`<br />`
      :raw-html:`<br />`
 

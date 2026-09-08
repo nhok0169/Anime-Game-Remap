@@ -10,6 +10,7 @@
     <includes refid="_mod_type_8h" local="yes">AGRemapCore/model/strategies/ModType.h</includes>
     <includes refid="_game_type_id_8h" local="yes">AGRemapCore/constants/GameTypeId.h</includes>
     <includes refid="_base_aho_corasick_d_f_a_8h" local="yes">AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</includes>
+    <includedby refid="_g_i_m_i_char_parser_8h" local="yes">include/AGRemapCore/data/IniParseData/GIMICharParser.h</includedby>
     <includedby refid="_remap_service_c_l_i_8cpp" local="yes">src/RemapServiceCLI.cpp</includedby>
     <includedby refid="_g_i_builder_8cpp" local="yes">src/constants/GIBuilder.cpp</includedby>
     <includedby refid="_global_ini_classifiers_8cpp" local="yes">src/constants/GlobalIniClassifiers.cpp</includedby>
@@ -17,6 +18,14 @@
     <includedby refid="_mod_type_id_8cpp" local="yes">src/constants/ModTypeId.cpp</includedby>
     <includedby refid="_ini_fix_builder_data_8cpp" local="yes">src/data/IniFixBuilderData.cpp</includedby>
     <includedby refid="_ini_parse_builder_data_8cpp" local="yes">src/data/IniParseBuilderData.cpp</includedby>
+    <includedby refid="_amber_c_n_parser_8cpp" local="yes">src/data/IniParseData/AmberCNParser.cpp</includedby>
+    <includedby refid="_amber_parser_8cpp" local="yes">src/data/IniParseData/AmberParser.cpp</includedby>
+    <includedby refid="_jean_c_n_parser_8cpp" local="yes">src/data/IniParseData/JeanCNParser.cpp</includedby>
+    <includedby refid="_jean_parser_8cpp" local="yes">src/data/IniParseData/JeanParser.cpp</includedby>
+    <includedby refid="_mona_c_n_parser_8cpp" local="yes">src/data/IniParseData/MonaCNParser.cpp</includedby>
+    <includedby refid="_mona_parser_8cpp" local="yes">src/data/IniParseData/MonaParser.cpp</includedby>
+    <includedby refid="_rosaria_c_n_parser_8cpp" local="yes">src/data/IniParseData/RosariaCNParser.cpp</includedby>
+    <includedby refid="_rosaria_parser_8cpp" local="yes">src/data/IniParseData/RosariaParser.cpp</includedby>
     <includedby refid="_ini_remove_builder_data_8cpp" local="yes">src/data/IniRemoveBuilderData.cpp</includedby>
     <includedby refid="_v_g_remap_data_8cpp" local="yes">src/data/VGRemapData.cpp</includedby>
     <includedby refid="_vertex_count_data_8cpp" local="yes">src/data/VertexCountData.cpp</includedby>
@@ -43,15 +52,16 @@
       <node id="99">
         <label>BiMap.tpp</label>
       </node>
-      <node id="63">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="94">
         <label>AGRemapCore/constants/GameTypeId.h</label>
         <link refid="_game_type_id_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
         </childnode>
       </node>
       <node id="67">
@@ -601,6 +611,10 @@
       <node id="85">
         <label>AGRemapCore/model/strategies/iniFixers/IniFixingContext.h</label>
         <link refid="_ini_fixing_context_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="86">
         <label>AGRemapCore/model/strategies/iniParsers/BaseIniParser.h</label>
@@ -950,6 +964,9 @@
         <childnode refid="69" relation="include">
         </childnode>
       </node>
+      <node id="63">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="82">
         <label>Generator.tpp</label>
       </node>
@@ -1086,6 +1103,48 @@
         <link refid="_mod_type_id_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/AGRemapCore/data/IniParseData/GIMICharParser.h</label>
+        <link refid="_g_i_m_i_char_parser_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
@@ -1104,50 +1163,84 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
       </node>
-      <node id="2">
+      <node id="12">
         <label>src/RemapServiceCLI.cpp</label>
         <link refid="_remap_service_c_l_i_8cpp"/>
       </node>
-      <node id="3">
+      <node id="13">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="4">
+      <node id="14">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="5">
+      <node id="15">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
-      <node id="6">
+      <node id="16">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="7">
+      <node id="17">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="8">
+      <node id="18">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
+      <node id="3">
+        <label>src/data/IniParseData/AmberCNParser.cpp</label>
+        <link refid="_amber_c_n_parser_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniParseData/AmberParser.cpp</label>
+        <link refid="_amber_parser_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/data/IniParseData/GIMICharParser.cpp</label>
+        <link refid="_g_i_m_i_char_parser_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniParseData/JeanCNParser.cpp</label>
+        <link refid="_jean_c_n_parser_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniParseData/JeanParser.cpp</label>
+        <link refid="_jean_parser_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniParseData/MonaCNParser.cpp</label>
+        <link refid="_mona_c_n_parser_8cpp"/>
+      </node>
       <node id="9">
+        <label>src/data/IniParseData/MonaParser.cpp</label>
+        <link refid="_mona_parser_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniParseData/RosariaCNParser.cpp</label>
+        <link refid="_rosaria_c_n_parser_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniParseData/RosariaParser.cpp</label>
+        <link refid="_rosaria_parser_8cpp"/>
+      </node>
+      <node id="19">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
       </node>
-      <node id="10">
+      <node id="20">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
       </node>
-      <node id="11">
+      <node id="21">
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="12">
+      <node id="22">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>

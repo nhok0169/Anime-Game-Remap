@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::RegAssetRemap::AssetSpec</compoundname>
+    <includes refid="_reg_asset_remap_8h" local="no">RegAssetRemap.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1ae3253727a7c19d0c3cc74aa659ac5564" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1ad8100ec172bb6582808d95be79e8f2a7" kindref="member">Assets</ref> *</type>
+        <definition>Assets* AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;::AssetSpec::assets</definition>
+        <argsstring></argsstring>
+        <name>assets</name>
+        <qualifiedname>AGRemapCore::RegAssetRemap::AssetSpec::assets</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>The table to look the old value up in <ndash/> <bold>borrowed</bold>, and a <computeroutput>nullptr</computeroutput> remaps nothing. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="113" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a029988e8600edf0797bc0b4ddec12a34" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; V &gt;</type>
+        <definition>std::optional&lt;V&gt; AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;::AssetSpec::notFoundVal</definition>
+        <argsstring></argsstring>
+        <name>notFoundVal</name>
+        <qualifiedname>AGRemapCore::RegAssetRemap::AssetSpec::notFoundVal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+What to write when the old value has no mapping -- ``std::nullopt`` leaves the
+value untouched. See this class&apos;s own note on why the sentinel is usually right
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="122" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3a0ea90954524fd06ea3939ead80a1b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;::AssetSpec::AssetSpec</definition>
+        <argsstring>()=default</argsstring>
+        <name>AssetSpec</name>
+        <qualifiedname>AGRemapCore::RegAssetRemap::AssetSpec::AssetSpec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="124" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3179490a084164f865379b513a7f6100" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;::AssetSpec::AssetSpec</definition>
+        <argsstring>(Assets *assets, std::optional&lt; V &gt; notFoundVal=std::nullopt)</argsstring>
+        <name>AssetSpec</name>
+        <qualifiedname>AGRemapCore::RegAssetRemap::AssetSpec::AssetSpec</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_reg_asset_remap_1ad8100ec172bb6582808d95be79e8f2a7" kindref="member">Assets</ref> *</type>
+          <declname>assets</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; V &gt;</type>
+          <declname>notFoundVal</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Constructs a spec for one register. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>assets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The table to look the old value up in </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>notFoundVal</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to write when there is no mapping. <bold>Default</bold>: leave the value alone </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="132" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="132" bodyend="133"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>How one register&apos;s values are remapped. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>AGRemapCore::ModMappedAssets&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::RegAssetRemap&lt; K, V, KeyHash, KeyEqual &gt;::AssetSpec</label>
+        <link refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>assets</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="109" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="109" bodyend="134"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1ae3253727a7c19d0c3cc74aa659ac5564" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>assets</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3a0ea90954524fd06ea3939ead80a1b4" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>AssetSpec</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3179490a084164f865379b513a7f6100" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>AssetSpec</name></member>
+      <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a029988e8600edf0797bc0b4ddec12a34" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>notFoundVal</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

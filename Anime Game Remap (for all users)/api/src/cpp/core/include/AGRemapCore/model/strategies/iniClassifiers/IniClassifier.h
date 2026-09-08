@@ -43,7 +43,7 @@ namespace AGRemapCore {
              */
             explicit IniClassifier(bool checkHasTextureOverride = true);
 
-            IniClassifyStats classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            IniClassifyStats classify(const std::string& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
             /**
              * @brief
@@ -55,9 +55,9 @@ namespace AGRemapCore {
              the result's ``modType`` -- ties are all included, sorted in ascending order
              @endrst
              */
-            IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            IniClassifyStats classify(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
-            bool checkIsMod(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            bool checkIsMod(const std::string& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
             /**
              * @brief
@@ -70,9 +70,9 @@ namespace AGRemapCore {
              tie-breaking #modTypeIdDistribution pass and can stop reading partway through the file
              @endrst
              */
-            bool checkIsMod(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            bool checkIsMod(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
-            void checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            void checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
             /**
              * @brief
@@ -84,10 +84,12 @@ namespace AGRemapCore {
              ``stats.isMod`` alone becomes ``true``
              @endrst
              *
+             * @param iniTxt The lines of text of the .ini file to read from, with each line ending with a newline character
              * @param isFixed Set to whether the .ini file is fixed
              * @param isMod Set to whether the .ini file belongs to a mod
+             * @param gameTypeIds The set of :cpp:enum:`GameTypeId` the .ini file may be meant for, or ``std::nullopt`` for every game
              */
-            void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId = std::nullopt) override;
+            void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds = std::nullopt) override;
 
             /**
              * @brief
@@ -319,9 +321,9 @@ namespace AGRemapCore {
              *
              * @param line The line in the .ini file to read, already stripped of leading/trailing whitespace
              * @param stats The resultant stats to mutate based off the classification result found from 'line'
-             * @param gameTypeId The :cpp:enum:`GameTypeId` of the game the .ini file is meant for, if known
+             * @param gameTypeIds The set of :cpp:enum:`GameTypeId` the .ini file may be meant for, or ``std::nullopt`` for every game
              */
-            virtual void readLine(const std::string& line, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual void readLine(const std::string& line, IniClassifyStats& stats, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief
@@ -405,8 +407,8 @@ namespace AGRemapCore {
              shouldn't count either :raw-html:`<br />` :raw-html:`<br />`
 
              Otherwise, searches 'sectionName' for the maximal registered keyword via #sectionKeywordsDFA --
-             if 'gameTypeId' has a value, only keywords registered under that
-             :cpp:enum:`GameTypeId` (see #keywordGameTypeIds) are considered. Does nothing if no
+             if 'gameTypeIds' has a value, only keywords registered under one of those
+             games (see #keywordGameTypeIds) are considered. Does nothing if no
              keyword is found :raw-html:`<br />` :raw-html:`<br />`
 
              Otherwise, transitions #stateDFA to the matched keyword's ``sectionName:<keyword>``
@@ -423,9 +425,9 @@ namespace AGRemapCore {
              *
              * @param sectionName The name of the `section`_ (the ``X`` in ``[X]``)
              * @param stats The resultant stats to mutate based off the classification result found from 'sectionName'
-             * @param gameTypeId The :cpp:enum:`GameTypeId` of the game the .ini file is meant for, if known
+             * @param gameTypeIds The set of :cpp:enum:`GameTypeId` the .ini file may be meant for, or ``std::nullopt`` for every game
              */
-            virtual void readSectionName(std::string_view sectionName, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId = std::nullopt);
+            virtual void readSectionName(std::string_view sectionName, IniClassifyStats& stats, GameTypeIdFilter gameTypeIds = std::nullopt);
 
             /**
              * @brief

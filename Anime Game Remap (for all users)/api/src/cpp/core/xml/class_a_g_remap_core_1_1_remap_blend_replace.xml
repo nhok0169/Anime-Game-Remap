@@ -3,6 +3,7 @@
   <compounddef id="class_a_g_remap_core_1_1_remap_blend_replace" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::RemapBlendReplace</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_res_replace" prot="public" virt="non-virtual">AGRemapCore::ResReplace&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace" prot="public" virt="non-virtual">AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_blend_edit_8h" local="no">BlendEdit.h</includes>
     <templateparamlist>
       <param>
@@ -413,6 +414,12 @@ Class that builds the necessary part to replace some ``Blend.buf`` file :raw-htm
         <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_replace"/>
         <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::VGRemapBlendReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace"/>
+        <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
     </inheritancegraph>

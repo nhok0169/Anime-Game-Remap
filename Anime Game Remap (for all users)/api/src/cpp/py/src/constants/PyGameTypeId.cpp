@@ -52,5 +52,73 @@ Returns
 -------
 :class:`str`
     The name for 'value'
+        )doc"))
+
+        .def_static("getAliases", &AGRC::GameTypeIdTools::getAliases, py::arg("value"), py::doc(R"doc(
+Retrieves the other names a :class:`GameTypeId` also answers to
+
+Mirrors :attr:`ModType.aliases` -- every one of these resolves through :meth:`findByName` exactly as
+:meth:`getName`'s answer does
+
+Parameters
+----------
+value: :class:`GameTypeId`
+    The :class:`GameTypeId` to retrieve the aliases for
+
+Returns
+-------
+List[:class:`str`]
+    The aliases for 'value', empty if it has none
+        )doc"))
+
+        .def_static("getAll", &AGRC::GameTypeIdTools::getAll, py::doc(R"doc(
+Retrieves every :class:`GameTypeId`, in declaration order
+
+The order is stable across runs, so anything listing the supported games (the CLI's ``--help``
+epilog) prints them the same way every time
+
+Returns
+-------
+List[:class:`GameTypeId`]
+    All the supported games
+        )doc"))
+
+        .def_static("findByName", &AGRC::GameTypeIdTools::findByName, py::arg("name"), py::doc(R"doc(
+Finds the :class:`GameTypeId` whose name or alias maximally matches some string -- the
+:class:`GameTypeId` counterpart of :meth:`ModTypeIdTools.findByName`
+
+Case and surrounding whitespace are ignored, matching how a mod type's name resolves
+
+.. note::
+    Unlike :meth:`ModTypeIdTools.findByName` there is no registry to consult and nothing to
+    register: the games are the :class:`GameTypeId` members themselves, so every one of them is
+    always findable
+
+Parameters
+----------
+name: :class:`str`
+    The string to search for a game's name/alias within
+
+Returns
+-------
+Optional[:class:`GameTypeId`]
+    The matched :class:`GameTypeId`, if 'name' names one
+        )doc"))
+
+        .def_static("getHelpStr", &AGRC::GameTypeIdTools::getHelpStr, py::arg("value"), py::doc(R"doc(
+The ``--help`` text describing a single :class:`GameTypeId` -- its name and its aliases
+
+Mirrors :meth:`ModType.getHelpStr`, so the CLI's list of supported games reads exactly like its list
+of supported mods
+
+Parameters
+----------
+value: :class:`GameTypeId`
+    The :class:`GameTypeId` to describe
+
+Returns
+-------
+:class:`str`
+    The help text for 'value'
         )doc"));
 }

@@ -15,6 +15,7 @@
     <includedby refid="_reg_delimited_add_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h</includedby>
     <includedby refid="_reg_fill_missing_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</includedby>
     <includedby refid="_reg_surrounded_add_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</includedby>
+    <includedby refid="_graph_group_part_edits_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</includedby>
     <incdepgraph>
       <node id="30">
         <label>Algo.tpp</label>
@@ -24,9 +25,6 @@
       </node>
       <node id="36">
         <label>BaseOrderedMultiMap.tpp</label>
-      </node>
-      <node id="45">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="51">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
@@ -556,6 +554,9 @@
         <childnode refid="53" relation="include">
         </childnode>
       </node>
+      <node id="45">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="66">
         <label>Generator.tpp</label>
       </node>
@@ -677,28 +678,56 @@
         <link refid="_base_ini_graph_edit_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="3" relation="include">
-        </childnode>
-        <childnode refid="4" relation="include">
-        </childnode>
         <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
         </childnode>
       </node>
       <node id="2">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h</label>
         <link refid="_graph_rename_8h"/>
-      </node>
-      <node id="3">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h</label>
-        <link refid="_reg_delimited_add_8h"/>
-      </node>
-      <node id="4">
-        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</label>
-        <link refid="_reg_fill_missing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
       <node id="5">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h</label>
+        <link refid="_reg_delimited_add_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</label>
+        <link refid="_reg_fill_missing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</label>
         <link refid="_reg_surrounded_add_8h"/>
+      </node>
+      <node id="8">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</label>
+        <link refid="_graph_group_part_edits_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_base_ini_graph_edit" prot="public">AGRemapCore::BaseIniGraphEdit</innerclass>

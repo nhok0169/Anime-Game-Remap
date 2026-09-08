@@ -17,6 +17,7 @@ import os
 
 ##### LocalImports
 from .controller.CommandBuilder import CommandBuilder
+from .constants.GameTypes import GameTypes
 from .constants.ModTypes import ModTypes
 from .remapServiceCLI import RemapServiceCLI
 ##### EndLocalImports
@@ -25,7 +26,7 @@ from .remapServiceCLI import RemapServiceCLI
 def remapMain():
 
     command = CommandBuilder()
-    command.addEpilog(ModTypes.getHelpStr())
+    command.addEpilogs([ModTypes.getHelpStr(), GameTypes.getHelpStr()])
 
     args = command.parse()
     readAllInis = args.all
@@ -35,7 +36,8 @@ def remapMain():
     remapService = RemapServiceCLI(path = args.src, keepBackups = not args.deleteBackup, fixOnly = args.fixOnly, hideOrig = args.hideOriginal,
                                    undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                    log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
-                                   version = args.version, proxy = args.proxy, downloadMode = args.download)
+                                   version = args.version, proxy = args.proxy, downloadMode = args.download,
+                                   gameTypes = args.game, uncompressTextures = args.uncompressTextures)
     remapService.fix()
     remapService.logger.waitExit()
 

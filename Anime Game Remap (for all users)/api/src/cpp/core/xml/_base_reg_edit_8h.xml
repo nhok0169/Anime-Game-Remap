@@ -9,7 +9,9 @@
     <includes refid="_base_ini_graph_part_edit_8h" local="yes">AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h</includes>
     <includes refid="_ranges_8h" local="yes">AGRemapCore/tools/Ranges.h</includes>
     <includes local="yes">BaseRegEdit.tpp</includes>
+    <includedby refid="_graph_group_part_edits_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</includedby>
     <includedby refid="_reg_add_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</includedby>
+    <includedby refid="_reg_asset_remap_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</includedby>
     <includedby refid="_reg_new_vals_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</includedby>
     <includedby refid="_reg_remap_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</includedby>
     <includedby refid="_reg_remove_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</includedby>
@@ -350,33 +352,73 @@
       </node>
     </incdepgraph>
     <invincdepgraph>
+      <node id="2">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</label>
+        <link refid="_graph_group_part_edits_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
       <node id="1">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h</label>
         <link refid="_base_reg_edit_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="5">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
+        <link refid="_reg_add_8h"/>
+      </node>
+      <node id="6">
+        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h</label>
+        <link refid="_reg_asset_remap_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
         <childnode refid="4" relation="include">
         </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
       </node>
-      <node id="2">
-        <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h</label>
-        <link refid="_reg_add_8h"/>
-      </node>
-      <node id="3">
+      <node id="7">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h</label>
         <link refid="_reg_new_vals_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="4">
+      <node id="8">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h</label>
         <link refid="_reg_remap_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
       </node>
-      <node id="5">
+      <node id="9">
         <label>include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h</label>
         <link refid="_reg_remove_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <link refid="_raiden_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="class_a_g_remap_core_1_1_base_reg_edit" prot="public">AGRemapCore::BaseRegEdit</innerclass>

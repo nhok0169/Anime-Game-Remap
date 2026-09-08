@@ -53,9 +53,9 @@ namespace AGRemapCore {
      * ``log`` and ``verbose`` are gone outright -- the first is only ever decided from user input,
        and the second is a property of the view (see :cpp:member:`BaseLogger::verbose`), not of the
        remap
-     * #gameTypeId is new, and has no pure-Python counterpart on ``RemapService`` at all --
-       :cpp:class:`IniFile` needs it to narrow which game's mod types a ``.ini`` file may classify
-       as, and only the caller knows which game is being remapped
+     * #gameTypeIds is new, and has no pure-Python counterpart on ``RemapService`` at all --
+       :cpp:class:`IniFile` needs it to narrow which games' mod types a ``.ini`` file may classify
+       as, and only the caller knows which games are being remapped
      * #logger is new for the same reason the above are typed: the pure-Python original built its
        own ``Logger`` internally (from the ``log``/``verbose`` arguments it no longer takes), which
        hard-wired it to the CLI view. Here the view is handed in
@@ -211,12 +211,20 @@ namespace AGRemapCore {
              **Default**: :cpp:enumerator:`DownloadMode::Normal`
              @endrst
              *
-             * @param gameTypeId
+             * @param gameTypeIds
              @rst
-             The id of the game the mods being remapped belong to -- see #gameTypeId
+             The ids of the games the mods being remapped belong to -- see #gameTypeIds
              :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``std::nullopt``
+             @endrst
+             *
+             * @param uncompressTextures
+             @rst
+             Whether every texture this fix writes is left uncompressed -- see #uncompressTextures
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
              @endrst
              *
              * @param logger
@@ -241,7 +249,8 @@ namespace AGRemapCore {
                                   std::optional<std::unordered_set<int>> toModTypeIds = std::nullopt,
                                   std::optional<std::string> proxy = std::nullopt,
                                   DownloadMode downloadMode = DownloadMode::Normal,
-                                  std::optional<int> gameTypeId = std::nullopt,
+                                  std::optional<std::unordered_set<int>> gameTypeIds = std::nullopt,
+                                  bool uncompressTextures = false,
                                   std::shared_ptr<BaseLogger> logger = nullptr);
 
             virtual ~RemapService() = default;
@@ -418,15 +427,45 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The id of the :cpp:enum:`GameTypeId` for the game the remapped mods belong to
+             The ids of the :cpp:enum:`GameTypeId`\\s for the games the remapped mods belong to
              :raw-html:`<br />` :raw-html:`<br />`
 
-             Feeds :cpp:class:`IniFile`'s own ``gameTypeId``: when it has a value, only mod types
-             belonging to that game are candidates while classifying a ``.ini`` file. If it has no
-             value, every registered mod type is a candidate, whichever game it came from
+             Feeds :cpp:class:`IniFile`'s own ``gameTypeIds``: when it has a value, only mod types
+             belonging to one of those games are candidates while classifying a ``.ini`` file. If it
+             has no value, every registered mod type is a candidate, whichever game it came from
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                As with #fromModTypeIds, ``std::nullopt`` and an **empty** set are different
+                answers: the first is "no filter", the second is a filter nothing satisfies.
+                :cpp:class:`RemapServiceCLI` is where a user naming no games at all becomes the
+                former
              @endrst
              */
-            std::optional<int> gameTypeId;
+            std::optional<std::unordered_set<int>> gameTypeIds;
+
+            /**
+             * @brief
+             @rst
+             Whether every texture this fix writes is left **uncompressed** -- a plain 32-bit
+             ``.dds`` rather than the BCn format the texture would otherwise be encoded to
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A **one-way override**, applied in :cpp:func:`_fixResource` right before a texture
+             resource is written: with this set, whatever compression each mod type's own texture
+             edit asked for is ignored and nothing is encoded. Left ``false`` (the default) nothing
+             is overridden and each edit keeps its own answer -- which is why this is not simply a
+             ``compress`` flag mirroring :cpp:func:`TexEditor::getCompress`. The command line asks
+             the one-way question (``--uncompressTextures``), and there is no reason for a run to be
+             able to force compression *on* for an edit that deliberately turned it off
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             BCn encoding is almost the entire cost of writing a texture -- roughly eight times the
+             round trip on a large one -- in exchange for a file about four times larger. See
+             :cpp:func:`TexEditor::getCompress` for the measured trade
+             @endrst
+             */
+            bool uncompressTextures;
 
             /**
              * @brief
@@ -550,7 +589,7 @@ namespace AGRemapCore {
                 just enumerates what lies beneath it (#addNeighbourFolders) and moves on
              #. otherwise, each of those ``.ini`` files is built into an :cpp:class:`IniFile` (via
                 #createIni, so every one of them inherits this class's #fromModTypeIds /
-                #forcedModTypeIds / #toModTypeIds / #fromVersion / #gameTypeId / #downloadMode),
+                #forcedModTypeIds / #toModTypeIds / #fromVersion / #gameTypeIds / #downloadMode),
                 handed to #handleIni, and then asked which folders *it* references
                 (#addIniNeighbourFolders) -- **on top of** the same enumeration step, not instead
                 of it
@@ -797,6 +836,26 @@ namespace AGRemapCore {
              * @param ini The ``.ini`` file whose copies to remove
              */
             void _removeRemapCopies(const IniFile& ini);
+
+            /**
+             * @brief
+             @rst
+             Forces one resource's texture writer to skip compression -- what
+             #uncompressTextures actually *does* :raw-html:`<br />` :raw-html:`<br />`
+
+             Called from :cpp:func:`_fixResource` immediately before a resource is fixed, and only
+             when #uncompressTextures is set. A no-op for any resource that writes no texture
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                ``protected`` rather than ``private`` so that the one thing worth pinning about
+                this option -- that setting it genuinely reaches the writer, rather than being
+                recorded and read by nobody -- can be exercised directly
+             @endrst
+             *
+             * @param resource The resource whose texture writer to reconfigure
+             */
+            void _applyUncompressTextures(IniResource& resource);
 
         private:
             std::string path_;

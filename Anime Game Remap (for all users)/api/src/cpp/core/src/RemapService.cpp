@@ -29,7 +29,8 @@ namespace AGRemapCore {
                                std::optional<Version> fromVersion,
                                std::optional<std::unordered_set<int>> toModTypeIds,
                                std::optional<std::string> proxy, DownloadMode downloadMode,
-                               std::optional<int> gameTypeId, std::shared_ptr<BaseLogger> logger):
+                               std::optional<std::unordered_set<int>> gameTypeIds, bool uncompressTextures,
+                               std::shared_ptr<BaseLogger> logger):
         keepBackups(keepBackups),
         fixOnly(fixOnly),
         undoOnly(undoOnly),
@@ -43,7 +44,8 @@ namespace AGRemapCore {
         toModTypeIds(std::move(toModTypeIds)),
         proxy(std::move(proxy)),
         downloadMode(downloadMode),
-        gameTypeId(gameTypeId),
+        gameTypeIds(std::move(gameTypeIds)),
+        uncompressTextures(uncompressTextures),
         logger(std::move(logger)) {
 
         _setupModPath(std::move(path));
@@ -891,6 +893,12 @@ namespace AGRemapCore {
             return blend->fix();
         }
 
+        // Applied HERE rather than where the resource was built, and that is the point of it: the
+        // texture writer is configured by whichever mod type's fix edit produced it (see
+        // GIMICharFixerConfig::TexEdit::compress), which is data, several layers down, and knows
+        // nothing about how this run was invoked. This is the last place that holds both.
+        _applyUncompressTextures(resource);
+
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
             return texAdd->fix();
         }
@@ -900,10 +908,41 @@ namespace AGRemapCore {
         }
 
         if (IniGroupedResource* grouped = dynamic_cast<IniGroupedResource*>(&resource)) {
+            // A group fixes its own members, so they never reach this function on their own -- the
+            // override has to be pushed down to them here or a texture inside a group would quietly
+            // keep compressing while every texture outside one stopped.
+            for (auto& entry : grouped->resources) {
+                if (entry.second != nullptr) {
+                    _applyUncompressTextures(*entry.second);
+                }
+            }
+
             return grouped->fix();
         }
 
         return false;
+    }
+
+
+    void RemapService::_applyUncompressTextures(IniResource& resource) {
+        // The guard lives HERE rather than at the two call sites, so that "the option is off" and
+        // "this resource writes no texture" are the same no-op and there is exactly one place that
+        // decides either. It also makes the off case directly testable.
+        if (!uncompressTextures) {
+            return;
+        }
+
+        // Both texture resources, because both write a .dds: an edit re-encodes the file it read
+        // (TexEditor), and an add encodes one it invented (TexCreator). Handling only one of them
+        // would leave the option half true, and silently so.
+        if (RemapTexEditResource* texEdit = dynamic_cast<RemapTexEditResource*>(&resource)) {
+            texEdit->texEditor.setCompress(false);
+            return;
+        }
+
+        if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
+            texAdd->texCreator.compress = false;
+        }
     }
 
 
@@ -966,7 +1005,7 @@ namespace AGRemapCore {
         // Straight pass-through: these three are stored in IniFile's own convention (std::nullopt
         // = no filter, present-but-empty = accept nothing) precisely so nothing needs
         // reinterpreting here.
-        std::unique_ptr<IniFile> result = std::make_unique<IniFile>(iniPath, "", gameTypeId,
+        std::unique_ptr<IniFile> result = std::make_unique<IniFile>(iniPath, "", gameTypeIds,
                                                                    fromModTypeIds, forcedModTypeIds,
                                                                    std::nullopt, nullptr, std::nullopt,
                                                                    downloadMode, fromVersion, std::nullopt,

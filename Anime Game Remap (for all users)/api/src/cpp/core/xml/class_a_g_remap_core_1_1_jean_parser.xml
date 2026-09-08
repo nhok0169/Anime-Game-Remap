@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_jean_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::JeanParser</compoundname>
+    <includes refid="_jean_parser_8h" local="no">JeanParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_parser_1acc4ebc9c64a59049af53423a272e3494" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::JeanParser::JeanParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>JeanParser</name>
+        <qualifiedname>AGRemapCore::JeanParser::JeanParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/JeanParser.h" line="24" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_parser_1a3bc61b7d0a8ba9a260829fb69a119821" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::JeanParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::JeanParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Jean ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::jean4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/JeanParser.h" line="33" column="45" bodyfile="src/data/IniParseData/JeanParser.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_parser_1ada91a2a1fd1759732228242cdf9b08db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::JeanParser::v5_5</definition>
+        <argsstring>()</argsstring>
+        <name>v5_5</name>
+        <qualifiedname>AGRemapCore::JeanParser::v5_5</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 5.5-era Jean ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::jean5_5` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/JeanParser.h" line="42" column="45" bodyfile="src/data/IniParseData/JeanParser.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Jean&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`JeanFixer`. Jean is the first character whose fix is **two** fixers
+rather than one -- she remaps onto JeanCN *and* onto JeanSea, and those are different shapes --
+but the parser is shared between them, because what a Jean ``.ini`` file *contains* does not
+depend on what it is being remapped to
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/JeanParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/JeanParser.h" bodystart="21" bodyend="43"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_jean_parser_1acc4ebc9c64a59049af53423a272e3494" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanParser</scope><name>JeanParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_parser_1a3bc61b7d0a8ba9a260829fb69a119821" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanParser</scope><name>v4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_parser_1ada91a2a1fd1759732228242cdf9b08db" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanParser</scope><name>v5_5</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

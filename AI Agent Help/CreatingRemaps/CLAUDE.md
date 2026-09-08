@@ -148,8 +148,12 @@ The live tables are C++:
 | One character's parser | `core/{include/AGRemapCore,src}/data/IniParseData/<Name>Parser.*` |
 | One character's fixer | `core/{include/AGRemapCore,src}/data/IniFixData/<Name>Fixer.*` |
 
-Every generator in those two tables is still a stub returning `defaultFactory()` **except Raiden's
-6.1 pair**, which is the worked example to copy. A real generator is roughly an order of magnitude
+Most generators in those two tables are still stubs returning `defaultFactory()`, but **nine
+characters are real as of 2026-09-07** -- Amber, AmberCN, Jean, JeanCN, Mona, MonaCN, Raiden,
+Rosaria, RosariaCN. `ls core/src/data/IniFixData/` is the current answer; this sentence will go
+stale. Copy whichever existing one matches your character's *shape* (see the two shapes below), and
+note **Jean/JeanCN are the only pair carrying a `texEdits` row**, so they are the ones to read if
+your character needs a texture rewritten. A real generator is roughly an order of magnitude
 larger than the stub it replaces, which is why each character gets its own file rather than living
 in the table's own translation unit. Keep the `Ini*BuilderFuncs::<name><version>` declaration in the
 table header (the table refers to it by that name) and put only the *definition* in the new file;

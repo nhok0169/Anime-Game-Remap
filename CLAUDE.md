@@ -122,18 +122,26 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**The fix still does nothing for every character OTHER than the nine listed above, and that is
-DELIBERATE --- do not chase it.**
-Every OTHER character's `IniFixer`/`IniParser` is still stubbed with its base class, so for those a
-real end-to-end run classifies mods, walks the tree, writes its credit header and rewrites the
-`.ini` file *without generating a single remapped section*, and `IniFile::getResources()` comes back **empty** --- which
-in turn means `RemapService::fixResources` corrects no `Blend.buf` and no textures. One cause, both
-symptoms. An agent who runs the CLI over a real mod, diffs against
-`Testing/Integration Tester/.../expected_fullFix_modFixed/`, and sees the remap sections missing has
-found the stub, not a bug. Un-stubbing those strategies is the migration's remaining work; until it
-lands, **do not use "the fix produces correct output" as an acceptance criterion for anything**, and
-do not "repair" the Integration Tester's golden trees to match current output --- the goldens are
-right and the code is not there yet.
+**THE FIX IS LIVE FOR NINE CHARACTERS (verified end-to-end 2026-09-07). Earlier revisions of this
+file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
+empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
+has.** Real fixers and parsers exist for **Amber, AmberCN, Jean, JeanCN, Mona, MonaCN, Raiden,
+Rosaria, RosariaCN** (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
+and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
+running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
+
+Two consequences, both the opposite of what this file used to say:
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these nine.
+  Prefer it over any unit test when the change could possibly affect a fix.
+- **Characters outside that list still have no fixer**, so a run over one of *those* still writes
+  only the credit header. That is the stub, not a bug. Check
+  `ls "Anime Game Remap (for all users)/api/src/cpp/core/src/data/IniFixData/"` before concluding
+  anything --- the list grows, and this paragraph will go stale the same way the last one did.
+
+Still true: **do not "repair" the Integration Tester's golden trees to match current output.** Those
+goldens are pre-migration and the naming has legitimately moved on (the Jean texture golden reads
+`JeanSeaBodyRemapTex...`, the C++ fixer writes `...ShadeLightMap...`). Regenerating them is its own
+task.
 
 **But DO still run the real entry point over a real mod before calling a change done.** The suites
 cannot see the class of bug that matters most here. Confirmed the expensive way (2026-09-05): a
@@ -141,8 +149,12 @@ default run **emptied every `.ini` file it touched** --- 31 lines of someone's m
 lines of boilerplate, and with `--deleteBackup` no backup either --- while 10 C++ standalone suites
 and 1913 Python tests stayed green. Undo-only passed and fix-only passed; only the two *in sequence*,
 which is what every real run does, was broken. See [Testing](AI%20Agent%20Help/Testing/CLAUDE.md)'s
-"A green suite does not mean the product works" for the two-minute smoke check and where the real
-sample mods live.
+"A green suite does not mean the product works" for the two-minute smoke check, and its **"Real mod
+data: what is in the repo and which path each fixture exercises"** for the inventory --- which
+fixture to point the CLI at depends on what you changed, and picking the wrong one is why a texture
+change can look untested when it is two minutes from being proven. Short version: the Raiden
+fixture exercises `.ini` rewriting only, and **`inputs/multiFix/select/Jean` is the one that writes
+textures**.
 
 **`remapService.py` and `model/Mod.py` are DELETED (2026-09-05); `main.py` drives
 `RemapServiceCLI`.** The live entry path is now `main.py` (argparse) -> the Python `RemapServiceCLI`
@@ -153,18 +165,24 @@ model conversion) -> `AGRemapCore::RemapService` (the model: folder walk, per-`.
 summary). Argparse stays out of core on purpose. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s
 "The `RemapService` / `RemapServiceCLI` split".
 
-**Six repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
+**Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an
 exact-string patch script must normalise to LF before matching and write CRLF back, or every anchor
 reports "found 0"; (2) the Bash tool's heredocs eat backslashes (`\ref` arrives as a carriage
-return + `ef`), so write patch scripts with the Write tool and run them by path; (3) the dev
-Python and the VS install root have both MOVED since much of this documentation was written, and
-that pair has now flipped twice -- as of 2026-09-06 `py -0p` lists **only 3.9** (so `py -3` is 3.9,
-`core.cp39-win_amd64.pyd`, and `cbuild/CMakeCache.txt` reads `v3.9.3`) and `vcvarsall.bat` lives
-under `Program Files\Microsoft Visual Studio\18\Community`, with no `Program Files (x86)` VS 18
-existing at all. **Read the version off `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a
-`find` rather than trusting any number or path written down anywhere, this line included** -- see
-**Building**'s prerequisites;
+return + `ef`), so write patch scripts with the Write tool and run them by path -- **and `sed -i`
+mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (silent whole-file
+line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
+(`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). Prefer a Python patch script for any
+file with CRLF or doc comments; if you do use `sed -i`, normalise the file back to CRLF afterwards
+and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree);
+(3) the dev Python and the VS install root have both MOVED since much of this documentation was
+written, and that pair has now flipped **three** times -- as of 2026-09-07 `py -0p` lists **3.13**
+as default (so `py -3` is 3.13, `core.cp313-win_amd64.pyd`, and `cbuild/CMakeCache.txt` reads
+`v3.13.1`) and `vcvarsall.bat` lives under
+`Program Files (x86)\Microsoft Visual Studio\18\BuildTools`, with no `Program Files` VS 18 existing
+at all -- the exact reverse of what this line said one day earlier. **Read the version off
+`cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a `find` rather than trusting any number or
+path written down anywhere, this line included** -- see **Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes
 stripped, never runs, and still exits 0 -- so the "build" silently leaves the *previous* `.pyd` in
 place for your tests. Launch build/test batch files from the **PowerShell** tool with

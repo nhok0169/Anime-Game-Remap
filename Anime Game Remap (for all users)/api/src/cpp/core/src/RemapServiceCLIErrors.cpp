@@ -32,6 +32,20 @@ namespace AGRemapCore {
     }
 
 
+    // Worded off InvalidModType's rather than InvalidDownloadMode's: a game, like a mod type, is
+    // named by a name OR an alias, so "search string" is the accurate word for what failed.
+    std::string InvalidGameType::buildMessage(const std::string& gameType) {
+        return "ERROR: Unable to find the type of game by the search string, '" + gameType + "'";
+    }
+
+    InvalidGameType::InvalidGameType(std::string gameType):
+        std::runtime_error(buildMessage(gameType)), gameType_(std::move(gameType)) {}
+
+    const std::string& InvalidGameType::gameType() const {
+        return gameType_;
+    }
+
+
     // No "ERROR: " prefix and no mention of the offending string, both deliberate: the pure-Python
     // original raised a plain ValueError with exactly this sentence, and it is worth staying
     // word-for-word since it is the one that tells a user WHAT a valid version looks like.

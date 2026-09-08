@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_jean_shading" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::JeanShading</compoundname>
+    <includes refid="_jean_shading_8h" local="no">JeanShading.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_jean_shading_1a76b62850aac529c1964368a5af4a7cbe" prot="public" static="yes" mutable="no">
+        <type>const int</type>
+        <definition>const int AGRemapCore::JeanShading::LowAlpha</definition>
+        <argsstring></argsstring>
+        <name>LowAlpha</name>
+        <qualifiedname>AGRemapCore::JeanShading::LowAlpha</qualifiedname>
+        <initializer>= 77</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The alpha value at or below which a pixel is lifted, and the amount it is lifted by --
+one constant serving as both, exactly as the pure-Python
+``_jeanEditBodyLightMap5_5`` uses ``77`` for both
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="32" column="30" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_shading_1af805d28805ee98508b9119be89fda2e6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::JeanShading::JeanShading</definition>
+        <argsstring>()=delete</argsstring>
+        <name>JeanShading</name>
+        <qualifiedname>AGRemapCore::JeanShading::JeanShading</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="22" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::JeanShading::liftLowAlpha</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>liftLowAlpha</name>
+        <qualifiedname>AGRemapCore::JeanShading::liftLowAlpha</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Lifts the darkest part of a lightmap&apos;s alpha channel :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Every pixel whose alpha is at or below \\ref LowAlpha gains \\ref LowAlpha; everything
+brighter is left exactly as it was. In a `GIMI`_ lightmap that channel drives how
+strongly the shader shades a surface, so this lightens only what was nearly black --
+which is what stops JeanSea&apos;s cape reading as a hard edge against the body under it
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A direct port of the pure-Python ``IniParseBuilderFuncs._jeanEditBodyLightMap5_5``,
+whose ``alphaImg.point(lambda a: bound(a + 77) if a &lt;= 77 else a)`` says the same thing.
+The bound never actually binds -- ``77 + 77`` is 154 -- but it is kept because the
+original has it and a future caller may pass a larger constant
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to edit, modified in place. A file with no image is left alone </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="54" column="25" bodyfile="src/data/IniFixData/JeanShading.cpp" bodystart="15" bodyend="33"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The texture edit Jean and JeanCN both apply when remapping onto JeanSea :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Its own translation unit because both characters use it and neither owns it -- the same reason
+:cpp:func:`makeGIMICharFixer` is shared rather than copied per character
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="19" bodyend="55"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_jean_shading_1af805d28805ee98508b9119be89fda2e6" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanShading</scope><name>JeanShading</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanShading</scope><name>liftLowAlpha</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_shading_1a76b62850aac529c1964368a5af4a7cbe" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanShading</scope><name>LowAlpha</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

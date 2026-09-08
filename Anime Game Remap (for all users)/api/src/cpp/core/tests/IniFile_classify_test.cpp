@@ -8,7 +8,7 @@
 // deliberately isolates IniFile::classify()'s own logic -- branching on
 // forcedModTypeIds, filtering by filteredModTypeIds, resolving an int
 // ModTypeId to an actual ModType via overrideModTypes-then-global-registry,
-// and converting the constructor's plain-int gameTypeId to a real GameTypeId
+// and converting the constructor's plain-int gameTypeIds to real GameTypeIds
 // -- from IniClassifier's separate DFA-construction correctness, which is its
 // own concern and isn't exercised here.
 //
@@ -26,7 +26,7 @@
 //     independent of each other, and independent of whatever a wrongly-called
 //     classify() would have produced); modTypes is built directly from
 //     forcedModTypeIds, each id resolved the same override-then-global way
-//   * gameTypeId: a valid int converts to the matching GameTypeId enum before
+//   * gameTypeIds: valid ints convert to the matching GameTypeId enums before
 //     being passed to the classifier; an unrecognized custom int falls back
 //     to std::nullopt (this applies to both the normal and forced branches)
 //   * GlobalIniClassifiers::classifier() is a true lazy singleton (same
@@ -118,18 +118,18 @@ class FakeIniClassifier: public BaseIniClassifier {
 
         int classifyCallCount = 0;
         int checkIsFixedModCallCount = 0;
-        std::optional<GameTypeId> lastClassifyGameTypeId;
-        std::optional<GameTypeId> lastCheckIsFixedModGameTypeId;
+        GameTypeIdFilter lastClassifyGameTypeIds;
+        GameTypeIdFilter lastCheckIsFixedModGameTypeIds;
 
-        IniClassifyStats classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) override {
+        IniClassifyStats classify(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds) override {
             classifyCallCount++;
-            lastClassifyGameTypeId = gameTypeId;
+            lastClassifyGameTypeIds = gameTypeIds;
             return cannedStats;
         }
 
-        void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixedOut, bool* isModOut, std::optional<GameTypeId> gameTypeId) override {
+        void checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixedOut, bool* isModOut, GameTypeIdFilter gameTypeIds) override {
             checkIsFixedModCallCount++;
-            lastCheckIsFixedModGameTypeId = gameTypeId;
+            lastCheckIsFixedModGameTypeIds = gameTypeIds;
             *isFixedOut = cannedIsFixed;
             *isModOut = cannedIsMod;
         }
@@ -230,25 +230,65 @@ void testForcedBranch() {
 void testGameTypeIdConversion() {
     FakeIniClassifier fake1;
     fake1.cannedStats = IniClassifyStats({}, false, false);
-    TestableIniFile giIni(std::nullopt, "x\n", static_cast<int>(GameTypeId::GI), std::nullopt, std::nullopt, std::nullopt, &fake1);
+    TestableIniFile giIni(std::nullopt, "x\n", std::unordered_set<int>{static_cast<int>(GameTypeId::GI)},
+                          std::nullopt, std::nullopt, std::nullopt, &fake1);
     giIni.classify();
-    check(fake1.lastClassifyGameTypeId.has_value() && *fake1.lastClassifyGameTypeId == GameTypeId::GI,
-          "gameTypeId: a valid int converts to the matching GameTypeId enum for the classifier call");
+    check(fake1.lastClassifyGameTypeIds.has_value() &&
+              *fake1.lastClassifyGameTypeIds == std::unordered_set<GameTypeId>{GameTypeId::GI},
+          "gameTypeIds: a valid int converts to the matching GameTypeId enum for the classifier call");
+
+    // The whole point of the set: more than one game narrows to more than one GameTypeId, rather
+    // than the first one winning or the filter collapsing to a single value.
+    FakeIniClassifier fakeBoth;
+    fakeBoth.cannedStats = IniClassifyStats({}, false, false);
+    TestableIniFile bothIni(std::nullopt, "x\n",
+                            std::unordered_set<int>{static_cast<int>(GameTypeId::GI), static_cast<int>(GameTypeId::WuWa)},
+                            std::nullopt, std::nullopt, std::nullopt, &fakeBoth);
+    bothIni.classify();
+    check(fakeBoth.lastClassifyGameTypeIds.has_value() &&
+              *fakeBoth.lastClassifyGameTypeIds == std::unordered_set<GameTypeId>{GameTypeId::GI, GameTypeId::WuWa},
+          "gameTypeIds: several valid ints all reach the classifier, not just the first");
 
     FakeIniClassifier fake2;
     fake2.cannedStats = IniClassifyStats({}, false, false);
-    TestableIniFile unknownIni(std::nullopt, "x\n", 999999, std::nullopt, std::nullopt, std::nullopt, &fake2);
+    TestableIniFile unknownIni(std::nullopt, "x\n", std::unordered_set<int>{999999},
+                               std::nullopt, std::nullopt, std::nullopt, &fake2);
     unknownIni.classify();
-    check(!fake2.lastClassifyGameTypeId.has_value(),
-          "gameTypeId: an unrecognized custom int falls back to std::nullopt for the classifier call");
+    check(!fake2.lastClassifyGameTypeIds.has_value(),
+          "gameTypeIds: an unrecognized custom int falls back to std::nullopt for the classifier call");
+
+    // The mixed case, and the reason the fallback above is "all of them were unrecognized" rather
+    // than "any of them was": the recognizable half still has to narrow.
+    FakeIniClassifier fakeMixed;
+    fakeMixed.cannedStats = IniClassifyStats({}, false, false);
+    TestableIniFile mixedIni(std::nullopt, "x\n",
+                             std::unordered_set<int>{static_cast<int>(GameTypeId::WuWa), 999999},
+                             std::nullopt, std::nullopt, std::nullopt, &fakeMixed);
+    mixedIni.classify();
+    check(fakeMixed.lastClassifyGameTypeIds.has_value() &&
+              *fakeMixed.lastClassifyGameTypeIds == std::unordered_set<GameTypeId>{GameTypeId::WuWa},
+          "gameTypeIds: an unrecognized int is dropped, and the recognized ones still narrow");
+
+    // An EMPTY set is not "no filter" -- it stays empty all the way to the classifier, where it
+    // matches nothing. Collapsing it to std::nullopt here would silently turn "fix mods for none of
+    // these games" into "fix mods for all of them".
+    FakeIniClassifier fakeEmpty;
+    fakeEmpty.cannedStats = IniClassifyStats({}, false, false);
+    TestableIniFile emptyIni(std::nullopt, "x\n", std::unordered_set<int>{},
+                             std::nullopt, std::nullopt, std::nullopt, &fakeEmpty);
+    emptyIni.classify();
+    check(!fakeEmpty.lastClassifyGameTypeIds.has_value(),
+          "gameTypeIds: an empty set has nothing recognizable in it either, so it does not narrow");
 
     FakeIniClassifier fake3;
     fake3.cannedIsFixed = true;
     fake3.cannedIsMod = true;
-    TestableIniFile forcedIni(std::nullopt, "x\n", static_cast<int>(GameTypeId::WuWa), std::nullopt, std::unordered_set<int>{}, std::nullopt, &fake3);
+    TestableIniFile forcedIni(std::nullopt, "x\n", std::unordered_set<int>{static_cast<int>(GameTypeId::WuWa)},
+                              std::nullopt, std::unordered_set<int>{}, std::nullopt, &fake3);
     forcedIni.classify();
-    check(fake3.lastCheckIsFixedModGameTypeId.has_value() && *fake3.lastCheckIsFixedModGameTypeId == GameTypeId::WuWa,
-          "gameTypeId: also converted correctly for the forced (checkIsFixedMod) branch");
+    check(fake3.lastCheckIsFixedModGameTypeIds.has_value() &&
+              *fake3.lastCheckIsFixedModGameTypeIds == std::unordered_set<GameTypeId>{GameTypeId::WuWa},
+          "gameTypeIds: also converted correctly for the forced (checkIsFixedMod) branch");
 }
 
 void testGlobalIniClassifiersSingleton() {

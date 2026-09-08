@@ -3,6 +3,10 @@
   <compounddef id="namespace_a_g_remap_core" kind="namespace" language="C++">
     <compoundname>AGRemapCore</compoundname>
     <innerclass refid="class_a_g_remap_core_1_1_algo" prot="public">AGRemapCore::Algo</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_fixer" prot="public">AGRemapCore::AmberCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_c_n_parser" prot="public">AGRemapCore::AmberCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_fixer" prot="public">AGRemapCore::AmberFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_amber_parser" prot="public">AGRemapCore::AmberParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_bad_buf_data" prot="public">AGRemapCore::BadBufData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" prot="public">AGRemapCore::BaseAhoCorasickDFA</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_base_buf_editor" prot="public">AGRemapCore::BaseBufEditor</innerclass>
@@ -52,6 +56,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_download_tools" prot="public">AGRemapCore::DownloadTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_download" prot="public">AGRemapCore::FileDownload</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_ext" prot="public">AGRemapCore::FileExt</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_file_prefixes" prot="public">AGRemapCore::FilePrefixes</innerclass>
@@ -65,7 +71,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" prot="public">AGRemapCore::GIMICharParserConfig</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_fixer" prot="public">AGRemapCore::GIMIFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter" prot="public">AGRemapCore::GIMIObjPartFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_parser" prot="public">AGRemapCore::GIMIParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier" prot="public">AGRemapCore::GIMISectionClassifier</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_global_ini_classifiers" prot="public">AGRemapCore::GlobalIniClassifiers</innerclass>
@@ -77,6 +86,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_edit" prot="public">AGRemapCore::GraphGroupEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_group_remap" prot="public">AGRemapCore::GraphGroupRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_inherit" prot="public">AGRemapCore::GraphInherit</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_graph_part_edit" prot="public">AGRemapCore::GraphPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_remove" prot="public">AGRemapCore::GraphRemove</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_rename" prot="public">AGRemapCore::GraphRename</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_graph_tools" prot="public">AGRemapCore::GraphTools</innerclass>
@@ -148,11 +158,17 @@
     <innerclass refid="class_a_g_remap_core_1_1_ini_tex_model" prot="public">AGRemapCore::IniTexModel</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_int_tools" prot="public">AGRemapCore::IntTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invalid_download_mode" prot="public">AGRemapCore::InvalidDownloadMode</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_invalid_game_type" prot="public">AGRemapCore::InvalidGameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invalid_mod_type" prot="public">AGRemapCore::InvalidModType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invalid_version" prot="public">AGRemapCore::InvalidVersion</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha" prot="public">AGRemapCore::InvertAlpha</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_invert_alpha_filter" prot="public">AGRemapCore::InvertAlphaFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_i_ordered_multi_map" prot="public">AGRemapCore::IOrderedMultiMap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_fixer" prot="public">AGRemapCore::JeanCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_parser" prot="public">AGRemapCore::JeanCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_fixer" prot="public">AGRemapCore::JeanFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_parser" prot="public">AGRemapCore::JeanParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_shading" prot="public">AGRemapCore::JeanShading</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_logger" prot="public">AGRemapCore::Logger</innerclass>
@@ -164,6 +180,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_mod_type" prot="public">AGRemapCore::ModType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_data" prot="public">AGRemapCore::ModTypeIdData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mod_type_id_tools" prot="public">AGRemapCore::ModTypeIdTools</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_c_n_fixer" prot="public">AGRemapCore::MonaCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_c_n_parser" prot="public">AGRemapCore::MonaCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_fixer" prot="public">AGRemapCore::MonaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_mona_parser" prot="public">AGRemapCore::MonaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_multi_mod_fixer" prot="public">AGRemapCore::MultiModFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
@@ -174,11 +194,15 @@
     <innerclass refid="class_a_g_remap_core_1_1_parse_tree" prot="public">AGRemapCore::ParseTree</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_pixel_filter" prot="public">AGRemapCore::PixelFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_position_file" prot="public">AGRemapCore::PositionFile</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_raiden_fixer" prot="public">AGRemapCore::RaidenFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_raiden_parser" prot="public">AGRemapCore::RaidenParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ranges" prot="public">AGRemapCore::Ranges</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_add" prot="public">AGRemapCore::RegAdd</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_asset_remap" prot="public">AGRemapCore::RegAssetRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_delimited_add" prot="public">AGRemapCore::RegDelimitedAdd</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_fill_missing" prot="public">AGRemapCore::RegFillMissing</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_new_vals" prot="public">AGRemapCore::RegNewVals</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_reg_part_edit" prot="public">AGRemapCore::RegPartEdit</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remap" prot="public">AGRemapCore::RegRemap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_remove" prot="public">AGRemapCore::RegRemove</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_reg_surrounded_add" prot="public">AGRemapCore::RegSurroundedAdd</innerclass>
@@ -202,6 +226,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_res_identity" prot="public">AGRemapCore::ResIdentity</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_reg_collect" prot="public">AGRemapCore::ResRegCollect</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_res_replace" prot="public">AGRemapCore::ResReplace</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_fixer" prot="public">AGRemapCore::RosariaCNFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_c_n_parser" prot="public">AGRemapCore::RosariaCNParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_fixer" prot="public">AGRemapCore::RosariaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_rosaria_parser" prot="public">AGRemapCore::RosariaParser</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
@@ -214,6 +242,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_text_tools" prot="public">AGRemapCore::TextTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_texture_file" prot="public">AGRemapCore::TextureFile</innerclass>
@@ -227,6 +256,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_version_set" prot="public">AGRemapCore::VersionSet</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_vertex_counts" prot="public">AGRemapCore::VertexCounts</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remap" prot="public">AGRemapCore::VGRemap</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_v_g_remap_blend_replace" prot="public">AGRemapCore::VGRemapBlendReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_v_g_remaps" prot="public">AGRemapCore::VGRemaps</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_context" prot="public">AGRemapCore::Z3Context</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_z3_if_pred_generator" prot="public">AGRemapCore::Z3IfPredGenerator</innerclass>
@@ -312,7 +342,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="13" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="13" bodyend="23"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="15" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="15" bodyend="25"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" prot="public" static="no" strong="yes">
         <type></type>
@@ -834,6 +864,34 @@ Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespace_a_g_remap_core_1a1c7d00ecf5f9baa55407d51862675a7f" prot="public" static="no">
+        <type>std::optional&lt; std::unordered_set&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt; &gt;</type>
+        <definition>using AGRemapCore::GameTypeIdFilter = std::optional&lt;std::unordered_set&lt;GameTypeId&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>GameTypeIdFilter</name>
+        <qualifiedname>AGRemapCore::GameTypeIdFilter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A set of :cpp:enum:`GameTypeId`\\s to narrow something down to, where ``std::nullopt`` means
+&quot;every game&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The shape the whole classification path takes its game filter in --
+:cpp:member:`RemapService::gameTypeIds` down through :cpp:class:`IniFile` to
+:cpp:func:`BaseIniClassifier::classify` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   An **empty** set is a filter that matches nothing, not &quot;every game&quot; -- the same reading
+   :cpp:member:`RemapService::fromModTypeIds` has. ``std::nullopt`` is the only way to say
+   &quot;no filter&quot;. :cpp:class:`RemapServiceCLI` is where a user naming no games at all gets
+   turned into ``std::nullopt``, since that is the ambiguity an argument parser creates
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="44" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" prot="public" static="no">
         <type>std::variant&lt; long long, unsigned long long, double &gt;</type>
         <definition>using AGRemapCore::BufValue = std::variant&lt;long long, unsigned long long, double&gt;</definition>
@@ -1092,6 +1150,109 @@ in an :cpp:class:`OrderedMultiMapAdapter`
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::makeGIMICharFixer</definition>
+        <argsstring>(GIMICharFixerConfig config)</argsstring>
+        <name>makeGIMICharFixer</name>
+        <qualifiedname>AGRemapCore::makeGIMICharFixer</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the fixer for a character with the **standard GIMI shape**, paired with
+:cpp:func:`makeGIMICharParser` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+What it does, for a remap onto a genuinely different model (a CN skin, or a skin&apos;s base
+character):
+
+#. remaps every ``hash`` with :cpp:class:`RegAssetRemap`, and every drawn object&apos;s
+   ``match_first_index`` with a **forward** lookup -- see :cpp:class:`RegAssetRemap`&apos;s own
+   warning for why the index cannot use the same tool
+#. rebuilds the ``Blend.buf`` through :cpp:class:`VGRemapBlendReplace`
+#. swaps the face&apos;s diffuse and lightmap registers with :cpp:class:`RegRemap` -- the cure for
+   the white cheek spots, GI 6.x having swapped which register the shader reads each out of --
+   and **hides the original face section**, the one thing it hides, because a CN pair shares
+   its ``tex_face_diffuse`` hash and the two would otherwise both bind
+#. drops the mod&apos;s own ``ORFix``/``NNFix`` calls and re-issues ``NNFix`` where it belongs
+#. renames each graph with the convention belonging to **its own kind**
+
+.. note::
+   This is **not** the shape for remapping onto a boss that shares the source&apos;s geometry --
+   that keeps the source&apos;s hashes and has to hide the originals instead. Raiden has her own
+   fixer for exactly that reason; see `Creating Remaps &lt;../CreatingRemaps/CLAUDE.md&gt;`_&apos;s
+   &quot;Two shapes of remap&quot;
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What this character does differently <ndash/> see <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="702" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="702" bodyend="706" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="220" declcolumn="28"/>
+      </memberdef>
+      <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::makeGIMICharParser</definition>
+        <argsstring>(GIMICharParserConfig config)</argsstring>
+        <name>makeGIMICharParser</name>
+        <qualifiedname>AGRemapCore::makeGIMICharParser</qualifiedname>
+        <param>
+          <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref></type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Builds the parser for a character with the **standard GIMI shape**: drawn objects sharing one
+``ib`` and separated by ``match_first_index``, plus `blend`_/position/texcoord/ib named
+outright by their own hashes, plus ``(&quot;&quot;, &quot;other&quot;)`` and ``(&quot;&quot;, &quot;face&quot;)``
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Every mod object it produces:
+
+===================  ====================================================================
+Mod object           What it is
+===================  ====================================================================
+each of &apos;drawnObjs&apos;  a drawn part -- ``ib`` hash **plus** its own ``match_first_index``
+``(&quot;&quot;, &quot;ib&quot;)``       the shared draw call -- the ``ib`` hash and **no** index
+``(&quot;&quot;, &quot;blend&quot;)``    the ``Blend.buf`` the fix remaps
+``(&quot;&quot;, &quot;position&quot;)``
+``(&quot;&quot;, &quot;texcoord&quot;)``
+``(&quot;&quot;, &quot;other&quot;)``    ``draw_vb`` -- VertexLimitRaise, a hash swap and nothing else
+``(&quot;&quot;, &quot;face&quot;)``     ``tex_face_diffuse`` -- tracked so the fix can swap its REGISTERS
+===================  ====================================================================
+
+Pair it with :cpp:func:`makeGIMICharFixer`; the two agree on these names by hand, and neither
+half makes sense alone
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What this character does differently <ndash/> see <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_parser_config" kindref="compound">GIMICharParserConfig</ref> </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="160" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="160" bodyend="217" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="130" declcolumn="30"/>
+      </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
         <definition>std::string AGRemapCore::renderIfContentPart</definition>

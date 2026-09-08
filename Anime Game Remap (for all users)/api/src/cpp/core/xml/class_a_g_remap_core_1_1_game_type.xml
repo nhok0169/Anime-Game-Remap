@@ -17,7 +17,51 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="30" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="30" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="37" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a11b834dc129b2bf72b94c2d8b2c837d7" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref>, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::unordered_map&lt;GameTypeId, std::vector&lt;std::string&gt; &gt; AGRemapCore::GameType::aliases</definition>
+        <argsstring></argsstring>
+        <name>aliases</name>
+        <qualifiedname>AGRemapCore::GameType::aliases</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The other names each :cpp:enum:`GameTypeId` also answers to :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mirrors :cpp:member:`ModType::aliases` -- a game a user could reasonably name more than
+one way (``&quot;GI&quot;``/``&quot;Genshin&quot;``/``&quot;GenshinImpact&quot;``) is reachable by all of them.
+Every entry here is also in #dfa
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameType.h" line="50" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1ab1ece8ea33829ce2164844dc1154abb9" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+        <definition>std::vector&lt;GameTypeId&gt; AGRemapCore::GameType::order</definition>
+        <argsstring></argsstring>
+        <name>order</name>
+        <qualifiedname>AGRemapCore::GameType::order</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every :cpp:enum:`GameTypeId`, in declaration order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Declaration order rather than #names&apos;s (unordered) iteration order, so anything listing
+the supported games -- the CLI&apos;s ``--help`` epilog above all -- prints them the same way
+every run
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameType.h" line="63" column="25" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
@@ -30,11 +74,16 @@
         <detaileddescription>
 <para><verbatim>embed:rst 
 The `DFA`_ used to search for a :cpp:enum:`GameTypeId` by name using `Aho-Corasick`_
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Holds both #names and #aliases, each **lowercased**, matching how
+``ModTypeIdTools::registerModType`` files a :cpp:class:`ModType`&apos;s own names -- see
+:cpp:func:`GameTypeIdTools::findByName`, which lowercases what it is asked
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="38" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="38" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="76" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="76" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -51,14 +100,20 @@ The `DFA`_ used to search for a :cpp:enum:`GameTypeId` by name using `Aho-Corasi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="25" column="13" bodyfile="src/constants/GameType.cpp" bodystart="21" bodyend="30"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="32" column="13" bodyfile="src/constants/GameType.cpp" bodystart="27" bodyend="45"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
 <para><verbatim>embed:rst 
-Name lookups for :cpp:enum:`GameTypeId`, in both directions
+Name lookups for :cpp:enum:`GameTypeId`, in both directions :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Every name/alias a :cpp:enum:`GameTypeId` answers to lives in this class&apos;s constructor, and
+:cpp:class:`GameTypeIdTools` is the public way in -- see :cpp:func:`GameTypeIdTools::getName`,
+:cpp:func:`GameTypeIdTools::getAliases` and :cpp:func:`GameTypeIdTools::findByName`, all of
+which read a single process-wide instance of this class
 </verbatim> </para>
     </detaileddescription>
     <collaborationgraph>
@@ -87,11 +142,13 @@ Name lookups for :cpp:enum:`GameTypeId`, in both directions
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/constants/GameType.h" line="19" column="5" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="19" bodyend="39"/>
+    <location file="include/AGRemapCore/constants/GameType.h" line="26" column="5" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="26" bodyend="77"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_game_type_1a11b834dc129b2bf72b94c2d8b2c837d7" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>aliases</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>dfa</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_1a8b13cb22f60fda419a148a961f2119e5" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>GameType</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_1a99e6dfa50434479a1b3e94ddfa2cbedf" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>names</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_1ab1ece8ea33829ce2164844dc1154abb9" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>order</name></member>
     </listofallmembers>
   </compounddef>
 </doxygen>

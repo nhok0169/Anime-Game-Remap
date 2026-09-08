@@ -2,6 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit" kind="class" language="C++" prot="public" abstract="yes">
     <compoundname>AGRemapCore::GraphGroupEdit::PartEdit</compoundname>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_graph_part_edit" prot="public" virt="non-virtual">AGRemapCore::GraphPartEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_reg_part_edit" prot="public" virt="non-virtual">AGRemapCore::RegPartEdit&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_graph_group_edit_8h" local="no">GraphGroupEdit.h</includes>
     <sectiondef kind="public-func">
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1a5655970b449b654d2b10c4ef85d24d66" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
@@ -24,6 +26,8 @@
         <argsstring>() const =0</argsstring>
         <name>kind</name>
         <qualifiedname>AGRemapCore::GraphGroupEdit::PartEdit::kind</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_part_edit_1ae32316394a57d9b55d45210dcc77e8b1">kind</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_part_edit_1a94e3ab37829e8aa188b2b9b7a1ed4805">kind</reimplementedby>
         <briefdescription>
 <para>Which kind of edit this is. </para>
         </briefdescription>
@@ -164,6 +168,8 @@ The resulting graph. Normally &apos;graph&apos; itself; an edit that genuinely p
         <argsstring>(ContentPart &amp;part, const std::string &amp;sectionName, IniFile *ini, const ModType *modType, const std::string &amp;modName, const OrderRanges &amp;partRanges)=0</argsstring>
         <name>editPart</name>
         <qualifiedname>AGRemapCore::GraphGroupEdit::PartEdit::editPart</qualifiedname>
+        <reimplementedby refid="class_a_g_remap_core_1_1_graph_part_edit_1ae5d210aaffcb787fe45d5db584cbfccc">editPart</reimplementedby>
+        <reimplementedby refid="class_a_g_remap_core_1_1_reg_part_edit_1a2f0bc8989797d54d1c97c2c1ac15e4f8">editPart</reimplementedby>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a6676f22a6124f6d75c226d8c991b2cc8" kindref="member">ContentPart</ref> &amp;</type>
           <declname>part</declname>
@@ -270,6 +276,24 @@ One edit in a graph&apos;s edit list :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br 
       trampoline, so the *dispatch* has to be the abstraction
 </verbatim> </para>
     </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AGRemapCore::GraphGroupEdit&lt; K, V, KeyHash, KeyEqual &gt;::PartEdit</label>
+        <link refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit"/>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::GraphPartEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_graph_part_edit"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>AGRemapCore::RegPartEdit&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_reg_part_edit"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="144" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="144" bodyend="207"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1ad1ceace82c57b3811b1e8f1c9d501a37" prot="public" virt="pure-virtual"><scope>AGRemapCore::GraphGroupEdit::PartEdit</scope><name>editGraph</name></member>

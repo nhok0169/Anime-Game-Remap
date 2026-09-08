@@ -36,7 +36,7 @@ that the value actually corresponds to one of :cpp:enum:`GameTypeId`&apos;s decl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="42" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="6" bodyend="17"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="63" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="28" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -71,7 +71,149 @@ Mirrors the pure-Python ``GameTypeNames`` enum&apos;s values (``constants/GameTy
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="56" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="19" bodyend="30"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="77" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="41" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a3f1090b5bd1c91214a613af5a85d06c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; AGRemapCore::GameTypeIdTools::getAliases</definition>
+        <argsstring>(GameTypeId value)</argsstring>
+        <name>getAliases</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::getAliases</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Retrieves the other names a :cpp:enum:`GameTypeId` also answers to :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Mirrors :cpp:member:`ModType::aliases` -- every one of these resolves through
+:cpp:func:`findByName` exactly as :cpp:func:`getName`&apos;s answer does
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> to retrieve the aliases for</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The aliases for &apos;value&apos;, empty if it has none </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="93" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="52" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1ad6283b608379d3da1fe5a71741646ca0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; GameTypeId &gt; &amp; AGRemapCore::GameTypeIdTools::getAll</definition>
+        <argsstring>()</argsstring>
+        <name>getAll</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::getAll</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every :cpp:enum:`GameTypeId`, in declaration order :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The order is stable across runs, so anything listing the supported games (the CLI&apos;s
+``--help`` epilog) prints them the same way every time
+</verbatim></para>
+<para><simplesect kind="return"><para>All the supported games </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="107" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="63" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a20301c046265757a9a6c4eb55d655b51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
+        <definition>std::optional&lt; GameTypeId &gt; AGRemapCore::GameTypeIdTools::findByName</definition>
+        <argsstring>(const std::string &amp;name)</argsstring>
+        <name>findByName</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::findByName</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Finds the :cpp:enum:`GameTypeId` whose name or alias maximally matches some string --
+the :cpp:enum:`GameTypeId` counterpart of :cpp:func:`ModTypeIdTools::findByName`, and
+what turns what a user typed for the CLI&apos;s game option into the ids the model wants
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Case and surrounding whitespace are ignored, matching how a mod type&apos;s name resolves
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   Unlike :cpp:func:`ModTypeIdTools::findByName` there is no registry to consult and
+   nothing to register: the games are the :cpp:enum:`GameTypeId` enumerators
+   themselves, so every one of them is always findable
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The string to search for a game&apos;s name/alias within</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The matched :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput>, if &apos;name&apos; names one </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="130" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="67" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1ac7fb3681aaea46f8496034f18eab3f1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GameTypeIdTools::getHelpStr</definition>
+        <argsstring>(GameTypeId value)</argsstring>
+        <name>getHelpStr</name>
+        <qualifiedname>AGRemapCore::GameTypeIdTools::getHelpStr</qualifiedname>
+        <param>
+          <type><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The `--help` text describing a single :cpp:enum:`GameTypeId` -- its name and its
+aliases :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Mirrors :cpp:func:`ModType::getHelpStr`, so the CLI&apos;s list of supported games reads
+exactly like its list of supported mods
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The :cpp:enum:<computeroutput><ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref></computeroutput> to describe</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The help text for &apos;value&apos; </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="146" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="81" bodyend="107"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -79,9 +221,13 @@ Mirrors the pure-Python ``GameTypeNames`` enum&apos;s values (``constants/GameTy
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="57"/>
+    <location file="include/AGRemapCore/constants/GameTypeId.h" line="49" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="49" bodyend="147"/>
     <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a20301c046265757a9a6c4eb55d655b51" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>findByName</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a3f1090b5bd1c91214a613af5a85d06c5" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getAliases</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1ad6283b608379d3da1fe5a71741646ca0" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getAll</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a27719733fbdb23ae4e6f380fec7e9e8a" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getEnum</name></member>
+      <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1ac7fb3681aaea46f8496034f18eab3f1b" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getHelpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getName</name></member>
     </listofallmembers>
   </compounddef>

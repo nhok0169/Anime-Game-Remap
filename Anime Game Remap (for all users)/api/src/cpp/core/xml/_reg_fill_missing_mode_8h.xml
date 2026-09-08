@@ -13,6 +13,12 @@
       <node id="2">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h</label>
         <link refid="_reg_fill_missing_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/data/IniFixData/GIMICharFixer.cpp</label>
+        <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>

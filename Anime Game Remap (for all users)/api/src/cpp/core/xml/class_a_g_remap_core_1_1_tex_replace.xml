@@ -3,6 +3,7 @@
   <compounddef id="class_a_g_remap_core_1_1_tex_replace" kind="class" language="C++" prot="public">
     <compoundname>AGRemapCore::TexReplace</compoundname>
     <basecompoundref refid="class_a_g_remap_core_1_1_res_replace" prot="public" virt="non-virtual">AGRemapCore::ResReplace&lt; std::string, std::string, std::hash&lt; std::string &gt;, std::equal_to&lt; std::string &gt; &gt;</basecompoundref>
+    <derivedcompoundref refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public" virt="non-virtual">AGRemapCore::TexEditorReplace&lt; K, V, KeyHash, KeyEqual &gt;</derivedcompoundref>
     <includes refid="_tex_edit_8h" local="no">TexEdit.h</includes>
     <templateparamlist>
       <param>
@@ -298,6 +299,12 @@ resource model it stands for is a :cpp:class:`RemapTexEditResource` (``srcPath``
         <label>AGRemapCore::ResReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
         <link refid="class_a_g_remap_core_1_1_res_replace"/>
         <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::TexEditorReplace&lt; K, V, KeyHash, KeyEqual &gt;</label>
+        <link refid="class_a_g_remap_core_1_1_tex_editor_replace"/>
+        <childnode refid="1" relation="public-inheritance">
         </childnode>
       </node>
       <node id="1">

@@ -106,8 +106,8 @@ txt: :class:`str`
 
     **Default**: ``""``
 
-gameTypeId: Optional[:class:`int`]
-    The id for the game the .ini file's mod belongs to :raw-html:`<br />` :raw-html:`<br />`
+gameTypeIds: Optional[Set[:class:`int`]]
+    The ids of the games the .ini file's mod may belong to, or ``None`` for every game :raw-html:`<br />` :raw-html:`<br />`
 
     **Default**: ``None``
 
@@ -156,7 +156,7 @@ filteredToModTypeIds: Optional[Set[:class:`int`]]
     **Default**: ``None``, meaning no filter
     )doc")
 
-        .def(py::init([](std::optional<std::string> file, std::string txt, std::optional<int> gameTypeId,
+        .def(py::init([](std::optional<std::string> file, std::string txt, std::optional<std::unordered_set<int>> gameTypeIds,
                          std::optional<std::unordered_set<int>> filteredFromModTypeIds,
                          std::optional<std::unordered_set<int>> forcedFromModTypeIds,
                          std::optional<std::unordered_map<int, AGRC::ModType>> overrideModTypes,
@@ -168,12 +168,12 @@ filteredToModTypeIds: Optional[Set[:class:`int`]]
             // to Python is a separate pybind-layer class holding a py::dict -- not that
             // instantiation -- so there is no value a Python caller could pass here. Parse data
             // stays on the C++ side, produced by parse() and consumed by fix().
-            return std::make_unique<AGRC::IniFile>(std::move(file), std::move(txt), gameTypeId,
+            return std::make_unique<AGRC::IniFile>(std::move(file), std::move(txt), std::move(gameTypeIds),
                                                    std::move(filteredFromModTypeIds), std::move(forcedFromModTypeIds),
                                                    std::move(overrideModTypes), iniClassifier, std::nullopt,
                                                    parseDownloadMode(downloadMode), std::move(fromVersion),
                                                    std::move(toVersion), std::move(filteredToModTypeIds));
-        }), py::arg("file") = py::none(), py::arg("txt") = "", py::arg("gameTypeId") = py::none(),
+        }), py::arg("file") = py::none(), py::arg("txt") = "", py::arg("gameTypeIds") = py::none(),
             py::arg("filteredFromModTypeIds") = py::none(), py::arg("forcedFromModTypeIds") = py::none(),
             py::arg("overrideModTypes") = py::none(), py::arg("iniClassifier") = nullptr,
             py::arg("downloadMode") = py::none(), py::arg("fromVersion") = py::none(),

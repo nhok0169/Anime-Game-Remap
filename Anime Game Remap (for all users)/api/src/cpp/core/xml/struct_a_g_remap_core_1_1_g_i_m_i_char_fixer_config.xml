@@ -1,0 +1,223 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharFixerConfig</compoundname>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="no">GIMICharFixer.h</includes>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" prot="public">AGRemapCore::GIMICharFixerConfig::TexEdit</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; AGRemapCore::GIMICharFixerConfig::drawnObjs</definition>
+        <argsstring></argsstring>
+        <name>drawnObjs</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::drawnObjs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The objects that actually draw, lowercase -- **the SOURCE&apos;s**, not the target&apos;s. **Must
+match the paired :cpp:member:`GIMICharParserConfig::drawnObjs` exactly** -- the parser is
+what decides these names exist at all :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where the target draws a different set, see \ref objSplits
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="32" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::vector&lt;std::string&gt; &gt; &gt; AGRemapCore::GIMICharFixerConfig::objSplits</definition>
+        <argsstring></argsstring>
+        <name>objSplits</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::objSplits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Which of the target&apos;s drawn objects each of the source&apos;s becomes -- **empty (the default)
+means one-to-one**, every object keeping its own name :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Two characters of the same &quot;shape&quot; need not draw the same objects. Jean draws
+``head``/``body``; JeanSea draws ``head``/``body``/``dress``, its cape being geometry Jean
+simply does not have. Remapping between them is not a rename, it is a **split** (one source
+graph emitted once per target object, each carrying that object&apos;s own hash and
+``match_first_index``) or a **merge** (several source graphs landing on one target object)
+
+.. code-block::
+
+   split                            merge
+   =====                            =====
+   Jean          JeanSea            JeanSea        Jean
+   head  ------&gt;  head               head   -----&gt;  head
+   body  --+---&gt;  body               body   --+--&gt;  body
+           +---&gt;  dress              dress  --+
+
+Written as ``{{&quot;head&quot;, {&quot;head&quot;}}, {&quot;body&quot;, {&quot;body&quot;, &quot;dress&quot;}}}`` and
+``{{&quot;head&quot;, {&quot;head&quot;}}, {&quot;body&quot;, {&quot;body&quot;}}, {&quot;dress&quot;, {&quot;body&quot;}}}`` respectively. A source
+object left out of the list is dropped from the remap entirely :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   **A merge produces MORE THAN ONE ``.ini`` file.** Two sources naming one target collide,
+   and :cpp:func:`GraphGroupRemap::remapGraphs` puts the loser in an additional
+   :cpp:class:`IniGraphGroup` for the same ``.ini`` file, which the fixer writes out as
+   ``&lt;name&gt;RemapFix1.ini``. That is deliberate and is how the pure-Python
+   ``GIMIObjMergeFixer`` worked: the game loads both and overlaps them. Set
+   :cpp:member:`GIMIFixer::copyPreamble` so the extra file says what it is
+
+.. warning::
+   **Order matters.** These are applied in sequence, and the FIRST target to claim a
+   ``(component, object)`` key keeps the main group. List the objects in the order the
+   target draws them
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="75" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; &gt; &gt; AGRemapCore::GIMICharFixerConfig::objNewRegVals</definition>
+        <argsstring></argsstring>
+        <name>objNewRegVals</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::objNewRegVals</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Registers forced onto one **target** object&apos;s parts, after the split :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Written as ``{{&quot;dress&quot;, {{&quot;ib&quot;, &quot;null&quot;}}}}`` -- which is exactly what Jean -&gt; JeanSea needs,
+the split&apos;s second copy having inherited an ``ib`` that is not its own :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+Existing values are replaced; a part with no such register does **not** grow one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="90" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref> &gt;</type>
+        <definition>std::vector&lt;TexEdit&gt; AGRemapCore::GIMICharFixerConfig::texEdits</definition>
+        <argsstring></argsstring>
+        <name>texEdits</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::texEdits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Textures this fix rewrites, repointing the register at the rewritten copy -- the direct
+equivalent of the pure-Python parser&apos;s ``texEdits`` plus the fixer&apos;s ``RegTexEdit``, which
+are one thing here :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: empty -- most characters need none
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="140" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="140" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool AGRemapCore::GIMICharFixerConfig::moveDrawIndexed</definition>
+        <argsstring></argsstring>
+        <name>moveDrawIndexed</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::moveDrawIndexed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether the fix takes the shared ``drawindexed`` off ``(&quot;&quot;, &quot;ib&quot;)`` and re-issues one per
+drawn object :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Per character, and not guessable from the ``.ini`` file&apos;s shape** -- Amber and Mona both
+ship a ``[TextureOverride&lt;Char&gt;IB]`` carrying ``handling = skip`` and ``drawindexed = auto``,
+yet Amber&apos;s fix moves the draw call and Mona&apos;s leaves it exactly where it is. Check what
+the pure-Python row for that character does (the ``Ib*`` entries in its
+``IniFixBuilderData`` row), or read a mod the old script has already fixed
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``false`` -- the commoner of the two
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="158" column="14" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::faceDiffuseReg</definition>
+        <argsstring></argsstring>
+        <name>faceDiffuseReg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::faceDiffuseReg</qualifiedname>
+        <initializer>= &quot;ps-t0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The register the face diffuse USED to hang off, and the first half of the swap the fix
+applies :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+GI 6.x swapped which register the shader reads the face diffuse and the face lightmap out
+of, so the fix swaps \ref faceDiffuseReg and \ref faceLightMapReg back -- see
+:cpp:func:`makeGIMICharFixer` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Read it off the mod&apos;s own ``.ini`` file** -- which ``ps-tN`` a character&apos;s face sits on is
+not derivable in general, though every character so far uses ``ps-t0``.
+**Default**: ``&quot;ps-t0&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="175" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::faceLightMapReg</definition>
+        <argsstring></argsstring>
+        <name>faceLightMapReg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::faceLightMapReg</qualifiedname>
+        <initializer>= &quot;ps-t1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The other half of that swap -- the register the face lightmap used to hang off, and the one
+the diffuse has to move to :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A mod that binds no lightmap at all is the common case and needs nothing extra: this half
+of the swap simply finds nothing to move. **Default**: ``&quot;ps-t1&quot;``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="187" column="21" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="187" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+What one character&apos;s fix does differently, for the **standard GIMI character shape** --
+everything :cpp:func:`makeGIMICharFixer` needs that is not the same for every character
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="21" bodyend="188"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>drawnObjs</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>faceDiffuseReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>faceLightMapReg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>moveDrawIndexed</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>objNewRegVals</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>objSplits</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig</scope><name>texEdits</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

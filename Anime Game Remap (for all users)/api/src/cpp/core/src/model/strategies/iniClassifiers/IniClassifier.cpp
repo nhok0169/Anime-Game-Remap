@@ -67,7 +67,7 @@ namespace AGRemapCore {
         acceptModTypeIds.clear();
     }
 
-    IniClassifyStats IniClassifier::classify(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId) {
+    IniClassifyStats IniClassifier::classify(const std::string& iniTxt, GameTypeIdFilter gameTypeIds) {
         // Matches ParseContext's own str -> lines convention (StringTools::splitlines), rather
         // than the old pure-Python IniClassifierOld's 'readlines'-style keepends=True splitting --
         // see the chat writeup for why this is flagged as a to-confirm assumption, not a settled
@@ -77,10 +77,10 @@ namespace AGRemapCore {
             lines.emplace_back(line);
         }
 
-        return classify(lines, gameTypeId);
+        return classify(lines, gameTypeIds);
     }
 
-    IniClassifyStats IniClassifier::classify(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) {
+    IniClassifyStats IniClassifier::classify(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds) {
         IniClassifyStats stats;
 
         // All three are transient, per-classification state (a running tally of ModTypeIds seen so
@@ -105,7 +105,7 @@ namespace AGRemapCore {
             StringTools::eraseAll(cleanedLine, IniKeywords::HideOriginalComment);
 
             std::string strippedLine(StringTools::strip(cleanedLine));
-            readLine(strippedLine, stats, gameTypeId);
+            readLine(strippedLine, stats, gameTypeIds);
         }
 
         // The most likely ModTypeId(s) are whichever have the highest count in
@@ -134,16 +134,16 @@ namespace AGRemapCore {
         return stats;
     }
 
-    bool IniClassifier::checkIsMod(const std::string& iniTxt, std::optional<GameTypeId> gameTypeId) {
+    bool IniClassifier::checkIsMod(const std::string& iniTxt, GameTypeIdFilter gameTypeIds) {
         std::vector<std::string> lines;
         for (std::string_view line : StringTools::splitlines(iniTxt)) {
             lines.emplace_back(line);
         }
 
-        return checkIsMod(lines, gameTypeId);
+        return checkIsMod(lines, gameTypeIds);
     }
 
-    bool IniClassifier::checkIsMod(const std::vector<std::string>& iniTxt, std::optional<GameTypeId> gameTypeId) {
+    bool IniClassifier::checkIsMod(const std::vector<std::string>& iniTxt, GameTypeIdFilter gameTypeIds) {
         IniClassifyStats stats;
 
         // Same transient-state reset as classify() -- see its own comment for why.
@@ -153,7 +153,7 @@ namespace AGRemapCore {
 
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));
-            readLine(strippedLine, stats, gameTypeId);
+            readLine(strippedLine, stats, gameTypeIds);
 
             if (stats.isMod) {
                 return true;
@@ -163,16 +163,16 @@ namespace AGRemapCore {
         return false;
     }
 
-    void IniClassifier::checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId) {
+    void IniClassifier::checkIsFixedMod(const std::string& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds) {
         std::vector<std::string> lines;
         for (std::string_view line : StringTools::splitlines(iniTxt)) {
             lines.emplace_back(line);
         }
 
-        checkIsFixedMod(lines, isFixed, isMod, gameTypeId);
+        checkIsFixedMod(lines, isFixed, isMod, gameTypeIds);
     }
 
-    void IniClassifier::checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, std::optional<GameTypeId> gameTypeId) {
+    void IniClassifier::checkIsFixedMod(const std::vector<std::string>& iniTxt, bool* isFixed, bool* isMod, GameTypeIdFilter gameTypeIds) {
         IniClassifyStats stats;
 
         // Same transient-state reset as classify()/checkIsMod() -- see classify()'s own comment for why.
@@ -182,7 +182,7 @@ namespace AGRemapCore {
 
         for (const std::string& line : iniTxt) {
             std::string strippedLine(StringTools::strip(line));
-            readLine(strippedLine, stats, gameTypeId);
+            readLine(strippedLine, stats, gameTypeIds);
 
             if (stats.isMod && stats.isFixed) {
                 break;
@@ -193,7 +193,7 @@ namespace AGRemapCore {
         *isMod = stats.isMod;
     }
 
-    void IniClassifier::readLine(const std::string& line, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId) {
+    void IniClassifier::readLine(const std::string& line, IniClassifyStats& stats, GameTypeIdFilter gameTypeIds) {
         static constexpr std::string_view hashPrefix = "hash";
         static constexpr std::string_view wwmiPrefix = "$\\WWMIv1";
 
@@ -203,7 +203,7 @@ namespace AGRemapCore {
         // it through to the real line underneath and read that normally, rather than letting it
         // fall through as an ordinary, ignored ".ini comment".
         if (line.starts_with(IniKeywords::HideOriginalComment)) {
-            readLine(line.substr(IniKeywords::HideOriginalComment.size()), stats, gameTypeId);
+            readLine(line.substr(IniKeywords::HideOriginalComment.size()), stats, gameTypeIds);
             return;
         }
 
@@ -254,7 +254,7 @@ namespace AGRemapCore {
             }
 
             if (validSectionName && i < line.size() && line[i] == ']') {
-                readSectionName(std::string_view(line).substr(1, i - 1), stats, gameTypeId);
+                readSectionName(std::string_view(line).substr(1, i - 1), stats, gameTypeIds);
                 return;
             }
         }
@@ -356,7 +356,7 @@ namespace AGRemapCore {
         }
     }
 
-    void IniClassifier::readSectionName(std::string_view sectionName, IniClassifyStats& stats, std::optional<GameTypeId> gameTypeId) {
+    void IniClassifier::readSectionName(std::string_view sectionName, IniClassifyStats& stats, GameTypeIdFilter gameTypeIds) {
         // Every comparison in this function is case-insensitive, matching the pure-Python original,
         // which lowercases each whole line before reading it. A .ini section is conventionally
         // written "[TextureOverrideRaidenBody]", but nothing requires that casing and real mods do
@@ -396,11 +396,31 @@ namespace AGRemapCore {
 
         std::optional<BaseAhoCorasickDFA<std::unordered_set<int>>::KeywordPredicate> pred = std::nullopt;
 
-        if (gameTypeId.has_value()) {
-            int gameTypeIdInt = static_cast<int>(*gameTypeId);
-            pred = [this, gameTypeIdInt](const std::string& keyword) -> bool {
+        if (gameTypeIds.has_value()) {
+            // Flattened to the ints keywordGameTypeIds is keyed by, and captured BY VALUE:
+            // 'gameTypeIds' is a parameter this function can be handed a temporary for, and a
+            // dangling reference inside a std::function is not a bug this DFA would make obvious.
+            std::unordered_set<int> wantedGameTypeIds;
+            for (GameTypeId wantedGameTypeId : *gameTypeIds) {
+                wantedGameTypeIds.insert(static_cast<int>(wantedGameTypeId));
+            }
+
+            pred = [this, wantedGameTypeIds = std::move(wantedGameTypeIds)](const std::string& keyword) -> bool {
                 auto keywordGameTypeIdsIt = keywordGameTypeIds.find(keyword);
-                return keywordGameTypeIdsIt != keywordGameTypeIds.end() && keywordGameTypeIdsIt->second.count(gameTypeIdInt) == 1;
+                if (keywordGameTypeIdsIt == keywordGameTypeIds.end()) {
+                    return false;
+                }
+
+                // Any overlap is a match: a keyword registered for more than one game passes as
+                // soon as ONE of the wanted games claims it. An empty filter set therefore matches
+                // nothing, which is what an empty set means everywhere else on this path too.
+                for (int keywordGameTypeId : keywordGameTypeIdsIt->second) {
+                    if (wantedGameTypeIds.count(keywordGameTypeId) == 1) {
+                        return true;
+                    }
+                }
+
+                return false;
             };
         }
 
@@ -426,11 +446,11 @@ namespace AGRemapCore {
             return;
         }
 
-        const std::unordered_set<int>& gameTypeIds = *matchedGameTypeIdsPtr;
+        const std::unordered_set<int>& matchedGameTypeIds = *matchedGameTypeIdsPtr;
         size_t i = 0;
-        size_t count = gameTypeIds.size();
+        size_t count = matchedGameTypeIds.size();
 
-        for (int matchedGameTypeId : gameTypeIds) {
+        for (int matchedGameTypeId : matchedGameTypeIds) {
             i++;
 
             stateDFA.transition("game:" + std::to_string(matchedGameTypeId), &newState, &isAccept, &taken);

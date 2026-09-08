@@ -109,12 +109,12 @@ bool contains(const std::vector<std::string>& names, const std::string& name) {
 // The state this class exists for, spelled out: a mod's .ini file that no mod type owns.
 class ModButNoTypeClassifier: public BaseIniClassifier {
     public:
-        IniClassifyStats classify(const std::vector<std::string>&, std::optional<GameTypeId>) override {
+        IniClassifyStats classify(const std::vector<std::string>&, GameTypeIdFilter) override {
             // No mod types at all, but isMod -- the second argument.
             return IniClassifyStats({}, true, true);
         }
 
-        void checkIsFixedMod(const std::vector<std::string>&, bool* isFixedOut, bool* isModOut, std::optional<GameTypeId>) override {
+        void checkIsFixedMod(const std::vector<std::string>&, bool* isFixedOut, bool* isModOut, GameTypeIdFilter) override {
             *isFixedOut = true;
             *isModOut = true;
         }

@@ -23,6 +23,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
@@ -171,6 +172,24 @@ namespace AGRemapCore {
 
                     this->graphGroupEdits.push_back(&objIndexEdits_);
                     this->graphGroupEdits.push_back(&objEdits_);
+
+                    // THE TEXTURE ADDS GO LAST, unlike the edits above, and the difference is not
+                    // cosmetic.
+                    //
+                    // A texture EDIT names the register its texture already hangs off, which is
+                    // the register BEFORE any shift -- so it has to collect before the shift moves
+                    // it. A texture ADD names the register it is filling, which only becomes free
+                    // AFTER the shift has vacated it.
+                    //
+                    // Run both before, and they collide: Ganyu's DarkDiffuse edit and her NormalMap
+                    // add both key on ps-t0, the second overwrote the first, and the shift then
+                    // duplicated the normal map into ps-t1 as well. The head rendered with a flat
+                    // yellow normal map in the diffuse slot and the edited diffuse referenced by
+                    // nothing at all -- with every log line reporting success, both textures
+                    // written, and the .ini file looking entirely reasonable.
+                    for (auto& collect : texAddCollects_) {
+                        this->graphGroupEdits.push_back(collect.get());
+                    }
 
                     // ALMOST NOTHING IS HIDDEN -- deliberately, and this is where this shape
                     // parts company with Raiden's.
@@ -343,6 +362,26 @@ namespace AGRemapCore {
 
                             texReplaces_.push_back(std::move(replace));
                             texCollects_.push_back(std::move(collect));
+                        }
+
+                        // The CREATED textures, same shape. TexCreatorCreate rather than the
+                        // plain TexCreate for the same reason the edit above uses
+                        // TexEditorReplace: the core class names things correctly and builds
+                        // no file, and is in fact abstract, since a created resource also has
+                        // to build the section naming it.
+                        for (const GIMICharFixerConfig::TexAdd& texAdd : config_.texAdds) {
+                            const GraphId srcGraph(group, "", texAdd.obj);
+                            const GraphId resGraph(group, "", texAdd.obj + "RemapTexAdd");
+
+                            auto create = std::make_unique<TexCreatorCreate<>>(
+                                resGraph, texAdd.name, texAdd.texCreator, makeCharResEditConfig());
+
+                            auto collect = std::make_unique<Collector>();
+                            collect->srcRegs = {{srcGraph, texAdd.reg}};
+                            collect->resEdits = {{texAdd.obj, create.get()}};
+
+                            texCreates_.push_back(std::move(create));
+                            texAddCollects_.push_back(std::move(collect));
                         }
                     }
                 }
@@ -952,6 +991,8 @@ namespace AGRemapCore {
                 std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> newRegValAdapters_;
 
                 std::vector<std::unique_ptr<TexEditorReplace<>>> texReplaces_;
+                std::vector<std::unique_ptr<TexCreatorCreate<>>> texCreates_;
+                std::vector<std::unique_ptr<Collector>> texAddCollects_;
                 std::vector<std::unique_ptr<Collector>> texCollects_;
 
                 std::unique_ptr<RegRemap<>> faceRegSwap_;

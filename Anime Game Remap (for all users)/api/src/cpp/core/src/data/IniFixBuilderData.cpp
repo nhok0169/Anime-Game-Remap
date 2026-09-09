@@ -270,6 +270,14 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
                   "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jeanSea6_1ToJeanCN()},
 
+                // ===== Ganyu @ toVersion 6.1 =====
+                //
+                // The pair: this one GAINS a normal map and the one below LOSES it. Read them
+                // together -- between them they are the worked example of remapping across the
+                // GI 3.x normal-map boundary in both directions.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ganyu),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::GanyuTwilight)}, IniFixBuilderFuncs::ganyu6_1()},
+
                 // ===== GanyuTwilight @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniFixBuilderFuncs::ganyuTwilight6_1()},

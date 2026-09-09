@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
 
@@ -206,6 +207,59 @@ namespace AGRemapCore {
          @endrst
          */
         std::vector<TexEdit> texEdits;
+
+        /**
+         * @brief One texture the fix CREATES, and the register it binds the new file to
+         */
+        struct TexAdd {
+            /**
+             * @brief The **target** object whose graph holds the register
+             */
+            std::string obj;
+
+            /**
+             * @brief The register the created texture is bound to, eg. ``"ps-t0"``
+             */
+            std::string reg;
+
+            /**
+             * @brief
+             @rst
+             The name the texture is filed under, eg. ``"NormalMap"`` --- it becomes the middle
+             of both the ``[Resource...]`` `section`_ name and the ``.dds`` file name
+             @endrst
+             */
+            std::string name;
+
+            /**
+             * @brief What produces the texture --- size and fill colour
+             */
+            TexCreator texCreator;
+        };
+
+        /**
+         * @brief
+         @rst
+         The textures this fix creates from scratch --- **empty by default**, which is the
+         common case :raw-html:`<br />` :raw-html:`<br />`
+
+         What it is for: remapping ACROSS the normal-map boundary in the direction that **gains**
+         one. GI 3.x gave characters a normal map on ``ps-t0``; a source that predates that has
+         nothing to put there, so the fix invents a flat one. Ganyu -> GanyuTwilight is the
+         worked example, and it is the exact mirror of GanyuTwilight -> Ganyu, which instead
+         **drops** ``ps-t0`` through \ref objRegRemovals :raw-html:`<br />` :raw-html:`<br />`
+
+         Pair it with \ref objRegRemaps. The shift has to duplicate the diffuse into the slot it
+         is moving to *and* leave it where it was, so this has something to overwrite:
+         ``{{"head", {{"ps-t0", {"ps-t0", "ps-t1"}}, {"ps-t1", {"ps-t2"}}}}}``
+
+         .. note::
+            Ordering is handled for you: the collectors run before the register edits, so a
+            texture is declared against the register it hangs off **before** the shift, not
+            after. See ``buildTexEdits``
+         @endrst
+         */
+        std::vector<TexAdd> texAdds;
 
         /**
          * @brief

@@ -859,6 +859,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **Ganyu onto GanyuTwilight** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The direction that **gains a normal map**, and the exact mirror of
+             :cpp:func:`ganyuTwilight6_1`: Ganyu predates GI 3.x's normal maps, GanyuTwilight
+             has one, so the head's registers shift **up** a slot and the fix invents the
+             texture that fills the hole. See ``data/IniFixData/Ganyu/GanyuFixer.cpp`` and
+             :cpp:member:`GIMICharFixerConfig::texAdds`
+             @endrst
+             */
+            static IniFixBuilder::Factory ganyu6_1();
+
+            /**
+             * @brief
+             @rst
              The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`<br />`
              :raw-html:`<br />`
 

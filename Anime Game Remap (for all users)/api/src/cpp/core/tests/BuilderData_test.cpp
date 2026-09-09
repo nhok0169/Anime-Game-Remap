@@ -93,7 +93,7 @@ void testTableShape() {
     // Counts taken straight from the pure-Python dicts, so a row silently dropped or duplicated
     // during the port shows up here.
     check(IniParseBuilderData::repo()->size() == 54, "the parse table has all 53 rows from IniParseBuilderData.py, plus Raiden's 6.1 row");
-    check(IniFixBuilderData::repo()->size() == 94,
+    check(IniFixBuilderData::repo()->size() == 95,
           "the fix table has 94 rows -- the 73 Python rows fanned out per target mod to 78, plus the sixteen real 6.1 "
           "rows (Raiden, Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN, Ningguang, NingguangOrchid, GanyuTwilight, and "
           "Jean/JeanCN/JeanSea with TWO each -- one per target mod, which is what replaced the "

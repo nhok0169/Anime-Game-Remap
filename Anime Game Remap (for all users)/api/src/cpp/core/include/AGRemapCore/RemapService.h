@@ -877,6 +877,16 @@ namespace AGRemapCore {
             //   comment in the .cpp for why there is no virtual fix() to call instead.
             bool _fixResource(IniResource& resource);
 
+            // Fixes one grouped resource. Separate from _fixResource because
+            //   IniGroupedResource is a separate root rather than an IniResource -- see its
+            //   own comment in the .cpp.
+            bool _fixGroupedResource(IniGroupedResource& resource);
+
+            // Credits (or, with an error, records as skipped) every member of a grouped resource
+            //   the CORE can see -- see its own comment in the .cpp for the gap that qualifier
+            //   names.
+            void _recordGroupMembers(IniGroupedResource& group, std::exception_ptr error);
+
             // The path a resource's fix actually writes to: an IniFixResource's fixedPath, or the
             //   srcPath of anything that works in place.
             static std::string _fixedPathOf(const IniResource& resource);

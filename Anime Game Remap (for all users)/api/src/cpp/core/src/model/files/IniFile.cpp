@@ -560,9 +560,20 @@ namespace AGRemapCore {
     }
 
 
+    const std::vector<std::shared_ptr<IniGroupedResource>>& IniFile::getGroupedResources() const {
+        return groupedResources_;
+    }
+
+
+    std::vector<std::shared_ptr<IniGroupedResource>>& IniFile::getGroupedResources() {
+        return groupedResources_;
+    }
+
+
     void IniFile::clearModels() {
         resources_.clear();
         fileDownloads_.clear();
+        groupedResources_.clear();
     }
 
 
@@ -583,26 +594,46 @@ namespace AGRemapCore {
             }
         };
 
-        auto addFrom = [&addFolder](const std::vector<std::unique_ptr<IniResource>>& resources) {
+        auto addResource = [&addFolder](const IniResource& resource) {
+            addFolder(resource.srcPath);
+
+            // Unlike the pure-Python original, a resource that has a *fixed* side reports that
+            // folder too -- the fix writes files there, so the remap's folder walk has to be
+            // able to reach it even when nothing else points at it.
+            const IniFixResource* fixResource = dynamic_cast<const IniFixResource*>(&resource);
+            if (fixResource != nullptr) {
+                addFolder(fixResource->fixedPath);
+            }
+        };
+
+        auto addFrom = [&addResource](const std::vector<std::unique_ptr<IniResource>>& resources) {
             for (const std::unique_ptr<IniResource>& resource : resources) {
-                if (resource == nullptr) {
-                    continue;
-                }
-
-                addFolder(resource->srcPath);
-
-                // Unlike the pure-Python original, a resource that has a *fixed* side reports that
-                // folder too -- the fix writes files there, so the remap's folder walk has to be
-                // able to reach it even when nothing else points at it.
-                const IniFixResource* fixResource = dynamic_cast<const IniFixResource*>(resource.get());
-                if (fixResource != nullptr) {
-                    addFolder(fixResource->fixedPath);
+                if (resource != nullptr) {
+                    addResource(*resource);
                 }
             }
         };
 
         addFrom(resources_);
         addFrom(fileDownloads_);
+
+        // A group's members are real resources with real paths, so they count the same way.
+        //
+        // Nothing is reachable through here TODAY: every group that exists is built from
+        // Python, and PyIniGroupedResource keeps its members in a py::dict that shadows this
+        // map -- so core sees an empty one. Written anyway because the alternative is a rule
+        // that holds only by accident of who happens to build the groups.
+        for (const std::shared_ptr<IniGroupedResource>& group : groupedResources_) {
+            if (group == nullptr) {
+                continue;
+            }
+
+            for (const auto& entry : group->resources) {
+                if (entry.second != nullptr) {
+                    addResource(*entry.second);
+                }
+            }
+        }
 
         return result;
     }

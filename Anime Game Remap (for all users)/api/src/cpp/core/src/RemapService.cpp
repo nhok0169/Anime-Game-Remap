@@ -845,7 +845,27 @@ namespace AGRemapCore {
         screen(ini.getFileDownloads());
         screen(ini.getResources());
 
-        if (toFix.empty()) {
+        // Screened on its own, and on a different question. A group is not an IniResource, so
+        // it cannot go through the loop above at all; and hasRequired() -- the readiness test
+        // there -- is inherited unchanged from RemapIniResourceMixin, where it returns false,
+        // so asking it would reject every group ever built. The flag a group actually carries
+        // for this is isBuilt, which ResGroupCollect sets immediately before handing it over.
+        std::vector<IniGroupedResource*> groupsToFix;
+        for (const std::shared_ptr<IniGroupedResource>& group : ini.getGroupedResources()) {
+            if (group == nullptr || !group->isBuilt) {
+                continue;
+            }
+
+            // Same rule as above: a group that is not part of the remap carries no fix this
+            // class knows how to run.
+            if (dynamic_cast<RemapIniResourceMixin*>(group.get()) == nullptr) {
+                continue;
+            }
+
+            groupsToFix.push_back(group.get());
+        }
+
+        if (toFix.empty() && groupsToFix.empty()) {
             return;
         }
 
@@ -873,6 +893,53 @@ namespace AGRemapCore {
             if (resourceStats != nullptr) {
                 resourceStats->addFixed(_fixedPathOf(*resource));
             }
+        }
+
+        for (IniGroupedResource* group : groupsToFix) {
+            try {
+                if (!_fixGroupedResource(*group)) {
+                    continue;
+                }
+            } catch (const std::exception& exception) {
+                _recordGroupMembers(*group, std::current_exception());
+
+                if (logger != nullptr) {
+                    logger->handleException(exception);
+                }
+
+                continue;
+            }
+
+            _recordGroupMembers(*group, nullptr);
+        }
+    }
+
+
+    void RemapService::_recordGroupMembers(IniGroupedResource& group, std::exception_ptr error) {
+        // Credited per MEMBER, because the stats buckets are keyed by a file and a group is not
+        // one -- it has a name, no source path, and no type.
+        //
+        // SAY THIS OUT LOUD, because it is a real gap and a silently uncounted fix is exactly
+        // the failure this file's own AmberCN note is about: a group built from Python keeps
+        // its members in a py::dict that shadows IniGroupedResource::resources, so core sees
+        // none of them and such a group is fixed without being counted anywhere. Every group
+        // that exists today is one of those. Counting it as a file it is not would be worse.
+        for (auto& entry : group.resources) {
+            if (entry.second == nullptr) {
+                continue;
+            }
+
+            FileStats* resourceStats = stats.get(entry.second->type);
+            if (resourceStats == nullptr) {
+                continue;
+            }
+
+            if (error != nullptr) {
+                resourceStats->addSkipped(entry.second->srcPath, error, path_);
+                continue;
+            }
+
+            resourceStats->addFixed(_fixedPathOf(*entry.second));
         }
     }
 
@@ -907,20 +974,26 @@ namespace AGRemapCore {
             return texEdit->fix();
         }
 
-        if (IniGroupedResource* grouped = dynamic_cast<IniGroupedResource*>(&resource)) {
-            // A group fixes its own members, so they never reach this function on their own -- the
-            // override has to be pushed down to them here or a texture inside a group would quietly
-            // keep compressing while every texture outside one stopped.
-            for (auto& entry : grouped->resources) {
-                if (entry.second != nullptr) {
-                    _applyCompressTextures(*entry.second);
-                }
-            }
+        // There used to be a `dynamic_cast<IniGroupedResource*>(&resource)` branch here. It was
+        // unreachable from the day it was written: that is a cross-cast from IniResource&, and
+        // IniGroupedResource is a separate root that nothing derives from alongside IniResource,
+        // so it could only ever be nullptr. Its body lives in _fixGroupedResource now, which is
+        // reached from a list that actually holds groups.
+        return false;
+    }
 
-            return grouped->fix();
+
+    bool RemapService::_fixGroupedResource(IniGroupedResource& resource) {
+        // A group fixes its own members, so they never reach _fixResource on their own -- the
+        // compress override has to be pushed down to them here or a texture inside a group would
+        // quietly keep compressing while every texture outside one stopped.
+        for (auto& entry : resource.resources) {
+            if (entry.second != nullptr) {
+                _applyCompressTextures(*entry.second);
+            }
         }
 
-        return false;
+        return resource.fix();
     }
 
 

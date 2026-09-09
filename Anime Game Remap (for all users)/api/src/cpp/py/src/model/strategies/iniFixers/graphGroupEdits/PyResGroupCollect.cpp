@@ -75,6 +75,35 @@ void PyGroupedResBuilder::store(AGRC::IniGroupedResource &resource) {
         return;
     }
 
+    // The third context case, and the only one of the four that could not be fixed by simply
+    // delegating: `ini.resources` is an attribute of the pure-Python IniFile deleted on
+    // 2026-09-03, and the core class had nowhere at all to put a group -- getResources() is a
+    // vector<unique_ptr<IniResource>> and IniGroupedResource is a separate root. It now has
+    // getGroupedResources() for exactly this.
+    //
+    // SHARED, not moved, and this is the one place in this file where that distinction is
+    // load-bearing. A group's fixFunc is handed the group ITSELF, and every group that exists
+    // is built here with a Python fixFunc -- so disowning the wrapper the way the flat
+    // resources are disowned (see PyIniResEditContext::storeResourceObj) leaves the callback
+    // holding a dead identity. Measured, because the failure is invisible: RemapService caught
+    // the resulting "Python instance was disowned", had no logger to print it to and no
+    // core-visible members to record it against, and the run finished reporting nothing at all.
+    //
+    // smart_holder hands out a shared_ptr that shares with the Python object rather than
+    // taking from it, which is exactly the ownership this needs.
+    if (ctx_.coreCtx != nullptr) {
+        AGRC::IniFile *iniFile = ctx_.coreCtx->getIniFile();
+        if (iniFile == nullptr) {
+            return;
+        }
+
+        // Cast to PyIniGroupedResource, not to AGRC::IniGroupedResource: only the former is a
+        // registered pybind11 type. Same rule as build() above, and the shared_ptr upcast
+        // afterwards is a plain C++ one.
+        iniFile->getGroupedResources().push_back(it->second.cast<std::shared_ptr<PyIniGroupedResource>>());
+        return;
+    }
+
     ini_.attr("resources").attr("append")(it->second);
 }
 

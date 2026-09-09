@@ -1727,9 +1727,10 @@ writes a correctly remapped 414 KB `Blend.buf` and a `.ini` file that points at 
 are pinned by `test_StrategyOverrides.py`
 (`test_pythonResourceEdit_buildsAgainstTheCoreIniFile` and `..._writesARemappedBlend`).
 
-Getting there took **four** separate fixes, and the shape of them is the lesson, not the list.
-Each one was found only by driving the path; each left the run green; and the first three all
-let the RENAMING half of the edit succeed, so the `.ini` file came out looking fixed:
+Getting there took **four** separate fixes in this seam (and a fifth in the grouped one below),
+and the shape of them is the lesson, not the list. Each one was found only by driving the path;
+each left the run green; and the last three all let the RENAMING half of the edit succeed, so the
+`.ini` file came out looking fixed:
 
 1. `sectionIfTemplates()` and `z3Ctx()` read `ini.sectionIfTemplates` / `ini._z3Ctx`, attributes
    of the pure-Python `IniFile` deleted on 2026-09-03. Fixed with the same `coreCtx` delegation
@@ -1750,7 +1751,7 @@ let the RENAMING half of the edit succeed, so the `.ini` file came out looking f
    `fromVersion`. One more attribute of the same deleted class.
 
 Two things worth carrying to the next seam. **A rename succeeding is not evidence a build
-succeeded** --- three of these four produced a perfectly plausible `.ini` file and no resource, and
+succeeded** --- three of those four produced a perfectly plausible `.ini` file and no resource, and
 the only assertion that separates them is one on `ini.getResources()` or on the file on disk.
 And **`grep` for `ini.attr("` before declaring a seam converted**: it lists every pure-Python
 `IniFile` attribute a binding still reaches for, which is exactly the set of remaining landmines
@@ -1758,13 +1759,35 @@ And **`grep` for `ini.attr("` before declaring a seam converted**: it lists ever
 `version`, `sectionIfTemplates`, `_z3Ctx`, `resources`, `filePath`, `disIni` and `_isFixed` do
 not).
 
-`ResGroupCollect` got fix (3) as well, but one adjacent defect is **left in place on purpose**:
-`PyGroupedResBuilder::store`
-(`PyResGroupCollect.cpp`) still does `ini_.attr("resources").append(...)`, so a `ResGroupCollect`
-driven from Python against a core `.ini` file will hit defect (2) all over again. It was left
-alone deliberately --- the fix there cannot simply disown, because `addResource` keeps using the
-same Python object afterwards --- and `test_ResGroupCollect.py` is one of the eight suites that
-cannot set up, so nothing would catch it either way.
+**`ResGroupCollect`'s own half was a fifth defect, and it needed more than a delegation.**
+`PyGroupedResBuilder::store` did `ini_.attr("resources").append(...)` --- defect (2) again ---
+but the core `IniFile` had nowhere at all to put a group: `getResources()` is a
+`vector<unique_ptr<IniResource>>` and `IniGroupedResource` is deliberately **not** an
+`IniResource` ("a separate root that merely holds them", per its own doc comment). So
+`IniFile::getGroupedResources()` is new, `RemapService::fixResources` screens and fixes it, and
+`PyGroupedResBuilder::store` hands the group over. Two things fell out of building it:
+
+* **`RemapService::_fixResource`'s `dynamic_cast<IniGroupedResource*>` branch was dead code.**
+  It is a cross-cast from `IniResource&`, and nothing derives from both roots, so it could only
+  ever be `nullptr`. Its body is now `_fixGroupedResource`, reached from a list that really
+  holds groups. The whole grouped path was unreachable in core besides: nothing in
+  `data/IniFixData/` uses `ResGroupCollect`, and the only `GroupedResBuilder` is the pybind11
+  one.
+* **`getGroupedResources()` holds `shared_ptr`, not `unique_ptr`, and that is load-bearing.** A
+  group's `fixFunc` is handed **the group itself**, and every group that exists is built from
+  Python with a Python `fixFunc`. Disowning it into the `.ini` file the way a flat resource is
+  disowned keeps the C++ object alive and kills its Python identity, so the callback raised
+  `ValueError: Python instance was disowned` on the first attribute it touched --- caught by
+  `fixResources`, printed nowhere (no logger), recorded against nothing, and the run finished
+  reporting success. `smart_holder` will hand out a `shared_ptr` that *shares* with the Python
+  object instead of taking from it, which is the ownership this actually needs.
+
+One gap is left, deliberately and with a test pinning it
+(`test_pythonGroupedResource_isFixedByTheService`): **a Python-built group's fix is not
+counted.** `PyIniGroupedResource` keeps its members in a `py::dict` that shadows
+`IniGroupedResource::resources`, so `_recordGroupMembers` looks at an empty map and credits
+nothing --- while the file really was written. Closing it means giving core a way to see those
+members; crediting the group as though it were a file would be worse than the gap.
 
 ### `StrategyOverrides`: replacing a parser or fixer without rebuilding
 

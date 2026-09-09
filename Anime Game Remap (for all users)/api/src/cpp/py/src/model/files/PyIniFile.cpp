@@ -14,6 +14,7 @@
 #include "AGRemapCore/constants/DownloadMode.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/iniresources/IniResource.h"
+#include "../iniresources/PyIniGroupedResource.h"
 #include "../PyVersion.h"
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/iftemplate/IfTemplate.h"
@@ -581,6 +582,40 @@ Returns
 -------
 List[:class:`IniResource`]
     The resources
+        )doc"))
+
+        .def("getGroupedResources", [](AGRC::IniFile &self) {
+            // Element by element rather than through borrowAll, and dynamic_cast rather than a
+            // plain pointer: AGRC::IniGroupedResource is NOT a registered pybind11 type (the
+            // name 'IniGroupedResource' belongs to PyIniGroupedResource), so handing one over
+            // as itself would fail at runtime with an unregistered-type error.
+            //
+            // A group that is not a PyIniGroupedResource is therefore skipped. Nothing builds
+            // one today -- the only GroupedResBuilder there is is the pybind11 one -- but if a
+            // C++ caller ever does, this listing will be short rather than wrong.
+            py::list result;
+            for (const std::shared_ptr<AGRC::IniGroupedResource> &group : self.getGroupedResources()) {
+                auto *pyGroup = dynamic_cast<PyIniGroupedResource*>(group.get());
+                if (pyGroup != nullptr) {
+                    result.append(py::cast(pyGroup, py::return_value_policy::reference));
+                }
+            }
+
+            return result;
+        }, py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves every grouped resource the .ini file references
+
+.. note::
+    A group built by a plain C++ caller is **not** listed -- only the Python-facing
+    :class:`IniGroupedResource` can cross this boundary. Nothing builds one today
+
+.. danger::
+    Same ownership caveat as :meth:`getResources`
+
+Returns
+-------
+List[:class:`IniGroupedResource`]
+    The grouped resources
         )doc"))
 
         .def("getFileDownloads", [](AGRC::IniFile &self) {

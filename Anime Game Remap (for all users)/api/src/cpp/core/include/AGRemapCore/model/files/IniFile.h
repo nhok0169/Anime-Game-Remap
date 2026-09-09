@@ -1012,7 +1012,40 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Empties every resource model this ``.ini`` file has built -- #getResources and
+             Every **grouped** resource model this ``.ini`` file has built
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Its own list rather than part of #getResources, because
+             :cpp:class:`IniGroupedResource` is deliberately not an :cpp:class:`IniResource`
+             -- it is a separate root that merely *holds* them, so it cannot go in a
+             ``vector`` of them. The pure-`Python`_ original had no such problem: its
+             ``ini.resources`` was an untyped list and a group went straight in
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Filled by :cpp:class:`ResGroupCollect` through its ``GroupedResBuilder::store``,
+             and consumed by :cpp:func:`RemapService::fixResources`
+             :raw-html:`<br />` :raw-html:`<br />`
+             ``shared_ptr``, unlike #getResources' ``unique_ptr``, and that is not a style
+             choice. A group's ``fixFunc`` is handed **the group itself**, and every group that
+             exists is built from `Python`_ with a `Python`_ ``fixFunc`` -- so moving ownership
+             out of `Python`_ leaves a disowned wrapper that raises on the first attribute the
+             callback touches. Sharing it keeps both alive
+             :raw-html:`<br />` :raw-html:`<br />`
+             #clearModels empties this the same way it empties the other two
+             @endrst
+             */
+            const std::vector<std::shared_ptr<IniGroupedResource>>& getGroupedResources() const;
+
+            /**
+             * @copydoc getGroupedResources() const
+             */
+            std::vector<std::shared_ptr<IniGroupedResource>>& getGroupedResources();
+
+            /**
+             * @brief
+             @rst
+             Empties every resource model this ``.ini`` file has built -- #getResources,
+             #getGroupedResources and
              #getFileDownloads -- without touching the text read in from disk :raw-html:`<br />`
              :raw-html:`<br />`
 
@@ -1136,6 +1169,7 @@ namespace AGRemapCore {
         private:
             std::vector<std::unique_ptr<IniResource>> resources_;
             std::vector<std::unique_ptr<IniResource>> fileDownloads_;
+            std::vector<std::shared_ptr<IniGroupedResource>> groupedResources_;
 
             bool isClassified_ = false;
 

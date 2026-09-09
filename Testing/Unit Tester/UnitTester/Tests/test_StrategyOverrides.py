@@ -32,6 +32,10 @@ _RAIDEN_INI = ("; RaidenShogun\n"
 _BLEND_OBJ = ("", "blend")
 _RES_OBJ = (0, "", "blendRemapBlend")
 
+# ResGroupCollect's own resource type, and the name its builder gives the finished group.
+_GROUP_OBJ = (0, "", "remapBlend")
+_GROUP_NAME = "testResGroup"
+
 # Relative to the Unit Tester's own working directory, the way its Paths.py does it.
 _RAIDEN_BLEND = os.path.abspath(os.path.join("..", "..", "Data", "Mod Downloads", "GI",
                                              "Raiden", "4_0", "RaidenShogunBlend.buf"))
@@ -696,3 +700,124 @@ class StrategyOverridesTest(BaseUnitTest):
 
             self.assertIn("[ResourceRaidenShogunRaidenBossRemapBlend]", written)
             self.assertIn("vb1 = ResourceRaidenShogunRaidenBossRemapBlend", written)
+
+    # -------------------------------------------------------------------------------------
+    # the grouped-resource seam
+    # -------------------------------------------------------------------------------------
+    def _groupedCollect(self, fixCalls):
+        # Config trimmed from test_ResGroupCollect.py's own. The builder is duck-typed because the
+        # live API has no IniGroupedResBuilder any more -- PyGroupedResBuilder simply calls whatever
+        # object it was handed with .build(isBuilt = False).
+        def groupFix(group):
+            fixCalls.append(group.name)
+            for resource in group.resources.values():
+                resource.fix()
+            return True
+
+        class Builder:
+            def build(self, isBuilt = False):
+                return FRB.RemapIniGroupedResource(_GROUP_NAME, fixFunc = groupFix, isBuilt = isBuilt)
+
+        return FRB.ResGroupCollect(
+            ["OG"],
+            {_GROUP_OBJ: {(0, "", "blend"): "vb1"}},
+            {_GROUP_OBJ: {"OG": FRB.RemapBlendReplace(_GROUP_OBJ, resType = "blend")}},
+            {"OG": Builder()},
+            id = 0)
+
+    def test_pythonGroupedResource_reachesTheCoreIniFile(self):
+        # ResGroupCollect's own half of the seam. Its builder stored the finished group with
+        # ini.resources.append(...), an attribute the core IniFile does not have, so the group was
+        # lost with an AttributeError nothing printed -- after the .ini file had already been
+        # rewritten to reference the resources inside it.
+        FRB.CppGlobalModTypes.registerAll()
+        modType = _modType(_RAIDEN)
+        fixCalls = []
+
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "RaidenShogun.ini")
+            with open(path, "w", encoding = "utf-8") as handle:
+                handle.write(_RAIDEN_INI)
+
+            ini = FRB.IniFile(path)
+            ini.classify()
+
+            parser = FRB.GIMIParser(ini, modObjs = [_BLEND_OBJ],
+                                    objTargetFuncs = [self._blendClassifier()])
+            groups = parser.parse()
+
+            self._groupedCollect(fixCalls).editFromIni(groups, ini, modType, _RAIDEN_TARGET)
+
+            stored = list(ini.getGroupedResources())
+            self.assertEqual(len(stored), 1)
+
+            group = stored[0]
+            self.assertEqual(group.name, _GROUP_NAME)
+            self.assertTrue(group.isBuilt)
+
+            # The members are the group's, not the .ini file's: a grouped collect captures them
+            # instead of letting them through, which is the whole difference from ResRegCollect.
+            self.assertEqual(list(ini.getResources()), [])
+            self.assertEqual(len(group.resources), 1)
+
+            # The group is still a LIVE Python object, and this is the assertion that matters. The
+            # first attempt handed ownership to the .ini file the way a flat resource does; the
+            # group survived that, and every attribute access on it then raised "Python instance was
+            # disowned" -- inside its own fixFunc, where nothing could see it. Ownership is shared
+            # here for exactly this reason.
+            self.assertIsInstance(group.hasRequired(), bool)
+            self.assertIn(_GROUP_OBJ, group.resources)
+
+    def test_pythonGroupedResource_isFixedByTheService(self):
+        # And the .ini file it is stored on has to actually fix it. Storing a group nothing ever
+        # runs would be the same silent nothing one step later.
+        if (not os.path.isfile(_RAIDEN_BLEND)):
+            self.skipTest("the Raiden download asset is not in this checkout")
+
+        FRB.CppGlobalModTypes.registerAll()
+        classify = self._blendClassifier()
+        fixCalls = []
+
+        def makeParser(iniFile, modTypeId):
+            return FRB.GIMIParser(iniFile, modObjs = [_BLEND_OBJ], objTargetFuncs = [classify],
+                                  modTypeId = modTypeId)
+
+        def makeFixer(parser, toModName, modTypeId):
+            return FRB.GIMIFixer(parser, graphGroupEdits = [self._groupedCollect(fixCalls)],
+                                 modsToFix = [toModName])
+
+        FRB.CppStrategyOverrides.setParser(_RAIDEN, makeParser)
+        FRB.CppStrategyOverrides.setFixer(_RAIDEN, _RAIDEN_TARGET, makeFixer)
+
+        with tempfile.TemporaryDirectory() as folder:
+            with open(os.path.join(folder, "RaidenShogun.ini"), "w", encoding = "utf-8") as handle:
+                handle.write(_RAIDEN_INI)
+
+            srcPath = os.path.join(folder, "RaidenShogunBlend.buf")
+            shutil.copyfile(_RAIDEN_BLEND, srcPath)
+
+            service = FRB.RemapService(path = folder, keepBackups = False)
+            service.fix()
+
+            # The group's own fixFunc ran, called from C++ with the group as its argument.
+            self.assertEqual(fixCalls, [_GROUP_NAME])
+
+            # Globbed rather than named: a grouped resource's file name carries a hash of the query
+            # that selected it, which is not this test's business to predict.
+            written = [name for name in sorted(os.listdir(folder))
+                       if (name.endswith(".buf") and name != "RaidenShogunBlend.buf")]
+            self.assertEqual(len(written), 1)
+
+            with open(srcPath, "rb") as handle:
+                srcBytes = handle.read()
+            with open(os.path.join(folder, written[0]), "rb") as handle:
+                fixedBytes = handle.read()
+
+            self.assertEqual(len(fixedBytes), len(srcBytes))
+            self.assertNotEqual(fixedBytes, srcBytes)
+
+            # NOT counted, and pinned so the gap cannot be mistaken for an accident. A group built
+            # from Python keeps its members in a dict that shadows the C++ one, so the stats layer
+            # sees a group with no members and credits nothing -- while the file above really was
+            # written. Fixing that means giving core a way to see those members.
+            self.assertEqual(list(service.stats.blend.fixed), [])

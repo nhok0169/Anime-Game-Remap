@@ -1,5 +1,7 @@
 #include "AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h"
 
+#include "AGRemapCore/constants/StrategyOverrides.h"
+
 #include <utility>
 
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
@@ -73,6 +75,16 @@ namespace AGRemapCore {
     std::shared_ptr<BaseIniParser<>> IniParseBuilder::build(IniFile* iniFile, const std::string& modName,
                                                            const std::optional<Version>& version,
                                                            std::optional<int> modTypeId) const {
+        // A runtime override wins over everything below, including a fixed factory -- it exists so a
+        // parser can be prototyped without rebuilding the core. empty() first so an ordinary run
+        // pays one container test rather than a hash lookup per .ini file.
+        if (!StrategyOverrides::empty()) {
+            std::optional<Factory> overridden = StrategyOverrides::findParser(modName, version);
+            if (overridden.has_value() && *overridden) {
+                return (*overridden)(iniFile, modTypeId);
+            }
+        }
+
         if (builderArgs_ == nullptr) {
             // The equivalent of the original's "_buildCls is not None" path, where modName/version
             // are documented as having no effect.

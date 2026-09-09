@@ -77,6 +77,7 @@ pybind11_add_module(core
     src/constants/PyModTypeId.cpp
     src/constants/PyGlobalModTypes.cpp
     src/constants/PyGIBuilder.cpp
+    src/constants/PyStrategyOverrides.cpp
     src/tools/parsing/PyToken.cpp
     src/tools/parsing/PyParseContext.cpp
     src/tools/parsing/PyBaseTokenizer.cpp

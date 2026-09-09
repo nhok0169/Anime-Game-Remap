@@ -30,6 +30,7 @@
 #include "constants/PyModTypeId.h"
 #include "constants/PyGlobalModTypes.h"
 #include "constants/PyGIBuilder.h"
+#include "constants/PyStrategyOverrides.h"
 #include "model/strategies/PyModTypeIdData.h"
 #include "model/strategies/PyModType.h"
 #include "model/strategies/iniClassifiers/PyIniClassifyStats.h"
@@ -194,6 +195,7 @@ PYBIND11_MODULE(core, m) {
 
     initCppModType(m);
     initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
+    initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppIniClassifyStats(m);
     initCppBaseIniClassifier(m);

@@ -1,5 +1,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
 
+#include "AGRemapCore/constants/StrategyOverrides.h"
+
 #include "AGRemapCore/model/iftemplate/IfTemplateRender.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
@@ -97,6 +99,15 @@ namespace AGRemapCore {
                                                         const std::optional<Version>& fromVersion,
                                                         const std::optional<Version>& toVersion,
                                                         std::optional<int> modTypeId) const {
+        // See IniParseBuilder::build -- a runtime override takes precedence over the table.
+        if (!StrategyOverrides::empty()) {
+            std::optional<Factory> overridden = StrategyOverrides::findFixer(fromModName, toModName,
+                                                                             fromVersion);
+            if (overridden.has_value() && *overridden) {
+                return (*overridden)(parser, toModName, modTypeId);
+            }
+        }
+
         if (builderArgs_ == nullptr) {
             // The equivalent of the original's "_buildCls is not None" path, where the key
             // arguments are documented as having no effect.
@@ -136,7 +147,15 @@ namespace AGRemapCore {
         std::vector<std::pair<std::vector<std::string>, Factory>> matches =
             builderArgs_->getAll({fromModName, std::nullopt}, {fromVersion, toVersion});
 
-        result.reserve(matches.size());
+        // Targets the built-in table has no row for at all, so a brand-new remap can be
+        // prototyped and not just an existing one replaced. Collected before the loop so an
+        // overridden target is built exactly once, by the override, whichever side named it.
+        std::vector<std::string> overriddenTargets;
+        if (!StrategyOverrides::empty()) {
+            overriddenTargets = StrategyOverrides::fixerTargets(fromModName);
+        }
+
+        result.reserve(matches.size() + overriddenTargets.size());
         for (std::pair<std::vector<std::string>, Factory>& match : matches) {
             // getAll hands back the full non-version key, so the target name is the second value.
             const std::string& toModName = match.first[1];
@@ -145,9 +164,38 @@ namespace AGRemapCore {
                 continue;
             }
 
-            std::shared_ptr<BaseIniFixer<>> fixer = match.second ? match.second(parser, toModName, modTypeId)
-                                                               : defaultFactory()(parser, toModName, modTypeId);
+            // An override for this target replaces the table's factory; the target itself still
+            // comes from the table, so it is not added twice.
+            std::optional<Factory> overridden;
+            if (!overriddenTargets.empty()) {
+                overridden = StrategyOverrides::findFixer(fromModName, toModName, fromVersion);
+                for (auto it = overriddenTargets.begin(); it != overriddenTargets.end(); ++it) {
+                    if (*it == toModName) {
+                        overriddenTargets.erase(it);
+                        break;
+                    }
+                }
+            }
+
+            const Factory& chosen = (overridden.has_value() && *overridden) ? *overridden : match.second;
+            std::shared_ptr<BaseIniFixer<>> fixer = chosen ? chosen(parser, toModName, modTypeId)
+                                                          : defaultFactory()(parser, toModName, modTypeId);
             result.emplace_back(toModName, std::move(fixer));
+        }
+
+        // Whatever is left named only an override.
+        for (const std::string& toModName : overriddenTargets) {
+            if (filteredToModNames.has_value() && filteredToModNames->count(toModName) == 0) {
+                continue;
+            }
+
+            std::optional<Factory> overridden = StrategyOverrides::findFixer(fromModName, toModName,
+                                                                             fromVersion);
+            if (!overridden.has_value() || !*overridden) {
+                continue;
+            }
+
+            result.emplace_back(toModName, (*overridden)(parser, toModName, modTypeId));
         }
 
         return result;

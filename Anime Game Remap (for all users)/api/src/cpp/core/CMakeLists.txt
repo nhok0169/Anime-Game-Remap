@@ -25,6 +25,7 @@ add_library(AGRemapCore STATIC
     src/constants/IfPredPartType.cpp
     src/constants/GIBuilder.cpp
     src/constants/GlobalIniRemoveBuilders.cpp
+    src/constants/StrategyOverrides.cpp
     src/data/HashData.cpp
     src/data/IndexData.cpp
     src/data/HashToModObjData.cpp

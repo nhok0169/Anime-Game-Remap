@@ -19,16 +19,14 @@ namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
 
-namespace {
-
-    /**
-     * Wraps a Python callable as a core Factory.
-     *
-     * The callable is captured by value: a builder outlives the expression that made it (ModType
-     * holds one in a shared_ptr), so borrowing would dangle.
-     */
-    AGRC::IniFixBuilder::Factory factoryFromPy(py::object factory) {
-        return [factory = std::move(factory)](AGRC::BaseIniParser<>* parser,
+/**
+ * Wraps a Python callable as a core Factory.
+ *
+ * The callable is captured by value: a builder outlives the expression that made it (ModType holds
+ * one in a shared_ptr), so borrowing would dangle.
+ */
+AGRC::IniFixBuilder::Factory fixFactoryFromPy(py::object factory) {
+    return [factory = std::move(factory)](AGRC::BaseIniParser<>* parser,
                                               const std::string& toModName,
                                               std::optional<int> modTypeId) -> std::shared_ptr<AGRC::BaseIniFixer<>> {
             // build()/buildAll() are plain C++ calls the core may make from anywhere, so the GIL
@@ -43,8 +41,6 @@ namespace {
             // loses a Python subclass's identity.
             return holdPyStrategy<PyBaseIniFixer, AGRC::BaseIniFixer<>>(std::move(result));
         };
-    }
-
 }
 
 
@@ -91,7 +87,7 @@ factory: Optional[Callable[[:class:`CppBaseIniParser`, :class:`str`], Optional[:
                      return std::make_unique<AGRC::IniFixBuilder>();
                  }
 
-                 return std::make_unique<AGRC::IniFixBuilder>(factoryFromPy(std::move(factory)));
+                 return std::make_unique<AGRC::IniFixBuilder>(fixFactoryFromPy(std::move(factory)));
              }),
              py::arg("factory") = py::none())
 

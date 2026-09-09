@@ -1617,10 +1617,9 @@ moment you touch a parser, fixer, remover or resource edit. Read this before des
 there.
 
 A ported strategy (`GIMIParser`, `GIMIFixer`, `RemapIniRemover`, `ResEdit`) needs a `.ini` file ---
-its text, its `sections`_, where it lives on disk. But `AGRemapCore` must stay Python-free, and the
-*live* `.ini` file is still the pure-Python `IniFile`. So no strategy takes an
-`AGRemapCore::IniFile*`. Each family instead defines a pure-virtual **context interface**, and the
-strategy is written against that:
+its text, its `sections`_, where it lives on disk. But `AGRemapCore` must stay Python-free, so no
+strategy takes an `AGRemapCore::IniFile*`. Each family instead defines a pure-virtual **context
+interface**, and the strategy is written against that:
 
 | Family | Seam interface | Core implementation | pybind11 implementation |
 | --- | --- | --- | --- |
@@ -1634,6 +1633,11 @@ The `Py*` one forwards through genuine Python attribute lookup on the caller's `
 `IniFile*` one is a thin adapter over `AGRemapCore::IniFile*`. If you add a method to a seam, you
 have written half the change until both sides implement it, and the compiler only tells you about
 the C++ half.
+
+**And there is a third piece the compiler is silent about too:** a `Py*` context handed a *core*
+`.ini` must forward that method to the core implementation rather than reach for a Python attribute
+--- see "The THIRD case" below. Miss it and the method fails only at runtime, only for a strategy
+built from Python, and only once somebody tries.
 
 Three rules that keep falling out of this:
 
@@ -1651,6 +1655,92 @@ Three rules that keep falling out of this:
   `IniResEditContext::takeCollectedResources` returns raw `IniResource*` while promising the models
   stay alive, so both implementations keep a separate keep-alive store (`captureKeepAlive_` / a
   `py::list`) that `take` never touches.
+
+### The THIRD case: a Python-constructed strategy running against a **core** `.ini`
+
+The table above reads as two mutually exclusive worlds --- C++ strategy over a core `IniFile`,
+Python strategy over a Python `IniFile`. **There is a third combination, and it was broken for five
+days without anyone noticing:** a strategy *constructed from Python* that a **core** run drives.
+
+That used to be impossible, which is why the `Py*` contexts were written to read their `.ini`
+through Python attribute lookup --- `ini.attr("_z3Ctx")`, `ini.attr("folder")`,
+`ini.attr("sectionIfTemplates")`, `ini.attr("filePath")`, `ini.attr("fileTxt")`. Those attributes
+belong to the pure-Python `IniFile` (`model/files/IniFile.py`), **deleted 2026-09-03**. After that
+deletion the only `.ini` object a run has to hand a strategy is the bound core `IniFile`, which has
+none of them:
+
+```
+AttributeError: 'FixRaidenBoss2.core.IniFile' object has no attribute '_z3Ctx'
+```
+
+Nothing constructed a strategy from Python any more, so nothing hit it --- until
+`StrategyOverrides` (see below) made that path normal again. The symptom is nasty: `parse()` dies
+before `getSectionTargets()`, the per-`.ini` guard in `RemapService::_fix` catches it, and with no
+logger attached **nothing is printed at all**.
+
+**The fix, and the rule for any new seam method:** a `Py*` context detects a core `.ini` once, in
+its constructor, and delegates to the core implementation instead of asking Python for attributes.
+
+```cpp
+if (!this->ini.is_none() && py::isinstance<AGRC::IniFile>(this->ini)) {
+    coreCtx = std::make_unique<AGRC::IniFileParseContext>(this->ini.cast<AGRC::IniFile*>(), modTypeId);
+}
+```
+
+`py::isinstance` rather than a try/cast, so a Python object that merely quacks like one still takes
+the Python path. Every accessor then opens with `if (coreCtx != nullptr) return coreCtx->...;`.
+**So a seam method is now three implementations, not two** --- and the third is a one-line forward
+you must not forget, because omitting it fails only at runtime, only for a Python-built strategy,
+and only once someone tries.
+
+Two deliberate non-delegations, both worth copying:
+
+- **`graphGroups()`** keeps the `Py*` context's own storage. It is where the parse result
+  accumulates and where `groupsList()`/`commandGraphs()` read it back; delegating it leaves the
+  Python side reading an empty container.
+- **`writeFixedFile`** stays on `builtins.open`, because the test harness patches exactly that ---
+  the "a `Py*` context must forward, not reimplement" rule above still applies to *file* access
+  regardless of which `.ini` it holds.
+
+Two further things had to be true before a Python strategy could actually drive a run, and both are
+easy to reintroduce:
+
+- **`PyGIMIParser::collectParseResult()` returned `{}`.** `IniFile::parse()` returns
+  `parser->parse()`, which ends in `collectParseResult()`, so a Python parser did all its work and
+  handed the core pipeline an empty vector. It now mirrors the core collector, **deepcopying** each
+  graph --- which is also what sidesteps `IniGraphGroup` being move-only.
+- **A Python subclass's override is not dispatched by default.** There are no `PYBIND11_OVERRIDE`
+  trampolines on the strategies, and `parse()` cannot have one: it returns move-only
+  `std::vector<IniGraphGroup>`, which pybind's `stl.h` caster cannot rebuild from a list. The
+  override is looked up by its **Python** name and its `[IniGraphGroup]` converted back by hand. A
+  re-entrancy flag stops an override calling `super().parse()` from finding itself, cleared by a
+  destructor so a Python exception cannot leave the parser unable to dispatch.
+
+`getFix` is deliberately **not** dispatched on the fixer side: it is virtual and returns a copyable
+`FixTargets`, but its Python-facing form returns a dict of rendered fix text that does not map back
+onto `FixTargets` without inventing semantics. Customise a fix from Python through
+`graphGroupEdits`, which is how the C++ fixers configure themselves.
+
+### `StrategyOverrides`: replacing a parser or fixer without rebuilding
+
+`AGRemapCore::StrategyOverrides` (`constants/StrategyOverrides.h`, bound as
+`CppStrategyOverrides`) is a process-wide table both builders consult **before** their compiled-in
+row. It exists because every strategy ships inside `AGRemapCore`, so trying an idea costs a rebuild.
+
+```python
+FRB.CppStrategyOverrides.setParser("Raiden", makeParser, version = "6.1")
+FRB.RemapService(path = ..., keepBackups = False).fix()
+FRB.CppStrategyOverrides.clear()
+```
+
+Two things about it that were got wrong first and are worth not repeating:
+
+- **Version matching mirrors `ModDictAssets`** --- a request carrying a version takes the highest
+  override at or below it, one carrying none means "the newest". Exact matching seems more
+  predictable and is useless: a run normally passes **no** version, so an override registered for
+  `6.1` fired zero times on an ordinary run.
+- **`empty()` is checked before any lookup**, so an ordinary run pays one container test per
+  `.ini` rather than a hash lookup. It is not synchronised; register and clear *around* a run.
 
 ### `XxxContext` vs `XxxingContext`: two different things wearing near-identical names
 

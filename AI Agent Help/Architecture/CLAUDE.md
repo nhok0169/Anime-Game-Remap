@@ -1758,7 +1758,8 @@ And **`grep` for `ini.attr("` before declaring a seam converted**: it lists ever
 `version`, `sectionIfTemplates`, `_z3Ctx`, `resources`, `filePath`, `disIni` and `_isFixed` do
 not).
 
-One adjacent thing is fixed but **not** proven: `PyGroupedResBuilder::store`
+`ResGroupCollect` got fix (3) as well, but one adjacent defect is **left in place on purpose**:
+`PyGroupedResBuilder::store`
 (`PyResGroupCollect.cpp`) still does `ini_.attr("resources").append(...)`, so a `ResGroupCollect`
 driven from Python against a core `.ini` file will hit defect (2) all over again. It was left
 alone deliberately --- the fix there cannot simply disown, because `addResource` keeps using the

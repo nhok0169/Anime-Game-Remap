@@ -746,7 +746,7 @@ namespace AGRemapCore {
 
              AmberCN remapped onto Amber. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with AmberCN's own choices in
-             ``data/IniFixData/AmberCNFixer.cpp``
+             ``data/IniFixData/AmberCN/AmberCNFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory amberCN6_1();
@@ -759,7 +759,7 @@ namespace AGRemapCore {
 
              Mona remapped onto MonaCN. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with Mona's own choices in
-             ``data/IniFixData/MonaFixer.cpp``
+             ``data/IniFixData/Mona/MonaFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory mona6_1();
@@ -772,7 +772,7 @@ namespace AGRemapCore {
 
              The ordinary CN-skin remap. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with Jean's own choices in
-             ``data/IniFixData/JeanFixer.cpp`` :raw-html:`<br />` :raw-html:`<br />`
+             ``data/IniFixData/Jean/JeanFixer.cpp`` :raw-html:`<br />` :raw-html:`<br />`
 
              Jean is the first character with **two** fixers rather than one, because her two
              targets are different shapes -- see :cpp:class:`JeanFixer`
@@ -788,7 +788,7 @@ namespace AGRemapCore {
 
              The same shape plus a **split**: JeanSea draws a ``dress`` Jean has no geometry for, so
              Jean's ``body`` graph is emitted once as each. See
-             :cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/JeanFixer.cpp``
+             :cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/Jean/JeanFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory jean6_1ToJeanSea();
@@ -797,7 +797,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
-             :cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCNFixer.cpp``
+             :cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory jeanCN6_1ToJean();
@@ -806,7 +806,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split as
-             :cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCNFixer.cpp``
+             :cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory jeanCN6_1ToJeanSea();
@@ -828,7 +828,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge as
-             :cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSeaFixer.cpp``
+             :cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSea/JeanSeaFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory jeanSea6_1ToJeanCN();
@@ -841,7 +841,7 @@ namespace AGRemapCore {
 
              The standard GIMI character shape -- see :cpp:func:`makeGIMICharFixer` -- plus a
              ``ps-t3`` strip the target does not read and the ``DarkDiffuse`` head edit. Ningguang's
-             own choices are in ``data/IniFixData/NingguangFixer.cpp``
+             own choices are in ``data/IniFixData/Ningguang/NingguangFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory ningguang6_1();
@@ -850,7 +850,7 @@ namespace AGRemapCore {
              * @brief
              @rst
              The 6.1 fix remapping **NingguangOrchid onto Ningguang** -- **not** a stub. The plain
-             shape, with none of Ningguang's extras; see ``data/IniFixData/NingguangOrchidFixer.cpp``
+             shape, with none of Ningguang's extras; see ``data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp``
              for why the asymmetry is real
              @endrst
              */
@@ -864,7 +864,7 @@ namespace AGRemapCore {
 
              The direction that **loses a normal map**: GanyuTwilight is a post-GI-3.x model with one
              on ``ps-t0``, Ganyu predates it, so the head's registers shift down a slot. See
-             ``data/IniFixData/GanyuTwilightFixer.cpp`` and
+             ``data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp`` and
              :cpp:member:`GIMICharFixerConfig::objRegRemaps`
              @endrst
              */
@@ -878,7 +878,7 @@ namespace AGRemapCore {
 
              MonaCN remapped onto Mona. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with MonaCN's own choices in
-             ``data/IniFixData/MonaCNFixer.cpp``
+             ``data/IniFixData/MonaCN/MonaCNFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory monaCN6_1();
@@ -891,7 +891,7 @@ namespace AGRemapCore {
 
              Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with Rosaria's own choices in
-             ``data/IniFixData/RosariaFixer.cpp``
+             ``data/IniFixData/Rosaria/RosariaFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory rosaria6_1();
@@ -904,7 +904,7 @@ namespace AGRemapCore {
 
              RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
              :cpp:func:`makeGIMICharFixer` -- with RosariaCN's own choices in
-             ``data/IniFixData/RosariaCNFixer.cpp``
+             ``data/IniFixData/RosariaCN/RosariaCNFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory rosariaCN6_1();

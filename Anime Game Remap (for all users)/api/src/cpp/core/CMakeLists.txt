@@ -34,37 +34,37 @@ add_library(AGRemapCore STATIC
     src/data/IniParseBuilderData.cpp
     src/data/IniFixBuilderData.cpp
     src/data/IniRemoveBuilderData.cpp
-    src/data/IniParseData/RaidenParser.cpp
-    src/data/IniParseData/AmberParser.cpp
-    src/data/IniFixData/AmberCNFixer.cpp
+    src/data/IniParseData/Raiden/RaidenParser.cpp
+    src/data/IniParseData/Amber/AmberParser.cpp
+    src/data/IniFixData/AmberCN/AmberCNFixer.cpp
     src/data/IniFixData/GIMICharFixer.cpp
-    src/data/IniFixData/MonaCNFixer.cpp
-    src/data/IniFixData/MonaFixer.cpp
-    src/data/IniFixData/RosariaCNFixer.cpp
-    src/data/IniFixData/RosariaFixer.cpp
-    src/data/IniParseData/AmberCNParser.cpp
+    src/data/IniFixData/MonaCN/MonaCNFixer.cpp
+    src/data/IniFixData/Mona/MonaFixer.cpp
+    src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp
+    src/data/IniFixData/Rosaria/RosariaFixer.cpp
+    src/data/IniParseData/AmberCN/AmberCNParser.cpp
     src/data/IniParseData/GIMICharParser.cpp
-    src/data/IniParseData/MonaCNParser.cpp
-    src/data/IniParseData/MonaParser.cpp
-    src/data/IniParseData/RosariaCNParser.cpp
-    src/data/IniParseData/RosariaParser.cpp
-    src/data/IniFixData/JeanFixer.cpp
-    src/data/IniFixData/JeanCNFixer.cpp
+    src/data/IniParseData/MonaCN/MonaCNParser.cpp
+    src/data/IniParseData/Mona/MonaParser.cpp
+    src/data/IniParseData/RosariaCN/RosariaCNParser.cpp
+    src/data/IniParseData/Rosaria/RosariaParser.cpp
+    src/data/IniFixData/Jean/JeanFixer.cpp
+    src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
-    src/data/IniFixData/JeanSeaFixer.cpp
-    src/data/IniFixData/GanyuTwilightFixer.cpp
-    src/data/IniParseData/GanyuParser.cpp
-    src/data/IniParseData/GanyuTwilightParser.cpp
-    src/data/IniFixData/NingguangFixer.cpp
-    src/data/IniFixData/NingguangOrchidFixer.cpp
-    src/data/IniParseData/NingguangParser.cpp
-    src/data/IniParseData/NingguangOrchidParser.cpp
+    src/data/IniFixData/JeanSea/JeanSeaFixer.cpp
+    src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp
+    src/data/IniParseData/Ganyu/GanyuParser.cpp
+    src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp
+    src/data/IniFixData/Ningguang/NingguangFixer.cpp
+    src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp
+    src/data/IniParseData/Ningguang/NingguangParser.cpp
+    src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp
     src/data/IniFixData/JeanShading.cpp
-    src/data/IniParseData/JeanSeaParser.cpp
-    src/data/IniParseData/JeanParser.cpp
-    src/data/IniParseData/JeanCNParser.cpp
-    src/data/IniFixData/RaidenFixer.cpp
-    src/data/IniFixData/AmberFixer.cpp
+    src/data/IniParseData/JeanSea/JeanSeaParser.cpp
+    src/data/IniParseData/Jean/JeanParser.cpp
+    src/data/IniParseData/JeanCN/JeanCNParser.cpp
+    src/data/IniFixData/Raiden/RaidenFixer.cpp
+    src/data/IniFixData/Amber/AmberFixer.cpp
     src/constants/GlobalIniClassifiers.cpp
     src/constants/GlobalModTypes.cpp
     src/model/Version.cpp
@@ -239,9 +239,9 @@ set(AGREMAP_UNITY_EXCLUDE
     "src/data/IniParseBuilderData.cpp"
     "src/data/IniRemoveBuilderData.cpp"
     "src/data/IniFixData/GIMICharFixer.cpp"
-    "src/data/IniFixData/RaidenFixer.cpp"
+    "src/data/IniFixData/Raiden/RaidenFixer.cpp"
     "src/data/IniParseData/GIMICharParser.cpp"
-    "src/data/IniParseData/RaidenParser.cpp"
+    "src/data/IniParseData/Raiden/RaidenParser.cpp"
     "src/model/assets/Hashes.cpp"
     "src/model/assets/Indices.cpp"
     "src/model/assets/VGRemaps.cpp"

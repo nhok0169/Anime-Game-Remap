@@ -49,6 +49,12 @@ class _MarkedFixer(FRB.BaseIniFixer):
         self.marker = marker
 
 
+class _Boom(Exception):
+    # A type the test owns, so an assertion on it cannot pass against some generic error the
+    # machinery happened to raise on its own.
+    pass
+
+
 def _modType(name):
     FRB.CppGlobalModTypes.registerAll()
     return next(modType for modType in FRB.CppGlobalModTypes.all() if modType.name == name)
@@ -109,6 +115,12 @@ class StrategyOverridesTest(BaseUnitTest):
 
     def _buildParser(self, version=None):
         return _modType(_RAIDEN).iniParseBuilder.build(self._iniFile(), _RAIDEN, version)
+
+    def _boomParserFactory(self):
+        def factory(iniFile, modTypeId):
+            raise _Boom("deliberate failure")
+
+        return factory
 
     def _markerOf(self, built):
         return getattr(built, "marker", None)
@@ -460,3 +472,73 @@ class StrategyOverridesTest(BaseUnitTest):
         built = amber.iniParseBuilder.build(self._iniFile(), "Amber")
 
         self.assertIsNone(self._markerOf(built))
+
+    # -------------------------------------------------------------------------------------
+    # stats
+    # -------------------------------------------------------------------------------------
+    def _runService(self, folder):
+        # A whole run rather than IniFile.fix, because stats only exists on the service and the
+        # per-.ini guard that fills in ``skipped`` only runs there.
+        FRB.CppGlobalModTypes.registerAll()
+        path = os.path.join(folder, "RaidenShogun.ini")
+        with open(path, "w", encoding="utf-8") as handle:
+            handle.write(_RAIDEN_INI)
+
+        service = FRB.RemapService(path = folder, keepBackups = False)
+        service.fix()
+        return (service, path)
+
+    def test_stats_cleanRun_countsTheFixedIni(self):
+        # The baseline the failing runs below are read against. Asserting on the file's CONTENT as
+        # well as the count is the point: "counted as fixed" and "actually rewritten" are separate
+        # claims here, and this repo has shipped the first without the second before.
+        with tempfile.TemporaryDirectory() as folder:
+            service, path = self._runService(folder)
+            stats = service.stats
+
+            self.assertEqual(sorted(stats.ini.fixed), [path])
+            self.assertEqual(dict(stats.ini.skipped), {})
+
+            with open(path, "r", encoding = "utf-8") as handle:
+                written = handle.read()
+
+            self.assertIn("[TextureOverrideRaidenShogunRaidenBossRemapBlend]", written)
+
+    def test_stats_parserThatRaises_recordsTheSkippedIni(self):
+        # No logger is attached, so nothing is printed anywhere -- stats is the ONLY way an
+        # embedding caller learns the file failed. That is the case the property exists for.
+        FRB.CppStrategyOverrides.setParser(_RAIDEN, self._boomParserFactory())
+
+        with tempfile.TemporaryDirectory() as folder:
+            service, path = self._runService(folder)
+            stats = service.stats
+
+            self.assertEqual(list(stats.ini.fixed), [])
+            self.assertEqual(sorted(stats.ini.skipped), [path])
+
+    def test_stats_skippedKeepsTheOriginalPythonException(self):
+        # Not a stringified stand-in: the guard holds an ``exception_ptr``, and rethrowing it gives
+        # back a ``py::error_already_set`` still carrying the object Python raised. A caller can
+        # therefore catch on its own exception type rather than parsing a message.
+        FRB.CppStrategyOverrides.setParser(_RAIDEN, self._boomParserFactory())
+
+        with tempfile.TemporaryDirectory() as folder:
+            service, path = self._runService(folder)
+            error = service.stats.ini.skipped[path]
+
+            self.assertIsInstance(error, _Boom)
+            self.assertEqual(str(error), "deliberate failure")
+
+    def test_stats_isASnapshotRatherThanAView(self):
+        # PyRemapStats is a standalone class, not a binding of AGRemapCore::RemapStats, so every
+        # access converts afresh. Pinned because the two obvious reader mistakes -- holding one
+        # object across a second fix, and editing it expecting the service to notice -- both look
+        # reasonable and both silently do nothing.
+        with tempfile.TemporaryDirectory() as folder:
+            service, path = self._runService(folder)
+
+            self.assertIsNot(service.stats, service.stats)
+
+            taken = service.stats
+            taken.ini.fixed.clear()
+            self.assertEqual(sorted(service.stats.ini.fixed), [path])

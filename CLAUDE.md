@@ -189,11 +189,11 @@ line-ending churn in your diff) and it eats the doubled backslash in this codeba
 file with CRLF or doc comments; if you do use `sed -i`, normalise the file back to CRLF afterwards
 and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree);
 (3) the dev Python and the VS install root have both MOVED since much of this documentation was
-written, and that pair has now flipped **three** times -- as of 2026-09-07 `py -0p` lists **3.13**
-as default (so `py -3` is 3.13, `core.cp313-win_amd64.pyd`, and `cbuild/CMakeCache.txt` reads
-`v3.13.1`) and `vcvarsall.bat` lives under
-`Program Files (x86)\Microsoft Visual Studio\18\BuildTools`, with no `Program Files` VS 18 existing
-at all -- the exact reverse of what this line said one day earlier. **Read the version off
+written, and that pair has now flipped **four** times -- as of 2026-09-09 `py -0p` lists **3.9.3**
+(so `py -3` is 3.9 and the built module is `core.cp39-win_amd64.pyd`) and `vcvarsall.bat` lives
+under `Program Files\Microsoft Visual Studio\18\Community`, with no
+`Program Files (x86)\...\18\BuildTools` existing at all -- the exact reverse of what this line said
+two days earlier, which was itself the reverse of the day before. **Read the version off
 `cbuild/CMakeCache.txt` and locate `vcvarsall.bat` with a `find` rather than trusting any number or
 path written down anywhere, this line included** -- see **Building**'s prerequisites;
 (4) a `.bat` launched from the Bash tool as `cmd //c C:\Users\...\build.bat` has its backslashes

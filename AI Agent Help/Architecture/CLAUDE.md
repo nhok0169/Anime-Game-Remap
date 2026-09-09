@@ -1721,6 +1721,19 @@ easy to reintroduce:
 onto `FixTargets` without inventing semantics. Customise a fix from Python through
 `graphGroupEdits`, which is how the C++ fixers configure themselves.
 
+**One seam has NOT been converted: `PyIniResEditContext`** (`graphGroupEdits/resEdits/
+PyResEdit.cpp`). It has no `coreCtx` member at all; its `sectionIfTemplates()` reads
+`ini.sectionIfTemplates` and its `z3Ctx()` reads `ini._z3Ctx`, and **neither attribute exists on the
+core `IniFile`** (`hasattr` is `False` for both). So a Python-configured resource edit that reaches
+either accessor will raise.
+
+State this precisely, because it has not been demonstrated either way: a smoke test with a Python
+`GIMIFixer` carrying a `ResRegCollect`/`RemapBlendReplace` neither threw nor produced a remapped
+resource, so whether that path is reachable from Python at all is **unestablished, not proven
+broken**. It matters because `setFixer`'s own documentation points prototypers at
+`graphGroupEdits`, which is the route that would reach it. Convert it the same way the other two
+were, or establish that it cannot be reached, before telling anyone to prototype a resource edit.
+
 ### `StrategyOverrides`: replacing a parser or fixer without rebuilding
 
 `AGRemapCore::StrategyOverrides` (`constants/StrategyOverrides.h`, bound as
@@ -1732,6 +1745,14 @@ FRB.CppStrategyOverrides.setParser("Raiden", makeParser, version = "6.1")
 FRB.RemapService(path = ..., keepBackups = False).fix()
 FRB.CppStrategyOverrides.clear()
 ```
+
+**It shipped green and did not work.** Every suite passed, six characters A/B'd byte-identical,
+and a Python-registered strategy was a silent no-op through three separate defects (a cast to a type
+pybind never registered, a delegate built only in a constructor the real path bypasses, and a null
+`IniFile*` that left every fixer rendering against no file). None of that evidence touched the
+feature: **the suites never register an override, and the A/B compares runs where none is
+registered.** If you add a mechanism the existing gates do not exercise, the gates staying green is
+not evidence about it -- see `test_StrategyOverrides.py`, which exists because of this.
 
 Two things about it that were got wrong first and are worth not repeating:
 

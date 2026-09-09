@@ -12,6 +12,8 @@
 
 #include "PyBaseIniFixer.h"
 #include "graphGroupEdits/PyIniGraphGroups.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/GIMIFixer.h"
 #include "AGRemapCore/model/strategies/iniFixers/IniFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/RemapIniFixContext.h"
@@ -72,6 +74,16 @@ class PyIniFixContext: public AGRC::RemapIniFixContext<std::string, std::string>
          * @brief The Python ``IniFile``, or ``None``
          */
         py::object ini;
+
+        /**
+         * @brief
+         @rst
+         Set when :cpp:member:`ini` is a bound :cpp:class:`AGRemapCore::IniFile`, in which case the
+         accessors delegate to it rather than reading attributes off a pure-Python ``IniFile`` that
+         no longer exists -- see :cpp:member:`PyIniParseContext::coreCtx`
+         @endrst
+         */
+        std::unique_ptr<AGRC::IniFileFixContext> coreCtx;
 
         /**
          * @brief

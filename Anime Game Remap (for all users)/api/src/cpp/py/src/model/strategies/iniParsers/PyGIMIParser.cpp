@@ -123,7 +123,15 @@ PyGIMIParserCore::ObjTargetFunc makeObjTargetFunc(PyGIMIParser *parser, py::obje
 // ---------------------------------------------------------------------------------------
 
 PyIniParseContext::PyIniParseContext(py::object ini, std::optional<int> modTypeId):
-    ini(std::move(ini)), modTypeId(modTypeId), groups(makeInitialGroups()) {}
+    ini(std::move(ini)), modTypeId(modTypeId), groups(makeInitialGroups()) {
+    // A bound core IniFile answers everything below itself; only a Python .ini needs the attribute
+    // lookups. py::isinstance rather than a try/cast so a Python object that merely quacks like one
+    // still takes the Python path.
+    if (!this->ini.is_none() && py::isinstance<AGRC::IniFile>(this->ini)) {
+        coreCtx = std::make_unique<AGRC::IniFileParseContext>(this->ini.cast<AGRC::IniFile*>(),
+                                                              modTypeId);
+    }
+}
 
 
 bool PyIniParseContext::hasIni() const {
@@ -132,6 +140,10 @@ bool PyIniParseContext::hasIni() const {
 
 
 std::string PyIniParseContext::iniFolder() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->iniFolder();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -141,6 +153,10 @@ std::string PyIniParseContext::iniFolder() const {
 
 
 std::optional<AGRC::Version> PyIniParseContext::version() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->version();
+    }
+
     if (!hasIni()) {
         return std::nullopt;
     }
@@ -150,6 +166,10 @@ std::optional<AGRC::Version> PyIniParseContext::version() const {
 
 
 AGRC::DownloadMode PyIniParseContext::downloadMode() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->downloadMode();
+    }
+
     if (!hasIni()) {
         return AGRC::DownloadMode::Normal;
     }
@@ -159,6 +179,10 @@ AGRC::DownloadMode PyIniParseContext::downloadMode() const {
 
 
 AGRC::Z3Context* PyIniParseContext::z3Ctx() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->z3Ctx();
+    }
+
     if (!hasIni()) {
         return nullptr;
     }
@@ -174,6 +198,10 @@ AGRC::Z3Context* PyIniParseContext::z3Ctx() const {
 
 std::unordered_map<std::string, PyIniParseContext::Section*> PyIniParseContext::sectionIfTemplates() const {
     std::unordered_map<std::string, Section*> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->sectionIfTemplates();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -188,6 +216,10 @@ std::unordered_map<std::string, PyIniParseContext::Section*> PyIniParseContext::
 
 std::vector<std::string> PyIniParseContext::sectionNames() const {
     std::vector<std::string> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->sectionNames();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -203,6 +235,10 @@ std::vector<std::string> PyIniParseContext::sectionNames() const {
 
 
 PyIniParseContext::Section* PyIniParseContext::getSection(const std::string &name) const {
+    if (coreCtx != nullptr) {
+        return coreCtx->getSection(name);
+    }
+
     if (!hasIni()) {
         return nullptr;
     }
@@ -218,6 +254,10 @@ PyIniParseContext::Section* PyIniParseContext::getSection(const std::string &nam
 
 
 PyIniParseContext::Section* PyIniParseContext::addSection(const std::string &name, std::unique_ptr<Section> section) {
+    if (coreCtx != nullptr) {
+        return coreCtx->addSection(name, std::move(section));
+    }
+
     // Handing the unique_ptr to Python transfers ownership into a real IfTemplate wrapper, which
     // then lives in ini.sectionIfTemplates like every other section.
     return addSectionObj(name, py::cast(std::move(section)));
@@ -235,6 +275,11 @@ PyIniParseContext::Section* PyIniParseContext::addSectionObj(const std::string &
 
 
 void PyIniParseContext::removeSection(const std::string &name) {
+    if (coreCtx != nullptr) {
+        coreCtx->removeSection(name);
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -244,6 +289,11 @@ void PyIniParseContext::removeSection(const std::string &name) {
 
 
 void PyIniParseContext::addFileDownload(std::unique_ptr<AGRC::IniResource> download) {
+    if (coreCtx != nullptr) {
+        coreCtx->addFileDownload(std::move(download));
+        return;
+    }
+
     addFileDownloadObj(py::cast(std::move(download)));
 }
 
@@ -269,11 +319,20 @@ py::object PyIniParseContext::modType() const {
 
 
 bool PyIniParseContext::hasModType() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->hasModType();
+    }
+
     return !modType().is_none();
 }
 
 
 void PyIniParseContext::log(const std::string &message) {
+    if (coreCtx != nullptr) {
+        coreCtx->log(message);
+        return;
+    }
+
     // Through the .ini file's own 'print', matching PyIniFixContext::log exactly -- a Python IniFile
     // decides for itself where a line goes, and the test harness patches that method.
     if (hasIni()) {
@@ -283,6 +342,10 @@ void PyIniParseContext::log(const std::string &message) {
 
 
 std::string PyIniParseContext::modTypeName() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->modTypeName();
+    }
+
     py::object type = modType();
     if (type.is_none()) {
         return "";
@@ -293,6 +356,10 @@ std::string PyIniParseContext::modTypeName() const {
 
 
 PyIniParseContext::Assets* PyIniParseContext::modTypeHashes() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->modTypeHashes();
+    }
+
     py::object type = modType();
     if (type.is_none()) {
         return nullptr;
@@ -308,6 +375,10 @@ PyIniParseContext::Assets* PyIniParseContext::modTypeHashes() const {
 
 
 PyIniParseContext::Assets* PyIniParseContext::modTypeIndices() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->modTypeIndices();
+    }
+
     py::object type = modType();
     if (type.is_none()) {
         return nullptr;
@@ -512,14 +583,119 @@ void PyGIMIParser::editCommands() {
 
 
 std::vector<PyGIMIParser::Core::GraphGroup> PyGIMIParser::parse() {
+    // A Python subclass overriding 'parse' is dispatched here -- the core calls this method, and
+    // without the lookup the override would simply never run. Looked up by the PYTHON name, since
+    // the move-only return type rules out a plain PYBIND11_OVERRIDE on this signature.
+    if (!inPythonParse) {
+        py::gil_scoped_acquire gil;
+
+        py::function override = py::get_override(this, "parse");
+        if (override) {
+            inPythonParse = true;
+
+            // Cleared however the call leaves -- an exception out of Python must not leave the
+            // parser permanently unable to dispatch.
+            struct Guard {
+                bool* flag;
+                ~Guard() { *flag = false; }
+            } guard{&inPythonParse};
+
+            return groupsFromPy(override());
+        }
+    }
+
     refresh();
     return Core::parse();
 }
 
 
+std::vector<PyGIMIParser::Core::GraphGroup> PyGIMIParser::groupsFromPy(py::object result) const {
+    std::vector<Core::GraphGroup> groups;
+    if (result.is_none()) {
+        return groups;
+    }
+
+    for (py::handle item : result.cast<py::sequence>()) {
+        auto* pyGroup = py::reinterpret_borrow<py::object>(item).cast<PyIniGraphGroup*>();
+        if (pyGroup == nullptr) {
+            continue;
+        }
+
+        Core::GraphGroup group;
+        for (auto entry : pyGroup->graphs) {
+            py::object graphObj = py::reinterpret_borrow<py::object>(entry.second);
+            if (graphObj.is_none()) {
+                continue;
+            }
+
+            auto* graph = graphObj.cast<Core::Graph*>();
+            if (graph == nullptr) {
+                continue;
+            }
+
+            group.addGraph(PyIniGraphGroups::modObjFromPy(entry.first), graph->deepcopy());
+        }
+
+        groups.push_back(std::move(group));
+    }
+
+    return groups;
+}
+
+
 std::vector<PyGIMIParser::Core::GraphGroup> PyGIMIParser::collectParseResult() const {
-    // See this method's own declaration for why -- parseToPy() is what actually collects here.
-    return {};
+    // The C++ half of collectToPy. IniFile::parse() returns parser->parse(), which ends here, so a
+    // parser built from Python fed the core pipeline an EMPTY vector until this was implemented --
+    // it did all its work and handed back nothing. Nothing constructed a parser from Python while
+    // the pure-Python IniFile existed, which is why it went unnoticed.
+    //
+    // deepcopy per graph, exactly as AGRemapCore::GIMIParser::collectParseResult does: the group is
+    // the caller's to edit, and IniGraphGroup is move-only, so copying is what keeps this parser's
+    // own graphs usable afterwards.
+    std::vector<Core::GraphGroup> result;
+    Core::GraphGroup group;
+
+    for (auto item : ctxImpl.commandGraphs().cast<py::dict>()) {
+        py::object graphObj = py::reinterpret_borrow<py::object>(item.second);
+        if (graphObj.is_none()) {
+            continue;
+        }
+
+        auto* graph = graphObj.cast<Core::Graph*>();
+        if (graph == nullptr) {
+            continue;
+        }
+
+        group.addGraph(PyIniGraphGroups::modObjFromPy(item.first), graph->deepcopy());
+    }
+
+    for (const auto& modObjEntry : downloadResourceGraphs()) {
+        auto objDownloads = downloads.find(modObjEntry.first);
+        if (objDownloads == downloads.end()) {
+            continue;
+        }
+
+        for (const auto& regEntry : modObjEntry.second) {
+            auto foundDownload = objDownloads->second.find(regEntry.first);
+            if (foundDownload == objDownloads->second.end() || foundDownload->second == nullptr
+                    || regEntry.second == nullptr) {
+                continue;
+            }
+
+            // Keyed by the download's own name, not the register's -- one resource can be reached
+            // from several registers and belongs in the group once. Same rule as collectToPy.
+            Core::GraphGroup::ModObj modObj{std::string(AGRC::IniGraphModObjKeywords::Download),
+                                             foundDownload->second->name()};
+            if (group.getGraph(modObj) != nullptr) {
+                continue;
+            }
+
+            group.addGraph(modObj, regEntry.second->deepcopy());
+        }
+    }
+
+    result.push_back(std::move(group));
+    return result;
 }
 
 

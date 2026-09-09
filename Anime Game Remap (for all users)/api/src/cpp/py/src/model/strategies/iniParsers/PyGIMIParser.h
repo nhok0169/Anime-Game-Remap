@@ -12,6 +12,8 @@
 #include "PyBaseIniParser.h"
 #include "../iniFixers/graphGroupEdits/PyIniGraphGroups.h"
 #include "AGRemapCore/model/strategies/iniParsers/GIMIParser.h"
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseContext.h"
 #include "AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h"
 
@@ -54,6 +56,22 @@ class PyIniParseContext: public AGRC::IniParseContext<std::string, std::string> 
          * @brief The Python ``IniFile``, or ``None``
          */
         py::object ini;
+
+        /**
+         * @brief
+         @rst
+         Set when :cpp:member:`ini` is a bound :cpp:class:`AGRemapCore::IniFile`, in which case every
+         accessor below delegates to it :raw-html:`<br />` :raw-html:`<br />`
+
+         The Python accessors read ``ini._z3Ctx``, ``ini.folder``, ``ini.sectionIfTemplates`` and
+         four more off the *pure-Python* ``IniFile`` -- a class deleted on 2026-09-03. A run has only
+         the core ``IniFile`` to hand a parser, so without this a Python-constructed strategy throws
+         ``AttributeError`` on its first context call and parses nothing. This is the third
+         implementation of the strategy context seam: C++-only, Python-only, and a Python-constructed
+         strategy running against a core ``.ini``
+         @endrst
+         */
+        std::unique_ptr<AGRC::IniFileParseContext> coreCtx;
 
         /**
          * @brief
@@ -298,6 +316,32 @@ class PyGIMIParser: public PyGIMIParserCore {
          @endrst
          */
         std::vector<Core::GraphGroup> collectParseResult() const override;
+
+        /**
+         * @brief
+         @rst
+         Converts a `Python`_ ``[IniGraphGroup]`` back into the core groups :cpp:func:`parse` must
+         return :raw-html:`<br />` :raw-html:`<br />`
+
+         Each graph is **deepcopied**, matching :cpp:func:`collectParseResult` -- the group belongs
+         to the caller, and :cpp:class:`AGRemapCore::IniGraphGroup` is move-only, so handing back the
+         override's own graphs would hollow the objects `Python`_ still holds
+         @endrst
+         */
+        std::vector<Core::GraphGroup> groupsFromPy(py::object result) const;
+
+        /**
+         * @brief
+         @rst
+         Guards against a `Python`_ ``parse`` override that calls ``super().parse()``
+         :raw-html:`<br />` :raw-html:`<br />`
+
+         The bound ``parse`` calls :cpp:func:`parseToPy`, which calls :cpp:func:`parse` -- so without
+         this the override would re-enter itself. While set, :cpp:func:`parse` skips the override
+         lookup and runs the C++ implementation, which is what ``super()`` means here
+         @endrst
+         */
+        bool inPythonParse = false;
 
         /**
          * @brief

@@ -79,7 +79,11 @@ PyGIMIFixerCore::FixerConfig makeFixerConfig() {
 // ---------------------------------------------------------------------------------------
 
 PyIniFixContext::PyIniFixContext(py::object ini, std::optional<int> modTypeId):
-    ini(std::move(ini)), modTypeId(modTypeId) {}
+    ini(std::move(ini)), modTypeId(modTypeId) {
+    if (!this->ini.is_none() && py::isinstance<AGRC::IniFile>(this->ini)) {
+        coreCtx = std::make_unique<AGRC::IniFileFixContext>(this->ini.cast<AGRC::IniFile*>(), modTypeId);
+    }
+}
 
 
 bool PyIniFixContext::hasIni() const {
@@ -88,6 +92,10 @@ bool PyIniFixContext::hasIni() const {
 
 
 std::optional<std::string> PyIniFixContext::modTypeName() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->modTypeName();
+    }
+
     py::object type = modType();
 
     if (type.is_none()) {
@@ -112,6 +120,10 @@ py::object PyIniFixContext::modType() const {
 
 
 std::vector<std::string> PyIniFixContext::modsToFix() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->modsToFix();
+    }
+
     std::vector<std::string> result;
 
     py::object type = modType();
@@ -128,6 +140,10 @@ std::vector<std::string> PyIniFixContext::modsToFix() const {
 
 
 std::optional<std::string> PyIniFixContext::fixedFilePath(std::size_t groupInd) const {
+    if (coreCtx != nullptr) {
+        return coreCtx->fixedFilePath(groupInd);
+    }
+
     if (!hasIni()) {
         return std::nullopt;
     }
@@ -152,6 +168,10 @@ std::optional<std::string> PyIniFixContext::fixedFilePath(std::size_t groupInd) 
 
 
 bool PyIniFixContext::fixedFileExists() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->fixedFileExists();
+    }
+
     if (!hasIni()) {
         return false;
     }
@@ -168,6 +188,10 @@ bool PyIniFixContext::fixedFileExists() const {
 
 
 std::string PyIniFixContext::fileTxt() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->fileTxt();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -177,6 +201,11 @@ std::string PyIniFixContext::fileTxt() const {
 
 
 void PyIniFixContext::setFileTxt(std::string txt) {
+    if (coreCtx != nullptr) {
+        coreCtx->setFileTxt(std::move(txt));
+        return;
+    }
+
     if (!hasIni()) {
         return;
     }
@@ -186,6 +215,11 @@ void PyIniFixContext::setFileTxt(std::string txt) {
 
 
 void PyIniFixContext::disableIni() {
+    if (coreCtx != nullptr) {
+        coreCtx->disableIni();
+        return;
+    }
+
     if (hasIni()) {
         ini.attr("disIni")();
     }
@@ -193,6 +227,11 @@ void PyIniFixContext::disableIni() {
 
 
 void PyIniFixContext::log(const std::string &message) {
+    if (coreCtx != nullptr) {
+        coreCtx->log(message);
+        return;
+    }
+
     if (hasIni()) {
         ini.attr("print")(py::str("log"), py::str(message));
     }
@@ -211,6 +250,11 @@ void PyIniFixContext::writeFixedFile(const std::string &path, const std::string 
 
 
 void PyIniFixContext::setIsFixed(bool isFixed) {
+    if (coreCtx != nullptr) {
+        coreCtx->setIsFixed(isFixed);
+        return;
+    }
+
     if (hasIni()) {
         ini.attr("_isFixed") = py::bool_(isFixed);
     }

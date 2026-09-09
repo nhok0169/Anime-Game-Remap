@@ -9,18 +9,59 @@ Read [Architecture](../Architecture/CLAUDE.md) first if you have never touched
 
 <br>
 
+## The loop changed: prototype in Python, then port (2026-09-09)
+
+**A new remap no longer costs a rebuild per idea.** `CppStrategyOverrides` registers a parser or
+fixer at runtime, taking precedence over the compiled-in row for that mod, so the loop is now:
+
+1. **prototype from Python** until the fix is right --- edit, run, look at the output, repeat,
+   with no build in between
+2. **copy the working shape into the C++ tables** (`core/src/data/Ini{Parse,Fix}Data/<Name>/`)
+3. **rebuild once**, and A/B the compiled result against the prototype
+
+Step 1 is where a remap is actually figured out, and it used to be the expensive part: every
+guess about which register a texture hangs off, or where a fix call belongs, cost a compile.
+
+Two worked examples live next to the mods they fix, in `Importer/GIMI/Mods/`:
+
+| | what it shows |
+| --- | --- |
+| `overrideScript.py` | the **config route** --- a `GIMICharParserConfig` and a `GIMICharFixerConfig` handed to `makeGIMICharParser`/`makeGIMICharFixer`, which is the same factory every compiled character uses. GanyuTwilight's whole fix in 38 lines, and its `--ab` proves the output byte-identical to the compiled one |
+| `overrideScript2.py` | the **hand-built route** --- a `GIMIParser`/`GIMIFixer` assembled from the individual edits, for a fix the config cannot express |
+
+**Reach for the config route first.** It is the same code path the shipped characters take, so a
+prototype written that way ports to C++ as a straight transcription of the config --- which is
+exactly what a `Ini{Parse,Fix}Data/<Name>/` row is. The hand-built route is for a character that
+is not the standard GIMI shape (a boss remap, say) or an edit no config field covers.
+
+Three things that will cost you an hour each if you learn them the hard way:
+
+* **Attach a logger or read `RemapService.stats`.** A prototype that raises is caught by the
+  per-`.ini` guard and recorded in `stats.ini.skipped` --- and with no logger, printed **nowhere**.
+  Every defect found while writing those two scripts was diagnosed through that dict.
+* **`FRB.IniNamingTools` is not the naming the compiled fixes use.** It is the pure-Python class,
+  and its `getModSuffixedName` has a confirmed bug. Use **`FRB.CppIniNamingTools`**.
+* **A prototype is not proven by running.** Diff it against something --- the compiled fix if the
+  character has one (`--ab`), the old script if it does not.
+
+<br>
+
 ## Start here: adding a character, in order
 
-Nine characters are done, in three *shapes*. **Work out which one you have first, because several
-decisions follow from it** (see "Two shapes of remap" below, and "A character with TWO targets" for
-the third):
+Thirteen characters are done, in four *shapes*. **Work out which one you have first, because
+several decisions follow from it** (see "Two shapes of remap" below, and "A character with TWO
+targets" for the third):
 
-| | Source and target share geometry | Target is a different model | Target draws different objects |
-| --- | --- | --- | --- |
-| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN**, Mona, Rosaria | **Jean -> JeanSea** (`jean6_1ToJeanSea`) |
-| Hashes | kept | replaced | replaced |
-| Originals | **hidden** | left alone | left alone |
-| Objects | one-to-one | one-to-one | **split** via `objSplits` |
+| | Source and target share geometry | Target is a different model | Target draws different objects | Stresses the fix libraries |
+| --- | --- | --- | --- | --- |
+| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN**, Mona, Rosaria, Ningguang | **Jean -> JeanSea** (`jean6_1ToJeanSea`) | **GanyuTwilight -> Ganyu** |
+| Hashes | kept | replaced | replaced | replaced |
+| Originals | **hidden** | left alone | left alone | left alone |
+| Objects | one-to-one | one-to-one | **split** via `objSplits` | one-to-one |
+
+The fourth is the one to read if your character re-issues anything: GanyuTwilight has a
+`$swapvar`-branching `CommandList`, a moved `drawindexed`, `ORFix`, and the only re-issued
+`TexFx` so far --- whose placement rule is genuinely different from `NNFix`/`ORFix`'s.
 
 A character may need **more than one fixer** -- one row per target in `IniFixBuilderData`, not a
 `MultiModFixer`. Jean is the worked example: she remaps onto JeanCN (ordinary) and JeanSea (split).

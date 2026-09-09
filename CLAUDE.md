@@ -118,6 +118,18 @@ reproduced a real bug that silently disabled a mod's transparency. Read
 [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The three external libraries" and
 "Where `drawindexed` goes decides whether the mod's own effects work" before touching any of it.
 
+**A NEW REMAP NO LONGER COSTS A REBUILD PER IDEA (2026-09-09).** `CppStrategyOverrides` registers
+a parser or fixer at runtime, ahead of the compiled-in row, so a remap is now **prototyped from
+Python until it works, then transcribed into the C++ tables and rebuilt once**. For a character
+of the standard GIMI shape the prototype is a `GIMICharFixerConfig` handed to
+`makeGIMICharFixer` --- the same factory the compiled characters use, so the transcription is
+nearly mechanical. Two worked examples sit next to the mods they fix in `Importer/GIMI/Mods/`:
+`overrideScript.py` (the config route, `--ab` proves it byte-identical to the compiled fix) and
+`overrideScript2.py` (hand-built from the individual edits, for a fix the config cannot express).
+See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s opening section, and
+**attach a logger or read `RemapService.stats` before believing a prototype did nothing** --- a
+fix that raises is recorded in `stats.ini.skipped` and printed nowhere else.
+
 **A character with several targets is several rows in `IniFixBuilderData`, NOT a `MultiModFixer`** --
 that table is keyed by `(from mod, to mod)`, which is what made the pure-Python indirection
 unnecessary. **Read [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md) and copy whichever
@@ -134,7 +146,7 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR NINE CHARACTERS (verified end-to-end 2026-09-07). Earlier revisions of this
+**THE FIX IS LIVE FOR THIRTEEN CHARACTERS (verified end-to-end 2026-09-08). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
 has.** Real fixers and parsers exist for **Amber, AmberCN, GanyuTwilight, Jean, JeanCN, JeanSea,
@@ -144,7 +156,7 @@ and `fixResources` really does correct `Blend.buf` files and really does write t
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these nine.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these thirteen.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check

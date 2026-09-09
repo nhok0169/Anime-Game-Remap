@@ -1804,6 +1804,35 @@ every core-side reader of it.** Shadowing is sometimes unavoidable here --- the 
 arbitrary Python keys the string-keyed map cannot --- but it has to come with a virtual accessor,
 or the core half quietly operates on an empty container.
 
+### `StrategyOverrides`: replacing a parser or fixer without rebuilding
+
+`AGRemapCore::StrategyOverrides` (`constants/StrategyOverrides.h`, bound as
+`CppStrategyOverrides`) is a process-wide table both builders consult **before** their compiled-in
+row. It exists because every strategy ships inside `AGRemapCore`, so trying an idea costs a rebuild.
+
+```python
+FRB.CppStrategyOverrides.setParser("Raiden", makeParser, version = "6.1")
+FRB.RemapService(path = ..., keepBackups = False).fix()
+FRB.CppStrategyOverrides.clear()
+```
+
+**It shipped green and did not work.** Every suite passed, six characters A/B'd byte-identical,
+and a Python-registered strategy was a silent no-op through three separate defects (a cast to a type
+pybind never registered, a delegate built only in a constructor the real path bypasses, and a null
+`IniFile*` that left every fixer rendering against no file). None of that evidence touched the
+feature: **the suites never register an override, and the A/B compares runs where none is
+registered.** If you add a mechanism the existing gates do not exercise, the gates staying green is
+not evidence about it -- see `test_StrategyOverrides.py`, which exists because of this.
+
+Two things about it that were got wrong first and are worth not repeating:
+
+- **Version matching mirrors `ModDictAssets`** --- a request carrying a version takes the highest
+  override at or below it, one carrying none means "the newest". Exact matching seems more
+  predictable and is useless: a run normally passes **no** version, so an override registered for
+  `6.1` fired zero times on an ordinary run.
+- **`empty()` is checked before any lookup**, so an ordinary run pays one container test per
+  `.ini` rather than a hash lookup. It is not synchronised; register and clear *around* a run.
+
 ### Overriding a character: the config route first (2026-09-09)
 
 **`GIMICharParserConfig`, `GIMICharFixerConfig`, `makeGIMICharParser` and `makeGIMICharFixer`
@@ -1890,35 +1919,6 @@ assets a mod left out, so a network hiccup shows up as a handful of `...RemapDL`
 one run" while every `.ini` still matches. The per-run download counts tell the two apart. It
 happened twice while writing the script, both times on the C++ half, both times gone on the next
 attempt.
-
-### `StrategyOverrides`: replacing a parser or fixer without rebuilding
-
-`AGRemapCore::StrategyOverrides` (`constants/StrategyOverrides.h`, bound as
-`CppStrategyOverrides`) is a process-wide table both builders consult **before** their compiled-in
-row. It exists because every strategy ships inside `AGRemapCore`, so trying an idea costs a rebuild.
-
-```python
-FRB.CppStrategyOverrides.setParser("Raiden", makeParser, version = "6.1")
-FRB.RemapService(path = ..., keepBackups = False).fix()
-FRB.CppStrategyOverrides.clear()
-```
-
-**It shipped green and did not work.** Every suite passed, six characters A/B'd byte-identical,
-and a Python-registered strategy was a silent no-op through three separate defects (a cast to a type
-pybind never registered, a delegate built only in a constructor the real path bypasses, and a null
-`IniFile*` that left every fixer rendering against no file). None of that evidence touched the
-feature: **the suites never register an override, and the A/B compares runs where none is
-registered.** If you add a mechanism the existing gates do not exercise, the gates staying green is
-not evidence about it -- see `test_StrategyOverrides.py`, which exists because of this.
-
-Two things about it that were got wrong first and are worth not repeating:
-
-- **Version matching mirrors `ModDictAssets`** --- a request carrying a version takes the highest
-  override at or below it, one carrying none means "the newest". Exact matching seems more
-  predictable and is useless: a run normally passes **no** version, so an override registered for
-  `6.1` fired zero times on an ordinary run.
-- **`empty()` is checked before any lookup**, so an ordinary run pays one container test per
-  `.ini` rather than a hash lookup. It is not synchronised; register and clear *around* a run.
 
 ### `XxxContext` vs `XxxingContext`: two different things wearing near-identical names
 

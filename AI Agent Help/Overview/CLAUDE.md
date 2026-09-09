@@ -247,6 +247,28 @@ before drawing a mechanism from it. The same instinct catches the cheaper versio
 HEAD:<path>` with a cwd-relative path returns nothing and grep dutifully reports `0`, which reads
 exactly like "this content is absent from HEAD" when it means "that path does not resolve".
 
+**18. A rename succeeding is not evidence a build succeeded.** The sharpest version of habit 1,
+and it cost four build cycles in one session. Every defect in the resource-edit seam let the
+*renaming* half of a fix run to completion, so the `.ini` file came out looking perfectly
+plausible --- correct section names, correct references --- while the resource those names point
+at was never built. A check on the text passes; only a check on `ini.getResources()`, or on the
+file that should exist on disk, separates them. Whenever a change touches something that both
+**names** and **builds**, assert on the built thing.
+
+**19. `stats` is the diagnostic channel when nothing is printed.** `RemapService` catches a
+per-`.ini` failure, records it in `stats.ini.skipped[path]`, and prints it only if a logger is
+attached. An embedding caller --- a prototype script, a test --- has none, so a fix that raises
+looks exactly like a fix that did nothing. Read `stats.ini.skipped` and `stats.download.skipped`
+before concluding a path is inert; the exception object comes back intact, not stringified. Every
+defect in the Python-override work was found this way, and none of them would have surfaced
+otherwise.
+
+**20. A bound API can accept the wrong type in silence.** Not every argument is validated on the
+way in. `RegFillMissing`'s `fillMissing` takes a string, a list of `(key, value)` tuples, or a
+callable --- and a `dict` is accepted without complaint and fills nothing, leaving a run reporting
+`fixed=7 skipped=0` with one register missing from the output. When an edit silently does
+nothing, re-read the parameter's accepted shapes before suspecting the edit itself.
+
 <br>
 
 ## Operating norms

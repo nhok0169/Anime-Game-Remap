@@ -100,7 +100,16 @@ PyBaseResEditCore::ResourceFilter parseResourceFilter(const py::object &resource
 // ---------------------------------------------------------------------------------------
 
 PyIniResEditContext::PyIniResEditContext(py::object ini, py::object modType, py::object resources):
-    ini(std::move(ini)), modType(std::move(modType)), resources(std::move(resources)) {}
+    ini(std::move(ini)), modType(std::move(modType)), resources(std::move(resources)) {
+    // py::isinstance rather than a try/cast, so a Python object that merely quacks like an IniFile
+    // still takes the Python path -- the same rule PyIniParseContext and PyIniFixContext use.
+    //
+    // Null Collected*: only the .ini-reading accessors below delegate, and none of them touches it.
+    if (!this->ini.is_none() && py::isinstance<AGRC::IniFile>(this->ini)) {
+        coreCtx = std::make_unique<AGRC::IniFileResEditContext>(this->ini.cast<AGRC::IniFile*>(),
+                                                                 nullptr);
+    }
+}
 
 
 bool PyIniResEditContext::hasIni() const {
@@ -109,6 +118,10 @@ bool PyIniResEditContext::hasIni() const {
 
 
 std::string PyIniResEditContext::iniFolder() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->iniFolder();
+    }
+
     if (!hasIni()) {
         return "";
     }
@@ -118,6 +131,10 @@ std::string PyIniResEditContext::iniFolder() const {
 
 
 std::shared_ptr<AGRC::BaseLogger> PyIniResEditContext::logger() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->logger();
+    }
+
     if (!hasIni()) {
         return nullptr;
     }
@@ -142,6 +159,10 @@ std::shared_ptr<AGRC::BaseLogger> PyIniResEditContext::logger() const {
 
 std::unordered_map<std::string, PyIniResEditContext::Section*> PyIniResEditContext::sectionIfTemplates() const {
     std::unordered_map<std::string, Section*> result;
+    if (coreCtx != nullptr) {
+        return coreCtx->sectionIfTemplates();
+    }
+
     if (!hasIni()) {
         return result;
     }
@@ -155,6 +176,10 @@ std::unordered_map<std::string, PyIniResEditContext::Section*> PyIniResEditConte
 
 
 AGRC::Z3Context* PyIniResEditContext::z3Ctx() const {
+    if (coreCtx != nullptr) {
+        return coreCtx->z3Ctx();
+    }
+
     if (!hasIni()) {
         return nullptr;
     }

@@ -11,6 +11,8 @@
 
 #include "../PyBaseIniGraphGroupEdit.h"
 #include "../../../../iftemplate/PyIfTemplate.h"  // reuses PyIfTemplate (what a built `section`_ is)
+#include "AGRemapCore/model/files/IniFile.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniFileResEditContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/ResEdit.h"
 
 
@@ -83,6 +85,23 @@ class PyIniResEditContext: public AGRC::IniResEditContext<std::string, std::stri
          * @brief The Python ``IniFile``, or ``None``
          */
         py::object ini;
+
+        /**
+         * @brief
+         @rst
+         Set when :cpp:member:`ini` is a bound :cpp:class:`AGRemapCore::IniFile`, in which case the
+         four ``.ini``-reading accessors delegate to it :raw-html:`<br />` :raw-html:`<br />`
+
+         The third case of the strategy context seam -- see Architecture's write-up. Without it
+         :cpp:func:`z3Ctx` and :cpp:func:`sectionIfTemplates` reach for ``ini._z3Ctx`` and
+         ``ini.sectionIfTemplates``, attributes of the pure-`Python`_ ``IniFile`` deleted on
+         2026-09-03 and **not present** on the core one :raw-html:`<br />` :raw-html:`<br />`
+
+         Deliberately built with a null ``Collected*``: resource collection is **not** delegated,
+         because this context owns that storage and hands out raw pointers into it
+         @endrst
+         */
+        std::unique_ptr<AGRC::IniFileResEditContext> coreCtx;
 
         /**
          * @brief The Python ``ModType``, or ``None``

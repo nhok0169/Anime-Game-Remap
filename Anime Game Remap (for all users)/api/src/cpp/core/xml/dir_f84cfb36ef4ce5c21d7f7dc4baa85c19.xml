@@ -4,11 +4,16 @@
     <compoundname>include/AGRemapCore/data/IniParseData</compoundname>
     <innerfile refid="_amber_c_n_parser_8h">AmberCNParser.h</innerfile>
     <innerfile refid="_amber_parser_8h">AmberParser.h</innerfile>
+    <innerfile refid="_ganyu_parser_8h">GanyuParser.h</innerfile>
+    <innerfile refid="_ganyu_twilight_parser_8h">GanyuTwilightParser.h</innerfile>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
     <innerfile refid="_jean_c_n_parser_8h">JeanCNParser.h</innerfile>
     <innerfile refid="_jean_parser_8h">JeanParser.h</innerfile>
+    <innerfile refid="_jean_sea_parser_8h">JeanSeaParser.h</innerfile>
     <innerfile refid="_mona_c_n_parser_8h">MonaCNParser.h</innerfile>
     <innerfile refid="_mona_parser_8h">MonaParser.h</innerfile>
+    <innerfile refid="_ningguang_orchid_parser_8h">NingguangOrchidParser.h</innerfile>
+    <innerfile refid="_ningguang_parser_8h">NingguangParser.h</innerfile>
     <innerfile refid="_raiden_parser_8h">RaidenParser.h</innerfile>
     <innerfile refid="_rosaria_c_n_parser_8h">RosariaCNParser.h</innerfile>
     <innerfile refid="_rosaria_parser_8h">RosariaParser.h</innerfile>

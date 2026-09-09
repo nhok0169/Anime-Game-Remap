@@ -60,7 +60,10 @@ namespace AGRemapCore {
             return graph;
         }
 
-        std::unordered_map<std::string, std::set<ContentPart*>> parts = graph.getKeyMissingParts(reg);
+        // Targets only. getKeyMissingParts also reports the sections whose verdict a parent
+        // superseded by bubbling the fill up to itself, and filling those too gives one placement
+        // per section instead of one per graph.
+        std::unordered_map<std::string, std::set<ContentPart*>> parts = graph.targetsGetKeyMissingParts(reg);
 
         // The same part can be reachable from more than one section, and getKeyMissingParts reports
         // it under each -- fill it exactly once, matching the pure-Python original's own

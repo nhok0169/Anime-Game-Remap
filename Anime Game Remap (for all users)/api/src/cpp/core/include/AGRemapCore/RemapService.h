@@ -219,12 +219,12 @@ namespace AGRemapCore {
              **Default**: ``std::nullopt``
              @endrst
              *
-             * @param uncompressTextures
+             * @param compressTextures
              @rst
-             Whether every texture this fix writes is left uncompressed -- see #uncompressTextures
-             :raw-html:`<br />` :raw-html:`<br />`
+             Whether the textures this fix writes are encoded to a compressed format -- see
+             #compressTextures :raw-html:`<br />` :raw-html:`<br />`
 
-             **Default**: ``false``
+             **Default**: ``false``, ie. uncompressed
              @endrst
              *
              * @param logger
@@ -250,7 +250,7 @@ namespace AGRemapCore {
                                   std::optional<std::string> proxy = std::nullopt,
                                   DownloadMode downloadMode = DownloadMode::Normal,
                                   std::optional<std::unordered_set<int>> gameTypeIds = std::nullopt,
-                                  bool uncompressTextures = false,
+                                  bool compressTextures = false,
                                   std::shared_ptr<BaseLogger> logger = nullptr);
 
             virtual ~RemapService() = default;
@@ -447,25 +447,31 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether every texture this fix writes is left **uncompressed** -- a plain 32-bit
-             ``.dds`` rather than the BCn format the texture would otherwise be encoded to
+             Whether the textures this fix writes are encoded to a **compressed** format, rather
+             than being left as a plain 32-bit uncompressed ``.dds`` :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             **Default ``false``, ie. uncompressed** -- which is what the pure-Python original
+             always did. Its `Pillow`_ engine has no BCn encoder at all, so every texture it ever
+             wrote was 32-bit uncompressed; making that the default here keeps a run's speed in line
+             with what users are used to, and leaves compression as something asked for
              :raw-html:`<br />` :raw-html:`<br />`
 
              A **one-way override**, applied in :cpp:func:`_fixResource` right before a texture
-             resource is written: with this set, whatever compression each mod type's own texture
-             edit asked for is ignored and nothing is encoded. Left ``false`` (the default) nothing
-             is overridden and each edit keeps its own answer -- which is why this is not simply a
-             ``compress`` flag mirroring :cpp:func:`TexEditor::getCompress`. The command line asks
-             the one-way question (``--uncompressTextures``), and there is no reason for a run to be
-             able to force compression *on* for an edit that deliberately turned it off
-             :raw-html:`<br />` :raw-html:`<br />`
+             resource is written, and it only ever overrides compression *off*: left ``false``,
+             whatever each mod type's own texture edit asked for is ignored and nothing is encoded.
+             Set ``true``, nothing is overridden and each edit keeps its own answer -- which is why
+             this is not simply a ``compress`` flag mirroring :cpp:func:`TexEditor::getCompress`.
+             There is no reason for a run to be able to force compression *on* for an edit that
+             deliberately turned it off, so ``--compressTextures`` permits compression rather than
+             imposing it :raw-html:`<br />` :raw-html:`<br />`
 
              BCn encoding is almost the entire cost of writing a texture -- roughly eight times the
              round trip on a large one -- in exchange for a file about four times larger. See
              :cpp:func:`TexEditor::getCompress` for the measured trade
              @endrst
              */
-            bool uncompressTextures;
+            bool compressTextures;
 
             /**
              * @brief
@@ -841,10 +847,11 @@ namespace AGRemapCore {
              * @brief
              @rst
              Forces one resource's texture writer to skip compression -- what
-             #uncompressTextures actually *does* :raw-html:`<br />` :raw-html:`<br />`
+             #compressTextures actually *does*, by **not** doing it :raw-html:`<br />`
+             :raw-html:`<br />`
 
              Called from :cpp:func:`_fixResource` immediately before a resource is fixed, and only
-             when #uncompressTextures is set. A no-op for any resource that writes no texture
+             when #compressTextures is **unset**. A no-op for any resource that writes no texture
              :raw-html:`<br />` :raw-html:`<br />`
 
              .. note::
@@ -855,7 +862,7 @@ namespace AGRemapCore {
              *
              * @param resource The resource whose texture writer to reconfigure
              */
-            void _applyUncompressTextures(IniResource& resource);
+            void _applyCompressTextures(IniResource& resource);
 
         private:
             std::string path_;

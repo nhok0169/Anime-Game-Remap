@@ -373,7 +373,7 @@ static void testCreateIniPropagatesOptions() {
     check(service.gameTypeIds.has_value() && *service.gameTypeIds ==
               std::unordered_set<int>{static_cast<int>(AGRC::GameTypeId::GI)},
           "the game type ids are kept as the set they were given");
-    check(service.uncompressTextures, "uncompressTextures is kept");
+    check(service.compressTextures, "compressTextures is kept");
     check(ini->fromVersion.has_value(), "the from-version is propagated");
     check(ini->filteredToModTypeIds.has_value(), "a toModTypeIds with a value stays a real filter");
     checkEqual(ini->filteredToModTypeIds->size(), static_cast<std::size_t>(1), "and carries its one id");

@@ -236,6 +236,24 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             #getKeyMissingParts narrowed to the target `sections`_ :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             #getKeyMissingParts reports a verdict for **every** `section`_ its recursion visits,
+             including ones whose verdict the parent supersedes by bubbling the fill up to itself.
+             A caller that wants one placement per graph -- rather than one per section -- wants
+             this instead, or it will act on both the bubbled-up answer and the superseded one.
+             @endrst
+             *
+             * @param key The key to search for
+             *
+             * @return The parts missing 'key', keyed by target `section`_ name
+             */
+            std::unordered_map<std::string, std::set<ContentPart*>> targetsGetKeyMissingParts(const K& key) const;
+
+            /**
+             * @brief
+             @rst
              Computes, for every #ContentPart in 'parts' (a `section`_'s flat, textually-ordered
              list), the pointer of every #ContentPart that must run immediately before it on some
              path through this `section`_ alone (ie. ignoring any ``run =`` call)

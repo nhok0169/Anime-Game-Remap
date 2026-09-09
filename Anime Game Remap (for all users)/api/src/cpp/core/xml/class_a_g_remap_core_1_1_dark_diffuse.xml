@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_dark_diffuse" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::DarkDiffuse</compoundname>
+    <includes refid="_dark_diffuse_8h" local="no">DarkDiffuse.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_dark_diffuse_1ad468f8b4a43736ad2095c13e727471c8" prot="public" static="yes" mutable="no">
+        <type>const double</type>
+        <definition>const double AGRemapCore::DarkDiffuse::Gamma</definition>
+        <argsstring></argsstring>
+        <name>Gamma</name>
+        <qualifiedname>AGRemapCore::DarkDiffuse::Gamma</qualifiedname>
+        <initializer>= 1.0 / 2.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The gamma written into the texture&apos;s metadata, and the reason this is not simply &quot;set
+alpha to 0&quot; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+``1 / 2.2`` -- the sRGB exponent, the pure-Python ``1 /
+ColourConsts.StandardGamma``. :cpp:func:`TextureFile::save` applies it through
+:cpp:class:`GammaFilter` right before writing, so the R/G/B channels are pre-corrected
+for the ``.dds``/BCn sRGB round trip
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="37" column="33" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_dark_diffuse_1a2bf24086da38dda4caf7122680f73681" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::DarkDiffuse::DarkDiffuse</definition>
+        <argsstring>()=delete</argsstring>
+        <name>DarkDiffuse</name>
+        <qualifiedname>AGRemapCore::DarkDiffuse::DarkDiffuse</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="23" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_dark_diffuse_1aa6959e76275de2e33fca7d16de8150cf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::DarkDiffuse::edit</definition>
+        <argsstring>(TextureFile &amp;texFile)</argsstring>
+        <name>edit</name>
+        <qualifiedname>AGRemapCore::DarkDiffuse::edit</qualifiedname>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref> &amp;</type>
+          <declname>texFile</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Makes a head diffuse fully transparent and gamma-corrects what is left
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Two steps, and both matter:
+
+#. alpha to **0** everywhere. In these textures alpha is a mask the shader reads rather
+   than opacity, so this is &quot;the mask says nothing&quot;, not &quot;the texture is invisible&quot; --
+   see :cpp:func:`TexEditor::setTransparency`
+#. \\ref Gamma into the texture&apos;s metadata, which :cpp:func:`TextureFile::save` applies
+   on the way out
+
+A direct port of the pure-Python pair
+``[_xxxEditHeadDiffuse, TexMetadataFilter({Gamma: 1 / StandardGamma})]``
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>texFile</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The texture to edit, modified in place. A file with no image is left alone </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="59" column="25" bodyfile="src/data/IniFixData/DarkDiffuse.cpp" bodystart="14" bodyend="23"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+The ``DarkDiffuse`` head-diffuse edit, shared by every character whose remap needs it
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Its own translation unit because more than one character uses it and none of them owns it --
+Ningguang and Ganyu both declare it, with identical filters, in the pure-Python
+``IniParseBuilderFuncs._ningguangEditHeadDiffuse`` / ``_ganyuEditHeadDiffuse``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="20" column="5" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="20" bodyend="60"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_dark_diffuse_1a2bf24086da38dda4caf7122680f73681" prot="public" virt="non-virtual"><scope>AGRemapCore::DarkDiffuse</scope><name>DarkDiffuse</name></member>
+      <member refid="class_a_g_remap_core_1_1_dark_diffuse_1aa6959e76275de2e33fca7d16de8150cf" prot="public" virt="non-virtual"><scope>AGRemapCore::DarkDiffuse</scope><name>edit</name></member>
+      <member refid="class_a_g_remap_core_1_1_dark_diffuse_1ad468f8b4a43736ad2095c13e727471c8" prot="public" virt="non-virtual"><scope>AGRemapCore::DarkDiffuse</scope><name>Gamma</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

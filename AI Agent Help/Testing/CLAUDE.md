@@ -702,7 +702,7 @@ it**, and confirm afterwards with `git status --porcelain -- Data` (must be empt
 (`core/src/data/IniFixData/JeanFixer.cpp`), which is the only live `texEdits` row in the repo --- so
 a change to the texture pipeline that you verify against the Raiden fixture has been verified against
 nothing at all. Measured over the Jean fixture (2026-09-07), a default run against `-c`
-(`--uncompressTextures`):
+(`--compressTextures`):
 
 | written file | default | `-c` |
 | --- | --- | --- |
@@ -754,7 +754,7 @@ grep -rln "<TypeYouRenamed>" core/tests/    # the obvious one
 Two related traps from the same change:
 
 - **Appending a parameter is not source-compatible when a trailing parameter is commonly passed
-  positionally.** `RemapService`'s last parameter is `logger`; inserting `uncompressTextures` before
+  positionally.** `RemapService`'s last parameter is `logger`; inserting `compressTextures` before
   it turned `..., std::nullopt, capture)` into "pass a `shared_ptr` where a `bool` goes". It fails to
   compile rather than silently misbehaving, which is the good case --- but only because nothing
   builds those files by default did it stay invisible.

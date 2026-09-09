@@ -293,7 +293,7 @@ namespace AGRemapCore {
                     //    any path that draws nothing. RegDelimitedAdd is built for exactly this rule
                     //    -- see its own note on why RegSurroundedAdd cannot express it.
                     addNNFix_ = std::make_unique<RegDelimitedAdd<>>(
-                        std::pair<std::string, std::string>{IniKeywords::Run, IniKeywords::NNFixPath},
+                        RegDelimitedAdd<>::Additions{{IniKeywords::Run, IniKeywords::NNFixPath}},
                         RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}});
 
                     // 0. Rename the graph. GIMIFixer edits a deep COPY of what the parser found, so

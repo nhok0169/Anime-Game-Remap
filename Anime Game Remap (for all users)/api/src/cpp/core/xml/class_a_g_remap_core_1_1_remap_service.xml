@@ -324,28 +324,34 @@ has no value, every registered mod type is a candidate, whichever game it came f
         </inbodydescription>
         <location file="include/AGRemapCore/RemapService.h" line="445" column="27" bodyfile="include/AGRemapCore/RemapService.h" bodystart="445" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_1aff15bf58308220cbc4d8cba3cdeb27e5" prot="public" static="no" mutable="no">
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_1a5a37c577361911bf0a716049f8baee53" prot="public" static="no" mutable="no">
         <type>bool</type>
-        <definition>bool AGRemapCore::RemapService::uncompressTextures</definition>
+        <definition>bool AGRemapCore::RemapService::compressTextures</definition>
         <argsstring></argsstring>
-        <name>uncompressTextures</name>
-        <qualifiedname>AGRemapCore::RemapService::uncompressTextures</qualifiedname>
+        <name>compressTextures</name>
+        <qualifiedname>AGRemapCore::RemapService::compressTextures</qualifiedname>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
 <para><verbatim>embed:rst 
-Whether every texture this fix writes is left **uncompressed** -- a plain 32-bit
-``.dds`` rather than the BCn format the texture would otherwise be encoded to
+Whether the textures this fix writes are encoded to a **compressed** format, rather
+than being left as a plain 32-bit uncompressed ``.dds`` :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default ``false``, ie. uncompressed** -- which is what the pure-Python original
+always did. Its `Pillow`_ engine has no BCn encoder at all, so every texture it ever
+wrote was 32-bit uncompressed; making that the default here keeps a run&apos;s speed in line
+with what users are used to, and leaves compression as something asked for
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 A **one-way override**, applied in :cpp:func:`_fixResource` right before a texture
-resource is written: with this set, whatever compression each mod type&apos;s own texture
-edit asked for is ignored and nothing is encoded. Left ``false`` (the default) nothing
-is overridden and each edit keeps its own answer -- which is why this is not simply a
-``compress`` flag mirroring :cpp:func:`TexEditor::getCompress`. The command line asks
-the one-way question (``--uncompressTextures``), and there is no reason for a run to be
-able to force compression *on* for an edit that deliberately turned it off
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+resource is written, and it only ever overrides compression *off*: left ``false``,
+whatever each mod type&apos;s own texture edit asked for is ignored and nothing is encoded.
+Set ``true``, nothing is overridden and each edit keeps its own answer -- which is why
+this is not simply a ``compress`` flag mirroring :cpp:func:`TexEditor::getCompress`.
+There is no reason for a run to be able to force compression *on* for an edit that
+deliberately turned it off, so ``--compressTextures`` permits compression rather than
+imposing it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 BCn encoding is almost the entire cost of writing a texture -- roughly eight times the
 round trip on a large one -- in exchange for a file about four times larger. See
@@ -354,7 +360,7 @@ round trip on a large one -- in exchange for a file about four times larger. See
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="468" column="18" bodyfile="include/AGRemapCore/RemapService.h" bodystart="468" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="474" column="18" bodyfile="include/AGRemapCore/RemapService.h" bodystart="474" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_1a880982287219a18e5576ac1de19403f1" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -379,7 +385,7 @@ as this class needs it, no matter what the `Python`_ side does with its own refe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="484" column="29" bodyfile="include/AGRemapCore/RemapService.h" bodystart="484" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="490" column="29" bodyfile="include/AGRemapCore/RemapService.h" bodystart="490" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_1a66c46357dd76ac35abefd73be4fc2104" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_remap_stats" kindref="compound">RemapStats</ref></type>
@@ -394,7 +400,7 @@ as this class needs it, no matter what the `Python`_ side does with its own refe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="489" column="24" bodyfile="include/AGRemapCore/RemapService.h" bodystart="489" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="495" column="24" bodyfile="include/AGRemapCore/RemapService.h" bodystart="495" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -410,7 +416,7 @@ as this class needs it, no matter what the `Python`_ side does with its own refe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="861" column="25" bodyfile="include/AGRemapCore/RemapService.h" bodystart="861" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="868" column="25" bodyfile="include/AGRemapCore/RemapService.h" bodystart="868" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_1af2750406fb87c3ed8c6c9a7d59e902ed" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -425,14 +431,14 @@ as this class needs it, no matter what the `Python`_ side does with its own refe
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="862" column="18" bodyfile="include/AGRemapCore/RemapService.h" bodystart="862" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapService.h" line="869" column="18" bodyfile="include/AGRemapCore/RemapService.h" bodystart="869" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a3e03ac95c4f41d755b201a44144891af" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1ad7e139754942465f3ad443db7330eaab" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RemapService::RemapService</definition>
-        <argsstring>(std::optional&lt; std::string &gt; path=std::nullopt, bool keepBackups=true, bool fixOnly=false, bool undoOnly=false, bool hideOrig=false, bool readAllInis=false, std::optional&lt; std::unordered_set&lt; int &gt; &gt; fromModTypeIds=std::nullopt, std::optional&lt; std::unordered_set&lt; int &gt; &gt; forcedModTypeIds=std::nullopt, tsl::ordered_set&lt; int &gt; defaultModTypeIds={}, bool handleExceptions=false, std::optional&lt; Version &gt; fromVersion=std::nullopt, std::optional&lt; std::unordered_set&lt; int &gt; &gt; toModTypeIds=std::nullopt, std::optional&lt; std::string &gt; proxy=std::nullopt, DownloadMode downloadMode=DownloadMode::Normal, std::optional&lt; std::unordered_set&lt; int &gt; &gt; gameTypeIds=std::nullopt, bool uncompressTextures=false, std::shared_ptr&lt; BaseLogger &gt; logger=nullptr)</argsstring>
+        <argsstring>(std::optional&lt; std::string &gt; path=std::nullopt, bool keepBackups=true, bool fixOnly=false, bool undoOnly=false, bool hideOrig=false, bool readAllInis=false, std::optional&lt; std::unordered_set&lt; int &gt; &gt; fromModTypeIds=std::nullopt, std::optional&lt; std::unordered_set&lt; int &gt; &gt; forcedModTypeIds=std::nullopt, tsl::ordered_set&lt; int &gt; defaultModTypeIds={}, bool handleExceptions=false, std::optional&lt; Version &gt; fromVersion=std::nullopt, std::optional&lt; std::unordered_set&lt; int &gt; &gt; toModTypeIds=std::nullopt, std::optional&lt; std::string &gt; proxy=std::nullopt, DownloadMode downloadMode=DownloadMode::Normal, std::optional&lt; std::unordered_set&lt; int &gt; &gt; gameTypeIds=std::nullopt, bool compressTextures=false, std::shared_ptr&lt; BaseLogger &gt; logger=nullptr)</argsstring>
         <name>RemapService</name>
         <qualifiedname>AGRemapCore::RemapService::RemapService</qualifiedname>
         <param>
@@ -512,7 +518,7 @@ as this class needs it, no matter what the `Python`_ side does with its own refe
         </param>
         <param>
           <type>bool</type>
-          <declname>uncompressTextures</declname>
+          <declname>compressTextures</declname>
           <defval>false</defval>
         </param>
         <param>
@@ -745,14 +751,14 @@ The ids of the games the mods being remapped belong to -- see #gameTypeIds
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>uncompressTextures</parametername>
+<parametername>compressTextures</parametername>
 </parameternamelist>
 <parameterdescription>
 <para><verbatim>embed:rst 
-Whether every texture this fix writes is left uncompressed -- see #uncompressTextures
-:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Whether the textures this fix writes are encoded to a compressed format -- see
+#compressTextures :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
-**Default**: ``false``
+**Default**: ``false``, ie. uncompressed
 </verbatim></para>
 </parameterdescription>
 </parameteritem>
@@ -806,7 +812,7 @@ The view the fix reports its progress to -- see #logger :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="496" column="31" bodyfile="src/RemapService.cpp" bodystart="54" bodyend="56"/>
+        <location file="include/AGRemapCore/RemapService.h" line="502" column="31" bodyfile="src/RemapService.cpp" bodystart="54" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1acf7d4b18520b73fb1862fbb8980fc11b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -841,7 +847,7 @@ software was started
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="511" column="18" bodyfile="src/RemapService.cpp" bodystart="58" bodyend="61"/>
+        <location file="include/AGRemapCore/RemapService.h" line="517" column="18" bodyfile="src/RemapService.cpp" bodystart="58" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a24d12e9c661d4eedb01fa3e940f13b95" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -861,7 +867,7 @@ Whether the file path the fix runs from is the folder the software was started f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="521" column="18" bodyfile="src/RemapService.cpp" bodystart="63" bodyend="65"/>
+        <location file="include/AGRemapCore/RemapService.h" line="527" column="18" bodyfile="src/RemapService.cpp" bodystart="63" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a5468a31cd7156eb191598ba7db7867e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -891,7 +897,7 @@ Whether the file path the fix runs from is the folder the software was started f
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="528" column="18" bodyfile="src/RemapService.cpp" bodystart="67" bodyend="73"/>
+        <location file="include/AGRemapCore/RemapService.h" line="534" column="18" bodyfile="src/RemapService.cpp" bodystart="67" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a2b4f783ed9ff1e2431596268a145f0b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -931,7 +937,7 @@ and those folders may themselves hold further mods :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="610" column="18" bodyfile="src/RemapService.cpp" bodystart="87" bodyend="121"/>
+        <location file="include/AGRemapCore/RemapService.h" line="616" column="18" bodyfile="src/RemapService.cpp" bodystart="87" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a784c7e1c5f78532aaf2b6d828f5bd20d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -960,7 +966,7 @@ many
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="629" column="18" bodyfile="src/RemapService.cpp" bodystart="124" bodyend="126"/>
+        <location file="include/AGRemapCore/RemapService.h" line="635" column="18" bodyfile="src/RemapService.cpp" bodystart="124" bodyend="126"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -1011,7 +1017,7 @@ sequence and its reasons live
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="659" column="26" bodyfile="src/RemapService.cpp" bodystart="612" bodyend="760"/>
+        <location file="include/AGRemapCore/RemapService.h" line="665" column="26" bodyfile="src/RemapService.cpp" bodystart="612" bodyend="760"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a2b3b74c8a3428cd09a8b87c90f9361af" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1073,7 +1079,7 @@ than saying nothing at all. With nothing left, this writes no line and does no w
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="700" column="18" bodyfile="src/RemapService.cpp" bodystart="763" bodyend="877"/>
+        <location file="include/AGRemapCore/RemapService.h" line="706" column="18" bodyfile="src/RemapService.cpp" bodystart="763" bodyend="877"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1ac00f29c2f3f2d3b2729446d4b8d0aed1" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1097,7 +1103,7 @@ prints those unconditionally because a run that found neither is worth saying ou
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="715" column="18" bodyfile="src/RemapService.cpp" bodystart="242" bodyend="355"/>
+        <location file="include/AGRemapCore/RemapService.h" line="721" column="18" bodyfile="src/RemapService.cpp" bodystart="242" bodyend="355"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1afb518606dbde8b05dc872830980f7a5c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1118,7 +1124,7 @@ is meant to notice above the summary
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="727" column="18" bodyfile="src/RemapService.cpp" bodystart="211" bodyend="239"/>
+        <location file="include/AGRemapCore/RemapService.h" line="733" column="18" bodyfile="src/RemapService.cpp" bodystart="211" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a51d18abe64d53675fb52bae88207fbce" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1167,7 +1173,7 @@ folder whose subtree some earlier scan already enumerated
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="744" column="18" bodyfile="src/RemapService.cpp" bodystart="980" bodyend="996"/>
+        <location file="include/AGRemapCore/RemapService.h" line="750" column="18" bodyfile="src/RemapService.cpp" bodystart="984" bodyend="1000"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a41de3f6301a6484968ef21525f399f5c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1222,7 +1228,7 @@ including the ``.ini`` file&apos;s downloads :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="767" column="18" bodyfile="src/RemapService.cpp" bodystart="998" bodyend="1002"/>
+        <location file="include/AGRemapCore/RemapService.h" line="773" column="18" bodyfile="src/RemapService.cpp" bodystart="1002" bodyend="1006"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a8603f77f178ca8343afb79398438bac9" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> &gt;</type>
@@ -1268,7 +1274,7 @@ constructor parameter of its own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="792" column="29" bodyfile="src/RemapService.cpp" bodystart="1004" bodyend="1023"/>
+        <location file="include/AGRemapCore/RemapService.h" line="798" column="29" bodyfile="src/RemapService.cpp" bodystart="1008" bodyend="1027"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a3bb54a8f496dc0b4ea5b1f47d716ff64" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1304,14 +1310,14 @@ reason it exists -- so removing the file first would strand them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="838" column="18" bodyfile="src/RemapService.cpp" bodystart="554" bodyend="596"/>
+        <location file="include/AGRemapCore/RemapService.h" line="844" column="18" bodyfile="src/RemapService.cpp" bodystart="554" bodyend="596"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a91508c841deececd097b37a2253d7f0c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a261ed5837682305de184fb6183898955" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
-        <definition>void AGRemapCore::RemapService::_applyUncompressTextures</definition>
+        <definition>void AGRemapCore::RemapService::_applyCompressTextures</definition>
         <argsstring>(IniResource &amp;resource)</argsstring>
-        <name>_applyUncompressTextures</name>
-        <qualifiedname>AGRemapCore::RemapService::_applyUncompressTextures</qualifiedname>
+        <name>_applyCompressTextures</name>
+        <qualifiedname>AGRemapCore::RemapService::_applyCompressTextures</qualifiedname>
         <param>
           <type><ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &amp;</type>
           <declname>resource</declname>
@@ -1321,10 +1327,11 @@ reason it exists -- so removing the file first would strand them
         <detaileddescription>
 <para><verbatim>embed:rst 
 Forces one resource&apos;s texture writer to skip compression -- what
-#uncompressTextures actually *does* :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+#compressTextures actually *does*, by **not** doing it :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
 
 Called from :cpp:func:`_fixResource` immediately before a resource is fixed, and only
-when #uncompressTextures is set. A no-op for any resource that writes no texture
+when #compressTextures is **unset**. A no-op for any resource that writes no texture
 :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 .. note::
@@ -1345,7 +1352,7 @@ when #uncompressTextures is set. A no-op for any resource that writes no texture
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="858" column="18" bodyfile="src/RemapService.cpp" bodystart="927" bodyend="946"/>
+        <location file="include/AGRemapCore/RemapService.h" line="865" column="18" bodyfile="src/RemapService.cpp" bodystart="927" bodyend="950"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -1382,7 +1389,7 @@ and backups
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="806" column="25" bodyfile="src/RemapService.cpp" bodystart="519" bodyend="524"/>
+        <location file="include/AGRemapCore/RemapService.h" line="812" column="25" bodyfile="src/RemapService.cpp" bodystart="519" bodyend="524"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a1042619abc35356dc5025750ad6d931e" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1420,7 +1427,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="823" column="32" bodyfile="src/RemapService.cpp" bodystart="527" bodyend="551"/>
+        <location file="include/AGRemapCore/RemapService.h" line="829" column="32" bodyfile="src/RemapService.cpp" bodystart="527" bodyend="551"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -1436,7 +1443,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="867" column="18" bodyfile="src/RemapService.cpp" bodystart="358" bodyend="442"/>
+        <location file="include/AGRemapCore/RemapService.h" line="874" column="18" bodyfile="src/RemapService.cpp" bodystart="358" bodyend="442"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1ab49fbf1d0af01aed6ed0f90ccf9fe65b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1454,7 +1461,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="871" column="18" bodyfile="src/RemapService.cpp" bodystart="880" bodyend="924"/>
+        <location file="include/AGRemapCore/RemapService.h" line="878" column="18" bodyfile="src/RemapService.cpp" bodystart="880" bodyend="924"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a7b0a6ba942eda851d5f3ca552b1f635e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1468,7 +1475,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="878" column="18" bodyfile="src/RemapService.cpp" bodystart="129" bodyend="146"/>
+        <location file="include/AGRemapCore/RemapService.h" line="885" column="18" bodyfile="src/RemapService.cpp" bodystart="129" bodyend="146"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a4cf38e202cc3b043ffe2bb1e933b1011" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1494,7 +1501,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="881" column="18" bodyfile="src/RemapService.cpp" bodystart="192" bodyend="208"/>
+        <location file="include/AGRemapCore/RemapService.h" line="888" column="18" bodyfile="src/RemapService.cpp" bodystart="192" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1ab4ca53ac003aa883ab9f1ef5765032a1" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1516,7 +1523,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="886" column="25" bodyfile="src/RemapService.cpp" bodystart="169" bodyend="189"/>
+        <location file="include/AGRemapCore/RemapService.h" line="893" column="25" bodyfile="src/RemapService.cpp" bodystart="169" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a514ec1fefd785acdd6fe01ad338a886c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1534,7 +1541,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="893" column="18" bodyfile="src/RemapService.cpp" bodystart="972" bodyend="978"/>
+        <location file="include/AGRemapCore/RemapService.h" line="900" column="18" bodyfile="src/RemapService.cpp" bodystart="976" bodyend="982"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a133bf0cc70ed76cbe1881a60d71cac61" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1552,7 +1559,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="902" column="18" bodyfile="src/RemapService.cpp" bodystart="470" bodyend="488"/>
+        <location file="include/AGRemapCore/RemapService.h" line="909" column="18" bodyfile="src/RemapService.cpp" bodystart="470" bodyend="488"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1af95831e7ed0e687553d708adc23f9e93" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1570,7 +1577,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="916" column="18" bodyfile="src/RemapService.cpp" bodystart="1025" bodyend="1036"/>
+        <location file="include/AGRemapCore/RemapService.h" line="923" column="18" bodyfile="src/RemapService.cpp" bodystart="1029" bodyend="1040"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -1590,7 +1597,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="875" column="32" bodyfile="src/RemapService.cpp" bodystart="949" bodyend="958"/>
+        <location file="include/AGRemapCore/RemapService.h" line="882" column="32" bodyfile="src/RemapService.cpp" bodystart="953" bodyend="962"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a477875482db3ac400e9cd1f7ffe326d5" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1608,7 +1615,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="889" column="32" bodyfile="src/RemapService.cpp" bodystart="961" bodyend="969"/>
+        <location file="include/AGRemapCore/RemapService.h" line="896" column="32" bodyfile="src/RemapService.cpp" bodystart="965" bodyend="973"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a97bc79986b45219635341009f8cdea15" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1626,7 +1633,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="897" column="25" bodyfile="src/RemapService.cpp" bodystart="444" bodyend="467"/>
+        <location file="include/AGRemapCore/RemapService.h" line="904" column="25" bodyfile="src/RemapService.cpp" bodystart="444" bodyend="467"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1a65c2211d4c904a4fc7abc4142a3b019f" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1644,7 +1651,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="906" column="32" bodyfile="src/RemapService.cpp" bodystart="599" bodyend="610"/>
+        <location file="include/AGRemapCore/RemapService.h" line="913" column="32" bodyfile="src/RemapService.cpp" bodystart="599" bodyend="610"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_1aea15ae6a1b276199ccee08a3c0b280ee" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1662,7 +1669,7 @@ free to have it in its name and it is the one this fix appended that has to come
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapService.h" line="912" column="25" bodyfile="src/RemapService.cpp" bodystart="491" bodyend="517"/>
+        <location file="include/AGRemapCore/RemapService.h" line="919" column="25" bodyfile="src/RemapService.cpp" bodystart="491" bodyend="517"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1752,9 +1759,9 @@ Concretely, what that split buys each attribute:
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/RemapService.h" line="72" column="5" bodyfile="include/AGRemapCore/RemapService.h" bodystart="72" bodyend="917"/>
+    <location file="include/AGRemapCore/RemapService.h" line="72" column="5" bodyfile="include/AGRemapCore/RemapService.h" bodystart="72" bodyend="924"/>
     <listofallmembers>
-      <member refid="class_a_g_remap_core_1_1_remap_service_1a91508c841deececd097b37a2253d7f0c" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>_applyUncompressTextures</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_1a261ed5837682305de184fb6183898955" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>_applyCompressTextures</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1ac54f7c1ac7dd1849f380c652ba7c0a2b" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a43ac0e15d171a904caca6d0c762949d3" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>_fixedPathOf</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1ab49fbf1d0af01aed6ed0f90ccf9fe65b" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>_fixResource</name></member>
@@ -1772,6 +1779,7 @@ Concretely, what that split buys each attribute:
       <member refid="class_a_g_remap_core_1_1_remap_service_1a41de3f6301a6484968ef21525f399f5c" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>addIniNeighbourFolders</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a51d18abe64d53675fb52bae88207fbce" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>addNeighbourFolders</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a5468a31cd7156eb191598ba7db7867e0" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_1a5a37c577361911bf0a716049f8baee53" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>compressTextures</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a8603f77f178ca8343afb79398438bac9" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>createIni</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1ac940aac1de1886151fdd1789a6e9b075" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>defaultModTypeIds</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1ae9f2a7a8315bc6e1bf645de1d5eba465" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>downloadMode</name></member>
@@ -1795,14 +1803,13 @@ Concretely, what that split buys each attribute:
       <member refid="class_a_g_remap_core_1_1_remap_service_1af2750406fb87c3ed8c6c9a7d59e902ed" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>pathIsCwd_</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a0ece3bb3ff5f3e20fec5d805c95870b7" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>proxy</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a33c7f8e9f0a11df01b0e39f15ba4244b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>readAllInis</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_service_1a3e03ac95c4f41d755b201a44144891af" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>RemapService</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_1ad7e139754942465f3ad443db7330eaab" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>RemapService</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a7b0a6ba942eda851d5f3ca552b1f635e" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>report</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1afb518606dbde8b05dc872830980f7a5c" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>reportSkippedMods</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1ac00f29c2f3f2d3b2729446d4b8d0aed1" prot="protected" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>reportSummary</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1acf7d4b18520b73fb1862fbb8980fc11b" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>setPath</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a66c46357dd76ac35abefd73be4fc2104" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>stats</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a50baa78ca4b1d6ff012a8d814a4f8e53" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>toModTypeIds</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_service_1aff15bf58308220cbc4d8cba3cdeb27e5" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>uncompressTextures</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a70b23b8e0d6c98977c1f4af7de7d11cb" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapService</scope><name>undoOnly</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_1a031f732998ea1ded35ae8d3c94313ee7" prot="public" virt="virtual"><scope>AGRemapCore::RemapService</scope><name>~RemapService</name></member>
     </listofallmembers>

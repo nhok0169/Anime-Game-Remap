@@ -46,12 +46,12 @@ namespace AGRemapCore {
 
     std::unique_ptr<DownloadTools::Download> DownloadTools::make(const std::string& name, const std::string& urlPath,
                                                                   const std::string& fixedName, KVPs resourceKVPs,
-                                                                  KVPs downloadRefKVPs) {
+                                                                  KVPs downloadRefKVPs, bool refToSection) {
         return std::make_unique<Download>(
             name,
             std::make_unique<FileDownload>(downloadFolder() + "/" + urlPath, fixedName),
             makeConfig(),
-            /*refToSection*/ false,
+            refToSection,
             std::move(downloadRefKVPs),
             std::move(resourceKVPs));
     }

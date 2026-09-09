@@ -120,14 +120,23 @@ namespace AGRemapCore {
             using RegMap = std::unordered_map<K, Predicate, KeyHash, KeyEqual>;
 
             /**
-             * @brief The `KVP`_ to add
+             * @brief The list of `KVP`_ entries an edit adds -- see \ref additions
              */
-            std::pair<K, V> addition;
+            using Additions = std::vector<std::pair<K, V>>;
 
             /**
              * @brief
              @rst
-             The registers that must come before \ref addition (ie. \ref addition gets added after
+             The `KVP`_ entries to add. All of them land together at each chosen position, as
+             consecutive lines in this order -- an empty list makes the edit a no-op
+             @endrst
+             */
+            Additions additions;
+
+            /**
+             * @brief
+             @rst
+             The registers that must come before \ref additions (ie. \ref additions gets added after
              these registers) :raw-html:`<br />` :raw-html:`<br />`
 
              This condition is only satisfied once at least one accepted occurence has been seen
@@ -139,7 +148,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Registers of which **at least one** must come before \ref addition -- same format as
+             Registers of which **at least one** must come before \ref additions -- same format as
              \ref beforeRegs, but "any of" rather than "all of" :raw-html:`<br />` :raw-html:`<br />`
 
              Combined with \ref beforeRegs by conjunction: the window only opens once every
@@ -163,9 +172,9 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             The registers that must come after \ref addition (ie. \ref addition gets added before
+             The registers that must come after \ref additions (ie. \ref additions gets added before
              these registers) -- same format/semantics as \ref beforeRegs, except the condition
-             applies for coming after \ref addition instead of before it
+             applies for coming after \ref additions instead of before it
              @endrst
              */
             RegMap afterRegs;
@@ -173,7 +182,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Registers of which **at least one** must come after \ref addition -- the "any of"
+             Registers of which **at least one** must come after \ref additions -- the "any of"
              counterpart of \ref afterRegs, exactly as \ref optBeforeRegs is to \ref beforeRegs
              :raw-html:`<br />` :raw-html:`<br />`
 
@@ -191,7 +200,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Whether to add \ref addition at the latest valid location within the `surrounded`
+             Whether to add \ref additions at the latest valid location within the `surrounded`
              window, instead of the earliest one :raw-html:`<br />` :raw-html:`<br />`
 
              **Default**: ``false``
@@ -202,14 +211,14 @@ namespace AGRemapCore {
             /**
              * @brief Constructs a new `surrounded`-window-adding edit
              *
-             * @param addition The `KVP`_ to add
-             * @param beforeRegs The registers that must come before 'addition'. **Default**: empty
-             * @param afterRegs The registers that must come after 'addition'. **Default**: empty
-             * @param latest Whether to add 'addition' at the latest valid location instead of the earliest. **Default**: ``false``
-             * @param optBeforeRegs Registers of which at least one must come before 'addition' (see \ref optBeforeRegs). **Default**: empty
-             * @param optAfterRegs Registers of which at least one must come after 'addition' (see \ref optAfterRegs). **Default**: empty
+             * @param additions The `KVP`_ entries to add, in order. **Default**: empty
+             * @param beforeRegs The registers that must come before 'additions'. **Default**: empty
+             * @param afterRegs The registers that must come after 'additions'. **Default**: empty
+             * @param latest Whether to add 'additions' at the latest valid location instead of the earliest. **Default**: ``false``
+             * @param optBeforeRegs Registers of which at least one must come before 'additions' (see \ref optBeforeRegs). **Default**: empty
+             * @param optAfterRegs Registers of which at least one must come after 'additions' (see \ref optAfterRegs). **Default**: empty
              */
-            explicit RegSurroundedAdd(std::pair<K, V> addition = {}, RegMap beforeRegs = {}, RegMap afterRegs = {}, bool latest = false,
+            explicit RegSurroundedAdd(Additions additions = {}, RegMap beforeRegs = {}, RegMap afterRegs = {}, bool latest = false,
                                        RegMap optBeforeRegs = {}, RegMap optAfterRegs = {});
 
             /**
@@ -233,7 +242,7 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Fills the parts of 'graph' with a `surrounded` window insertion of \ref addition,
+             Fills the parts of 'graph' with a `surrounded` window insertion of \ref additions,
              honouring \ref latest for which valid location within each window is chosen
              @endrst
              *
@@ -281,6 +290,10 @@ namespace AGRemapCore {
                                                   bool includeKeyDefs);
 
             long long pickInsertInd(const OrderRanges& validRange, const ContentPart& part) const;
+
+            // Inserts every entry of 'additions' at 'index' of 'part', keeping their order -- the
+            // whole list lands together, as consecutive lines
+            void addAdditionsAt(ContentPart& part, long long index) const;
 
             OrderRanges getForwardValidRangeForPart(const ContentPart& part, const K& runKey, const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeEntryFacts,
                                                      const std::unordered_map<K, bool, KeyHash, KeyEqual>& beforeReturnFacts) const;

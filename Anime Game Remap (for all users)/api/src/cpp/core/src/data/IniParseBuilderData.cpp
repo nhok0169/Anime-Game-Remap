@@ -23,7 +23,6 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::dilucFlamme4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::fischl4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::fischlHighness4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ganyu4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::hutao4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeya4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeyaSailwind4_0() { return IniParseBuilder::defaultFactory(); }
@@ -35,13 +34,10 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::lisa4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::nilou4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ningguang4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ningguangOrchid4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::shenhe4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xiangling4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xingqiu4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ganyuTwilight4_4() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::shenheFrostFlower4_4() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::xingqiuBamboo4_4() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kiraraBoots4_8() { return IniParseBuilder::defaultFactory(); }
@@ -51,7 +47,6 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::arlecchino5_4() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_6() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_7() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ganyuTwilight5_7() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kirara5_7() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kiraraBoots5_7() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent5_7() { return IniParseBuilder::defaultFactory(); }

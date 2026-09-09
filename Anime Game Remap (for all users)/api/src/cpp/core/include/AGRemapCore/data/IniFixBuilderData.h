@@ -836,6 +836,43 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **Ningguang onto NingguangOrchid** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape -- see :cpp:func:`makeGIMICharFixer` -- plus a
+             ``ps-t3`` strip the target does not read and the ``DarkDiffuse`` head edit. Ningguang's
+             own choices are in ``data/IniFixData/NingguangFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory ningguang6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **NingguangOrchid onto Ningguang** -- **not** a stub. The plain
+             shape, with none of Ningguang's extras; see ``data/IniFixData/NingguangOrchidFixer.cpp``
+             for why the asymmetry is real
+             @endrst
+             */
+            static IniFixBuilder::Factory ningguangOrchid6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The direction that **loses a normal map**: GanyuTwilight is a post-GI-3.x model with one
+             on ``ps-t0``, Ganyu predates it, so the head's registers shift down a slot. See
+             ``data/IniFixData/GanyuTwilightFixer.cpp`` and
+             :cpp:member:`GIMICharFixerConfig::objRegRemaps`
+             @endrst
+             */
+            static IniFixBuilder::Factory ganyuTwilight6_1();
+
+            /**
+             * @brief
+             @rst
              The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`<br />`
              :raw-html:`<br />`
 

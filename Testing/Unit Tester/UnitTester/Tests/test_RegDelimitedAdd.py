@@ -58,7 +58,7 @@ class RegDelimitedAddTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         edit = FRB.RegDelimitedAdd(("insertion", "NNFix"), delimiterRegs = {"drawindexed": None, "drawindexedinstanced": None})
 
-        self.assertEqual(edit.addition, ("insertion", "NNFix"))
+        self.compareList(edit.additions, [("insertion", "NNFix")])
         self.compareDict(edit.delimiterRegs, {"drawindexed": None, "drawindexedinstanced": None})
 
     def test_init_defaults_noDelimiters(self):
@@ -411,3 +411,42 @@ class RegDelimitedAddTest(BaseUnitTest):
 
         self.compareList(self._getContentPart(graph, "keep").entries(), [("insertion", "NNFix"), ("drawindexed", "a"), ("insertion", "NNFix")])
         self.compareList(self._getContentPart(graph, "skip").entries(), [("drawindexed", "b")])
+
+    # ================================================
+    # ================== additions ====================
+
+    def test_init_additions_list_andSingleTupleNormalized(self):
+        self.compareList(FRB.RegDelimitedAdd([("a", "1"), ("b", "2")]).additions, [("a", "1"), ("b", "2")])
+        self.compareList(FRB.RegDelimitedAdd(("a", "1")).additions, [("a", "1")])
+
+        edit = FRB.RegDelimitedAdd(("a", "1"))
+        edit.additions = [("c", "3"), ("d", "4")]
+        self.compareList(edit.additions, [("c", "3"), ("d", "4")])
+
+    def test_edit_additions_severalRows_landTogetherInOrder_beforeEachDrawAndAtTheEnd(self):
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart({"drawindexed": [(0, "a"), (2, "b")], "x": [(1, "0")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd([("run", "NNFix"), ("run", "ORFix")], self._DRAW).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [
+            ("run", "NNFix"), ("run", "ORFix"), ("drawindexed", "a"),
+            ("x", "0"),
+            ("run", "NNFix"), ("run", "ORFix"), ("drawindexed", "b"),
+            ("run", "NNFix"), ("run", "ORFix"),
+        ])
+
+    def test_edit_additions_severalRows_partFilterGatesThePositionNotTheRows(self):
+        # positions 0 (before the draw) and 1 (the end) are the candidates; [0, 1) keeps only the
+        # first, and the whole list lands there
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart({"drawindexed": [(0, "a")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd([("run", "NNFix"), ("run", "ORFix")], self._DRAW).edit(graph, None, partFilter = lambda iterData, modType, ini: FRB.Ranges([(0, 1)]))
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("run", "NNFix"), ("run", "ORFix"), ("drawindexed", "a")])
+
+    def test_edit_additions_empty_noOp(self):
+        graph = FRB.IniSectionGraph({"root": FRB.IfTemplate([FRB.IfContentPart({"drawindexed": [(0, "a")]}, 0)])}, ["root"])
+
+        FRB.RegDelimitedAdd([], self._DRAW).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("drawindexed", "a")])

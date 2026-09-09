@@ -103,14 +103,17 @@ Options
        | *eg. GI,WuWa*
        |
        | See :ref:`Game Types <commandOpts:Game Types>` for the different names/aliases of the supported types of games.
-   * - -c, -\-uncompressTextures
-     - | Whether to leave textures uncompressed.
+   * - -c, -\-compressTextures
+     - | Whether to compress the textures the fix writes.
        |
-       | Pick your poison: do you want the fix to run faster, but your textures take up
-       | more space, OR your fix to run slower, but textures take minimal space.
+       | **By default textures are left uncompressed**, which is what the older pure-Python
+       | versions always did. Pick your poison: do you want the fix to run faster, but your
+       | textures take up more space, OR your fix to run slower, but textures take minimal
+       | space.
        |
-       | This option only turns compression *off*. If it is not specified, each mod type's
-       | own texture edits decide for themselves whether to compress what they write.
+       | This option only *permits* compression. Specifying it lets each mod type's own
+       | texture edits decide for themselves; an edit that deliberately writes an
+       | uncompressed texture still does so.
    * - -dl str, -\-download str
      - | The download mode to handle file downloads need. The below are the available download modes:
        | 

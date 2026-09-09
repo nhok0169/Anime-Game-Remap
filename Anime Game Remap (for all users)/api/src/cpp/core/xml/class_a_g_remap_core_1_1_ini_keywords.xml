@@ -432,6 +432,74 @@ external library as \ref ORFixPath :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="213" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="213" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TexFxFolder</definition>
+        <argsstring></argsstring>
+        <name>TexFxFolder</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TexFxFolder</qualifiedname>
+        <initializer>= &quot;CommandList\\TexFx&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The folder holding the `TexFx`_ external library&apos;s sub-commands :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+A third addon alongside ORFix and NNFix, and the one that gives textures capabilities
+the importer does not have on its own -- most visibly making parts of a model look
+transparent. What each channel of an input texture means is documented on its own
+GitHub rather than here :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+It owns **two dedicated registers**, ``ps-t69`` and ``ps-t70``, which is why a fix that
+shifts a character&apos;s registers around leaves those two alone
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="230" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="230" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TexFxTransparency0</definition>
+        <argsstring></argsstring>
+        <name>TexFxTransparency0</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TexFxTransparency0</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref> + &quot;\\TN.0&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`TexFx`_&apos;s transparency sub-command for a diffuse living on ``ps-t0``, GI 5.0 and later
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The call names the register the diffuse is on, so which of these two a fix issues
+follows from where its register shift left the diffuse -- not from the character
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="242" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::TexFxTransparency1</definition>
+        <argsstring></argsstring>
+        <name>TexFxTransparency1</name>
+        <qualifiedname>AGRemapCore::IniKeywords::TexFxTransparency1</qualifiedname>
+        <initializer>= <ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref> + &quot;\\TN.1&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+`TexFx`_&apos;s transparency sub-command for a diffuse living on ``ps-t1`` -- see
+\ref TexFxTransparency0
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="251" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="251" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::HashNotFound</definition>
@@ -449,7 +517,7 @@ see :cpp:class:`RegAssetRemap`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="222" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="222" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="260" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="260" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -469,7 +537,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="232" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="232" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="270" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="270" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -485,7 +553,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="237" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="237" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="275" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="275" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -502,7 +570,7 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    porting the whole enum speculatively up front
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="238"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="276"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Draw</name></member>
@@ -527,6 +595,9 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Run</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a1711e269e7af667dd2b0151a647763cc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>ShaderOverride</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a72d6d458d05a470b21af76242aae7a80" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Texcoord</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxFolder</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxTransparency0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TexFxTransparency1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac451ee538f75835c0f8778946f16ea4d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>TextureOverride</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ad98707bf380b9940042e52feddd2cca6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Vb0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0a3c05fa043b21683aa21e619c60fe58" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Vb1</name></member>

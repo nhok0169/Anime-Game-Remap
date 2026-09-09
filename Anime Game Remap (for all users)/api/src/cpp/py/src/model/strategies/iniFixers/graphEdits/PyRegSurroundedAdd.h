@@ -67,26 +67,41 @@ class PyRegSurroundedAdd: public AGRC::RegSurroundedAdd<std::string, std::string
         /**
          * @brief Constructs a new `surrounded`_-window-adding edit
          *
-         * @param additionObj The `KVP`_ tuple to add
-         * @param beforeRegsObj The registers that must come before 'additionObj', or ``None`` for none
-         * @param afterRegsObj The registers that must come after 'additionObj', or ``None`` for none
-         * @param latest Whether to add 'additionObj' at the latest valid location instead of the earliest
-         * @param optBeforeRegsObj Registers of which at least one must come before 'additionObj', or ``None`` for none
-         * @param optAfterRegsObj Registers of which at least one must come after 'additionObj', or ``None`` for none
+         * @param additionsObj The `KVP`_ tuple(s) to add -- one ``(key, value)`` tuple, or a list of them
+         * @param beforeRegsObj The registers that must come before 'additionsObj', or ``None`` for none
+         * @param afterRegsObj The registers that must come after 'additionsObj', or ``None`` for none
+         * @param latest Whether to add 'additionsObj' at the latest valid location instead of the earliest
+         * @param optBeforeRegsObj Registers of which at least one must come before 'additionsObj', or ``None`` for none
+         * @param optAfterRegsObj Registers of which at least one must come after 'additionsObj', or ``None`` for none
          */
-        PyRegSurroundedAdd(py::object additionObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest,
+        PyRegSurroundedAdd(py::object additionsObj, py::object beforeRegsObj, py::object afterRegsObj, bool latest,
                            py::object optBeforeRegsObj, py::object optAfterRegsObj);
 };
 
 
 /**
- * @brief Parses a `Python`_ 2-tuple into the core's own ``(K, V)`` addition pair
+ * @brief
+ @rst
+ Parses the `Python`_ value given for an edit's ``additions`` into the core's own
+ :cpp:type:`AGRemapCore::RegSurroundedAdd::Additions` :raw-html:`<br />` :raw-html:`<br />`
+
+ Accepts either a single ``(key, value)`` tuple of two strings (normalized to a one-entry list) or
+ any iterable of such tuples, in order; ``None`` means no entries
+ @endrst
  *
- * @param additionObj The Python value to parse
+ * @param additionsObj The Python value to parse
  *
- * @throw pybind11::type_error If 'additionObj' isn't a 2-length sequence
+ * @throw pybind11::type_error If 'additionsObj' is neither a 2-tuple of strings nor an iterable of them
  */
-std::pair<std::string, std::string> parseAddition(const py::object &additionObj);
+PyRegSurroundedAdd::Core::Additions parseAdditions(const py::object &additionsObj);
+
+
+/**
+ * @brief Converts the core's ``additions`` back into the `Python`_ list of ``(key, value)`` tuples a reader expects
+ *
+ * @param additions The entries to convert
+ */
+py::list additionsToPy(const PyRegSurroundedAdd::Core::Additions &additions);
 
 
 /**

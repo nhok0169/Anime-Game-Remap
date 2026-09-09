@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="99" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="167" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="104" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="172" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="172" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -51,7 +51,7 @@ What the edited texture is called in the ``.ini`` file it is written into, eg.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="113" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="113" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="181" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref></type>
@@ -66,7 +66,7 @@ What the edited texture is called in the ``.ini`` file it is written into, eg.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="118" column="31" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="118" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="186" column="31" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="186" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -85,7 +85,7 @@ Whether the edited texture is written back compressed -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="127" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="127" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="195" column="18" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="195" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -93,7 +93,7 @@ Whether the edited texture is written back compressed -- see
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="95" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="95" bodyend="128"/>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="163" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="163" bodyend="196"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>compress</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexEdit</scope><name>filter</name></member>

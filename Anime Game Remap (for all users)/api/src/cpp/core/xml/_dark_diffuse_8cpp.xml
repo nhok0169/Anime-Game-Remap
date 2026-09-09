@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="_dark_diffuse_8cpp" kind="file" language="C++">
+    <compoundname>DarkDiffuse.cpp</compoundname>
+    <includes refid="_dark_diffuse_8h" local="yes">AGRemapCore/data/IniFixData/DarkDiffuse.h</includes>
+    <includes refid="_texture_file_8h" local="yes">AGRemapCore/model/files/TextureFile.h</includes>
+    <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>AGRemapCore/data/IniFixData/DarkDiffuse.h</label>
+        <link refid="_dark_diffuse_8h"/>
+      </node>
+      <node id="3">
+        <label>AGRemapCore/model/files/TextureFile.h</label>
+        <link refid="_texture_file_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="14">
+        <label>AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</label>
+        <link refid="_base_tex_editor_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
+        <link refid="_tex_editor_8h"/>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>compressonator.h</label>
+      </node>
+      <node id="10">
+        <label>cstddef</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>optional</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="11">
+        <label>tuple</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_dark_diffuse_8h" kindref="compound">AGRemapCore/data/IniFixData/DarkDiffuse.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_texture_file_8h" kindref="compound">AGRemapCore/model/files/TextureFile.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_editor_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/TexEditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1<sp/>/<sp/>2.2<sp/>--<sp/>spelled<sp/>as<sp/>the<sp/>division<sp/>rather<sp/>than<sp/>0.4545...<sp/>so<sp/>it<sp/>reads<sp/>as<sp/>the<sp/>sRGB<sp/>exponent<sp/>it</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is,<sp/>exactly<sp/>as<sp/>the<sp/>pure-Python<sp/>&quot;1<sp/>/<sp/>ColourConsts.StandardGamma&quot;<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_dark_diffuse_1ad468f8b4a43736ad2095c13e727471c8" kindref="member">DarkDiffuse::Gamma</ref><sp/>=<sp/>1.0<sp/>/<sp/>2.2;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_dark_diffuse_1aa6959e76275de2e33fca7d16de8150cf" kindref="member">DarkDiffuse::edit</ref>(<ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref>&amp;<sp/>texFile)<sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>setTransparency<sp/>already<sp/>no-ops<sp/>on<sp/>a<sp/>texture<sp/>with<sp/>no<sp/>image,<sp/>so<sp/>there<sp/>is<sp/>nothing<sp/>to<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>here<sp/>that<sp/>it<sp/>does<sp/>not<sp/>guard<sp/>itself.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_editor_1a436e2479eb1527e22a9171b9c364be90" kindref="member">TexEditor::setTransparency</ref>(texFile,<sp/>0);</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>rather<sp/>than<sp/>a<sp/>pixel<sp/>pass:<sp/>save()<sp/>applies<sp/>it<sp/>through<sp/>GammaFilter<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>before<sp/>encoding,<sp/>which<sp/>is<sp/>the<sp/>only<sp/>point<sp/>at<sp/>which<sp/>the<sp/>correction<sp/>is<sp/>wanted.<sp/>Doing<sp/>it<sp/>here</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>would<sp/>gamma-correct<sp/>the<sp/>buffer<sp/>and<sp/>then<sp/>correct<sp/>it<sp/>again<sp/>on<sp/>the<sp/>way<sp/>out.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>texFile.setGamma(<ref refid="class_a_g_remap_core_1_1_dark_diffuse_1ad468f8b4a43736ad2095c13e727471c8" kindref="member">Gamma</ref>);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="src/data/IniFixData/DarkDiffuse.cpp"/>
+  </compounddef>
+</doxygen>

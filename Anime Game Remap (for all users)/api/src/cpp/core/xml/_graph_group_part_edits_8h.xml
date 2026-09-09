@@ -25,6 +25,9 @@
       <node id="81">
         <label>BaseRegEdit.tpp</label>
       </node>
+      <node id="46">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="52">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -680,9 +683,6 @@
         </childnode>
         <childnode refid="54" relation="include">
         </childnode>
-      </node>
-      <node id="46">
-        <label>CallGraph.tpp</label>
       </node>
       <node id="67">
         <label>Generator.tpp</label>

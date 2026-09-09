@@ -37,7 +37,7 @@ def remapMain():
                                    undoOnly = args.undo, readAllInis = readAllInis, types = args.types, defaultType = defaultType, forcedType = forcedType,
                                    log = args.log, verbose = True, handleExceptions = True, remappedTypes = args.remappedTypes,
                                    version = args.version, proxy = args.proxy, downloadMode = args.download,
-                                   gameTypes = args.game, uncompressTextures = args.uncompressTextures)
+                                   gameTypes = args.game, compressTextures = args.compressTextures)
     remapService.fix()
     remapService.logger.waitExit()
 

@@ -17,6 +17,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/IniFileFixContext.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegDelimitedAdd.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
@@ -27,6 +28,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h"
+#include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h"
 #include "AGRemapCore/model/strategies/iniParsers/BaseIniParser.h"
 
@@ -524,8 +526,31 @@ namespace AGRemapCore {
                     // 1. Drop the mod's own calls into the external ORFix library. Both halves go:
                     //    the fix re-issues NNFix itself below, in the one place it belongs, and
                     //    ORFix has no equivalent re-issue.
-                    auto isFixCall = [](long long, const std::string& value) {
-                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath;
+                    //
+                    // ORFix and NNFix go unconditionally: they are MANDATORY, re-issued for every
+                    // drawn object, so a survivor of the mod's own would be a duplicate call.
+                    //
+                    // TexFx does NOT, and matching it by folder was deleting modder content. TexFx
+                    // is OPTIONAL -- re-issued only where this character's objFixCalls row names a
+                    // sub-command -- so a mod's call to any other one duplicates nothing and is
+                    // simply a feature of their mod. GanyuTwilight's dress ships
+                    // 'CommandList\TexFx\Transparency.0', which the pure-Python original keeps in
+                    // the remapped copy and the folder match silently removed.
+                    //
+                    // So: strip only the sub-commands this fixer will itself re-issue, which keeps
+                    // the no-duplicates guarantee for those and leaves the rest alone.
+                    std::unordered_set<std::string> reissuedTexFx;
+                    for (const auto& fixCallEntry : config_.objFixCalls) {
+                        for (const std::string& fixCallPath : fixCallEntry.second) {
+                            if (StringTools::startsWith(fixCallPath, IniKeywords::TexFxFolder)) {
+                                reissuedTexFx.insert(fixCallPath);
+                            }
+                        }
+                    }
+
+                    auto isFixCall = [reissuedTexFx](long long, const std::string& value) {
+                        return value == IniKeywords::ORFixPath || value == IniKeywords::NNFixPath ||
+                               reissuedTexFx.find(value) != reissuedTexFx.end();
                     };
 
                     removeFixCalls_ = std::make_unique<RegRemove<>>(
@@ -538,19 +563,43 @@ namespace AGRemapCore {
                         std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>>{
                             {IniKeywords::DrawIndexed, std::nullopt}});
 
-                    // 3. Re-issue that draw call per object. RegFillMissing only touches the paths
-                    //    actually MISSING the register, so a path that already draws keeps the draw
-                    //    call it shipped with.
+                    // 3. Re-issue that draw call per object -- with RegFillMissing, which puts it
+                    //    AFTER everything the object's CommandList sets up.
+                    //
+                    //    getKeyMissingPartsNode reports a section whose branches ALL lack the
+                    //    register as allBranchesMissing, bubbling the fill up to the parent
+                    //    TextureOverride; a section where only SOME branches lack it gets just
+                    //    those branches. For a GIMI character nothing in the object's CommandList
+                    //    draws, so the draw lands on the TextureOverride, once, after the whole
+                    //    CommandList has returned.
+                    //
+                    //    That ordering is the point, and it is why this is NOT derived from 'ib'
+                    //    the way the pure-Python original derives it. Binding the draw to 'ib' puts
+                    //    it inside each branch that binds geometry -- ahead of anything the section
+                    //    does afterwards:
+                    //
+                    //        if $top...        ib, ps-t0, ps-t1, drawindexed
+                    //        endif
+                    //        if $DressTransparency==1
+                    //            ps-t69 = ResourceDressTransparency
+                    //            run = CommandList\TexFx\Transparency.0
+                    //        endif
+                    //
+                    //    The unfixed mod draws in the shared [CommandList<Mod>IB] instead, which
+                    //    runs once this section has RETURNED, so ps-t69 and TexFx are in place
+                    //    before any geometry is rendered. Drawing in the ib branches renders the
+                    //    dress before its transparency is configured, and TexFx then acts on a
+                    //    surface that is already drawn. The original has that bug; matching it
+                    //    reproduced it, which is why this deliberately diverges.
                     fillDrawIndexed_ = std::make_unique<RegFillMissing<>>(
                         IniKeywords::DrawIndexed,
                         RegFillMissing<>::makeFillMissing(IniKeywords::DrawIndexed, DrawIndexedAuto));
 
-                    // 4. Re-issue NNFix immediately before every drawindexed, and once at the end of
-                    //    any path that draws nothing -- the same rule as Raiden's 6.1 fix, and the
-                    //    reason RegDelimitedAdd exists.
-                    addNNFix_ = std::make_unique<RegDelimitedAdd<>>(
-                        std::pair<std::string, std::string>{IniKeywords::Run, IniKeywords::NNFixPath},
-                        RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}});
+                    // 4. Re-issuing the external libraries is per object now -- see the
+                    //    objFixCalls loop below, which builds one RegDelimitedAdd per call. The rule
+                    //    is the same for all three of them (NNFix, ORFix, TexFx): immediately before
+                    //    every drawindexed, and once at the end of any path that draws nothing,
+                    //    which is the reason RegDelimitedAdd exists.
 
                     // 0. Rename the copy GIMIFixer made -- that is what turns it into the remapped
                     //    mod, the originals being untouched and coming back via the appended source
@@ -605,6 +654,30 @@ namespace AGRemapCore {
                     faceRegSwap_ = std::make_unique<RegRemap<>>(
                         makeFaceRegSwap(config_.faceDiffuseReg, config_.faceLightMapReg));
 
+                    // THE FACE GETS ITS OWN, LENIENT ASSET REMAP -- notFoundVal left as
+                    // std::nullopt, which means "leave the value alone" rather than writing the
+                    // HashNotFound sentinel the drawn objects use.
+                    //
+                    // A missing tex_face_diffuse row on the TARGET is not the same kind of fact as a
+                    // missing ib or blend row. The latter is a real error and should be loud. The
+                    // former is a hole in the collected data: 3dmigoto's frame dump does not always
+                    // capture the face, and GanyuTwilight is one of the characters it missed -- her
+                    // source assets carry no face component at all, though she plainly has a face.
+                    //
+                    // Leaving the source's hash in place is also the RIGHT answer whenever the pair
+                    // shares one, which is the strong norm: of the eleven remap pairs where both
+                    // sides have a row, nine share it (the exceptions are Kaeya/KaeyaSailwind and
+                    // Keqing/KeqingOpulent). So this quietly does the correct thing for a shared
+                    // hash without anyone having to assert the missing row's value, and degrades to
+                    // a section that simply never fires rather than a corrupt one if it differs.
+                    //
+                    // The same reasoning RaidenFixer applies by giving its face a rename and no
+                    // asset remap at all -- RaidenBoss has no tex_face_diffuse row either.
+                    faceAssetRemap_ = std::make_unique<RegAssetRemap<>>(
+                        std::vector<std::pair<std::string, RegAssetRemap<>::AssetSpec>>{
+                            {IniKeywords::Hash, RegAssetRemap<>::AssetSpec(ctx_.modTypeHashes())}},
+                        toModName_, ctx_.modTypeName().value_or(""), ctx_.version(), toVersion);
+
                     renameAdapter_ = std::make_unique<GraphPartEdit<>>(renameGraph_.get());
                     renameBlendAdapter_ = std::make_unique<GraphPartEdit<>>(renameBlendGraph_.get());
                     renamePositionAdapter_ = std::make_unique<GraphPartEdit<>>(renamePositionGraph_.get());
@@ -612,10 +685,113 @@ namespace AGRemapCore {
                     renameIbAdapter_ = std::make_unique<GraphPartEdit<>>(renameIbGraph_.get());
                     assetAdapter_ = std::make_unique<RegPartEdit<>>(assetRemap_.get());
                     faceSwapAdapter_ = std::make_unique<RegPartEdit<>>(faceRegSwap_.get());
+                    faceAssetAdapter_ = std::make_unique<RegPartEdit<>>(faceAssetRemap_.get());
                     removeFixCallsAdapter_ = std::make_unique<RegPartEdit<>>(removeFixCalls_.get());
                     fillAdapter_ = std::make_unique<GraphPartEdit<>>(fillDrawIndexed_.get());
-                    addNNFixAdapter_ = std::make_unique<GraphPartEdit<>>(addNNFix_.get());
                     removeDrawIndexedAdapter_ = std::make_unique<RegPartEdit<>>(removeDrawIndexed_.get());
+
+                    // ---- register shifts ----
+                    //
+                    // One RegRemap per object holding every rename that object wants, which is what
+                    // makes a shift safe: remapKeys rebuilds the part in a single pass, consulting
+                    // the rules once per ORIGINAL key, so ps-t1 -> ps-t0 and ps-t2 -> ps-t1 cannot
+                    // read each other's output. Two edits in sequence would collapse them.
+                    for (const auto& entry : config_.objRegRemaps) {
+                        const ModObj modObj("", entry.first);
+
+                        std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
+                        for (const auto& rename : entry.second) {
+                            RemapList<std::string, std::string> targets;
+                            for (const std::string& toReg : rename.second) {
+                                targets.push_back(toReg);
+                            }
+
+                            remaps.emplace_back(rename.first, RegRemap<>::KeyRemapValue(std::move(targets)));
+                        }
+
+                        auto edit = std::make_unique<RegRemap<>>(std::move(remaps));
+                        regRemapAdapters_[modObj] = std::make_unique<RegPartEdit<>>(edit.get());
+                        regRemaps_[modObj] = std::move(edit);
+                    }
+
+                    // ---- which external libraries each object re-issues ----
+                    //
+                    // One RegDelimitedAdd per call, all sharing the same placement rule -- see
+                    // GIMICharFixerConfig::objFixCalls -- but NOT all unconditional.
+                    //
+                    // NNFix and ORFix are MANDATORY: a remapped object re-issues them whether or not
+                    // the mod mentions them. TexFx is OPTIONAL. It is an addon a modder opts into by
+                    // binding its two dedicated registers, ps-t69 and ps-t70, so its sub-command
+                    // belongs only where one of those is actually bound -- which is what requiredRegs
+                    // below expresses.
+                    //
+                    // Without that gate TexFx was placed like NNFix, before every draw. On
+                    // GanyuTwilight's head that is six TN.0 calls where the pure-Python original
+                    // emits exactly one, on the trailing 'ps-t69 = null' part.
+                    std::unordered_map<ModObj, std::vector<std::string>, Fixer::ModObjHash> fixCalls;
+                    for (const ModObj& modObj : targetObjs_) {
+                        fixCalls[modObj] = {IniKeywords::NNFixPath};
+                    }
+
+                    for (const auto& entry : config_.objFixCalls) {
+                        fixCalls[ModObj("", entry.first)] = entry.second;
+                    }
+
+                    for (const auto& entry : fixCalls) {
+                        for (const std::string& path : entry.second) {
+                            // TexFx reads ps-t69/ps-t70, so its sub-command only has to come AFTER
+                            // whichever of them the modder bound -- not at the end of the path, and
+                            // not at all when neither is bound. That is an any-of "must precede"
+                            // group, which is exactly RegSurroundedAdd::optBeforeRegs.
+                            if (StringTools::startsWith(path, IniKeywords::TexFxFolder)) {
+                                auto texFxAdd = std::make_unique<RegSurroundedAdd<>>(
+                                    RegSurroundedAdd<>::Additions{{IniKeywords::Run, path}},
+                                    RegSurroundedAdd<>::RegMap{},
+                                    RegSurroundedAdd<>::RegMap{},
+                                    false,
+                                    RegSurroundedAdd<>::RegMap{
+                                        {IniKeywords::PsT69, {}}, {IniKeywords::PsT70, {}}});
+
+                                fixCallAdapters_[entry.first].push_back(
+                                    std::make_unique<GraphPartEdit<>>(texFxAdd.get()));
+                                texFxAdds_.push_back(std::move(texFxAdd));
+                                continue;
+                            }
+
+                            // NNFix and ORFix are mandatory and keyed on the draw call instead.
+                            //
+                            // pathEndOnlyWhenUndelimited: one call immediately before every draw,
+                            // and a single one at the end only for a graph that never draws (the
+                            // shape a character whose fix does not move the draw call has). Without
+                            // it a path that already drew picks up one more call after its last
+                            // draw, and ORFix swaps the diffuse and lightmap registers on every
+                            // call, so that surplus one leaves them swapped.
+                            auto add = std::make_unique<RegDelimitedAdd<>>(
+                                RegDelimitedAdd<>::Additions{{IniKeywords::Run, path}},
+                                RegDelimitedAdd<>::RegMap{{IniKeywords::DrawIndexed, {}}},
+                                /*pathEndOnlyWhenUndelimited*/ true);
+
+                            fixCallAdapters_[entry.first].push_back(
+                                std::make_unique<GraphPartEdit<>>(add.get()));
+                            fixCallAdds_.push_back(std::move(add));
+                        }
+                    }
+
+                    // Registers this target has no use for, stripped before anything else looks
+                    // at the part. std::nullopt as the check means "every occurrence, whatever its
+                    // value" -- the same shape removeDrawIndexed_ uses.
+                    for (const auto& entry : config_.objRegRemovals) {
+                        const ModObj modObj("", entry.first);
+
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
+                        for (const std::string& reg : entry.second) {
+                            keys.emplace_back(reg, std::nullopt);
+                        }
+
+                        auto edit = std::make_unique<RegRemove<>>(std::move(keys));
+                        regRemovalAdapters_[modObj] = std::make_unique<RegPartEdit<>>(edit.get());
+                        regRemovals_[modObj] = std::move(edit);
+                    }
 
                     buildIndexEdits(toVersion);
 
@@ -650,7 +826,22 @@ namespace AGRemapCore {
                     // The one edit that does need a window has a group edit to itself -- see
                     // buildIndexEdits, and GIMIObjPartFilter for why filters are usually mandatory.
                     for (const ModObj& modObj : targetObjs_) {
-                        std::vector<ObjGroupEdit::PartEdit*> edits = {removeFixCallsAdapter_.get()};
+                        std::vector<ObjGroupEdit::PartEdit*> edits;
+
+                        // FIRST, so nothing downstream has to reason about a register that is on its
+                        // way out -- notably the NNFix placement, which counts what it walks past.
+                        auto removal = regRemovalAdapters_.find(modObj);
+                        if (removal != regRemovalAdapters_.end()) {
+                            edits.push_back(removal->second.get());
+                        }
+
+                        edits.push_back(removeFixCallsAdapter_.get());
+
+                        // After the removal and before anything that reads a register by name.
+                        auto remap = regRemapAdapters_.find(modObj);
+                        if (remap != regRemapAdapters_.end()) {
+                            edits.push_back(remap->second.get());
+                        }
 
                         // The rename belongs to whichever of the two actually did it. With a split,
                         // GraphGroupRemap::copyGraph already renamed every section as it copied --
@@ -669,7 +860,13 @@ namespace AGRemapCore {
                             edits.push_back(fillAdapter_.get());
                         }
 
-                        edits.push_back(addNNFixAdapter_.get());
+                        auto calls = fixCallAdapters_.find(modObj);
+                        if (calls != fixCallAdapters_.end()) {
+                            for (const auto& adapter : calls->second) {
+                                edits.push_back(adapter.get());
+                            }
+                        }
+
                         edits.push_back(assetAdapter_.get());
 
                         // Forced register values come last, so nothing above can overwrite them.
@@ -714,7 +911,7 @@ namespace AGRemapCore {
                     // has a mod object of its own. The rename is what stops the copied graph
                     // rendering as a verbatim duplicate of the source text, the same trap the blend
                     // fell into.
-                    iniEdits.edits[FaceObj] = {renameAdapter_.get(), assetAdapter_.get(),
+                    iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(),
                                                 faceSwapAdapter_.get()};
                     iniEdits.trackKeys[FaceObj] = false;
 
@@ -741,6 +938,16 @@ namespace AGRemapCore {
                 std::size_t groupCount_ = 1;
 
                 std::unique_ptr<ObjGroupRemap> objSplitRemap_;
+                std::unordered_map<ModObj, std::unique_ptr<RegRemap<>>, Fixer::ModObjHash> regRemaps_;
+                std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> regRemapAdapters_;
+
+                std::vector<std::unique_ptr<RegDelimitedAdd<>>> fixCallAdds_;
+                std::vector<std::unique_ptr<RegSurroundedAdd<>>> texFxAdds_;
+                std::unordered_map<ModObj, std::vector<std::unique_ptr<GraphPartEdit<>>>, Fixer::ModObjHash> fixCallAdapters_;
+
+                std::unordered_map<ModObj, std::unique_ptr<RegRemove<>>, Fixer::ModObjHash> regRemovals_;
+                std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> regRemovalAdapters_;
+
                 std::unordered_map<ModObj, std::unique_ptr<RegNewVals<>>, Fixer::ModObjHash> newRegVals_;
                 std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> newRegValAdapters_;
 
@@ -749,6 +956,7 @@ namespace AGRemapCore {
 
                 std::unique_ptr<RegRemap<>> faceRegSwap_;
                 std::unique_ptr<RegPartEdit<>> faceSwapAdapter_;
+                std::unique_ptr<RegPartEdit<>> faceAssetAdapter_;
 
                 std::vector<std::unique_ptr<VGRemapBlendReplace<>>> blendReplaces_;
                 std::vector<std::unique_ptr<Collector>> blendCollects_;
@@ -759,9 +967,9 @@ namespace AGRemapCore {
                 std::unique_ptr<GraphRename<>> renameTexcoordGraph_;
                 std::unique_ptr<GraphRename<>> renameIbGraph_;
                 std::unique_ptr<RegAssetRemap<>> assetRemap_;
+                std::unique_ptr<RegAssetRemap<>> faceAssetRemap_;
                 std::unique_ptr<RegRemove<>> removeFixCalls_;
                 std::unique_ptr<RegFillMissing<>> fillDrawIndexed_;
-                std::unique_ptr<RegDelimitedAdd<>> addNNFix_;
                 std::unique_ptr<RegRemove<>> removeDrawIndexed_;
 
                 std::unique_ptr<GraphPartEdit<>> renameAdapter_;
@@ -772,7 +980,6 @@ namespace AGRemapCore {
                 std::unique_ptr<RegPartEdit<>> assetAdapter_;
                 std::unique_ptr<RegPartEdit<>> removeFixCallsAdapter_;
                 std::unique_ptr<GraphPartEdit<>> fillAdapter_;
-                std::unique_ptr<GraphPartEdit<>> addNNFixAdapter_;
                 std::unique_ptr<RegPartEdit<>> removeDrawIndexedAdapter_;
 
                 std::unique_ptr<ObjFilter> objFilter_;

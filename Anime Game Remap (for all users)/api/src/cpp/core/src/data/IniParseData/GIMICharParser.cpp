@@ -98,13 +98,39 @@ namespace AGRemapCore {
                  */
                 void buildDownloads(const GIMICharParserConfig& config, long long vertexCount) {
                     for (const std::string& obj : config.drawnObjs) {
-                        // "head" is the mod object; "Head" is the middle of the file name.
+                        // "head" is the mod object; "Head" is the middle of the file name AND of the
+                        // .ini resource name.
+                        //
+                        // THE OBJECT HAS TO BE IN THE .INI NAME, not just the file name.
+                        // createDownloadResource builds the resource section as
+                        // "<modType><download name>" and dedupes on it, so calling these "Diffuse"
+                        // gave every drawn object the same section: head's and body's diffuse
+                        // downloads collapsed into one [Resource<Mod>DiffuseRemapDL], one of them
+                        // silently winning. Naming them "HeadDiffuse"/"BodyDiffuse" separates them
+                        // and matches the old script, which emits [Resource<Mod>BodyDiffuseRemapDL].
                         const std::string file = TextTools::capitalize(obj);
 
-                        add(config, {"", obj}, "ps-t0", "Diffuse", file + "Diffuse", ".dds");
-                        add(config, {"", obj}, "ps-t1", "LightMap", file + "LightMap", ".dds");
-                        add(config, {"", obj}, IniKeywords::Ib, "Ib", file, ".ib",
-                             DownloadTools::ibResourceKVPs());
+                        // refToSection: referenced ONCE from the top of each root section the
+                        // register does not fully cover, which is what the pure-Python original
+                        // does -- its output carries all three on
+                        // [TextureOverride<Mod><Obj><Target>RemapFix].
+                        //
+                        // Per-part placement (the default) only agrees with that while every
+                        // branch of a CommandList binds every register, as Ningguang's single
+                        // if-block does. GanyuTwilight's body is two sequential if-blocks -- six
+                        // branches binding ib, then two binding ps-t0/ps-t1 -- so per-part gave
+                        // the $Tight branches an ib they should not have and the ib branches a
+                        // ps-t0 they should not have. The draw call is derived from ib, so the two
+                        // stray ib lines became two stray drawindexed: 8 draws instead of 6, and
+                        // ORFix/NNFix run 8 times instead of 2. ORFix swaps the diffuse and
+                        // lightmap registers per call, so the surplus swaps turned the model green
+                        // and yellow.
+                        add(config, {"", obj}, "ps-t0", file + "Diffuse", file + "Diffuse", ".dds",
+                             {}, {}, true);
+                        add(config, {"", obj}, "ps-t1", file + "LightMap", file + "LightMap", ".dds",
+                             {}, {}, true);
+                        add(config, {"", obj}, IniKeywords::Ib, file + "Ib", file, ".ib",
+                             DownloadTools::ibResourceKVPs(), {}, true);
                     }
 
                     // The face diffuse. Named for the character rather than for an object, so
@@ -139,7 +165,8 @@ namespace AGRemapCore {
                  */
                 void add(const GIMICharParserConfig& config, const ModObj& modObj, const std::string& reg,
                           const std::string& kind, const std::string& file, const std::string& ext,
-                          DownloadTools::KVPs resourceKVPs = {}, DownloadTools::KVPs downloadRefKVPs = {}) {
+                          DownloadTools::KVPs resourceKVPs = {}, DownloadTools::KVPs downloadRefKVPs = {},
+                          bool refToSection = false) {
                     downloadStore_.add(
                         this->downloads, modObj, reg,
                         DownloadTools::make(kind,
@@ -147,7 +174,8 @@ namespace AGRemapCore {
                                                                      config.downloadVersionFolder,
                                                                      config.downloadPrefix, file, ext),
                                              DownloadTools::fixedFileName(config.downloadPrefix, file, ext),
-                                             std::move(resourceKVPs), std::move(downloadRefKVPs)));
+                                             std::move(resourceKVPs), std::move(downloadRefKVPs),
+                                             refToSection));
                 }
 
                 IniFileParseContext ctx_;

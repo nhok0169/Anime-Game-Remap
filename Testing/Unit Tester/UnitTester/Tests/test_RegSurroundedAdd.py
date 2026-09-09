@@ -44,7 +44,7 @@ class RegSurroundedAddTest(BaseUnitTest):
     def test_init_setsAttributes(self):
         edit = FRB.RegSurroundedAdd(("addition", "yay"), beforeRegs = {"a": None}, afterRegs = {"c": None}, latest = True)
 
-        self.assertEqual(edit.addition, ("addition", "yay"))
+        self.compareList(edit.additions, [("addition", "yay")])
         self.compareDict(edit.beforeRegs, {"a": None})
         self.compareDict(edit.afterRegs, {"c": None})
         self.assertTrue(edit.latest)
@@ -961,3 +961,69 @@ class RegSurroundedAddTest(BaseUnitTest):
         self.compareList(self._getContentPart(graph, "A").entries(), [("hash", "h"), ("run", "B")])
         self.compareList(self._getContentPart(graph, "B").entries(), [("x", "0"), ("addition", "yay"), ("run", "A")])
         self.compareList(self._getContentPart(graph, "unrelated").entries(), [("drawindexed", "d")])
+
+    # ================================================
+    # ================== additions ====================
+    # 'additions' is a list of KVPs: every entry lands together at the chosen position, as
+    # consecutive lines in list order. A single (key, value) tuple is still accepted and reads
+    # back as a one-entry list.
+
+    def test_init_additions_singleTupleReadsBackAsAList(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"))
+
+        self.compareList(edit.additions, [("addition", "yay")])
+
+    def test_init_additions_list(self):
+        edit = FRB.RegSurroundedAdd([("a", "1"), ("b", "2")])
+
+        self.compareList(edit.additions, [("a", "1"), ("b", "2")])
+
+    def test_init_additions_reassign(self):
+        edit = FRB.RegSurroundedAdd(("addition", "yay"))
+        edit.additions = [("a", "1"), ("b", "2")]
+        self.compareList(edit.additions, [("a", "1"), ("b", "2")])
+
+        edit.additions = ("c", "3")
+        self.compareList(edit.additions, [("c", "3")])
+
+    def test_init_additions_badShape_raises(self):
+        with self.assertRaises(TypeError):
+            FRB.RegSurroundedAdd("addition")
+        with self.assertRaises(TypeError):
+            FRB.RegSurroundedAdd([("a", "1", "extra")])
+
+    def test_edit_additions_severalRows_landTogetherInOrder_earliest(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "c": [(1, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        FRB.RegSurroundedAdd([("x", "1"), ("y", "2"), ("z", "3")], beforeRegs = {"a": None}, afterRegs = {"c": None}).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("x", "1"), ("y", "2"), ("z", "3"), ("c", "3")])
+
+    def test_edit_additions_severalRows_landTogetherInOrder_latest(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "b": [(1, "2")], "c": [(2, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        FRB.RegSurroundedAdd([("x", "1"), ("y", "2")], beforeRegs = {"a": None}, afterRegs = {"c": None}, latest = True).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("b", "2"), ("x", "1"), ("y", "2"), ("c", "3")])
+
+    def test_edit_additions_severalRows_stillOncePerWindowAcrossACall(self):
+        sections = {
+            "override": FRB.IfTemplate([FRB.IfContentPart({"hash": [(0, "h")], "run": [(1, "cmd")]}, 0)]),
+            "cmd": FRB.IfTemplate([FRB.IfContentPart({"drawindexed": [(0, "d")]}, 0)]),
+        }
+        graph = FRB.IniSectionGraph(sections, ["override"])
+
+        FRB.RegSurroundedAdd([("x", "1"), ("y", "2")], beforeRegs = {"hash": None}, afterRegs = {"drawindexed": None}, latest = True).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "override").entries(), [("hash", "h"), ("run", "cmd")])
+        self.compareList(self._getContentPart(graph, "cmd").entries(), [("x", "1"), ("y", "2"), ("drawindexed", "d")])
+
+    def test_edit_additions_empty_noOp(self):
+        sections = {"root": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "c": [(1, "3")]}, 0)])}
+        graph = FRB.IniSectionGraph(sections, ["root"])
+
+        FRB.RegSurroundedAdd([], beforeRegs = {"a": None}, afterRegs = {"c": None}).edit(graph, None)
+
+        self.compareList(self._getContentPart(graph, "root").entries(), [("a", "1"), ("c", "3")])

@@ -545,6 +545,26 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    std::unordered_map<std::string, std::set<typename IniSectionGraph<K, V, KeyHash, KeyEqual>::ContentPart*>> IniSectionGraph<K, V, KeyHash, KeyEqual>::targetsGetKeyMissingParts(const K& key) const {
+        std::unordered_map<std::string, std::set<ContentPart*>> allMissing = getKeyMissingParts(key);
+        std::unordered_map<std::string, std::set<ContentPart*>> result;
+
+        // targetSectionNames_ is what the graph was asked for; roots_ is what building it settled
+        // on. They agree for a graph built the ordinary way, and the fallback keeps a graph whose
+        // targets were never set from silently reporting nothing.
+        const std::vector<std::string>& targets = targetSectionNames_.empty() ? roots_ : targetSectionNames_;
+
+        for (const std::string& sectionName : targets) {
+            auto found = allMissing.find(sectionName);
+            if (found != allMissing.end() && !found->second.empty()) {
+                result.emplace(sectionName, found->second);
+            }
+        }
+
+        return result;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
     std::unordered_map<typename IniSectionGraph<K, V, KeyHash, KeyEqual>::ContentPart*, std::vector<typename IniSectionGraph<K, V, KeyHash, KeyEqual>::ContentPart*>>
     IniSectionGraph<K, V, KeyHash, KeyEqual>::computeSectionPredecessors(const std::vector<std::unique_ptr<IfTemplatePart>>& parts) {
         std::unordered_map<ContentPart*, std::vector<ContentPart*>> predecessors;

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ningguang_orchid_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NingguangOrchidFixer</compoundname>
+    <includes refid="_ningguang_orchid_fixer_8h" local="no">NingguangOrchidFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1af4f3dab769c9da5c50fb93aa719b184c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NingguangOrchidFixer::NingguangOrchidFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NingguangOrchidFixer</name>
+        <qualifiedname>AGRemapCore::NingguangOrchidFixer::NingguangOrchidFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchidFixer.h" line="21" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1a469362884c192ec530a90c49755d6991" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NingguangOrchidFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::NingguangOrchidFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era NingguangOrchid ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::ningguangOrchid6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchidFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/NingguangOrchidFixer.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NingguangOrchid&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`NingguangOrchidParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/NingguangOrchidFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NingguangOrchidFixer.h" bodystart="18" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1af4f3dab769c9da5c50fb93aa719b184c" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidFixer</scope><name>NingguangOrchidFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1a469362884c192ec530a90c49755d6991" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

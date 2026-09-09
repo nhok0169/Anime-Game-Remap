@@ -445,7 +445,9 @@ print("The Raiden Mod is fixed!")
 | -ft str, --forceType str | Forcibly assumes the mod type for all *.ini file parsed. <br> <br> This option supersedes the --types option and the --all option. <br> <br> See below for the different names/aliases of the supported types of mods. |
 | -t str, --types str | Parses *.ini files that the program encounters for only specific types of mods. If the --all option has been specified, this option has no effect. <br> By default, if this option is not specified, will parse the *.ini files for all the supported types of mods. <br> <br> Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,) <br> &nbsp; &nbsp; &nbsp; *eg. raiden,arlecchino,ayaya* |
 | -rt str, --remappedTypes str |  From all the mods to fix, specified by the --types option, will specifically remap those mods to the mods specified by this option. <br> For a mod specified by the --types option, if none of its corresponding remapped mods are specified by this option, then the mod specified by the --types option will be remapped to all its corresponding mods. <br> <br> ------------------- <br> eg. <br> If this program was ran with the following options: <br> --types kequeen,jean <br> --remappedTypes jeanSea <br> <br> the program will do the following remap: <br> keqing --> keqingOpulent <br> Jean --> JeanSea <br> <br> Note that Jean will not remap to JeanCN <br> ------------------- <br> <br> By default, if this option is not specified, will remap all the mods specified in --types to their corresponding remapped mods. <br> <br> Please specify the types of mods using the the mod type's name or alias, then seperate each name/alias with a comma(,) <br> eg. raiden,arlecchino,ayaya <br> <br> See below for the different names/aliases of the supported types of mods. |
-| -dl str, --download str | The download mode to handle file downloads need. By default, **HardTexDriven** Download mode is used. Please visit [DownloadModes](#download-modes) for details on the available download modes |
+| -g str, --game str | Fixes mods only for the specified games. <br> By default, if this option is not specified, will fix mods for all the supported games. <br> <br> Please specify the types of games using the game type's name or alias, then seperate each name/alias with a comma(,) <br> &nbsp; &nbsp; &nbsp; *eg. GI,WuWa* <br> <br> See [GameTypes](#game-types) for the different names/aliases of the supported types of games. |
+| -c, --compressTextures | Whether to compress the textures the fix writes. <br> <br> **By default, textures are left uncompressed**, which is what the older pure-Python versions always did. <br> <br> Pick your poison, do you want the fix to run faster, but your textures take up more space OR your fix to run slower, but textures take minimal space. <br> <br> This option only **permits** compression. Specifying it lets each mod type's own texture edits decide for themselves; an edit that deliberately writes an uncompressed texture still does so. |
+| -dl str, --download str | The download mode to handle file downloads need. By default, **Normal** Download mode is used. Please visit [DownloadModes](#download-modes) for details on the available download modes |
 | -p str, --proxy str | The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy |
 
 <br>
@@ -505,6 +507,21 @@ Below are the supported types of mods
 | XingqiuBamboo | BookwormBamboo, BookwormLanternRite, ChongyunsBestieBamboo, ChongyunsBestieLanternRite, GuhuaGeekBamboo, GuhuaGeekLanternRite, LanternRiteBookworm, LanternRiteChongyunsBestie, LanternRiteGuhuaGeek, LanternRiteSecondSonofTheFeiyunCommerceGuild, LanternRiteXingqiu, SecondSonofTheFeiyunCommerceGuildBamboo, SecondSonofTheFeiyunCommerceGuildLanternRite, XingqiuLanternRite | check if the .ini file contains a section matching the regex, `^\s*\[\s*textureoverride.*(xingqiubamboo).*\]` |
 <br>
 
+## Game Types
+Below are the supported types of games
+
+> [!TIP]
+> The names/aliases for the game types are not case sensitive
+
+<br>
+
+| Name | Aliases |
+| --- | --- |
+| GI | Genshin, GenshinImpact |
+| WuWa | WutheringWaves |
+
+<br>
+
 ## Download Modes
 Below are the different download modes for the software. These modes are used when specifying the `-dl` option
 
@@ -513,15 +530,8 @@ Below are the different download modes for the software. These modes are used wh
 | Name | Description |
 | ---- | ----------- |
 | Disabled | Will not perform any file downloads for any mods |
-| Always | Will always perform file downloads for every mod, if possible |
-| AlwaysTex | Only download textures or .ib files |
-| AlwaysBuf | Only download .buf files, if possible |
-| Tex | Only download textures or .ib files if there is a specified branch in the texture sections that does not reference the files |
-| Buf | Only download .buf files if there is a specified branch in the .vb sections that does not reference the files |
-| HardTexDriven | Will perform file downloads based off the following heuristics: <br> <br> 1. Download textures or .ib files if there is a specified branch in the texture sections that does not reference the files <br> 2. If any texture/.ib downloads needed to be performed, then download .buf files at specified branches with missing resources |
-| HardTexDrivenAll | Will perform file downloads based off the following heuristics: <br> <br> 1. Download textures or .ib files if there is a specified branch in the texture sections that does not reference the files <br> 2. If any texture/.ib downloads needed to be performed, then download model .buf files at specified/unspecified branch cases with missing resources |
-| SoftTexDriven | Will perform file downloads based off the following heuristics: <br> <br> 1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files <br> 2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified branch cases with missing resources |
-| SoftTexDrivenAll | Will perform file downloads based off the following heuristics: <br> <br> 1. Download textures or .ib files if there is a specified branch in the texture `sections`_ that does not reference the files <br> 2. Download .buf files if either texture/.ib downloads needed to be performed or there are specified/unspecified branch cases with missing resources |
+| Normal | Only perform file downloads at places in a .ini file where a resource is missing <br> <br> This is the default when the option is not specified |
+| Always | Will always perform file downloads for every mod, if possible, using pessimistic assumptions |
 
 
 <br>

@@ -4,11 +4,16 @@
     <compoundname>src/data/IniParseData</compoundname>
     <innerfile refid="_amber_c_n_parser_8cpp">AmberCNParser.cpp</innerfile>
     <innerfile refid="_amber_parser_8cpp">AmberParser.cpp</innerfile>
+    <innerfile refid="_ganyu_parser_8cpp">GanyuParser.cpp</innerfile>
+    <innerfile refid="_ganyu_twilight_parser_8cpp">GanyuTwilightParser.cpp</innerfile>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
     <innerfile refid="_jean_c_n_parser_8cpp">JeanCNParser.cpp</innerfile>
     <innerfile refid="_jean_parser_8cpp">JeanParser.cpp</innerfile>
+    <innerfile refid="_jean_sea_parser_8cpp">JeanSeaParser.cpp</innerfile>
     <innerfile refid="_mona_c_n_parser_8cpp">MonaCNParser.cpp</innerfile>
     <innerfile refid="_mona_parser_8cpp">MonaParser.cpp</innerfile>
+    <innerfile refid="_ningguang_orchid_parser_8cpp">NingguangOrchidParser.cpp</innerfile>
+    <innerfile refid="_ningguang_parser_8cpp">NingguangParser.cpp</innerfile>
     <innerfile refid="_raiden_parser_8cpp">RaidenParser.cpp</innerfile>
     <innerfile refid="_rosaria_c_n_parser_8cpp">RosariaCNParser.cpp</innerfile>
     <innerfile refid="_rosaria_parser_8cpp">RosariaParser.cpp</innerfile>

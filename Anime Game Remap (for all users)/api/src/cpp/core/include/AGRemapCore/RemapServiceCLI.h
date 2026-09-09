@@ -188,10 +188,10 @@ namespace AGRemapCore {
              **Default**: ``std::nullopt``
              @endrst
              *
-             * @param uncompressTextures
+             * @param compressTextures
              @rst
-             Whether every texture the fix writes is left uncompressed -- see
-             :cpp:member:`RemapService::uncompressTextures` :raw-html:`<br />` :raw-html:`<br />`
+             Whether the textures the fix writes are encoded to a compressed format -- see
+             :cpp:member:`RemapService::compressTextures` :raw-html:`<br />` :raw-html:`<br />`
 
              Already unambiguous as a ``bool``, so unlike the options around it there is nothing to
              convert and nothing that can fail -- it goes straight onto the model :raw-html:`<br />`
@@ -217,7 +217,7 @@ namespace AGRemapCore {
                                       std::optional<std::string> proxy = std::nullopt,
                                       std::optional<std::string> downloadMode = std::nullopt,
                                       std::optional<std::vector<std::string>> gameTypes = std::nullopt,
-                                      bool uncompressTextures = false);
+                                      bool compressTextures = false);
 
             // Subclassable from outside core (the CLI layer that owns the argument parser
             //   overrides addTips), so destruction has to go through the vtable.

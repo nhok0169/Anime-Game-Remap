@@ -90,7 +90,7 @@ There are **two** ways to build one, and which you want depends on what you are 
 the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
 ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
 ``verbose``, ``handleExceptions``, ``version``, ``remappedTypes``, ``proxy``, ``downloadMode`` and
-``gameTypes`` and ``uncompressTextures``. Mod type and game names/aliases become
+``gameTypes`` and ``compressTextures``. Mod type and game names/aliases become
 :class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
 `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`
 
@@ -134,7 +134,7 @@ a quiet run can still write a full log file
              py::arg("handleExceptions") = false, py::arg("version") = py::none(),
              py::arg("remappedTypes") = py::none(), py::arg("proxy") = py::none(),
              py::arg("downloadMode") = py::none(), py::arg("gameTypes") = py::none(),
-             py::arg("uncompressTextures") = false)
+             py::arg("compressTextures") = false)
 
         .def_property_readonly("hasErrorsBeforeFix", &AGRC::RemapServiceCLI::hasErrorsBeforeFix,
     py::doc(R"doc(:class:`bool`: Whether a string handed to the string constructor could not be converted

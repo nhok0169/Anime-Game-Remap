@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_jean_sea_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::JeanSeaFixer</compoundname>
+    <includes refid="_jean_sea_fixer_8h" local="no">JeanSeaFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_sea_fixer_1a6ff96efa3f554ad2a9bbafe483191d96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::JeanSeaFixer::JeanSeaFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>JeanSeaFixer</name>
+        <qualifiedname>AGRemapCore::JeanSeaFixer::JeanSeaFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="46" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_sea_fixer_1a40f86410ffa1d802a431f0274603d71c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::JeanSeaFixer::v6_1ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToJean</name>
+        <qualifiedname>AGRemapCore::JeanSeaFixer::v6_1ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping JeanSea onto **Jean** -- what
+:cpp:func:`IniFixBuilderFuncs::jeanSea6_1ToJean` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="55" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="55" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_sea_fixer_1a16246ff829585451b2a18b0097fba0e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::JeanSeaFixer::v6_1ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1ToJeanCN</name>
+        <qualifiedname>AGRemapCore::JeanSeaFixer::v6_1ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping JeanSea onto **JeanCN** -- what
+:cpp:func:`IniFixBuilderFuncs::jeanSea6_1ToJeanCN` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="64" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="60" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+JeanSea&apos;s own ``.ini`` fixers -- the **merge** side of the Jean family, and the only shape here
+that writes more than one ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+JeanSea draws a ``dress`` (her cape) that neither Jean nor JeanCN has any geometry for, so
+remapping *off* her is the reverse of :cpp:class:`JeanFixer`&apos;s split: her ``body`` **and** her
+``dress`` both have to become the target&apos;s single ``body``
+
+.. code-block::
+
+   JeanSea          Jean
+   head    -----&gt;   head
+   body    --+--&gt;   body
+   dress   --+
+
+Two sections cannot both be named ``body`` in one file -- a GIMI-like importer warns about two
+sections on one hash and shows only one of them. The way out is the importer&apos;s own
+overlapping-mod behaviour: the fix emits a **second ``.ini`` file** holding the other
+half, and the game draws both. :cpp:class:`GraphGroupRemap` produces that second
+:cpp:class:`IniGraphGroup` on its own, simply because the two targets collide
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+.. note::
+   **Both files carry the whole non-drawn set** -- blend, position, texcoord, ib,
+   VertexLimitRaise and face -- not just the merged object. A second file naming a
+   ``Blend.buf`` that is not in it would be broken; the old script&apos;s own
+   ``JeanSeaRemapFix1.ini`` shows the full set
+
+Like Jean, JeanSea is **two fixers, one per target**, rather than a ``MultiModFixer`` -- see
+:cpp:class:`JeanFixer`. Pair these with :cpp:class:`JeanSeaParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="43" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" bodystart="43" bodyend="65"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_jean_sea_fixer_1a6ff96efa3f554ad2a9bbafe483191d96" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaFixer</scope><name>JeanSeaFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_sea_fixer_1a40f86410ffa1d802a431f0274603d71c" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaFixer</scope><name>v6_1ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_jean_sea_fixer_1a16246ff829585451b2a18b0097fba0e4" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaFixer</scope><name>v6_1ToJeanCN</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

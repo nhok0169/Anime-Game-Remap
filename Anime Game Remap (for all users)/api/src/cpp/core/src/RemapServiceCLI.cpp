@@ -41,7 +41,7 @@ namespace AGRemapCore {
                                      std::optional<std::string> proxy,
                                      std::optional<std::string> downloadMode,
                                      std::optional<std::vector<std::string>> gameTypes,
-                                     bool uncompressTextures):
+                                     bool compressTextures):
         // Everything already unambiguous goes straight in. The seven string-shaped options are left
         // at their defaults here and filled in by the setups below, which is where they can fail.
         service(std::move(path), keepBackups, fixOnly, undoOnly, hideOrig, readAllInis),
@@ -51,7 +51,7 @@ namespace AGRemapCore {
         service.logger = logger;
         service.handleExceptions = handleExceptions;
         service.proxy = std::move(proxy);
-        service.uncompressTextures = uncompressTextures;
+        service.compressTextures = compressTextures;
 
         // Nothing resolves a mod type by name until the shipped ones are filed, and on a normal run
         // nothing has filed them yet -- the registry is otherwise populated as a side effect of the

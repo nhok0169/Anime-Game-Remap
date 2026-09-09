@@ -9,10 +9,15 @@
     <includedby refid="_amber_c_n_parser_8cpp" local="yes">src/data/IniParseData/AmberCNParser.cpp</includedby>
     <includedby refid="_amber_parser_8cpp" local="yes">src/data/IniParseData/AmberParser.cpp</includedby>
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
+    <includedby refid="_ganyu_parser_8cpp" local="yes">src/data/IniParseData/GanyuParser.cpp</includedby>
+    <includedby refid="_ganyu_twilight_parser_8cpp" local="yes">src/data/IniParseData/GanyuTwilightParser.cpp</includedby>
     <includedby refid="_jean_c_n_parser_8cpp" local="yes">src/data/IniParseData/JeanCNParser.cpp</includedby>
     <includedby refid="_jean_parser_8cpp" local="yes">src/data/IniParseData/JeanParser.cpp</includedby>
+    <includedby refid="_jean_sea_parser_8cpp" local="yes">src/data/IniParseData/JeanSeaParser.cpp</includedby>
     <includedby refid="_mona_c_n_parser_8cpp" local="yes">src/data/IniParseData/MonaCNParser.cpp</includedby>
     <includedby refid="_mona_parser_8cpp" local="yes">src/data/IniParseData/MonaParser.cpp</includedby>
+    <includedby refid="_ningguang_orchid_parser_8cpp" local="yes">src/data/IniParseData/NingguangOrchidParser.cpp</includedby>
+    <includedby refid="_ningguang_parser_8cpp" local="yes">src/data/IniParseData/NingguangParser.cpp</includedby>
     <includedby refid="_rosaria_c_n_parser_8cpp" local="yes">src/data/IniParseData/RosariaCNParser.cpp</includedby>
     <includedby refid="_rosaria_parser_8cpp" local="yes">src/data/IniParseData/RosariaParser.cpp</includedby>
     <incdepgraph>
@@ -36,6 +41,9 @@
       </node>
       <node id="100">
         <label>BiMap.tpp</label>
+      </node>
+      <node id="64">
+        <label>CallGraph.tpp</label>
       </node>
       <node id="95">
         <label>AGRemapCore/constants/GameTypeId.h</label>
@@ -961,9 +969,6 @@
         <childnode refid="70" relation="include">
         </childnode>
       </node>
-      <node id="64">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="83">
         <label>Generator.tpp</label>
       </node>
@@ -1116,6 +1121,16 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniParseData/AmberCNParser.cpp</label>
@@ -1130,26 +1145,46 @@
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="5">
+        <label>src/data/IniParseData/GanyuParser.cpp</label>
+        <link refid="_ganyu_parser_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/data/IniParseData/GanyuTwilightParser.cpp</label>
+        <link refid="_ganyu_twilight_parser_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/data/IniParseData/JeanCNParser.cpp</label>
         <link refid="_jean_c_n_parser_8cpp"/>
       </node>
-      <node id="6">
+      <node id="8">
         <label>src/data/IniParseData/JeanParser.cpp</label>
         <link refid="_jean_parser_8cpp"/>
       </node>
-      <node id="7">
+      <node id="9">
+        <label>src/data/IniParseData/JeanSeaParser.cpp</label>
+        <link refid="_jean_sea_parser_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/data/IniParseData/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="8">
+      <node id="11">
         <label>src/data/IniParseData/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="9">
+      <node id="12">
+        <label>src/data/IniParseData/NingguangOrchidParser.cpp</label>
+        <link refid="_ningguang_orchid_parser_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniParseData/NingguangParser.cpp</label>
+        <link refid="_ningguang_parser_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/data/IniParseData/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="10">
+      <node id="15">
         <label>src/data/IniParseData/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>

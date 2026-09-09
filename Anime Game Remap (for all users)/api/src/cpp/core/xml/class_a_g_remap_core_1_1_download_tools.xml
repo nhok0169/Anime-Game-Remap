@@ -185,10 +185,10 @@ conversions are the identity because ``K`` and ``V`` already *are* ``std::string
         </inbodydescription>
         <location file="include/AGRemapCore/tools/DownloadTools.h" line="100" column="45" bodyfile="src/tools/DownloadTools.cpp" bodystart="33" bodyend="44"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a16b58cfceba9f215e2f1fd5be9e078e7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aca818e2d47978787a7b77f16ba4c0e22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_download_tools_1a4cbc8f9373ee9b0460d3e777597be382" kindref="member">Download</ref> &gt;</type>
         <definition>std::unique_ptr&lt; DownloadTools::Download &gt; AGRemapCore::DownloadTools::make</definition>
-        <argsstring>(const std::string &amp;name, const std::string &amp;urlPath, const std::string &amp;fixedName, KVPs resourceKVPs={}, KVPs downloadRefKVPs={})</argsstring>
+        <argsstring>(const std::string &amp;name, const std::string &amp;urlPath, const std::string &amp;fixedName, KVPs resourceKVPs={}, KVPs downloadRefKVPs={}, bool refToSection=false)</argsstring>
         <name>make</name>
         <qualifiedname>AGRemapCore::DownloadTools::make</qualifiedname>
         <param>
@@ -212,6 +212,11 @@ conversions are the identity because ``K`` and ``V`` already *are* ``std::string
           <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
           <declname>downloadRefKVPs</declname>
           <defval>{}</defval>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>refToSection</declname>
+          <defval>false</defval>
         </param>
         <briefdescription>
         </briefdescription>
@@ -265,12 +270,34 @@ One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 <para>The <computeroutput><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></computeroutput>_ written after the reference to this download. <bold>Default</bold>: none </para>
 </parameterdescription>
 </parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>refToSection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+Whether the download is referenced once from the top of each root `section`_ the
+register does not fully cover, instead of from every part missing it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+This is the download-side spelling of
+:cpp:enumerator:`RegFillMissingMode::TopdownCover`, and both end up asking
+:cpp:func:`IniSectionGraph::rootsAreFullyCovered`.
+
+.. warning::
+   :cpp:func:`DownloadData::addToSection` does **not** write ``downloadRefKVPs`` --
+   only :cpp:func:`DownloadData::addToPart` does. A download that needs them must
+   stay per-part.
+
+**Default**: ``false``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
 </parameterlist>
 </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="120" column="36" bodyfile="src/tools/DownloadTools.cpp" bodystart="47" bodyend="57"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="136" column="36" bodyfile="src/tools/DownloadTools.cpp" bodystart="47" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a432a9e7c90eb8771c21631a16b42e807" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -325,7 +352,7 @@ One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="134" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="60" bodyend="63"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="150" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="60" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -369,7 +396,7 @@ One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="150" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="66" bodyend="70"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="166" column="32" bodyfile="src/tools/DownloadTools.cpp" bodystart="66" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -398,7 +425,7 @@ One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="159" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="73" bodyend="75"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="175" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="73" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -413,7 +440,7 @@ One downloadable part :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="164" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="78" bodyend="80"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="180" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="78" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" kindref="member">KVPs</ref></type>
@@ -447,7 +474,7 @@ Without them the downloaded blend is bound but never drawn from
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/DownloadTools.h" line="177" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="83" bodyend="90"/>
+        <location file="include/AGRemapCore/tools/DownloadTools.h" line="193" column="25" bodyfile="src/tools/DownloadTools.cpp" bodystart="83" bodyend="90"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -469,7 +496,7 @@ the character&apos;s own ``&lt;Name&gt;Parser.cpp``, which is where somebody add
 looking
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/DownloadTools.h" line="33" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="33" bodyend="178"/>
+    <location file="include/AGRemapCore/tools/DownloadTools.h" line="33" column="5" bodyfile="include/AGRemapCore/tools/DownloadTools.h" bodystart="33" bodyend="194"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_tools_1afbdfb811a3bb21b0dd448a4f55e4ee2a" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>blendRefKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1ad5258bc0b0995eab25a735f863079746" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>bufResourceKVPs</name></member>
@@ -480,7 +507,7 @@ looking
       <member refid="class_a_g_remap_core_1_1_download_tools_1a432a9e7c90eb8771c21631a16b42e807" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>fixedFileName</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1aabf6162296d2fc99a0ad9abbfff3ceea" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>ibResourceKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1aabeeed462de75bd7eb858f3169e339e8" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>KVPs</name></member>
-      <member refid="class_a_g_remap_core_1_1_download_tools_1a16b58cfceba9f215e2f1fd5be9e078e7" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>make</name></member>
+      <member refid="class_a_g_remap_core_1_1_download_tools_1aca818e2d47978787a7b77f16ba4c0e22" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>make</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1aa959dd4ec5d3bdd374bbcc39b12085c5" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>makeConfig</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a2ad5bea3df3528ae8f035f142603eabc" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>ModObj</name></member>
       <member refid="class_a_g_remap_core_1_1_download_tools_1a10f115d663a91bec3b450d3e0778005c" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadTools</scope><name>urlPath</name></member>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ganyu_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GanyuParser</compoundname>
+    <includes refid="_ganyu_parser_8h" local="no">GanyuParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ganyu_parser_1a6f96e2f2828c37ec1bdb5b1bc28b14be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GanyuParser::GanyuParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>GanyuParser</name>
+        <qualifiedname>AGRemapCore::GanyuParser::GanyuParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GanyuParser.h" line="24" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ganyu_parser_1ab5f19972529542d3252d236e555dffec" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::GanyuParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::GanyuParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era Ganyu ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::ganyu4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/GanyuParser.h" line="33" column="45" bodyfile="src/data/IniParseData/GanyuParser.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Ganyu&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`GanyuFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Ganyu and GanyuTwilight are a base/skin pair and remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/GanyuParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/GanyuParser.h" bodystart="21" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ganyu_parser_1a6f96e2f2828c37ec1bdb5b1bc28b14be" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuParser</scope><name>GanyuParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_ganyu_parser_1ab5f19972529542d3252d236e555dffec" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

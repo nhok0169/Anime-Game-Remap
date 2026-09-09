@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ningguang_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NingguangFixer</compoundname>
+    <includes refid="_ningguang_fixer_8h" local="no">NingguangFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_fixer_1a2bb06d4abbef5f6efac7cb49f5b77f34" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NingguangFixer::NingguangFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NingguangFixer</name>
+        <qualifiedname>AGRemapCore::NingguangFixer::NingguangFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="21" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_fixer_1aa14c9e881fea5ab34ea8c4cb2057af89" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::NingguangFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::NingguangFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Ningguang ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::ningguang6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/NingguangFixer.cpp" bodystart="36" bodyend="38"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Ningguang&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`NingguangParser`
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NingguangFixer.h" bodystart="18" bodyend="31"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ningguang_fixer_1a2bb06d4abbef5f6efac7cb49f5b77f34" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangFixer</scope><name>NingguangFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ningguang_fixer_1aa14c9e881fea5ab34ea8c4cb2057af89" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

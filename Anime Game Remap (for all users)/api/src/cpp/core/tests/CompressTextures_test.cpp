@@ -1,6 +1,6 @@
 // -----------------------------------------------------------------------------
-// Standalone regression test for RemapService::uncompressTextures -- the
-// --uncompressTextures command line option, from the model flag down to the
+// Standalone regression test for RemapService::compressTextures -- the
+// --compressTextures command line option, from the model flag down to the
 // bytes on disk.
 //
 // WHY THIS FILE EXISTS: this option's entire failure mode is the one this repo
@@ -9,20 +9,25 @@
 // The happy path is NOT what this file is for. A real CLI run covers that, and
 // should be the first thing you reach for: `-s <a copy of
 // Testing/Integration Tester/.../inputs/multiFix/select/Jean> -d` with and
-// without `-c` writes SmollerJeanRemapTex.dds at 2852 vs 10128 bytes and
-// CuteJean/JeanHeadLightMapRemapDLRemapTex.dds at 1048724 vs 4194432 (exactly
-// 4x -- RGBA8 against BC), because Jean's fixer carries a real texEdits row.
+// without `-c` writes SmollerJeanRemapTex.dds at 2852 (with) vs 10128 bytes
+// (without) and CuteJean/JeanHeadLightMapRemapDLRemapTex.dds at 1048724 vs
+// 4194432 (exactly 4x -- BC against RGBA8), because Jean's fixer carries a real
+// texEdits row.
+//
+// NOTE THE DIRECTION, which changed on 2026-09-07 when --uncompressTextures was
+// renamed to --compressTextures: the DEFAULT is now uncompressed (the bigger
+// file), and `-c` is what asks for compression.
 // See AI Agent Help/Testing/CLAUDE.md's "Real mod data".
 //
 // What that run cannot show is everything AROUND the happy path, which is what
 // is left here:
 //
-//   * the SEAM -- RemapService::_applyUncompressTextures, reached through a
-//     subclass (it is protected for exactly this reason). Pins that the flag
-//     reaches both texture resources, that it does nothing when OFF, and that a
-//     non-texture resource is left alone. A real run only ever exercises one of
-//     those three at a time, and the off case looks identical to "no texture was
-//     written" from the outside
+//   * the SEAM -- RemapService::_applyCompressTextures, reached through a
+//     subclass (it is protected for exactly this reason). Pins that the
+//     default reaches both texture resources, that it does nothing when the flag
+//     is ON, and that a non-texture resource is left alone. A real run only ever
+//     exercises one of those three at a time, and the no-op case looks identical
+//     to "no texture was written" from the outside
 //   * the ONE-WAY rule -- an edit that already asked for no compression must not
 //     be switched back on. No shipped character asks for that today, so no run
 //     over real data can catch a regression in it
@@ -72,7 +77,7 @@ void check(bool condition, const std::string& description) {
 }
 
 std::filesystem::path scratchRoot() {
-    std::filesystem::path root = std::filesystem::temp_directory_path() / "AGRemap_UncompressTextures_test";
+    std::filesystem::path root = std::filesystem::temp_directory_path() / "AGRemap_CompressTextures_test";
     std::error_code ec;
     std::filesystem::create_directories(root, ec);
     return root;
@@ -82,7 +87,7 @@ std::filesystem::path scratchRoot() {
 class TestableRemapService: public RemapService {
     public:
         using RemapService::RemapService;
-        using RemapService::_applyUncompressTextures;
+        using RemapService::_applyCompressTextures;
 };
 
 // Something that is emphatically not a texture, to prove the seam is selective rather than
@@ -101,51 +106,52 @@ std::uintmax_t fileSize(const std::filesystem::path& p) {
 
 // ----- the seam -----
 
-void testFlagOnReachesBothTextureWriters() {
+void testDefaultReachesBothTextureWriters() {
     TestableRemapService service;
-    service.uncompressTextures = true;
+    service.compressTextures = false;
 
     RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, true));
     check(edit.texEditor.getCompress(), "edit resource starts out compressing (the state worth changing)");
-    service._applyUncompressTextures(edit);
-    check(!edit.texEditor.getCompress(), "uncompressTextures=true turns a texture EDIT's compression off");
+    service._applyCompressTextures(edit);
+    check(!edit.texEditor.getCompress(), "compressTextures=false (the default) turns a texture EDIT's compression off");
 
     RemapTexAddResource add(".", "made.dds", TexCreator(4, 4, Colour(), true));
     check(add.texCreator.compress, "add resource starts out compressing");
-    service._applyUncompressTextures(add);
-    check(!add.texCreator.compress, "uncompressTextures=true turns a texture ADD's compression off");
+    service._applyCompressTextures(add);
+    check(!add.texCreator.compress, "compressTextures=false (the default) turns a texture ADD's compression off");
 }
 
-void testFlagOffChangesNothing() {
+void testFlagOnChangesNothing() {
     TestableRemapService service;
-    check(!service.uncompressTextures, "uncompressTextures defaults to false");
+    check(!service.compressTextures, "compressTextures defaults to false -- ie. uncompressed");
+    service.compressTextures = true;
 
     RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, true));
-    service._applyUncompressTextures(edit);
-    check(edit.texEditor.getCompress(), "uncompressTextures=false leaves a texture edit's own answer alone");
+    service._applyCompressTextures(edit);
+    check(edit.texEditor.getCompress(), "compressTextures=true leaves a texture edit's own answer alone");
 
     RemapTexAddResource add(".", "made.dds", TexCreator(4, 4, Colour(), true));
-    service._applyUncompressTextures(add);
-    check(add.texCreator.compress, "uncompressTextures=false leaves a texture add's own answer alone");
+    service._applyCompressTextures(add);
+    check(add.texCreator.compress, "compressTextures=true leaves a texture add's own answer alone");
 }
 
-// The override is ONE-WAY on purpose -- see RemapService::uncompressTextures. An edit that
-// deliberately asked for no compression must not be turned back on by a run that did not ask for it.
+// The override is ONE-WAY on purpose -- see RemapService::compressTextures. It only ever forces
+// compression OFF, so --compressTextures PERMITS compression rather than imposing it: an edit that
+// deliberately asked for none must not be turned back on by a run that merely allowed it.
 void testOverrideIsOneWay() {
     TestableRemapService service;
-    service.uncompressTextures = true;
+    service.compressTextures = true;
 
     RemapTexEditResource edit(".", "src.dds", "fixed.dds", TexEditor({}, false));
-    service._applyUncompressTextures(edit);
-    check(!edit.texEditor.getCompress(), "an edit that already asked for no compression stays that way");
+    service._applyCompressTextures(edit);
+    check(!edit.texEditor.getCompress(), "an edit that asked for no compression stays that way even with the flag");
 }
 
 void testNonTextureResourceIsUntouched() {
     TestableRemapService service;
-    service.uncompressTextures = true;
 
     PlainResource plain;
-    service._applyUncompressTextures(plain);
+    service._applyCompressTextures(plain);
     check(true, "a resource that writes no texture is a no-op rather than a crash");
 }
 
@@ -153,7 +159,7 @@ void testConstructorArgumentReachesTheMember() {
     RemapService on(std::nullopt, true, false, false, false, false, std::nullopt, std::nullopt, {},
                     false, std::nullopt, std::nullopt, std::nullopt, DownloadMode::Normal,
                     std::nullopt, true);
-    check(on.uncompressTextures, "the constructor argument lands on the member");
+    check(on.compressTextures, "the constructor argument lands on the member");
 }
 
 
@@ -251,8 +257,8 @@ int main() {
     // Unbuffered, so a crash mid-run still shows which check it got to.
     std::setvbuf(stdout, nullptr, _IONBF, 0);
 
-    testFlagOnReachesBothTextureWriters();
-    testFlagOffChangesNothing();
+    testDefaultReachesBothTextureWriters();
+    testFlagOnChangesNothing();
     testOverrideIsOneWay();
     testNonTextureResourceIsUntouched();
     testConstructorArgumentReachesTheMember();
@@ -260,10 +266,10 @@ int main() {
     testTexEditorHonoursCompress();
 
     if (failures == 0) {
-        std::printf("\nAll uncompressTextures tests passed.\n");
+        std::printf("\nAll compressTextures tests passed.\n");
         return 0;
     }
 
-    std::printf("\n%d uncompressTextures test(s) FAILED.\n", failures);
+    std::printf("\n%d compressTextures test(s) FAILED.\n", failures);
     return 1;
 }

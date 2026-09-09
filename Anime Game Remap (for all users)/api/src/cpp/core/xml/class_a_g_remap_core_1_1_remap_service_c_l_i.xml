@@ -163,10 +163,10 @@ separate flags on :cpp:class:`BaseLogger` :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </inbodydescription>
         <location file="include/AGRemapCore/RemapServiceCLI.h" line="80" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="20" bodyend="31"/>
       </memberdef>
-      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac69794a2f391d6af0a3552393fe2f3bf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a1a65f66762144ae8eb1fb54cc8307a4a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
         <definition>AGRemapCore::RemapServiceCLI::RemapServiceCLI</definition>
-        <argsstring>(std::optional&lt; std::string &gt; path, bool keepBackups=true, bool fixOnly=false, bool undoOnly=false, bool hideOrig=false, bool readAllInis=false, std::optional&lt; std::vector&lt; std::string &gt; &gt; types=std::nullopt, std::optional&lt; std::string &gt; defaultType=std::nullopt, std::optional&lt; std::string &gt; forcedType=std::nullopt, std::optional&lt; std::string &gt; log=std::nullopt, bool verbose=true, bool handleExceptions=false, std::optional&lt; std::string &gt; version=std::nullopt, std::optional&lt; std::vector&lt; std::string &gt; &gt; remappedTypes=std::nullopt, std::optional&lt; std::string &gt; proxy=std::nullopt, std::optional&lt; std::string &gt; downloadMode=std::nullopt, std::optional&lt; std::vector&lt; std::string &gt; &gt; gameTypes=std::nullopt, bool uncompressTextures=false)</argsstring>
+        <argsstring>(std::optional&lt; std::string &gt; path, bool keepBackups=true, bool fixOnly=false, bool undoOnly=false, bool hideOrig=false, bool readAllInis=false, std::optional&lt; std::vector&lt; std::string &gt; &gt; types=std::nullopt, std::optional&lt; std::string &gt; defaultType=std::nullopt, std::optional&lt; std::string &gt; forcedType=std::nullopt, std::optional&lt; std::string &gt; log=std::nullopt, bool verbose=true, bool handleExceptions=false, std::optional&lt; std::string &gt; version=std::nullopt, std::optional&lt; std::vector&lt; std::string &gt; &gt; remappedTypes=std::nullopt, std::optional&lt; std::string &gt; proxy=std::nullopt, std::optional&lt; std::string &gt; downloadMode=std::nullopt, std::optional&lt; std::vector&lt; std::string &gt; &gt; gameTypes=std::nullopt, bool compressTextures=false)</argsstring>
         <name>RemapServiceCLI</name>
         <qualifiedname>AGRemapCore::RemapServiceCLI::RemapServiceCLI</qualifiedname>
         <param>
@@ -255,7 +255,7 @@ separate flags on :cpp:class:`BaseLogger` :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </param>
         <param>
           <type>bool</type>
-          <declname>uncompressTextures</declname>
+          <declname>compressTextures</declname>
           <defval>false</defval>
         </param>
         <briefdescription>
@@ -473,12 +473,12 @@ every one of them -- see &apos;types&apos; for why an empty list is not an empty
 </parameteritem>
 <parameteritem>
 <parameternamelist>
-<parametername>uncompressTextures</parametername>
+<parametername>compressTextures</parametername>
 </parameternamelist>
 <parameterdescription>
 <para><verbatim>embed:rst 
-Whether every texture the fix writes is left uncompressed -- see
-:cpp:member:`RemapService::uncompressTextures` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+Whether the textures the fix writes are encoded to a compressed format -- see
+:cpp:member:`RemapService::compressTextures` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Already unambiguous as a ``bool``, so unlike the options around it there is nothing to
 convert and nothing that can fail -- it goes straight onto the model :raw-html:`&lt;br /&gt;`
@@ -1136,7 +1136,7 @@ attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a20179a5789876342c021b4f3e1347cbb" prot="public" virt="virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>printModsToFix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a6e3eb9626d34357998af8b298aba0321" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>raiseErrorsBeforeFix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a29d21ac1afaa4cd4d85c8ff1f01eb860" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>RemapServiceCLI</name></member>
-      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac69794a2f391d6af0a3552393fe2f3bf" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>RemapServiceCLI</name></member>
+      <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a1a65f66762144ae8eb1fb54cc8307a4a" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>RemapServiceCLI</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac3d7057c28f2267b6aba6cb4e129af8e" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>service</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1aa2ed83e32c4f5e61fd249040caf2ecfa" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>setLog</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a827b6e02cdc4c8a6ebedcf2f81e1a1b6" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>setVerbose</name></member>

@@ -145,6 +145,24 @@ namespace AGRemapCore {
             const std::optional<long long>& hashInd = hashVals[i].first;
             const V& hashVal = hashVals[i].second;
 
+            // Only a hash written in THIS part classifies the section. getIndVals reports a value
+            // inherited from an ancestor part with no index (see its doc comment on that
+            // deliberate asymmetry with getVals), and acting on an inherited one classifies every
+            // section a TextureOverride runs into as though it carried the hash itself.
+            //
+            // That is not a hypothetical: GanyuTwilight's CommandLists inherit the shared ib hash
+            // from their TextureOverrides, and since indFilter drops the equally-inherited
+            // match_first_index, each of them resolved to the hash-only ("", "ib") mod object --
+            // making CommandListGanyuTwilight{Head,Body,Dress} roots of the ib graph and emitting
+            // a spurious [CommandList<Obj>...RemapIB] section per drawn object. The pure-Python
+            // original reads a section's hashes off its own parts and emits only one.
+            //
+            // The section is still reached from its TextureOverride by DFS, so this removes no
+            // section from any graph -- it only stops one being rooted in its own right.
+            if (!hashInd.has_value()) {
+                continue;
+            }
+
             std::optional<std::vector<K>> hashKeyRow = hashes_->getKey(hashVal, version, hashNonVersionVals_, false);
             if (!hashKeyRow.has_value() || hashKeyRow->empty()) {
                 continue;

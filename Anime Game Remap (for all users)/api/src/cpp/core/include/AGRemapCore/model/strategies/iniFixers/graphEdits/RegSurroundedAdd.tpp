@@ -18,9 +18,9 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::RegSurroundedAdd(std::pair<K, V> addition, RegMap beforeRegs, RegMap afterRegs, bool latest,
+    RegSurroundedAdd<K, V, KeyHash, KeyEqual>::RegSurroundedAdd(Additions additions, RegMap beforeRegs, RegMap afterRegs, bool latest,
                                                                  RegMap optBeforeRegs, RegMap optAfterRegs):
-        addition(std::move(addition)), beforeRegs(std::move(beforeRegs)), optBeforeRegs(std::move(optBeforeRegs)),
+        additions(std::move(additions)), beforeRegs(std::move(beforeRegs)), optBeforeRegs(std::move(optBeforeRegs)),
         afterRegs(std::move(afterRegs)), optAfterRegs(std::move(optAfterRegs)), latest(latest) {
 
         _beforeFilters = buildKeyFilters(this->beforeRegs);
@@ -115,6 +115,17 @@ namespace AGRemapCore {
 
         std::optional<long long> insertInd = ranges.front().first;
         return insertInd.has_value() ? *insertInd : 0;
+    }
+
+    template <typename K, typename V, typename KeyHash, typename KeyEqual>
+    void RegSurroundedAdd<K, V, KeyHash, KeyEqual>::addAdditionsAt(ContentPart& part, long long index) const {
+        // Front to back at index, index+1, ...: each insertion only shifts what comes after it, so
+        // the list ends up in its own order and nothing already in the part moves relative to it
+        long long ind = index;
+        for (const auto& [key, val] : additions) {
+            part.addKVPAt(ind, key, val);
+            ++ind;
+        }
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
@@ -439,7 +450,7 @@ namespace AGRemapCore {
             if (!isClaimed) {
                 OrderRanges validRange = getClippedValidRangeForPart(iterData, modType, runKey, partFilter, beforeEntryFacts, afterExitFacts);
                 if (!validRange.isEmpty()) {
-                    part->addKVPAt(pickInsertInd(validRange, *part), addition.first, addition.second);
+                    addAdditionsAt(*part, pickInsertInd(validRange, *part));
                     isClaimed = true;
                 }
             }
@@ -503,7 +514,7 @@ namespace AGRemapCore {
             if (!isClaimed && candidates[part].has_value()) {
                 ContentPart* candidatePart = candidates[part]->first;
                 long long candidateInd = candidates[part]->second;
-                candidatePart->addKVPAt(candidateInd, addition.first, addition.second);
+                addAdditionsAt(*candidatePart, candidateInd);
                 isClaimed = true;
             }
 
@@ -525,6 +536,10 @@ namespace AGRemapCore {
         (void)modName;
         (void)trackKeys;
         (void)keysToTrack;
+
+        if (additions.empty()) {
+            return graph;
+        }
 
         if (!afterRegs.empty()) {
             KeySet afterKeys;

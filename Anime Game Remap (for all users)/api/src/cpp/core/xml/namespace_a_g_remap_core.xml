@@ -54,6 +54,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace" prot="public">AGRemapCore::ColourReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_colour_replace_filter" prot="public">AGRemapCore::ColourReplaceFilter</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_correct_gamma" prot="public">AGRemapCore::CorrectGamma</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_dark_diffuse" prot="public">AGRemapCore::DarkDiffuse</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_data" prot="public">AGRemapCore::DownloadData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_mode_tools" prot="public">AGRemapCore::DownloadModeTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_download_store" prot="public">AGRemapCore::DownloadStore</innerclass>
@@ -69,6 +70,9 @@
     <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_parser" prot="public">AGRemapCore::GanyuParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer" prot="public">AGRemapCore::GanyuTwilightFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_parser" prot="public">AGRemapCore::GanyuTwilightParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_generator" prot="public">AGRemapCore::Generator</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_g_i_builder" prot="public">AGRemapCore::GIBuilder</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
@@ -168,6 +172,8 @@
     <innerclass refid="class_a_g_remap_core_1_1_jean_c_n_parser" prot="public">AGRemapCore::JeanCNParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_fixer" prot="public">AGRemapCore::JeanFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_parser" prot="public">AGRemapCore::JeanParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_sea_fixer" prot="public">AGRemapCore::JeanSeaFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_jean_sea_parser" prot="public">AGRemapCore::JeanSeaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_shading" prot="public">AGRemapCore::JeanShading</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
@@ -185,6 +191,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_mona_fixer" prot="public">AGRemapCore::MonaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_mona_parser" prot="public">AGRemapCore::MonaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_multi_mod_fixer" prot="public">AGRemapCore::MultiModFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_fixer" prot="public">AGRemapCore::NingguangFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer" prot="public">AGRemapCore::NingguangOrchidFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_orchid_parser" prot="public">AGRemapCore::NingguangOrchidParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ningguang_parser" prot="public">AGRemapCore::NingguangParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_node" prot="public">AGRemapCore::Node</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map" prot="public">AGRemapCore::OrderedMultiMap</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ordered_multi_map_adapter" prot="public">AGRemapCore::OrderedMultiMapAdapter</innerclass>
@@ -1200,7 +1210,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="702" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="702" bodyend="706" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="220" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="953" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="953" bodyend="957" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="303" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1251,7 +1261,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="160" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="160" bodyend="217" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="130" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="188" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="188" bodyend="245" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="130" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>

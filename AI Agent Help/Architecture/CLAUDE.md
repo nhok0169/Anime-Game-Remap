@@ -1937,7 +1937,7 @@ Things that will otherwise cost you a cycle:
 
 ## Adding a new command-line option: the eleven places, in order
 
-Done twice on 2026-09-07 (`--game`, `--uncompressTextures`). It is mechanical, but missing any one
+Done twice on 2026-09-07 (`--game`, `--compressTextures`). It is mechanical, but missing any one
 of these leaves the option *looking* supported, which is worse than absent. In order:
 
 1. `controller/enums/CommandOpts.py` + `ShortCommandOpts.py` --- the long and short names.
@@ -1985,7 +1985,7 @@ of these leaves the option *looking* supported, which is worse than absent. In o
 ### Where a run-level option is *applied* --- and why not where you'd guess
 
 For anything that has to override per-character fix data, the answer is **`RemapService::_fixResource`**,
-not the place the thing was built. `--uncompressTextures` is the worked example: the texture writer
+not the place the thing was built. `--compressTextures` is the worked example: the texture writer
 is configured by `GIMICharFixerConfig::TexEdit::compress`, which is *data*, several layers down a
 builder chain, and knows nothing about how the run was invoked. `_fixResource` is the last place
 that holds both the run's options and the concrete resource, and it already dispatches on resource
@@ -1999,11 +1999,18 @@ Three things that generalise from it:
 - **`IniGroupedResource` fixes its own members**, so they never reach `_fixResource` individually.
   Push the override down into `grouped->resources` too, or a resource inside a group quietly keeps
   the old behaviour while every one outside a group changes.
-- **Make it one-way if the command line is one-way.** `--uncompressTextures` forces compression
-  *off*; unset it overrides nothing and each character's own edit keeps its answer. A flag that
-  could also force compression *on* would let a run undo a deliberate choice in the data.
+- **Make it one-way if the command line is one-way, and mind which way.** The service only ever
+  forces compression *off*: left unset (the default) it overrides every texture edit to write
+  uncompressed, and `--compressTextures` simply stops it doing so, letting each character's own edit
+  keep its answer. So the flag **permits** compression rather than imposing it, and an edit that
+  deliberately writes an uncompressed texture still does. A flag that could force compression *on*
+  would let a run undo a deliberate choice in the data.
+- **The default is "uncompressed", deliberately** -- that is what the pure-Python versions always
+  did, `Pillow` having no BCn encoder at all, so a run's speed stays in line with what users expect.
+  The option was renamed from `--uncompressTextures` to `--compressTextures` on 2026-09-07 to make
+  that the stated default rather than an override.
 
-`_applyUncompressTextures` is `protected` rather than `private` on purpose: it is the seam a
+`_applyCompressTextures` is `protected` rather than `private` on purpose: it is the seam a
 standalone test drives to prove the option is not merely recorded. That is worth copying.
 
 ## Resolving a mod type by name --- two things that bite

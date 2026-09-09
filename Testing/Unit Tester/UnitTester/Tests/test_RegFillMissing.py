@@ -124,13 +124,32 @@ class RegFillMissingTest(BaseUnitTest):
             "parentB": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "1")], "run": [(1, "child")]}, 0)], name = "parentB"),
             "child": FRB.IfTemplate([FRB.IfContentPart({"c": [(0, "2")]}, 0)], name = "child"),
         }
-        graph = FRB.IniSectionGraph(sections, ["parentA", "parentB"])
+        # "child" is a target as well, so this stays a test of the partVisited dedup rather than
+        # of target scoping -- without that it would inherit "z" from whichever parent ran it and
+        # never be filled in its own right.
+        graph = FRB.IniSectionGraph(sections, ["parentA", "parentB", "child"])
 
         FRB.RegFillMissing("z", "9").edit(graph, None)
 
         for sectionName in ["parentA", "parentB", "child"]:
             zEntries = [entry for entry in self.entries(graph, name = sectionName) if entry[0] == "z"]
             self.compareList(zEntries, [("z", "9")])
+
+    def test_edit_reachableButNotATarget_onlyTheTargetIsFilled(self):
+        # One addition per GRAPH, not per section. Every branch below "parent" is missing the
+        # register, so the verdict bubbles up to "parent" and the superseded "child" is left alone --
+        # at runtime it inherits the register from whichever target ran it, and filling it too would
+        # be a second, redundant placement (for a draw call, a second draw).
+        sections = {
+            "parent": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "child")]}, 0)], name = "parent"),
+            "child": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")]}, 0)], name = "child"),
+        }
+        graph = FRB.IniSectionGraph(sections, ["parent"])
+
+        FRB.RegFillMissing("z", "9").edit(graph, None)
+
+        self.compareList(self.entries(graph, "parent"), [("a", "1"), ("run", "child"), ("z", "9")])
+        self.compareList(self.entries(graph, "child"), [("b", "2")])
 
     def test_edit_emptyGraph_noError(self):
         graph = FRB.IniSectionGraph({}, [])
@@ -290,10 +309,15 @@ class RegFillMissingTest(BaseUnitTest):
     # ============ partFilter / trackKeys =============
 
     def makeParentChildGraph(self) -> FRB.IniSectionGraph:
+        # BOTH sections are targets. RegFillMissing places one addition per graph -- a verdict that
+        # bubbles up to a target supersedes the sections below it -- so a reachable-but-untargeted
+        # "child" would not be filled at all, and the partFilter/trackKeys tests below would be
+        # measuring one part instead of two for a reason that has nothing to do with their subject.
+        # See test_edit_reachableButNotATarget_onlyTheTargetIsFilled for that behaviour itself.
         return FRB.IniSectionGraph({
             "parent": FRB.IfTemplate([FRB.IfContentPart({"a": [(0, "1")], "run": [(1, "child")]}, 0)], name = "parent"),
             "child": FRB.IfTemplate([FRB.IfContentPart({"b": [(0, "2")]}, 0)], name = "child"),
-        }, ["parent"])
+        }, ["parent", "child"])
 
     def test_init_trackKeysDefaults_offAndTracksEveryKey(self):
         edit = FRB.RegFillMissing("z", "9")

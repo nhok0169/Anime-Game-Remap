@@ -4,12 +4,17 @@
     <compoundname>include/AGRemapCore/data/IniFixData</compoundname>
     <innerfile refid="_amber_c_n_fixer_8h">AmberCNFixer.h</innerfile>
     <innerfile refid="_amber_fixer_8h">AmberFixer.h</innerfile>
+    <innerfile refid="_dark_diffuse_8h">DarkDiffuse.h</innerfile>
+    <innerfile refid="_ganyu_twilight_fixer_8h">GanyuTwilightFixer.h</innerfile>
     <innerfile refid="_g_i_m_i_char_fixer_8h">GIMICharFixer.h</innerfile>
     <innerfile refid="_jean_c_n_fixer_8h">JeanCNFixer.h</innerfile>
     <innerfile refid="_jean_fixer_8h">JeanFixer.h</innerfile>
+    <innerfile refid="_jean_sea_fixer_8h">JeanSeaFixer.h</innerfile>
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
     <innerfile refid="_mona_c_n_fixer_8h">MonaCNFixer.h</innerfile>
     <innerfile refid="_mona_fixer_8h">MonaFixer.h</innerfile>
+    <innerfile refid="_ningguang_fixer_8h">NingguangFixer.h</innerfile>
+    <innerfile refid="_ningguang_orchid_fixer_8h">NingguangOrchidFixer.h</innerfile>
     <innerfile refid="_raiden_fixer_8h">RaidenFixer.h</innerfile>
     <innerfile refid="_rosaria_c_n_fixer_8h">RosariaCNFixer.h</innerfile>
     <innerfile refid="_rosaria_fixer_8h">RosariaFixer.h</innerfile>

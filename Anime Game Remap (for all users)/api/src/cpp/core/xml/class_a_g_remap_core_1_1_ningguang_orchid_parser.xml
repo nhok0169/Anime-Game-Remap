@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ningguang_orchid_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::NingguangOrchidParser</compoundname>
+    <includes refid="_ningguang_orchid_parser_8h" local="no">NingguangOrchidParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_orchid_parser_1ae42c7fcf28e9974e8984f5770f4ee4e3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::NingguangOrchidParser::NingguangOrchidParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>NingguangOrchidParser</name>
+        <qualifiedname>AGRemapCore::NingguangOrchidParser::NingguangOrchidParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="24" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ningguang_orchid_parser_1aae1e9c4b55c46457f3a0483b0c19ca02" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::NingguangOrchidParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::NingguangOrchidParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era NingguangOrchid ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::ningguangOrchid4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="33" column="45" bodyfile="src/data/IniParseData/NingguangOrchidParser.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+NingguangOrchid&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`NingguangOrchidFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+NingguangOrchid and Ningguang are a base/skin pair and remap onto each other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" bodystart="21" bodyend="35"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ningguang_orchid_parser_1ae42c7fcf28e9974e8984f5770f4ee4e3" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidParser</scope><name>NingguangOrchidParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_ningguang_orchid_parser_1aae1e9c4b55c46457f3a0483b0c19ca02" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

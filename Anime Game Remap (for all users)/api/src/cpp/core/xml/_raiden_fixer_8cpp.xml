@@ -56,6 +56,9 @@
       <node id="156">
         <label>BlendEdit.tpp</label>
       </node>
+      <node id="53">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="59">
         <label>AGRemapCore/constants/IfPredPartType.h</label>
         <link refid="_if_pred_part_type_8h"/>
@@ -1766,9 +1769,6 @@
         <childnode refid="78" relation="include">
         </childnode>
       </node>
-      <node id="53">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="96">
         <label>GIMIFixer.tpp</label>
       </node>
@@ -2224,7 +2224,7 @@
 <codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>any<sp/>path<sp/>that<sp/>draws<sp/>nothing.<sp/>RegDelimitedAdd<sp/>is<sp/>built<sp/>for<sp/>exactly<sp/>this<sp/>rule</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/>--<sp/>see<sp/>its<sp/>own<sp/>note<sp/>on<sp/>why<sp/>RegSurroundedAdd<sp/>cannot<sp/>express<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>addNNFix_<sp/>=<sp/>std::make_unique&lt;RegDelimitedAdd&lt;&gt;&gt;(</highlight></codeline>
-<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::pair&lt;std::string,<sp/>std::string&gt;{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" kindref="member">IniKeywords::Run</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">IniKeywords::NNFixPath</ref>},</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1aa3fc3ed3e0c3139999c8a89a768f6310" kindref="member">RegDelimitedAdd&lt;&gt;::Additions</ref>{{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1aca1f91eb6175585c074f8bac0395077a" kindref="member">IniKeywords::Run</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">IniKeywords::NNFixPath</ref>}},</highlight></codeline>
 <codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_reg_delimited_add_1af9596310ae35f02b63d7c947e0787e99" kindref="member">RegDelimitedAdd&lt;&gt;::RegMap</ref>{{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a2d55106a94f19909c54995256dacd697" kindref="member">IniKeywords::DrawIndexed</ref>,<sp/>{}}});</highlight></codeline>
 <codeline lineno="298"><highlight class="normal"></highlight></codeline>
 <codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>0.<sp/>Rename<sp/>the<sp/>graph.<sp/>GIMIFixer<sp/>edits<sp/>a<sp/>deep<sp/>COPY<sp/>of<sp/>what<sp/>the<sp/>parser<sp/>found,<sp/>so</highlight><highlight class="normal"></highlight></codeline>

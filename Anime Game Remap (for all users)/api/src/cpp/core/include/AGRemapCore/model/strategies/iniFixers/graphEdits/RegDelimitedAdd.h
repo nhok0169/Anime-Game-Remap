@@ -28,7 +28,7 @@ namespace AGRemapCore {
      Cut every execution path through the graph at each accepted occurence of a register in
      \ref delimiterRegs. That leaves `segments`: from the start of the path to its first
      delimiter, from each delimiter to the next, and from the last delimiter to the end of the
-     path. This edit places \ref addition so that **every segment of every path contains it
+     path. This edit places \ref additions so that **every segment of every path contains it
      exactly once, as late as possible**, which it does with two placement rules:
 
      1. immediately before every accepted delimiter occurence, in every part, and
@@ -123,31 +123,70 @@ namespace AGRemapCore {
             using RegMap = std::unordered_map<K, Predicate, KeyHash, KeyEqual>;
 
             /**
-             * @brief The `KVP`_ to add
+             * @brief The list of `KVP`_ entries an edit adds -- same shape as :cpp:type:`RegSurroundedAdd::Additions`
              */
-            std::pair<K, V> addition;
+            using Additions = std::vector<std::pair<K, V>>;
+
+            /**
+             * @brief
+             @rst
+             The `KVP`_ entries to add. All of them land together at each chosen position, as
+             consecutive lines in this order -- an empty list makes the edit a no-op
+             @endrst
+             */
+            Additions additions;
 
             /**
              * @brief
              @rst
              The registers whose accepted occurences cut every execution path into the segments
-             \ref addition is added exactly once into (eg. ``drawindexed`` and
+             \ref additions is added exactly once into (eg. ``drawindexed`` and
              ``drawindexedinstanced``, each with an empty \ref Predicate) :raw-html:`<br />`
              :raw-html:`<br />`
 
-             Empty is allowed and means every path is a single segment: \ref addition is added
+             Empty is allowed and means every path is a single segment: \ref additions is added
              once at the end of every path and nowhere else
              @endrst
              */
             RegMap delimiterRegs;
 
             /**
+             * @brief
+             @rst
+             Whether the end-of-path addition is made only when the path never delimits at all
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             ``false`` (the default) is the plain segment rule: every delimiter-free segment holds
+             the addition, the last one -- from the final delimiter to the end of the path --
+             included.
+
+             ``true`` drops that final segment, giving "before every delimiter, **or** once at the
+             end if there is no delimiter anywhere on the path". That is what the mandatory fix
+             libraries want: NNFix and ORFix belong immediately before each draw, and a call after
+             the last draw is a surplus one that ORFix would use to swap the diffuse and lightmap
+             registers back. A graph with no draw call at all still gets its single addition, which
+             is what places NNFix on a character whose fix does not move the draw call
+
+             **Default**: ``false``
+             @endrst
+             */
+            bool pathEndOnlyWhenUndelimited = false;
+
+            /**
              * @brief Constructs a new per-segment adding edit
              *
-             * @param addition The `KVP`_ to add
+             * @param additions The `KVP`_ entries to add, in order
              * @param delimiterRegs The registers that delimit the segments
+             * @param pathEndOnlyWhenUndelimited
+             @rst
+             Whether to make the end-of-path addition only on a path that never delimits -- see
+             \ref pathEndOnlyWhenUndelimited :raw-html:`<br />` :raw-html:`<br />`
+
+             **Default**: ``false``
+             @endrst
              */
-            explicit RegDelimitedAdd(std::pair<K, V> addition = {}, RegMap delimiterRegs = {});
+            explicit RegDelimitedAdd(Additions additions = {}, RegMap delimiterRegs = {},
+                                      bool pathEndOnlyWhenUndelimited = false);
 
             /**
              * @brief
@@ -176,10 +215,14 @@ namespace AGRemapCore {
              */
             static bool isPathEnd(const CallGraphType& callGraph, ContentPart* part);
 
+            // Inserts every entry of 'additions' at 'index' of 'part', keeping their order -- the
+            // whole list lands together, as consecutive lines
+            void addAdditionsAt(ContentPart& part, long long index) const;
+
             /**
              * @brief
              @rst
-             Adds \ref addition exactly once into every delimiter-free segment of every execution
+             Adds \ref additions exactly once into every delimiter-free segment of every execution
              path through 'graph', as late as possible -- see the class description for the two
              placement rules :raw-html:`<br />` :raw-html:`<br />`
 

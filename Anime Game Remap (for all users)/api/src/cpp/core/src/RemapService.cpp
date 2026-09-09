@@ -29,7 +29,7 @@ namespace AGRemapCore {
                                std::optional<Version> fromVersion,
                                std::optional<std::unordered_set<int>> toModTypeIds,
                                std::optional<std::string> proxy, DownloadMode downloadMode,
-                               std::optional<std::unordered_set<int>> gameTypeIds, bool uncompressTextures,
+                               std::optional<std::unordered_set<int>> gameTypeIds, bool compressTextures,
                                std::shared_ptr<BaseLogger> logger):
         keepBackups(keepBackups),
         fixOnly(fixOnly),
@@ -45,7 +45,7 @@ namespace AGRemapCore {
         proxy(std::move(proxy)),
         downloadMode(downloadMode),
         gameTypeIds(std::move(gameTypeIds)),
-        uncompressTextures(uncompressTextures),
+        compressTextures(compressTextures),
         logger(std::move(logger)) {
 
         _setupModPath(std::move(path));
@@ -897,7 +897,7 @@ namespace AGRemapCore {
         // texture writer is configured by whichever mod type's fix edit produced it (see
         // GIMICharFixerConfig::TexEdit::compress), which is data, several layers down, and knows
         // nothing about how this run was invoked. This is the last place that holds both.
-        _applyUncompressTextures(resource);
+        _applyCompressTextures(resource);
 
         if (RemapTexAddResource* texAdd = dynamic_cast<RemapTexAddResource*>(&resource)) {
             return texAdd->fix();
@@ -913,7 +913,7 @@ namespace AGRemapCore {
             // keep compressing while every texture outside one stopped.
             for (auto& entry : grouped->resources) {
                 if (entry.second != nullptr) {
-                    _applyUncompressTextures(*entry.second);
+                    _applyCompressTextures(*entry.second);
                 }
             }
 
@@ -924,11 +924,15 @@ namespace AGRemapCore {
     }
 
 
-    void RemapService::_applyUncompressTextures(IniResource& resource) {
-        // The guard lives HERE rather than at the two call sites, so that "the option is off" and
+    void RemapService::_applyCompressTextures(IniResource& resource) {
+        // The guard lives HERE rather than at the two call sites, so that "the option is on" and
         // "this resource writes no texture" are the same no-op and there is exactly one place that
-        // decides either. It also makes the off case directly testable.
-        if (!uncompressTextures) {
+        // decides either. It also makes the on case directly testable.
+        //
+        // Note the direction: this forces compression OFF, and the option switches it off again.
+        // So --compressTextures PERMITS compression rather than imposing it, and an edit that
+        // deliberately asked for none still gets none. Forcing it on was never wanted.
+        if (compressTextures) {
             return;
         }
 

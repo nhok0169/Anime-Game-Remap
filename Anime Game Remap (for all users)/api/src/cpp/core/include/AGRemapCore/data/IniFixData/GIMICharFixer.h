@@ -77,6 +77,74 @@ namespace AGRemapCore {
         /**
          * @brief
          @rst
+         Registers **renamed** on one target object's parts -- ``{{"head", {{"ps-t1", {"ps-t0"}},
+         {"ps-t2", {"ps-t1"}}}}}`` :raw-html:`<br />` :raw-html:`<br />`
+
+         Each entry is one old register and the register(s) it becomes. Naming **two** targets
+         duplicates the value into both, which is how a fix synthesises a slot the source does not
+         have :raw-html:`<br />` :raw-html:`<br />`
+
+         What it is for: GI 3.x gave characters a **normal map**, and GI 6.x took it away again.
+         Remapping across that boundary is a shift -- a character with no normal map has its diffuse
+         on ``ps-t0`` and its lightmap on ``ps-t1``, one with a normal map has them on ``ps-t1`` and
+         ``ps-t2`` with the normal map on ``ps-t0`` :raw-html:`<br />` :raw-html:`<br />`
+
+         All of an object's renames are applied in **one pass**, so a shift and a swap are both
+         expressible and neither re-reads its own output -- see
+         :cpp:func:`IfContentPart::remapKeys`
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::vector<std::string>>>>> objRegRemaps;
+
+        /**
+         * @brief
+         @rst
+         Which external library calls one target object re-issues, in order -- ``{{"head",
+         {IniKeywords::ORFixPath, IniKeywords::TexFxTransparency1}}}`` :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         An object not named here re-issues :cpp:member:`IniKeywords::NNFixPath`, which is the
+         common case :raw-html:`<br />` :raw-html:`<br />`
+
+         **Every one of these follows the same placement rule** -- immediately before each
+         ``drawindexed``, and once at the end of any path that draws nothing (see
+         :cpp:class:`RegDelimitedAdd`). They differ only in what they do:
+
+         =========  ====================================================================
+         NNFix      the general case
+         ORFix      for a character carrying a **normal map** -- see \ref objRegRemaps
+         TexFx      the texture-capability addon, whose call names which register the
+                    diffuse ended up on
+         =========  ====================================================================
+
+         The mod's own calls to all three are stripped first, so this is a re-issue rather than an
+         addition
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::string>>> objFixCalls;
+
+        /**
+         * @brief
+         @rst
+         Registers stripped from one **target** object's parts entirely :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Written as ``{{"head", {"ps-t3"}}, {"body", {"ps-t3"}}}``. Every occurrence of the register
+         goes, whatever its value :raw-html:`<br />` :raw-html:`<br />`
+
+         What it is for: the target simply does not read that slot. Ningguang binds a ``ps-t3`` that
+         NingguangOrchid has no use for, and leaving it bound is how a remapped character ends up
+         sampling a texture the shader was not expecting :raw-html:`<br />` :raw-html:`<br />`
+
+         Applied **before** every other register edit on that object, so a later edit never has to
+         reason about a register that is on its way out
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::string>>> objRegRemovals;
+
+        /**
+         * @brief
+         @rst
          Registers forced onto one **target** object's parts, after the split :raw-html:`<br />`
          :raw-html:`<br />`
 

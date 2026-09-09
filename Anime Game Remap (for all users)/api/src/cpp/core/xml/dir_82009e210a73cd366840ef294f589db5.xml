@@ -4,12 +4,17 @@
     <compoundname>src/data/IniFixData</compoundname>
     <innerfile refid="_amber_c_n_fixer_8cpp">AmberCNFixer.cpp</innerfile>
     <innerfile refid="_amber_fixer_8cpp">AmberFixer.cpp</innerfile>
+    <innerfile refid="_dark_diffuse_8cpp">DarkDiffuse.cpp</innerfile>
+    <innerfile refid="_ganyu_twilight_fixer_8cpp">GanyuTwilightFixer.cpp</innerfile>
     <innerfile refid="_g_i_m_i_char_fixer_8cpp">GIMICharFixer.cpp</innerfile>
     <innerfile refid="_jean_c_n_fixer_8cpp">JeanCNFixer.cpp</innerfile>
     <innerfile refid="_jean_fixer_8cpp">JeanFixer.cpp</innerfile>
+    <innerfile refid="_jean_sea_fixer_8cpp">JeanSeaFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
     <innerfile refid="_mona_c_n_fixer_8cpp">MonaCNFixer.cpp</innerfile>
     <innerfile refid="_mona_fixer_8cpp">MonaFixer.cpp</innerfile>
+    <innerfile refid="_ningguang_fixer_8cpp">NingguangFixer.cpp</innerfile>
+    <innerfile refid="_ningguang_orchid_fixer_8cpp">NingguangOrchidFixer.cpp</innerfile>
     <innerfile refid="_raiden_fixer_8cpp">RaidenFixer.cpp</innerfile>
     <innerfile refid="_rosaria_c_n_fixer_8cpp">RosariaCNFixer.cpp</innerfile>
     <innerfile refid="_rosaria_fixer_8cpp">RosariaFixer.cpp</innerfile>

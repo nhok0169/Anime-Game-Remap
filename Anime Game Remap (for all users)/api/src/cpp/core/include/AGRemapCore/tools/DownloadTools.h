@@ -116,10 +116,26 @@ namespace AGRemapCore {
              * @param fixedName What the downloaded file is saved as locally
              * @param resourceKVPs The `KVPs`_ of the resource `section`_ this creates. **Default**: none
              * @param downloadRefKVPs The `KVPs`_ written after the reference to this download. **Default**: none
+             * @param refToSection
+             @rst
+             Whether the download is referenced once from the top of each root `section`_ the
+             register does not fully cover, instead of from every part missing it :raw-html:`<br />` :raw-html:`<br />`
+
+             This is the download-side spelling of
+             :cpp:enumerator:`RegFillMissingMode::TopdownCover`, and both end up asking
+             :cpp:func:`IniSectionGraph::rootsAreFullyCovered`.
+
+             .. warning::
+                :cpp:func:`DownloadData::addToSection` does **not** write ``downloadRefKVPs`` --
+                only :cpp:func:`DownloadData::addToPart` does. A download that needs them must
+                stay per-part.
+
+             **Default**: ``false``
+             @endrst
              */
             static std::unique_ptr<Download> make(const std::string& name, const std::string& urlPath,
                                                    const std::string& fixedName, KVPs resourceKVPs = {},
-                                                   KVPs downloadRefKVPs = {});
+                                                   KVPs downloadRefKVPs = {}, bool refToSection = false);
 
             /**
              * @brief

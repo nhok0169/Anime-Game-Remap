@@ -139,8 +139,8 @@ downloadMode: Optional[:class:`DownloadMode`]
 gameTypeIds: Optional[Set[:class:`int`]]
     The :class:`GameTypeId` values of the games being remapped. ``None`` means every game
 
-uncompressTextures: :class:`bool`
-    Whether every texture the fix writes is left uncompressed. ``False`` leaves each texture edit's
+compressTextures: :class:`bool`
+    Whether the textures the fix writes are encoded to a compressed format. ``True`` leaves each texture edit's
     own answer alone
 
 logger: Optional[:class:`BaseLogger`]
@@ -155,13 +155,13 @@ logger: Optional[:class:`BaseLogger`]
                          std::optional<AGRC::Version> fromVersion,
                          std::optional<std::unordered_set<int>> toModTypeIds,
                          std::optional<std::string> proxy, const py::object &downloadMode,
-                         std::optional<std::unordered_set<int>> gameTypeIds, bool uncompressTextures,
+                         std::optional<std::unordered_set<int>> gameTypeIds, bool compressTextures,
                          std::shared_ptr<AGRC::BaseLogger> logger) {
             return std::make_unique<AGRC::RemapService>(
                 std::move(path), keepBackups, fixOnly, undoOnly, hideOrig, readAllInis,
                 std::move(fromModTypeIds), std::move(forcedModTypeIds), toOrderedSet(defaultModTypeIds),
                 handleExceptions, std::move(fromVersion), std::move(toModTypeIds), std::move(proxy),
-                parseDownloadMode(downloadMode), std::move(gameTypeIds), uncompressTextures,
+                parseDownloadMode(downloadMode), std::move(gameTypeIds), compressTextures,
                 std::move(logger));
         }), py::arg("path") = py::none(), py::arg("keepBackups") = true, py::arg("fixOnly") = false,
             py::arg("undoOnly") = false, py::arg("hideOrig") = false, py::arg("readAllInis") = false,
@@ -169,7 +169,7 @@ logger: Optional[:class:`BaseLogger`]
             py::arg("defaultModTypeIds") = py::none(), py::arg("handleExceptions") = false,
             py::arg("fromVersion") = py::none(), py::arg("toModTypeIds") = py::none(),
             py::arg("proxy") = py::none(), py::arg("downloadMode") = py::none(),
-            py::arg("gameTypeIds") = py::none(), py::arg("uncompressTextures") = false,
+            py::arg("gameTypeIds") = py::none(), py::arg("compressTextures") = false,
             py::arg("logger") = nullptr)
 
         .def_readwrite("keepBackups", &AGRC::RemapService::keepBackups,
@@ -235,8 +235,8 @@ value when set)doc"))
 
 ``None`` means every game; an empty set is a filter no game satisfies)doc"))
 
-        .def_readwrite("uncompressTextures", &AGRC::RemapService::uncompressTextures,
-    py::doc(R"doc(:class:`bool`: Whether every texture this fix writes is left uncompressed -- a plain
+        .def_readwrite("compressTextures", &AGRC::RemapService::compressTextures,
+    py::doc(R"doc(:class:`bool`: Whether the textures this fix writes are encoded to a compressed format, rather than a plain
 32-bit ``.dds`` rather than the BCn format it would otherwise be encoded to
 
 A **one-way** override, applied right before a texture resource is written: set, it ignores whatever

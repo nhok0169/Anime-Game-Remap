@@ -215,6 +215,61 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The folder holding the `TexFx`_ external library's sub-commands :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A third addon alongside ORFix and NNFix, and the one that gives textures capabilities
+             the importer does not have on its own -- most visibly making parts of a model look
+             transparent. What each channel of an input texture means is documented on its own
+             GitHub rather than here :raw-html:`<br />` :raw-html:`<br />`
+
+             It owns **two dedicated registers**, ``ps-t69`` and ``ps-t70``, which is why a fix that
+             shifts a character's registers around leaves those two alone
+             @endrst
+             */
+            static inline const std::string TexFxFolder = "CommandList\\TexFx";
+
+            /**
+             * @brief
+             @rst
+             The first of `TexFx`_'s two dedicated registers :raw-html:`<br />` :raw-html:`<br />`
+
+             A modder opts into TexFx by binding these, which is what makes the library optional
+             where NNFix and ORFix are mandatory -- so a fix issues a TexFx sub-command only where
+             one of them is actually bound, never simply because the character's row names one
+             @endrst
+             */
+            static inline const std::string PsT69 = "ps-t69";
+
+            /**
+             * @brief The second of `TexFx`_'s two dedicated registers -- see \ref PsT69
+             */
+            static inline const std::string PsT70 = "ps-t70";
+
+            /**
+             * @brief
+             @rst
+             `TexFx`_'s transparency sub-command for a diffuse living on ``ps-t0``, GI 5.0 and later
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The call names the register the diffuse is on, so which of these two a fix issues
+             follows from where its register shift left the diffuse -- not from the character
+             @endrst
+             */
+            static inline const std::string TexFxTransparency0 = TexFxFolder + "\\TN.0";
+
+            /**
+             * @brief
+             @rst
+             `TexFx`_'s transparency sub-command for a diffuse living on ``ps-t1`` -- see
+             \ref TexFxTransparency0
+             @endrst
+             */
+            static inline const std::string TexFxTransparency1 = TexFxFolder + "\\TN.1";
+
+            /**
+             * @brief
+             @rst
              Written in place of a ``hash`` that has no mapping onto the mod being fixed to --
              see :cpp:class:`RegAssetRemap`
              @endrst

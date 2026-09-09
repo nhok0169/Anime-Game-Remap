@@ -4126,7 +4126,7 @@ class CppRemapServiceCLI:
     the same arguments the pure-Python :class:`RemapService` did: ``path``, ``keepBackups``, ``fixOnly``,
     ``undoOnly``, ``hideOrig``, ``readAllInis``, ``types``, ``defaultType``, ``forcedType``, ``log``,
     ``verbose``, ``handleExceptions``, ``version``, ``remappedTypes``, ``proxy``, ``downloadMode`` and
-    ``gameTypes`` and ``uncompressTextures``. Mod type and game names/aliases become
+    ``gameTypes`` and ``compressTextures``. Mod type and game names/aliases become
     :class:`ModTypeId`/:class:`GameTypeId` ints (ignoring case and surrounding whitespace), a
     `PEP 440`_ string becomes a :class:`Version`, and a mode name becomes a :class:`DownloadMode`
     
@@ -4157,7 +4157,7 @@ class CppRemapServiceCLI:
     def __init__(self, service: RemapService, log: str | None = None, verbose: bool = True) -> None:
         ...
     @typing.overload
-    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, types: collections.abc.Sequence[str] | None = None, defaultType: str | None = None, forcedType: str | None = None, log: str | None = None, verbose: bool = True, handleExceptions: bool = False, version: str | None = None, remappedTypes: collections.abc.Sequence[str] | None = None, proxy: str | None = None, downloadMode: str | None = None, gameTypes: collections.abc.Sequence[str] | None = None, uncompressTextures: bool = False) -> None:
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, types: collections.abc.Sequence[str] | None = None, defaultType: str | None = None, forcedType: str | None = None, log: str | None = None, verbose: bool = True, handleExceptions: bool = False, version: str | None = None, remappedTypes: collections.abc.Sequence[str] | None = None, proxy: str | None = None, downloadMode: str | None = None, gameTypes: collections.abc.Sequence[str] | None = None, compressTextures: bool = False) -> None:
         ...
     def addTips(self) -> None:
         """
@@ -14995,7 +14995,7 @@ class RegDelimitedAdd(BaseIniGraphEdit):
     Cut every execution path through the graph at each accepted occurence of a register in
     :attr:`delimiterRegs`. That leaves *segments*: from the start of the path to its first delimiter,
     from each delimiter to the next, and from the last delimiter to the end of the path. This edit
-    places :attr:`addition` so that **every segment of every path contains it exactly once, as late as
+    places :attr:`additions` so that **every segment of every path contains it exactly once, as late as
     possible**, using two placement rules:
     
     1. immediately before every accepted delimiter occurence, in every part, and
@@ -15032,8 +15032,10 @@ class RegDelimitedAdd(BaseIniGraphEdit):
     
     Parameters
     ----------
-    addition: Tuple[:class:`str`, :class:`str`]
-        The `KVP`_ to add
+    additions: Union[Tuple[:class:`str`, :class:`str`], List[Tuple[:class:`str`, :class:`str`]]]
+        The `KVP`_ entries to add -- one ``(key, value)`` tuple, or a list of them. All of them land
+        together at each chosen position, as consecutive lines in this order; an empty list makes the
+        edit a no-op
     
     delimiterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
         The registers whose accepted occurences cut every execution path into segments :raw-html:`<br />` :raw-html:`<br />`
@@ -15042,17 +15044,17 @@ class RegDelimitedAdd(BaseIniGraphEdit):
         * The values are the predicates for which particular occurence of the register to accept,
           taking in the value of the occurence -- ``None`` accepts any occurence
     
-        ``None``/empty means every path is a single segment: :attr:`addition` is added once at the end
+        ``None``/empty means every path is a single segment: :attr:`additions` is added once at the end
         of every path and nowhere else :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
         
     """
-    def __init__(self, addition: typing.Any, delimiterRegs: typing.Any = None) -> None:
+    def __init__(self, additions: typing.Any, delimiterRegs: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
-        Adds :attr:`addition` exactly once into every delimiter-free segment of every execution path
+        Adds :attr:`additions` exactly once into every delimiter-free segment of every execution path
         through 'graph', as late as possible: immediately before every accepted delimiter, and at the end
         of every path-terminal part
         
@@ -15097,18 +15099,19 @@ class RegDelimitedAdd(BaseIniGraphEdit):
             The same graph that was passed in, after editing
         """
     @property
-    def addition(self) -> tuple[str, str]:
+    def additions(self) -> list:
         """
-        Tuple[:class:`str`, :class:`str`]: The `KVP`_ to add
+        List[Tuple[:class:`str`, :class:`str`]]: The `KVP`_ entries to add, in order -- a single
+        ``(key, value)`` tuple may be assigned and reads back as a one-entry list
         """
-    @addition.setter
-    def addition(self, arg1: typing.Any) -> None:
+    @additions.setter
+    def additions(self, arg1: typing.Any) -> None:
         ...
     @property
     def delimiterRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers whose accepted
-        occurences cut every execution path into the segments :attr:`addition` is added exactly once into
+        occurences cut every execution path into the segments :attr:`additions` is added exactly once into
         """
     @delimiterRegs.setter
     def delimiterRegs(self, arg1: typing.Any) -> None:
@@ -15590,11 +15593,13 @@ class RegSurroundedAdd(BaseIniGraphEdit):
     
     Parameters
     ----------
-    addition: Tuple[:class:`str`, :class:`str`]
-        The `KVP`_ to add
+    additions: Union[Tuple[:class:`str`, :class:`str`], List[Tuple[:class:`str`, :class:`str`]]]
+        The `KVP`_ entries to add -- one ``(key, value)`` tuple, or a list of them. All of them land
+        together at each chosen position, as consecutive lines in this order; an empty list makes the
+        edit a no-op
     
     beforeRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
-        The registers that must come before :attr:`addition` (ie. :attr:`addition` gets added after
+        The registers that must come before :attr:`additions` (ie. :attr:`additions` gets added after
         these registers) :raw-html:`<br />` :raw-html:`<br />`
     
         * The keys are the names of the registers
@@ -15607,20 +15612,20 @@ class RegSurroundedAdd(BaseIniGraphEdit):
         **Default**: ``None``
     
     afterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
-        The registers that must come after :attr:`addition` -- same format/semantics as
-        :attr:`beforeRegs`, except the condition applies for coming after :attr:`addition` instead of
+        The registers that must come after :attr:`additions` -- same format/semantics as
+        :attr:`beforeRegs`, except the condition applies for coming after :attr:`additions` instead of
         before it :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``None``
     
     latest: :class:`bool`
-        Whether to add :attr:`addition` at the latest valid location within the surrounded window,
+        Whether to add :attr:`additions` at the latest valid location within the surrounded window,
         instead of the earliest one :raw-html:`<br />` :raw-html:`<br />`
     
         **Default**: ``False``
     
     optBeforeRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
-        Registers of which **at least one** must come before :attr:`addition` -- same format as
+        Registers of which **at least one** must come before :attr:`additions` -- same format as
         :attr:`beforeRegs`, but "any of" rather than "all of" :raw-html:`<br />` :raw-html:`<br />`
     
         Combined with :attr:`beforeRegs` by conjunction: the window only opens once every
@@ -15639,7 +15644,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
         **Default**: ``None``
     
     optAfterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]]
-        Registers of which **at least one** must come after :attr:`addition` -- the "any of"
+        Registers of which **at least one** must come after :attr:`additions` -- the "any of"
         counterpart of :attr:`afterRegs`, exactly as :attr:`optBeforeRegs` is to :attr:`beforeRegs`
         :raw-html:`<br />` :raw-html:`<br />`
     
@@ -15650,11 +15655,11 @@ class RegSurroundedAdd(BaseIniGraphEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, addition: typing.Any, beforeRegs: typing.Any = None, afterRegs: typing.Any = None, latest: bool = False, optBeforeRegs: typing.Any = None, optAfterRegs: typing.Any = None) -> None:
+    def __init__(self, additions: typing.Any, beforeRegs: typing.Any = None, afterRegs: typing.Any = None, latest: bool = False, optBeforeRegs: typing.Any = None, optAfterRegs: typing.Any = None) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
-        Fills 'graph' with a `surrounded` window insertion of :attr:`addition`, honouring :attr:`latest`
+        Fills 'graph' with a `surrounded` window insertion of :attr:`additions`, honouring :attr:`latest`
         for which valid location within each window is chosen
         
         .. note::
@@ -15693,18 +15698,19 @@ class RegSurroundedAdd(BaseIniGraphEdit):
             The same graph that was passed in, after editing
         """
     @property
-    def addition(self) -> tuple[str, str]:
+    def additions(self) -> list:
         """
-        Tuple[:class:`str`, :class:`str`]: The `KVP`_ to add
+        List[Tuple[:class:`str`, :class:`str`]]: The `KVP`_ entries to add, in order -- a single
+        ``(key, value)`` tuple may be assigned and reads back as a one-entry list
         """
-    @addition.setter
-    def addition(self, arg1: typing.Any) -> None:
+    @additions.setter
+    def additions(self, arg1: typing.Any) -> None:
         ...
     @property
     def afterRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers that must come
-        after :attr:`addition`
+        after :attr:`additions`
         """
     @afterRegs.setter
     def afterRegs(self, arg1: typing.Any) -> None:
@@ -15713,7 +15719,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
     def beforeRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: The registers that must come
-        before :attr:`addition`
+        before :attr:`additions`
         """
     @beforeRegs.setter
     def beforeRegs(self, arg1: typing.Any) -> None:
@@ -15721,7 +15727,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
     @property
     def latest(self) -> bool:
         """
-        :class:`bool`: Whether to add :attr:`addition` at the latest valid location within the surrounded
+        :class:`bool`: Whether to add :attr:`additions` at the latest valid location within the surrounded
         window, instead of the earliest one
         """
     @latest.setter
@@ -15731,7 +15737,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
     def optAfterRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
-        one must come after :attr:`addition` (on top of every register in :attr:`afterRegs`)
+        one must come after :attr:`additions` (on top of every register in :attr:`afterRegs`)
         """
     @optAfterRegs.setter
     def optAfterRegs(self, arg1: typing.Any) -> None:
@@ -15740,7 +15746,7 @@ class RegSurroundedAdd(BaseIniGraphEdit):
     def optBeforeRegs(self) -> dict:
         """
         Dict[:class:`str`, Optional[Callable[[:class:`str`], :class:`bool`]]]: Registers of which at least
-        one must come before :attr:`addition` (on top of every register in :attr:`beforeRegs`)
+        one must come before :attr:`additions` (on top of every register in :attr:`beforeRegs`)
         """
     @optBeforeRegs.setter
     def optBeforeRegs(self, arg1: typing.Any) -> None:
@@ -16598,15 +16604,15 @@ class RemapService:
     gameTypeIds: Optional[Set[:class:`int`]]
         The :class:`GameTypeId` values of the games being remapped. ``None`` means every game
     
-    uncompressTextures: :class:`bool`
-        Whether every texture the fix writes is left uncompressed. ``False`` leaves each texture edit's
+    compressTextures: :class:`bool`
+        Whether the textures the fix writes are encoded to a compressed format. ``True`` leaves each texture edit's
         own answer alone
     
     logger: Optional[:class:`BaseLogger`]
         Where the fix reports progress. ``None`` means nowhere
         
     """
-    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, uncompressTextures: bool = False, logger: BaseLogger = None) -> None:
+    def __init__(self, path: str | None = None, keepBackups: bool = True, fixOnly: bool = False, undoOnly: bool = False, hideOrig: bool = False, readAllInis: bool = False, fromModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, forcedModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, defaultModTypeIds: typing.Any = None, handleExceptions: bool = False, fromVersion: FixRaidenBoss2.core.CppVersion | None = None, toModTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, proxy: str | None = None, downloadMode: typing.Any = None, gameTypeIds: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None = None, compressTextures: bool = False, logger: BaseLogger = None) -> None:
         ...
     def clear(self, clearLog: bool = True) -> None:
         """
@@ -16633,6 +16639,18 @@ class RemapService:
         newPath: Optional[:class:`str`]
             The new path, or ``None`` to run from wherever the software started
         """
+    @property
+    def compressTextures(self) -> bool:
+        """
+        :class:`bool`: Whether the textures this fix writes are encoded to a compressed format, rather than a plain
+        32-bit ``.dds`` rather than the BCn format it would otherwise be encoded to
+        
+        A **one-way** override, applied right before a texture resource is written: set, it ignores whatever
+        compression each mod type's own texture edit asked for. ``False`` (the default) overrides nothing
+        """
+    @compressTextures.setter
+    def compressTextures(self, arg0: bool) -> None:
+        ...
     @property
     def defaultModTypeIds(self) -> list:
         """
@@ -16765,18 +16783,6 @@ class RemapService:
         """
     @toModTypeIds.setter
     def toModTypeIds(self, arg0: collections.abc.Set[typing.SupportsInt | typing.SupportsIndex] | None) -> None:
-        ...
-    @property
-    def uncompressTextures(self) -> bool:
-        """
-        :class:`bool`: Whether every texture this fix writes is left uncompressed -- a plain
-        32-bit ``.dds`` rather than the BCn format it would otherwise be encoded to
-        
-        A **one-way** override, applied right before a texture resource is written: set, it ignores whatever
-        compression each mod type's own texture edit asked for. ``False`` (the default) overrides nothing
-        """
-    @uncompressTextures.setter
-    def uncompressTextures(self, arg0: bool) -> None:
         ...
     @property
     def undoOnly(self) -> bool:

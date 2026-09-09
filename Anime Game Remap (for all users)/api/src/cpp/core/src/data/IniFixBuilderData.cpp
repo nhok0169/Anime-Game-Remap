@@ -270,6 +270,18 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::JeanSea),
                   "6.1", ModTypeIdTools::getName(ModTypeId::JeanCN)}, IniFixBuilderFuncs::jeanSea6_1ToJeanCN()},
 
+                // ===== GanyuTwilight @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::GanyuTwilight),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ganyu)}, IniFixBuilderFuncs::ganyuTwilight6_1()},
+
+                // ===== Ningguang @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ningguang),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::NingguangOrchid)}, IniFixBuilderFuncs::ningguang6_1()},
+
+                // ===== NingguangOrchid @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniFixBuilderFuncs::ningguangOrchid6_1()},
+
                 // ===== Raiden @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},

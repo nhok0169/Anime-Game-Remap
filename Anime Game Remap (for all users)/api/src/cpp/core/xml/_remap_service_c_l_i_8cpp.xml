@@ -38,6 +38,9 @@
       <node id="121">
         <label>BiMap.tpp</label>
       </node>
+      <node id="54">
+        <label>CallGraph.tpp</label>
+      </node>
       <node id="12">
         <label>AGRemapCore/RemapService.h</label>
         <link refid="_remap_service_8h"/>
@@ -1236,9 +1239,6 @@
         <childnode refid="16" relation="include">
         </childnode>
       </node>
-      <node id="54">
-        <label>CallGraph.tpp</label>
-      </node>
       <node id="74">
         <label>Generator.tpp</label>
       </node>
@@ -1427,7 +1427,7 @@
 <codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>proxy,</highlight></codeline>
 <codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>downloadMode,</highlight></codeline>
 <codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;std::vector&lt;std::string&gt;&gt;<sp/>gameTypes,</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>uncompressTextures):</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>compressTextures):</highlight></codeline>
 <codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Everything<sp/>already<sp/>unambiguous<sp/>goes<sp/>straight<sp/>in.<sp/>The<sp/>seven<sp/>string-shaped<sp/>options<sp/>are<sp/>left</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>at<sp/>their<sp/>defaults<sp/>here<sp/>and<sp/>filled<sp/>in<sp/>by<sp/>the<sp/>setups<sp/>below,<sp/>which<sp/>is<sp/>where<sp/>they<sp/>can<sp/>fail.</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service(<ref refid="namespacestd" kindref="compound">std</ref>::move(path),<sp/>keepBackups,<sp/>fixOnly,<sp/>undoOnly,<sp/>hideOrig,<sp/>readAllInis),</highlight></codeline>
@@ -1437,7 +1437,7 @@
 <codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service.logger<sp/>=<sp/>logger;</highlight></codeline>
 <codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service.handleExceptions<sp/>=<sp/>handleExceptions;</highlight></codeline>
 <codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service.proxy<sp/>=<sp/>std::move(proxy);</highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service.uncompressTextures<sp/>=<sp/>uncompressTextures;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>service.compressTextures<sp/>=<sp/>compressTextures;</highlight></codeline>
 <codeline lineno="55"><highlight class="normal"></highlight></codeline>
 <codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Nothing<sp/>resolves<sp/>a<sp/>mod<sp/>type<sp/>by<sp/>name<sp/>until<sp/>the<sp/>shipped<sp/>ones<sp/>are<sp/>filed,<sp/>and<sp/>on<sp/>a<sp/>normal<sp/>run</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>nothing<sp/>has<sp/>filed<sp/>them<sp/>yet<sp/>--<sp/>the<sp/>registry<sp/>is<sp/>otherwise<sp/>populated<sp/>as<sp/>a<sp/>side<sp/>effect<sp/>of<sp/>the</highlight><highlight class="normal"></highlight></codeline>

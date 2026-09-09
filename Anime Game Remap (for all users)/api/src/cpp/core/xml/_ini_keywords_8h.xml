@@ -10,6 +10,7 @@
     <includedby refid="_g_i_m_i_section_classifier_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</includedby>
     <includedby refid="_remap_ini_remover_8h" local="yes">include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h</includedby>
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
+    <includedby refid="_ganyu_twilight_fixer_8cpp" local="yes">src/data/IniFixData/GanyuTwilightFixer.cpp</includedby>
     <includedby refid="_jean_c_n_fixer_8cpp" local="yes">src/data/IniFixData/JeanCNFixer.cpp</includedby>
     <includedby refid="_jean_fixer_8cpp" local="yes">src/data/IniFixData/JeanFixer.cpp</includedby>
     <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/RaidenFixer.cpp</includedby>
@@ -54,17 +55,19 @@
         </childnode>
         <childnode refid="24" relation="include">
         </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="12" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="26" relation="include">
         </childnode>
         <childnode refid="21" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
-        </childnode>
         <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
@@ -172,10 +175,14 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="23">
+        <label>src/data/IniFixData/GanyuTwilightFixer.cpp</label>
+        <link refid="_ganyu_twilight_fixer_8cpp"/>
+      </node>
+      <node id="24">
         <label>src/data/IniFixData/JeanCNFixer.cpp</label>
         <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
-      <node id="24">
+      <node id="25">
         <label>src/data/IniFixData/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
@@ -191,7 +198,7 @@
         <label>src/data/IniParseData/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/model/IniNamingTools.cpp</label>
         <link refid="_ini_naming_tools_8cpp"/>
       </node>
@@ -199,11 +206,11 @@
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
-      <node id="26">
+      <node id="27">
         <label>src/model/strategies/ModType.cpp</label>
         <link refid="_mod_type_8cpp"/>
       </node>
-      <node id="27">
+      <node id="28">
         <label>src/model/strategies/iniClassifiers/IniClassifier.cpp</label>
         <link refid="_ini_classifier_8cpp"/>
       </node>
@@ -296,15 +303,21 @@
 <codeline lineno="201"><highlight class="normal"></highlight></codeline>
 <codeline lineno="213" refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a928d0529fdf656dcb8539e202c470acc" kindref="member">NNFixPath</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\global\\ORFix\\NNFix&quot;</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="214"><highlight class="normal"></highlight></codeline>
-<codeline lineno="222" refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">HashNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HashNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="223"><highlight class="normal"></highlight></codeline>
-<codeline lineno="232" refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" kindref="member">IndexNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;IndexNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="233"><highlight class="normal"></highlight></codeline>
-<codeline lineno="237" refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" kindref="member">HideOriginalComment</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;;RemapFixHideOrig<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="239"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="240"><highlight class="normal"></highlight></codeline>
-<codeline lineno="241"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="230" refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;CommandList\\TexFx&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" kindref="member">TexFxTransparency0</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251" refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" kindref="member">TexFxTransparency1</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aeae6556eebce369949902e52ed56620c" kindref="member">TexFxFolder</ref><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;\\TN.1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260" refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" kindref="member">HashNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HashNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270" refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" kindref="member">IndexNotFound</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;IndexNotFound&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" kindref="member">HideOriginalComment</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;;RemapFixHideOrig<sp/>--&gt;&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/IniKeywords.h"/>
   </compounddef>

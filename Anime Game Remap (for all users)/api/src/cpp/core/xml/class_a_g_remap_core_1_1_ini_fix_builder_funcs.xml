@@ -1509,6 +1509,110 @@ The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split 
         </inbodydescription>
         <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="812" column="43" bodyfile="src/data/IniFixData/JeanCNFixer.cpp" bodystart="28" bodyend="55"/>
       </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJean</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea6_1ToJean</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJean</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanSea onto Jean** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The **merge**: JeanSea&apos;s ``body`` and ``dress`` both become Jean&apos;s ``body``, which takes
+a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
+:cpp:member:`GIMICharFixerConfig::objSplits`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="825" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="45" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJeanCN</definition>
+        <argsstring>()</argsstring>
+        <name>jeanSea6_1ToJeanCN</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::jeanSea6_1ToJeanCN</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge as
+:cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSeaFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="834" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguang6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ningguang6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguang6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **Ningguang onto NingguangOrchid** -- **not** a stub
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+The standard GIMI character shape -- see :cpp:func:`makeGIMICharFixer` -- plus a
+``ps-t3`` strip the target does not read and the ``DarkDiffuse`` head edit. Ningguang&apos;s
+own choices are in ``data/IniFixData/NingguangFixer.cpp``
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="847" column="43" bodyfile="src/data/IniFixData/NingguangFixer.cpp" bodystart="14" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ningguangOrchid6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ningguangOrchid6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ningguangOrchid6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **NingguangOrchid onto Ningguang** -- **not** a stub. The plain
+shape, with none of Ningguang&apos;s extras; see ``data/IniFixData/NingguangOrchidFixer.cpp``
+for why the asymmetry is real
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="857" column="43" bodyfile="src/data/IniFixData/NingguangOrchidFixer.cpp" bodystart="11" bodyend="26"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::ganyuTwilight6_1</definition>
+        <argsstring>()</argsstring>
+        <name>ganyuTwilight6_1</name>
+        <qualifiedname>AGRemapCore::IniFixBuilderFuncs::ganyuTwilight6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+The direction that **loses a normal map**: GanyuTwilight is a post-GI-3.x model with one
+on ``ps-t0``, Ganyu predates it, so the head&apos;s registers shift down a slot. See
+``data/IniFixData/GanyuTwilightFixer.cpp`` and
+:cpp:member:`GIMICharFixerConfig::objRegRemaps`
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="871" column="43" bodyfile="src/data/IniFixData/GanyuTwilightFixer.cpp" bodystart="14" bodyend="48"/>
+      </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
         <definition>IniFixBuilder::Factory AGRemapCore::IniFixBuilderFuncs::monaCN6_1</definition>
@@ -1529,7 +1633,7 @@ MonaCN remapped onto Mona. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="825" column="43" bodyfile="src/data/IniFixData/MonaCNFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="884" column="43" bodyfile="src/data/IniFixData/MonaCNFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1551,7 +1655,7 @@ Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="838" column="43" bodyfile="src/data/IniFixData/RosariaFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="897" column="43" bodyfile="src/data/IniFixData/RosariaFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1573,7 +1677,7 @@ RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="851" column="43" bodyfile="src/data/IniFixData/RosariaCNFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="910" column="43" bodyfile="src/data/IniFixData/RosariaCNFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1606,7 +1710,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
    actually needs them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="40" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="40" bodyend="853"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="40" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="40" bodyend="912"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a0974b6741bb33f11bd90e970ec6139e9" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ab194bb3d4062215bfb52bd57a6fff1df" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>amber5_7</name></member>
@@ -1640,6 +1744,7 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a41a2de9e899a0a41c0957623b33d8b73" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyu5_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a98c2bbd162b6936117dfec47c9460492" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight4_4</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacc5733b4d1d7e1d577f3c8a30734c06" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight5_7</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ganyuTwilight6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a4efac3f1cd36ba13a731bc9894ad7e65" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>giDefault</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a494b699f9aa9200c66799efd183abcc0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>hutao4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a58f3fc8436a68a77bd67707a436245b4" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>hutao5_6</name></member>
@@ -1653,6 +1758,8 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a76545c0b834fe6d7891f4ba88205b731" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN6_1ToJean</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad17176dacf2bef265c6121b4c931d66d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanCN6_1ToJeanSea</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aae46ec7ab9a54f120a748ad11f1c8598" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea6_1ToJean</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>jeanSea6_1ToJeanCN</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6d8c71e7df7a9441c9717a71303cbbe3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeya4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1add3cd0fd523a0124373ee797f3fd568a" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeya5_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a207232ffe796db234f88b95ceded7bad" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>kaeyaSailwind4_0</name></member>
@@ -1679,7 +1786,9 @@ each returning the :cpp:type:`IniFixBuilder::Factory` for that pair
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a2f555bb392e8672223c8037b4c32ef77" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze5_4</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a6f412cdab20a7bbde429fbb5f50d9d3c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>nilouBreeze5_7</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a35b5c48495747cf1dc83237b64c678cc" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguang4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguang6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a153c89fd8adf8a46ceba2e93a174ee51" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguangOrchid4_0</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>ningguangOrchid6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aacf5fdfd98f282dd6a39c3b89064f7a8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>raiden6_1</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a16960ce595eb8499137893f38dc3c4af" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosaria4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderFuncs</scope><name>rosaria6_1</name></member>

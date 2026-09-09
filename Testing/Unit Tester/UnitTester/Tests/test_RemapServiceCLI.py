@@ -62,13 +62,13 @@ class RemapServiceCLITest(BaseUnitTest):
                                   log = None, verbose = False, handleExceptions = True,
                                   remappedTypes = ["Ayaka"], version = "4.0", proxy = None,
                                   downloadMode = "disabled", gameTypes = ["GI"],
-                                  uncompressTextures = True)
+                                  compressTextures = True)
 
         self.assertFalse(cli.hasErrorsBeforeFix)
         self.assertFalse(cli.service.keepBackups)
         self.assertTrue(cli.service.hideOrig)
         self.assertTrue(cli.service.handleExceptions)
-        self.assertTrue(cli.service.uncompressTextures)
+        self.assertTrue(cli.service.compressTextures)
 
     # ---- --game ----
 
@@ -98,13 +98,15 @@ class RemapServiceCLITest(BaseUnitTest):
         with self.assertRaises(FRB.InvalidGameType):
             cli.raiseErrorsBeforeFix()
 
-    # ---- --uncompressTextures ----
+    # ---- --compressTextures ----
 
-    def test_uncompressTexturesReachesTheModel(self):
-        self.assertTrue(self.makeCLI(uncompressTextures = True).service.uncompressTextures)
+    def test_compressTexturesReachesTheModel(self):
+        self.assertTrue(self.makeCLI(compressTextures = True).service.compressTextures)
 
-    def test_uncompressTexturesDefaultsToFalse(self):
-        self.assertFalse(self.makeCLI().service.uncompressTextures)
+    def test_compressTexturesDefaultsToFalse(self):
+        # ie. textures are left UNCOMPRESSED by default, as the pure-Python versions always did.
+        # The option permits compression rather than imposing it -- see RemapService::compressTextures.
+        self.assertFalse(self.makeCLI().service.compressTextures)
 
     def test_modTypeNamesBecomeIds(self):
         cli = self.makeCLI(types = ["Raiden"], remappedTypes = ["Ayaka"])

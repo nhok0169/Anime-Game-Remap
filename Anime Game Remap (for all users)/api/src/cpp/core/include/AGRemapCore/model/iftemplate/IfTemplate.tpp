@@ -477,6 +477,20 @@ namespace AGRemapCore {
         for (const std::string& subCommand : subCommandsToCheck) {
             auto it = sections.find(subCommand);
             if (it == sections.end()) {
+                // Not a section in this graph: an external library command (NNFix, ORFix, a TexFx
+                // sub-command). The pure-Python original calls such a name "a sink in the command
+                // call graph and a leaf in the DFS tree" -- and a leaf holds no occurence of the
+                // key, so it is entirely missing it and COUNTS as missing.
+                //
+                // Skipping it silently instead left childrenTotal permanently larger than
+                // missingKeyChildrenTotal could reach, so any section calling an external command
+                // could never report allBranchesMissing. GanyuTwilight's dress calls
+                // CommandList\TexFx\Transparency.0, so its draw call could not bubble up to the
+                // TextureOverride and landed in the ib branches instead -- ahead of the block that
+                // binds ps-t69 and runs TexFx, rendering the dress before its transparency existed.
+                //
+                // It contributes no parts, so childrenResult is untouched; only the verdict moves.
+                ++missingKeySubCommandsToCheck;
                 continue;
             }
 
@@ -500,8 +514,22 @@ namespace AGRemapCore {
         size_t missingKeyChildrenTotal = missingKeyBranchChildren + missingKeySubCommandsToCheck + missingKeySubCommandsChecked;
         size_t childrenTotal = branchChildrenLen + subCommandsToCheckLen + subCommandsCheckedLen;
 
-        if (!result.empty() && missingKeyChildrenTotal == childrenTotal) {
-            return std::make_pair(result, true);
+        // "every child is entirely missing the key" is a fact about the SUBTREE, so it does not
+        // depend on whether this node happens to own a content part of its own. It used to: the
+        // condition required a non-empty 'result', which meant a section ending on an 'endif' -- no
+        // root-level content after it -- could never report allBranchesMissing, and its parent then
+        // fell back to filling the branches individually instead of bubbling up.
+        //
+        // GanyuTwilight's dress is exactly that shape, and filling its branches put the draw call
+        // ahead of the '$DressTransparency' block that binds ps-t69 and runs TexFx, so the dress was
+        // rendered before its transparency was ever configured. Its body and head end with
+        // 'ps-t69 = null' at root level, so they owned a part, bubbled up, and looked correct --
+        // which is what made this look like a per-character quirk rather than one rule.
+        //
+        // 'result' still decides WHICH parts to offer: this node's own if it has one, otherwise the
+        // children's. It no longer decides whether the subtree counts as missing.
+        if (missingKeyChildrenTotal == childrenTotal) {
+            return std::make_pair(result.empty() ? childrenResult : result, true);
         }
 
         return std::make_pair(childrenResult, false);

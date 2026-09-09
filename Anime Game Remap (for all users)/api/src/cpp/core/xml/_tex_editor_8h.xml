@@ -9,6 +9,7 @@
     <includedby refid="_g_i_m_i_char_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/GIMICharFixer.h</includedby>
     <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
     <includedby refid="_tex_editor_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</includedby>
+    <includedby refid="_dark_diffuse_8cpp" local="yes">src/data/IniFixData/DarkDiffuse.cpp</includedby>
     <includedby refid="_tex_editor_8cpp" local="yes">src/model/strategies/texEditors/TexEditor.cpp</includedby>
     <incdepgraph>
       <node id="5">
@@ -61,10 +62,8 @@
         </childnode>
         <childnode refid="11" relation="include">
         </childnode>
-      </node>
-      <node id="12">
-        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
-        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
         <childnode refid="13" relation="include">
         </childnode>
         <childnode refid="14" relation="include">
@@ -72,7 +71,17 @@
         <childnode refid="15" relation="include">
         </childnode>
       </node>
-      <node id="13">
+      <node id="16">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="17">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
         <childnode refid="5" relation="include">
@@ -83,14 +92,16 @@
         <link refid="_tex_editor_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="12" relation="include">
-        </childnode>
-        <childnode refid="13" relation="include">
-        </childnode>
         <childnode refid="16" relation="include">
         </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
       </node>
-      <node id="14">
+      <node id="18">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
@@ -102,39 +113,59 @@
         <label>src/data/IniFixData/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
       </node>
+      <node id="20">
+        <label>src/data/IniFixData/DarkDiffuse.cpp</label>
+        <link refid="_dark_diffuse_8cpp"/>
+      </node>
       <node id="5">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="6">
+        <label>src/data/IniFixData/GanyuTwilightFixer.cpp</label>
+        <link refid="_ganyu_twilight_fixer_8cpp"/>
+      </node>
+      <node id="7">
         <label>src/data/IniFixData/JeanCNFixer.cpp</label>
         <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
+        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
+        <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="10">
         <label>src/data/IniFixData/MonaCNFixer.cpp</label>
         <link refid="_mona_c_n_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="11">
         <label>src/data/IniFixData/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
       </node>
-      <node id="10">
+      <node id="12">
+        <label>src/data/IniFixData/NingguangFixer.cpp</label>
+        <link refid="_ningguang_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/NingguangOrchidFixer.cpp</label>
+        <link refid="_ningguang_orchid_fixer_8cpp"/>
+      </node>
+      <node id="14">
         <label>src/data/IniFixData/RosariaCNFixer.cpp</label>
         <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
-      <node id="11">
+      <node id="15">
         <label>src/data/IniFixData/RosariaFixer.cpp</label>
         <link refid="_rosaria_fixer_8cpp"/>
       </node>
-      <node id="15">
+      <node id="19">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="16">
+      <node id="21">
         <label>src/model/strategies/texEditors/TexEditor.cpp</label>
         <link refid="_tex_editor_8cpp"/>
       </node>

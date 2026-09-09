@@ -101,6 +101,9 @@ pybind11_add_module(core
     src/model/PyIniGraphGroup.cpp
     src/model/strategies/iniFixers/regEdits/PyBaseRegEdit.cpp
     src/model/strategies/iniFixers/regEdits/PyRegAdd.cpp
+    src/model/PyIniNamingTools.cpp
+    src/model/strategies/iniFixers/PyGIMIObjPartFilter.cpp
+    src/model/strategies/iniFixers/regEdits/PyRegAssetRemap.cpp
     src/model/strategies/iniFixers/regEdits/PyRegNewVals.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemap.cpp
     src/model/strategies/iniFixers/regEdits/PyRegRemove.cpp

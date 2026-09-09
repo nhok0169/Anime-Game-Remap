@@ -49,7 +49,8 @@ class PyRegDelimitedAdd: public AGRC::RegDelimitedAdd<std::string, std::string> 
          * @param additionsObj The `KVP`_ tuple(s) to add -- one ``(key, value)`` tuple, or a list of them
          * @param delimiterRegsObj The registers that delimit the segments, or ``None`` for none
          */
-        PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj);
+        PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj,
+                           bool pathEndOnlyWhenUndelimited = false);
 };
 
 

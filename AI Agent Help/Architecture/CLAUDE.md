@@ -1804,6 +1804,57 @@ every core-side reader of it.** Shadowing is sometimes unavoidable here --- the 
 arbitrary Python keys the string-keyed map cannot --- but it has to come with a virtual accessor,
 or the core half quietly operates on an empty container.
 
+### A whole character's fix, written in Python (2026-09-09)
+
+**GanyuTwilight's parser and fixer have been rewritten in Python, registered through
+`StrategyOverrides`, and A/B'd against the compiled ones over the real mod: 64 files,
+byte-identical, seven `.ini` files and ten downloaded assets included.** The script lives
+outside the repo, next to the mods it fixes
+(`Importer/GIMI/Mods/overrideScript.py`, `--ab` to run the comparison).
+
+That is the strongest evidence the override path has, and it is worth knowing what it cost,
+because **the feature was not usable for a real fix before this**. Five things were missing, and
+none of them announced itself as missing --- each surfaced as one more `.ini` file skipped:
+
+| Missing | Why a real fix needs it |
+| --- | --- |
+| `RegAssetRemap` | not bound at all. It is how every hash becomes the target's |
+| `GIMIObjPartFilter` | not bound at all. Without its window the `match_first_index` rewrite writes one object's vertex range onto another |
+| `RegDelimitedAdd.pathEndOnlyWhenUndelimited` | the parameter existed on the core class and not on the binding, so a Python fix could not ask for the NNFix/ORFix placement every character uses |
+| `CppIniNamingTools` | see below |
+| `PyIniParseContext::addSectionObj` / `addFileDownloadObj` | two more third-case seam gaps --- the `*Obj` variants had no `coreCtx` branch, so a download creating its resource section raised on `ini.sectionIfTemplates` and a download reaching the `.ini` file raised on `ini.fileDownloads` |
+
+**The naming one is the trap worth remembering. `IniNamingTools` in Python is the pure-Python
+class, and it does not agree with the C++ one the compiled fixes use.** Its `getModSuffixedName`
+keeps `name[:len(suffix)]` where it means `name[:-len(suffix)]` --- a confirmed bug the C++ port
+deliberately does not reproduce (see its own comment). The two agree on every name that does
+*not* already end in the suffix, which is almost all of them; they diverge on a section the
+parser **invents** for a download, which by construction already carries `RemapFix`. So exactly
+one section in the whole file came out as `[TextureOGanyuRemapFix]`. The C++ class is now bound
+as **`CppIniNamingTools`** --- deliberately not as `IniNamingTools`, which is taken --- and a fix
+written in Python should use it.
+
+Two smaller things the exercise turned up, both of the same silent-acceptance kind:
+
+* **`RegFillMissing`'s `fillMissing` takes a string, a list of `(key, value)` tuples, or a
+  callable --- and accepts anything else in silence.** A `dict` filled nothing, and the run
+  stayed green with `fixed=7 skipped=0`; only the missing `drawindexed = auto` in the output
+  showed it.
+* **A `keyFilter` must return a bound `Ranges`, not the core one.** `GIMIObjPartFilter.filter`
+  returning `AGRemapCore::Ranges<long long>` by value failed at call time with "Unable to convert
+  function return value" --- and because a keyFilter only runs inside an edit, that surfaced as
+  the whole `.ini` file being skipped rather than as a type error anyone could see.
+
+Every one of those was diagnosed through **`RemapService.stats.ini.skipped`**, with no logger
+attached. That is what the property is for; without it each of these would have been a silent
+"the fix produced nothing" with nothing to read.
+
+One false alarm to know about before trusting a red `--ab`: both runs **fetch** the default
+assets a mod left out, so a network hiccup shows up as a handful of `...RemapDL` files "only in
+one run" while every `.ini` still matches. The per-run download counts tell the two apart. It
+happened twice while writing the script, both times on the C++ half, both times gone on the next
+attempt.
+
 ### `StrategyOverrides`: replacing a parser or fixer without rebuilding
 
 `AGRemapCore::StrategyOverrides` (`constants/StrategyOverrides.h`, bound as

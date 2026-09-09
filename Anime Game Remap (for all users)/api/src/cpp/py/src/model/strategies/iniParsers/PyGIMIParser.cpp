@@ -269,6 +269,22 @@ PyIniParseContext::Section* PyIniParseContext::addSectionObj(const std::string &
         return nullptr;
     }
 
+    // The third context case, which addSection above already handles and this one did not: the core
+    // IniFile has no 'sectionIfTemplates' attribute, so a download creating its resource section
+    // through DownloadData.createResSection raised AttributeError and the whole .ini was skipped.
+    //
+    // MOVED rather than copied, because IfTemplate is deliberately move-only. Safe because the
+    // object here is a throwaway built by createResSection for this one call -- the caller wants
+    // the STORED section back, which is what this returns.
+    if (coreCtx != nullptr) {
+        auto *raw = section.cast<Section*>();
+        if (raw == nullptr) {
+            return nullptr;
+        }
+
+        return coreCtx->addSection(name, std::make_unique<Section>(std::move(*raw)));
+    }
+
     ini.attr("sectionIfTemplates")[py::str(name)] = section;
     return section.cast<PyIfTemplate*>();
 }
@@ -300,6 +316,15 @@ void PyIniParseContext::addFileDownload(std::unique_ptr<AGRC::IniResource> downl
 
 void PyIniParseContext::addFileDownloadObj(py::object download) {
     if (!hasIni() || download.is_none()) {
+        return;
+    }
+
+    // Same third-case gap addSectionObj had: the core IniFile has getFileDownloads() and no
+    // 'fileDownloads' attribute. Ownership genuinely moves here -- RemapService::fixResources walks
+    // that list and is what actually fetches the file, so a download Python keeps to itself is never
+    // downloaded.
+    if (coreCtx != nullptr) {
+        coreCtx->addFileDownload(download.cast<std::unique_ptr<AGRC::IniResource>>());
         return;
     }
 

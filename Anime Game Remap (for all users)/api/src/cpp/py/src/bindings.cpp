@@ -18,6 +18,7 @@
 #include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
 #include "model/iftemplate/PyIfContentPart.h"
 #include "model/iftemplate/PyIfContentPartColour.h"
+#include "model/PyIniNamingTools.h"
 #include "model/PyVersion.h"
 #include "model/assets/PyModDictAssets.h"
 #include "model/assets/PyModMappedAssets.h"
@@ -59,6 +60,8 @@
 #include "model/PyIniGraphGroup.h"
 #include "model/strategies/iniFixers/regEdits/PyBaseRegEdit.h"
 #include "model/strategies/iniFixers/regEdits/PyRegAdd.h"
+#include "model/strategies/iniFixers/PyGIMIObjPartFilter.h"
+#include "model/strategies/iniFixers/regEdits/PyRegAssetRemap.h"
 #include "model/strategies/iniFixers/regEdits/PyRegNewVals.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemap.h"
 #include "model/strategies/iniFixers/regEdits/PyRegRemove.h"
@@ -177,6 +180,7 @@ PYBIND11_MODULE(core, m) {
     initCppIOrderedMultiMap(m);
     initCppIfContentPart(m);
     initCppIfContentPartColour(m);
+    initCppIniNamingTools(m); // no ordering constraints -- every method is static and takes only strings
     initCppVersion(m);
     initCppModDictAssets(m);
     initCppModMappedAssets(m);
@@ -226,6 +230,7 @@ PYBIND11_MODULE(core, m) {
     // Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
     initCppBaseRegEdit(m); // registers BaseIniPartEdit/BaseIniGraphPartEdit/BaseRegEdit; must come after initCppIfContentPart (its edit signatures take one) and initCppRanges (partRanges)
     initCppRegAdd(m); // must come after initCppBaseRegEdit (registers its base)
+    initCppRegAssetRemap(m); // must come after initCppBaseRegEdit (registers its base) and initCppModMappedAssets (the tables it borrows)
     initCppRegNewVals(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemap(m); // must come after initCppBaseRegEdit (registers its base)
     initCppRegRemove(m); // must come after initCppBaseRegEdit (registers its base)
@@ -240,6 +245,7 @@ PYBIND11_MODULE(core, m) {
 
     // ----- iniFixers/graphGroupEdits (full replacement of the pure-Python graphGroupEdits
     // package -- see Architecture/CLAUDE.md's "Two different outcomes for porting a class") -----
+    initCppGIMIObjPartFilter(m); // must come after initCppModMappedAssets (the tables it borrows) and initCppSectionIterData (what its window function takes)
     initCppBaseIniGraphGroupEdit(m); // must come after initCppBaseRegEdit (registers BaseIniPartEdit, its base) and initCppIniSectionGraph/initCppIniGraphGroup (the types it edits)
     initCppGraphRemove(m); // must come after initCppBaseIniGraphGroupEdit (registers its base)
     initCppGraphInherit(m); // must come after initCppBaseIniGraphGroupEdit (registers its base) and initCppRanges (its partFilter returns one)

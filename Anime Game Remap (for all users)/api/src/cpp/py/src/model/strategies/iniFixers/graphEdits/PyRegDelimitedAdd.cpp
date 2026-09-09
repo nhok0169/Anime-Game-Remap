@@ -54,8 +54,9 @@ std::optional<PyRegDelimitedAdd::Core::KeySet> parseKeysToTrack(const py::object
 }
 
 
-PyRegDelimitedAdd::PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj):
-    Core(parseAdditions(additionsObj), parseRegMap(delimiterRegsObj)),
+PyRegDelimitedAdd::PyRegDelimitedAdd(py::object additionsObj, py::object delimiterRegsObj,
+                                       bool pathEndOnlyWhenUndelimited):
+    Core(parseAdditions(additionsObj), parseRegMap(delimiterRegsObj), pathEndOnlyWhenUndelimited),
     delimiterRegsObj(delimiterRegsObj.is_none() ? py::dict() : delimiterRegsObj.cast<py::dict>()) {}
 
 
@@ -125,9 +126,26 @@ delimiterRegs: Optional[Dict[:class:`str`, Optional[Callable[[:class:`str`], :cl
     )doc");
 
     // py::init(factory), same as PyRegSurroundedAdd: the core holds std::function predicates
-    cls.def(py::init([](py::object additions, py::object delimiterRegs) {
-        return std::make_unique<PyRegDelimitedAdd>(std::move(additions), std::move(delimiterRegs));
-    }), py::arg("additions"), py::arg("delimiterRegs") = py::none());
+    cls.def(py::init([](py::object additions, py::object delimiterRegs, bool pathEndOnlyWhenUndelimited) {
+        return std::make_unique<PyRegDelimitedAdd>(std::move(additions), std::move(delimiterRegs),
+                                                    pathEndOnlyWhenUndelimited);
+    }), py::arg("additions"), py::arg("delimiterRegs") = py::none(),
+        py::arg("pathEndOnlyWhenUndelimited") = false);
+
+    cls.def_readwrite("pathEndOnlyWhenUndelimited", &PyRegDelimitedAdd::pathEndOnlyWhenUndelimited,
+        py::doc(R"doc(
+:class:`bool`: Whether a path that already contains a delimiter is left without a trailing
+addition after its last one :raw-html:`<br />` :raw-html:`<br />`
+
+``False`` (the default, and the older behaviour) adds once at the end of **every** path as well
+as before each delimiter. ``True`` restricts that trailing addition to paths carrying no
+delimiter at all -- which is what a mandatory fix call like ``NNFix`` wants: one immediately
+before every ``drawindexed``, and a single one at the end only for a graph that never draws. The
+surplus call the ``False`` behaviour leaves after a path's last draw is not harmless, since
+``ORFix`` swaps the diffuse and lightmap registers on every call
+
+**Default**: ``False``
+        )doc"));
 
     cls.def_property("additions", [](const PyRegDelimitedAdd &self) {
         return additionsToPy(self.additions);

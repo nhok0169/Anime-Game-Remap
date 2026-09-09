@@ -13,7 +13,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | --- | --- | --- |
 | Overview | [`AI Agent Help/Overview/CLAUDE.md`](AI%20Agent%20Help/Overview/CLAUDE.md) | new to the repo — project purpose, full directory layout, branch/PR norms. **Also opens with "Working a feature or bug request here" — read that before starting any task, whatever the subsystem** |
 | Setup | [`AI Agent Help/Setup/CLAUDE.md`](AI%20Agent%20Help/Setup/CLAUDE.md) | bootstrapping the API from a fresh clone, **on Windows or Linux** — prerequisites (which VS components, which Python, the exact `pybind11`/Doxygen versions), submodules, the cold-start `-pb -pi -d` build, the Linux/WSL port and its cross-OS traps, and how to tell a broken setup from the suite's pre-existing failures. **Read this before [Building](AI%20Agent%20Help/Building/CLAUDE.md) if `import FixRaidenBoss2` doesn't work yet** |
-| Building | [`AI Agent Help/Building/CLAUDE.md`](AI%20Agent%20Help/Building/CLAUDE.md) | compiling the C++ core, pybind11 bindings, or Cython extensions (assumes Setup is done) |
+| Building | [`AI Agent Help/Building/CLAUDE.md`](AI%20Agent%20Help/Building/CLAUDE.md) | compiling the C++ core, pybind11 bindings, or Cython extensions (assumes Setup is done) -- **or wondering why a rebuild is taking so long**, which has its own "Build speed" section |
 | Testing | [`AI Agent Help/Testing/CLAUDE.md`](AI%20Agent%20Help/Testing/CLAUDE.md) | running the unit or integration test suites |
 | Documentation | [`AI Agent Help/Documentation/CLAUDE.md`](AI%20Agent%20Help/Documentation/CLAUDE.md) | writing/building Doxygen or Sphinx docs |
 | Architecture | [`AI Agent Help/Architecture/CLAUDE.md`](AI%20Agent%20Help/Architecture/CLAUDE.md) | writing new C++ core code or pybind11 bindings |
@@ -196,6 +196,28 @@ shatters into pieces -- `for f in $(git diff --name-only ...); do git checkout -
 `error: pathspec 'Anime' did not match any file(s)` and **changes nothing while looking like it
 ran**. Quote every expansion (`"$f"`), or do path-list work in a Python script with a real argument
 list (`subprocess.run(["git", "checkout", "--", *paths])`) instead of the shell.
+
+**The build is no longer the ten-minute wall this file's older advice was written around
+(2026-09-08), and the tuning is already done --- do not re-derive it.** A one-line change to a
+`core/src/*.cpp` rebuilds in about **8 seconds**, a change to a widely-included `core/include`
+header in about **2 minutes**, and a tree that has to build every object from scratch comes back
+from the compiler cache in about **30 seconds**. Getting there was a measured exercise, and the
+result is five CMake options documented in [Building](AI%20Agent%20Help/Building/CLAUDE.md)'s
+**"Build speed"** section: `AGREMAP_ENABLE_LTO` (off for `python_dev`, on for wheels --- pybind11's
+default `/GL`+`-LTCG` was the entire 57s floor for *any* change), `AGREMAP_PCH` / `AGREMAP_PCH_LIB`,
+`AGREMAP_SCCACHE`, and `AGREMAP_UNITY_BUILD`. Four things to know before you touch any of it:
+**(1)** `AGREMAP_SCCACHE` and the two PCH options are **mutually exclusive** --- sccache refuses to
+cache a compilation that uses a precompiled header and says so only in `sccache --show-stats`, so
+running both is the worst configuration available; turning sccache on disables them for you.
+**(2)** this machine's `cbuild` is configured with **sccache on**, while the committed default is
+off (so a machine without sccache, and the Linux/wheel paths, still work) --- if a build here
+behaves unlike the committed defaults, that is why. **(3)** `AGREMAP_UNITY_BUILD` is wired up,
+measured, and deliberately **off**: on 24 threads it tripled the cost of the common single-file
+edit. Don't "fix" it by turning it on. **(4)** any source given per-file `COMPILE_OPTIONS` (today
+just `VGRemapData.cpp`, at `/Od`) **must** also carry `SKIP_PRECOMPILE_HEADERS` and
+`SKIP_UNITY_BUILD_INCLUSION` --- the flags silently stop applying otherwise, and that one file went
+from 14s to 144s the first time this was missed. If a build feels slow, check what `cbuild` was
+configured with before optimising anything.
 
 **This repo is cross-platform as of 2026-08-31, and that is newer than most of the documentation
 around it.** The API has been built, imported and tested on Linux (WSL2 / Ubuntu 24.04, GCC 13)

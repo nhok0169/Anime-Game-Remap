@@ -83,8 +83,11 @@ native-code change.
     `Start-Process cmd.exe -ArgumentList '/c', '"<bat>" > <log>'` returns a PID immediately but never
     writes the log. In both cases the *old* `.pyd` stays installed, and every test you run afterwards
     is quietly exercising stale code. Check `core.cp313-win_amd64.pyd`'s mtime before trusting any
-    result. Data point for pacing: after touching `StringTools.h` (included by most of the core),
-    `ninja core` plus the link plus the copy took about 4 minutes end to end.
+    result. Data point for pacing, **re-measured 2026-09-08 after the build-speed work below**:
+    touching a widely-included core header and running `ninja` to completion is about **2 minutes**,
+    and a one-line change to a single `core/src/*.cpp` is about **8 seconds**. Both were far worse
+    before (137.9s and 57.2s); if you are seeing the old figures, check which options `cbuild` was
+    configured with -- see "Build speed" below.
 
 ## `api/extern/*` are git submodules — empty in a fresh `git worktree`
 
@@ -281,13 +284,153 @@ need the full `main.py -d` cycle every time:
   it prints for a handful of pre-existing signatures are baseline noise, not your change failing;
   check that the classes you added actually appear in `core.pyi` instead.
 
-## Run the pybind11 link in the **background** --- a foreground timeout kills it mid-link and leaves you a half-built tree
+## Build speed: five switches, and what each one actually measured
 
-`ninja core` recompiles fast but the final `Linking CXX shared module ... core.cp313-win_amd64.pyd`
-step alone can take well over ten minutes on this machine. If the tool call running it hits its
-timeout, the link is killed: the log stops after the last `Building CXX object` line, `.obj` files
-are all present, and **no `.pyd` is produced** --- so a `cp` of the build output afterwards silently
-installs the *previous* build and you test stale code.
+Added 2026-09-08 after profiling the build end to end. **Every number here is a stopwatch on this
+machine** (Xeon w5-3423, 12 cores / 24 threads, 31GB, MSVC 14.50, Ninja) --- re-measure rather than
+trust them if the hardware or toolset moved, the same way you re-check the Python version and the
+`vcvarsall.bat` path.
+
+Where a rebuild's time went **before** any of this existed, for the two cases that matter:
+
+| what you changed | wall time |
+| --- | --- |
+| one `.cpp` under `core/src` | 57.2s |
+| one widely-included header under `core/include` (107 rebuild edges) | 137.9s |
+
+Almost all of that was **two serial things**, not the parallel compile:
+
+- **The LTCG link, 56.0s, single-threaded, on every build no matter how small.** That was the whole
+  of the 57.2s floor: a one-line `.cpp` change compiled in about a second and then waited a minute
+  for the link.
+- **`VGRemapData.cpp`, 80.4s in one translation unit**, which gated `AGRemapCore.lib` while the
+  other 45 recompiled files sat finished. It is one function holding a single static initializer of
+  52 `VGRemap` rows built from 5,229 nested `{a, b}` pair initializers, and MSVC's optimizer is
+  superlinear in the size of that one expression (38.6s at `/O2`, 37.7s at `/O1`, **5.5s at `/Od`**,
+  measured standalone). `HashData.cpp` looks similar and is *not* affected (9.4s vs 9.0s), so don't
+  generalise this to `data/`.
+
+Today those are 4.6s and 14.2s, and the floor for a one-`.cpp` change is **8.1s**.
+
+### The switches
+
+| option | default | what it does |
+| --- | --- | --- |
+| `AGREMAP_ENABLE_LTO` | **OFF** for `python_dev`, ON for `cibuildwheel`/`core_sdk` | pybind11 links `pybind11::lto` unless told otherwise, which on MSVC is `/GL` + `-LTCG` |
+| `AGREMAP_PCH` | ON | precompiled header for the `core` pybind module |
+| `AGREMAP_PCH_LIB` | ON | precompiled header for `AGRemapCore` |
+| `AGREMAP_SCCACHE` | OFF (but **ON in this machine's `cbuild`**) | routes every compile through sccache; forces both PCHs off |
+| `AGREMAP_UNITY_BUILD` | OFF | jumbo-compiles `AGRemapCore` in batches of 16. Wired up, measured, and **rejected** --- see below |
+
+**Shipped wheels are unaffected by all of this.** The LTO default keys off `BUILD_MODE`, and the
+other four are off or irrelevant in the wheel path.
+
+### `AGREMAP_SCCACHE` and the precompiled headers are mutually exclusive --- do not run both
+
+sccache **will not cache a compilation that uses a PCH.** It does not warn; it reports the
+compilations under `Non-cacheable reasons: /Fp` in `sccache --show-stats` and pays its own overhead
+for nothing. That is why turning `AGREMAP_SCCACHE` on turns both PCH options off in
+`api/CMakeLists.txt`. Running both is strictly the worst configuration available.
+
+Pick per workload; the trade is real in both directions:
+
+| | first-ever compile of that content | content seen before |
+| --- | --- | --- |
+| PCH | **112.9s** | 112.9s |
+| sccache | 135.5s | **11.3s** |
+
+- **PCH** wins when you are editing in one long-lived tree, where every compile is of something you
+  just typed and can never be a cache hit. Worth about 13-17%.
+- **sccache** wins, by roughly 10x, whenever content repeats: undoing an edit, switching branches
+  and back, a wiped `cbuild/`, or **a fresh `git worktree`** --- and that last one is where this
+  repo's long builds actually live. Rebuilding both targets from zero objects took **19.7s at a
+  100% hit rate**, against ~183s of real compiling. The cold pass that filled the cache covered all
+  637 compiles including curl and Compressonator, and cost 112MiB against sccache's 10GiB
+  default. Flipping the whole tree between the two configurations afterwards --- which changes
+  every compile flag and so invalidates every object --- rebuilt all 637 in **32s at a 100% hit
+  rate**.
+
+Cache hits **survive being in a different checkout**: the same source compiled through a second
+path to the tree, with entirely different `-I` arguments, still hit. So a new worktree gets the
+main checkout's cache for free, which is the single biggest lever in this file.
+
+sccache costs about 8% on a miss (5.8s vs 6.2s on one binding source), and needs `sccache` on
+`PATH` --- `winget install Mozilla.sccache`. Configure fails loudly if it is missing rather than
+silently skipping.
+
+```bash
+# switch this tree to sccache (cache variable -- it sticks; main.py picks it up afterwards)
+cmake -G Ninja -B cbuild -DAGREMAP_SCCACHE=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=cext/z3
+# ...and back to precompiled headers
+cmake -G Ninja -B cbuild -DAGREMAP_SCCACHE=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=cext/z3
+```
+
+### Two traps that make a "speed-up" silently a slow-down
+
+**Any source with per-file `COMPILE_OPTIONS` must also be excluded from the PCH and from any unity
+batch.** `VGRemapData.cpp` compiles at `/Od` while the PCH is built at `/O2`. MSVC does not reject
+the mismatch --- it just stops being able to use the PCH, and the file pays for the whole
+force-included header set alone: **14.2s excluded, 144.2s included**, worse than before `/Od`
+existed, and enough on its own to turn the PCH into a net regression (a header change went 132.6s
+to 150.5s until `SKIP_PRECOMPILE_HEADERS` was added). Unity batches drop such flags outright, which
+is the same bug with no warning at all.
+
+**Never put a `core/include` header in either PCH.** A PCH is rebuilt, and every consumer of it
+recompiled, whenever anything inside it changes --- so this project's own headers would turn a
+one-header edit into a guaranteed full-target rebuild, i.e. exactly the case the PCH exists to make
+cheaper. Both lists are third-party and standard-library headers only, deliberately.
+
+### Measuring this yourself: read `cbuild/.ninja_log`, not a stopwatch
+
+Ninja records `start_ms  end_ms  mtime  output  hash` per edge, so the whole critical path is
+already on disk. Summing the durations and comparing against the wall span is what showed the build
+was reaching only **12x parallelism on 24 threads** and that 136 of 138 seconds were those two
+serial items. Do that before optimising anything --- both of the changes that mattered were
+invisible in a per-file average.
+
+**And beware of how you fake the edit.** Touching a file's *mtime* makes ninja rebuild it, which is
+a fine way to measure compile work --- but it is worthless for anything cache-related, because the
+content is unchanged and sccache keys on content, so you measure a guaranteed 100% hit. Change the
+bytes when a compiler cache is in play.
+
+### Rejected after measuring: `AGREMAP_UNITY_BUILD`
+
+Jumbo-compiling `AGRemapCore` in batches of 16 is implemented and works, and it is **off**, because
+on this machine it measured as a net loss (all rows with `/Od` already applied):
+
+| | one `.cpp` | one header |
+| --- | --- | --- |
+| no unity, no LTO | **8.6s** | 129.5s |
+| unity, no LTO | 25.5s | 123.6s |
+
+It buys ~6s on a header change and costs ~17s on the far more common single-file change, because 24
+hardware threads against ~150 translation units were never short of parallelism --- batching mostly
+converts parallel work into serial work, and makes ninja rebuild all 16 files when you touch one.
+That inverts on a low-core machine, which is why the switch is still there.
+
+If you do turn it on, note that **17 files under `core/src` must stay excluded** (already listed in
+`core/CMakeLists.txt`): they share anonymous-namespace helper names with each other --- `ModObj`,
+`BlendHashKey`, `IbHashKey` and `prototypeRepo` in four files each, `buildRows` in three, 15 more in
+two --- and a batch turns each into a redefinition error. `py/src` has 21 such clashes of its own,
+which is why the `core` pybind target is not unity-built at all.
+
+A scan for these that only looks for `namespace {` at *file scope* reports zero clashes and is
+wrong: nearly all of them sit inside `namespace AGRemapCore { ... }`. Brace-count instead.
+
+## Run long builds in the **background** --- a foreground timeout kills the link and leaves you a half-built tree
+
+> **Corrected 2026-09-08.** This section used to open by saying the final
+> `Linking CXX shared module ... core.cp313-win_amd64.pyd` step "can take well over ten minutes on
+> this machine". That has not been true for a while and is not true now: measured four times, the
+> link took **54-56s** while pybind11's LTO was on, and takes **4.6s** with it off, which is the
+> `python_dev` default since the build-speed work (see "Build speed" above). Don't build
+> background-and-poll scaffolding around a five-second step.
+
+The *habits* below still earn their keep, because a full rebuild is still minutes long and the
+failure mode is silent. If the tool call running a build hits its timeout the link is killed: the
+log stops after the last `Building CXX object` line, `.obj` files are all present, and **no `.pyd`
+is produced** --- so a `cp` of the build output afterwards silently installs the *previous* build
+and you test stale code.
 
 Two habits that avoid it:
 

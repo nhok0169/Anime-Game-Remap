@@ -200,6 +200,30 @@ alarming until the file headers were read: `Pillow` has no BCn encoder, so it wr
 uncompressed `.dds` and never encoded at all -- 32MB where ours writes 8MB of BC7. Compare the
 artifacts' *format*, not just the clock.
 
+**14. Your own analysis script is a claim too --- check it against ground truth before you report
+it.** Habit 10 covers a *failing* check that was wrong. A **clean** one is more dangerous, because
+nothing prompts you to look twice. Scanning `core/src` for anonymous-namespace helper names that
+collide across files returned **zero**, and that got reported as fact and built on; the regex only
+recognised `namespace {` at *file scope*, and in this codebase nearly all of them sit nested inside
+`namespace AGRemapCore { ... }`. There were 21 collisions across 17 files, and MSVC found every one
+of them the moment a build actually ran. **Before trusting a scan you wrote, make one real tool
+agree with it** --- run the compiler, run the entry point, grep for a case you already know the
+answer to. A script that reports "none" over a codebase whose shape you assumed is indistinguishable
+from a script that reports "none" because it matched nothing.
+
+**15. Benchmark the workload, not a proxy --- serial measurements lie about this machine.** The dev
+box is 12 cores / 24 threads against roughly 300 translation units, so it runs out of memory
+bandwidth long before it runs out of parallelism, and **anything that trades parallelism for less
+total work loses here even though it looks like a large win in isolation.** Measured: a unity build
+compiling 19 files one at a time went 61.0s -> 5.5s, an apparent 11x --- and in the real parallel
+build it was a net *loss*, tripling the cost of a single-file edit; it is switched off for that
+reason. A precompiled header measured ~2x per file and delivered 13% end to end. Both numbers were
+honest; both were the wrong measurement. Two things make this cheap to get right: `cbuild/.ninja_log`
+already records start/end milliseconds per edge, so the real critical path is on disk with no
+instrumentation (that is what showed two serial steps were 136 of 138 seconds), and **a change you
+built is still allowed to lose** --- measure it against the case you actually care about and be
+willing to default it off, as happened here.
+
 <br>
 
 ## Operating norms

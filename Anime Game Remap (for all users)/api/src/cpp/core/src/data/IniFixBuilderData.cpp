@@ -290,6 +290,31 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::NingguangOrchid),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Ningguang)}, IniFixBuilderFuncs::ningguangOrchid6_1()},
 
+                // ===== Keqing @ toVersion 6.1 =====
+                //
+                // The pair: this one MERGES (Keqing's dress and head onto KeqingOpulent's head)
+                // and the one below SPLITS it back apart. Between them they are the worked
+                // example of remapping between characters that draw a different NUMBER of
+                // objects -- and the merge is what makes a fix write more than one .ini file.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Keqing),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KeqingOpulent)}, IniFixBuilderFuncs::keqing6_1()},
+
+                // ===== KeqingOpulent @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KeqingOpulent),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Keqing)}, IniFixBuilderFuncs::keqingOpulent6_1()},
+
+                // ===== Shenhe @ toVersion 6.1 =====
+                //
+                // The other pair of the same kind, and a wider one: the skin draws a fourth
+                // object, so this splits one object into two and the one below merges three
+                // into one across THREE .ini files.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Shenhe),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower)}, IniFixBuilderFuncs::shenhe6_1()},
+
+                // ===== ShenheFrostFlower @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniFixBuilderFuncs::shenheFrostFlower6_1()},
+
                 // ===== Raiden @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},

@@ -151,6 +151,59 @@ leading nowhere. Measure the call, don't infer it.
 
 <br>
 
+## Uncompressed `.dds` files used to fail to open too -- and came out too bright once they did
+
+The same failure shape as the mipmap bug above, found the same way, a batch later (2026-09-09):
+Keqing's head and dress diffuses are **`DXGI_FORMAT 29` (`R8G8B8A8_UNORM_SRGB`) in a DX10
+header** -- uncompressed, which is what a mod author's export looks like, as opposed to the BCn
+a game texture ships as. `open()` reported no image for every one of them, her fix logged
+`Editting texture for ...` four times, the summary said **"editted 8 *.dds files and skipped
+0"**, and not one file was written. The `.ini` then pointed `ps-t0` at a texture that did not
+exist.
+
+The standalone probe (again: measure the call, do not infer it) split the two halves apart:
+
+```
+  CMP_LoadTexture = 0     format=0  1024x1024  mips=11/11
+  compressed=0  dwDataSize=4194304  raw level0 readable      <- the pixels ARE there
+  CMP_ConvertMipTexture = 4                                  <- CMP_ERR_UNSUPPORTED_SOURCE_FORMAT
+```
+
+Compressonator's DDS plugin maps a DX10 header's DXGI format through a table that covers the BCn
+formats and stops, so **every uncompressed DXGI format loads with its pixels intact and comes
+back `CMP_FORMAT_Unknown`** -- which the convert then refuses. `open()` now reads the format out
+of the file itself (DDS magic, the `DX10` fourCC, the DXGI value at offset 128) and names the
+four 32-bpp unorm formats a mod actually ships: 28/29 -> `RGBA_8888`, 87/91 -> `BGRA_8888`.
+Anything else is left `Unknown`, so it fails exactly as it did rather than being silently
+misread. **It has to happen before `format_` is taken** -- `save()` uses `format_` as the format
+to write back out, and `Unknown` is not one.
+
+**Then the second half, which is the one worth remembering.** With the format named, the
+textures decoded -- and came out `229` where the old script writes `201`, on every RGB byte,
+alpha matching exactly. Across every distinct source value in the texture,
+`201 == round(255 * (229/255) ** 2.2)`, with zero disagreements: the old script is applying
+`GammaFilter(1 / 2.2)`, the same pre-correction `DarkDiffuse` declares by hand for Ganyu.
+
+It matters in game rather than on paper. **`save()` writes the edited texture back untagged** --
+plain 32-bit unorm, no DX10 header -- so the shader samples the new file *without* the
+sRGB-to-linear transform the source was written to be read through, and the remapped character
+renders visibly brighter than the mod does on its own model. `open()` now sets the texture's
+gamma metadata when the header says sRGB, as **metadata rather than a pixel pass**, for the
+reason `DarkDiffuse` gives: it belongs immediately before the encode, not before the fix's own
+filters, so a filter matching on colour still sees the values the texture actually holds.
+
+Three cases, and the third is why this cannot live in each fix:
+
+| source format | what happens |
+| --- | --- |
+| `R8G8B8A8_UNORM_SRGB` (Keqing's diffuses) | the new branch: format named **and** gamma set |
+| `BC7_UNORM_SRGB` (Ganyu's diffuse) | never reaches the branch -- Compressonator maps BCn itself and hands the values back **raw**; `DarkDiffuse` declares the same gamma by hand |
+| `BC7_UNORM` (KeqingOpulent's lightmap) | not sRGB, no correction |
+
+All three A/B byte-identical against the old script. If you touch this, re-run Ganyu as well as
+whatever you are working on -- she is the one that proves the BCn path was left alone.
+
+<br>
 ## Two engines, on purpose
 
 `TextureFile` can read/write a `.dds` through either of two backends, selected per-instance via

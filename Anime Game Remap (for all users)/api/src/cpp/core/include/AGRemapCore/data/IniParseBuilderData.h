@@ -138,8 +138,10 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ganyu4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Ganyu** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape. See ``data/IniParseData/Ganyu/GanyuParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ganyu4_0();
@@ -201,8 +203,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.keqing4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Keqing** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
+             ``data/IniParseData/Keqing/KeqingParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory keqing4_0();
@@ -210,8 +215,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.keqingOpulent4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **KeqingOpulent** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body`` only -- her Lantern Rite outfit is one mesh, which is what makes
+             the remap to and from Keqing a merge in one direction and a split in the other. See
+             ``data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory keqingOpulent4_0();
@@ -336,8 +345,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.shenhe4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Shenhe** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI character shape, drawing ``head``/``body``/``dress``. See
+             ``data/IniParseData/Shenhe/ShenheParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory shenhe4_0();
@@ -363,8 +375,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight4_4`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.4-era **GanyuTwilight** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI character shape. See
+             ``data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ganyuTwilight4_4();
@@ -372,8 +387,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.shenheFrostFlower4_4`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.4-era **ShenheFrostFlower** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             FOUR drawn objects -- ``head``/``body``/``dress``/``extra`` -- one more than Shenhe. See
+             ``data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory shenheFrostFlower4_4();

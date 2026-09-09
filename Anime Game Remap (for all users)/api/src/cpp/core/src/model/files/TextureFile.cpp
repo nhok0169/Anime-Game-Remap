@@ -3,6 +3,7 @@
 
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <mutex>
 #include <utility>
 
@@ -12,6 +13,87 @@
 namespace AGRemapCore {
 
     namespace {
+        // ---- the DX10 header, read by hand ----
+        //
+        // Compressonator's DDS plugin maps a DX10 header's DXGI format through a table that
+        // covers the BCn formats and stops: every UNCOMPRESSED DXGI format loads with its
+        // pixels intact and comes back CMP_FORMAT_Unknown, which CMP_ConvertMipTexture then
+        // refuses (CMP_ERR_UNSUPPORTED_SOURCE_FORMAT). Since the format is right there in the
+        // file, reading it is a better answer than guessing.
+        //
+        // Only the 32-bit-per-pixel unorm formats a GI mod actually ships are mapped -- a game
+        // texture is BCn, an uncompressed one is something a mod author exported, and every
+        // one seen so far is one of these four. Anything else is left Unknown, which fails
+        // exactly as it does today rather than being silently misread.
+        constexpr std::size_t MagicOffset = 0;
+        constexpr std::size_t FourCCOffset = 84;
+        constexpr std::size_t DxgiFormatOffset = 128;
+        constexpr std::size_t HeaderSize = DxgiFormatOffset + 4;
+
+        constexpr std::uint32_t DxgiRGBA8Unorm = 28;
+        constexpr std::uint32_t DxgiRGBA8UnormSrgb = 29;
+        constexpr std::uint32_t DxgiBGRA8Unorm = 87;
+        constexpr std::uint32_t DxgiBGRA8UnormSrgb = 91;
+
+        // The sRGB pre-correction, spelled as the division so it reads as the exponent it is
+        // -- the same value, and the same reason, as DarkDiffuse::Gamma.
+        constexpr double SrgbGamma = 1.0 / 2.2;
+
+        /**
+         * What a DX10 header says the texture is: the CMP format to read it as, and whether
+         * its values are sRGB-encoded.
+         */
+        struct DX10Format {
+            CMP_FORMAT format;
+            bool srgb;
+        };
+
+        std::uint32_t readLE32(const std::vector<char>& header, std::size_t at) {
+            return static_cast<std::uint32_t>(static_cast<unsigned char>(header[at]))
+                    | (static_cast<std::uint32_t>(static_cast<unsigned char>(header[at + 1])) << 8)
+                    | (static_cast<std::uint32_t>(static_cast<unsigned char>(header[at + 2])) << 16)
+                    | (static_cast<std::uint32_t>(static_cast<unsigned char>(header[at + 3])) << 24);
+        }
+
+        /**
+         * The CMP format an uncompressed DX10 .dds is really in, or nullopt for anything this
+         * does not recognise (including a file with no DX10 header at all -- those already load
+         * with a usable format).
+         */
+        std::optional<DX10Format> dx10UncompressedFormat(const std::string& src) {
+            std::ifstream file(FileService::strToPath(src), std::ios::binary);
+            if (!file) {
+                return std::nullopt;
+            }
+
+            std::vector<char> header(HeaderSize);
+            file.read(header.data(), static_cast<std::streamsize>(HeaderSize));
+            if (file.gcount() != static_cast<std::streamsize>(HeaderSize)) {
+                return std::nullopt;
+            }
+
+            if (std::memcmp(header.data() + MagicOffset, "DDS ", 4) != 0
+                    || std::memcmp(header.data() + FourCCOffset, "DX10", 4) != 0) {
+                return std::nullopt;
+            }
+
+            switch (readLE32(header, DxgiFormatOffset)) {
+                case DxgiRGBA8Unorm:
+                    return DX10Format{CMP_FORMAT_RGBA_8888, false};
+
+                case DxgiRGBA8UnormSrgb:
+                    return DX10Format{CMP_FORMAT_RGBA_8888, true};
+
+                case DxgiBGRA8Unorm:
+                    return DX10Format{CMP_FORMAT_BGRA_8888, false};
+
+                case DxgiBGRA8UnormSrgb:
+                    return DX10Format{CMP_FORMAT_BGRA_8888, true};
+
+                default:
+                    return std::nullopt;
+            }
+        }
         void ensureFrameworkInit() {
             static std::once_flag flag;
             std::call_once(flag, []() {
@@ -99,6 +181,40 @@ namespace AGRemapCore {
             height_ = 0;
             return;
         }
+        // AN UNCOMPRESSED DX10 TEXTURE ARRIVES HERE AS CMP_FORMAT_Unknown with its pixels
+        // already loaded -- see dx10UncompressedFormat above for why, and note that this has
+        // to happen BEFORE format_ is taken, since save() uses format_ as the format to write
+        // back out and Unknown is not one.
+        if (mipSetIn.m_format == CMP_FORMAT_Unknown) {
+            const std::optional<DX10Format> headerFormat = dx10UncompressedFormat(src_);
+            if (headerFormat.has_value()) {
+                mipSetIn.m_format = headerFormat->format;
+
+                // AND THE sRGB PRE-CORRECTION, which is the half a reader is most likely to
+                // think is somebody else's job.
+                //
+                // save() writes the edited texture back UNTAGGED -- plain 32-bit unorm, no
+                // DX10 header -- so the shader samples the new file WITHOUT the sRGB-to-linear
+                // transform the source was written to be read through, and the remapped
+                // character renders visibly brighter than the mod does on its own model.
+                // Baking the transform into the values is what keeps the two looking the same,
+                // and it is what the pure-Python script does here (measured on Keqing's dress
+                // diffuse: every distinct source value maps to round(255 * (v/255) ** 2.2),
+                // with zero disagreements over the whole texture).
+                //
+                // As METADATA rather than a pixel pass, for the reason DarkDiffuse gives: it
+                // belongs immediately before the encode, not before the fix's own filters, so
+                // a filter matching on colour still sees the values the texture actually holds.
+                //
+                // BCn sRGB (DXGI 98/99) never reaches this branch -- Compressonator maps those
+                // itself and hands the values back raw, and the one fix that edits such a
+                // texture (Ganyu's DarkDiffuse) declares the same gamma by hand.
+                if (headerFormat->srgb) {
+                    gamma_ = SrgbGamma;
+                }
+            }
+        }
+
         format_ = mipSetIn.m_format;
 
         // ONLY MIP 0, and this is load-bearing rather than an optimization.

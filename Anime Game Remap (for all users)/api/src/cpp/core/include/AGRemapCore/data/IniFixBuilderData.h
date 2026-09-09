@@ -874,6 +874,58 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **Keqing onto KeqingOpulent** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A **merge**: KeqingOpulent has no ``dress``, so Keqing's dress and head both land on the
+             target's head and the fix writes a second ``.ini`` file for the loser. See
+             ``data/IniFixData/Keqing/KeqingFixer.cpp`` and
+             :cpp:member:`GIMICharFixerConfig::objSplits`
+             @endrst
+             */
+            static IniFixBuilder::Factory keqing6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **KeqingOpulent onto Keqing** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The **split** that undoes :cpp:func:`keqing6_1`'s merge: one body mesh emitted twice, at
+             Keqing's body and dress indices. See
+             ``data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory keqingOpulent6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Shenhe onto ShenheFrostFlower** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             A **split** of the dress alone, across the skin's ``dress`` and ``extra``, plus the
+             dress's ``ps-t2`` / ``ps-t3`` shift. See ``data/IniFixData/Shenhe/ShenheFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory shenhe6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **ShenheFrostFlower onto Shenhe** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The **widest merge** here: the skin's head, body and extra all come through Shenhe's one
+             body draw call, so the fix writes THREE ``.ini`` files. See
+             ``data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory shenheFrostFlower6_1();
+
+            /**
+             * @brief
+             @rst
              The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`<br />`
              :raw-html:`<br />`
 

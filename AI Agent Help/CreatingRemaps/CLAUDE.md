@@ -760,6 +760,39 @@ run yields `...JeanRemapBlendJeanRemapFix`.
 Read the old script's own `JeanSeaRemapFix1.ini` before building one of these. It settles every one
 of the questions above in about a minute.
 
+**Transcribing a merge from the pure-Python row is a TRANSPOSE, and the order inside the lists is
+the part that carries meaning.** The old table is written `{target: [sources]}` and the config is
+`{source: [targets]}`, so Keqing's `{"head": ["dress", "head"], "body": ["body"]}` becomes
+`{{"dress", {"head"}}, {"head", {"head"}}, {"body", {"body"}}}`. Reading the old list left to
+right gives the **claim order**: first claimant keeps the mod's own `.ini` file, so `dress` first
+is what puts the dress in the file a reader opens and the head in `RemapFix1.ini`. Get it
+backwards and the fix still works -- it just hides the main object in a generated file.
+
+**A merge can be wider than two, and the same source/target pair may repeat.** ShenheFrostFlower
+-> Shenhe puts the skin's `head`, `body` and `extra` all through Shenhe's one `body` draw call,
+which is **three** `.ini` files, and her `head` and `dress` have to appear in all three:
+
+```cpp
+config.objSplits = {{"head", {"head", "body", "head", "head"}},   // head: groups 0,1,2 + body group 0
+                    {"body", {"body"}},                            // body group 1
+                    {"extra", {"body"}},                           // body group 2
+                    {"dress", {"dress", "dress", "dress"}}};      // dress: groups 0,1,2
+```
+
+Repeating a pair is the same mechanism `makeGIMICharFixer` uses internally to put the blend,
+position, texcoord and face in every group -- there is nothing special about doing it for a drawn
+object. An object that must not draw in the copies gets
+`objNewRegVals = {{"head", {{IniKeywords::Ib, "null"}}}}` -- which is what stops Shenhe's head
+index range drawing the skin's head mesh a second time, on top of the copy the body call already
+put there.
+
+**`texEdits` name the TARGET object, so a merge collapses per-source edits into one.** The pure-
+Python Keqing row has two -- `OpaqueDressDiffuse` and `OpaqueHeadDiffuse` -- and after the merge
+both graphs sit under the target's `head`, so an entry per source is not expressible. It costs
+nothing here because the two classmethods have byte-identical bodies, and the collectors are
+built **per group**, so one entry still fires once over each source. It would cost something if
+the two edits genuinely differed, and there is no way to ask for that today.
+
 <br>
 
 ### A fix must never mutate the parse of the file it is reading

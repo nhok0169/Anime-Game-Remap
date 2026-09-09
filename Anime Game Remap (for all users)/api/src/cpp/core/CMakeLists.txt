@@ -65,6 +65,14 @@ add_library(AGRemapCore STATIC
     src/data/IniParseData/JeanSea/JeanSeaParser.cpp
     src/data/IniParseData/Jean/JeanParser.cpp
     src/data/IniParseData/JeanCN/JeanCNParser.cpp
+    src/data/IniFixData/Keqing/KeqingFixer.cpp
+    src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp
+    src/data/IniParseData/Keqing/KeqingParser.cpp
+    src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp
+    src/data/IniFixData/Shenhe/ShenheFixer.cpp
+    src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp
+    src/data/IniParseData/Shenhe/ShenheParser.cpp
+    src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp
     src/data/IniFixData/Raiden/RaidenFixer.cpp
     src/data/IniFixData/Amber/AmberFixer.cpp
     src/constants/GlobalIniClassifiers.cpp

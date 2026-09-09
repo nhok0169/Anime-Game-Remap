@@ -106,12 +106,12 @@
         <link refid="_remap_service_8cpp"/>
       </node>
       <node id="3">
-        <label>src/data/IniFixData/AmberCNFixer.cpp</label>
-        <link refid="_amber_c_n_fixer_8cpp"/>
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
+        <link refid="_amber_fixer_8cpp"/>
       </node>
       <node id="4">
-        <label>src/data/IniFixData/AmberFixer.cpp</label>
-        <link refid="_amber_fixer_8cpp"/>
+        <label>src/data/IniFixData/AmberCN/AmberCNFixer.cpp</label>
+        <link refid="_amber_c_n_fixer_8cpp"/>
       </node>
       <node id="20">
         <label>src/data/IniFixData/DarkDiffuse.cpp</label>
@@ -122,44 +122,44 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="6">
-        <label>src/data/IniFixData/GanyuTwilightFixer.cpp</label>
+        <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
         <link refid="_ganyu_twilight_fixer_8cpp"/>
       </node>
       <node id="7">
-        <label>src/data/IniFixData/JeanCNFixer.cpp</label>
-        <link refid="_jean_c_n_fixer_8cpp"/>
-      </node>
-      <node id="8">
-        <label>src/data/IniFixData/JeanFixer.cpp</label>
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
+      <node id="8">
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
+      </node>
       <node id="9">
-        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
       <node id="10">
-        <label>src/data/IniFixData/MonaCNFixer.cpp</label>
-        <link refid="_mona_c_n_fixer_8cpp"/>
-      </node>
-      <node id="11">
-        <label>src/data/IniFixData/MonaFixer.cpp</label>
+        <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
       </node>
+      <node id="11">
+        <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
+        <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
       <node id="12">
-        <label>src/data/IniFixData/NingguangFixer.cpp</label>
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
       </node>
       <node id="13">
-        <label>src/data/IniFixData/NingguangOrchidFixer.cpp</label>
+        <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
         <link refid="_ningguang_orchid_fixer_8cpp"/>
       </node>
       <node id="14">
-        <label>src/data/IniFixData/RosariaCNFixer.cpp</label>
-        <link refid="_rosaria_c_n_fixer_8cpp"/>
+        <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
+        <link refid="_rosaria_fixer_8cpp"/>
       </node>
       <node id="15">
-        <label>src/data/IniFixData/RosariaFixer.cpp</label>
-        <link refid="_rosaria_fixer_8cpp"/>
+        <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
+        <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
       <node id="19">
         <label>src/model/iniresources/RemapTexResource.cpp</label>

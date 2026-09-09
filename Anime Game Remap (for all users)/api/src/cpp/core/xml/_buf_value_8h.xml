@@ -236,7 +236,7 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="8">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
       <node id="31">

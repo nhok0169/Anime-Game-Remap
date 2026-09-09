@@ -16,7 +16,7 @@
     <includes local="yes">GraphGroupEdit.tpp</includes>
     <includedby refid="_graph_group_part_edits_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</includedby>
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
-    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/RaidenFixer.cpp</includedby>
+    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <incdepgraph>
       <node id="28">
         <label>Algo.tpp</label>
@@ -774,7 +774,7 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="4">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
     </invincdepgraph>

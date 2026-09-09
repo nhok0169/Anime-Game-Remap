@@ -75,6 +75,8 @@
       <node id="9">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</label>
         <link refid="_reg_surrounded_add_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
       </node>
       <node id="17">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/BaseIniGraphGroupEdit.h</label>
@@ -269,7 +271,7 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="6">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
       <node id="34">
@@ -277,7 +279,7 @@
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="36">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
       <node id="39">

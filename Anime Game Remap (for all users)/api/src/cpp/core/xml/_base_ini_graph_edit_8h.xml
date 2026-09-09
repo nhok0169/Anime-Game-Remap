@@ -712,6 +712,8 @@
       <node id="7">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h</label>
         <link refid="_reg_surrounded_add_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
       </node>
       <node id="8">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h</label>
@@ -726,7 +728,7 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="4">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
     </invincdepgraph>

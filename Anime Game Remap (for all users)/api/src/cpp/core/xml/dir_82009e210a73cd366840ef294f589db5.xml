@@ -2,22 +2,22 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_82009e210a73cd366840ef294f589db5" kind="dir">
     <compoundname>src/data/IniFixData</compoundname>
-    <innerfile refid="_amber_c_n_fixer_8cpp">AmberCNFixer.cpp</innerfile>
-    <innerfile refid="_amber_fixer_8cpp">AmberFixer.cpp</innerfile>
+    <innerdir refid="dir_4e0b7218ed81deea9cdc7b28445599fc">src/data/IniFixData/Amber</innerdir>
+    <innerdir refid="dir_7cb018ff43e15735ffbf547e8839c0e2">src/data/IniFixData/AmberCN</innerdir>
+    <innerdir refid="dir_560b1f0e760a689b57b2e152947fe43f">src/data/IniFixData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_3660df427fda42f2f46b018932ca46f4">src/data/IniFixData/Jean</innerdir>
+    <innerdir refid="dir_616cdd4918254823149926bf467552b0">src/data/IniFixData/JeanCN</innerdir>
+    <innerdir refid="dir_8fb47c6eef11ec1b7d36037b7e8efbb7">src/data/IniFixData/JeanSea</innerdir>
+    <innerdir refid="dir_0f276ca38dafcc3dcc40a33a1cdb7007">src/data/IniFixData/Mona</innerdir>
+    <innerdir refid="dir_605b4137314663323ca47a3cc7379050">src/data/IniFixData/MonaCN</innerdir>
+    <innerdir refid="dir_8c4417f973481dd42ac0a0273bc1a8e6">src/data/IniFixData/Ningguang</innerdir>
+    <innerdir refid="dir_3ca193ec00eaa771938922200b7ef7c2">src/data/IniFixData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_b0dfb60aa61a00d5339e94e116f1657a">src/data/IniFixData/Raiden</innerdir>
+    <innerdir refid="dir_ac530672aff6b0fa50c56afbb6386140">src/data/IniFixData/Rosaria</innerdir>
+    <innerdir refid="dir_c33d5cf41e8ec8882fe4c67fe582f5ae">src/data/IniFixData/RosariaCN</innerdir>
     <innerfile refid="_dark_diffuse_8cpp">DarkDiffuse.cpp</innerfile>
-    <innerfile refid="_ganyu_twilight_fixer_8cpp">GanyuTwilightFixer.cpp</innerfile>
     <innerfile refid="_g_i_m_i_char_fixer_8cpp">GIMICharFixer.cpp</innerfile>
-    <innerfile refid="_jean_c_n_fixer_8cpp">JeanCNFixer.cpp</innerfile>
-    <innerfile refid="_jean_fixer_8cpp">JeanFixer.cpp</innerfile>
-    <innerfile refid="_jean_sea_fixer_8cpp">JeanSeaFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>
-    <innerfile refid="_mona_c_n_fixer_8cpp">MonaCNFixer.cpp</innerfile>
-    <innerfile refid="_mona_fixer_8cpp">MonaFixer.cpp</innerfile>
-    <innerfile refid="_ningguang_fixer_8cpp">NingguangFixer.cpp</innerfile>
-    <innerfile refid="_ningguang_orchid_fixer_8cpp">NingguangOrchidFixer.cpp</innerfile>
-    <innerfile refid="_raiden_fixer_8cpp">RaidenFixer.cpp</innerfile>
-    <innerfile refid="_rosaria_c_n_fixer_8cpp">RosariaCNFixer.cpp</innerfile>
-    <innerfile refid="_rosaria_fixer_8cpp">RosariaFixer.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

@@ -2,22 +2,22 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_a5a0c61a355e4e836464b9c4059f7aff" kind="dir">
     <compoundname>include/AGRemapCore/data/IniFixData</compoundname>
-    <innerfile refid="_amber_c_n_fixer_8h">AmberCNFixer.h</innerfile>
-    <innerfile refid="_amber_fixer_8h">AmberFixer.h</innerfile>
+    <innerdir refid="dir_e50a7282ab34e67f2f5626e3b5b4dcb7">include/AGRemapCore/data/IniFixData/Amber</innerdir>
+    <innerdir refid="dir_7c3825a4c1c6e30567892c2c82d1d79d">include/AGRemapCore/data/IniFixData/AmberCN</innerdir>
+    <innerdir refid="dir_44b622da4111ee25856dc8aa53124065">include/AGRemapCore/data/IniFixData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_74d54c7a32a47143803c9d36719e25a9">include/AGRemapCore/data/IniFixData/Jean</innerdir>
+    <innerdir refid="dir_75c1b3e7f285cde3741879908052ac6a">include/AGRemapCore/data/IniFixData/JeanCN</innerdir>
+    <innerdir refid="dir_5272137dd65ff0a5fa8ef6d3cdb74a95">include/AGRemapCore/data/IniFixData/JeanSea</innerdir>
+    <innerdir refid="dir_51831c5eb17d14b6b1e155442fb0ff32">include/AGRemapCore/data/IniFixData/Mona</innerdir>
+    <innerdir refid="dir_a74f4936aa2782804106f1404d9582bd">include/AGRemapCore/data/IniFixData/MonaCN</innerdir>
+    <innerdir refid="dir_014da131f24c46cd92baed22e944d3e0">include/AGRemapCore/data/IniFixData/Ningguang</innerdir>
+    <innerdir refid="dir_23025117cb77cdd89e191ac52c40cc57">include/AGRemapCore/data/IniFixData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_ba41a1edc8ab32d416c89098812218ee">include/AGRemapCore/data/IniFixData/Raiden</innerdir>
+    <innerdir refid="dir_9de4c67aea98370665bf5c50fd59364c">include/AGRemapCore/data/IniFixData/Rosaria</innerdir>
+    <innerdir refid="dir_669629d19ef82c48a0daa445d6c4f306">include/AGRemapCore/data/IniFixData/RosariaCN</innerdir>
     <innerfile refid="_dark_diffuse_8h">DarkDiffuse.h</innerfile>
-    <innerfile refid="_ganyu_twilight_fixer_8h">GanyuTwilightFixer.h</innerfile>
     <innerfile refid="_g_i_m_i_char_fixer_8h">GIMICharFixer.h</innerfile>
-    <innerfile refid="_jean_c_n_fixer_8h">JeanCNFixer.h</innerfile>
-    <innerfile refid="_jean_fixer_8h">JeanFixer.h</innerfile>
-    <innerfile refid="_jean_sea_fixer_8h">JeanSeaFixer.h</innerfile>
     <innerfile refid="_jean_shading_8h">JeanShading.h</innerfile>
-    <innerfile refid="_mona_c_n_fixer_8h">MonaCNFixer.h</innerfile>
-    <innerfile refid="_mona_fixer_8h">MonaFixer.h</innerfile>
-    <innerfile refid="_ningguang_fixer_8h">NingguangFixer.h</innerfile>
-    <innerfile refid="_ningguang_orchid_fixer_8h">NingguangOrchidFixer.h</innerfile>
-    <innerfile refid="_raiden_fixer_8h">RaidenFixer.h</innerfile>
-    <innerfile refid="_rosaria_c_n_fixer_8h">RosariaCNFixer.h</innerfile>
-    <innerfile refid="_rosaria_fixer_8h">RosariaFixer.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

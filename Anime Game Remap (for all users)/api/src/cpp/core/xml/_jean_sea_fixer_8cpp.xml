@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_jean_sea_fixer_8cpp" kind="file" language="C++">
     <compoundname>JeanSeaFixer.cpp</compoundname>
-    <includes refid="_jean_sea_fixer_8h" local="yes">AGRemapCore/data/IniFixData/JeanSeaFixer.h</includes>
+    <includes refid="_jean_sea_fixer_8h" local="yes">AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</includes>
     <includes local="no">string</includes>
     <includes local="no">utility</includes>
     <includes local="no">vector</includes>
@@ -62,7 +62,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniFixData/JeanSeaFixer.h</label>
+        <label>AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</label>
         <link refid="_jean_sea_fixer_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -704,7 +704,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -848,7 +848,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_sea_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/JeanSeaFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_sea_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -900,6 +900,6 @@
 <codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="63"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniFixData/JeanSeaFixer.cpp"/>
+    <location file="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp"/>
   </compounddef>
 </doxygen>

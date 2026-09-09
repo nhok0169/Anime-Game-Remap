@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h" line="24" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era NingguangOrchid ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="33" column="45" bodyfile="src/data/IniParseData/NingguangOrchidParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h" line="33" column="45" bodyfile="src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -52,7 +52,7 @@ neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 NingguangOrchid and Ningguang are a base/skin pair and remap onto each other
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/NingguangOrchidParser.h" bodystart="21" bodyend="35"/>
+    <location file="include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/NingguangOrchid/NingguangOrchidParser.h" bodystart="21" bodyend="35"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ningguang_orchid_parser_1ae42c7fcf28e9974e8984f5770f4ee4e3" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidParser</scope><name>NingguangOrchidParser</name></member>
       <member refid="class_a_g_remap_core_1_1_ningguang_orchid_parser_1aae1e9c4b55c46457f3a0483b0c19ca02" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidParser</scope><name>v4_0</name></member>

@@ -3,7 +3,7 @@
   <compounddef id="_jean_sea_fixer_8h" kind="file" language="C++">
     <compoundname>JeanSeaFixer.h</compoundname>
     <includes refid="_ini_fix_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includes>
-    <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSeaFixer.cpp</includedby>
+    <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</includedby>
     <incdepgraph>
       <node id="37">
         <label>Algo.tpp</label>
@@ -29,7 +29,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>include/AGRemapCore/data/IniFixData/JeanSeaFixer.h</label>
+        <label>include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</label>
         <link refid="_jean_sea_fixer_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -775,13 +775,13 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="1">
-        <label>include/AGRemapCore/data/IniFixData/JeanSeaFixer.h</label>
+        <label>include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</label>
         <link refid="_jean_sea_fixer_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="2">
-        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
     </invincdepgraph>
@@ -813,6 +813,6 @@
 <codeline lineno="67"><highlight class="normal"></highlight></codeline>
 <codeline lineno="68"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h"/>
+    <location file="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h"/>
   </compounddef>
 </doxygen>

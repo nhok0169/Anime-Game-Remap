@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilightFixer.h" line="21" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" line="21" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era GanyuTwilight ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilightFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/GanyuTwilightFixer.cpp" bodystart="51" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="51" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@ GanyuTwilight&apos;s own ``.ini`` fixers, one per game version she needed a new 
 Pair this with :cpp:class:`GanyuTwilightParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/GanyuTwilightFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GanyuTwilightFixer.h" bodystart="18" bodyend="31"/>
+    <location file="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h" bodystart="18" bodyend="31"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer_1a696f87aae81f8b04feb1b64fcb2f29df" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuTwilightFixer</scope><name>GanyuTwilightFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer_1a3c7b8ad4a051b630e9b0e9f7b89c3a60" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuTwilightFixer</scope><name>v6_1</name></member>

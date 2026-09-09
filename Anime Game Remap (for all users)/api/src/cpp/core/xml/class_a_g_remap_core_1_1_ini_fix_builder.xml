@@ -156,7 +156,7 @@ picks it up at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="131" column="28" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="54" bodyend="65"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="131" column="28" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="56" bodyend="67"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -173,7 +173,7 @@ picks it up at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="137" column="13" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="67" bodyend="67"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="137" column="13" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="69" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1a8b16f486e459ded81783fe3bf96a2a98" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -205,7 +205,7 @@ instead, mirroring the pure-Python original&apos;s own ``iniFixBuilder`` null-fa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="148" column="22" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="69" bodyend="75"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="148" column="22" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="71" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1aa063b9361714c086e48937e0509dd416" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -261,7 +261,7 @@ the full rationale :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="172" column="22" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="77" bodyend="85"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="172" column="22" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="79" bodyend="87"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1a666e8aaa4606a6a8257322fca0f92cb3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1ae367280bdaa331711bf03470eb03e2d4" kindref="member">ArgsRepo</ref> &gt; &amp;</type>
@@ -279,7 +279,7 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="181" column="35" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="87" bodyend="89"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="181" column="35" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="89" bodyend="91"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1aa1c85b50dbf4cb1dfdee1868ba99f0b7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -294,7 +294,7 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="187" column="18" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="91" bodyend="93"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="187" column="18" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="93" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1aae6b5a0c5bab4633554a3853169e33e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt;</type>
@@ -412,7 +412,7 @@ means the latest listed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="229" column="29" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="95" bodyend="118"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="229" column="29" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="97" bodyend="129"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_1a281bf90ee7942ac2b57a82535c4841da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_fixer" kindref="compound">BaseIniFixer</ref>&lt;&gt; &gt; &gt; &gt;</type>
@@ -528,7 +528,7 @@ for this source is built
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="277" column="25" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="120" bodyend="154"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h" line="277" column="25" bodyfile="src/model/strategies/iniFixers/IniFixBuilder.cpp" bodystart="131" bodyend="202"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_a_g_remap_core_1_1_0d130354270013131103345245300253307156125377337124" kind="namespace" language="C++">
+    <compoundname>AGRemapCore::@130354270013131103345245300253307156125377337124</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" line="13" column="5"/>
+  </compounddef>
+</doxygen>

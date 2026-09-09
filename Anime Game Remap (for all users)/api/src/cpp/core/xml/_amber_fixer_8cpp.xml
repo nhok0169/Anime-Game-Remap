@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_amber_fixer_8cpp" kind="file" language="C++">
     <compoundname>AmberFixer.cpp</compoundname>
-    <includes refid="_amber_fixer_8h" local="yes">AGRemapCore/data/IniFixData/AmberFixer.h</includes>
+    <includes refid="_amber_fixer_8h" local="yes">AGRemapCore/data/IniFixData/Amber/AmberFixer.h</includes>
     <includes refid="_ini_fix_builder_data_8h" local="yes">AGRemapCore/data/IniFixBuilderData.h</includes>
     <includes refid="_g_i_m_i_char_fixer_8h" local="yes">AGRemapCore/data/IniFixData/GIMICharFixer.h</includes>
     <incdepgraph>
@@ -38,7 +38,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniFixData/AmberFixer.h</label>
+        <label>AGRemapCore/data/IniFixData/Amber/AmberFixer.h</label>
         <link refid="_amber_fixer_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -694,7 +694,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniFixData/AmberFixer.cpp</label>
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -830,7 +830,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_amber_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/AmberFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_amber_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Amber/AmberFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_data_8h" kindref="compound">AGRemapCore/data/IniFixBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_char_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/GIMICharFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -857,6 +857,6 @@
 <codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="26"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniFixData/AmberFixer.cpp"/>
+    <location file="src/data/IniFixData/Amber/AmberFixer.cpp"/>
   </compounddef>
 </doxygen>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="46" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h" line="46" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The 6.1 fix remapping JeanSea onto **Jean** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="55" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="55" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h" line="55" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="55" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_sea_fixer_1a16246ff829585451b2a18b0097fba0e4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The 6.1 fix remapping JeanSea onto **JeanCN** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="64" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="60" bodyend="62"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h" line="64" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="60" bodyend="62"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -92,7 +92,7 @@ Like Jean, JeanSea is **two fixers, one per target**, rather than a ``MultiModFi
 :cpp:class:`JeanFixer`. Pair these with :cpp:class:`JeanSeaParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" line="43" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanSeaFixer.h" bodystart="43" bodyend="65"/>
+    <location file="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h" line="43" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h" bodystart="43" bodyend="65"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_sea_fixer_1a6ff96efa3f554ad2a9bbafe483191d96" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaFixer</scope><name>JeanSeaFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_sea_fixer_1a40f86410ffa1d802a431f0274603d71c" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaFixer</scope><name>v6_1ToJean</name></member>

@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_amber_c_n_parser_8cpp" kind="file" language="C++">
     <compoundname>AmberCNParser.cpp</compoundname>
-    <includes refid="_amber_c_n_parser_8h" local="yes">AGRemapCore/data/IniParseData/AmberCNParser.h</includes>
+    <includes refid="_amber_c_n_parser_8h" local="yes">AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_ini_parse_builder_data_8h" local="yes">AGRemapCore/data/IniParseBuilderData.h</includes>
     <includes refid="_g_i_m_i_char_parser_8h" local="yes">AGRemapCore/data/IniParseData/GIMICharParser.h</includes>
@@ -80,7 +80,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniParseData/AmberCNParser.h</label>
+        <label>AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h</label>
         <link refid="_amber_c_n_parser_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -970,7 +970,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniParseData/AmberCNParser.cpp</label>
+        <label>src/data/IniParseData/AmberCN/AmberCNParser.cpp</label>
         <link refid="_amber_c_n_parser_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -1117,7 +1117,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_amber_c_n_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/AmberCNParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_amber_c_n_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_data_8h" kindref="compound">AGRemapCore/data/IniParseBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -1146,6 +1146,6 @@
 <codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="28"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniParseData/AmberCNParser.cpp"/>
+    <location file="src/data/IniParseData/AmberCN/AmberCNParser.cpp"/>
   </compounddef>
 </doxygen>

@@ -3,7 +3,7 @@
   <compounddef id="_raiden_parser_8h" kind="file" language="C++">
     <compoundname>RaidenParser.h</compoundname>
     <includes refid="_ini_parse_builder_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h</includes>
-    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/RaidenParser.cpp</includedby>
+    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/Raiden/RaidenParser.cpp</includedby>
     <incdepgraph>
       <node id="37">
         <label>Algo.tpp</label>
@@ -26,7 +26,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>include/AGRemapCore/data/IniParseData/RaidenParser.h</label>
+        <label>include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</label>
         <link refid="_raiden_parser_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -742,13 +742,13 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="1">
-        <label>include/AGRemapCore/data/IniParseData/RaidenParser.h</label>
+        <label>include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</label>
         <link refid="_raiden_parser_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
       </node>
       <node id="2">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
     </invincdepgraph>
@@ -778,6 +778,6 @@
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
 <codeline lineno="38"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
-    <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h"/>
+    <location file="include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h"/>
   </compounddef>
 </doxygen>

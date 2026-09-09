@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/AmberParser.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Amber/AmberParser.h" line="22" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Amber ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/AmberParser.h" line="31" column="45" bodyfile="src/data/IniParseData/AmberParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/Amber/AmberParser.h" line="31" column="45" bodyfile="src/data/IniParseData/Amber/AmberParser.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,7 +50,7 @@ Pair this with :cpp:class:`AmberFixer`: the fixer&apos;s mod objects are the one
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/AmberParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/AmberParser.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/data/IniParseData/Amber/AmberParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Amber/AmberParser.h" bodystart="19" bodyend="32"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_amber_parser_1a0654b5d9115f031a7f4ba39d424deaa5" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberParser</scope><name>AmberParser</name></member>
       <member refid="class_a_g_remap_core_1_1_amber_parser_1a13237c237d7d4d8710dded50e257bab1" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberParser</scope><name>v4_0</name></member>

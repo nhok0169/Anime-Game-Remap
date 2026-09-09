@@ -1351,7 +1351,7 @@ Builds a :cpp:class:`GIMIFixer` over the four mod objects
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="719" column="43" bodyfile="src/data/IniFixData/RaidenFixer.cpp" bodystart="410" bodyend="414"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="719" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="410" bodyend="414"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a9427e3264381a4f320b7274f36432cb2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1380,7 +1380,7 @@ differs from remapping onto a boss that shares the source&apos;s geometry:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="739" column="43" bodyfile="src/data/IniFixData/AmberFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="739" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a661dfacbd96e0b869af40b4a0088679d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1397,12 +1397,12 @@ The pure-Python ``IniFixBuilderFuncs.amberCN6_1`` -- **not** a stub :raw-html:`&
 
 AmberCN remapped onto Amber. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with AmberCN&apos;s own choices in
-``data/IniFixData/AmberCNFixer.cpp``
+``data/IniFixData/AmberCN/AmberCNFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="752" column="43" bodyfile="src/data/IniFixData/AmberCNFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="752" column="43" bodyfile="src/data/IniFixData/AmberCN/AmberCNFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a602df28d19c544748750d6dd58710597" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1419,12 +1419,12 @@ The pure-Python ``IniFixBuilderFuncs.mona6_1`` -- **not** a stub :raw-html:`&lt;
 
 Mona remapped onto MonaCN. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with Mona&apos;s own choices in
-``data/IniFixData/MonaFixer.cpp``
+``data/IniFixData/Mona/MonaFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="765" column="43" bodyfile="src/data/IniFixData/MonaFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="765" column="43" bodyfile="src/data/IniFixData/Mona/MonaFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1441,7 +1441,7 @@ The 6.1 fix remapping **Jean onto JeanCN** -- **not** a stub :raw-html:`&lt;br /
 
 The ordinary CN-skin remap. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with Jean&apos;s own choices in
-``data/IniFixData/JeanFixer.cpp`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+``data/IniFixData/Jean/JeanFixer.cpp`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 
 Jean is the first character with **two** fixers rather than one, because her two
 targets are different shapes -- see :cpp:class:`JeanFixer`
@@ -1449,7 +1449,7 @@ targets are different shapes -- see :cpp:class:`JeanFixer`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="781" column="43" bodyfile="src/data/IniFixData/JeanFixer.cpp" bodystart="15" bodyend="25"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="781" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="15" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1466,12 +1466,12 @@ The 6.1 fix remapping **Jean onto JeanSea** -- **not** a stub :raw-html:`&lt;br 
 
 The same shape plus a **split**: JeanSea draws a ``dress`` Jean has no geometry for, so
 Jean&apos;s ``body`` graph is emitted once as each. See
-:cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/JeanFixer.cpp``
+:cpp:member:`GIMICharFixerConfig::objSplits` and ``data/IniFixData/Jean/JeanFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="794" column="43" bodyfile="src/data/IniFixData/JeanFixer.cpp" bodystart="28" bodyend="55"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="794" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="28" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a76545c0b834fe6d7891f4ba88205b731" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1484,12 +1484,12 @@ Jean&apos;s ``body`` graph is emitted once as each. See
         <detaileddescription>
 <para><verbatim>embed:rst 
 The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
-:cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCNFixer.cpp``
+:cpp:func:`jean6_1ToJeanCN`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="803" column="43" bodyfile="src/data/IniFixData/JeanCNFixer.cpp" bodystart="15" bodyend="25"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="803" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="15" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad17176dacf2bef265c6121b4c931d66d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1502,12 +1502,12 @@ The 6.1 fix remapping **JeanCN onto Jean** -- **not** a stub. The mirror of
         <detaileddescription>
 <para><verbatim>embed:rst 
 The 6.1 fix remapping **JeanCN onto JeanSea** -- **not** a stub. The same split as
-:cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCNFixer.cpp``
+:cpp:func:`jean6_1ToJeanSea`, in ``data/IniFixData/JeanCN/JeanCNFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="812" column="43" bodyfile="src/data/IniFixData/JeanCNFixer.cpp" bodystart="28" bodyend="55"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="812" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="28" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a11237d9c643796eae3317ba6f9b2f1a2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1529,7 +1529,7 @@ a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="825" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="45" bodyend="47"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="825" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="45" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1542,12 +1542,12 @@ a second generated ``.ini`` file. See :cpp:class:`JeanSeaFixer` and
         <detaileddescription>
 <para><verbatim>embed:rst 
 The 6.1 fix remapping **JeanSea onto JeanCN** -- **not** a stub. The same merge as
-:cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSeaFixer.cpp``
+:cpp:func:`jeanSea6_1ToJean`, in ``data/IniFixData/JeanSea/JeanSeaFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="834" column="43" bodyfile="src/data/IniFixData/JeanSeaFixer.cpp" bodystart="50" bodyend="52"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="834" column="43" bodyfile="src/data/IniFixData/JeanSea/JeanSeaFixer.cpp" bodystart="50" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1564,12 +1564,12 @@ The 6.1 fix remapping **Ningguang onto NingguangOrchid** -- **not** a stub
 
 The standard GIMI character shape -- see :cpp:func:`makeGIMICharFixer` -- plus a
 ``ps-t3`` strip the target does not read and the ``DarkDiffuse`` head edit. Ningguang&apos;s
-own choices are in ``data/IniFixData/NingguangFixer.cpp``
+own choices are in ``data/IniFixData/Ningguang/NingguangFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="847" column="43" bodyfile="src/data/IniFixData/NingguangFixer.cpp" bodystart="14" bodyend="33"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="847" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="14" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1582,13 +1582,13 @@ own choices are in ``data/IniFixData/NingguangFixer.cpp``
         <detaileddescription>
 <para><verbatim>embed:rst 
 The 6.1 fix remapping **NingguangOrchid onto Ningguang** -- **not** a stub. The plain
-shape, with none of Ningguang&apos;s extras; see ``data/IniFixData/NingguangOrchidFixer.cpp``
+shape, with none of Ningguang&apos;s extras; see ``data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp``
 for why the asymmetry is real
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="857" column="43" bodyfile="src/data/IniFixData/NingguangOrchidFixer.cpp" bodystart="11" bodyend="26"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="857" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="11" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1605,13 +1605,13 @@ The 6.1 fix remapping **GanyuTwilight onto Ganyu** -- **not** a stub :raw-html:`
 
 The direction that **loses a normal map**: GanyuTwilight is a post-GI-3.x model with one
 on ``ps-t0``, Ganyu predates it, so the head&apos;s registers shift down a slot. See
-``data/IniFixData/GanyuTwilightFixer.cpp`` and
+``data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp`` and
 :cpp:member:`GIMICharFixerConfig::objRegRemaps`
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="871" column="43" bodyfile="src/data/IniFixData/GanyuTwilightFixer.cpp" bodystart="14" bodyend="48"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="871" column="43" bodyfile="src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp" bodystart="14" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1628,12 +1628,12 @@ The pure-Python ``IniFixBuilderFuncs.monaCN6_1`` -- **not** a stub :raw-html:`&l
 
 MonaCN remapped onto Mona. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with MonaCN&apos;s own choices in
-``data/IniFixData/MonaCNFixer.cpp``
+``data/IniFixData/MonaCN/MonaCNFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="884" column="43" bodyfile="src/data/IniFixData/MonaCNFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="884" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1650,12 +1650,12 @@ The pure-Python ``IniFixBuilderFuncs.rosaria6_1`` -- **not** a stub :raw-html:`&
 
 Rosaria remapped onto RosariaCN. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with Rosaria&apos;s own choices in
-``data/IniFixData/RosariaFixer.cpp``
+``data/IniFixData/Rosaria/RosariaFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="897" column="43" bodyfile="src/data/IniFixData/RosariaFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="897" column="43" bodyfile="src/data/IniFixData/Rosaria/RosariaFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aa659acec18dfa20826ff1baef35a7c10" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -1672,12 +1672,12 @@ The pure-Python ``IniFixBuilderFuncs.rosariaCN6_1`` -- **not** a stub :raw-html:
 
 RosariaCN remapped onto Rosaria. The standard GIMI character shape -- see
 :cpp:func:`makeGIMICharFixer` -- with RosariaCN&apos;s own choices in
-``data/IniFixData/RosariaCNFixer.cpp``
+``data/IniFixData/RosariaCN/RosariaCNFixer.cpp``
 </verbatim> </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="910" column="43" bodyfile="src/data/IniFixData/RosariaCNFixer.cpp" bodystart="9" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="910" column="43" bodyfile="src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp" bodystart="9" bodyend="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

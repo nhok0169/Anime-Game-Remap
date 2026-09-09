@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="21" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h" line="21" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era Ningguang ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/NingguangFixer.cpp" bodystart="36" bodyend="38"/>
+        <location file="include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/Ningguang/NingguangFixer.cpp" bodystart="36" bodyend="38"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@ Ningguang&apos;s own ``.ini`` fixers, one per game version she needed a new one 
 Pair this with :cpp:class:`NingguangParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/NingguangFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NingguangFixer.h" bodystart="18" bodyend="31"/>
+    <location file="include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h" bodystart="18" bodyend="31"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ningguang_fixer_1a2bb06d4abbef5f6efac7cb49f5b77f34" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangFixer</scope><name>NingguangFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_ningguang_fixer_1aa14c9e881fea5ab34ea8c4cb2057af89" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangFixer</scope><name>v6_1</name></member>

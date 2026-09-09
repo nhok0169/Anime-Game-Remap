@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_raiden_parser_8cpp" kind="file" language="C++">
     <compoundname>RaidenParser.cpp</compoundname>
-    <includes refid="_raiden_parser_8h" local="yes">AGRemapCore/data/IniParseData/RaidenParser.h</includes>
+    <includes refid="_raiden_parser_8h" local="yes">AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</includes>
     <includes local="no">memory</includes>
     <includes local="no">optional</includes>
     <includes local="no">string</includes>
@@ -87,7 +87,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniParseData/RaidenParser.h</label>
+        <label>AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</label>
         <link refid="_raiden_parser_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -1107,7 +1107,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -1277,7 +1277,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_raiden_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/RaidenParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_raiden_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/Raiden/RaidenParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -1406,6 +1406,6 @@
 <codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="135"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniParseData/RaidenParser.cpp"/>
+    <location file="src/data/IniParseData/Raiden/RaidenParser.cpp"/>
   </compounddef>
 </doxygen>

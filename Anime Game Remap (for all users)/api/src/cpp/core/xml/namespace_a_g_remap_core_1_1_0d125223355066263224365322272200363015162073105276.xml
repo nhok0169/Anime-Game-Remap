@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/model/strategies/iniParsers/IniParseBuilder.cpp" line="10" column="5"/>
+    <location file="src/model/strategies/iniParsers/IniParseBuilder.cpp" line="12" column="5"/>
   </compounddef>
 </doxygen>

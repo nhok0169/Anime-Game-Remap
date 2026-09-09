@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_ningguang_fixer_8cpp" kind="file" language="C++">
     <compoundname>NingguangFixer.cpp</compoundname>
-    <includes refid="_ningguang_fixer_8h" local="yes">AGRemapCore/data/IniFixData/NingguangFixer.h</includes>
+    <includes refid="_ningguang_fixer_8h" local="yes">AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h</includes>
     <includes local="no">string</includes>
     <includes local="no">utility</includes>
     <includes local="no">vector</includes>
@@ -60,7 +60,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniFixData/NingguangFixer.h</label>
+        <label>AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h</label>
         <link refid="_ningguang_fixer_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -702,7 +702,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniFixData/NingguangFixer.cpp</label>
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -846,7 +846,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ningguang_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/NingguangFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ningguang_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -886,6 +886,6 @@
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="39"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniFixData/NingguangFixer.cpp"/>
+    <location file="src/data/IniFixData/Ningguang/NingguangFixer.cpp"/>
   </compounddef>
 </doxygen>

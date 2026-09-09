@@ -3,7 +3,7 @@
   <compounddef id="_ini_comments_8h" kind="file" language="C++">
     <compoundname>IniComments.h</compoundname>
     <includes local="no">string</includes>
-    <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSeaFixer.cpp</includedby>
+    <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</includedby>
     <incdepgraph>
       <node id="1">
         <label>include/AGRemapCore/constants/IniComments.h</label>
@@ -23,7 +23,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
     </invincdepgraph>

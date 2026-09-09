@@ -2,21 +2,21 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_df0b2e46aa21082a50857c608f6eb4fd" kind="dir">
     <compoundname>src/data/IniParseData</compoundname>
-    <innerfile refid="_amber_c_n_parser_8cpp">AmberCNParser.cpp</innerfile>
-    <innerfile refid="_amber_parser_8cpp">AmberParser.cpp</innerfile>
-    <innerfile refid="_ganyu_parser_8cpp">GanyuParser.cpp</innerfile>
-    <innerfile refid="_ganyu_twilight_parser_8cpp">GanyuTwilightParser.cpp</innerfile>
+    <innerdir refid="dir_d49ad82d10232c160eed6ba219ad3aaf">src/data/IniParseData/Amber</innerdir>
+    <innerdir refid="dir_1e8e8ff531a45b15b2a1b32c90f76189">src/data/IniParseData/AmberCN</innerdir>
+    <innerdir refid="dir_4c07bae995c5cc50642edcdf79d1fc4d">src/data/IniParseData/Ganyu</innerdir>
+    <innerdir refid="dir_ad80a4237678595fdf99b257fc82bbe0">src/data/IniParseData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_87fb242d167096057e876e88c40baf04">src/data/IniParseData/Jean</innerdir>
+    <innerdir refid="dir_69f495faac9173f16762bdb6c9e64df4">src/data/IniParseData/JeanCN</innerdir>
+    <innerdir refid="dir_634cbc2cf3960cea55393c919c41fd4e">src/data/IniParseData/JeanSea</innerdir>
+    <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
+    <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
+    <innerdir refid="dir_0adc358d87518781b54f054970880751">src/data/IniParseData/Ningguang</innerdir>
+    <innerdir refid="dir_8ed2680fbdaf5e2ad830e12ec38b1ab9">src/data/IniParseData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_7f84deb5e2bd66c228fb7ce5b7c32fa6">src/data/IniParseData/Raiden</innerdir>
+    <innerdir refid="dir_bb96075b8dcb2abe1eb63e775e9cdf73">src/data/IniParseData/Rosaria</innerdir>
+    <innerdir refid="dir_2a7e1139a0e074c94ed8909e65eccfb9">src/data/IniParseData/RosariaCN</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
-    <innerfile refid="_jean_c_n_parser_8cpp">JeanCNParser.cpp</innerfile>
-    <innerfile refid="_jean_parser_8cpp">JeanParser.cpp</innerfile>
-    <innerfile refid="_jean_sea_parser_8cpp">JeanSeaParser.cpp</innerfile>
-    <innerfile refid="_mona_c_n_parser_8cpp">MonaCNParser.cpp</innerfile>
-    <innerfile refid="_mona_parser_8cpp">MonaParser.cpp</innerfile>
-    <innerfile refid="_ningguang_orchid_parser_8cpp">NingguangOrchidParser.cpp</innerfile>
-    <innerfile refid="_ningguang_parser_8cpp">NingguangParser.cpp</innerfile>
-    <innerfile refid="_raiden_parser_8cpp">RaidenParser.cpp</innerfile>
-    <innerfile refid="_rosaria_c_n_parser_8cpp">RosariaCNParser.cpp</innerfile>
-    <innerfile refid="_rosaria_parser_8cpp">RosariaParser.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

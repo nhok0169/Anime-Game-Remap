@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_ganyu_twilight_parser_8cpp" kind="file" language="C++">
     <compoundname>GanyuTwilightParser.cpp</compoundname>
-    <includes refid="_ganyu_twilight_parser_8h" local="yes">AGRemapCore/data/IniParseData/GanyuTwilightParser.h</includes>
+    <includes refid="_ganyu_twilight_parser_8h" local="yes">AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h</includes>
     <includes refid="_mod_type_id_8h" local="yes">AGRemapCore/constants/ModTypeId.h</includes>
     <includes refid="_ini_parse_builder_data_8h" local="yes">AGRemapCore/data/IniParseBuilderData.h</includes>
     <includes refid="_g_i_m_i_char_parser_8h" local="yes">AGRemapCore/data/IniParseData/GIMICharParser.h</includes>
@@ -92,7 +92,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniParseData/GanyuTwilightParser.h</label>
+        <label>AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h</label>
         <link refid="_ganyu_twilight_parser_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -970,7 +970,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniParseData/GanyuTwilightParser.cpp</label>
+        <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
         <link refid="_ganyu_twilight_parser_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -1117,7 +1117,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ganyu_twilight_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/GanyuTwilightParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ganyu_twilight_parser_8h" kindref="compound">AGRemapCore/data/IniParseData/GanyuTwilight/GanyuTwilightParser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_id_8h" kindref="compound">AGRemapCore/constants/ModTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_parse_builder_data_8h" kindref="compound">AGRemapCore/data/IniParseBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
@@ -1169,6 +1169,6 @@
 <codeline lineno="50"><highlight class="normal"></highlight></codeline>
 <codeline lineno="51"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniParseData/GanyuTwilightParser.cpp"/>
+    <location file="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp"/>
   </compounddef>
 </doxygen>

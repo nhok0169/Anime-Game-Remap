@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="25" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h" line="25" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 6.1-era Raiden ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="34" column="45" bodyfile="src/data/IniParseData/RaidenParser.cpp" bodystart="132" bodyend="134"/>
+        <location file="include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h" line="34" column="45" bodyfile="src/data/IniParseData/Raiden/RaidenParser.cpp" bodystart="132" bodyend="134"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -53,7 +53,7 @@ is an order of magnitude larger than the stub it replaces -- a stub is one line,
 that name); only the *definition* lives here
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/RaidenParser.h" line="22" column="5" bodyfile="include/AGRemapCore/data/IniParseData/RaidenParser.h" bodystart="22" bodyend="35"/>
+    <location file="include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h" line="22" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Raiden/RaidenParser.h" bodystart="22" bodyend="35"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_raiden_parser_1a6cff272f04b287b40d4a2ec1411d08a8" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenParser</scope><name>RaidenParser</name></member>
       <member refid="class_a_g_remap_core_1_1_raiden_parser_1af84f0c7a7931873466e4f564c46ea39e" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenParser</scope><name>v6_1</name></member>

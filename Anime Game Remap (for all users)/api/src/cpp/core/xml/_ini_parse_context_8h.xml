@@ -928,7 +928,7 @@
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="6">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
       <node id="7">

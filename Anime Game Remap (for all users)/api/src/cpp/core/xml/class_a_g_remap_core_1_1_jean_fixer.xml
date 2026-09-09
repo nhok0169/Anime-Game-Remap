@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanFixer.h" line="41" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h" line="41" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The 6.1 fix remapping Jean onto **JeanCN** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanFixer.h" line="50" column="43" bodyfile="src/data/IniFixData/JeanFixer.cpp" bodystart="58" bodyend="60"/>
+        <location file="include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h" line="50" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="58" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_fixer_1afadd5b88f14d11d3be1d27915f99bf57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The 6.1 fix remapping Jean onto **JeanSea** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/JeanFixer.cpp" bodystart="63" bodyend="65"/>
+        <location file="include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/Jean/JeanFixer.cpp" bodystart="63" bodyend="65"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -87,7 +87,7 @@ Target            What the fix has to do
 Pair these with :cpp:class:`JeanParser`, which is shared between them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/JeanFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanFixer.h" bodystart="38" bodyend="60"/>
+    <location file="include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h" bodystart="38" bodyend="60"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_fixer_1a8d7335576ca448d20e7765aeec815c3a" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanFixer</scope><name>JeanFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_fixer_1ade08765a655c9503ea7ba52e3377ecb0" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanFixer</scope><name>v6_1ToJeanCN</name></member>

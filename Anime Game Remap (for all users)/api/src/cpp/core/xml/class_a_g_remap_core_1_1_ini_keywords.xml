@@ -459,6 +459,44 @@ shifts a character&apos;s registers around leaves those two alone
         </inbodydescription>
         <location file="include/AGRemapCore/constants/IniKeywords.h" line="230" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="230" bodyend="-1"/>
       </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::PsT69</definition>
+        <argsstring></argsstring>
+        <name>PsT69</name>
+        <qualifiedname>AGRemapCore::IniKeywords::PsT69</qualifiedname>
+        <initializer>= &quot;ps-t69&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The first of `TexFx`_&apos;s two dedicated registers :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+A modder opts into TexFx by binding these, which is what makes the library optional
+where NNFix and ORFix are mandatory -- so a fix issues a TexFx sub-command only where
+one of them is actually bound, never simply because the character&apos;s row names one
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="242" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" static="yes" mutable="no">
+        <type>const std::string</type>
+        <definition>const std::string AGRemapCore::IniKeywords::PsT70</definition>
+        <argsstring></argsstring>
+        <name>PsT70</name>
+        <qualifiedname>AGRemapCore::IniKeywords::PsT70</qualifiedname>
+        <initializer>= &quot;ps-t70&quot;</initializer>
+        <briefdescription>
+<para>The second of <computeroutput>TexFx</computeroutput>_&apos;s two dedicated registers <ndash/> see <ref refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" kindref="member">PsT69</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="247" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a4e4971343df444d21fd7124528dd6fde" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
         <definition>const std::string AGRemapCore::IniKeywords::TexFxTransparency0</definition>
@@ -479,7 +517,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="242" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="242" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="259" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="259" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a57f3e435d80318e03d84bae2e8b314cd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -498,7 +536,7 @@ follows from where its register shift left the diffuse -- not from the character
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="251" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="251" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="268" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="268" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8d9e5f2cafb836e8ad12adf8d5c237c8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -517,7 +555,7 @@ see :cpp:class:`RegAssetRemap`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="260" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="260" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="277" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1aa2c231b7ea5eb426e1c394d83fa4c1be" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -537,7 +575,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="270" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="270" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="287" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="287" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_keywords_1a8ca8a283be08f4f8ba639429665bfcdc" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -553,7 +591,7 @@ ef HashNotFound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniKeywords.h" line="275" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="275" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/IniKeywords.h" line="292" column="45" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="292" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -570,7 +608,7 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
    porting the whole enum speculatively up front
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="276"/>
+    <location file="include/AGRemapCore/constants/IniKeywords.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/IniKeywords.h" bodystart="22" bodyend="293"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ae515fbf8a74ffd3ebc5497c3bfa27509" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Blend</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ac10fcc30f22cc64569c29916f36c8aa5" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Draw</name></member>
@@ -587,6 +625,8 @@ Common keywords used in the .ini file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6d32f5bf3ed7a3dd84a053f8dec9b76c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Null</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1acbb83112fdf027806e264ebe988215e8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>ORFixPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1ab970667eecf7baf8dfeb4f4d6df01f5b" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Position</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a0b87898a1b13e451768835db0ff5bb31" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>PsT69</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_keywords_1a6b01c77d87e0426ebcbbdebffa4c3506" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>PsT70</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1a2deec4c399bc094b325907613b493568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>Remap</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1aac48879e6f9613d47a4c0842a448695c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapDL</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_keywords_1abfe2e5d692993371b6b6108e42a42379" prot="public" virt="non-virtual"><scope>AGRemapCore::IniKeywords</scope><name>RemapFix</name></member>

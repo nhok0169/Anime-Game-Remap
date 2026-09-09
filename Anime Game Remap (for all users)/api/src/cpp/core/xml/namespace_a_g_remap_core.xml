@@ -243,6 +243,7 @@
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_strategy_overrides" prot="public">AGRemapCore::StrategyOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_sympy_parser" prot="public">AGRemapCore::SympyParser</innerclass>
@@ -1210,7 +1211,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="953" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="953" bodyend="957" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="303" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="995" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="995" bodyend="999" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="303" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>

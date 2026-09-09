@@ -127,7 +127,7 @@ picks it up at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="111" column="28" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="34" bodyend="42"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="111" column="28" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="36" bodyend="44"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -144,7 +144,7 @@ picks it up at once
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="117" column="13" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="44" bodyend="44"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="117" column="13" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="46" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a01df6211f4d9ddb27714dbef50ca9080" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -178,7 +178,7 @@ fallback
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="130" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="46" bodyend="52"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="130" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="48" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a3a1b189571fff9123a55ec2ceb9214b1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -253,7 +253,7 @@ What #build does when &apos;builderArgs&apos; holds no row for the mod name it w
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="173" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="54" bodyend="63"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="173" column="22" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="56" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a4d2299fcca9ab796fb22998e069f748a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::shared_ptr&lt; const <ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1a510d257abe00f573eace94e9546be749" kindref="member">ArgsRepo</ref> &gt; &amp;</type>
@@ -271,7 +271,7 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="182" column="35" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="65" bodyend="67"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="182" column="35" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="67" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1ae97743daafc33cadc1120ac53f332d26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -286,7 +286,7 @@ fixed-factory builder -- the equivalent of the pure-Python original&apos;s ``_bu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="188" column="18" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="69" bodyend="71"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="188" column="18" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="71" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_1a6c54954d98ec779cc54d10dc56c9fa69" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser" kindref="compound">BaseIniParser</ref>&lt;&gt; &gt;</type>
@@ -389,7 +389,7 @@ This is the id the mod type was **filed under**, which need not equal its own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="232" column="29" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="73" bodyend="96"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseBuilder.h" line="232" column="29" bodyfile="src/model/strategies/iniParsers/IniParseBuilder.cpp" bodystart="75" bodyend="108"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

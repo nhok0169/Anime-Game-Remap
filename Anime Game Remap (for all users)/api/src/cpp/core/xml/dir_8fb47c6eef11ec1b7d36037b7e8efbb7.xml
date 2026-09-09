@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8fb47c6eef11ec1b7d36037b7e8efbb7" kind="dir">
+    <compoundname>src/data/IniFixData/JeanSea</compoundname>
+    <innerfile refid="_jean_sea_fixer_8cpp">JeanSeaFixer.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniFixData/JeanSea/"/>
+  </compounddef>
+</doxygen>

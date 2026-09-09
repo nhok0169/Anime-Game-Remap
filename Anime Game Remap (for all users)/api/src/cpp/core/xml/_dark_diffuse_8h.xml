@@ -3,7 +3,7 @@
   <compounddef id="_dark_diffuse_8h" kind="file" language="C++">
     <compoundname>DarkDiffuse.h</compoundname>
     <includedby refid="_dark_diffuse_8cpp" local="yes">src/data/IniFixData/DarkDiffuse.cpp</includedby>
-    <includedby refid="_ningguang_fixer_8cpp" local="yes">src/data/IniFixData/NingguangFixer.cpp</includedby>
+    <includedby refid="_ningguang_fixer_8cpp" local="yes">src/data/IniFixData/Ningguang/NingguangFixer.cpp</includedby>
     <invincdepgraph>
       <node id="1">
         <label>include/AGRemapCore/data/IniFixData/DarkDiffuse.h</label>
@@ -18,7 +18,7 @@
         <link refid="_dark_diffuse_8cpp"/>
       </node>
       <node id="3">
-        <label>src/data/IniFixData/NingguangFixer.cpp</label>
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
       </node>
     </invincdepgraph>

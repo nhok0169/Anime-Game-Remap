@@ -11,7 +11,7 @@
     <includes refid="_i_ini_graph_groups_8h" local="yes">AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h</includes>
     <includes refid="_ini_parse_context_8h" local="yes">AGRemapCore/model/strategies/iniParsers/IniParseContext.h</includes>
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
-    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/RaidenParser.cpp</includedby>
+    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/Raiden/RaidenParser.cpp</includedby>
     <includedby refid="_ini_file_parse_context_8cpp" local="yes">src/model/strategies/iniParsers/IniFileParseContext.cpp</includedby>
     <includedby refid="_ini_parse_builder_8cpp" local="yes">src/model/strategies/iniParsers/IniParseBuilder.cpp</includedby>
     <incdepgraph>
@@ -889,7 +889,7 @@
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="3">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
       <node id="4">

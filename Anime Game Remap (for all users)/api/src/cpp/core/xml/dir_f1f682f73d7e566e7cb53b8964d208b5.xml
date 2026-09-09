@@ -21,6 +21,7 @@
     <innerfile refid="_ini_keywords_8h">IniKeywords.h</innerfile>
     <innerfile refid="_mod_type_id_8h">ModTypeId.h</innerfile>
     <innerfile refid="_reg_fill_missing_mode_8h">RegFillMissingMode.h</innerfile>
+    <innerfile refid="_strategy_overrides_8h">StrategyOverrides.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

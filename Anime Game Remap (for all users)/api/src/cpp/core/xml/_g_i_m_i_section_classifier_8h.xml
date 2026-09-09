@@ -21,7 +21,7 @@
     <includes local="yes">GIMISectionClassifier.tpp</includes>
     <includedby refid="_g_i_m_i_parser_8h" local="yes">include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</includedby>
     <includedby refid="_g_i_m_i_char_parser_8cpp" local="yes">src/data/IniParseData/GIMICharParser.cpp</includedby>
-    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/RaidenParser.cpp</includedby>
+    <includedby refid="_raiden_parser_8cpp" local="yes">src/data/IniParseData/Raiden/RaidenParser.cpp</includedby>
     <incdepgraph>
       <node id="34">
         <label>Algo.tpp</label>
@@ -958,7 +958,7 @@
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="6">
-        <label>src/data/IniParseData/RaidenParser.cpp</label>
+        <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
       <node id="7">

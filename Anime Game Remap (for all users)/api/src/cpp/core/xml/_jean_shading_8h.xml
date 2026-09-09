@@ -2,8 +2,8 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_jean_shading_8h" kind="file" language="C++">
     <compoundname>JeanShading.h</compoundname>
-    <includedby refid="_jean_c_n_fixer_8cpp" local="yes">src/data/IniFixData/JeanCNFixer.cpp</includedby>
-    <includedby refid="_jean_fixer_8cpp" local="yes">src/data/IniFixData/JeanFixer.cpp</includedby>
+    <includedby refid="_jean_fixer_8cpp" local="yes">src/data/IniFixData/Jean/JeanFixer.cpp</includedby>
+    <includedby refid="_jean_c_n_fixer_8cpp" local="yes">src/data/IniFixData/JeanCN/JeanCNFixer.cpp</includedby>
     <includedby refid="_jean_shading_8cpp" local="yes">src/data/IniFixData/JeanShading.cpp</includedby>
     <invincdepgraph>
       <node id="1">
@@ -17,12 +17,12 @@
         </childnode>
       </node>
       <node id="2">
-        <label>src/data/IniFixData/JeanCNFixer.cpp</label>
-        <link refid="_jean_c_n_fixer_8cpp"/>
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
+        <link refid="_jean_fixer_8cpp"/>
       </node>
       <node id="3">
-        <label>src/data/IniFixData/JeanFixer.cpp</label>
-        <link refid="_jean_fixer_8cpp"/>
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
       <node id="4">
         <label>src/data/IniFixData/JeanShading.cpp</label>

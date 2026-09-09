@@ -25,7 +25,7 @@
     <includedby refid="_ini_file_8h" local="yes">include/AGRemapCore/model/files/IniFile.h</includedby>
     <includedby refid="_v_g_remap_blend_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h</includedby>
     <includedby refid="_global_ini_classifiers_8cpp" local="yes">src/constants/GlobalIniClassifiers.cpp</includedby>
-    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/RaidenFixer.cpp</includedby>
+    <includedby refid="_raiden_fixer_8cpp" local="yes">src/data/IniFixData/Raiden/RaidenFixer.cpp</includedby>
     <includedby refid="_mod_type_8cpp" local="yes">src/model/strategies/ModType.cpp</includedby>
     <includedby refid="_ini_file_fix_context_8cpp" local="yes">src/model/strategies/iniFixers/IniFileFixContext.cpp</includedby>
     <includedby refid="_ini_file_remove_context_8cpp" local="yes">src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</includedby>
@@ -1188,7 +1188,7 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="42">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
       <node id="26">
@@ -1196,60 +1196,60 @@
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
       <node id="10">
-        <label>src/data/IniParseData/AmberCNParser.cpp</label>
-        <link refid="_amber_c_n_parser_8cpp"/>
+        <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
+        <link refid="_amber_parser_8cpp"/>
       </node>
       <node id="11">
-        <label>src/data/IniParseData/AmberParser.cpp</label>
-        <link refid="_amber_parser_8cpp"/>
+        <label>src/data/IniParseData/AmberCN/AmberCNParser.cpp</label>
+        <link refid="_amber_c_n_parser_8cpp"/>
       </node>
       <node id="12">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="13">
-        <label>src/data/IniParseData/GanyuParser.cpp</label>
+        <label>src/data/IniParseData/Ganyu/GanyuParser.cpp</label>
         <link refid="_ganyu_parser_8cpp"/>
       </node>
       <node id="14">
-        <label>src/data/IniParseData/GanyuTwilightParser.cpp</label>
+        <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
         <link refid="_ganyu_twilight_parser_8cpp"/>
       </node>
       <node id="15">
-        <label>src/data/IniParseData/JeanCNParser.cpp</label>
-        <link refid="_jean_c_n_parser_8cpp"/>
-      </node>
-      <node id="16">
-        <label>src/data/IniParseData/JeanParser.cpp</label>
+        <label>src/data/IniParseData/Jean/JeanParser.cpp</label>
         <link refid="_jean_parser_8cpp"/>
       </node>
+      <node id="16">
+        <label>src/data/IniParseData/JeanCN/JeanCNParser.cpp</label>
+        <link refid="_jean_c_n_parser_8cpp"/>
+      </node>
       <node id="17">
-        <label>src/data/IniParseData/JeanSeaParser.cpp</label>
+        <label>src/data/IniParseData/JeanSea/JeanSeaParser.cpp</label>
         <link refid="_jean_sea_parser_8cpp"/>
       </node>
       <node id="18">
-        <label>src/data/IniParseData/MonaCNParser.cpp</label>
-        <link refid="_mona_c_n_parser_8cpp"/>
-      </node>
-      <node id="19">
-        <label>src/data/IniParseData/MonaParser.cpp</label>
+        <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="20">
-        <label>src/data/IniParseData/NingguangOrchidParser.cpp</label>
-        <link refid="_ningguang_orchid_parser_8cpp"/>
+      <node id="19">
+        <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
+        <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="21">
-        <label>src/data/IniParseData/NingguangParser.cpp</label>
+      <node id="20">
+        <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
+      <node id="21">
+        <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
+        <link refid="_ningguang_orchid_parser_8cpp"/>
+      </node>
       <node id="22">
-        <label>src/data/IniParseData/RosariaCNParser.cpp</label>
-        <link refid="_rosaria_c_n_parser_8cpp"/>
+        <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
+        <link refid="_rosaria_parser_8cpp"/>
       </node>
       <node id="23">
-        <label>src/data/IniParseData/RosariaParser.cpp</label>
-        <link refid="_rosaria_parser_8cpp"/>
+        <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
+        <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
       <node id="27">
         <label>src/data/IniRemoveBuilderData.cpp</label>

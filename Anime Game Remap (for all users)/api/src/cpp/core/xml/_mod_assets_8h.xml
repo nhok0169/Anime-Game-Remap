@@ -173,20 +173,22 @@
         </childnode>
       </node>
       <node id="49">
+        <label>include/AGRemapCore/constants/StrategyOverrides.h</label>
+        <link refid="_strategy_overrides_8h"/>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="52" relation="include">
+        </childnode>
+      </node>
+      <node id="53">
         <label>include/AGRemapCore/data/IniFixBuilderData.h</label>
         <link refid="_ini_fix_builder_data_8h"/>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="30" relation="include">
         </childnode>
-        <childnode refid="50" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
         <childnode refid="54" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
@@ -198,42 +200,42 @@
         <childnode refid="58" relation="include">
         </childnode>
         <childnode refid="59" relation="include">
+        </childnode>
+        <childnode refid="60" relation="include">
+        </childnode>
+        <childnode refid="61" relation="include">
+        </childnode>
+        <childnode refid="62" relation="include">
+        </childnode>
+        <childnode refid="63" relation="include">
         </childnode>
         <childnode refid="46" relation="include">
         </childnode>
-        <childnode refid="60" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-        <childnode refid="61" relation="include">
-        </childnode>
-      </node>
-      <node id="62">
-        <label>include/AGRemapCore/data/IniFixData/AmberCNFixer.h</label>
-        <link refid="_amber_c_n_fixer_8h"/>
-        <childnode refid="50" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
       </node>
-      <node id="63">
-        <label>include/AGRemapCore/data/IniFixData/AmberFixer.h</label>
+      <node id="66">
+        <label>include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h</label>
         <link refid="_amber_fixer_8h"/>
-        <childnode refid="51" relation="include">
+        <childnode refid="54" relation="include">
         </childnode>
       </node>
-      <node id="64">
+      <node id="67">
+        <label>include/AGRemapCore/data/IniFixData/AmberCN/AmberCNFixer.h</label>
+        <link refid="_amber_c_n_fixer_8h"/>
+        <childnode refid="55" relation="include">
+        </childnode>
+      </node>
+      <node id="68">
         <label>include/AGRemapCore/data/IniFixData/GIMICharFixer.h</label>
         <link refid="_g_i_m_i_char_fixer_8h"/>
-        <childnode refid="50" relation="include">
-        </childnode>
-        <childnode refid="51" relation="include">
-        </childnode>
-        <childnode refid="45" relation="include">
-        </childnode>
-        <childnode refid="52" relation="include">
-        </childnode>
-        <childnode refid="53" relation="include">
-        </childnode>
         <childnode refid="54" relation="include">
         </childnode>
         <childnode refid="55" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
         </childnode>
         <childnode refid="56" relation="include">
         </childnode>
@@ -247,71 +249,79 @@
         </childnode>
         <childnode refid="61" relation="include">
         </childnode>
-      </node>
-      <node id="65">
-        <label>include/AGRemapCore/data/IniFixData/GanyuTwilightFixer.h</label>
-        <link refid="_ganyu_twilight_fixer_8h"/>
-        <childnode refid="52" relation="include">
+        <childnode refid="62" relation="include">
         </childnode>
-      </node>
-      <node id="66">
-        <label>include/AGRemapCore/data/IniFixData/JeanCNFixer.h</label>
-        <link refid="_jean_c_n_fixer_8h"/>
-        <childnode refid="53" relation="include">
+        <childnode refid="63" relation="include">
         </childnode>
-      </node>
-      <node id="67">
-        <label>include/AGRemapCore/data/IniFixData/JeanFixer.h</label>
-        <link refid="_jean_fixer_8h"/>
-        <childnode refid="54" relation="include">
+        <childnode refid="64" relation="include">
         </childnode>
-      </node>
-      <node id="68">
-        <label>include/AGRemapCore/data/IniFixData/JeanSeaFixer.h</label>
-        <link refid="_jean_sea_fixer_8h"/>
-        <childnode refid="55" relation="include">
+        <childnode refid="65" relation="include">
         </childnode>
       </node>
       <node id="69">
-        <label>include/AGRemapCore/data/IniFixData/MonaCNFixer.h</label>
-        <link refid="_mona_c_n_fixer_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.h</label>
+        <link refid="_ganyu_twilight_fixer_8h"/>
         <childnode refid="56" relation="include">
         </childnode>
       </node>
       <node id="70">
-        <label>include/AGRemapCore/data/IniFixData/MonaFixer.h</label>
-        <link refid="_mona_fixer_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/Jean/JeanFixer.h</label>
+        <link refid="_jean_fixer_8h"/>
         <childnode refid="57" relation="include">
         </childnode>
       </node>
       <node id="71">
-        <label>include/AGRemapCore/data/IniFixData/NingguangFixer.h</label>
-        <link refid="_ningguang_fixer_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h</label>
+        <link refid="_jean_c_n_fixer_8h"/>
         <childnode refid="58" relation="include">
         </childnode>
       </node>
       <node id="72">
-        <label>include/AGRemapCore/data/IniFixData/NingguangOrchidFixer.h</label>
-        <link refid="_ningguang_orchid_fixer_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/JeanSea/JeanSeaFixer.h</label>
+        <link refid="_jean_sea_fixer_8h"/>
         <childnode refid="59" relation="include">
         </childnode>
       </node>
       <node id="73">
-        <label>include/AGRemapCore/data/IniFixData/RaidenFixer.h</label>
+        <label>include/AGRemapCore/data/IniFixData/Mona/MonaFixer.h</label>
+        <link refid="_mona_fixer_8h"/>
+        <childnode refid="60" relation="include">
+        </childnode>
+      </node>
+      <node id="74">
+        <label>include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h</label>
+        <link refid="_mona_c_n_fixer_8h"/>
+        <childnode refid="61" relation="include">
+        </childnode>
+      </node>
+      <node id="75">
+        <label>include/AGRemapCore/data/IniFixData/Ningguang/NingguangFixer.h</label>
+        <link refid="_ningguang_fixer_8h"/>
+        <childnode refid="62" relation="include">
+        </childnode>
+      </node>
+      <node id="76">
+        <label>include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h</label>
+        <link refid="_ningguang_orchid_fixer_8h"/>
+        <childnode refid="63" relation="include">
+        </childnode>
+      </node>
+      <node id="77">
+        <label>include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h</label>
         <link refid="_raiden_fixer_8h"/>
         <childnode refid="46" relation="include">
         </childnode>
       </node>
-      <node id="74">
-        <label>include/AGRemapCore/data/IniFixData/RosariaCNFixer.h</label>
-        <link refid="_rosaria_c_n_fixer_8h"/>
-        <childnode refid="60" relation="include">
+      <node id="78">
+        <label>include/AGRemapCore/data/IniFixData/Rosaria/RosariaFixer.h</label>
+        <link refid="_rosaria_fixer_8h"/>
+        <childnode refid="64" relation="include">
         </childnode>
       </node>
-      <node id="75">
-        <label>include/AGRemapCore/data/IniFixData/RosariaFixer.h</label>
-        <link refid="_rosaria_fixer_8h"/>
-        <childnode refid="61" relation="include">
+      <node id="79">
+        <label>include/AGRemapCore/data/IniFixData/RosariaCN/RosariaCNFixer.h</label>
+        <link refid="_rosaria_c_n_fixer_8h"/>
+        <childnode refid="65" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -419,13 +429,7 @@
         <link refid="_ini_fix_builder_8h"/>
         <childnode refid="49" relation="include">
         </childnode>
-        <childnode refid="62" relation="include">
-        </childnode>
-        <childnode refid="63" relation="include">
-        </childnode>
-        <childnode refid="64" relation="include">
-        </childnode>
-        <childnode refid="65" relation="include">
+        <childnode refid="53" relation="include">
         </childnode>
         <childnode refid="66" relation="include">
         </childnode>
@@ -447,13 +451,21 @@
         </childnode>
         <childnode refid="75" relation="include">
         </childnode>
+        <childnode refid="76" relation="include">
+        </childnode>
+        <childnode refid="77" relation="include">
+        </childnode>
+        <childnode refid="78" relation="include">
+        </childnode>
+        <childnode refid="79" relation="include">
+        </childnode>
         <childnode refid="6" relation="include">
         </childnode>
         <childnode refid="8" relation="include">
         </childnode>
         <childnode refid="35" relation="include">
         </childnode>
-        <childnode refid="76" relation="include">
+        <childnode refid="51" relation="include">
         </childnode>
       </node>
       <node id="44">
@@ -488,125 +500,129 @@
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
+      <node id="50">
+        <label>src/constants/StrategyOverrides.cpp</label>
+        <link refid="_strategy_overrides_8cpp"/>
+      </node>
       <node id="30">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="50">
-        <label>src/data/IniFixData/AmberCNFixer.cpp</label>
-        <link refid="_amber_c_n_fixer_8cpp"/>
-      </node>
-      <node id="51">
-        <label>src/data/IniFixData/AmberFixer.cpp</label>
+      <node id="54">
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
         <link refid="_amber_fixer_8cpp"/>
+      </node>
+      <node id="55">
+        <label>src/data/IniFixData/AmberCN/AmberCNFixer.cpp</label>
+        <link refid="_amber_c_n_fixer_8cpp"/>
       </node>
       <node id="45">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
-      <node id="52">
-        <label>src/data/IniFixData/GanyuTwilightFixer.cpp</label>
+      <node id="56">
+        <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
         <link refid="_ganyu_twilight_fixer_8cpp"/>
       </node>
-      <node id="53">
-        <label>src/data/IniFixData/JeanCNFixer.cpp</label>
-        <link refid="_jean_c_n_fixer_8cpp"/>
-      </node>
-      <node id="54">
-        <label>src/data/IniFixData/JeanFixer.cpp</label>
+      <node id="57">
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
-      <node id="55">
-        <label>src/data/IniFixData/JeanSeaFixer.cpp</label>
-        <link refid="_jean_sea_fixer_8cpp"/>
-      </node>
-      <node id="56">
-        <label>src/data/IniFixData/MonaCNFixer.cpp</label>
-        <link refid="_mona_c_n_fixer_8cpp"/>
-      </node>
-      <node id="57">
-        <label>src/data/IniFixData/MonaFixer.cpp</label>
-        <link refid="_mona_fixer_8cpp"/>
-      </node>
       <node id="58">
-        <label>src/data/IniFixData/NingguangFixer.cpp</label>
-        <link refid="_ningguang_fixer_8cpp"/>
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
       <node id="59">
-        <label>src/data/IniFixData/NingguangOrchidFixer.cpp</label>
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
+        <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="60">
+        <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
+        <link refid="_mona_fixer_8cpp"/>
+      </node>
+      <node id="61">
+        <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
+        <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
+      <node id="62">
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
+        <link refid="_ningguang_fixer_8cpp"/>
+      </node>
+      <node id="63">
+        <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
         <link refid="_ningguang_orchid_fixer_8cpp"/>
       </node>
       <node id="46">
-        <label>src/data/IniFixData/RaidenFixer.cpp</label>
+        <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="60">
-        <label>src/data/IniFixData/RosariaCNFixer.cpp</label>
-        <link refid="_rosaria_c_n_fixer_8cpp"/>
-      </node>
-      <node id="61">
-        <label>src/data/IniFixData/RosariaFixer.cpp</label>
+      <node id="64">
+        <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
         <link refid="_rosaria_fixer_8cpp"/>
+      </node>
+      <node id="65">
+        <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
+        <link refid="_rosaria_c_n_fixer_8cpp"/>
       </node>
       <node id="31">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
       <node id="15">
-        <label>src/data/IniParseData/AmberCNParser.cpp</label>
-        <link refid="_amber_c_n_parser_8cpp"/>
+        <label>src/data/IniParseData/Amber/AmberParser.cpp</label>
+        <link refid="_amber_parser_8cpp"/>
       </node>
       <node id="16">
-        <label>src/data/IniParseData/AmberParser.cpp</label>
-        <link refid="_amber_parser_8cpp"/>
+        <label>src/data/IniParseData/AmberCN/AmberCNParser.cpp</label>
+        <link refid="_amber_c_n_parser_8cpp"/>
       </node>
       <node id="17">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
       <node id="18">
-        <label>src/data/IniParseData/GanyuParser.cpp</label>
+        <label>src/data/IniParseData/Ganyu/GanyuParser.cpp</label>
         <link refid="_ganyu_parser_8cpp"/>
       </node>
       <node id="19">
-        <label>src/data/IniParseData/GanyuTwilightParser.cpp</label>
+        <label>src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp</label>
         <link refid="_ganyu_twilight_parser_8cpp"/>
       </node>
       <node id="20">
-        <label>src/data/IniParseData/JeanCNParser.cpp</label>
-        <link refid="_jean_c_n_parser_8cpp"/>
-      </node>
-      <node id="21">
-        <label>src/data/IniParseData/JeanParser.cpp</label>
+        <label>src/data/IniParseData/Jean/JeanParser.cpp</label>
         <link refid="_jean_parser_8cpp"/>
       </node>
+      <node id="21">
+        <label>src/data/IniParseData/JeanCN/JeanCNParser.cpp</label>
+        <link refid="_jean_c_n_parser_8cpp"/>
+      </node>
       <node id="22">
-        <label>src/data/IniParseData/JeanSeaParser.cpp</label>
+        <label>src/data/IniParseData/JeanSea/JeanSeaParser.cpp</label>
         <link refid="_jean_sea_parser_8cpp"/>
       </node>
       <node id="23">
-        <label>src/data/IniParseData/MonaCNParser.cpp</label>
-        <link refid="_mona_c_n_parser_8cpp"/>
-      </node>
-      <node id="24">
-        <label>src/data/IniParseData/MonaParser.cpp</label>
+        <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="25">
-        <label>src/data/IniParseData/NingguangOrchidParser.cpp</label>
-        <link refid="_ningguang_orchid_parser_8cpp"/>
+      <node id="24">
+        <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
+        <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="26">
-        <label>src/data/IniParseData/NingguangParser.cpp</label>
+      <node id="25">
+        <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
+      <node id="26">
+        <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
+        <link refid="_ningguang_orchid_parser_8cpp"/>
+      </node>
       <node id="27">
-        <label>src/data/IniParseData/RosariaCNParser.cpp</label>
-        <link refid="_rosaria_c_n_parser_8cpp"/>
+        <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
+        <link refid="_rosaria_parser_8cpp"/>
       </node>
       <node id="28">
-        <label>src/data/IniParseData/RosariaParser.cpp</label>
-        <link refid="_rosaria_parser_8cpp"/>
+        <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
+        <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
       <node id="32">
         <label>src/data/IniRemoveBuilderData.cpp</label>
@@ -640,7 +656,7 @@
         <label>src/model/strategies/iniFixers/IniFileFixContext.cpp</label>
         <link refid="_ini_file_fix_context_8cpp"/>
       </node>
-      <node id="76">
+      <node id="51">
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
       </node>
@@ -651,6 +667,10 @@
       <node id="42">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
+      </node>
+      <node id="52">
+        <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
+        <link refid="_ini_parse_builder_8cpp"/>
       </node>
       <node id="43">
         <label>src/model/strategies/iniRemovers/IniFileRemoveContext.cpp</label>

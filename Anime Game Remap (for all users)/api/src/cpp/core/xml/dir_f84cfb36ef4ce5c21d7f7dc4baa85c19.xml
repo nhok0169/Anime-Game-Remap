@@ -2,21 +2,21 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="dir_f84cfb36ef4ce5c21d7f7dc4baa85c19" kind="dir">
     <compoundname>include/AGRemapCore/data/IniParseData</compoundname>
-    <innerfile refid="_amber_c_n_parser_8h">AmberCNParser.h</innerfile>
-    <innerfile refid="_amber_parser_8h">AmberParser.h</innerfile>
-    <innerfile refid="_ganyu_parser_8h">GanyuParser.h</innerfile>
-    <innerfile refid="_ganyu_twilight_parser_8h">GanyuTwilightParser.h</innerfile>
+    <innerdir refid="dir_83cda2f89c690c47357dd5e732b16140">include/AGRemapCore/data/IniParseData/Amber</innerdir>
+    <innerdir refid="dir_293a34424fcae5426feda7d1fe148afb">include/AGRemapCore/data/IniParseData/AmberCN</innerdir>
+    <innerdir refid="dir_8c017fcfcb851fa920b7a282154e289f">include/AGRemapCore/data/IniParseData/Ganyu</innerdir>
+    <innerdir refid="dir_f40dda9a821247a25ad7eada9084068a">include/AGRemapCore/data/IniParseData/GanyuTwilight</innerdir>
+    <innerdir refid="dir_9db41a4702b612b576078bf78be7f79d">include/AGRemapCore/data/IniParseData/Jean</innerdir>
+    <innerdir refid="dir_697e9e3e62000ebab761ab0c13cbdc0c">include/AGRemapCore/data/IniParseData/JeanCN</innerdir>
+    <innerdir refid="dir_b906138f5ab7278d37d810f2f6a48fa4">include/AGRemapCore/data/IniParseData/JeanSea</innerdir>
+    <innerdir refid="dir_504b10f3dae4b02b15cf78dfaec4fd46">include/AGRemapCore/data/IniParseData/Mona</innerdir>
+    <innerdir refid="dir_2970c4f8f58992fe03449489402f452e">include/AGRemapCore/data/IniParseData/MonaCN</innerdir>
+    <innerdir refid="dir_4dd32f71b959b765c42a6e80a512d85a">include/AGRemapCore/data/IniParseData/Ningguang</innerdir>
+    <innerdir refid="dir_4e76c9eb36ead777555ebfda974d5f8d">include/AGRemapCore/data/IniParseData/NingguangOrchid</innerdir>
+    <innerdir refid="dir_94ba6e7066ec85135a97e7354f5d89a1">include/AGRemapCore/data/IniParseData/Raiden</innerdir>
+    <innerdir refid="dir_7d1c53dc97e8538dd018cdb2ca3e072d">include/AGRemapCore/data/IniParseData/Rosaria</innerdir>
+    <innerdir refid="dir_7a35054c216e84c39600e9f3c201a29e">include/AGRemapCore/data/IniParseData/RosariaCN</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
-    <innerfile refid="_jean_c_n_parser_8h">JeanCNParser.h</innerfile>
-    <innerfile refid="_jean_parser_8h">JeanParser.h</innerfile>
-    <innerfile refid="_jean_sea_parser_8h">JeanSeaParser.h</innerfile>
-    <innerfile refid="_mona_c_n_parser_8h">MonaCNParser.h</innerfile>
-    <innerfile refid="_mona_parser_8h">MonaParser.h</innerfile>
-    <innerfile refid="_ningguang_orchid_parser_8h">NingguangOrchidParser.h</innerfile>
-    <innerfile refid="_ningguang_parser_8h">NingguangParser.h</innerfile>
-    <innerfile refid="_raiden_parser_8h">RaidenParser.h</innerfile>
-    <innerfile refid="_rosaria_c_n_parser_8h">RosariaCNParser.h</innerfile>
-    <innerfile refid="_rosaria_parser_8h">RosariaParser.h</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

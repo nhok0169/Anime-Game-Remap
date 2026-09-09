@@ -11,6 +11,7 @@
     <innerfile refid="_global_mod_types_8cpp">GlobalModTypes.cpp</innerfile>
     <innerfile refid="_if_pred_part_type_8cpp">IfPredPartType.cpp</innerfile>
     <innerfile refid="_mod_type_id_8cpp">ModTypeId.cpp</innerfile>
+    <innerfile refid="_strategy_overrides_8cpp">StrategyOverrides.cpp</innerfile>
     <briefdescription>
     </briefdescription>
     <detaileddescription>

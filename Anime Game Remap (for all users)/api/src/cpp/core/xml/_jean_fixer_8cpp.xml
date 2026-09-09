@@ -2,7 +2,7 @@
 <doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
   <compounddef id="_jean_fixer_8cpp" kind="file" language="C++">
     <compoundname>JeanFixer.cpp</compoundname>
-    <includes refid="_jean_fixer_8h" local="yes">AGRemapCore/data/IniFixData/JeanFixer.h</includes>
+    <includes refid="_jean_fixer_8h" local="yes">AGRemapCore/data/IniFixData/Jean/JeanFixer.h</includes>
     <includes local="no">algorithm</includes>
     <includes local="no">cstdint</includes>
     <includes local="no">vector</includes>
@@ -63,7 +63,7 @@
         </childnode>
       </node>
       <node id="2">
-        <label>AGRemapCore/data/IniFixData/JeanFixer.h</label>
+        <label>AGRemapCore/data/IniFixData/Jean/JeanFixer.h</label>
         <link refid="_jean_fixer_8h"/>
         <childnode refid="3" relation="include">
         </childnode>
@@ -709,7 +709,7 @@
         </childnode>
       </node>
       <node id="1">
-        <label>src/data/IniFixData/JeanFixer.cpp</label>
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
         <childnode refid="2" relation="include">
         </childnode>
@@ -855,7 +855,7 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/JeanFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Jean/JeanFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
@@ -922,6 +922,6 @@
 <codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="66"><highlight class="normal">}</highlight></codeline>
     </programlisting>
-    <location file="src/data/IniFixData/JeanFixer.cpp"/>
+    <location file="src/data/IniFixData/Jean/JeanFixer.cpp"/>
   </compounddef>
 </doxygen>

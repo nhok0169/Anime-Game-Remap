@@ -36,7 +36,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.amber4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="55" column="45" bodyfile="src/data/IniParseData/AmberParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="55" column="45" bodyfile="src/data/IniParseData/Amber/AmberParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac929d9cdc7d62f7339d4b5c340553daa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.amberCN4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="64" column="45" bodyfile="src/data/IniParseData/AmberCNParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="64" column="45" bodyfile="src/data/IniParseData/AmberCN/AmberCNParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a502d26b86aafae48ba9ab5b234092755" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -216,7 +216,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyu4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="145" column="45" bodyfile="src/data/IniParseData/GanyuParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="145" column="45" bodyfile="src/data/IniParseData/Ganyu/GanyuParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aeebc7e425eb78900d9c78bb796b8c7a3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -252,7 +252,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="163" column="45" bodyfile="src/data/IniParseData/JeanParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="163" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab3b6237fbb2821397b3c994628ea2bd1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -270,7 +270,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="172" column="45" bodyfile="src/data/IniParseData/JeanCNParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="172" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ab838f53a93fae925bdfca1942e1f5ac7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -288,7 +288,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanSea4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="181" column="45" bodyfile="src/data/IniParseData/JeanSeaParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="181" column="45" bodyfile="src/data/IniParseData/JeanSea/JeanSeaParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1adb2979e5e4d865d5cb71f4f223824c13" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -468,7 +468,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.mona4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="271" column="45" bodyfile="src/data/IniParseData/MonaParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="271" column="45" bodyfile="src/data/IniParseData/Mona/MonaParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1af77157f3eef27fc14605beda38503e27" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -486,7 +486,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.monaCN4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="280" column="45" bodyfile="src/data/IniParseData/MonaCNParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="280" column="45" bodyfile="src/data/IniParseData/MonaCN/MonaCNParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a7ece50a08ec244f427dd711faaba9194" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -522,7 +522,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguang4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="298" column="45" bodyfile="src/data/IniParseData/NingguangParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="298" column="45" bodyfile="src/data/IniParseData/Ningguang/NingguangParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a155a078f9f48dedb7e81dee3c9ae4936" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -540,7 +540,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ningguangOrchid4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="307" column="45" bodyfile="src/data/IniParseData/NingguangOrchidParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="307" column="45" bodyfile="src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a93059e5c526ef4a195bbd10609c8515d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -576,7 +576,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.rosaria4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="325" column="45" bodyfile="src/data/IniParseData/RosariaParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="325" column="45" bodyfile="src/data/IniParseData/Rosaria/RosariaParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1aba5d21fbe2290687a020692917d97814" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -594,7 +594,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.rosariaCN4_0`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="334" column="45" bodyfile="src/data/IniParseData/RosariaCNParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="334" column="45" bodyfile="src/data/IniParseData/RosariaCN/RosariaCNParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1ac45679f6579c3c1a2125c3400c02ea79" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -666,7 +666,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight4_4`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="370" column="45" bodyfile="src/data/IniParseData/GanyuTwilightParser.cpp" bodystart="10" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="370" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="10" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a29d6a9fd985eedcc12e74228995af0b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -810,7 +810,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jean5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="442" column="45" bodyfile="src/data/IniParseData/JeanParser.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="442" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a733ff7ae38e26c46982dd4b890cc32d3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -828,7 +828,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.jeanCN5_5`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="451" column="45" bodyfile="src/data/IniParseData/JeanCNParser.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="451" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a09100cb463cc1d53172cc98183fb2762" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -882,7 +882,7 @@ Stub for the pure-Python ``IniParseBuilderFuncs.ganyuTwilight5_7`` -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="478" column="45" bodyfile="src/data/IniParseData/GanyuTwilightParser.cpp" bodystart="36" bodyend="38"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="478" column="45" bodyfile="src/data/IniParseData/GanyuTwilight/GanyuTwilightParser.cpp" bodystart="36" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_parse_builder_funcs_1a74b17e79acb1867c28a6853ba5a9dd1c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -990,7 +990,7 @@ attributed to several mod objects -- see the constructed parser&apos;s own comme
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="541" column="45" bodyfile="src/data/IniParseData/RaidenParser.cpp" bodystart="95" bodyend="129"/>
+        <location file="include/AGRemapCore/data/IniParseBuilderData.h" line="541" column="45" bodyfile="src/data/IniParseData/Raiden/RaidenParser.cpp" bodystart="95" bodyend="129"/>
       </memberdef>
     </sectiondef>
     <briefdescription>

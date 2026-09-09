@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/MonaCNFixer.h" line="21" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h" line="21" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era MonaCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/MonaCNFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/MonaCNFixer.cpp" bodystart="23" bodyend="25"/>
+        <location file="include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/MonaCN/MonaCNFixer.cpp" bodystart="23" bodyend="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@ MonaCN&apos;s own ``.ini`` fixers, one per game version she needed a new one at
 Pair this with :cpp:class:`MonaCNParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/MonaCNFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/MonaCNFixer.h" bodystart="18" bodyend="31"/>
+    <location file="include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/MonaCN/MonaCNFixer.h" bodystart="18" bodyend="31"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mona_c_n_fixer_1a85e4d0c7daebf94889b56de7cc9eb5b1" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaCNFixer</scope><name>MonaCNFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_mona_c_n_fixer_1a2fa629ec07e96f5752e74304fc8293a0" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaCNFixer</scope><name>v6_1</name></member>

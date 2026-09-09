@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/JeanSeaParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h" line="24" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Jean ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/JeanSeaParser.h" line="33" column="45" bodyfile="src/data/IniParseData/JeanSeaParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h" line="33" column="45" bodyfile="src/data/IniParseData/JeanSea/JeanSeaParser.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -52,7 +52,7 @@ but the parser is shared between them, because what a Jean ``.ini`` file *contai
 depend on what it is being remapped to
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/JeanSeaParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/JeanSeaParser.h" bodystart="21" bodyend="35"/>
+    <location file="include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/JeanSea/JeanSeaParser.h" bodystart="21" bodyend="35"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_sea_parser_1acb3e7a5e680d89f3eea8becc7834aa8a" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaParser</scope><name>JeanSeaParser</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_sea_parser_1a52c5c3394f905de124cd8915e9aa88fa" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanSeaParser</scope><name>v4_0</name></member>

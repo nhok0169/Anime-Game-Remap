@@ -1,0 +1,323 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_strategy_overrides" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::StrategyOverrides</compoundname>
+    <includes refid="_strategy_overrides_8h" local="no">StrategyOverrides.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_strategy_overrides_1a705b9215029367a963b4eb96deff2e70" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>using AGRemapCore::StrategyOverrides::ParseFactory = IniParseBuilder::Factory</definition>
+        <argsstring></argsstring>
+        <name>ParseFactory</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::ParseFactory</qualifiedname>
+        <briefdescription>
+<para>The factory an override supplies for a parser <ndash/> see :cpp:type:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="47" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" prot="public" static="no">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>using AGRemapCore::StrategyOverrides::FixFactory = IniFixBuilder::Factory</definition>
+        <argsstring></argsstring>
+        <name>FixFactory</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::FixFactory</qualifiedname>
+        <briefdescription>
+<para>The factory an override supplies for a fixer <ndash/> see :cpp:type:<computeroutput><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="52" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a664c18542071d5e61f37783523187207" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::StrategyOverrides::setParser</definition>
+        <argsstring>(std::string modName, std::optional&lt; Version &gt; version, ParseFactory factory)</argsstring>
+        <name>setParser</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::setParser</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_strategy_overrides_1a705b9215029367a963b4eb96deff2e70" kindref="member">ParseFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Registers a parser factory for &apos;modName&apos;. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>modName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod type the override applies to, eg. <computeroutput>"Raiden"</computeroutput> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>version</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The exact version to override, or ``std::nullopt`` for every version :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to build the parser with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="67" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="78" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1ab963a419ff3fc1ed347cda66080cbf65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::StrategyOverrides::setFixer</definition>
+        <argsstring>(std::string fromModName, std::string toModName, std::optional&lt; Version &gt; fromVersion, FixFactory factory)</argsstring>
+        <name>setFixer</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::setFixer</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>fromModName</declname>
+        </param>
+        <param>
+          <type>std::string</type>
+          <declname>toModName</declname>
+        </param>
+        <param>
+          <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <param>
+          <type><ref refid="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" kindref="member">FixFactory</ref></type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para>Registers a fixer factory for the <computeroutput>fromModName</computeroutput> -&gt; <computeroutput>toModName</computeroutput> remap. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>fromModName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod being fixed </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>toModName</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The mod being fixed <emphasis>to</emphasis> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>fromVersion</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><verbatim>embed:rst 
+The exact version of ``fromModName`` to override, or ``std::nullopt`` for every version
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Only the *from* version is keyed on -- that is the one a run resolves off the ``.ini``
+file being fixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**Default**: ``std::nullopt``
+</verbatim> </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>What to build the fixer with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="86" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="95" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a9ba63e74daf330ec0db000a6b899bf6d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_strategy_overrides_1a705b9215029367a963b4eb96deff2e70" kindref="member">ParseFactory</ref> &gt;</type>
+        <definition>std::optional&lt; StrategyOverrides::ParseFactory &gt; AGRemapCore::StrategyOverrides::findParser</definition>
+        <argsstring>(const std::string &amp;modName, const std::optional&lt; Version &gt; &amp;version)</argsstring>
+        <name>findParser</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::findParser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>modName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>version</declname>
+        </param>
+        <briefdescription>
+<para>The parser factory registered for &apos;modName&apos; at &apos;version&apos;, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="92" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="110" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a368cd6af7f9e94c41bb1928491b07165" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" kindref="member">FixFactory</ref> &gt;</type>
+        <definition>std::optional&lt; StrategyOverrides::FixFactory &gt; AGRemapCore::StrategyOverrides::findFixer</definition>
+        <argsstring>(const std::string &amp;fromModName, const std::string &amp;toModName, const std::optional&lt; Version &gt; &amp;fromVersion)</argsstring>
+        <name>findFixer</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::findFixer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fromModName</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>toModName</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
+          <declname>fromVersion</declname>
+        </param>
+        <briefdescription>
+<para>The fixer factory registered for the &apos;fromModName&apos; -&gt; &apos;toModName&apos; remap, if any. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="98" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="134" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1aaaf625c4433ef1c971e8543e9df2217e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; AGRemapCore::StrategyOverrides::fixerTargets</definition>
+        <argsstring>(const std::string &amp;fromModName)</argsstring>
+        <name>fixerTargets</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::fixerTargets</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>fromModName</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Every ``toModName`` registered for &apos;fromModName&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+:cpp:func:`IniFixBuilder::buildAll` uses this to surface a target the built-in table has
+no row for at all, which is what lets a brand-new remap be prototyped rather than only
+an existing one replaced
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="112" column="32" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="160" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1aecc36c73d9316cd9fd3e6e1640cb6f96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void AGRemapCore::StrategyOverrides::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::clear</qualifiedname>
+        <briefdescription>
+<para>Removes every registered override. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="117" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="186" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a554ab9d2d2dc2c67c8cf18867f609ab7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool AGRemapCore::StrategyOverrides::empty</definition>
+        <argsstring>()</argsstring>
+        <name>empty</name>
+        <qualifiedname>AGRemapCore::StrategyOverrides::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Whether nothing is registered :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Checked first by both builders so an ordinary run pays one empty-container test rather
+than a lookup
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="128" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="192" bodyend="194"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+A process-wide table of parser/fixer factories that take precedence over the built-in ones
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+**What this is for.** Every `IniParser`_/`IniFixer`_ this library ships is compiled into
+`AGRemapCore`, which is what makes a run fast and what makes trying a new idea slow -- a change
+to one character&apos;s fix is a C++ rebuild. Registering a factory here overrides the built-in row
+for a mod **at runtime**, so a new parse or fix can be written in `Python`_, run, and thrown
+away without rebuilding anything. It exists for that prototyping loop; a fix worth keeping
+belongs in ``data/IniFixData/&lt;Name&gt;/``.
+
+**Matching mirrors the built-in tables** (:cpp:class:`ModDictAssets`): a request carrying a
+version takes the highest override at or below it, and a request carrying none means &quot;the
+newest&quot;, taking the highest override registered. An override registered *without* a version is
+the fallback, used only when no versioned one applied.
+
+Exact matching was tried first and is wrong for what this class is for. A run resolves a mod&apos;s
+version off the ``.ini`` and normally passes **no** version at all, so an override registered
+for ``6.1`` never fired on an ordinary run -- which is the case &quot;override Raiden 6.1&quot; means.
+
+.. warning::
+   Not synchronised. Register and clear **around** a run, never during one -- a mutex on
+   :cpp:func:`findParser` would sit in the path of every ``.ini`` file for the benefit of a
+   prototyping aid.
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="42" column="5" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="42" bodyend="129"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1aecc36c73d9316cd9fd3e6e1640cb6f96" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>clear</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a554ab9d2d2dc2c67c8cf18867f609ab7" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>empty</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a368cd6af7f9e94c41bb1928491b07165" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>findFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a9ba63e74daf330ec0db000a6b899bf6d" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>findParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1aaaf625c4433ef1c971e8543e9df2217e" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>fixerTargets</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>FixFactory</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a705b9215029367a963b4eb96deff2e70" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>ParseFactory</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1ab963a419ff3fc1ed347cda66080cbf65" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>setFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a664c18542071d5e61f37783523187207" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>setParser</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/RosariaCNParser.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h" line="22" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era RosariaCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/RosariaCNParser.h" line="31" column="45" bodyfile="src/data/IniParseData/RosariaCNParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h" line="31" column="45" bodyfile="src/data/IniParseData/RosariaCN/RosariaCNParser.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,7 +50,7 @@ Pair this with :cpp:class:`RosariaCNFixer`: the fixer&apos;s mod objects are the
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/RosariaCNParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/RosariaCNParser.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/RosariaCN/RosariaCNParser.h" bodystart="19" bodyend="32"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_rosaria_c_n_parser_1a6aa2f5c8b7230161e698bf1947a414d0" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaCNParser</scope><name>RosariaCNParser</name></member>
       <member refid="class_a_g_remap_core_1_1_rosaria_c_n_parser_1a076cee1d8be156e45be455d5d8823558" prot="public" virt="non-virtual"><scope>AGRemapCore::RosariaCNParser</scope><name>v4_0</name></member>

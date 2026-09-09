@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/MonaParser.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Mona/MonaParser.h" line="22" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Mona ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/MonaParser.h" line="31" column="45" bodyfile="src/data/IniParseData/MonaParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/Mona/MonaParser.h" line="31" column="45" bodyfile="src/data/IniParseData/Mona/MonaParser.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,7 +50,7 @@ Pair this with :cpp:class:`MonaFixer`: the fixer&apos;s mod objects are the ones
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/MonaParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/MonaParser.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/data/IniParseData/Mona/MonaParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Mona/MonaParser.h" bodystart="19" bodyend="32"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mona_parser_1aeee31a358817d52124142a38b87c0864" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaParser</scope><name>MonaParser</name></member>
       <member refid="class_a_g_remap_core_1_1_mona_parser_1ad200bf816bdf9573dbe312ad691aa5ef" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaParser</scope><name>v4_0</name></member>

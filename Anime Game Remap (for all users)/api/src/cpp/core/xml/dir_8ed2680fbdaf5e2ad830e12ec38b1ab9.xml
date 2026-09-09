@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_8ed2680fbdaf5e2ad830e12ec38b1ab9" kind="dir">
+    <compoundname>src/data/IniParseData/NingguangOrchid</compoundname>
+    <innerfile refid="_ningguang_orchid_parser_8cpp">NingguangOrchidParser.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/data/IniParseData/NingguangOrchid/"/>
+  </compounddef>
+</doxygen>

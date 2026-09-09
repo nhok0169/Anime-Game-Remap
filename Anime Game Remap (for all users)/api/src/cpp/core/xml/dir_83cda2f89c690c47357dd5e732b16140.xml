@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_83cda2f89c690c47357dd5e732b16140" kind="dir">
+    <compoundname>include/AGRemapCore/data/IniParseData/Amber</compoundname>
+    <innerfile refid="_amber_parser_8h">AmberParser.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/Amber/"/>
+  </compounddef>
+</doxygen>

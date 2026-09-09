@@ -34,6 +34,24 @@ void PyIniGroupedResource::addResource(py::object resType, py::object resource) 
     resources[resType] = resource;
 }
 
+std::vector<AGRC::IniResource*> PyIniGroupedResource::memberResources() const {
+    std::vector<AGRC::IniResource*> result;
+
+    for (auto item : resources) {
+        py::handle value = item.second;
+
+        // isinstance rather than a try/cast: a placeholder tuple is the normal contents of a
+        // half-built group, not an error worth an exception per entry.
+        if (!py::isinstance<AGRC::IniResource>(value)) {
+            continue;
+        }
+
+        result.push_back(value.cast<AGRC::IniResource*>());
+    }
+
+    return result;
+}
+
 py::object iniGroupedResourceDeepCopy(const PyIniGroupedResource& self, py::object memo) {
     py::object deepcopy = py::module_::import("copy").attr("deepcopy");
     py::object newResources = deepcopy(self.resources, memo);
@@ -154,6 +172,25 @@ resType: Any
 
 resource: Any
     The resource to add
+        )doc"))
+
+        .def("memberResources", &PyIniGroupedResource::memberResources,
+            py::return_value_policy::reference_internal, py::doc(R"doc(
+Retrieves every :class:`IniResource` in :attr:`resources`
+
+.. note::
+    :attr:`resources` is general-purpose scratch storage, so anything in it that is not a
+    resource -- the placeholder tuples ``ResGroupCollect`` fills it with before the group is
+    built -- is simply not listed
+
+This is how the remap reads a group's members: they are **not** in the C++ class's own map,
+and reading that map instead is why a grouped fix used to be credited to nothing and why
+``--compressTextures`` did not reach a texture inside a group
+
+Returns
+-------
+List[:class:`IniResource`]
+    The resources in the group
         )doc"))
 
         .def("__deepcopy__", &iniGroupedResourceDeepCopy, py::arg("memo"), py::doc(R"doc(

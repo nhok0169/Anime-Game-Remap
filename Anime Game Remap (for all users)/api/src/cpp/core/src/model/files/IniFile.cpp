@@ -617,21 +617,16 @@ namespace AGRemapCore {
         addFrom(resources_);
         addFrom(fileDownloads_);
 
-        // A group's members are real resources with real paths, so they count the same way.
-        //
-        // Nothing is reachable through here TODAY: every group that exists is built from
-        // Python, and PyIniGroupedResource keeps its members in a py::dict that shadows this
-        // map -- so core sees an empty one. Written anyway because the alternative is a rule
-        // that holds only by accident of who happens to build the groups.
+        // A group's members are real resources with real paths, so they count the same way --
+        // through memberResources(), which is the only way to see the members of a group built
+        // from Python.
         for (const std::shared_ptr<IniGroupedResource>& group : groupedResources_) {
             if (group == nullptr) {
                 continue;
             }
 
-            for (const auto& entry : group->resources) {
-                if (entry.second != nullptr) {
-                    addResource(*entry.second);
-                }
+            for (const IniResource* member : group->memberResources()) {
+                addResource(*member);
             }
         }
 

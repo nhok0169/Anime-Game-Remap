@@ -1782,12 +1782,27 @@ but the core `IniFile` had nowhere at all to put a group: `getResources()` is a
   reporting success. `smart_holder` will hand out a `shared_ptr` that *shares* with the Python
   object instead of taking from it, which is the ownership this actually needs.
 
-One gap is left, deliberately and with a test pinning it
-(`test_pythonGroupedResource_isFixedByTheService`): **a Python-built group's fix is not
-counted.** `PyIniGroupedResource` keeps its members in a `py::dict` that shadows
-`IniGroupedResource::resources`, so `_recordGroupMembers` looks at an empty map and credits
-nothing --- while the file really was written. Closing it means giving core a way to see those
-members; crediting the group as though it were a file would be worse than the gap.
+**`IniGroupedResource::memberResources()` is how you read a group's members --- never off
+`resources` directly.** `PyIniGroupedResource` keeps its members in a `py::dict` (keyed by whole
+mod objects) that **shadows** the C++ map, so every core-side walk of a real group found it
+empty. That one shadowing cost two separate things, neither of which announced itself:
+
+* a grouped fix was credited to no file at all, while the file it wrote really existed
+* `--compressTextures` never reached a texture inside a group, because the push-down in
+  `_fixResource` walks the same map --- the exact failure the comment there was written to
+  prevent
+
+The accessor is `virtual`; the base walks the C++ map and the pybind11 subclass walks its dict,
+keeping whatever really is a resource (`ResGroupCollect` fills the dict with placeholder tuples
+before the group is built, so a half-built group legitimately holds both). `_recordGroupMembers`,
+`_fixGroupedResource` and `IniFile::getReferencedFolders` all go through it, and it is bound as
+`IniGroupedResource.memberResources()` so the mechanism is testable on its own
+(`test_IniGroupedResource.py`) rather than only through a whole service run.
+
+The general shape is worth keeping: **a `Py*` class that shadows a core member silently breaks
+every core-side reader of it.** Shadowing is sometimes unavoidable here --- the dict holds
+arbitrary Python keys the string-keyed map cannot --- but it has to come with a virtual accessor,
+or the core half quietly operates on an empty container.
 
 ### `StrategyOverrides`: replacing a parser or fixer without rebuilding
 

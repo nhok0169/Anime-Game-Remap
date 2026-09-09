@@ -1,4 +1,5 @@
 import copy
+import os
 import sys
 
 from .baseUnitTest import BaseUnitTest
@@ -152,3 +153,35 @@ class RemapIniGroupedResourceTest(BaseUnitTest):
         self.assertIsInstance(rg2, FRB.RemapIniGroupedResource)
         self.compareDict(rg2.resources, rg.resources)
         self.assertIsNot(rg2.resources, rg.resources)
+
+    # ====================== memberResources ============================
+
+    def test_memberResources_emptyGroup(self):
+        rg = FRB.RemapIniGroupedResource("group1")
+        self.assertEqual(rg.memberResources(), [])
+
+    def test_memberResources_skipsThePlaceholders(self):
+        # The normal contents of a half-built group. ResGroupCollect fills 'resources' with
+        # placeholder tuples and replaces them with real models as they are built, so a group
+        # legitimately holds both and this must not raise on the tuples.
+        rg = FRB.RemapIniGroupedResource("group1")
+        rg.resources[(0, "comp", "obj")] = ("fileKey1", "rootSection", None, 0)
+
+        self.assertEqual(rg.memberResources(), [])
+
+    def test_memberResources_findsTheRealResources(self):
+        # Why this exists at all: 'resources' is a Python dict that SHADOWS the C++ class's own
+        # map, so every core-side walk of a group's members came back empty. A grouped fix was
+        # therefore credited to no file, and --compressTextures never reached a texture inside
+        # a group. Both read through here now.
+        rg = FRB.RemapIniGroupedResource("group1")
+        # A real folder: IniFixResource resolves both paths against it, and an empty one throws.
+        folder = os.getcwd()
+        resource = FRB.IniFixResource("blend", folder, "src.buf", "fixed.buf")
+
+        rg.resources[(0, "comp", "placeholder")] = ("fileKey1", "rootSection", None, 0)
+        rg.addResource((0, "comp", "obj"), resource)
+
+        members = rg.memberResources()
+        self.assertEqual(len(members), 1)
+        self.assertEqual(members[0].srcPath, resource.srcPath)

@@ -2,6 +2,7 @@
 #define AGRemapPyBind_PyIniGroupedResource_H
 
 #include <functional>
+#include <vector>
 
 #include <pybind11/pybind11.h>
 
@@ -41,6 +42,13 @@ class PyIniGroupedResource: public AGRemapCore::IniGroupedResource {
         // Python value (a placeholder tuple, or a real resource object) under an arbitrary hashable
         // Python key, instead of requiring a std::unique_ptr<IniResource>.
         void addResource(pybind11::object resType, pybind11::object resource);
+
+        // The whole point of this override: #resources shadows the base class's map, so every
+        // core-side walk of a group's members found nothing until this existed. Entries that are
+        // not resources are skipped rather than being an error -- ResGroupCollect fills the dict
+        // with placeholder tuples first and replaces them with real models as they are built, so
+        // a half-built group legitimately holds both.
+        std::vector<AGRemapCore::IniResource*> memberResources() const override;
 };
 
 // Shared __deepcopy__ implementation for PyIniGroupedResource and any Python-facing subclass of it

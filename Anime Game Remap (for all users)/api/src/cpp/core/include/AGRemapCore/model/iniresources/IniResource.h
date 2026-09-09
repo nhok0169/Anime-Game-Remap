@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <vector>
 
 #include "AGRemapCore/view/BaseLogger.h"
 
@@ -243,6 +244,25 @@ namespace AGRemapCore {
              * @param resource The resource to add -- ownership is transferred into this group
              */
             void addResource(const std::string& resType, std::unique_ptr<IniResource> resource);
+
+            /**
+             * @brief
+             @rst
+             Every resource this group holds, **borrowed** -- the group keeps ownership, and
+             the pointers live only as long as it does :raw-html:`<br />` :raw-html:`<br />`
+
+             ``virtual``, and that is the whole reason it exists: the `pybind11`_-facing
+             ``PyIniGroupedResource`` stores its members in a `Python`_ ``dict`` keyed by whole
+             mod objects rather than in #resources, so a caller reading #resources directly
+             finds every `Python`_-built group empty. Both of the things core does with a
+             group's members -- crediting the fix to them, and pushing the
+             ``--compressTextures`` override down into them -- went silently to zero because of
+             that. Read them through here, never off #resources
+             @endrst
+             *
+             * @return Every member resource, in no particular order
+             */
+            virtual std::vector<IniResource*> memberResources() const;
 
         protected:
 

@@ -917,29 +917,24 @@ namespace AGRemapCore {
 
     void RemapService::_recordGroupMembers(IniGroupedResource& group, std::exception_ptr error) {
         // Credited per MEMBER, because the stats buckets are keyed by a file and a group is not
-        // one -- it has a name, no source path, and no type.
+        // one -- it has a name, no source path, and no type. So a group of a blend and two
+        // textures reports as one blend and two textures, which is what was actually written.
         //
-        // SAY THIS OUT LOUD, because it is a real gap and a silently uncounted fix is exactly
-        // the failure this file's own AmberCN note is about: a group built from Python keeps
-        // its members in a py::dict that shadows IniGroupedResource::resources, so core sees
-        // none of them and such a group is fixed without being counted anywhere. Every group
-        // that exists today is one of those. Counting it as a file it is not would be worse.
-        for (auto& entry : group.resources) {
-            if (entry.second == nullptr) {
-                continue;
-            }
-
-            FileStats* resourceStats = stats.get(entry.second->type);
+        // memberResources() rather than 'resources' directly, for the reason its own doc
+        // comment gives: read off the map, this counted nothing for any group that has ever
+        // existed, while the files really were being written.
+        for (IniResource* member : group.memberResources()) {
+            FileStats* resourceStats = stats.get(member->type);
             if (resourceStats == nullptr) {
                 continue;
             }
 
             if (error != nullptr) {
-                resourceStats->addSkipped(entry.second->srcPath, error, path_);
+                resourceStats->addSkipped(member->srcPath, error, path_);
                 continue;
             }
 
-            resourceStats->addFixed(_fixedPathOf(*entry.second));
+            resourceStats->addFixed(_fixedPathOf(*member));
         }
     }
 
@@ -987,10 +982,13 @@ namespace AGRemapCore {
         // A group fixes its own members, so they never reach _fixResource on their own -- the
         // compress override has to be pushed down to them here or a texture inside a group would
         // quietly keep compressing while every texture outside one stopped.
-        for (auto& entry : resource.resources) {
-            if (entry.second != nullptr) {
-                _applyCompressTextures(*entry.second);
-            }
+        //
+        // Through memberResources() rather than off 'resources': a Python-built group keeps its
+        // members somewhere else entirely, and reading the map directly found every real group
+        // empty -- so this push-down did nothing at all, which is exactly what the paragraph
+        // above says must not happen.
+        for (IniResource* member : resource.memberResources()) {
+            _applyCompressTextures(*member);
         }
 
         return resource.fix();

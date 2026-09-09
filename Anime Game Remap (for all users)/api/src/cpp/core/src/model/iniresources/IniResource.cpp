@@ -41,4 +41,17 @@ namespace AGRemapCore {
     void IniGroupedResource::addResource(const std::string& resType, std::unique_ptr<IniResource> resource) {
         resources[resType] = std::move(resource);
     }
+
+    std::vector<IniResource*> IniGroupedResource::memberResources() const {
+        std::vector<IniResource*> result;
+        result.reserve(resources.size());
+
+        for (const auto& entry : resources) {
+            if (entry.second != nullptr) {
+                result.push_back(entry.second.get());
+            }
+        }
+
+        return result;
+    }
 }

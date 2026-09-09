@@ -816,8 +816,11 @@ class StrategyOverridesTest(BaseUnitTest):
             self.assertEqual(len(fixedBytes), len(srcBytes))
             self.assertNotEqual(fixedBytes, srcBytes)
 
-            # NOT counted, and pinned so the gap cannot be mistaken for an accident. A group built
-            # from Python keeps its members in a dict that shadows the C++ one, so the stats layer
-            # sees a group with no members and credits nothing -- while the file above really was
-            # written. Fixing that means giving core a way to see those members.
-            self.assertEqual(list(service.stats.blend.fixed), [])
+            # Counted, per MEMBER. This is the assertion the gap used to sit behind: a Python-built
+            # group keeps its members in a dict that shadows the C++ map, so every core-side walk of
+            # them came back empty and a group fixed a file while reporting nothing. They are read
+            # through IniGroupedResource::memberResources() now, which the Python subclass
+            # overrides.
+            self.assertEqual(sorted(service.stats.blend.fixed),
+                             [os.path.join(folder, written[0])])
+            self.assertEqual(dict(service.stats.blend.skipped), {})

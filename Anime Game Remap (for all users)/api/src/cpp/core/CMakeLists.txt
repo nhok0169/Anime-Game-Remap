@@ -178,6 +178,175 @@ add_library(AGRemapCore STATIC
 add_library(AGRemapCore::AGRemapCore ALIAS AGRemapCore)
 
 # -----------------------------------
+# Build speed
+# -----------------------------------
+
+# Unity ("jumbo") build for AGRemapCore: compile the sources in batches, one translation unit per
+#   batch, so the ~300 headers under core/include are parsed once per batch instead of once per
+#   .cpp. It is wired up and it works -- but it is OFF by default, because on the dev machine it
+#   measured as a net LOSS. All four combinations, timed end to end (see the LTO note in
+#   py/CMakeLists.txt for the other axis; every row already has VGRemapData.cpp at /Od):
+#
+#                              change one .cpp     change one common header
+#     no unity, no LTO              8.6s                    129.5s
+#     no unity, LTO                57.5s                    119.5s
+#     unity,    no LTO             25.5s                    123.6s
+#     unity,    LTO                75.2s                    111.4s
+#
+#   Unity buys about 6s on a header change and costs about 17s on a single-file change, which is
+#   the far more common edit. The reason is that this machine has 24 hardware threads and the
+#   library only has ~150 translation units, so it was never short of parallelism to begin with:
+#   batching 16 files into one TU mostly converts work that was running in parallel into work
+#   that runs serially, and makes ninja rebuild all 16 when you touch one of them.
+#
+# That trade can invert, so the switch is left in place rather than deleted: on a machine with
+#   few cores, or for a genuine from-scratch build where total CPU work matters more than the
+#   critical path, turn it on with -DAGREMAP_UNITY_BUILD=ON.
+#
+# Two things had to be fixed before a batch would compile at all, and both will bite again:
+#
+#   1. NOMINMAX below. Something in the batch reaches <windows.h> transitively (via
+#      compressonator.h or curl), and its min/max macros then wreck any file compiled after it
+#      in the same TU: tsl/ordered_hash.h's `std::min(hi, std::max(lo, v))` fails with
+#      "C2589: '(': illegal token on right side of '::'", which reads like a corrupt header
+#      rather than a macro collision. ColourRange.cpp's `min(min), max(max)` member-init list is
+#      the other obvious casualty. Nothing in core/ wants those macros (verified by grep), so
+#      this is applied unconditionally -- it is a strict improvement, and it trims preprocessing
+#      whether or not the unity build is on.
+#
+#   2. AGREMAP_UNITY_EXCLUDE below. Files sharing an anonymous-namespace helper name with another
+#      file become redefinition errors once folded together.
+#
+# If a newly added .cpp breaks a batch, exclude that one file rather than turning this off:
+#   set_source_files_properties(<file> PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+option(AGREMAP_UNITY_BUILD "Compile AGRemapCore's sources in unity (jumbo) batches" OFF)
+
+if(WIN32)
+    target_compile_definitions(AGRemapCore PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN)
+endif()
+
+# These 17 each define at least one anonymous-namespace name that another file also defines --
+#   BlendHashKey, IbHashKey, ModObj and prototypeRepo in four files each, buildRows in three,
+#   and 15 more in two. They keep their own translation unit; everything else batches. Renaming
+#   those helpers (internal linkage, so a purely local edit with no ABI or behavioural
+#   consequence) would let these fold in too.
+#
+# Derived by brace-counting every `namespace { ... }` body in core/src at any nesting depth --
+#   note that nearly all of them sit inside `namespace AGRemapCore { ... }`, so a scan that only
+#   looks for anonymous namespaces at file scope reports zero clashes and is wrong.
+set(AGREMAP_UNITY_EXCLUDE
+    "src/data/IniFixBuilderData.cpp"
+    "src/data/IniParseBuilderData.cpp"
+    "src/data/IniRemoveBuilderData.cpp"
+    "src/data/IniFixData/GIMICharFixer.cpp"
+    "src/data/IniFixData/RaidenFixer.cpp"
+    "src/data/IniParseData/GIMICharParser.cpp"
+    "src/data/IniParseData/RaidenParser.cpp"
+    "src/model/assets/Hashes.cpp"
+    "src/model/assets/Indices.cpp"
+    "src/model/assets/VGRemaps.cpp"
+    "src/model/assets/VertexCounts.cpp"
+    "src/model/buffers/BufFloat.cpp"
+    "src/model/buffers/BufUnorm.cpp"
+    "src/model/iftemplate/IfPredParser.cpp"
+    "src/model/iftemplate/SympyParser.cpp"
+    "src/tools/parsing/IfPredTokenizer.cpp"
+    "src/tools/parsing/SympyTokenizer.cpp"
+)
+
+# Vendored third-party C, not ours to reason about -- keep it out of the batches too.
+set_source_files_properties(
+    ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
+    PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+)
+
+if(AGREMAP_UNITY_BUILD)
+    set_target_properties(AGRemapCore PROPERTIES
+        UNITY_BUILD ON
+        UNITY_BUILD_MODE BATCH
+        UNITY_BUILD_BATCH_SIZE 16
+    )
+
+    set_source_files_properties(
+        ${AGREMAP_UNITY_EXCLUDE}
+        PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON
+    )
+endif()
+
+# VGRemapData.cpp is a single function holding one static initializer: 52 VGRemap rows built out
+#   of 5,229 nested {a, b} pair initializers. MSVC's optimizer is superlinear in the size of that
+#   one expression -- measured 38.6s at /O2 and 37.7s at /O1 against 5.5s at /Od standalone, and
+#   ~80s inside the parallel build, where it single-handedly gated AGRemapCore.lib and so sat on
+#   the critical path of every core header change (dropping it took that cycle from 137.9s to
+#   119.5s). There is nothing worth optimizing here: the file builds a lookup table once at
+#   startup and is never hot. /O1 is not enough, it needs /Od. HashData.cpp has a similar shape
+#   but is NOT affected (9.4s vs 9.0s), so this is scoped to the one file rather than to data/.
+#
+# SKIP_UNITY_BUILD_INCLUSION is required, not optional, whenever the unity build is on: a file's
+#   per-source COMPILE_OPTIONS do not survive being folded into a batch, so without it the /Od
+#   below would silently do nothing and this file would be back to costing 80s inside someone
+#   else's batch.
+set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES SKIP_UNITY_BUILD_INCLUSION ON)
+
+if(MSVC)
+    # This appends, giving "/O2 /Ob2 ... /Od" -- CMake can only add to a source's flags, never
+    #   remove an inherited one, and MSVC takes the last /O switch. Verified on MSVC 14.50 that
+    #   the flag really lands and really takes effect (VGRemapData.cpp.obj went from 80.4s to
+    #   14.2s in the parallel build); this toolset emits no D9025 override warning for the pair.
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES COMPILE_OPTIONS "/Od")
+else()
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES COMPILE_OPTIONS "-O0")
+endif()
+
+# Precompiled header. Deliberately third-party and standard-library headers ONLY: nothing from
+#   core/include goes in here. A PCH is rebuilt, and every consumer of it recompiled, whenever
+#   any header inside it changes -- so putting this library's own headers in would turn a
+#   one-header edit into a guaranteed full-target rebuild, which is precisely the case this is
+#   meant to make cheaper.
+#
+# The list is the top of `grep -rho "#include <...>" src include | sort | uniq -c | sort -rn`,
+#   cut where the counts stop being interesting. <filesystem> and <variant> are next but are
+#   heavy relative to how many files want them.
+option(AGREMAP_PCH "Precompiled header for the pybind11 module" ON)
+option(AGREMAP_PCH_LIB "Precompiled header for AGRemapCore itself" ON)
+
+if(AGREMAP_PCH_LIB AND NOT AGREMAP_SCCACHE)
+    target_precompile_headers(AGRemapCore PRIVATE
+        <string>
+        <string_view>
+        <utility>
+        <vector>
+        <optional>
+        <memory>
+        <functional>
+        <unordered_map>
+        <unordered_set>
+        <set>
+        <algorithm>
+        <stdexcept>
+        <cstddef>
+        <cstdint>
+    )
+
+    # xxhash.c is C; a C++ PCH cannot apply to it, and CMake would otherwise try.
+    set_source_files_properties(
+        ${CMAKE_CURRENT_LIST_DIR}/../../../extern/xxHash/xxhash.c
+        PROPERTIES SKIP_PRECOMPILE_HEADERS ON
+    )
+
+    # VGRemapData.cpp compiles at /Od (above) while the PCH is built at /O2. MSVC will not reject
+    #   that outright -- it just stops being able to use the PCH, and the file pays for the whole
+    #   force-included header set on its own. Measured: 14.2s with the file excluded here against
+    #   144.2s with it included, i.e. worse than it was before /Od was ever applied, and enough
+    #   on its own to make the PCH look like a regression (a header change went 132.6s -> 150.5s
+    #   until this line was added). Any future source given per-file COMPILE_OPTIONS needs the
+    #   same treatment.
+    set_source_files_properties(src/data/VGRemapData.cpp PROPERTIES SKIP_PRECOMPILE_HEADERS ON)
+endif()
+
+
+
+# -----------------------------------
 # UTF8Proc
 # -----------------------------------
 

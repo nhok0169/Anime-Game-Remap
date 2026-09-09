@@ -1,3 +1,47 @@
+# -----------------------------------
+# Link-time optimization
+# -----------------------------------
+
+# pybind11_add_module() links pybind11::lto unless NO_EXTRAS is passed, which on MSVC means /GL
+#   on all ~149 binding translation units and -LTCG on the link. That is the right trade for a
+#   shipped wheel and the wrong one for the edit-compile-test loop, because the LTCG link is
+#   single-threaded, takes ~56s, and runs on EVERY build no matter how little changed:
+#
+#     change one .cpp in core/src  :   57.2s with LTO  ->    9.1s without
+#     rebuild all 149 binding TUs  :  109.8s with LTO  ->  178.5s without
+#
+#   Both directions are real, and the second one is why this is an option rather than a deletion.
+#   /GL makes compiling cheaper by deferring codegen to link time, so LTO wins on a full rebuild
+#   and loses badly on a small one; the crossover sits around 110 of the 149 files. Day-to-day
+#   iteration is nowhere near that, hence: off for python_dev, on for the cibuildwheel/core_sdk
+#   builds that actually ship binaries.
+#
+# There is also less on the table here than it looks: AGRemapCore is a plain static lib built
+#   without /GL, so LTCG only ever optimizes across the thin binding glue, never into the library.
+#
+# pybind11 adds its LTO flags only `if(NOT DEFINED CMAKE_INTERPROCEDURAL_OPTIMIZATION)`, so
+#   merely DEFINING that variable -- to OFF -- is what suppresses them. It must therefore be set
+#   before pybind11_add_module() below, not after.
+if ("${BUILD_MODE}" STREQUAL "${PYTHON_DEV_MODE}")
+    set(AGREMAP_LTO_DEFAULT OFF)
+else()
+    set(AGREMAP_LTO_DEFAULT ON)
+endif()
+
+option(AGREMAP_ENABLE_LTO "Link-time optimization for the 'core' extension module"
+       ${AGREMAP_LTO_DEFAULT})
+
+if(NOT AGREMAP_ENABLE_LTO)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+endif()
+
+# NOTE: this target is deliberately NOT unity-built, unlike AGRemapCore. It would be the bigger
+#   win of the two (measured 11x on a 19-file subset, 21x with a precompiled header), but 21
+#   anonymous-namespace helpers in py/src share names across files -- translateBufFileErrors in
+#   5, intVectorMapFromDict in 4, ModObj / factoryFromPy / makeRunConfig / parseDownloadMode in
+#   3 each -- and a unity batch turns each of those into a redefinition error. Renaming them, or
+#   hoisting them into a shared header, unblocks it.
+
 pybind11_add_module(core
     src/bindings.cpp
     src/tools/PyAlgo.cpp
@@ -154,6 +198,50 @@ pybind11_add_module(core
 set_target_properties(core PROPERTIES MSVC_USE_RESPONSE_FILES ON)
 
 target_link_libraries(core PRIVATE AGRemapCore::AGRemapCore)
+
+# -----------------------------------
+# Precompiled header
+# -----------------------------------
+
+# With LTO off, the critical path of a core-header change is now made up entirely of these 149
+#   binding translation units -- and most of what they spend their time on is not this project's
+#   code. pybind11/pybind11.h alone is the single largest thing every one of them parses.
+#
+# Measured on this target, one file at a time, at the flags the dev build actually uses:
+#     a small binding (PyInvertAlpha.cpp, 17 lines)  : 5.4s -> 2.7s
+#     a large one     (PyGIMIFixer.cpp)              : 10.9s -> 7.9s
+#
+# As with AGRemapCore's PCH: third-party and standard-library headers only, nothing from
+#   core/include, or a single header edit would invalidate the PCH and force all 149 to rebuild.
+#
+# pybind11/stl.h is in here even though only 79 of the sources include it today, which makes its
+#   container type casters visible to the other 70. That is safe *in this codebase specifically*,
+#   and it was checked rather than assumed: making stl.h's inclusion inconsistent across
+#   translation units is an ODR hazard when a container is declared opaque or bound as a class,
+#   and this project does neither -- no PYBIND11_MAKE_OPAQUE, no stl_bind.h/bind_vector/bind_map,
+#   and no py::class_ over a std:: or tsl:: type anywhere under py/src. If any of those are
+#   introduced later, take stl.h back out of this list.
+#
+# pybind11/numpy.h is deliberately absent: it is heavy and exactly one source wants it.
+if(AGREMAP_PCH AND NOT AGREMAP_SCCACHE)
+    target_precompile_headers(core PRIVATE
+        <pybind11/pybind11.h>
+        <pybind11/stl.h>
+        <pybind11/functional.h>
+        <string>
+        <utility>
+        <optional>
+        <vector>
+        <memory>
+        <unordered_map>
+        <unordered_set>
+        <tuple>
+        <functional>
+        <cstddef>
+        <cstdint>
+    )
+endif()
+
 
 set_target_properties(core PROPERTIES PREFIX "")
 

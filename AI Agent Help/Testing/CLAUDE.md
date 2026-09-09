@@ -457,6 +457,8 @@ all went from broken to fully passing in one pass), so **don't trust this list b
 re-verify rather than assuming stale entries are still accurate**, in either direction.
 
 > **Current baseline — verified 2026-09-06: 2005 tests, 0 failures, 7 errors, all from ONE cause.**
+> **Re-verified 2026-09-08: 2038 tests, 0 failures, still exactly these same 7 errors and the
+> same 7 modules.** The count drifts as tests are added (see below); the *identities* have not.
 > Every one of the seven is a `setUpClass` error reading
 > `AttributeError: module 'src.py.FixRaidenBoss2' has no attribute 'IniClassifierOld'`, and they
 > all come from two lines: `baseIniFileTest.py:19-20` calls `FRB.IniClassifierOld()` /

@@ -1,5 +1,7 @@
 #include "PyRemapService.h"
 
+#include "model/stats/PyStatsConversion.h"
+
 #include <memory>
 #include <optional>
 #include <string>
@@ -246,6 +248,21 @@ compression each mod type's own texture edit asked for. ``False`` (the default) 
     py::doc(R"doc(Optional[:class:`BaseLogger`]: Where the fix reports progress
 
 ``None`` means nowhere -- messages are dropped rather than buffered)doc"))
+
+        .def_property_readonly("stats",
+            [](const AGRC::RemapService &self) { return fromCppRemapStats(self.stats); },
+            py::doc(R"doc(
+:class:`RemapStats`: What the run counted --- fixed, skipped, removed and undone files, per kind
+
+A **snapshot**, rebuilt on every access rather than a live view, because the Python-facing
+:class:`RemapStats` is a standalone class rather than a binding of the core one. Read it *after*
+:meth:`fix`; mutating it does not affect the service.
+
+This is the only way to learn that a file failed when no logger is attached. One bad ``.ini`` stops
+that ``.ini`` rather than the whole walk, and the exception is recorded against
+``stats.ini.skipped[path]`` --- an exception raised from Python comes back as the original exception
+object, and a C++ one as a :class:`RuntimeError` carrying its message.
+)doc"))
 
         .def_property_readonly("path", &AGRC::RemapService::path,
     py::doc(R"doc(:class:`str`: The file path the fix runs from)doc"))

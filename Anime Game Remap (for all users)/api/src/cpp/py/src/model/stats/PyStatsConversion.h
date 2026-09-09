@@ -76,6 +76,76 @@ inline AGRemapCore::RemapStats toCppRemapStats(const PyRemapStats &py) {
     return result;
 }
 
+// The C++ -> Python direction, whole rather than the partial copyBack below. Needed because
+// PyRemapStats is a standalone class, not a binding of AGRemapCore::RemapStats, so a core stats
+// object cannot simply be handed to Python by reference.
+//
+// Unlike toCppFileStats, this one keeps the error: an exception raised in Python and caught as a
+// py::error_already_set still holds the original exception object, so a Python factory that threw
+// round-trips exactly. A plain C++ exception has no Python counterpart to restore, so it becomes a
+// RuntimeError carrying what() -- the same information RemapService's own describeException logs.
+inline pybind11::object pyErrorFrom(std::exception_ptr error) {
+    if (!error) {
+        return pybind11::none();
+    }
+
+    try {
+        std::rethrow_exception(error);
+    } catch (pybind11::error_already_set &pyError) {
+        return pyError.value();
+    } catch (const std::exception &exception) {
+        return pybind11::module_::import("builtins").attr("RuntimeError")(exception.what());
+    } catch (...) {
+        return pybind11::module_::import("builtins").attr("RuntimeError")("an unknown error");
+    }
+}
+
+
+inline PyFileStats fromCppFileStats(const AGRemapCore::FileStats &src) {
+    PyFileStats result;
+    result.fixed = src.fixed;
+    result.removed = src.removed;
+    result.undoed = src.undoed;
+    result.visitedAtRemoval = src.visitedAtRemoval;
+
+    for (const auto &entry : src.skipped) {
+        result.skipped[entry.first] = pyErrorFrom(entry.second);
+    }
+
+    for (const auto &modEntry : src.skippedByMods) {
+        auto &dstMod = result.skippedByMods[modEntry.first];
+        for (const auto &entry : modEntry.second) {
+            dstMod[entry.first] = pyErrorFrom(entry.second);
+        }
+    }
+
+    return result;
+}
+
+
+inline PyCachedFileStats fromCppCachedFileStats(const AGRemapCore::CachedFileStats &src) {
+    PyCachedFileStats result;
+    static_cast<PyFileStats &>(result) = fromCppFileStats(src);
+    result.hit = src.hit;
+    return result;
+}
+
+
+inline PyRemapStats fromCppRemapStats(const AGRemapCore::RemapStats &src) {
+    PyRemapStats result;
+    result.blend = fromCppFileStats(src.blend);
+    result.position = fromCppFileStats(src.position);
+    result.texcoord = fromCppFileStats(src.texcoord);
+    result.buf = fromCppFileStats(src.buf);
+    result.other = fromCppFileStats(src.other);
+    result.ini = fromCppFileStats(src.ini);
+    result.texEdit = fromCppFileStats(src.texEdit);
+    result.texAdd = fromCppFileStats(src.texAdd);
+    result.download = fromCppCachedFileStats(src.download);
+    return result;
+}
+
+
 inline void copyBackFileStats(const AGRemapCore::FileStats &src, PyFileStats &dst) {
     dst.fixed = src.fixed;
     dst.removed = src.removed;

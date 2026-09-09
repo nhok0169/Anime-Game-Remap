@@ -18,6 +18,7 @@
 #include "tools/orderedMultiMap/PyIOrderedMultiMap.h"
 #include "model/iftemplate/PyIfContentPart.h"
 #include "model/iftemplate/PyIfContentPartColour.h"
+#include "data/PyGIMICharBuilders.h"
 #include "model/PyIniNamingTools.h"
 #include "model/PyVersion.h"
 #include "model/assets/PyModDictAssets.h"
@@ -199,6 +200,7 @@ PYBIND11_MODULE(core, m) {
 
     initCppModType(m);
     initCppGlobalModTypes(m); // must come after initCppModType (its all() returns CppModTypes)
+    initCppGIMICharBuilders(m); // must come after initCppTexEditor (a TexEdit filter) and before initCppStrategyOverrides (which recognises its factories)
     initCppStrategyOverrides(m); // takes Python factories; no ordering constraint of its own
     initCppGIBuilder(m); // must come after initCppModType (its methods return ModType) and initCppModTypeId (uses the ModTypeId enum)
     initCppIniClassifyStats(m);

@@ -1804,6 +1804,35 @@ every core-side reader of it.** Shadowing is sometimes unavoidable here --- the 
 arbitrary Python keys the string-keyed map cannot --- but it has to come with a virtual accessor,
 or the core half quietly operates on an empty container.
 
+### Overriding a character: the config route first (2026-09-09)
+
+**`GIMICharParserConfig`, `GIMICharFixerConfig`, `makeGIMICharParser` and `makeGIMICharFixer`
+are bound.** For a character of the standard GIMI shape --- drawn objects sharing one `ib` and
+separated by `match_first_index` --- overriding the fix is now a config declaration of about
+**38 lines**, not a hand-assembled strategy:
+
+```python
+config = FRB.GIMICharFixerConfig()
+config.drawnObjs = ["head", "body", "dress"]
+config.objRegRemaps = [("head", [("ps-t1", ["ps-t0"]), ("ps-t2", ["ps-t1"])])]
+config.objFixCalls = [("head", [NN_FIX, TN_0])]
+config.moveDrawIndexed = True
+
+FRB.CppStrategyOverrides.setFixer(MOD, TARGET, FRB.makeGIMICharFixer(config))
+```
+
+**This is the route to reach for.** It is the same factory the compiled-in characters use, so a
+mod type overridden with it is fixed exactly as one of them would be --- proven by the same A/B
+the hand-written version passes, and for the same GanyuTwilight.
+
+`setParser`/`setFixer` take either a built factory or a Python callable. A factory is used
+**as-is**: wrapping it in the callable path would send a C++-constructed strategy out to Python
+and back through `holdPyStrategy` for nothing, since no Python code ever touches it.
+
+Reach past it only for a fix the config cannot express --- a different shape entirely (a boss
+remap, say, which is what `RaidenParser` is), or an edit no field covers. The section below is
+what that costs.
+
 ### A whole character's fix, written in Python (2026-09-09)
 
 **GanyuTwilight's parser and fixer have been rewritten in Python, registered through

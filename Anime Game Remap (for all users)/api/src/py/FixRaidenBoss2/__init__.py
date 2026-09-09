@@ -145,6 +145,10 @@ from .core import BaseIniGraphPartEdit
 from .core import BaseRegEdit
 from .core import RegAdd
 from .core import CppIniNamingTools
+from .core import GIMICharParserConfig
+from .core import GIMICharFixerConfig
+from .core import makeGIMICharParser
+from .core import makeGIMICharFixer
 from .core import GIMIObjPartFilter
 from .core import RegAssetRemap
 from .core import RegNewVals
@@ -350,6 +354,7 @@ __all__ = ["CppListTools", "CppIntTools", "Ranges", "CppTrie", "CppAhoCorasickDF
            "IfTemplateNode", "IfTemplateTree", "IfTemplate", "CallGraph", "SectionIterData", "SectionIterQueryData", "IniSectionGraph",
            "BaseIniPartEdit", "BaseIniGraphPartEdit", "BaseRegEdit", "RegAdd", "RegAssetRemap", "RegNewVals", "RegRemap", "RegRemove",
            "GIMIObjPartFilter", "CppIniNamingTools",
+           "GIMICharParserConfig", "GIMICharFixerConfig", "makeGIMICharParser", "makeGIMICharFixer",
            "BaseIniGraphEdit", "GraphRename", "RegFillMissing",
            "GraphRemove", "GraphInherit", "GraphGroupRemap", "GraphGroupEdit",
            "BaseResEdit", "ResIdentity", "ResReplace", "ResCreate", "RemapBlendReplace", "TexCreate", "TexReplace", "ResRegCollect", "ResGroupCollect", "BaseIniGraphGroupEdit",

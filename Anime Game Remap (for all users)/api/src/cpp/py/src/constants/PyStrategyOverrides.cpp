@@ -10,11 +10,37 @@
 #include "AGRemapCore/model/Version.h"
 
 #include "../model/PyVersion.h"
+#include "../data/PyGIMICharBuilders.h"
 #include "../model/strategies/iniFixers/PyIniFixBuilder.h"
 #include "../model/strategies/iniParsers/PyIniParseBuilder.h"
 
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
+
+
+namespace {
+
+// A factory built by makeGIMICharParser/makeGIMICharFixer is used AS-IS. Wrapping it in the
+// Python-callable path instead would send a C++-constructed strategy out to Python and back
+// through holdPyStrategy for no reason -- nothing in Python ever touches it.
+AGRC::IniParseBuilder::Factory parseFactoryOf(py::object factory) {
+    if (py::isinstance<PyIniParseFactory>(factory)) {
+        return factory.cast<const PyIniParseFactory&>().factory;
+    }
+
+    return parseFactoryFromPy(std::move(factory));
+}
+
+
+AGRC::IniFixBuilder::Factory fixFactoryOf(py::object factory) {
+    if (py::isinstance<PyIniFixFactory>(factory)) {
+        return factory.cast<const PyIniFixFactory&>().factory;
+    }
+
+    return fixFactoryFromPy(std::move(factory));
+}
+
+}
 
 
 void initCppStrategyOverrides(py::module_ &m) {
@@ -58,7 +84,7 @@ It is a prototyping aid. A fix worth keeping belongs in the C++ tables.
         .def_static("setParser",
                     [](std::string modName, py::object factory, const py::object &version) {
                         AGRC::StrategyOverrides::setParser(std::move(modName), parseVersionArg(version),
-                                                            parseFactoryFromPy(std::move(factory)));
+                                                            parseFactoryOf(std::move(factory)));
                     },
                     py::arg("modName"), py::arg("factory"), py::arg("version") = py::none(),
                     py::doc(R"doc(
@@ -67,8 +93,10 @@ Registers a parser factory for a mod
 :param modName: The mod type the override applies to, eg. ``"Raiden"``
 :type modName: :class:`str`
 
-:param factory: Called as ``factory(iniFile, modTypeId)`` and must return a parser
-:type factory: Callable[[:class:`CppIniFile`, Optional[:class:`int`]], :class:`BaseIniParser`]
+:param factory:
+    Either a :class:`CppIniParseFactory` from :func:`makeGIMICharParser`, or a callable invoked
+    as ``factory(iniFile, modTypeId)`` returning a parser
+:type factory: Union[:class:`CppIniParseFactory`, Callable[[:class:`CppIniFile`, Optional[:class:`int`]], :class:`BaseIniParser`]]
 
 :param version:
     The version to override from, or ``None`` for every version --- an override registered here
@@ -82,7 +110,7 @@ Registers a parser factory for a mod
                        const py::object &version) {
                         AGRC::StrategyOverrides::setFixer(std::move(fromModName), std::move(toModName),
                                                            parseVersionArg(version),
-                                                           fixFactoryFromPy(std::move(factory)));
+                                                           fixFactoryOf(std::move(factory)));
                     },
                     py::arg("fromModName"), py::arg("toModName"), py::arg("factory"),
                     py::arg("version") = py::none(),

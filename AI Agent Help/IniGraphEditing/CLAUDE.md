@@ -474,6 +474,77 @@ primitive before writing anything by hand:
   an unconditional `from .core import ...` at module load, so the same Bash/Git-Bash DLL quirk
   applies to importing `FRB` at all, not just to a freshly-rebuilt native extension specifically.
 
+## `getKeyMissingParts`: one placement per graph, not one per section
+
+`RegFillMissing` sits on `IniSectionGraph::getKeyMissingParts`, and that function is much less naive
+than its name suggests. **It does not return "every part lacking the key".** Understanding it is the
+difference between one draw call and three.
+
+### The bubble-up
+
+`IfTemplate::getKeyMissingPartsNode` walks the tree and decides, per node:
+
+```cpp
+if (missingKeyChildrenTotal == childrenTotal) {
+    return {result.empty() ? childrenResult : result, true};   // bubble up: offer MY part
+}
+return {childrenResult, false};                                // only SOME missing: those branches
+```
+
+- **only some branches missing it** -> fill those branches
+- **all of them missing it** -> report `allBranchesMissing`, and the fill lands on the parent
+
+That second case is what puts a re-issued `drawindexed` on the `TextureOverride`, after the whole
+`CommandList` (and anything it set up) has run.
+
+Three things about it have each been wrong in this codebase, all fixed on 2026-09-08:
+
+1. **The guard used to require the node to own a content part.** `if (!result.empty() && ...)`. A
+   section ending on an `endif`, with nothing at root level after it, could therefore never report
+   `allBranchesMissing` -- so a fill dropped into its branches while its sibling sections bubbled
+   correctly. It looked like a per-character quirk and was one rule. Whether a node owns a part
+   decides *which* parts to offer, never whether the subtree is missing the key.
+
+2. **An external `run` target must count as a missing leaf.** `childrenTotal` counts every `run`
+   target, but the walk skips names that are not sections in this graph -- `CommandList\TexFx\...`,
+   `CommandList\global\ORFix\NNFix`. Skipping without counting made `missingKeyChildrenTotal ==
+   childrenTotal` unreachable, so **any section calling an external library could never bubble up**.
+   The pure-Python original's own comment names the right treatment: such a name is "a sink in the
+   command call graph and a leaf in the DFS tree", and a leaf holds no occurrence of the key.
+
+3. **`getKeyMissingParts` reports every section it visited**, including ones whose verdict a parent
+   then superseded by bubbling up. Filling all of them gives one placement *per section* instead of
+   per graph -- a second, redundant addition, which for a draw call is a second draw. Use
+   **`targetsGetKeyMissingParts`** (the roots/targets-only view, mirroring the pure-Python
+   `targetsGetKeyMissingParts`) for anything that wants one placement per graph. `RegFillMissing`
+   does.
+
+**If you write a new consumer, pick deliberately between the two.** `getKeyMissingParts` is still
+right for downloads, which are placed per section.
+
+## Mandatory vs optional additions: which edit to reach for
+
+Two register-keyed "add a `run =` call" jobs that look identical and are not:
+
+- **Mandatory, keyed on a delimiter** -- `RegDelimitedAdd`. Cut every execution path at each
+  delimiter; every delimiter-free segment holds the addition once, as late as possible.
+  **`pathEndOnlyWhenUndelimited`** (default `false`, so no existing caller moved) narrows the last
+  segment: with it, the end-of-path addition is made only for a path that never delimits at all.
+  Needed because a surplus call is not always harmless -- `ORFix` swaps the diffuse and lightmap
+  registers on every call. The condition must consult callees, since a part can end a path having
+  delimited nothing itself while the section it ran delimited before returning.
+
+- **Optional, keyed on the registers it reads** -- `RegSurroundedAdd` with **`optBeforeRegs`**, an
+  any-of "at least one of these must come before" group. Empty group -> no addition at all, which is
+  the whole point for an opt-in library. Reach for this before inventing a gate on
+  `RegDelimitedAdd`; one was written and thrown away when `optBeforeRegs` turned out to say it
+  already.
+
+**Before changing the placement rule of any of these, read its `test_Xxx.py` first.** They state
+their invariants deliberately in a header comment, and `test_RegDelimitedAdd.py`'s "every
+delimiter-free segment ... last delimiter -> end of path" is a specification, not an accident. A
+change to that rule went in twice and was reverted twice before the third attempt made it opt-in.
+
 ## When adding a new graph-editing feature
 
 - Check `IniSectionGraph`/`CallGraph`/`GraphTools` first for a primitive that already does what

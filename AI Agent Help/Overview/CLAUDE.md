@@ -224,11 +224,44 @@ instrumentation (that is what showed two serial steps were 136 of 138 seconds), 
 built is still allowed to lose** --- measure it against the case you actually care about and be
 willing to default it off, as happened here.
 
+**16. Habit 5 has a converse that costs more: AGREEMENT with the old script is not correctness.**
+Habit 5 says a divergence is not automatically a bug. The reverse trap is treating the old script's
+output as the specification and steering towards it. **The old pure-Python script is much less
+powerful than this library** -- it had no `RegFillMissing` and no complex graph filters, and
+simulated them with chains of the tools it did have. Its `IbRemapData`/`IbDrawIndexedRename` chain
+derives a draw call from wherever `ib` is bound, which is a *workaround*, and it places the draw
+ahead of anything the section sets up afterwards. That silently killed a mod's transparency. A whole
+session went into reproducing that topology exactly -- 25 draws matching 25, section by section --
+because the A/B rewarded it at every step. **When the reference and the mechanism disagree, work out
+what the output has to DO, and be ready for the answer that the old script is wrong.** The A/B is
+still the best tool here; it just answers "did I change anything" and not "is this right".
+
+**17. Sample the rows that belong to your subject, or you will confirm the wrong mechanism.** The
+sharpest self-inflicted wound of the session: a diagnostic printed one line per classifier decision,
+`Select-Object -First 4` showed four saying `count=0`, and that became "the key is absent from the
+colouring" -- a conclusion stated confidently, built on, and wrong, because those four rows belonged
+to the `IB` sections, which genuinely have no such key. The rows for the section under investigation
+said `count=1` and were never looked at. `-First N` / `head` on a filtered log is a **sample**, not a
+summary; filter to the subject (`grep -A1 section=TheOneIMean`) or aggregate (`sort | uniq -c`)
+before drawing a mechanism from it. The same instinct catches the cheaper version: `git show
+HEAD:<path>` with a cwd-relative path returns nothing and grep dutifully reports `0`, which reads
+exactly like "this content is absent from HEAD" when it means "that path does not resolve".
+
 <br>
 
 ## Operating norms
 
 - Don't push or open a PR unless asked. If you do, branch off `development`, not `nhok0169`.
+- **You may not be the only agent in this working tree, and `git checkout -- <file>` is
+  unrecoverable.** The maintainer runs several agents against the same checkout, so a file you did
+  not write can gain uncommitted work mid-session. This was noticed the lucky way: `RegDelimitedAdd`
+  grew a plural `Additions` API that `HEAD` did not have and that no script of mine had written --
+  another agent had reworked it while the session ran, and three earlier `git checkout --` calls on
+  that same file happened to predate it. **Prefer a targeted patch script that removes exactly your
+  own edit** over `git checkout --` on anything you did not create in this session; and if a file's
+  content stops matching what you read minutes ago, consider a concurrent editor before concluding
+  your own patch misfired. (Check your own backgrounded tasks first -- a backgrounded patch script
+  that already applied looks identical to someone else's edit.)
 - **Switching to `nhok0169` is not a cheap `git checkout` -- it removes your working directory and
   strands `development`'s submodules.** Confirmed hands-on 2026-09-06, doing a data-only change
   that had to land on both branches. Three things bite, in order:

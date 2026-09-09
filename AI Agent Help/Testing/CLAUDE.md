@@ -595,6 +595,31 @@ Every one of these was missed in a single 2026-09-05 change that deleted `remapS
    exception translation, trampoline dispatch, or how a bound enum crosses the boundary. See the
    next section but one; `test_RemapServiceCLI.py` is the worked example.
 
+## Read a shared edit class's `test_Xxx.py` BEFORE changing its rule, not after
+
+**Testing**'s advice to read a class's existing test as a behavioural contract is usually given for
+*porting*. It matters at least as much when you are changing an existing class's semantics, and
+skipping it cost two full build-and-revert cycles in one session.
+
+`test_RegDelimitedAdd.py` opens with a header comment stating its invariant outright -- "every
+delimiter-free segment (start -> first delimiter, delimiter -> delimiter, **last delimiter -> end of
+path**) holds the addition exactly once". A change that dropped that final segment looked obviously
+right from the `.ini` output, broke 14 tests, and turned out to be removing a call the reference
+genuinely makes. The third attempt made the new behaviour **opt-in with the old one as the default**,
+which broke nothing and let the one caller that wanted it ask.
+
+Two rules of thumb:
+
+- **A bound class is external API.** `RegDelimitedAdd` and `RegFillMissing` both have pybind
+  bindings, so changing their default behaviour changes it for callers outside this repo. Default to
+  a flag.
+- **When tests do have to change, change the setup, not the expectation, wherever the test's subject
+  allows it.** Thirteen `RegFillMissing` tests failed on the targets-only change; none of them was
+  *about* fill scope (they cover `partFilter`/`trackKeys`) and their graph's target list was
+  incidental, so declaring both sections as targets kept every assertion measuring what it was
+  written to measure. Weakening thirteen expectations would have hidden whatever else moved. Then
+  add a test for the contract that actually changed -- it had none.
+
 ## A C++ class bound to Python needs a Python test even when its C++ tests are thorough
 
 `core/tests/RemapServiceCLI_test.cpp` has 25 tests and `RemapService_fix_test.cpp` has 35, and
@@ -701,7 +726,7 @@ it**, and confirm afterwards with `git status --porcelain -- Data` (must be empt
 
 **Textures: only Jean and JeanCN currently write one.** Their fixer carries
 `config.texEdits = {{"body", "ps-t1", "ShadeLightMap", &JeanShading::liftLowAlpha}}`
-(`core/src/data/IniFixData/JeanFixer.cpp`), which is the only live `texEdits` row in the repo --- so
+(`core/src/data/IniFixData/Jean/JeanFixer.cpp`), which is the only live `texEdits` row in the repo --- so
 a change to the texture pipeline that you verify against the Raiden fixture has been verified against
 nothing at all. Measured over the Jean fixture (2026-09-07), a default run against `-c`
 (`--compressTextures`):
@@ -732,6 +757,31 @@ Both were in code no unit test imports, and both made the CLI unrunnable end to 
 
 If you change anything in `controller/`, `main.py`, or `remapServiceCLI.py`, the suites will not
 tell you whether the program still starts. Run it.
+
+## "Is my change the cause?" -- put it behind an env var and answer it in ONE build
+
+When something regresses and you have several changes in the tree, the instinct is to revert one and
+rebuild, then revert another and rebuild. At two minutes a header build that is slow, and at ten it
+is a session.
+
+Instead, make the suspect switchable at runtime:
+
+```cpp
+static const bool guardOff = (std::getenv("AGR_NO_HASHIND_GUARD") != nullptr);
+if (!guardOff && !hashInd.has_value()) {
+    continue;
+}
+```
+
+One build, then run the harness twice -- once with the variable set, once without. This settled in a
+single cycle that a classifier change was **not** what stopped the Raiden fixture producing a remap
+(byte-identical output either way), which redirected the search instead of burning two more builds
+confirming a hunch. `static const` means one `getenv` per process, so it costs nothing to leave in
+while you work; remove it in the same patch that concludes the investigation.
+
+Pair it with the arithmetic: if a suspect cannot reach the symptom at all -- the fixer in question
+registers no downloads, has its own fixer rather than the shared template, and does not use the edit
+you changed -- say so and look elsewhere rather than testing it anyway.
 
 ## Grepping `core/tests/` for the changed TYPE name is not enough --- grep for its CALL SITES too
 

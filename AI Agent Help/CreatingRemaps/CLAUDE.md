@@ -92,6 +92,12 @@ return makeGIMICharParser(std::move(config));
 | `texcoordStride` | 12 | 12 | **20** |
 | `moveDrawIndexed` | **true** | false | false |
 | download prefix | = folder | = folder | = folder (**not always**) |
+| `objFixCalls` | default (`NNFix`) | default | default |
+
+A fifth followed with GanyuTwilight: **`objFixCalls`**, which names the external libraries an object
+re-issues. It defaults to `NNFix` alone; GanyuTwilight's head is
+`{NNFixPath, TexFxTransparency0}`. Only characters whose row names a `TexFx` sub-command exercise
+the `TexFx` path at all -- see "The three external libraries" below.
 
 `moveDrawIndexed` is the nasty one. Amber and Mona ship *identically shaped*
 `[TextureOverride<Char>IB]` sections — `handling = skip` plus `drawindexed = auto` — and Amber's fix
@@ -145,12 +151,41 @@ The live tables are C++:
 | --- | --- |
 | Parse table | `api/src/cpp/core/src/data/IniParseBuilderData.cpp` |
 | Fix table | `api/src/cpp/core/src/data/IniFixBuilderData.cpp` |
-| One character's parser | `core/{include/AGRemapCore,src}/data/IniParseData/<Name>Parser.*` |
-| One character's fixer | `core/{include/AGRemapCore,src}/data/IniFixData/<Name>Fixer.*` |
+| One character's parser | `core/{include/AGRemapCore,src}/data/IniParseData/<Name>/<Name>Parser.*` |
+| One character's fixer | `core/{include/AGRemapCore,src}/data/IniFixData/<Name>/<Name>Fixer.*` |
 
 Most generators in those two tables are still stubs returning `defaultFactory()`, but **nine
 characters are real as of 2026-09-07** -- Amber, AmberCN, Jean, JeanCN, Mona, MonaCN, Raiden,
 Rosaria, RosariaCN. `ls core/src/data/IniFixData/` is the current answer; this sentence will go
+
+### Each character owns a folder (2026-09-08)
+
+`IniFixData/` and `IniParseData/` are one directory per character, on both the `src` and the
+`include` side:
+
+```
+core/src/data/IniFixData/
+    GIMICharFixer.cpp      <- shared by 13 characters, stays at the top level
+    DarkDiffuse.cpp        <- shared by Ningguang AND NingguangOrchid
+    JeanShading.cpp        <- shared by Jean AND JeanCN
+    Jean/JeanFixer.cpp
+    JeanCN/JeanCNFixer.cpp
+    GanyuTwilight/GanyuTwilightFixer.cpp
+    ...
+```
+
+**The rule: a character's own files live in its folder; a file used by MORE THAN ONE character stays
+at the top level of `IniFixData/`/`IniParseData/`.** That is what keeps `GIMICharFixer`,
+`GIMICharParser`, `DarkDiffuse` and `JeanShading` where they are -- each is shared. A helper used by
+exactly one character belongs inside that character's folder.
+
+So the include is `AGRemapCore/data/IniFixData/<Name>/<Name>Fixer.h`, and a new character means a
+new folder in four places (`src`/`include` x `IniFixData`/`IniParseData`) plus its `.cpp` paths in
+`core/CMakeLists.txt`, which lists sources explicitly rather than globbing.
+
+The character folders are keyed by **mod type**, not by family: `Jean`, `JeanCN` and `JeanSea` are
+three folders, because they are three characters. `Ganyu` has a parser folder and no fixer folder --
+its remap is not built yet.
 stale. Copy whichever existing one matches your character's *shape* (see the two shapes below), and
 note **Jean/JeanCN are the only pair carrying a `texEdits` row**, so they are the ones to read if
 your character needs a texture rewritten. A real generator is roughly an order of magnitude
@@ -227,7 +262,7 @@ Two more things that look like mistakes and are not:
   **newest** is the target -- the asset repo only ever holds the current game version.
 
 **Putting a file here does not wire it up.** Downloads are registered per character in
-`core/src/data/IniParseData/<Name>Parser.cpp` -- but the boilerplate lives in
+`core/src/data/IniParseData/<Name>/<Name>Parser.cpp` -- but the boilerplate lives in
 **`tools/DownloadTools.h`** as of 2026-09-06, so a new character writes only its own choices:
 
 ```cpp
@@ -401,11 +436,14 @@ It is not a catch-all in the classifier -- there is no fallback. It is several e
 These sections are a hash swap with no geometry, no index and no resource behind them, which is why
 one shared graph is enough.
 
-### A trailing `NNFix` after the last `drawindexed` is CORRECT -- do not "fix" it
+### The trailing fix call after the last `drawindexed` -- harmless for `NNFix`, NOT for `ORFix`
+
+**This section reversed on 2026-09-08. An earlier revision said the trailing call was correct and
+must not be "fixed"; that was true of `NNFix` and false of `ORFix`, and the rule has changed.**
 
 `RegDelimitedAdd` adds its `KVP` before every delimiter **and once at the end of every path-terminal
-part**, including when the delimiter is that part's last `KVP` and the stretch after it is empty. So
-a section that ends in `drawindexed` renders as:
+part** -- including when the delimiter is that part's last `KVP` and the stretch after it is empty.
+A section ending in `drawindexed` therefore renders as:
 
 ```ini
 run = CommandList\global\ORFix\NNFix
@@ -413,20 +451,113 @@ drawindexed = auto
 run = CommandList\global\ORFix\NNFix
 ```
 
-The old pure-Python script emits only the first, so an A/B **will** flag this as a divergence. It is
-not one. The behaviour is specified, it is pinned by nine tests in
-`Testing/Unit Tester/UnitTester/Tests/test_RegDelimitedAdd.py` -- read
-`test_edit_severalDelimitersInOnePart_beforeEachAndOnceAfterTheLast` and
-`test_edit_branchEndingRightAfterItsDraw_trailingInsertionInsideTheBranch` before touching it -- and
-**the maintainer confirmed in game (2026-09-06) that the extra call is harmless.** An `NNFix` after
-the final draw of a path is a no-op for that draw.
+That extra call really is a no-op for `NNFix` (confirmed in game 2026-09-06). **`ORFix` is not the
+same**: it swaps the diffuse and lightmap registers on *every* call, so a surplus call leaves them
+swapped, and the model renders green and yellow. GanyuTwilight re-issues `ORFix`, and that is how
+this surfaced.
 
-Raiden never shows it because her sections carry no `drawindexed` at all: the draw lives inside the
-`CommandList` her `TextureOverride` runs into, so the root part is one draw-free segment and gets
-exactly one. Amber shows it because `RegFillMissing` appends the `drawindexed` to the very end.
+So `RegDelimitedAdd` now takes **`pathEndOnlyWhenUndelimited`**, and `GIMICharFixer` passes `true`
+for the mandatory libraries:
 
-The header's "never twice in a row" line means *two insertions with nothing between them*, not an
-insertion following a delimiter. Reading it the other way costs a build cycle and nine red tests.
+- **`false` (the default)** -- every delimiter-free segment holds the addition, the last one
+  included. This is what the ~14 tests in `test_RegDelimitedAdd.py` pin, and it is what the bound
+  Python class still does for every external caller. Unchanged.
+- **`true`** -- before every delimiter, and at the end **only for a path that never delimits at
+  all**. That last clause is load-bearing: Mona and Rosaria have no `drawindexed` anywhere, so the
+  end-of-path addition is the *only* thing that places `NNFix` for them. "Never add at a path end"
+  would silently drop it.
+
+The condition has to consult the callee, not just the part: a `TextureOverride` that draws nothing
+itself has still drawn by the time control returns from the `CommandList` it ran.
+
+`RaidenFixer` builds its own `RegDelimitedAdd` and was deliberately left on the default -- it has no
+A/B fixture to prove a change against, and it documents the same rule in a comment. Worth revisiting
+if you touch it.
+
+**Do not read a line-count difference here as a behaviour difference.** Old writes the call in the
+two `$Tight` branches; we write it in the six `ib` branches. A path executes exactly one of each, so
+`6 vs 2` in the `.ini` is `1 vs 1` at runtime. Trace the execution order along one path before
+concluding anything -- see "Count per path, not per line" below.
+
+### The three external libraries are NOT one rule: two are mandatory, one is opt-in
+
+`NNFix`, `ORFix` and `TexFx` all live under `CommandList\global\...` / `CommandList\TexFx\`, and it
+is tempting to place all three the same way. That is wrong, and it shipped wrong.
+
+| | Mandatory? | Placed by | Keyed on |
+| --- | --- | --- | --- |
+| `NNFix`, `ORFix` | **yes** -- re-issued for every drawn object | `RegDelimitedAdd` | the draw call |
+| `TexFx` | **no** -- the modder opts in | `RegSurroundedAdd` | its own registers |
+
+`TexFx` owns two dedicated registers, `ps-t69` and `ps-t70` (`IniKeywords::PsT69` / `PsT70`). A
+modder opts into the library **by binding them**, so a `TexFx` sub-command belongs only after one of
+them is bound, and nowhere at all when neither is. It does not have to be the last thing on the
+path. That is exactly an any-of "must come before" group:
+
+```cpp
+RegSurroundedAdd<>(
+    RegSurroundedAdd<>::Additions{{IniKeywords::Run, path}},
+    RegSurroundedAdd<>::RegMap{},   // beforeRegs
+    RegSurroundedAdd<>::RegMap{},   // afterRegs
+    false,                          // latest
+    RegSurroundedAdd<>::RegMap{{IniKeywords::PsT69, {}}, {IniKeywords::PsT70, {}}});  // optBeforeRegs
+```
+
+Placing `TexFx` like `NNFix` put six `TN.0` calls on GanyuTwilight's head where one belongs.
+
+**And never delete a mod's own `TexFx` call.** `removeFixCalls_` strips the source's fix-library
+calls so the fixer can re-issue its own, which is right for the two mandatory ones. Matching `TexFx`
+by folder also deleted `run = CommandList\TexFx\Transparency.0` -- a feature of somebody's mod, that
+this fixer never re-issues and therefore cannot duplicate. The predicate strips ORFix/NNFix plus
+**only the `TexFx` sub-commands this character's `objFixCalls` names**, and leaves the rest alone.
+
+### Where `drawindexed` goes decides whether the mod's own effects work
+
+The single most expensive lesson of the GanyuTwilight session. A mod's `CommandList` often sets
+things up *after* its geometry bindings:
+
+```ini
+[CommandList<Mod>Dress]
+if $top == 0 ...
+    ib = ResourceDressIB.0
+    ps-t0 = ...
+endif
+if $DressTransparency == 1
+    ps-t69 = ResourceDressTransparency
+    run = CommandList\TexFx\Transparency.0
+endif
+```
+
+Unfixed, nothing in this section draws -- the draw lives in the shared `[CommandList<Mod>IB]`, which
+runs once this section has **returned**. So `ps-t69` and `TexFx` are in place before any geometry is
+rendered.
+
+Re-issuing the draw **inside the `ib` branches** puts it ahead of that block, and the dress is drawn
+before its transparency exists. The mod looks right and the transparency silently does nothing.
+
+So the draw is re-issued with **`RegFillMissing`**, which places it after everything the section
+sets up -- see [Ini Graph Editing](../IniGraphEditing/CLAUDE.md)'s "one placement per graph" section
+for the bubble-up that makes that work.
+
+**The old script derives the draw from `ib` and has this bug.** Its `IbRemapData` /
+`IbDrawIndexedRename` chain was simulating `RegFillMissing` with the filter tools it had -- it had no
+`RegFillMissing` and no complex graph filters. Reproducing its topology (which an A/B rewards) also
+reproduces the bug. **The old script is a reference, not a specification**; see
+[Overview](../Overview/CLAUDE.md)'s habit on agreement not being correctness.
+
+### Count per path, not per line
+
+Every count in this domain is a count along one **execution path**, and the `.ini` is not laid out
+per path. Two arrangements that differ wildly by `grep -c` can be identical at runtime:
+
+```
+old:  TO[ORFix] -> CL[draw, ORFix($Tight)] -> TO[draw]      = ORFix, draw, ORFix, draw
+new:  TO[     ] -> CL[ORFix(ib), draw]     -> TO[ORFix, draw] = ORFix, draw, ORFix, draw
+```
+
+`grep -c ORFix` says 16 vs 20; the runtime says one call before each draw, both ways. Before
+reporting a divergence, write out the order in which 3dmigoto executes one path -- `TextureOverride`
+KVPs in order, stepping into each `run =` where it appears and continuing after it returns.
 
 ### The face diffuse: white cheek spots are a REGISTER SWAP, not a bad texture
 

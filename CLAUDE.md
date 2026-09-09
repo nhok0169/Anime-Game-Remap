@@ -53,8 +53,10 @@ live tables are C++.** They are the pre-migration pure-Python tables, kept so an
 a character's fix used to do. Editing them changes nothing, and they cannot be wired back up:
 `CppIniParseBuilderArgs` is bound opaque ("there is no way to build one from Python yet"), so the
 version-keyed tables are unreachable from `ModData.IniParseBuilderArgs`. The real ones are
-`core/src/data/Ini{Parse,Fix}BuilderData.cpp`, with one file per character under
-`core/{include/AGRemapCore,src}/data/Ini{Parse,Fix}Data/`.
+`core/src/data/Ini{Parse,Fix}BuilderData.cpp`, with **one folder per character** under
+`core/{include/AGRemapCore,src}/data/Ini{Parse,Fix}Data/<Name>/` (2026-09-08). A file shared by more
+than one character -- `GIMICharFixer`, `GIMICharParser`, `DarkDiffuse`, `JeanShading` -- stays at the
+top level of those directories instead.
 
 **A "port this pure-Python class to C++" request is a well-trodden path here, not a one-off.**
 Several have landed already, and the accumulated conventions are load-bearing — read
@@ -98,13 +100,23 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**Nine characters are real now, in three DIFFERENT shapes, and which one you have decides almost
-everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry** (hashes
-kept, originals hidden). Amber/AmberCN, Mona/MonaCN and Rosaria/RosariaCN remap onto a **CN skin** --
-a genuinely different model (hashes replaced, originals left alone, indices forward-looked-up).
-Jean/JeanCN add the third: **two targets, and one of them draws objects the source does not have**,
-so Jean's `body` graph is *split* into JeanSea's `body` + `dress`. All are verified against the old
-pure-Python script and in game.
+**THIRTEEN characters are real now, in four DIFFERENT shapes, and which one you have decides
+almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
+(hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
+Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
+replaced, originals left alone, indices forward-looked-up). Jean/JeanCN/JeanSea add the third: **two
+targets, and one of them draws objects the source does not have**, so Jean's `body` graph is *split*
+into JeanSea's `body` + `dress`. **GanyuTwilight** adds the fourth, and it is the one that stresses
+the fix libraries: a `$swapvar`-branching `CommandList`, `moveDrawIndexed`, `ORFix`, and the only
+character so far that re-issues **`TexFx`** -- whose placement rule is genuinely different from
+`NNFix`/`ORFix`'s. All are verified against the old pure-Python script and in game (GanyuTwilight,
+JeanSea and JeanCN on 2026-09-08).
+
+**Placement of the re-issued draw call and of the three external libraries was substantially
+reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
+reproduced a real bug that silently disabled a mod's transparency. Read
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The three external libraries" and
+"Where `drawindexed` goes decides whether the mod's own effects work" before touching any of it.
 
 **A character with several targets is several rows in `IniFixBuilderData`, NOT a `MultiModFixer`** --
 that table is keyed by `(from mod, to mod)`, which is what made the pure-Python indirection
@@ -114,7 +126,7 @@ specification for the character (several have full Integration Tester goldens), 
 silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All nine characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+All thirteen characters also carry the **face diffuse register swap** (white shiny cheek spots), which
 has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
@@ -125,8 +137,9 @@ hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The f
 **THE FIX IS LIVE FOR NINE CHARACTERS (verified end-to-end 2026-09-07). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, Jean, JeanCN, Mona, MonaCN, Raiden,
-Rosaria, RosariaCN** (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
+has.** Real fixers and parsers exist for **Amber, AmberCN, GanyuTwilight, Jean, JeanCN, JeanSea,
+Mona, MonaCN, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN**
+(`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 

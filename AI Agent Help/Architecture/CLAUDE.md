@@ -1829,6 +1829,13 @@ the hand-written version passes, and for the same GanyuTwilight.
 **as-is**: wrapping it in the callable path would send a C++-constructed strategy out to Python
 and back through `holdPyStrategy` for nothing, since no Python code ever touches it.
 
+There is a worked example of each route next to the mods they fix: `Importer/GIMI/Mods/`
+`overrideScript.py` is the config one (38 lines of config, `--ab` proves it), and
+`overrideScript2.py` is the hand-built one --- a deliberately incomplete GanyuTwilight fix, chosen
+so each edit's effect is visible in the output it prints. Its own comments cover what a hand-written
+parser rule costs: it classifies by section NAME, so it has to skip what a previous fix wrote, which
+a hash-based classifier never has to think about.
+
 Reach past it only for a fix the config cannot express --- a different shape entirely (a boss
 remap, say, which is what `RaidenParser` is), or an edit no field covers. The section below is
 what that costs.

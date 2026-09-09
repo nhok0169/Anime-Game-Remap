@@ -502,6 +502,10 @@ PyGIMIParser::PyGIMIParser(py::object iniFile, py::object modObjs, py::object ob
 
 
 void PyGIMIParser::refresh() {
+    // '_iniFile' is assignable from Python, and the constructor sets it directly, so re-derive the
+    // core pointer here too -- see PyBaseIniParser::syncCoreIniFile.
+    this->syncCoreIniFile();
+
     std::vector<ModObj> parsedModObjs;
     if (!modObjsObj.is_none()) {
         for (auto item : modObjsObj) {
@@ -628,7 +632,8 @@ std::vector<PyGIMIParser::Core::GraphGroup> PyGIMIParser::groupsFromPy(py::objec
                 continue;
             }
 
-            auto* graph = graphObj.cast<Core::Graph*>();
+            // PyIniSectionGraph, not Core::Graph -- see collectParseResult's own note.
+            auto* graph = graphObj.cast<PyIniSectionGraph*>();
             if (graph == nullptr) {
                 continue;
             }
@@ -661,7 +666,10 @@ std::vector<PyGIMIParser::Core::GraphGroup> PyGIMIParser::collectParseResult() c
             continue;
         }
 
-        auto* graph = graphObj.cast<Core::Graph*>();
+        // PyIniSectionGraph, not Core::Graph: what pybind registered is the SUBCLASS, so
+        // casting to the base throws "Unable to cast ... to C++ type '?'". Every other
+        // binding here already does it this way.
+        auto* graph = graphObj.cast<PyIniSectionGraph*>();
         if (graph == nullptr) {
             continue;
         }

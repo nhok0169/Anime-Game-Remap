@@ -72,6 +72,27 @@ class PyBaseIniParser: public PyBaseIniParserCore {
         /**
          * @brief
          @rst
+         Points the inherited :cpp:class:`AGRemapCore::IniFile` pointer at #iniFileObj when that is
+         a bound core ``IniFile``, and at ``nullptr`` otherwise :raw-html:`<br />` :raw-html:`<br />`
+
+         :cpp:func:`AGRemapCore::BaseIniFixer::setParser` takes the ``.ini`` file it fixes from
+         ``parser->getIniFile()``, so leaving that null silently blinds every fixer built over this
+         parser -- it renders a fix block against no file and writes nothing, with no error. That
+         used to be unreachable, because the ``.ini`` file a `Python`_ caller handed a parser was
+         the pure-`Python`_ ``IniFile`` (deleted 2026-09-03) rather than anything the core could
+         point at. ``StrategyOverrides`` made it the normal case again.
+
+         :raw-html:`<br />`
+
+         Must be called whenever #iniFileObj changes -- the constructor, the ``_iniFile`` setter,
+         and ``PyGIMIParser::refresh`` all do
+         @endrst
+         */
+        void syncCoreIniFile();
+
+        /**
+         * @brief
+         @rst
          Clears any saved data -- empties #modsToFix, matching the pure-Python original's own
          ``clear``
          @endrst
@@ -125,7 +146,14 @@ class PyBaseIniParser: public PyBaseIniParserCore {
  */
 template <typename T, typename PyClass>
 void bindBaseIniParserCommonMethods(PyClass &cls, const char *parseDoc) {
-    cls.def_readwrite("_iniFile", &T::iniFileObj,
+    // A property rather than def_readwrite: assigning the .ini file has to re-point the core
+    // half too -- see PyBaseIniParser::syncCoreIniFile.
+    cls.def_property("_iniFile",
+        [](T &self) { return self.iniFileObj; },
+        [](T &self, py::object value) {
+            self.iniFileObj = std::move(value);
+            self.syncCoreIniFile();
+        },
         py::doc(R"doc(:class:`IniFile`: The .ini file that will be parsed)doc"))
 
        .def_readwrite("_modsToFix", &T::modsToFix,

@@ -80,8 +80,30 @@ PyGIMIFixerCore::FixerConfig makeFixerConfig() {
 
 PyIniFixContext::PyIniFixContext(py::object ini, std::optional<int> modTypeId):
     ini(std::move(ini)), modTypeId(modTypeId) {
-    if (!this->ini.is_none() && py::isinstance<AGRC::IniFile>(this->ini)) {
-        coreCtx = std::make_unique<AGRC::IniFileFixContext>(this->ini.cast<AGRC::IniFile*>(), modTypeId);
+    syncCoreCtx();
+}
+
+
+void PyIniFixContext::syncCoreCtx() {
+    // py::isinstance rather than a try/cast, so a Python object that merely quacks like an IniFile
+    // still takes the Python path -- same rule as PyIniParseContext's constructor.
+    AGRC::IniFile *coreIni = nullptr;
+    if (!ini.is_none() && py::isinstance<AGRC::IniFile>(ini)) {
+        coreIni = ini.cast<AGRC::IniFile*>();
+    }
+
+    if (coreIni == nullptr) {
+        coreCtx.reset();
+        return;
+    }
+
+    // Replaced only when the .ini file itself changed: IniFileFixContext owns storage behind what
+    // it hands out, and refresh() runs at the start of every operation, so rebuilding it
+    // unconditionally would throw that away mid-fix.
+    if (coreCtx == nullptr || coreCtx->getIniFile() != coreIni) {
+        coreCtx = std::make_unique<AGRC::IniFileFixContext>(coreIni, modTypeId);
+    } else {
+        coreCtx->setModTypeId(modTypeId);
     }
 }
 
@@ -303,6 +325,10 @@ void PyGIMIFixer::refresh() {
             ctxImpl.modTypeId = parserModTypeId.cast<int>();
         }
     }
+
+    // Both of the context's inputs are set by direct member assignment above, so nothing else would
+    // ever notice a core IniFile arriving. See PyIniFixContext::syncCoreCtx.
+    ctxImpl.syncCoreCtx();
 
     if (modsToFixObj.is_none()) {
         this->modsToFix = std::nullopt;

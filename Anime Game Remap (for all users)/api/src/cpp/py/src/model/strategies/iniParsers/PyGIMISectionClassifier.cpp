@@ -374,9 +374,15 @@ Returns
             py::object hashes = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("hashes"));
             py::object indices = modType.is_none() ? py::object(py::none()) : py::object(modType.attr("indices"));
 
+            // 'version' belonged to the pure-Python IniFile, deleted 2026-09-03; the core one --
+            // the only IniFile a caller has -- spells it 'fromVersion'. Reading only the old name
+            // made this helper raise AttributeError for every caller.
+            py::object version = py::hasattr(ini, "version") ? py::object(ini.attr("version"))
+                                                             : py::object(ini.attr("fromVersion"));
+
             return std::make_unique<PyGIMISectionClassifier>(defaultHashKeyOnlyToModObj(), std::move(hashes),
                                                               defaultIndexKeyToModObj(), std::move(indices),
-                                                              ini.attr("version"), py::none(), py::none());
+                                                              std::move(version), py::none(), py::none());
         }, py::arg("ini"), py::arg("modTypeId") = py::none(), py::doc(R"doc(
 Builds the default classifier for the `sections`_ from a .ini file
 

@@ -29,10 +29,15 @@ written in Python, run, and thrown away.
 It is a prototyping aid. A fix worth keeping belongs in the C++ tables.
 
 .. note::
-    An override registered **with** a version matches only that exact version; one registered
-    **without** a version matches every version of that mod, and is used only when no exact match
-    exists. This is deliberately *not* the floor-match the built-in version tables use --- asking to
-    override ``6.1`` should not silently also override ``6.2``.
+    Version matching mirrors the built-in tables (:class:`ModDictAssets`): a request carrying a
+    version takes the highest override at or below it, and a request carrying **no** version means
+    "the newest", taking the highest override registered. An override registered *without* a
+    version is the fallback, used only when no versioned one applied.
+
+    Exact matching was tried first and is wrong for what this class is for: a run resolves a mod's
+    version off the .ini file and normally passes no version at all, so an override registered for
+    ``6.1`` --- the literal case "override Raiden 6.1" means --- fired zero times on an ordinary
+    run.
 
 .. warning::
     Not synchronised. Register and clear **around** a run, never during one.
@@ -65,7 +70,10 @@ Registers a parser factory for a mod
 :param factory: Called as ``factory(iniFile, modTypeId)`` and must return a parser
 :type factory: Callable[[:class:`CppIniFile`, Optional[:class:`int`]], :class:`BaseIniParser`]
 
-:param version: The exact version to override, or ``None`` for every version. **Default**: ``None``
+:param version:
+    The version to override from, or ``None`` for every version --- an override registered here
+    applies to that version **and every later one**, until a higher override supersedes it, exactly
+    as the built-in version tables resolve. **Default**: ``None``
 :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
 )doc"))
 
@@ -94,9 +102,9 @@ adds it, so a brand-new remap can be prototyped and not only an existing one rep
 :type factory: Callable[[:class:`BaseIniParser`, :class:`str`, Optional[:class:`int`]], :class:`BaseIniFixer`]
 
 :param version:
-    The exact version of 'fromModName' to override, or ``None`` for every version --- only the
+    The version of 'fromModName' to override from, or ``None`` for every version --- only the
     *from* version is keyed on, since that is the one a run resolves off the ``.ini`` being fixed.
-    **Default**: ``None``
+    Floor-matched, like :meth:`setParser`'s. **Default**: ``None``
 :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
 )doc"))
 

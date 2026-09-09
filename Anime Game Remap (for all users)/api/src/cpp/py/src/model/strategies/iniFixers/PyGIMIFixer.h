@@ -98,6 +98,22 @@ class PyIniFixContext: public AGRC::RemapIniFixContext<std::string, std::string>
          */
         std::optional<int> modTypeId;
 
+        /**
+         * @brief
+         @rst
+         Rebuilds :cpp:member:`coreCtx` from the current :cpp:member:`ini` and
+         :cpp:member:`modTypeId` :raw-html:`<br />` :raw-html:`<br />`
+
+         Unlike ``PyIniParseContext``, whose ``.ini`` file is handed to its constructor, a
+         ``PyGIMIFixer`` builds its context with ``None`` and then assigns these two members
+         directly from ``refresh()`` (its ``.ini`` file comes off its parser, which the caller may
+         reassign). Deciding in the constructor alone therefore left ``coreCtx`` permanently null
+         and every delegation below dead, which is how a `Python`_-built fixer running against a
+         core ``IniFile`` came to die on ``ini.filePath``. Call this whenever either member changes
+         @endrst
+         */
+        void syncCoreCtx();
+
         bool hasIni() const override;
         std::optional<std::string> modTypeName() const override;
         std::vector<std::string> modsToFix() const override;

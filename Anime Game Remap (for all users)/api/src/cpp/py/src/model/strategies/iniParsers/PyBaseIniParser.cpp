@@ -3,12 +3,27 @@
 #include <memory>
 #include <utility>
 
+#include "AGRemapCore/model/files/IniFile.h"
+
 
 PyBaseIniParser::PyBaseIniParser(py::object iniFile):
     PyBaseIniParserCore(nullptr), iniFileObj(std::move(iniFile)), modsToFix(py::set()) {
-    // The inherited AGRemapCore::IniFile* is always nullptr: the .ini file a real caller hands a
-    // parser is the Python one, which has no C++ counterpart to point at. See
-    // AGRemapCore::IniParseContext's own note.
+    // The inherited AGRemapCore::IniFile* used to be left null here, on the grounds that the .ini
+    // file a caller hands a parser is the Python one with no C++ counterpart. That stopped being
+    // true when the pure-Python IniFile was deleted -- see syncCoreIniFile.
+    syncCoreIniFile();
+}
+
+
+void PyBaseIniParser::syncCoreIniFile() {
+    // py::isinstance rather than a try/cast, so a Python object that merely quacks like an IniFile
+    // still leaves the core pointer null -- the same rule the Py* contexts use.
+    AGRC::IniFile *coreIni = nullptr;
+    if (!iniFileObj.is_none() && py::isinstance<AGRC::IniFile>(iniFileObj)) {
+        coreIni = iniFileObj.cast<AGRC::IniFile*>();
+    }
+
+    this->setIniFile(coreIni);
 }
 
 

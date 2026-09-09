@@ -26,6 +26,25 @@ py::object optionalStrToPy(const std::optional<std::string> &value) {
     return py::str(*value);
 }
 
+
+// The version the vertex group remap is looked up FROM. The pure-Python IniFile called it
+// 'version'; the core class deleted on 2026-09-03 replaced it with 'fromVersion', and this
+// lambda is reached with either -- so it asks for whichever is there rather than picking one.
+//
+// Read off the .ini file rather than passed in because that is where it has always come from,
+// and because getVGRemap treats None as "the latest", which is not the same answer.
+py::object iniFromVersion(const py::object &ini) {
+    if (py::hasattr(ini, "version")) {
+        return ini.attr("version");
+    }
+
+    if (py::hasattr(ini, "fromVersion")) {
+        return ini.attr("fromVersion");
+    }
+
+    return py::none();
+}
+
 }
 
 
@@ -141,7 +160,7 @@ Blend.buf file
         // Built by calling the bound classes rather than constructing the C++ types: 'vgRemap'
         // comes back from a pure-Python ModType, and RemapBlendResource's own binding already
         // knows how to accept it -- see pyCoreModule's note.
-        py::object vgRemap = modType.attr("getVGRemap")(py::str(modName), py::arg("fromVersion") = ini.attr("version"),
+        py::object vgRemap = modType.attr("getVGRemap")(py::str(modName), py::arg("fromVersion") = iniFromVersion(ini),
                                                         py::arg("toVersion") = ini.attr("toVersion"),
                                                         py::arg("fromComp") = optionalStrToPy(self.fromComp),
                                                         py::arg("toComp") = optionalStrToPy(self.toComp));

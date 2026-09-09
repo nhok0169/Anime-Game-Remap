@@ -1721,18 +1721,49 @@ easy to reintroduce:
 onto `FixTargets` without inventing semantics. Customise a fix from Python through
 `graphGroupEdits`, which is how the C++ fixers configure themselves.
 
-**One seam has NOT been converted: `PyIniResEditContext`** (`graphGroupEdits/resEdits/
-PyResEdit.cpp`). It has no `coreCtx` member at all; its `sectionIfTemplates()` reads
-`ini.sectionIfTemplates` and its `z3Ctx()` reads `ini._z3Ctx`, and **neither attribute exists on the
-core `IniFile`** (`hasattr` is `False` for both). So a Python-configured resource edit that reaches
-either accessor will raise.
+**`PyIniResEditContext` is converted and PROVEN (2026-09-09)** --- a resource edit written
+entirely in Python, installed through `StrategyOverrides` and driven by the real `RemapService`,
+writes a correctly remapped 414 KB `Blend.buf` and a `.ini` file that points at it. Both halves
+are pinned by `test_StrategyOverrides.py`
+(`test_pythonResourceEdit_buildsAgainstTheCoreIniFile` and `..._writesARemappedBlend`).
 
-State this precisely, because it has not been demonstrated either way: a smoke test with a Python
-`GIMIFixer` carrying a `ResRegCollect`/`RemapBlendReplace` neither threw nor produced a remapped
-resource, so whether that path is reachable from Python at all is **unestablished, not proven
-broken**. It matters because `setFixer`'s own documentation points prototypers at
-`graphGroupEdits`, which is the route that would reach it. Convert it the same way the other two
-were, or establish that it cannot be reached, before telling anyone to prototype a resource edit.
+Getting there took **four** separate fixes, and the shape of them is the lesson, not the list.
+Each one was found only by driving the path; each left the run green; and the first three all
+let the RENAMING half of the edit succeed, so the `.ini` file came out looking fixed:
+
+1. `sectionIfTemplates()` and `z3Ctx()` read `ini.sectionIfTemplates` / `ini._z3Ctx`, attributes
+   of the pure-Python `IniFile` deleted on 2026-09-03. Fixed with the same `coreCtx` delegation
+   the parse and fix seams use. This one at least *raised*.
+2. `storeResourceObj` did `ini.resources.append(...)`; the core class has `getResources()` and no
+   such attribute. The built model was therefore thrown away **after** the resource graph had
+   already been added to the group --- so the `.ini` file named a `.buf` nobody would ever build.
+   The delegating branch hands ownership to the core file instead (`smart_holder` makes the
+   `unique_ptr` transfer legal; the Python wrapper left behind is disowned, so the handle
+   `resourceToPy` answers from is re-taken as a borrowed reference).
+3. `ResRegCollect`/`ResGroupCollect` never forwarded the per-call `modType` to their resource
+   edits. A C++ fixer hands each edit a `ModType*` when it **constructs** it, so this had never
+   mattered; a Python-built edit is constructed before the fix knows which mod it is for.
+   Without it `RemapBlendReplace::buildResModel` sees `modType=None` and returns `None` --- same
+   silent outcome as (2). Fixed with `refreshResEdit`, called from both collectors' `edit` and
+   `editFromIni`.
+4. `RemapBlendReplace::buildResModel` then read `ini.version`, which the core class calls
+   `fromVersion`. One more attribute of the same deleted class.
+
+Two things worth carrying to the next seam. **A rename succeeding is not evidence a build
+succeeded** --- three of these four produced a perfectly plausible `.ini` file and no resource, and
+the only assertion that separates them is one on `ini.getResources()` or on the file on disk.
+And **`grep` for `ini.attr("` before declaring a seam converted**: it lists every pure-Python
+`IniFile` attribute a binding still reaches for, which is exactly the set of remaining landmines
+(`folder`, `logger`, `toVersion`, `fileTxt` and `downloadMode` exist on the core class;
+`version`, `sectionIfTemplates`, `_z3Ctx`, `resources`, `filePath`, `disIni` and `_isFixed` do
+not).
+
+One adjacent thing is fixed but **not** proven: `PyGroupedResBuilder::store`
+(`PyResGroupCollect.cpp`) still does `ini_.attr("resources").append(...)`, so a `ResGroupCollect`
+driven from Python against a core `.ini` file will hit defect (2) all over again. It was left
+alone deliberately --- the fix there cannot simply disown, because `addResource` keeps using the
+same Python object afterwards --- and `test_ResGroupCollect.py` is one of the eight suites that
+cannot set up, so nothing would catch it either way.
 
 ### `StrategyOverrides`: replacing a parser or fixer without rebuilding
 

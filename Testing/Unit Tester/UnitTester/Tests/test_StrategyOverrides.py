@@ -1,4 +1,5 @@
 import os
+import shutil
 import sys
 import tempfile
 from .baseUnitTest import BaseUnitTest
@@ -24,6 +25,16 @@ _RAIDEN_INI = ("; RaidenShogun\n"
                "type = Buffer\n"
                "stride = 32\n"
                "filename = RaidenShogunBlend.buf\n")
+
+# The mod object the blend graph is parsed into, and the one the resource graph is built into.
+# They must differ: a resource edit whose target graph already exists takes the Ignore branch
+# and never asks the context for the .ini file's sections at all.
+_BLEND_OBJ = ("", "blend")
+_RES_OBJ = (0, "", "blendRemapBlend")
+
+# Relative to the Unit Tester's own working directory, the way its Paths.py does it.
+_RAIDEN_BLEND = os.path.abspath(os.path.join("..", "..", "Data", "Mod Downloads", "GI",
+                                             "Raiden", "4_0", "RaidenShogunBlend.buf"))
 
 _RAIDEN = "Raiden"
 _RAIDEN_TARGET = "RaidenBoss"
@@ -542,3 +553,146 @@ class StrategyOverridesTest(BaseUnitTest):
             taken = service.stats
             taken.ini.fixed.clear()
             self.assertEqual(sorted(service.stats.ini.fixed), [path])
+
+    # -------------------------------------------------------------------------------------
+    # the resource-edit seam
+    # -------------------------------------------------------------------------------------
+    def _blendClassifier(self):
+        def classify(parser, sectionName, section, disjoint, part, kvps):
+            low = sectionName.lower()
+            if (low.startswith("textureoverride") and "blend" in low):
+                return [_BLEND_OBJ]
+            return []
+
+        return classify
+
+    def _sectionText(self, graph, sectionName):
+        return graph.sections[sectionName].toStr()
+
+    def test_pythonResourceEdit_buildsAgainstTheCoreIniFile(self):
+        # The resource-edit half of the context seam, which was the last one still reading
+        # attributes of the pure-Python IniFile deleted on 2026-09-03. Every accessor on
+        # PyIniResEditContext is exercised at once here, because a resource edit needs all of them:
+        #
+        #   sectionIfTemplates()  the resource graph below is built FROM the .ini file's own parsed
+        #                         sections -- "type = Buffer" could come from nowhere else
+        #   z3Ctx()               handed to createGraph alongside them
+        #   iniFolder()           the two absolute paths on the built model
+        #   storeResource()       the model reaching ini.getResources() at all
+        #
+        # The first two are why this raised AttributeError before; the fourth is why it then did
+        # nothing after they were fixed. Note what a weaker assertion would have missed: the
+        # RENAMING half of the edit succeeded through both of those bugs, so a test that checked
+        # only the .ini text would have passed against a fix that builds no resource at all.
+        FRB.CppGlobalModTypes.registerAll()
+        modType = _modType(_RAIDEN)
+
+        with tempfile.TemporaryDirectory() as folder:
+            path = os.path.join(folder, "RaidenShogun.ini")
+            with open(path, "w", encoding = "utf-8") as handle:
+                handle.write(_RAIDEN_INI)
+
+            ini = FRB.IniFile(path)
+            ini.classify()
+
+            parser = FRB.GIMIParser(ini, modObjs = [_BLEND_OBJ],
+                                    objTargetFuncs = [self._blendClassifier()])
+            groups = parser.parse()
+
+            replace = FRB.RemapBlendReplace(_RES_OBJ, resType = "blend")
+            collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blend": replace})
+            collect.editFromIni(groups, ini, modType, _RAIDEN_TARGET)
+
+            graphs = groups[0].graphs
+            self.assertIn(("", "blendRemapBlend"), graphs)
+
+            # Cloned from the core .ini file's own parse -- sectionIfTemplates() delegating.
+            resSection = self._sectionText(graphs[("", "blendRemapBlend")],
+                                           "ResourceRaidenShogunRaidenBossRemapBlend")
+            self.assertIn("type = Buffer", resSection)
+            self.assertIn("stride = 32", resSection)
+
+            # The reference was repointed at it.
+            blendSection = self._sectionText(graphs[("", "blend")],
+                                             "TextureOverrideRaidenShogunBlend")
+            self.assertIn("vb1 = ResourceRaidenShogunRaidenBossRemapBlend", blendSection)
+
+            resources = list(ini.getResources())
+            self.assertEqual(len(resources), 1)
+
+            resource = resources[0]
+            self.assertEqual(resource.srcPath, os.path.join(folder, "RaidenShogunBlend.buf"))
+            self.assertEqual(resource.fixedPath,
+                             os.path.join(folder, "RaidenShogunRaidenBossRemapBlend.buf"))
+
+            # Not None is the assertion: the vertex group remap is looked up off the mod type, and
+            # a collector that does not forward modType to its resource edits leaves buildResModel
+            # returning None -- no model, no vgRemap, and a .ini file pointing at a .buf that
+            # nobody builds.
+            self.assertIsNotNone(resource.vgRemap)
+
+    def test_pythonResourceEdit_writesARemappedBlend(self):
+        # The same edit through the real service over a real Blend.buf, because "a model was built"
+        # and "the mod works" are different claims and only the second one matters.
+        #
+        # Every piece of the fix here is written in Python -- parser, fixer, collector and resource
+        # edit -- and installed through the overrides. That is the whole point of the feature, and
+        # this is the only test that runs it end to end.
+        if (not os.path.isfile(_RAIDEN_BLEND)):
+            self.skipTest("the Raiden download asset is not in this checkout")
+
+        FRB.CppGlobalModTypes.registerAll()
+        classify = self._blendClassifier()
+
+        def makeParser(iniFile, modTypeId):
+            return FRB.GIMIParser(iniFile, modObjs = [_BLEND_OBJ], objTargetFuncs = [classify],
+                                  modTypeId = modTypeId)
+
+        def makeFixer(parser, toModName, modTypeId):
+            # resType "blend" rather than the default "resourceRemapBlend": RemapStats.get keys its
+            # buckets by the first spelling, so the other one fixes the file and counts nothing.
+            replace = FRB.RemapBlendReplace(_RES_OBJ, resType = "blend")
+            collect = FRB.ResRegCollect({(0, "", "blend"): "vb1"}, {"blend": replace})
+
+            # modsToFix is not optional here even though the signature allows it: GIMIFixer runs its
+            # graph group edits once per mod it is fixing TO, so an empty list runs them zero times
+            # and the fix comes out as a plain copy of the original sections.
+            return FRB.GIMIFixer(parser, graphGroupEdits = [collect], modsToFix = [toModName])
+
+        FRB.CppStrategyOverrides.setParser(_RAIDEN, makeParser)
+        FRB.CppStrategyOverrides.setFixer(_RAIDEN, _RAIDEN_TARGET, makeFixer)
+
+        with tempfile.TemporaryDirectory() as folder:
+            with open(os.path.join(folder, "RaidenShogun.ini"), "w", encoding = "utf-8") as handle:
+                handle.write(_RAIDEN_INI)
+
+            srcPath = os.path.join(folder, "RaidenShogunBlend.buf")
+            shutil.copyfile(_RAIDEN_BLEND, srcPath)
+
+            service = FRB.RemapService(path = folder, keepBackups = False)
+            service.fix()
+
+            fixedPath = os.path.join(folder, "RaidenShogunRaidenBossRemapBlend.buf")
+            self.assertTrue(os.path.isfile(fixedPath))
+
+            with open(srcPath, "rb") as handle:
+                srcBytes = handle.read()
+            with open(fixedPath, "rb") as handle:
+                fixedBytes = handle.read()
+
+            # Same length, different content. A remap rewrites the vertex group indices in place, so
+            # a file that came out byte-identical would mean the remap silently did nothing, and one
+            # of a different length would mean it wrote something that is not a blend at all.
+            self.assertEqual(len(fixedBytes), len(srcBytes))
+            self.assertNotEqual(fixedBytes, srcBytes)
+
+            # The FIXED path, not the source: a blend is recorded under the file that was
+            # written.
+            self.assertEqual(sorted(service.stats.blend.fixed), [fixedPath])
+            self.assertEqual(dict(service.stats.blend.skipped), {})
+
+            with open(os.path.join(folder, "RaidenShogun.ini"), "r", encoding = "utf-8") as handle:
+                written = handle.read()
+
+            self.assertIn("[ResourceRaidenShogunRaidenBossRemapBlend]", written)
+            self.assertIn("vb1 = ResourceRaidenShogunRaidenBossRemapBlend", written)

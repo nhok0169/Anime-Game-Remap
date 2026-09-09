@@ -321,6 +321,14 @@ The calls to the resource
 
     cls.def("edit", [](PyResRegCollect &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         self.refresh();
+        // Forwarded here, not at construction -- see refreshResEdit. Without it a
+        // RemapBlendReplace driven from Python renames every reference to a .buf file it then
+        // never creates: buildResModel sees modType=None and returns None, while the renaming
+        // half succeeds, so the .ini file comes out pointing at a resource nobody built.
+        for (const auto &resEditEntry : self.resEdits) {
+            refreshResEdit(resEditEntry.second, modType);
+        }
+
 
         PyIniGraphGroups groups(graphGroups);
         // nullptr for modType: nothing in this edit reads it directly, and the Python-side ModType
@@ -357,6 +365,13 @@ List[:class:`IniGraphGroup`]
     cls.def("editFromIni", [](PyResRegCollect &self, py::list graphGroups, const py::object &ini, const py::object &modType,
                               const std::string &modName) {
         self.refresh();
+        // Forwarded here, not at construction -- see refreshResEdit. Without it a
+        // RemapBlendReplace driven from Python renames every reference to a .buf file it then
+        // never creates: buildResModel sees modType=None and returns None, while the renaming
+        // half succeeds, so the .ini file comes out pointing at a resource nobody built.
+        for (const auto &resEditEntry : self.resEdits) {
+            refreshResEdit(resEditEntry.second, modType);
+        }
 
         PyIniGraphGroups groups(graphGroups);
         PyIniResEditContext ctx(ini, modType);

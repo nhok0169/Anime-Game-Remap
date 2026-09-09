@@ -67,6 +67,24 @@ py::module_ pyCoreModule();
 /**
  * @brief
  @rst
+ Hands one operation's ``modType`` to a resource edit, or does nothing if it is not a
+ `pybind11`_-facing one :raw-html:`<br />` :raw-html:`<br />`
+
+ A C++ fixer hands each edit a :cpp:class:`AGRemapCore::ModType` pointer when it **constructs**
+ it, so nothing there ever needed this. A `Python`_-built edit is constructed before the fix knows
+ which mod it is for, and takes its ``modType`` per call instead -- through
+ :cpp:func:`PyResEditCommon::refresh`, which is what the edit's own bound methods already do. A
+ collector that does not forward it leaves ``buildResModel`` looking at ``None``
+ @endrst
+ *
+ * @param resEdit The edit to refresh. ``nullptr``, or an edit that is not a mixin, is ignored
+ * @param modType The Python ``ModType`` the current operation was called with, or ``None``
+ */
+void refreshResEdit(PyBaseResEditCore *resEdit, const py::object &modType);
+
+/**
+ * @brief
+ @rst
  The `Python`_-backed :cpp:class:`AGRemapCore::IniResEditContext` -- the still-pure-Python
  ``IniFile`` a resource edit is building resources for, plus the two pieces of per-call state that
  travel with it :raw-html:`<br />` :raw-html:`<br />`

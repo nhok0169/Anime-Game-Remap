@@ -485,6 +485,13 @@ then part id, then order index. The values are ``(resource section name, query)`
     cls.def("edit", [](PyResGroupCollect &self, py::list graphGroups, const py::object &modType, const std::string &modName) {
         PyIniResEditContext ctx(py::none(), modType);
         self.refresh(&ctx);
+        // Same per-call modType forward ResRegCollect does -- see refreshResEdit. The edits here
+        // are keyed by graph as well as by subtype, so this is the nested version of that loop.
+        for (const auto &graphEntry : self.resEdits) {
+            for (const auto &resEditEntry : graphEntry.second) {
+                refreshResEdit(resEditEntry.second, modType);
+            }
+        }
 
         PyIniGraphGroups groups(graphGroups);
         // nullptr for modType: nothing here reads it directly, and the Python-side ModType has no
@@ -521,6 +528,13 @@ List[:class:`IniGraphGroup`]
                               const std::string &modName) {
         PyIniResEditContext ctx(ini, modType);
         self.refresh(&ctx);
+        // Same per-call modType forward ResRegCollect does -- see refreshResEdit. The edits here
+        // are keyed by graph as well as by subtype, so this is the nested version of that loop.
+        for (const auto &graphEntry : self.resEdits) {
+            for (const auto &resEditEntry : graphEntry.second) {
+                refreshResEdit(resEditEntry.second, modType);
+            }
+        }
 
         PyIniGraphGroups groups(graphGroups);
         self.Core::editWithContext(groups, ctx, nullptr, modName);

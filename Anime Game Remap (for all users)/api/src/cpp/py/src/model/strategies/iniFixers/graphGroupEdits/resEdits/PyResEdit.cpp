@@ -95,6 +95,18 @@ PyBaseResEditCore::ResourceFilter parseResourceFilter(const py::object &resource
 }
 
 
+void refreshResEdit(PyBaseResEditCore *resEdit, const py::object &modType) {
+    // dynamic_cast rather than static: resEdits is a map of the REGISTERED base type, and a
+    // plain core edit with no Python half is a legal thing to find in one.
+    auto *common = dynamic_cast<PyResEditCommon*>(resEdit);
+    if (common == nullptr) {
+        return;
+    }
+
+    common->refresh(modType);
+}
+
+
 // ---------------------------------------------------------------------------------------
 // PyIniResEditContext
 // ---------------------------------------------------------------------------------------
@@ -243,6 +255,23 @@ void PyIniResEditContext::storeResourceObj(const std::string &fileKey, py::objec
     }
 
     if (resources.is_none()) {
+        // The third context case. `ini.resources` is an attribute of the pure-Python IniFile,
+        // deleted on 2026-09-03; the core one has getResources() and no such attribute, so this
+        // raised AttributeError and the model the edit had just built was thrown away -- after
+        // the resource GRAPH had already been added to the group, which is why nothing downstream
+        // noticed anything was missing.
+        //
+        // Ownership genuinely moves: RemapService::fixResources walks getResources() and is what
+        // rewrites the .buf/.dds on disk, so a model Python keeps to itself does nothing. The
+        // smart_holder makes that transfer legal; what is left behind is a disowned wrapper, so
+        // the handle resourceToPy answers from is re-taken as a borrowed reference to the same
+        // C++ object rather than kept.
+        if (coreCtx != nullptr) {
+            coreCtx->storeResource(fileKey, resource.cast<std::unique_ptr<AGRC::IniResource>>());
+            resourceHandles_[raw] = py::cast(raw, py::return_value_policy::reference);
+            return;
+        }
+
         if (hasIni()) {
             ini.attr("resources").attr("append")(std::move(resource));
         }

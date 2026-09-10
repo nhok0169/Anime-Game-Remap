@@ -888,6 +888,29 @@ namespace AGRemapCore {
         for (IniResource* resource : toFix) {
             FileStats* resourceStats = stats.get(resource->type);
 
+            // THE SAME QUESTION THE SCREEN ABOVE ASKS, asked again where the answer can have
+            // changed. That screen runs before ANY of these are fixed, so its "already built"
+            // guard can only ever catch a resource an EARLIER .ini file built -- two resources in
+            // THIS list that write to one path both sail through it, and the second repeats work
+            // the first just did.
+            //
+            // Which is not hypothetical: a MERGE gives one target several sources, and the sources
+            // of a GIMI mod share one Blend.buf. CherryHuTao -> HuTao lands head+extra on one
+            // object and body+dress on another, so two blend resources name one
+            // HuTaoCherryHuTaoRemapBlend.buf -- and the run remapped that file twice and said so
+            // twice, while the summary's set-keyed count reported the 1 file it ended up with.
+            // The output was never wrong, only paid for twice and described twice.
+            //
+            // Note this is the mixin's own predicate, not a path comparison: whether a resource is
+            // already done is a question each kind answers for itself (a download asks about its
+            // srcPath, an IniFixResource about its fixedPath on disk), and restating that here as
+            // "same fixed path" would be a second, quietly diverging copy of it.
+            RemapIniResourceMixin* remap = dynamic_cast<RemapIniResourceMixin*>(resource);
+            if (remap != nullptr && (remap->srcIsFixed(stats) || remap->fixIsFixed(stats))
+                    && remap->fixExists(stats)) {
+                continue;
+            }
+
             try {
                 if (!_fixResource(*resource)) {
                     continue;

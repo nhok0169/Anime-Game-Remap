@@ -17,9 +17,66 @@
 #include <optional>
 #include <string>
 #include <tuple>
+#include <unordered_map>
 
 
 namespace AGRemapCore {
+
+    /**
+     * @brief
+     @rst
+     What has already been fetched during one remap, keyed by URL -- so the same file is
+     pulled off the network once and COPIED everywhere else it is needed
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     :cpp:class:`FileDownload` has a cache of its own (``prevPath_``), and in the pure-Python
+     original that was enough: its ``IniParseBuilder`` was a flyweight, so every ``.ini`` file
+     of a given mod type shared ONE parser, one ``DownloadData``, and therefore one
+     ``FileDownload`` object holding one ``_prevPath``. This port builds a parser per
+     :cpp:class:`IniFile` (and the builders were de-flyweighted deliberately), so that
+     per-object cache can never be hit -- a fresh :cpp:class:`FileDownload` reaches every
+     download with an empty ``prevPath_``. Measured on a 36-``.ini`` XingqiuBamboo mod:
+     *downloaded 36 files, copied 0 files from existing downloads*, all 36 the same URL
+     :raw-html:`<br />` :raw-html:`<br />`
+
+     So the cache moves to where the question actually belongs. "Have we already fetched this
+     URL?" is a property of the RUN, not of a parser strategy -- :cpp:class:`RemapService`
+     owns one of these and hands it to each download as it goes, exactly as it hands over the
+     logger :raw-html:`<br />` :raw-html:`<br />`
+
+     .. note::
+        Not synchronized, and deliberately so -- one lives per :cpp:class:`RemapService`, which
+        walks its folders sequentially. Sharing one across threads needs a lock added here
+        first :raw-html:`<br />` :raw-html:`<br />`
+
+        Nothing here checks that a remembered file is still ON DISK. It does not need to:
+        :cpp:func:`FileDownload::get` copies from it and falls back to a real download if that
+        copy fails, so a remembered path that has since been deleted costs one wasted
+        ``copy_file`` and self-heals
+     @endrst
+     */
+    class DownloadCache {
+        public:
+
+            /**
+             * @brief Where 'url' was last fetched to, if it has been fetched at all
+             *
+             * @param url The link the file was downloaded from
+             */
+            std::optional<std::string> pathOf(const std::string& url) const;
+
+            /**
+             * @brief Records that 'url' now sits at 'path'
+             *
+             * @param url The link the file was downloaded from
+             * @param path The full path the file was downloaded to
+             */
+            void remember(const std::string& url, const std::string& path);
+
+        private:
+            std::unordered_map<std::string, std::string> paths_;
+    };
+
 
     /**
      * @brief
@@ -99,12 +156,30 @@ namespace AGRemapCore {
              *
              * @param folder The folder to store the downloaded file
              * @param proxy The link to the proxy server used for any internet network access, if any
+             * @param sharedCache The run's own cache of what has already been fetched, if any -- see \ref DownloadCache
              *
              * @return A tuple containing, in order: the path to the downloaded file; whether a
              *      download actually occurred; whether a previous download to the file already
              *      existed before this call
              */
-            std::tuple<std::string, bool, bool> get(const std::string& folder, std::optional<std::string> proxy = std::nullopt);
+            std::tuple<std::string, bool, bool> get(const std::string& folder, std::optional<std::string> proxy = std::nullopt,
+                                                     DownloadCache* sharedCache = nullptr);
+
+            /**
+             * @brief
+             @rst
+             The file :cpp:func:`get` would COPY from instead of downloading, or nothing if it
+             would have to go to the network :raw-html:`<br />` :raw-html:`<br />`
+
+             Public so a caller can say which of the two is about to happen BEFORE it happens --
+             the reason :cpp:func:`RemapIniDownload::fix` can name the right one of
+             "Downloading" / "Copying download" in a line it prints before the work rather than
+             after it
+             @endrst
+             *
+             * @param sharedCache The run's own cache of what has already been fetched, if any
+             */
+            std::optional<std::string> cachedPath(const DownloadCache* sharedCache = nullptr) const;
 
         protected:
 

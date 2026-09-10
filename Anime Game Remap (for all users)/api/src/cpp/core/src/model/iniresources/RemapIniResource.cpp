@@ -109,11 +109,18 @@ namespace AGRemapCore {
 
     bool RemapIniDownload::_fix(CachedFileStats& downloadStats, std::optional<std::string> proxy) {
         std::string downloadFolder = FileService::pathToStr(FileService::strToPath(srcPath).parent_path());
-        auto [rawDownloadFullPath, downloaded, downloadExisted] = download->get(downloadFolder, proxy);
+        auto [rawDownloadFullPath, downloaded, downloadExisted] = download->get(downloadFolder, proxy, downloadCache);
         (void)downloadExisted;
 
         if (srcPath != rawDownloadFullPath) {
             moveFile(rawDownloadFullPath, srcPath);
+
+            // The run's cache was told where get() PUT the file, and it is no longer there.
+            // Correct it, or every later use of this URL pays a failed copy and re-downloads --
+            // a cache that costs something and returns nothing.
+            if (downloaded && downloadCache != nullptr && download != nullptr) {
+                downloadCache->remember(download->url, srcPath);
+            }
         }
 
         if (downloaded) {
@@ -125,25 +132,43 @@ namespace AGRemapCore {
         return downloaded;
     }
 
+    bool RemapIniDownload::willDownload() const {
+        if (download == nullptr || fixFunc) {
+            return true;
+        }
+
+        return !download->cachedPath(downloadCache).has_value();
+    }
+
     bool RemapIniDownload::fix(CachedFileStats& downloadStats, std::optional<std::string> proxy) {
         // BEFORE the work, for the reason RemapBlendResource::fix gives and then some: a download
         // is the slowest thing this program does and much the likeliest to fail, so this is the
         // line that explains a long pause and the one still on screen when the request throws
         // ("Could not resolve hostname" being the usual one).
         //
-        // Logged for a cache hit too, since which of the two this will be is only known after
-        // FileDownload::get has been asked. The summary counts them apart; this line is about
-        // what the program is DOING, and it is about to go looking for that file either way.
+        // A cache hit gets its own wording rather than the same one: copying a file this run has
+        // already fetched is instant and cannot fail the way a request can, so calling it
+        // "Downloading" would make a 36-.ini mod look like 36 trips to github when 35 of them
+        // never leave the disk. No trailing "..." on that one for the same reason -- there is
+        // nothing to wait for.
+        const std::string name = FileService::pathToStr(FileService::strToPath(srcPath).filename());
+        const bool expectingDownload = willDownload();
+
         if (logger != nullptr) {
-            logger->log("Downloading "
-                         + FileService::pathToStr(FileService::strToPath(srcPath).filename()) + "...");
+            logger->log(expectingDownload ? "Downloading " + name + "..."
+                                          : "Copying download " + name);
         }
 
-        if (fixFunc) {
-            return fixFunc(*this, downloadStats);
+        const bool downloaded = fixFunc ? fixFunc(*this, downloadStats) : _fix(downloadStats, proxy);
+
+        // The prediction was that a copy would do, and it did not -- FileDownload::get found the
+        // remembered file gone and went to the network after all. Rare, but saying so is the
+        // difference between a log that describes the run and one that describes an intention.
+        if (!expectingDownload && downloaded && logger != nullptr) {
+            logger->log("Downloading " + name + "...");
         }
 
-        return _fix(downloadStats, proxy);
+        return downloaded;
     }
 
     bool RemapIniDownload::remapFix(RemapStats& stats, std::optional<std::string> proxy,

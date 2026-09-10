@@ -82,6 +82,19 @@ namespace AGRemapCore {
         }
     }
 
+    std::optional<std::string> DownloadCache::pathOf(const std::string& url) const {
+        auto it = paths_.find(url);
+        if (it == paths_.end()) {
+            return std::nullopt;
+        }
+
+        return it->second;
+    }
+
+    void DownloadCache::remember(const std::string& url, const std::string& path) {
+        paths_[url] = path;
+    }
+
     FileDownload::FileDownload(std::string url, std::string filename, bool cache):
         url(std::move(url)), filename(std::move(filename)), cache(cache) {}
 
@@ -124,7 +137,27 @@ namespace AGRemapCore {
         return path;
     }
 
-    std::tuple<std::string, bool, bool> FileDownload::get(const std::string& folder, std::optional<std::string> proxy) {
+    std::optional<std::string> FileDownload::cachedPath(const DownloadCache* sharedCache) const {
+        if (!cache) {
+            return std::nullopt;
+        }
+
+        // This object's own previous download first, then the run's. The order matters only in
+        // that the local one is the original behaviour and is free; the shared one is what makes
+        // the cache reachable at all now that every download gets its own FileDownload.
+        if (prevPath_.has_value()) {
+            return prevPath_;
+        }
+
+        if (sharedCache != nullptr) {
+            return sharedCache->pathOf(url);
+        }
+
+        return std::nullopt;
+    }
+
+    std::tuple<std::string, bool, bool> FileDownload::get(const std::string& folder, std::optional<std::string> proxy,
+                                                          DownloadCache* sharedCache) {
         // NOTE: matches the Python original's own "wasDownloaded = self._prevPath is None" --
         // despite the name (and despite that class's own docstring calling the 3rd tuple element
         // "whether a previous download to the file existed"), this is actually true when there was
@@ -134,25 +167,36 @@ namespace AGRemapCore {
         // concrete wrong-output example (unlike IniNamingTools::getModSuffixedName's confirmed bug)
         // to justify diverging from the original's real behavior.
         bool isFirstDownload = !prevPath_.has_value();
+        std::optional<std::string> source = cachedPath(sharedCache);
 
-        if (!cache || isFirstDownload) {
+        if (!source.has_value()) {
             prevPath_ = download(folder, proxy);
+            if (sharedCache != nullptr) {
+                sharedCache->remember(url, *prevPath_);
+            }
+
             return std::make_tuple(*prevPath_, true, isFirstDownload);
         }
 
         std::string resolvedFilename = FileService::pathToStr((FileService::strToPath(folder) / FileService::strToPath(filename).filename()));
         bool downloadRequired = false;
 
-        if (*prevPath_ == resolvedFilename) {
+        if (*source == resolvedFilename) {
             return std::make_tuple(resolvedFilename, downloadRequired, isFirstDownload);
         }
 
         std::error_code copyError;
-        std::filesystem::copy_file(FileService::strToPath(*prevPath_), resolvedFilename, std::filesystem::copy_options::overwrite_existing, copyError);
+        std::filesystem::copy_file(FileService::strToPath(*source), resolvedFilename, std::filesystem::copy_options::overwrite_existing, copyError);
 
         if (copyError) {
+            // The remembered file is gone (or unreadable). Go to the network and re-remember --
+            // otherwise every later use of this URL repeats the same failed copy first.
             prevPath_ = download(folder, proxy);
             downloadRequired = true;
+            if (sharedCache != nullptr) {
+                sharedCache->remember(url, *prevPath_);
+            }
+
             return std::make_tuple(*prevPath_, downloadRequired, isFirstDownload);
         }
 

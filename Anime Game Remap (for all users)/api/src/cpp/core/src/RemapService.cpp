@@ -968,6 +968,11 @@ namespace AGRemapCore {
                 download->logger = logger;
             }
 
+            // Same seam, same reason -- and this one is what makes the download cache reachable
+            // at all. Without it every .ini file re-fetches every file it needs: 36 requests to
+            // github for one XingqiuBamboo face diffuse, measured.
+            download->downloadCache = &downloadCache_;
+
             // Through remapFix rather than fix: it is the one that separates a real download from a
             // cache hit, and stats.download tracks those separately.
             return download->remapFix(stats, proxy);

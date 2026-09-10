@@ -215,6 +215,35 @@ namespace AGRemapCore {
              */
             std::function<bool(RemapIniDownload&, CachedFileStats&)> fixFunc;
 
+            /**
+             * @brief
+             @rst
+             The run's own record of what has already been fetched, borrowed -- not owned
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Set by whoever drives the fix (:cpp:class:`RemapService` does it in
+             ``_fixResource``), for the same reason it sets :cpp:member:`IniResource::logger`
+             there: a download is built by the PARSER, which has neither. Left ``nullptr`` this
+             resource simply cannot share anything with the rest of the run and downloads its own
+             copy -- correct, just wasteful. See \ref DownloadCache
+             @endrst
+             */
+            DownloadCache* downloadCache = nullptr;
+
+            /**
+             * @brief
+             @rst
+             Whether #fix is about to go to the network, as opposed to copying a file some
+             earlier download already brought down :raw-html:`<br />` :raw-html:`<br />`
+
+             Asked BEFORE the work so the log line can name which of the two is happening. A
+             resource with a #fixFunc is unknowable this way -- that function is free to do
+             anything -- and answers ``true``, the honest default for "something is about to go
+             and get this file"
+             @endrst
+             */
+            bool willDownload() const;
+
             bool srcEncounteredError(const RemapStats& stats) const override;
             bool srcIsFixed(const RemapStats& stats) const override;
             bool fixEncounteredError(const RemapStats& stats) const override;

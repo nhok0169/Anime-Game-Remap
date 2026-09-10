@@ -84,7 +84,14 @@ Returns
     The full path to the downloaded file
         )doc"))
 
-        .def("get", &AGRC::FileDownload::get, py::arg("folder"), py::arg("proxy") = py::none(), py::doc(R"doc(
+        // A lambda rather than &FileDownload::get: the core method takes a third argument, a
+        // borrowed DownloadCache* naming what the whole run has already fetched. That is not a
+        // Python-facing concept (nothing on this side drives a multi-.ini remap by hand), and
+        // binding the member pointer directly would demand a py::arg for it. So the Python
+        // signature stays exactly as it was, with no shared cache.
+        .def("get", [](AGRC::FileDownload &self, const std::string &folder, std::optional<std::string> proxy) {
+            return self.get(folder, proxy);
+        }, py::arg("folder"), py::arg("proxy") = py::none(), py::doc(R"doc(
 Retrieves the required file -- either from :meth:`download`, or (if 'cache' is ``True`` and a
 previous download already exists) by copying the previously-downloaded file instead
 

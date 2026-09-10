@@ -191,6 +191,87 @@ void testGetStillWorksWithRealDownload(const std::string& scratchDir) {
     std::filesystem::remove(sourceFile);
 }
 
+// TWO SEPARATE FileDownload OBJECTS, ONE RUN. This is the shape the real fix has: a parser is
+// built per IniFile, so a mod whose 36 .ini files all want the same file reaches each of them
+// with a FRESH FileDownload whose own prevPath_ is empty. Before DownloadCache existed that
+// meant 36 requests to github for one texture -- measured, and it is what this covers.
+//
+// The source file is CHANGED between the two calls, which is what makes the two outcomes
+// tell themselves apart by content: a copy from the cache still carries the first bytes, while
+// a real download would carry the second. Trusting get()'s own 'downloaded' flag alone would
+// only prove the flag agrees with itself.
+void testSharedCacheAcrossFileDownloads(const std::string& scratchDir) {
+    std::filesystem::path sourceFile = std::filesystem::path(scratchDir) / "curl_test_shared_source.txt";
+    std::filesystem::path firstFolder = std::filesystem::path(scratchDir) / "curl_test_shared_a";
+    std::filesystem::path secondFolder = std::filesystem::path(scratchDir) / "curl_test_shared_b";
+    std::filesystem::remove_all(firstFolder);
+    std::filesystem::remove_all(secondFolder);
+    std::filesystem::create_directories(firstFolder);
+    std::filesystem::create_directories(secondFolder);
+
+    {
+        std::ofstream out(sourceFile, std::ios::binary);
+        out << "first";
+    }
+
+    const std::string url = toFileUrl(std::filesystem::absolute(sourceFile));
+    AGRemapCore::DownloadCache shared;
+
+    FileDownload first(url, "curl_test_shared_source.txt");
+    check(!first.cachedPath(&shared).has_value(), "cachedPath(): nothing fetched yet, so the first download really has to go and get it");
+
+    auto [pathA, downloadedA, wasFirstA] = first.get(firstFolder.string(), std::nullopt, &shared);
+    (void)wasFirstA;
+    check(downloadedA, "get(): the first FileDownload downloads");
+    check(readFile(pathA) == "first", "get(): ...and gets the source's content");
+
+    // Whatever the URL serves has moved on. Only a real download can see this.
+    {
+        std::ofstream out(sourceFile, std::ios::binary);
+        out << "second";
+    }
+
+    FileDownload second(url, "curl_test_shared_source.txt");
+    check(second.cachedPath(&shared).has_value(), "cachedPath(): a DIFFERENT FileDownload for the same url now knows it can copy");
+
+    auto [pathB, downloadedB, wasFirstB] = second.get(secondFolder.string(), std::nullopt, &shared);
+    (void)wasFirstB;
+    check(!downloadedB, "get(): the second FileDownload does NOT download");
+    check(readFile(pathB) == "first", "get(): ...it copied the first one's file, rather than re-fetching the changed source");
+    check(pathA != pathB && std::filesystem::exists(pathB), "get(): the copy landed in its OWN folder");
+
+    // ...and without the shared cache it is the old behaviour, which is the regression this
+    // guards: a fresh object has nothing of its own to copy from and goes back to the network.
+    std::filesystem::path thirdFolder = std::filesystem::path(scratchDir) / "curl_test_shared_c";
+    std::filesystem::remove_all(thirdFolder);
+    std::filesystem::create_directories(thirdFolder);
+
+    FileDownload third(url, "curl_test_shared_source.txt");
+    check(!third.cachedPath(nullptr).has_value(), "cachedPath(): with no shared cache a fresh FileDownload has nothing to copy");
+
+    auto [pathC, downloadedC, wasFirstC] = third.get(thirdFolder.string());
+    (void)wasFirstC;
+    check(downloadedC && readFile(pathC) == "second", "get(): ...so it re-downloads, and sees the CHANGED source");
+
+    // A remembered file that has since been deleted must not wedge every later use. get() falls
+    // back to a real download when the copy fails.
+    std::filesystem::remove(pathA);
+    std::filesystem::path fourthFolder = std::filesystem::path(scratchDir) / "curl_test_shared_d";
+    std::filesystem::remove_all(fourthFolder);
+    std::filesystem::create_directories(fourthFolder);
+
+    FileDownload fourth(url, "curl_test_shared_source.txt");
+    auto [pathD, downloadedD, wasFirstD] = fourth.get(fourthFolder.string(), std::nullopt, &shared);
+    (void)wasFirstD;
+    check(downloadedD && readFile(pathD) == "second", "get(): a remembered file that is gone falls back to downloading");
+
+    std::filesystem::remove_all(firstFolder);
+    std::filesystem::remove_all(secondFolder);
+    std::filesystem::remove_all(thirdFolder);
+    std::filesystem::remove_all(fourthFolder);
+    std::filesystem::remove(sourceFile);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -203,6 +284,7 @@ int main(int argc, char** argv) {
     testInvalidUrlThrows(scratchDir);
     testRealHttpsDownload(scratchDir);
     testGetStillWorksWithRealDownload(scratchDir);
+    testSharedCacheAcrossFileDownloads(scratchDir);
 
     if (failures == 0) {
         std::printf("\nAll tests passed.\n");

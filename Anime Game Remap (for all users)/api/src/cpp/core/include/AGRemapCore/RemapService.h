@@ -27,6 +27,7 @@
 #include "AGRemapCore/model/Version.h"
 #include "AGRemapCore/model/files/IniFile.h"
 #include "AGRemapCore/model/stats/RemapStats.h"
+#include "AGRemapCore/tools/files/FileDownload.h"
 #include "AGRemapCore/view/BaseLogger.h"
 
 
@@ -880,6 +881,12 @@ namespace AGRemapCore {
         private:
             std::string path_;
             bool pathIsCwd_ = false;
+
+            // What this run has already pulled off the network, so the same URL is fetched once
+            //   and copied everywhere else. Lives here rather than on the FileDownload objects
+            //   because a parser is built per IniFile, so each download gets a FileDownload of
+            //   its own with an empty cache -- see DownloadCache's own doc comment.
+            DownloadCache downloadCache_;
 
             // The walk itself. Split out of fix() so that fix() is only the exception/logger
             //   bookkeeping wrapped around it -- the same split the pure-Python original had

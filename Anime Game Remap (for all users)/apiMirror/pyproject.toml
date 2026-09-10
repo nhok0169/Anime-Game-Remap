@@ -11,7 +11,7 @@ authors = [
 ]
 description = "A library to help remap the mods installed on a character onto the skins of the character"
 readme = "README.md"
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

@@ -21,6 +21,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Ini Graph Editing | [`AI Agent Help/IniGraphEditing/CLAUDE.md`](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md) | working on `IniSectionGraph`, `GraphTools`, `CallGraph`, or a `graphEdits/`/`graphGroupEdits/`/`regEdits/` strategy (`RegSurroundedAdd`-style .ini graph edits, `run =` call/cycle handling, dataflow analysis over the graph, or completing a simpler `GraphInherit`-style stub). **`regEdits/` is C++/pybind11 now** — pair this with **Architecture** for anything in that family |
 | Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) — **also read its first section if you just want to *look at* a `.dds`**, which the Read tool cannot open directly |
 | Buf Files | [`AI Agent Help/BufFiles/CLAUDE.md`](AI%20Agent%20Help/BufFiles/CLAUDE.md) | working on `BufFile`, `BlendFile`, `PositionFile`, `IbFile`, `VbFile`, the `BufDataType`/`BufElementType` family, `BufTools` or `bufEditors/` — and **mandatory before touching the 3dmigoto dump text format** (`getDumpStr`/`readDumpStr`), where this repo's own notebooks are a reverse-engineering rather than the spec, and the obvious sample folders will validate you in a circle |
+| Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
 feature or bug request here: the habits that pay" first.** It is nine short habits, none of them
@@ -189,6 +190,17 @@ RemapServiceCLI` (log file, tips hook, the "Types of Mods To Fix" banner, and ev
 model conversion) -> `AGRemapCore::RemapService` (the model: folder walk, per-`.ini` handling, stats,
 summary). Argparse stays out of core on purpose. See [Architecture](AI%20Agent%20Help/Architecture/CLAUDE.md)'s
 "The `RemapService` / `RemapServiceCLI` split".
+
+**VERTEX GROUP REMAPS HAVE A TOOL AND A RULE NOW (2026-09-09).** `Tools/VGRemapFinder` proposes
+the blend-weight table for a pair of skins from their geometry (dumps, a mod's `.buf` files, or a
+raw frame analysis) at 89.6% agreement with the hand-made drafts, scores itself against them
+(`benchmark.py`) and against the shipped table (`-C`), and found issue #213 in one run: the
+shipped `KeqingOpulent -> Keqing` row had **no entry** for two elbow helper bones, and
+`BlendFile::remapIndices` writes an unmapped source group as bone `-index-1` with its weight
+kept -- a kink, logged nowhere. Every such gap in `VGRemapData.cpp` was then filled (six
+directions), and the rule is now explicit: **every source vertex group maps to something**. When
+a model deforms in game, `Importer/GIMI/Mods/overrideVgRemap.py --dump`'s `unmapped source groups`
+line is the first thing to read. See [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md).
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

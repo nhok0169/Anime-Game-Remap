@@ -451,6 +451,15 @@ you are not yet testing from Python), build just that target --- it is a fractio
 ninja AGRemapCore    # instead of: ninja core
 ```
 
+**A data-table change is not the 8-second case, and the install step removes the old `.pyd`
+first (2026-09-09).** Editing only `core/src/data/VGRemapData.cpp` rebuilt every `py/` object and
+relinked `core.pyd` for about 30 minutes on this machine (`link.exe` climbing past 1.4 GB, so LTCG
+was on for that link -- check what the build directory was configured with before assuming the
+python_dev defaults), and `core.cp39-win_amd64.pyd` was gone from `FixRaidenBoss2/` from the start
+of the install step until the link finished. Two consequences: run it in the background and wait
+for the notification, and **run nothing that imports the API meanwhile** -- a test, the finder's
+benchmark, a notebook cell -- or it either fails to import or holds the file the copy needs.
+
 ## Verifying a build/binding change in Python directly
 Don't just trust that it compiled — a pybind11 registration typo (wrong base class, wrong
 holder, wrong constructor signature) fails at import/runtime, not compile time. This applies

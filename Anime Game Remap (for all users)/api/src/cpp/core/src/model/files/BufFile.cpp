@@ -169,6 +169,51 @@ namespace AGRemapCore {
         return result;
     }
 
+    std::vector<std::size_t> BufFile::filter(const Predicate& predicate) {
+        std::vector<std::size_t> keptLines;
+
+        // No elements means nothing to decode a line by, and read() only accepts an empty file in
+        // that state anyway -- so there is nothing a predicate could be asked about.
+        if (bytesPerLine_ == 0) {
+            return keptLines;
+        }
+
+        std::size_t lineCount = data_.size() / bytesPerLine_;
+
+        ByteVec kept;
+        kept.reserve(data_.size());
+
+        // Reused across iterations rather than built per line: decodeLine takes a whole ByteVec,
+        // and a real .buf runs to tens of thousands of lines. assign() keeps the capacity.
+        ByteVec line;
+
+        for (std::size_t lineInd = 0; lineInd < lineCount; ++lineInd) {
+            auto lineStart = data_.begin() + static_cast<std::ptrdiff_t>(lineInd * bytesPerLine_);
+            auto lineEnd = lineStart + static_cast<std::ptrdiff_t>(bytesPerLine_);
+            line.assign(lineStart, lineEnd);
+
+            // Nothing is written to this file until the whole loop has finished, so a predicate
+            // that throws (very much including a Python one, reached through the binding) leaves
+            // the file exactly as it was rather than half-filtered.
+            if (!predicate(decodeLine(line))) {
+                continue;
+            }
+
+            // The kept line's ORIGINAL bytes, deliberately not encodeLine(decoded): a lossy data
+            // type does not survive a decode/encode round trip unchanged, and selecting lines must
+            // never rewrite the ones it selects.
+            kept.insert(kept.end(), lineStart, lineEnd);
+            keptLines.push_back(lineInd);
+        }
+
+        // Same shape as merge/encodeAll -- #getData has no setter, and going back in through
+        // read() re-validates the result for free.
+        setSrc(kept);
+        read();
+
+        return keptLines;
+    }
+
     namespace {
 
         // How many significant digits 3dmigoto prints -- FLT_DECIMAL_DIG, ie. exactly enough to

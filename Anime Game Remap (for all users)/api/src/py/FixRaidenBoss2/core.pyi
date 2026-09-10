@@ -2934,6 +2934,64 @@ class CppBufFile(BinaryFile):
         :class:`bytes`
             The encoded bytes for the line
         """
+    def filter(self, predicate: collections.abc.Callable) -> list[int]:
+        """
+        Keeps only the lines (vertices) whose decoded data satisfies 'predicate', dropping the rest
+        
+        Where :meth:`fix` maps every line through its filters and keeps them all, this *selects*:
+        
+        .. code-block:: python
+        
+            # keep only the vertices above the waist
+            keptLines = bufFile.filter(lambda frame: frame["POSITION"][1] > 0)
+        
+        .. note::
+            A kept line's **original bytes are copied through untouched** rather than being re-encoded from
+            its decoded data, so a lossy data type (a :class:`BufUnorm`, a :class:`BufFloat16`) cannot be
+            perturbed by the decode the predicate needs. Only which lines survive is up to the predicate,
+            never their contents
+        
+        .. note::
+            A ``.buf`` file has no idea which of its lines is which vertex, so dropping lines out of a
+            ``.vb`` invalidates every index in the ``.ib`` that pointed past them -- the returned line
+            indices are exactly what remapping those indices needs. See :class:`IbFile`
+        
+        .. note::
+            :attr:`data` cannot be assigned directly, so this sets :attr:`src` to the kept bytes and
+            re-reads from it -- a ``.buf`` file originally constructed from a file path therefore ends up
+            with raw bytes as its :attr:`src`, and the file on disk is untouched
+        
+        .. note::
+            Nothing is written until every line has been decided, so a predicate that raises leaves the
+            file exactly as it was rather than half-filtered
+        
+        .. note::
+            The predicate is called once per line, so it costs one crossing back into `Python`_ per line the
+            same way :meth:`decodeLine` does. For a whole-file selection over a large ``.buf``,
+            :meth:`decodeAll` + a `NumPy`_ mask + :meth:`encodeAll` stays entirely columnar and is
+            substantially faster
+        
+        Parameters
+        ----------
+        predicate: Callable[[Dict[:class:`str`, List[Any]]], :class:`bool`]
+            Decides whether one line is kept, given that line's decoded data
+        
+            The keys are the keys of the elements within a line in the ``.buf`` file (the same keys
+            :meth:`decodeLine` produces) and the values are that line's data for each element
+        
+        Returns
+        -------
+        List[:class:`int`]
+            The indices of the lines that were kept, in ascending order
+        
+            Empty when nothing was kept, and also when the file has no :attr:`elements` to decode by
+        
+        Raises
+        ------
+        :class:`BadBufData`
+            If the kept bytes do not divide evenly into lines -- only reachable when the file's own data was
+            not a whole number of lines to start with
+        """
     def fix(self, fixedFile: typing.Any = None, filters: typing.Any = None) -> typing.Any:
         """
         Fixes the ``.buf`` file

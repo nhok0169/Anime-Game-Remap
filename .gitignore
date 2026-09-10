@@ -138,3 +138,6 @@ cebuild*/
 cext*/
 
 .cursor
+
+# VGRemapFinder's cached dump reads
+Tools/VGRemapFinder/.benchmarkCache/

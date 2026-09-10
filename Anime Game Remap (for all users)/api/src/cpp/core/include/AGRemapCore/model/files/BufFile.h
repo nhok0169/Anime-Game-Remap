@@ -52,6 +52,19 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             A function deciding whether one line (vertex) of a ``.buf`` file is kept, used by
+             :cpp:func:`filter` :raw-html:`<br />` :raw-html:`<br />`
+
+             Takes in the decoded data for the line -- the same keyed map :cpp:func:`decodeLine`
+             produces, and the same thing one row of ``BufTools.toDataFrame``'s dataframe holds --
+             and returns whether that line survives
+             @endrst
+             */
+            using Predicate = std::function<bool(const BufLineData&)>;
+
+            /**
+             * @brief
+             @rst
              The result of :cpp:func:`fix` -- either the raw bytes for the fixed file (when no
              output file path was given) or the output file path that was written to (echoed back,
              matching the pure-Python original's own return convention)
@@ -199,6 +212,43 @@ namespace AGRemapCore {
              * @return If 'fixedFile' is ``std::nullopt``, the fixed bytes. Otherwise, 'fixedFile' itself
              */
             FixResult fix(const std::optional<std::string>& fixedFile = std::nullopt, const std::vector<Filter>& filters = {});
+
+            /**
+             * @brief
+             @rst
+             Keeps only the lines (vertices) whose decoded data satisfies 'predicate', dropping the
+             rest :raw-html:`<br />` :raw-html:`<br />`
+
+             Where :cpp:func:`fix` maps every line through its filters and keeps them all, this
+             *selects* -- the lines it keeps come through byte for byte :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             .. note::
+                A kept line's **original bytes are copied through untouched** rather than being
+                re-encoded from its decoded data, so a lossy data type (a :cpp:class:`BufUnorm`, a
+                :cpp:class:`BufFloat16`) cannot be perturbed by the decode a predicate needs. Only
+                which lines survive is up to the predicate, never their contents
+
+             .. note::
+                A ``.buf`` file has no idea which of its lines is which vertex, so dropping lines
+                out of a ``.vb`` invalidates every index in the ``.ib`` that pointed past them. The
+                returned line indices are exactly what remapping those indices needs -- see
+                :cpp:class:`IbFile` :raw-html:`<br />` :raw-html:`<br />`
+
+             If 'predicate' throws, the file is left completely untouched -- nothing is written
+             until every line has been decided
+             @endrst
+             *
+             * @param predicate Decides whether one line is kept, given that line's decoded data
+             *
+             * @return The indices of the lines that were kept, in ascending order. Empty when
+             *      nothing was kept, and also when the file has no elements to decode by
+             *
+             * @throws BadBufData if the kept bytes do not divide evenly into lines -- only
+             *      reachable when this file's own data was not a whole number of lines to start
+             *      with
+             */
+            std::vector<std::size_t> filter(const Predicate& predicate);
 
             /**
              * @brief

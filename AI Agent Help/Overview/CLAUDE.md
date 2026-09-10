@@ -46,6 +46,9 @@ Tools/
   APIBuilder/                   <- the build driver for api/ (what you use to compile everything)
   TexConverter/                 <- converts .dds textures to .png/.bmp/.jpg so they can actually be
                                    looked at (the Read tool can't open a .dds) -- see Texture Editing
+  VGRemapFinder/                <- proposes a vertex-group remap (a Data/RemapDrafts workbook) from two
+                                   characters' dumps; its benchmark.py scores any change against every
+                                   hand-made draft at once -- see its README before tuning it
   Utilities/                    <- shared helper package used by the test runners
   ModToDumpConverter/GI/        <- Jupyter notebooks that CONSUME the API -- see the note below,
   DumpToModConverter/GI/           they go stale when you change it
@@ -158,7 +161,7 @@ The same harness fails the other way too, and that one reads as success. An A/B 
 mod folder had been moved copied nothing, fixed nothing, and reported *"(identical), 0 dangling"* --
 a clean pass over two empty directories. **The maintainer swaps mod folders in and out of `Mods/`**
 (3dmigoto tolerates only one mod per character, or the models interfere -- see
-`CreatingRemaps/Images/Jean/JeanSeaAmalgamation.jpg`), so a path that worked an hour ago may be gone.
+`CreatingRemaps/Images/Jean/6_1/JeanSeaAmalgamation.jpg`), so a path that worked an hour ago may be gone.
 Assert the inputs exist and are non-empty before reporting either outcome.
 
 **11. For anything that is the first of its kind, suspect core before suspecting yourself.** Code
@@ -268,6 +271,27 @@ way in. `RegFillMissing`'s `fillMissing` takes a string, a list of `(key, value)
 callable --- and a `dict` is accepted without complaint and fills nothing, leaving a run reporting
 `fixed=7 skipped=0` with one register missing from the output. When an edit silently does
 nothing, re-read the parameter's accepted shapes before suspecting the edit itself.
+
+**21. Tune against ALL the ground truth, never the case in front of you.** Blend-weighting the
+vertex-group summaries moved one group either way on Ganyu, the character the finder was being
+developed on, and was worth 2--5 points over the twenty draft directions; the same-object
+restriction looked reasonable on one elbow and cost 12 points overall. `Tools/VGRemapFinder/
+benchmark.py` exists so that no matching idea is ever judged on one character again. The general
+form: when a repo has a corpus of hand-made truth (drafts, goldens, old-script output), score a
+change on the whole corpus before believing the example it was written for.
+
+**22. Mark what you generate, or it becomes ground truth.** A workbook the finder wrote landed in
+`Data/RemapDrafts/`, the benchmark read it as a hand-made draft, and the total went up -- the
+tool was scoring itself at 100%. Anything a tool writes into a folder that a check reads must
+carry a mark the check knows (`About` sheet / `E1` cell here), and the check must skip it. The
+same applies to a golden tree you regenerate and a fixture you copy.
+
+**23. A generated edit to a data table is a claim: re-parse the result before writing it.** A
+regex patcher for `VGRemapData.cpp` that mixed a positional group with named ones dropped the
+closing `})},` of every row it touched, and the file still *looked* patched. The patcher now
+re-parses its own output and asserts the row count and every row's pair count before the write;
+the file was restored with `git checkout --`. Then rebuild and read the table back through the
+bound API (`getVGRemap`), because the compiler accepting it proves the syntax, not the data.
 
 <br>
 
@@ -474,6 +498,17 @@ nothing, re-read the parameter's accepted shapes before suspecting the edit itse
   `sys.path.insert(1, ".../api")` + `import src.FixRaidenBoss2`, a layout that stopped existing
   long ago (it is `api/src/py` + `import FixRaidenBoss2` now). Nothing tests these, so nothing
   tells you.
+- **A new tool under `Tools/` has a shape, and the API import in it has a trap.** The shape
+  (`Tools/VGRemapFinder` is the worked example, `TexConverter` the smaller one): `main.py` as
+  the CLI, the code in `src/<Pkg>/` with an absolute `constants/Paths.py` so it runs from any
+  directory, `GI/<Name>.ipynb` in the same cell layout as the other notebook tools (title,
+  contributors, requirements, install options A/B, an explanation section, initialization, file
+  setup, run), a `README.md` with a how-to-run table, and where the tool has ground truth to
+  score against, a `benchmark.py`. The trap: **the API's native extensions cannot be loaded from
+  a relative `sys.path` entry** -- `sys.path.insert(1, "../../../Anime Game Remap (...)/api/src/py")`
+  imports fine on a machine without the `.pyd` and dies with `DLL load failed: The parameter is
+  incorrect` on one with it. Wrap the path in `os.path.abspath`. The converter and analyzer
+  notebooks still use the relative form and will hit this the next time they are run.
 - **Real mods live outside the repo, and you must not write into them.** The maintainer's GIMI
   install (`E:\Computer\Games\Wuthering Waves Mods\Importer\GIMI` on this machine) holds dozens of
   real mods -- `.ib`/`Position.buf`/`*RemapBlend*.buf`/`Texcoord.buf` sets -- and

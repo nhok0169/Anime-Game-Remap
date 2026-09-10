@@ -78,3 +78,17 @@ class BufFileTest(BaseUnitTest):
         self.assertEqual(bufFile.data, line)
 
     # ================================================
+    # =================== filter =====================
+
+    def test_filter_dropsTheSameRowsFromTheDataFrame(self):
+        # the inherited filter selects whole lines, which is exactly one row of toDataFrame's
+        # frame -- so the two views of the file stay in step
+        lines = [struct.pack("<3f", float(i), 0.0, 0.0) for i in range(4)]
+        bufFile = FRB.BufFile(b"".join(lines), _makePositionElements())
+
+        kept = bufFile.filter(lambda frame: frame["POSITION"][0] >= 2)
+
+        self.assertEqual(kept, [2, 3])
+        self.assertEqual(list(bufFile.toDataFrame()[("POSITION", 0)]), [2.0, 3.0])
+
+    # ================================================

@@ -237,12 +237,34 @@ BufUnSignedInt
 
 :raw-html:`<br />`
 
+IbFile
+------
+
+.. cppattributetable:: AGRemapCore::IbFile
+
+.. doxygenclass:: AGRemapCore::IbFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
 PositionFile
 ------------
 
 .. cppattributetable:: AGRemapCore::PositionFile
 
 .. doxygenclass:: AGRemapCore::PositionFile
+    :members:
+    :protected-members:
+
+:raw-html:`<br />`
+
+VbFile
+------
+
+.. cppattributetable:: AGRemapCore::VbFile
+
+.. doxygenclass:: AGRemapCore::VbFile
     :members:
     :protected-members:
 

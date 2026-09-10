@@ -74,12 +74,18 @@ get lost:
 2. **Get the hashes and indices in** (`data/HashData.cpp`, `data/IndexData.cpp`) from the
    GI-Model-Importer-Assets checkout -- see "Before writing anything" below. Nothing downstream can
    be right until these are.
-3. **Write the parser**: one mod object per thing the fix has something to say about. Verify by
+3. **Find the vertex group remap, both directions**, and get it checked in game before any
+   `.ini` work -- it is what `RemapBlend.buf` is built from, and no `.ini` check can see it.
+   `Tools/VGRemapFinder` proposes it from the geometry in `Data/Mod Downloads/GI/`; every source
+   group must map to something, and each direction is its own row in `VGRemapData.cpp`. The
+   whole step, the tool, and the "model is kinked in game" recipe are in
+   [Vertex Group Remaps](../VGRemaps/CLAUDE.md).
+4. **Write the parser**: one mod object per thing the fix has something to say about. Verify by
    running the CLI and reading which sections got classified, before writing any fixer.
-4. **Write the fixer**, using the table above to decide hiding/hashes/indices.
-5. **Wire downloads** if the character needs them -- one line each via `tools/DownloadTools.h`.
-6. **A/B against the old script**, then **ask for an in-game screenshot**. Both, always.
-7. **Update the counts in `core/tests/BuilderData_test.cpp`** -- it hardcodes the number of rows in
+5. **Write the fixer**, using the table above to decide hiding/hashes/indices.
+6. **Wire downloads** if the character needs them -- one line each via `tools/DownloadTools.h`.
+7. **A/B against the old script**, then **ask for an in-game screenshot**. Both, always.
+8. **Update the counts in `core/tests/BuilderData_test.cpp`** -- it hardcodes the number of rows in
    each builder table, nothing builds it, and adding a character silently breaks it.
 
 **Before writing anything, find out what already exists for this character.** Four places, and
@@ -90,6 +96,7 @@ each can save an afternoon:
 | `Testing/Integration Tester/.../APIDocsTests/expected_*/` | **a full golden `.ini` for some characters** -- Raiden, Amber, AmberCN, Jean and Keqing all have one. That is a free specification: exact section names, hashes, indices, which sections get which edit. Read it before guessing |
 | `api/src/py/FixRaidenBoss2/data/Ini{Parse,Fix}BuilderData.py.txt` | the character's pre-migration row -- reference only, but it says what the fix *used* to do |
 | `data/HashData.cpp`, `IndexData.cpp`, `VGRemapData.cpp` | whether the asset data is already in (it usually is, across several game versions) |
+| `Data/RemapDrafts/<Name>RemapDraft.xlsx` | the maintainer's hand-made vertex group remap, with the reasoning per row in its Comments column. Some early workbooks have one direction only; the CN skins, Kirara, Raiden and Arlecchino have none. See [Vertex Group Remaps](../VGRemaps/CLAUDE.md) |
 | `Importer/GIMI/Mods/` **and its parent** | real mods to test with. The maintainer swaps folders in and out of `Mods/`, so check the parent directory too |
 
 **Ask rather than guess about these three**, every time. They are not derivable and a wrong guess is
@@ -810,7 +817,7 @@ produced a `Blend.buf` remapped **twice**.
 **Every text-level check passed the whole time** -- correct section names, correct `vb1`, zero dangling
 references -- because the `.ini` is rendered from the raw source text plus the fixer's own graph
 copies. Only the resource *model* carried the wrong path. The visible symptom was in game: JeanSea
-warped, vertices stretched into spikes (`Images/Jean/JeanSeaWarped.jpg`), which is what wrong
+warped, vertices stretched into spikes (`Images/Jean/6_1/JeanSeaWarped.jpg`), which is what wrong
 vertex-group weights look like.
 
 **So diff the generated `Blend.buf` byte for byte against the old script's, per sub-mod.** A section
@@ -881,6 +888,66 @@ Three more things that each silently produce nothing:
   part, and windowing by the hash's own order index selects nothing.
 - **`resType` must be `"blend"`**, not the base's `"resourceRemapBlend"`. It becomes
   `IniResource::type`, which `RemapStats::get` looks up, and that only knows the short kind names.
+
+### When the blend IS remapped and the model still kinks: a source group with no row (2026-09-09)
+
+Issue #213: a KeqingOpulent mod remapped onto Keqing loaded fine, every check above passed, and
+in game the elbows had a kink (`Images/KeqingOpulent/6_1/KeqingCrookedArms.jpg`). The `RemapBlend.buf` was being written, the `.ini` referenced it,
+the bytes were remapped -- and the vertex group remap was *correct on every row it had*. What it
+did not have was a row at all for KeqingOpulent's groups 75 and 99, two 57-vertex elbow helper
+bones. Neither the C++ table nor the pure-Python one before it ever had them.
+
+**An unmapped source group is not dropped.** `BlendFile::remapIndices` writes it as the negative
+bone index `-index-1` and keeps its weight, so the game reads a garbage bone matrix for that
+share of the vertex. Up to a third of an elbow vertex's weight pointing at bone `-76` is exactly
+a kink, and nothing in the fix logs it. So when a remap looks wrong in game:
+
+1. **Read the "unmapped source groups" line first.** `Importer/GIMI/Mods/overrideVgRemap.py
+   --dump` prints it for the pair it is set to (the compiled remap has 1 row per source group
+   it maps, and a source has one past its largest `BLENDINDICES` value). A gap there is the whole
+   diagnosis; a run over the mod's own `Blend.buf` shows how many vertices use the gap.
+2. **Let `Tools/VGRemapFinder` propose the pair from fresh geometry and score it against the
+   shipped table** (`-C`). It reads the game's raw frame analysis directly
+   (`--fromHashes POSITION BLEND IB`, the `hash.json` values; run without hashes to be shown the
+   inventory), so "did this bone move in the update" is one run: remap the fresh dump onto the
+   old asset-repo dump of the *same* character, and an unchanged skeleton comes out as an exact
+   identity (it did, for both Keqing skins). The proposal agreeing with all 101 shipped rows and
+   then mapping 75/99 anyway is what said "nothing moved, two rows are missing".
+3. **For the one bone in doubt, tally nearest vertices rather than trusting a tied centre.** The
+   finder had 75 tied between Keqing's 45 and 46; the vertices it drives sit within 0.006 of
+   Keqing's skin, which is driven 69% by her upper arm (40) and 28% by her forearm (22), with the
+   two helpers at 1% -- so it went to the upper arm (`{75: 40, 99: 66}`). See the tool's README.
+4. **Prove it at the byte level before calling it fixed.** Fix a scratch copy with and without the
+   override, decode both `RemapBlend.buf` with `BlendFile.decodeAll`, and confirm the only
+   difference is `-76 -> 40` / `-100 -> 66` on exactly the vertices that used those groups
+   (266 per sub-mod here), with every weight unchanged. `overrideVgRemap.py --ab` does the copy
+   and diff, but only on a mod that has *not* been fixed before -- it skips a `RemapBlend.buf`
+   the source already carries, and this one had been.
+
+**Every such gap in the table was then filled (2026-09-09).** The sweep found six directions
+with a source group and no row -- Fischl -> FischlHighness (0; the draft had it, the port dropped
+it), Jean -> JeanSea and JeanCN -> JeanSea (22 each: the cape and collar JeanSea has no bones for),
+Keqing -> KeqingOpulent (96-100: thigh decorations), KeqingOpulent -> Keqing (75, 99) and
+Ningguang -> NingguangOrchid (28, 49-51: a feather and the front-dress tips) -- and the maintainer
+confirmed the rule: **every source group must map somewhere**, and the early hand-made drafts
+left "no counterpart" rows blank before that was known. Three things about how they were filled:
+
+- The geometry that matches the library's versions is `Data/Mod Downloads/GI/<Name>/<ver>`, read
+  as a mod folder -- the asset repo's dumps are newer re-dumps and Xingqiu's no longer matches the
+  table (74 groups vs the row's 92; that pair needs a fresh dump before anyone judges it).
+- For a part the target lacks, the finder's `--mode vertices` (what drives the nearest skin) is
+  the primary signal and the chain alignment the second opinion, but both were **overruled by
+  hand where the winner was hair or a jiggling bone and the part is not**: a collar goes to the
+  neck, a belt charm to the hip, a cape to the upper spine or the arm it drapes over.
+- The drafts were filled in the same pass, each filled cell's comment carrying the reasoning, and
+  the two directions the drafts never had (KeqingOpulent -> Keqing, Orchid -> Ningguang) were
+  written as sheets **from the library's shipped rows**, marked in `E1` as proposals so the
+  finder's benchmark does not score the tool against itself.
+
+The sweep also turned up two rows where a hand-made draft and the library disagree and neither is
+a gap -- CherryHuTao 60 -> HuTao (draft 59, library 58; the finder says 60) and Nilou 67 ->
+NilouBreeze (draft 15, library 61; the finder says 15 at a 95% share). Both left as shipped; the
+maintainer decides those.
 
 ### Registers: `RegAssetRemap` vs `RegNewVals`
 

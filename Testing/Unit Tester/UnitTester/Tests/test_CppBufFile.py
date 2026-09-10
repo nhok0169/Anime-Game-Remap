@@ -427,6 +427,127 @@ format: DXGI_FORMAT_R16_UINT
             self.assertIsInstance(lineInd, float)
 
     # ================================================
+    # =================== filter =====================
+
+    def test_filter_keepsSatisfyingLinesAndReturnsTheirIndices(self):
+        lines = [struct.pack("<3f", float(i), 0.0, 0.0) for i in range(5)]
+        bufFile = FRB.CppBufFile(b"".join(lines), _makePositionElements())
+
+        kept = bufFile.filter(lambda frame: frame["POSITION"][0] % 2 == 0)
+
+        self.assertEqual(kept, [0, 2, 4])
+        self.assertEqual(bytes(bufFile.data), lines[0] + lines[2] + lines[4])
+
+    def test_filter_predicateSeesTheSameDataAsDecodeLine(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+
+        seen = []
+        bufFile.filter(lambda frame: seen.append(frame) or True)
+
+        self.assertEqual(seen, [bufFile.decodeLine(line1), bufFile.decodeLine(line2)])
+
+    def test_filter_keepsNothing_emptiesTheFile(self):
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+        bufFile = FRB.CppBufFile(line + line, _makePositionElements())
+
+        self.assertEqual(bufFile.filter(lambda frame: False), [])
+        self.assertEqual(bytes(bufFile.data), b"")
+
+    def test_filter_keepsEverything_dataUnchanged(self):
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+
+        self.assertEqual(bufFile.filter(lambda frame: True), [0, 1])
+        self.assertEqual(bytes(bufFile.data), line1 + line2)
+
+    def test_filter_mutatingTheFrame_doesNotChangeTheKeptBytes(self):
+        # filter *selects* lines, it never rewrites them -- the opposite of fix's filters, whose
+        # whole job is to hand back modified data. A kept line's original bytes are copied through
+        # rather than re-encoded from whatever the predicate was handed.
+        line = struct.pack("<3f", 1.0, 2.0, 3.0)
+
+        def scramble(frame):
+            frame["POSITION"][0] = 999.0
+            return True
+
+        bufFile = FRB.CppBufFile(line, _makePositionElements())
+        bufFile.filter(scramble)
+
+        self.assertEqual(bytes(bufFile.data), line)
+
+    def test_filter_predicateRaises_leavesTheFileUntouched(self):
+        # the first line is rejected and the second raises -- so a filter that wrote as it went
+        # would leave this file holding no lines at all
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+
+        def boom(frame):
+            if (frame["POSITION"][0] > 1.5):
+                raise ValueError("nope")
+            return False
+
+        bufFile = FRB.CppBufFile(line1 + line2, _makePositionElements())
+        with self.assertRaises(ValueError):
+            bufFile.filter(boom)
+
+        self.assertEqual(bytes(bufFile.data), line1 + line2)
+
+    def test_filter_truthyReturnValue_notJustBool(self):
+        # the predicate's result is read the way an 'if' would read it, so a 0/1, a numpy bool or
+        # an empty container all behave sensibly instead of failing a strict bool cast
+        lines = [struct.pack("<3f", float(i), 0.0, 0.0) for i in range(3)]
+        bufFile = FRB.CppBufFile(b"".join(lines), _makePositionElements())
+
+        kept = bufFile.filter(lambda frame: [] if (frame["POSITION"][0] == 1.0) else [1])
+
+        self.assertEqual(kept, [0, 2])
+        self.assertEqual(bytes(bufFile.data), lines[0] + lines[2])
+
+    def test_filter_noElements_returnsEmptyAndNeverCallsThePredicate(self):
+        calls = []
+        bufFile = FRB.CppBufFile(b"", [])
+
+        self.assertEqual(bufFile.filter(lambda frame: calls.append(frame) or True), [])
+        self.assertEqual(calls, [])
+
+    def test_filter_fileSrc_becomesBytesAndLeavesTheFileOnDisk(self):
+        # same 'data is read-only, the write path is src + read()' shape as merge/encodeAll
+        line1 = struct.pack("<3f", 1.0, 2.0, 3.0)
+        line2 = struct.pack("<3f", 4.0, 5.0, 6.0)
+
+        with tempfile.NamedTemporaryFile(delete = False, suffix = ".buf") as f:
+            f.write(line1 + line2)
+            path = f.name
+
+        try:
+            bufFile = FRB.CppBufFile(path, _makePositionElements())
+            self.assertEqual(bufFile.filter(lambda frame: frame["POSITION"][0] > 2), [1])
+
+            self.assertEqual(bytes(bufFile.data), line2)
+            self.assertNotIsInstance(bufFile.src, str)
+
+            with open(path, "rb") as f:
+                self.assertEqual(f.read(), line1 + line2)
+        finally:
+            os.remove(path)
+
+    def test_filter_duplicateElementNames_predicateGetsTheSuffixedKeys(self):
+        # the predicate is keyed the same way decodeLine is, so a repeated element name is reached
+        # by its occurrence suffix rather than being invisible
+        elements = [FRB.BufElementType("X", "fmt", [FRB.BufFloat()]), FRB.BufElementType("X", "fmt", [FRB.BufFloat()])]
+        line1 = struct.pack("<2f", 1.0, 2.0)
+        line2 = struct.pack("<2f", 3.0, 4.0)
+
+        bufFile = FRB.CppBufFile(line1 + line2, elements)
+        kept = bufFile.filter(lambda frame: frame["X1"][0] > 3.0)
+
+        self.assertEqual(kept, [1])
+        self.assertEqual(bytes(bufFile.data), line2)
+
+    # ================================================
     # ================ exceptions ====================
 
     def test_badBufData_bytesSrcWrongSize_raisesRealBadBufDataClass(self):

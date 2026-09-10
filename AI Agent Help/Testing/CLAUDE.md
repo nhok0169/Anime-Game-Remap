@@ -728,15 +728,24 @@ it**, and confirm afterwards with `git status --porcelain -- Data` (must be empt
 `config.texEdits = {{"body", "ps-t1", "ShadeLightMap", &JeanShading::liftLowAlpha}}`
 (`core/src/data/IniFixData/Jean/JeanFixer.cpp`), which is the only live `texEdits` row in the repo --- so
 a change to the texture pipeline that you verify against the Raiden fixture has been verified against
-nothing at all. Measured over the Jean fixture (2026-09-07), a default run against `-c`
+nothing at all. Measured over the Jean fixture, a default run against `-c`
 (`--compressTextures`):
 
 | written file | default | `-c` |
 | --- | --- | --- |
-| `SmollerJeanRemapTex.dds` (50x50) | 2852 | 10128 |
-| `CuteJean/JeanHeadLightMapRemapDLRemapTex.dds` (1024x1024) | 1048724 | 4194432 |
+| `SmollerJeanRemapTex.dds` (50x50) | 10128 | 2852 |
+| `CuteJean/JeanBodyLightMapRemapDLRemapTex.dds` (1024x1024) | 4194432 | 1048724 |
 
-The second is the interesting one: a texture that is **downloaded and then edited**, so it covers
+**Re-measured 2026-09-10, and the two columns are the other way round from what this table said
+until then** --- the byte counts were right, the headings were not, and the earlier `-c` column is
+what you now get with *no* flag. `3ed7903` ("Route in the gameType and uncompress options") landed
+2026-09-07, the same day the original figures were taken, and after it `-c` genuinely compresses:
+the **default** writes RGBA8 and `-c` writes BC, so the default is the 4x-*larger* one. If a run of
+yours produces 10128/4194432 without `-c`, that is current correct behaviour, not a regression. (The
+large file's name moved too --- the fixer's `texEdits` row is keyed on `"body"`, so it writes
+`JeanBodyLightMapRemapDLRemapTex.dds`, not `...Head...`.)
+
+The second row is the interesting one: a texture that is **downloaded and then edited**, so it covers
 download -> edit chaining in one file. Those numbers are a useful regression baseline --- exactly 4x
 on the large one is RGBA8 against BC.
 

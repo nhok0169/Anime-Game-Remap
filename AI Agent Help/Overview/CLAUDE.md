@@ -658,6 +658,115 @@ Also note `import AnimeGameRemap` may silently pick up a **stale copy in site-pa
 `Python313/Lib/site-packages/AnimeGameRemap`), so put `apiMirror/src` *first* on `PYTHONPATH` when
 checking the repo's copy.
 
+### `APIMirrorBuilder` had rotted too, in a way no check would have caught
+
+Fixed 2026-09-10. Three things were wrong at once, and the first one hid the other two:
+
+- **It could not run at all.** `APIFullPath` still pointed at `api/src`, and `buildMirrorInit()`
+  opens `<apiFolder>/__init__.py` --- which stopped existing when the package moved down to
+  `api/src/py/FixRaidenBoss2` for the C++/Cython layers. Every run died on `FileNotFoundError`
+  before reaching anything else. It now uses `APIPySrcFolder`.
+- **The two projects are no longer the same depth**, so `os.path.dirname(os.path.dirname(package))`
+  cannot find both project folders: the API's package is at `api/src/py/FixRaidenBoss2` and the
+  mirror's is at `apiMirror/src/AnimeGameRemap`. The project folders are passed in from
+  `constants/Paths.py` now (`APIPath`, `MirrorPath`) rather than guessed from the package path.
+- **`buildMirrorConfig()` copied the API's `pyproject.toml` wholesale.** That was fine when both
+  were pure python; today the API's `.toml` is mostly scikit-build-core, pybind11, cython and
+  cibuildwheel configuration. It now *selectively* copies only the keys that describe the software
+  (`MirroredProjectKeys` in `APIMirrorBuilder.py` --- authors, description, readme, requires-python,
+  classifiers, ...) plus `[project.urls]`, and builds `[project]`'s `name`/`version`/`dependencies`
+  from the mirror's own metadata. The mirror keeps its own pure python `[build-system]`, and if that
+  section ever comes back matching the API's `build-backend` (i.e. someone ran the old builder) it is
+  reset. Sections outside `[build-system]`/`[project]`/`[project.urls]` are dropped, with a printed
+  line naming each one.
+
+**The old output was not merely untidy --- it was invalid TOML**, in five ways, which is worth
+knowing because nothing in the repo parses these files: the scikit-build backend, a duplicate
+`dependencies` key, entries re-quoted into `""numpy>=1.26.4""`, no comma between array entries (a
+single-dependency list hid this), and the whole `[tool.*]` block. **If you touch any of this, check
+the result with a real parser** --- `tomli` and `tomlkit` are both installed in this dev environment,
+though deliberately *not* dependencies of `AGRemapUtils`, whose .toml handling is text-based so the
+published package stays dependency-light.
+
+`Utils/toml/TomlFile.py` is that text-based layer: it splits a `.toml` into sections and whole
+`key = value` assignments (multi-line values included, bracket-depth tracked, quoted text ignored)
+and replaces them in place, so every value's formatting and comments survive a rewrite. It is not a
+parser --- do not read values out of it.
+
+**Related bug it flushed out, in `TomlUpdater`, which `ToolStatsUpdater` runs over the API's own
+`pyproject.toml` as CIPipeline stage 3:** the version pattern was `(?<=version)\s*=.*` and matched
+anywhere in the file, so a run rewrote the API's `cmake.version = ">=3.18"` into
+`cmake.version = "4.5.5"`. `TomlUpdater` is scoped to the `[project]` section now.
+
+**A passing import is not evidence the mirror is up to date.** Before it was regenerated on
+2026-09-10 the mirror re-exported **297** names and imported perfectly cleanly, while a fresh
+`APIMirrorBuilder` run produced **309** --- twelve API exports it had simply never picked up. The
+one-liner above only proves that nothing the mirror *does* re-export has been deleted; it says
+nothing about what the mirror is missing. To check for staleness, regenerate and diff.
+
+The mirror was regenerated at that point, so its `[project]` now inherits the API's
+`requires-python` (`>=3.6` -> `>=3.8`, which is what the API itself requires and therefore what the
+pinned `FixRaidenBoss2==` dependency needs anyway).
+
+**A local `python -m build` cannot verify any of this on this machine, in two different ways that
+both look like your bug.** With isolation it dies bootstrapping its build env over the network
+(this environment's TLS-inspecting proxy --- see the submodule note in
+[Building](../Building/CLAUDE.md)), and with `--no-isolation` it uses the machine's **setuptools
+49.2.1**, which predates PEP 621 by a dozen major versions, ignores `[project]` entirely and
+cheerfully emits `UNKNOWN-0.0.0.tar.gz`. The pre-change `pyproject.toml` produces exactly the same
+`UNKNOWN-0.0.0`, which is the control worth running before believing the failure is yours. Validate
+the metadata offline instead --- `tomli` to parse, `packaging` to check `name`/`version`/
+`requires-python`/`dependencies` --- and leave the real wheel build to CI, which installs a modern
+setuptools into its isolated env.
+
+## Every source file in `api/src` carries a credits block --- the C++ and Cython ones too
+
+Every `.py` under `api/src/py/FixRaidenBoss2` opens with a `##### Credits` / `##### EndCredits`
+block, and as of **2026-09-10** so does every `.h`/`.tpp`/`.cpp` under `api/src/cpp`
+(`core/include`, `core/src`, `core/tests`, `py/src`) and every `.pyx` under `api/src/cy/src` ---
+852 files added in one pass. In a language whose line comment is not `#`, the keyword carries that
+language's prefix (`// ##### Credits` for C++) and so do the credit lines; nothing else differs,
+because the keywords in `Utils/constants/script/ScriptKeyWords.py` are matched as a **substring of
+a line**, never as a whole line.
+
+**Two placement rules, and the first one is not cosmetic:**
+- **`.h`/`.hpp`: the block goes INSIDE the include guard**, right after the guard's own `#define`
+  --- not above `#ifndef`.
+- Everything else (`.cpp`, `.tpp`, `.pyx`, `.py`): the very first lines of the file. For a `.pyx`
+  that puts it *above* the `# distutils:`/`# cython:` directive comments, which is verified safe
+  (Cython skips preceding comment lines when it scans for both, and `api/src/cy/CMakeLists.txt`
+  passes `-3`/`--module-name` explicitly anyway) --- confirmed by cythonizing all four modules
+  before and after and diffing the generated `.cpp`: identical but for the source paths and line
+  numbers.
+
+**`APIBuilder`'s `-c`/`--addCredits` maintains these blocks; it does not create them.** It rewrites
+whatever sits between the two keywords and leaves a file *without* the keywords completely alone.
+So **a new `.cpp`/`.h` starts with no credits and nothing in the repo will tell you** --- copy the
+block from a sibling file when you add one. (Worth knowing that the flag does real work: its first
+run found two `.py` files whose blocks had drifted to a different author order.)
+
+Where the machinery lives, all under `Tools/Utilities/src/AGRemapUtils/Utils/`:
+- `constants/BoilerPlate.py` --- `CreditLines` plus `getCredits(commentPrefix)` /
+  `getCreditsFileLines(commentPrefix)`. `Credits` is still exactly the `#` flavour, byte-for-byte:
+  `ScriptBuilder`'s and `APIMirrorBuilder`'s preambles concatenate it into generated, *tracked*
+  files, so if you touch this, diff the old and new strings before believing anything.
+- `files/SourceFile.py` --- the language-agnostic keyword scanner (read the file, find the sections,
+  replace one). `python/PyFile.py` is now a subclass that adds the import/script-section parsing;
+  `enums/CommentPrefixes.py` and `constants/FileExts.py`'s `SrcFileCommentPrefixes` map an extension
+  to its line-comment prefix.
+- `credits/CreditsUpdater.py` --- the folder walk `APIBuilder.updateCredits()` drives.
+
+One knock-on: **`SourceFile` now rewrites a file only when the credits actually changed**, where
+the old `PyFile` marked every file with a credits section dirty and rewrote all 124 of them on
+every `ScriptBuilder` run. The resulting bytes are identical either way (verified by diffing both
+implementations' post-read `fileLines` over all 136 modules); only the mtime churn is gone.
+
+Second knock-on, and the reason this is in Overview rather than Building: adding 13 lines to every
+header shifted every `<location line="...">` in the tracked `core/xml`. **Do not resync `core/xml`
+as a passenger on your change** --- [Building](../Building/CLAUDE.md)'s `-d` section explains why
+(a clean Doxygen run also drags in ~178 files of unrelated accumulated drift), and that rule did
+not change here.
+
 ## "Add yourself to The Council" — a running repo ritual
 
 If asked to "add yourself to The Council" (or "join the Council of CLAUDE agents", or similar),

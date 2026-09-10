@@ -229,6 +229,13 @@ file by hand.
   bindings) — not what you want for a normal Python-visible feature.
 - `-s`/`--skipBuild` reinstalls without recompiling; `-i`/`--installKeep` preserves the previous
   install instead of overwriting.
+- `-c`/`--addCredits` rewrites the credits boiler plate in every API source file that has the
+  `##### Credits`/`##### EndCredits` keywords -- all four layers, `.py`/`.pyx`/`.h`/`.tpp`/`.cpp`.
+  It touches *only* the text between those two keywords, and a file without them is skipped
+  entirely, so it cannot add credits to a brand-new file. It rewrites nothing when the block is
+  already correct, so `-c -s -i` (credits only, no compile, keep the installed `.pyd`) is a safe
+  two-second check that costs nothing when there is nothing to do. See
+  [Overview](../Overview/CLAUDE.md)'s "Every source file in `api/src` carries a credits block".
 - Run `py -3 main.py -h` for the full flag list; it's authoritative over this summary.
 
 Run it in the background and tail the log rather than blocking — a full rebuild (with docs) takes

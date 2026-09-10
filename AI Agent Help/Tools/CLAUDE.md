@@ -168,9 +168,11 @@ Three things about that design are load-bearing and easy to undo by accident:
    it out in. A placeholder that is not itself parseable stops the script being built at all.
 
 **`script build/` is the end-user deliverable, so what is committed there must be a `prod` build.**
-A `dev` build looks for `../../../api/src/py` on the user's machine. The pipeline's default is `dev`,
-so a routine pipeline run leaves a non-shippable script in a tracked folder --- check before
-committing it.
+A `dev` build looks for `../../../api/src/py` on the user's machine, which exists on nobody else's.
+This is why **the `CIPipeline` defaults to `prod` while the `ScriptBuilder` defaults to `dev`** --- the
+pipeline writes what gets committed, and the ScriptBuilder on its own is what you reach for while
+working *on* the script. Running the ScriptBuilder directly therefore leaves a non-shippable script
+in a tracked folder; check `EnvName` in the compiled script before committing it.
 
 ## The CIPipeline
 
@@ -181,8 +183,8 @@ Four stages, in order:
 3. **Compiling API Mirror** --- `APIMirrorBuilder`
 4. **Updating Software Metadata** --- `ToolStatsUpdater`
 
-`--env/-e` is the same option and the same `dev` default as the ScriptBuilder's, and is handed down
-**only to the stages that take one** --- today just the script. The `APIBuilder` deliberately does
+`--env/-e` is the same option as the ScriptBuilder's, **but defaults to `prod`** rather than `dev`
+(see above), and is handed down **only to the stages that take one** --- today just the script. The `APIBuilder` deliberately does
 *not* get it: its environments are a different set (`dev`/`core`/`cibuildwheel`), and the production
 wheels come from cibuildwheel in the publish workflow rather than from the `APIBuilder`.
 

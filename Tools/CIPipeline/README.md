@@ -42,12 +42,21 @@ since that is the stage the environment reaches:
 
 | Env | How the compiled script reaches the API | Options the script gains |
 | --- | --- | --- |
-| `dev` *(default)* | a path on this machine, relative to the compiled script | none |
-| `prod` | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs | `--update/-up`, `--preRelease/-pre` |
+| `prod` *(default)* | downloaded from [pypi](https://pypi.org/project/FixRaidenBoss2/) when the script runs | `--update/-up`, `--preRelease/-pre` |
+| `dev` | a path on this machine, relative to the compiled script | none |
 
 ```bash
-python3 main.py --env prod
+python3 main.py --env dev
 ```
+
+<br>
+
+> [!IMPORTANT]
+> This defaults to `prod` where the [Script Builder](https://github.com/nhok0169/Anime-Game-Remap/tree/nhok0169/Tools/ScriptBuilder)
+> defaults to `dev`, on purpose. The pipeline writes the deliverables that get committed, and a
+> `dev` script looks for the API at a path on whichever machine compiled it -- shipping one is
+> broken for every user. Reach for the Script Builder on its own when you are working *on* the
+> script and want it pointed at the API in this repo.
 
 <br>
 

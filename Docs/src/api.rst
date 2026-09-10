@@ -3968,6 +3968,7 @@ Z3Predicate
 .. _Module: https://docs.   python.org/3/tutorial/modules.html
 .. _PIL.Image: https://pillow.readthedocs.io/en/stable/reference/Image.html#module-PIL.Image
 .. _PIL.PixelAccess: https://pillow.readthedocs.io/en/stable/reference/PixelAccess.html
+.. _PIL.ImageEnhance: https://pillow.readthedocs.io/en/stable/reference/ImageEnhance.html#module-PIL.ImageEnhance
 .. _ORFix: https://github.com/leotorrez/LeoTools/blob/main/releases/ORFix.ini
 .. _Highlight Shadow Approximation Reference: https://stackoverflow.com/questions/51591445/what-is-the-algorithm-behind-photoshops-highlight-or-shadow-alteration
 .. _Direct Draw Surface: https://en.wikipedia.org/wiki/DirectDraw_Surface

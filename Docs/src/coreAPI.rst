@@ -2106,6 +2106,8 @@ Z3Predicate
 .. _floating point: https://en.wikipedia.org/wiki/C_data_types
 .. _half precision floating point: https://en.wikipedia.org/wiki/Half-precision_floating-point_format
 .. _unsigned normalized integer: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _unsigned normalized integers: https://learn.microsoft.com/en-us/windows/win32/direct3d10/d3d10-graphics-programming-guide-resources-data-conversion
+.. _DXGI format: https://learn.microsoft.com/en-us/windows/win32/api/dxgiformat/ne-dxgiformat-dxgi_format
 .. _true division: https://peps.python.org/pep-0238/
 .. _Compressonator: https://github.com/GPUOpen-Tools/compressonator
 .. _Pillow: https://pillow.readthedocs.io/en/stable/index.html

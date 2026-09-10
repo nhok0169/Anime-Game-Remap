@@ -41,9 +41,12 @@ instead of stopping at the first). Remember: rerun Doxygen first (see
 [Building](../Building/CLAUDE.md#fast-iteration-on-c-core-only-changes)) if you changed a C++
 header comment — Sphinx reads the cached `core/xml/`, not the headers.
 
-Sphinx 7.4.7 / Breathe 4.36.0 are installed for `py -3` (Python 3.13) as of 2026-09-03; the command
-above takes a couple of minutes and exits 1 purely because `-W` promotes the baseline below. Current
-baseline: **36 warnings**, none from `api.rst`/`coreAPI.rst`/`index.rst` — beware that the
+Sphinx 7.4.7 / Breathe 4.36.0 are what `py -3` has (re-checked 2026-09-10 — note `py -3` is **3.9.3**
+now, not the 3.13 an earlier revision of this line recorded; the Sphinx install followed the
+interpreter, so the command still works, but `python` is a *different* interpreter here and does not
+have Sphinx at all). The command above takes a couple of minutes and exits 1 purely because `-W`
+promotes the baseline below. Current baseline: **26 warnings and 0 errors**, none from
+`api.rst`/`coreAPI.rst`/`index.rst` — beware that the
 `[autosummary] generating autosummary for: ...` line names every `.rst`, so a naive per-file grep
 counts one phantom hit for each of those three. Verify a new `coreAPI.rst` entry by extracting the
 section between its `id="..."` anchor and the next section's and checking the mangled member ids
@@ -198,7 +201,7 @@ always get reprocessed regardless of cache state), but reach for `-E` specifical
 you're chasing doesn't make sense against the file it's reported against (see the next paragraph),
 or you need the actual full-site total rather than "whatever happened to already be stale."
 
-**The full-site baseline, measured 2026-09-03 with a wiped `build/html/.doctrees`, is 25 WARNING
+**The full-site baseline, re-measured 2026-09-10 with `-E`, is 26 WARNING lines and 0 ERROR
 lines**, distributed like this — compare per file, since the total alone hides a swap:
 
 | File | Warnings |
@@ -206,9 +209,28 @@ lines**, distributed like this — compare per file, since the total alone hides
 | `apiExamples.rst` | 12 |
 | `tutorial.rst` | 9 |
 | intersphinx (network, "failed to reach any of the inventories") | 2 |
-| `commandOpts.rst` | 1 |
+| python docstrings (duplicate object description: `TexEditor.compress`, `TexCreator.compress`) | 2 |
 | `findVertexGroupRemap.rst` | 1 |
+| `commandOpts.rst` | 0 |
 | **`api.rst` / `coreAPI.rst`** | **0** |
+
+The delta from the 2026-09-03 measurement of 25 is fully accounted for: `commandOpts.rst` lost its
+one warning, and the two `duplicate object description` warnings on `TexEditor.compress` /
+`TexCreator.compress` are new since. 25 - 1 + 2 = 26.
+
+**ERROR lines are a SEPARATE tally from WARNING lines, and Sphinx's summary adds them together.**
+"build finished with problems, 30 warnings" meant 26 `WARNING:` plus 4 `ERROR:`, so a
+`grep -c WARNING` disagreeing with the summary line is not a miscount — it is the errors. Grep for
+both. The error baseline is **0** as of 2026-09-10: the four that stood there were undefined RST link
+targets, fixed by defining them (see below), and any error is worth chasing rather than tolerating.
+
+**RST link targets are per-document, which is the single most likely cause of a new
+`Unknown target name` error.** Defining `.. _Foo:` in `api.rst` does nothing for a doc comment that
+Breathe renders into `coreAPI.rst`; each page needs its own copy of every target its content
+references. That is exactly how `DXGI format` and `unsigned normalized integers` (referenced from
+`VbFile.h`, rendered into coreAPI) sat broken while being correctly defined in `api.rst` all along.
+Do not "helpfully" mirror the whole target list into both pages, though — each page's targets are
+otherwise all genuinely used by it, and an unused one is dead weight.
 
 That last row is the one that matters: the two generated-API files should stay at zero, so any
 warning naming either of them is yours. Note the trap this table exists to prevent — an

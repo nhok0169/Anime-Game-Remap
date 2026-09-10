@@ -73,6 +73,19 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp
     src/data/IniParseData/Shenhe/ShenheParser.cpp
     src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp
+    src/model/iniresources/RemapPositionResource.cpp
+    src/data/IniFixData/Xiangling/XianglingFixer.cpp
+    src/data/IniParseData/Xiangling/XianglingParser.cpp
+    src/data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp
+    src/data/IniParseData/XianglingCheer/XianglingCheerParser.cpp
+    src/data/IniFixData/HuTao/HuTaoFixer.cpp
+    src/data/IniParseData/HuTao/HuTaoParser.cpp
+    src/data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp
+    src/data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp
+    src/data/IniFixData/Xingqiu/XingqiuFixer.cpp
+    src/data/IniParseData/Xingqiu/XingqiuParser.cpp
+    src/data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp
+    src/data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp
     src/data/IniFixData/Raiden/RaidenFixer.cpp
     src/data/IniFixData/Amber/AmberFixer.cpp
     src/constants/GlobalIniClassifiers.cpp

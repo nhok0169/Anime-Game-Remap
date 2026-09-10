@@ -19,6 +19,7 @@
 #include <vector>
 
 #include "AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h"
+#include "AGRemapCore/model/files/BufFile.h"
 #include "AGRemapCore/model/strategies/texEditors/TexCreator.h"
 #include "AGRemapCore/model/strategies/texEditors/TexEditor.h"
 
@@ -172,6 +173,33 @@ namespace AGRemapCore {
         std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::string>>>> objNewRegVals;
 
         /**
+         * @brief
+         @rst
+         Registers stripped from the copies that came from ONE **source** object -- the merge
+         counterpart of \ref objRegRemovals :raw-html:`<br />` :raw-html:`<br />`
+
+         Reach for this only when a target-keyed entry would be wrong. Removals usually are not:
+         a key that is not in the part is not removed, so unioning several sources' removals onto
+         the target they share costs nothing and reads more simply
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::string>>> srcObjRegRemovals;
+
+        /**
+         * @brief
+         @rst
+         Registers **renamed** on the copies that came from ONE **source** object -- the merge
+         counterpart of \ref objRegRemaps :raw-html:`<br />` :raw-html:`<br />`
+
+         Unlike a removal, a shift declared against the wrong copy is destructive, so this is the
+         one a merge usually needs. CherryHuTao is the worked example: her head and dress lose a
+         normal map and shift down a slot, while her body and extra -- landing on the same two
+         targets, in the other group -- keep their registers exactly where they are
+         @endrst
+         */
+        std::vector<std::pair<std::string, std::vector<std::pair<std::string, std::vector<std::string>>>>> srcObjRegRemaps;
+
+        /**
          * @brief One texture edit -- a texture the fix rewrites and repoints a register at
          */
         struct TexEdit {
@@ -207,6 +235,21 @@ namespace AGRemapCore {
              @endrst
              */
             bool compress = true;
+
+            /**
+             * @brief
+             @rst
+             Which **source** object's copy this edit belongs to, or empty (the default) for
+             every copy of \ref obj :raw-html:`<br />` :raw-html:`<br />`
+
+             Only meaningful under a **merge**, where several sources land on one target and each
+             arrives in a group of its own. Xiangling is the worked example: her ``DarkDiffuse``
+             edit is declared on her head, and her head, body and dress all merge onto
+             XianglingCheer's head -- so without this the body and dress copies are darkened too,
+             which the pure-Python output shows they are not
+             @endrst
+             */
+            std::string srcObj;
         };
 
         /**
@@ -305,6 +348,27 @@ namespace AGRemapCore {
          **Default**: ``false`` -- the commoner of the two
          @endrst
          */
+        /**
+         * @brief
+         @rst
+         What to do to every vertex of the ``Position.buf`` -- **empty (the default) means
+         nothing at all**, which is what almost every remap wants :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         A position buffer holds where the mesh's vertices ARE, and remapping a mod onto
+         another character does not move them. Of the 47 pairs in the pure-Python
+         ``PositionEditorData`` table, 46 are ``None``; the exception is a pair whose two models
+         were authored around different origins, and Xiangling/XianglingCheer are that pair --
+         about 0.78 units apart in Y, so a mod remapped between them lands in mid-air unless
+         every vertex is translated to match :raw-html:`<br />` :raw-html:`<br />`
+
+         Set it and the fix writes a ``[Resource<Mod><Target>RemapPosition.N]`` beside the
+         blend's and repoints ``vb0`` at it; leave it and nothing about the position is touched,
+         not even a renamed copy
+         @endrst
+         */
+        BufFile::Filter positionEdit;
+
         bool moveDrawIndexed = false;
 
         /**

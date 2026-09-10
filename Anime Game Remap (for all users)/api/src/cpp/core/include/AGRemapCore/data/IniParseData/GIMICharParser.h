@@ -101,6 +101,24 @@ namespace AGRemapCore {
         int texcoordStride;
 
         /**
+         * @brief
+         @rst
+         Drawn objects that have **no lightmap** to download :raw-html:`<br />`
+         :raw-html:`<br />`
+
+         Every drawn object otherwise gets a diffuse, a lightmap and an ib declared for it, and
+         a declaration whose file is not in ``Data/Mod Downloads/GI/<char>/<version>/`` writes
+         a resource section naming a file nothing will ever fetch -- a dangling reference the
+         ``.ini`` text cannot show you :raw-html:`<br />` :raw-html:`<br />`
+
+         **Default**: empty. Exactly one object in the whole asset tree needs this
+         (CherryHuTao's ``extra`` at 5.3), so check the folder before reaching for it rather
+         than assuming the character is like her
+         @endrst
+         */
+        std::vector<std::string> objsWithoutLightMap;
+
+        /**
          * @brief The byte size of one position vertex. **Default**: ``40``
          */
         int positionStride = 40;

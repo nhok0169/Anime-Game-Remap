@@ -59,7 +59,6 @@ namespace AGRemapCore {
     IniFixBuilder::Factory IniFixBuilderFuncs::rosaria4_0() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::rosariaCN4_0() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::shenhe4_0() { return IniFixBuilder::defaultFactory(); }
-    IniFixBuilder::Factory IniFixBuilderFuncs::xiangling4_0() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::xingqiu4_0() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::ganyuTwilight4_4() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::shenheFrostFlower4_4() { return IniFixBuilder::defaultFactory(); }
@@ -328,6 +327,34 @@ namespace AGRemapCore {
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::ShenheFrostFlower),
                   "6.1", ModTypeIdTools::getName(ModTypeId::Shenhe)}, IniFixBuilderFuncs::shenheFrostFlower6_1()},
 
+                // ===== XianglingCheer @ toVersion 6.1 =====
+                //
+                // NO Xiangling ROW HERE, and that is deliberate rather than missing -- hers stays
+                // at toVersion 4.0 above. Her fix's head re-issues ORFix, and ORFix's maintainers
+                // baked the GI 6.1 diffuse/lightmap register swap into the library itself, so a
+                // part that was already calling it needed no new row. The pure-Python table has
+                // no xiangling6_1 for the same reason.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XianglingCheer),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Xiangling)}, IniFixBuilderFuncs::xianglingCheer6_1()},
+
+                // ===== HuTao @ toVersion 6.1 =====
+                //
+                // The pair: this one SPLITS two objects into four and the one below merges them
+                // back. Between them they are the widest split and the most involved merge here.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::HuTao),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::CherryHuTao)}, IniFixBuilderFuncs::hutao6_1()},
+
+                // ===== CherryHuTao @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::CherryHuTao),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::HuTao)}, IniFixBuilderFuncs::cherryHuTao6_1()},
+
+                // ===== Xingqiu @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Xingqiu),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo)}, IniFixBuilderFuncs::xingqiu6_1()},
+
+                // ===== XingqiuBamboo @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::XingqiuBamboo),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Xingqiu)}, IniFixBuilderFuncs::xingqiuBamboo6_1()},
                 // ===== Raiden @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "6.1", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::raiden6_1()},

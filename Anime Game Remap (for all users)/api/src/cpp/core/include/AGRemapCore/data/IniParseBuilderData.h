@@ -162,8 +162,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.hutao4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **HuTao** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``, two fewer than her skin. See
+             ``data/IniParseData/HuTao/HuTaoParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory hutao4_0();
@@ -370,8 +373,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.xiangling4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Xiangling** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``/``dress``, one more than her skin. See
+             ``data/IniParseData/Xiangling/XianglingParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory xiangling4_0();
@@ -379,8 +385,10 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.xingqiu4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Xingqiu** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Draws ``head``/``body``. See ``data/IniParseData/Xingqiu/XingqiuParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory xingqiu4_0();
@@ -412,8 +420,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.xingqiuBamboo4_4`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.4-era **XingqiuBamboo** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body``/``dress``. See
+             ``data/IniParseData/XingqiuBamboo/XingqiuBambooParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory xingqiuBamboo4_4();
@@ -439,8 +450,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.cherryHutao5_3`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.3-era **CherryHuTao** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             FOUR drawn objects, and a texcoord stride of 28 that nothing else in the table uses.
+             See ``data/IniParseData/CherryHuTao/CherryHuTaoParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory cherryHutao5_3();
@@ -448,8 +462,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.xianglingCheer5_3`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.3-era **XianglingCheer** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Draws ``head``/``body`` only. See
+             ``data/IniParseData/XianglingCheer/XianglingCheerParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory xianglingCheer5_3();

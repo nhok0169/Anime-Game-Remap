@@ -28,6 +28,7 @@
 #include "AGRemapCore/tools/Heading.h"
 #include "AGRemapCore/model/iniresources/RemapBlendResource.h"
 #include "AGRemapCore/model/iniresources/RemapIniResource.h"
+#include "AGRemapCore/model/iniresources/RemapPositionResource.h"
 #include "AGRemapCore/model/iniresources/RemapTexResource.h"
 #include "AGRemapCore/tools/StringTools.h"
 #include "AGRemapCore/tools/files/FileService.h"
@@ -966,6 +967,14 @@ namespace AGRemapCore {
 
         if (RemapBlendResource* blend = dynamic_cast<RemapBlendResource*>(&resource)) {
             return blend->fix();
+        }
+
+        // Next to the blend because it is the same kind of thing -- a .buf this fix rewrites -- and
+        // because forgetting it has exactly the failure this whole function's comment warns about:
+        // the resource is built, named and written into the .ini, and then nobody ever calls fix()
+        // on it. Every log line stays green and the file the .ini points at is simply not there.
+        if (RemapPositionResource* position = dynamic_cast<RemapPositionResource*>(&resource)) {
+            return position->fix();
         }
 
         // Applied HERE rather than where the resource was built, and that is the point of it: the

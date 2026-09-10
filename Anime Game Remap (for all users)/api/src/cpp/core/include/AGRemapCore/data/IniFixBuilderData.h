@@ -355,8 +355,13 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.xiangling4_0`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 4.0 fix remapping **Xiangling onto XianglingCheer** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A **merge** of all three of her objects onto the skin's head, across THREE ``.ini`` files, and
+             the only live fix still registered at 4.0 rather than 6.1. Its head re-issues ``ORFix``, whose
+             maintainers baked the GI 6.1 register swap into the library itself -- so a part already calling
+             it needed no 6.1 row. See ``data/IniFixData/Xiangling/XianglingFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory xiangling4_0();
@@ -884,6 +889,67 @@ namespace AGRemapCore {
              */
             static IniFixBuilder::Factory ganyu6_1();
 
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **XianglingCheer onto Xiangling** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The **split** that undoes :cpp:func:`xiangling4_0`'s merge, and the direction that loses a
+             normal map. See ``data/IniFixData/XianglingCheer/XianglingCheerFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory xianglingCheer6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **HuTao onto CherryHuTao** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A **split of both objects**, two becoming four, plus a created normal map and a moved draw
+             call. See ``data/IniFixData/HuTao/HuTaoFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory hutao6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **CherryHuTao onto HuTao** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The most involved fix here: a **merge** of four objects onto two, three texture edits,
+             reflection sections to strip, and a register shift that belongs to only half the copies --
+             see :cpp:member:`GIMICharFixerConfig::srcObjRegRemaps` and
+             ``data/IniFixData/CherryHuTao/CherryHuTaoFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory cherryHuTao6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **Xingqiu onto XingqiuBamboo** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A **split** of the head alone, across the skin's ``head`` and ``dress``. See
+             ``data/IniFixData/Xingqiu/XingqiuFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory xingqiu6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **XingqiuBamboo onto Xingqiu** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The **merge** back onto Xingqiu, whose head takes both the skin's head and its outer robe.
+             See ``data/IniFixData/XingqiuBamboo/XingqiuBambooFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory xingqiuBamboo6_1();
             /**
              * @brief
              @rst

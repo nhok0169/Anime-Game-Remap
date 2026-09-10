@@ -36,6 +36,7 @@
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResRegCollect.h"
+#include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/PositionEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h"
 #include "AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/VGRemapBlendEdit.h"
@@ -161,6 +162,7 @@ namespace AGRemapCore {
                     // below build one instance per group.
                     buildObjMap();
                     buildBlendCollector();
+                    buildPositionCollector();
                     buildTexEdits();
                     buildEdits();
 
@@ -176,6 +178,12 @@ namespace AGRemapCore {
                     }
 
                     for (auto& collect : blendCollects_) {
+                        this->graphGroupEdits.push_back(collect.get());
+                    }
+
+                    // Empty unless this character's config asks for a position edit, which
+                    // almost none do -- see GIMICharFixerConfig::positionEdit.
+                    for (auto& collect : positionCollects_) {
                         this->graphGroupEdits.push_back(collect.get());
                     }
 
@@ -346,6 +354,23 @@ namespace AGRemapCore {
                     objSplitRemap_ = std::make_unique<ObjGroupRemap>(std::move(remap));
                 }
 
+                /**
+                 * Whether 'group' holds the copy of 'targetObj' that came from 'srcObj'.
+                 *
+                 * A one-to-one fix has no objSplits and therefore one group per object, so the
+                 * answer is just "is this the object itself".
+                 */
+                bool groupHasSrc(std::size_t group, const std::string& targetObj, const std::string& srcObj) const {
+                    for (std::size_t i = 0; i < objMap_.size(); ++i) {
+                        if (pairGroups_[i] == group && objMap_[i].second.second == targetObj
+                                && objMap_[i].first.second == srcObj) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+
                 // ---- textures this fix rewrites ----
                 //
                 // The same three-part shape as the blend collector -- read buildBlendCollector
@@ -358,6 +383,13 @@ namespace AGRemapCore {
                     // Per group, for the same reason as the blend collector above.
                     for (std::size_t group = 0; group < groupCount_; ++group) {
                         for (const GIMICharFixerConfig::TexEdit& texEdit : config_.texEdits) {
+                            // A texture edit belonging to ONE source object runs only in the group
+                            // that source landed in -- the merge case, see buildEdits' note. An
+                            // empty srcObj is every group, which is what a split always wants.
+                            if (!texEdit.srcObj.empty() && !groupHasSrc(group, texEdit.obj, texEdit.srcObj)) {
+                                continue;
+                            }
+
                             const GraphId srcGraph(group, "", texEdit.obj);
 
                             // A DISTINCT mod object from the source graph, exactly as the blend
@@ -436,6 +468,40 @@ namespace AGRemapCore {
 
                         blendReplaces_.push_back(std::move(replace));
                         blendCollects_.push_back(std::move(collect));
+                    }
+                }
+
+                /**
+                 * The position buffer, for the one pair that needs its vertices moved.
+                 *
+                 * Deliberately much simpler than the blend's collector next door. The blend has
+                 * to find which parts carry the qualifying hash, because its vb1 and that hash
+                 * live in different sections; the position graph IS the position mod object, so
+                 * every part of it is wanted and there is nothing to window.
+                 *
+                 * Nothing is built at all when the config asks for no edit -- not even a renamed
+                 * copy of the original, which would go stale silently the moment the mod's own
+                 * position buffer changed.
+                 */
+                void buildPositionCollector() {
+                    if (!config_.positionEdit) {
+                        return;
+                    }
+
+                    for (std::size_t group = 0; group < groupCount_; ++group) {
+                        const GraphId positionGraph(group, PositionObj.first, PositionObj.second);
+                        const GraphId positionResGraph(group, PositionObj.first,
+                                                        PositionObj.second + "RemapPosition");
+
+                        auto replace = std::make_unique<PositionEditReplace<>>(
+                            positionResGraph, makeCharResEditConfig(), config_.positionEdit);
+
+                        auto collect = std::make_unique<Collector>();
+                        collect->srcRegs = {{positionGraph, IniKeywords::Vb0}};
+                        collect->resEdits = {{IniKeywords::Position, replace.get()}};
+
+                        positionReplaces_.push_back(std::move(replace));
+                        positionCollects_.push_back(std::move(collect));
                     }
                 }
 
@@ -863,7 +929,70 @@ namespace AGRemapCore {
                         newRegVals_[modObj] = std::move(edit);
                     }
 
-                    ObjGroupEdit::IniEdits iniEdits;
+                    // ---- the SOURCE-KEYED edits ----
+                    //
+                    // Everything above names a TARGET object, which is right for a split -- each
+                    // target has exactly one source, so "the copy that came from X" and "the
+                    // target called Y" are the same thing. A MERGE breaks that: several sources
+                    // land on one target, in different groups, and the pure-Python rows key their
+                    // pre-split edits by SOURCE for exactly that reason.
+                    //
+                    // Xiangling is the worked example. Her DarkDiffuse edit is declared on her
+                    // head, and all three of her objects merge onto XianglingCheer's head -- so a
+                    // target-keyed edit darkens the body and dress copies too, which the old
+                    // script's own output shows it does not (RemapFix1 and RemapFix2 point at the
+                    // untouched ...BodyDiffuse.0 and ...DressDiffuse.0).
+                    //
+                    // Resolved here rather than at the call site because objMap_ and pairGroups_
+                    // already say which (target, group) each source became.
+                    // Built at size rather than resized: MSVC will not grow a vector whose element
+                    // is an unordered_map of unique_ptr, because that map has no noexcept move and
+                    // vector then falls back to copying.
+                    srcRegRemovalAdapters_ = SrcAdapters(groupCount_);
+                    srcRegRemapAdapters_ = SrcAdapters(groupCount_);
+
+                    for (const auto& entry : config_.srcObjRegRemovals) {
+                        std::vector<std::pair<std::string, std::optional<RegRemove<>::RemoveKeyCheck>>> keys;
+                        for (const std::string& reg : entry.second) {
+                            keys.emplace_back(reg, std::nullopt);
+                        }
+
+                        for (std::size_t i = 0; i < objMap_.size(); ++i) {
+                            if (objMap_[i].first.second != entry.first) {
+                                continue;
+                            }
+
+                            auto edit = std::make_unique<RegRemove<>>(keys);
+                            srcRegRemovalAdapters_[pairGroups_[i]][objMap_[i].second] =
+                                std::make_unique<RegPartEdit<>>(edit.get());
+                            srcRegRemovals_.push_back(std::move(edit));
+                        }
+                    }
+
+                    for (const auto& entry : config_.srcObjRegRemaps) {
+                        for (std::size_t i = 0; i < objMap_.size(); ++i) {
+                            if (objMap_[i].first.second != entry.first) {
+                                continue;
+                            }
+
+                            // Rebuilt per pair rather than shared: RegRemap owns its rules and the
+                            // adapters hand out raw pointers, so one instance per place it runs.
+                            std::vector<std::pair<std::string, RegRemap<>::KeyRemapValue>> remaps;
+                            for (const auto& rename : entry.second) {
+                                RemapList<std::string, std::string> targets;
+                                for (const std::string& toReg : rename.second) {
+                                    targets.push_back(toReg);
+                                }
+
+                                remaps.emplace_back(rename.first, RegRemap<>::KeyRemapValue(std::move(targets)));
+                            }
+
+                            auto edit = std::make_unique<RegRemap<>>(std::move(remaps));
+                            srcRegRemapAdapters_[pairGroups_[i]][objMap_[i].second] =
+                                std::make_unique<RegPartEdit<>>(edit.get());
+                            srcRegRemaps_.push_back(std::move(edit));
+                        }
+                    }
 
                     // ORDER IS LOAD-BEARING here, twice over:
                     //
@@ -877,101 +1006,121 @@ namespace AGRemapCore {
                     // from, and every one of them is wanted everywhere in the graph it runs over.
                     // The one edit that does need a window has a group edit to itself -- see
                     // buildIndexEdits, and GIMIObjPartFilter for why filters are usually mandatory.
-                    for (const ModObj& modObj : targetObjs_) {
-                        std::vector<ObjGroupEdit::PartEdit*> edits;
+                    std::vector<ObjGroupEdit::IniEdits> perGroupEdits;
 
-                        // FIRST, so nothing downstream has to reason about a register that is on its
-                        // way out -- notably the NNFix placement, which counts what it walks past.
-                        auto removal = regRemovalAdapters_.find(modObj);
-                        if (removal != regRemovalAdapters_.end()) {
-                            edits.push_back(removal->second.get());
-                        }
+                    for (std::size_t group = 0; group < groupCount_; ++group) {
+                        ObjGroupEdit::IniEdits iniEdits;
 
-                        edits.push_back(removeFixCallsAdapter_.get());
+                        for (const ModObj& modObj : targetObjs_) {
+                            std::vector<ObjGroupEdit::PartEdit*> edits;
 
-                        // After the removal and before anything that reads a register by name.
-                        auto remap = regRemapAdapters_.find(modObj);
-                        if (remap != regRemapAdapters_.end()) {
-                            edits.push_back(remap->second.get());
-                        }
-
-                        // The rename belongs to whichever of the two actually did it. With a split,
-                        // GraphGroupRemap::copyGraph already renamed every section as it copied --
-                        // through IniNamingTools::getObjRemapFixName, which is the same
-                        // getRemapFixName underneath plus the object swap. Renaming again here
-                        // would append a second RemapFix suffix.
-                        if (objSplitRemap_ == nullptr) {
-                            edits.push_back(renameAdapter_.get());
-                        }
-
-                        // Only when this character's fix moves the draw call onto its drawn objects.
-                        // Without it there is no drawindexed in these parts at all, RegDelimitedAdd
-                        // finds no delimiter, and NNFix lands once at the end of the path -- which
-                        // is exactly what the pure-Python Mona/Rosaria output shows.
-                        if (config_.moveDrawIndexed) {
-                            edits.push_back(fillAdapter_.get());
-                        }
-
-                        auto calls = fixCallAdapters_.find(modObj);
-                        if (calls != fixCallAdapters_.end()) {
-                            for (const auto& adapter : calls->second) {
-                                edits.push_back(adapter.get());
+                            // FIRST, so nothing downstream has to reason about a register that is on
+                            // its way out -- notably the NNFix placement, which counts what it walks
+                            // past. The source-keyed one goes alongside for the same reason.
+                            auto removal = regRemovalAdapters_.find(modObj);
+                            if (removal != regRemovalAdapters_.end()) {
+                                edits.push_back(removal->second.get());
                             }
+
+                            auto srcRemoval = srcRegRemovalAdapters_[group].find(modObj);
+                            if (srcRemoval != srcRegRemovalAdapters_[group].end()) {
+                                edits.push_back(srcRemoval->second.get());
+                            }
+
+                            edits.push_back(removeFixCallsAdapter_.get());
+
+                            // After the removal and before anything that reads a register by name.
+                            auto remap = regRemapAdapters_.find(modObj);
+                            if (remap != regRemapAdapters_.end()) {
+                                edits.push_back(remap->second.get());
+                            }
+
+                            auto srcRemap = srcRegRemapAdapters_[group].find(modObj);
+                            if (srcRemap != srcRegRemapAdapters_[group].end()) {
+                                edits.push_back(srcRemap->second.get());
+                            }
+
+                            // The rename belongs to whichever of the two actually did it. With a
+                            // split, GraphGroupRemap::copyGraph already renamed every section as it
+                            // copied -- through IniNamingTools::getObjRemapFixName, which is the same
+                            // getRemapFixName underneath plus the object swap. Renaming again here
+                            // would append a second RemapFix suffix.
+                            if (objSplitRemap_ == nullptr) {
+                                edits.push_back(renameAdapter_.get());
+                            }
+
+                            // Only when this character's fix moves the draw call onto its drawn
+                            // objects. Without it there is no drawindexed in these parts at all,
+                            // RegDelimitedAdd finds no delimiter, and NNFix lands once at the end of
+                            // the path -- which is exactly what the pure-Python Mona/Rosaria output
+                            // shows.
+                            if (config_.moveDrawIndexed) {
+                                edits.push_back(fillAdapter_.get());
+                            }
+
+                            auto calls = fixCallAdapters_.find(modObj);
+                            if (calls != fixCallAdapters_.end()) {
+                                for (const auto& adapter : calls->second) {
+                                    edits.push_back(adapter.get());
+                                }
+                            }
+
+                            edits.push_back(assetAdapter_.get());
+
+                            // Forced register values come last, so nothing above can overwrite them.
+                            auto forced = newRegValAdapters_.find(modObj);
+                            if (forced != newRegValAdapters_.end()) {
+                                edits.push_back(forced->second.get());
+                            }
+
+                            iniEdits.edits[modObj] = std::move(edits);
+                            iniEdits.trackKeys[modObj] = false;
                         }
 
-                        edits.push_back(assetAdapter_.get());
-
-                        // Forced register values come last, so nothing above can overwrite them.
-                        auto forced = newRegValAdapters_.find(modObj);
-                        if (forced != newRegValAdapters_.end()) {
-                            edits.push_back(forced->second.get());
+                        // No key window on any of these either: each holds one mod object's worth of
+                        // registers, so there is nothing within them to tell apart. Every one gets the
+                        // rename belonging to ITS OWN kind plus the shared hash remap.
+                        std::vector<ObjGroupEdit::PartEdit*> ibEdits = {renameIbAdapter_.get(), assetAdapter_.get()};
+                        if (config_.moveDrawIndexed) {
+                            ibEdits.push_back(removeDrawIndexedAdapter_.get());
                         }
 
-                        iniEdits.edits[modObj] = std::move(edits);
-                        iniEdits.trackKeys[modObj] = false;
+                        iniEdits.edits[IbObj] = std::move(ibEdits);
+                        iniEdits.trackKeys[IbObj] = false;
+
+                        iniEdits.edits[BlendObj] = {renameBlendAdapter_.get(), assetAdapter_.get()};
+                        iniEdits.trackKeys[BlendObj] = false;
+
+                        iniEdits.edits[PositionObj] = {renamePositionAdapter_.get(), assetAdapter_.get()};
+                        iniEdits.trackKeys[PositionObj] = false;
+
+                        iniEdits.edits[TexcoordObj] = {renameTexcoordAdapter_.get(), assetAdapter_.get()};
+                        iniEdits.trackKeys[TexcoordObj] = false;
+
+                        // ("", "other") is the one that DOES use the generic RemapFix name: it holds
+                        // the sections that are not a resource of any particular kind, and the fix has
+                        // nothing to say about them beyond swapping the hash.
+                        iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get()};
+                        iniEdits.trackKeys[OtherObj] = false;
+
+                        // The face keeps the two edits it would have had inside ("", "other") -- the
+                        // RemapFix name is right for it, and the hash remap is a no-op wherever the
+                        // pair shares a face hash -- and adds the register swap, which is the whole
+                        // reason it has a mod object of its own. The rename is what stops the copied
+                        // graph rendering as a verbatim duplicate of the source text, the same trap
+                        // the blend fell into.
+                        iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(),
+                                                    faceSwapAdapter_.get()};
+                        iniEdits.trackKeys[FaceObj] = false;
+
+                        perGroupEdits.push_back(std::move(iniEdits));
                     }
 
-                    // No key window on any of these either: each holds one mod object's worth of
-                    // registers, so there is nothing within them to tell apart. Every one gets the
-                    // rename belonging to ITS OWN kind plus the shared hash remap.
-                    std::vector<ObjGroupEdit::PartEdit*> ibEdits = {renameIbAdapter_.get(), assetAdapter_.get()};
-                    if (config_.moveDrawIndexed) {
-                        ibEdits.push_back(removeDrawIndexedAdapter_.get());
-                    }
-
-                    iniEdits.edits[IbObj] = std::move(ibEdits);
-                    iniEdits.trackKeys[IbObj] = false;
-
-                    iniEdits.edits[BlendObj] = {renameBlendAdapter_.get(), assetAdapter_.get()};
-                    iniEdits.trackKeys[BlendObj] = false;
-
-                    iniEdits.edits[PositionObj] = {renamePositionAdapter_.get(), assetAdapter_.get()};
-                    iniEdits.trackKeys[PositionObj] = false;
-
-                    iniEdits.edits[TexcoordObj] = {renameTexcoordAdapter_.get(), assetAdapter_.get()};
-                    iniEdits.trackKeys[TexcoordObj] = false;
-
-                    // ("", "other") is the one that DOES use the generic RemapFix name: it holds the
-                    // sections that are not a resource of any particular kind, and the fix has
-                    // nothing to say about them beyond swapping the hash.
-                    iniEdits.edits[OtherObj] = {renameAdapter_.get(), assetAdapter_.get()};
-                    iniEdits.trackKeys[OtherObj] = false;
-
-                    // The face keeps the two edits it would have had inside ("", "other") -- the
-                    // RemapFix name is right for it, and the hash remap is a no-op wherever the pair
-                    // shares a face hash -- and adds the register swap, which is the whole reason it
-                    // has a mod object of its own. The rename is what stops the copied graph
-                    // rendering as a verbatim duplicate of the source text, the same trap the blend
-                    // fell into.
-                    iniEdits.edits[FaceObj] = {renameAdapter_.get(), faceAssetAdapter_.get(),
-                                                faceSwapAdapter_.get()};
-                    iniEdits.trackKeys[FaceObj] = false;
-
-                    // Repeated per group. Unlike the index edits these carry no key window, so
-                    // every group wants exactly the same set -- and an entry for an object a given
-                    // group does not hold costs nothing, since GraphGroupEdit walks the GROUP's mod
-                    // objects and looks each one up here rather than the other way round.
-                    objEdits_ = ObjGroupEdit(std::vector<ObjGroupEdit::IniEdits>(groupCount_, iniEdits), false);
+                    // One IniEdits per group. They are identical unless srcObjRegRemovals or
+                    // srcObjRegRemaps put something in one of them -- an entry for an object a given
+                    // group does not hold costs nothing either way, since GraphGroupEdit walks the
+                    // GROUP's mod objects and looks each one up here rather than the other way round.
+                    objEdits_ = ObjGroupEdit(std::move(perGroupEdits), false);
                 }
 
                 IniFileFixContext ctx_;
@@ -996,6 +1145,19 @@ namespace AGRemapCore {
                 std::vector<std::unique_ptr<RegDelimitedAdd<>>> fixCallAdds_;
                 std::vector<std::unique_ptr<RegSurroundedAdd<>>> texFxAdds_;
                 std::unordered_map<ModObj, std::vector<std::unique_ptr<GraphPartEdit<>>>, Fixer::ModObjHash> fixCallAdapters_;
+
+                // The source-keyed edits, indexed by GROUP then target object -- see the note in
+                // buildEdits. The owning vectors are flat because nothing looks these up by key;
+                // the adapters do, and they hold raw pointers into these.
+                using SrcAdapters = std::vector<std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash>>;
+
+                std::vector<std::unique_ptr<PositionEditReplace<>>> positionReplaces_;
+                std::vector<std::unique_ptr<Collector>> positionCollects_;
+
+                std::vector<std::unique_ptr<RegRemove<>>> srcRegRemovals_;
+                SrcAdapters srcRegRemovalAdapters_;
+                std::vector<std::unique_ptr<RegRemap<>>> srcRegRemaps_;
+                SrcAdapters srcRegRemapAdapters_;
 
                 std::unordered_map<ModObj, std::unique_ptr<RegRemove<>>, Fixer::ModObjHash> regRemovals_;
                 std::unordered_map<ModObj, std::unique_ptr<RegPartEdit<>>, Fixer::ModObjHash> regRemovalAdapters_;

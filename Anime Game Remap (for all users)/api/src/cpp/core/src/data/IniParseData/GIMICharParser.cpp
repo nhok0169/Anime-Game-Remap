@@ -140,8 +140,13 @@ namespace AGRemapCore {
                         // and yellow.
                         add(config, {"", obj}, "ps-t0", file + "Diffuse", file + "Diffuse", ".dds",
                              {}, {}, true);
-                        add(config, {"", obj}, "ps-t1", file + "LightMap", file + "LightMap", ".dds",
-                             {}, {}, true);
+                        // ...unless there is no lightmap upstream to fetch -- see
+                        // GIMICharParserConfig::objsWithoutLightMap.
+                        if (std::find(config.objsWithoutLightMap.begin(), config.objsWithoutLightMap.end(), obj)
+                                == config.objsWithoutLightMap.end()) {
+                            add(config, {"", obj}, "ps-t1", file + "LightMap", file + "LightMap", ".dds",
+                                 {}, {}, true);
+                        }
                         add(config, {"", obj}, IniKeywords::Ib, file + "Ib", file, ".ib",
                              DownloadTools::ibResourceKVPs(), {}, true);
                     }

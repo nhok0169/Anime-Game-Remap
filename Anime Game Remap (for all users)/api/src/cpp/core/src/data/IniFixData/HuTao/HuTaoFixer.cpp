@@ -39,17 +39,6 @@ namespace AGRemapCore {
             TexEditor::setTransparency(texFile, NearlyTransparent);
         }
 
-
-        /**
-         * The same treatment for the FACE diffuse, which needs it for the same reason the head
-         * does -- CherryHuTao's shader reads the alpha as a mask that HuTao's does not have.
-         *
-         * Separate from makeHeadTransparent only so the two edits carry different names, and so
-         * a later change to one does not silently move the other.
-         */
-        void makeFaceTransparent(TextureFile& texFile) {
-            TexEditor::setTransparency(texFile, NearlyTransparent);
-        }
     }
 
 
@@ -86,12 +75,15 @@ namespace AGRemapCore {
         config.objRegRemaps = {{"head", {{"ps-t0", {"ps-t0", "ps-t2"}}}},
                                {"dress", {{"ps-t0", {"ps-t0", "ps-t1"}}, {"ps-t1", {"ps-t2"}}}}};
 
-        // BOTH declared against ps-t0, which is where each diffuse sits when the collectors run --
-        // they go before the register edits, so these name the register BEFORE the head's
-        // duplication into ps-t2 and before the face's own ps-t0 <-> ps-t1 swap, not the slots the
-        // two end up on.
-        config.texEdits = {{"head", "ps-t0", "TransparentHeadDiffuse", &makeHeadTransparent},
-                           {"face", "ps-t0", "TransparentFaceDiffuse", &makeFaceTransparent}};
+        // Declared against ps-t0, which is where the diffuse sits when the collectors run -- they
+        // go before the register edits, so this names the register BEFORE the duplication, not the
+        // ps-t2 it ends up on.
+        //
+        // THE FACE DIFFUSE IS DELIBERATELY NOT EDITED. It was, briefly, on the strength of an
+        // in-game look -- and the thing being looked at was 3dmigoto serving a cached copy of the
+        // texture from an earlier run, not this fix's output. A screenshot is evidence about the
+        // GAME's state, and the game's state includes its caches.
+        config.texEdits = {{"head", "ps-t0", "TransparentHeadDiffuse", &makeHeadTransparent}};
 
         // ...and the normal map the dress copy needs, which nothing in a HuTao mod carries.
         config.texAdds = {{"dress", "ps-t0", "NormMap",

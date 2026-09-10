@@ -126,6 +126,19 @@ namespace AGRemapCore {
     }
 
     bool RemapIniDownload::fix(CachedFileStats& downloadStats, std::optional<std::string> proxy) {
+        // BEFORE the work, for the reason RemapBlendResource::fix gives and then some: a download
+        // is the slowest thing this program does and much the likeliest to fail, so this is the
+        // line that explains a long pause and the one still on screen when the request throws
+        // ("Could not resolve hostname" being the usual one).
+        //
+        // Logged for a cache hit too, since which of the two this will be is only known after
+        // FileDownload::get has been asked. The summary counts them apart; this line is about
+        // what the program is DOING, and it is about to go looking for that file either way.
+        if (logger != nullptr) {
+            logger->log("Downloading "
+                         + FileService::pathToStr(FileService::strToPath(srcPath).filename()) + "...");
+        }
+
         if (fixFunc) {
             return fixFunc(*this, downloadStats);
         }

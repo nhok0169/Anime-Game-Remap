@@ -98,6 +98,24 @@ namespace AGRemapCore {
         }
     }
 
+    std::size_t IniNamingTools::variantSuffixStart(const std::string& name) {
+        // A trailing '.' followed by digits and nothing else -- the shape a merged mod gives its
+        // per-branch resources. Anything else (a '.dds' on the end, a bare '.', a '.' with
+        // letters after it) is part of the name proper and is left where it is.
+        const std::size_t dot = name.rfind('.');
+        if (dot == std::string::npos || dot + 1 >= name.size()) {
+            return std::string::npos;
+        }
+
+        for (std::size_t i = dot + 1; i < name.size(); ++i) {
+            if (name[i] < '0' || name[i] > '9') {
+                return std::string::npos;
+            }
+        }
+
+        return dot;
+    }
+
     std::string IniNamingTools::getResourceName(const std::string& name) {
         if (!name.starts_with(IniKeywords::Resource)) {
             return IniKeywords::Resource + name;
@@ -175,7 +193,29 @@ namespace AGRemapCore {
     }
 
     std::string IniNamingTools::getRemapTexName(const std::string& name, const std::string& modName) {
-        return getModSuffixedName(name, IniKeywords::RemapTex, modName);
+        // THE VARIANT SUFFIX GOES LAST, not in the middle.
+        //
+        // A merged mod numbers its resources ResourceXHeadDiffuse.0, .1, .2 -- one per branch of
+        // its $swapvar -- and a plain append buries that number in the middle of the fixed name:
+        //
+        //   ResourceHuTaoFaceHeadDiffuse.1CherryHuTaoTransparentFaceDiffuseRemapTex
+        //
+        // which is not wrong, only unreadable. The blend and position names never had the problem
+        // because getRemapElementName splices at the element word and leaves whatever follows it
+        // alone (ResourceKeqingKeqingOpulentRemapBlend.0), so this brings the texture names into
+        // line with them:
+        //
+        //   ResourceHuTaoFaceHeadDiffuseCherryHuTaoTransparentFaceDiffuseRemapTex.1
+        //
+        // The suffix still has to be THERE -- it is the only thing telling one branch's edited
+        // texture from another's.
+        const std::size_t suffixAt = variantSuffixStart(name);
+        if (suffixAt == std::string::npos) {
+            return getModSuffixedName(name, IniKeywords::RemapTex, modName);
+        }
+
+        return getModSuffixedName(name.substr(0, suffixAt), IniKeywords::RemapTex, modName)
+                + name.substr(suffixAt);
     }
 
     std::string IniNamingTools::getRemapDLName(const std::string& name, const std::string& modName) {

@@ -197,6 +197,21 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             Where a name's trailing ``.<digits>`` variant suffix starts, or ``std::string::npos``
+             for a name without one :raw-html:`<br />` :raw-html:`<br />`
+
+             A merged mod numbers its per-branch resources ``.0``, ``.1``, ``.2``. That number
+             belongs at the END of a fixed name rather than in the middle of it -- see
+             #getRemapTexName
+             @endrst
+             *
+             * @param name The name to examine
+             */
+            static std::size_t variantSuffixStart(const std::string& name);
+
+            /**
+             * @brief
+             @rst
              Changes a `section`_ name to be a downloaded-file resource created by this fix -- see
              #getResourceName and #getRemapDLName for more info
              @endrst

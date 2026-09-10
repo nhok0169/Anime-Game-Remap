@@ -146,6 +146,20 @@ void testRemapFixNameBugFix() {
     check(IniNamingTools::getRemapTexName("EiIsHappy", "Raiden"),
           "EiIsHappyRaidenRemapTex", "getRemapTexName: neither branch");
 
+    // A merged mod numbers its per-branch resources .0/.1/.2, and that number belongs at the END
+    // of the fixed name rather than buried in the middle of it. Everything that is not a trailing
+    // run of digits is part of the name proper and stays where it is.
+    check(IniNamingTools::getRemapTexName("EiIsHappy.1", "Raiden"),
+          "EiIsHappyRaidenRemapTex.1", "getRemapTexName: variant suffix moves to the end");
+    check(IniNamingTools::getRemapTexName("EiIsHappy.10", "Raiden"),
+          "EiIsHappyRaidenRemapTex.10", "getRemapTexName: a multi-digit variant suffix");
+    check(IniNamingTools::getRemapTexName("EiIsHappy.dds", "Raiden"),
+          "EiIsHappy.ddsRaidenRemapTex", "getRemapTexName: a non-numeric suffix is not a variant");
+    check(IniNamingTools::getRemapTexName("EiIsHappy.", "Raiden"),
+          "EiIsHappy.RaidenRemapTex", "getRemapTexName: a bare trailing dot is not a variant");
+    check(IniNamingTools::getRemapTexName("EiIsHappy.1.2", "Raiden"),
+          "EiIsHappy.1RaidenRemapTex.2", "getRemapTexName: only the LAST run of digits moves");
+
     check(IniNamingTools::getRemapDLName("EiIsDoneWithRemapDL", "Raiden"),
           "EiIsDoneWithRaidenRemapDL", "getRemapDLName: suffix-only branch");
     check(IniNamingTools::getRemapDLName("EiIsHappy", "Raiden"),

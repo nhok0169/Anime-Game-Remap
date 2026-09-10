@@ -960,6 +960,14 @@ namespace AGRemapCore {
         // none of them. Dispatching on the concrete type is the cost of that, and it is paid in
         // exactly this one place.
         if (RemapIniDownload* download = dynamic_cast<RemapIniDownload*>(&resource)) {
+            // HANDED THE LOGGER HERE, because nothing else does. A blend or a texture gets one from
+            // the resource edit that builds it (IniResEditContext::logger); a download is built by
+            // the PARSER, which has no view to give it, so without this its log line goes nowhere and
+            // the slowest step in the run is the one that says nothing.
+            if (download->logger == nullptr) {
+                download->logger = logger;
+            }
+
             // Through remapFix rather than fix: it is the one that separates a real download from a
             // cache hit, and stats.download tracks those separately.
             return download->remapFix(stats, proxy);

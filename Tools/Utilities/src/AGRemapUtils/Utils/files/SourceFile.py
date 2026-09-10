@@ -132,13 +132,13 @@ class SourceFile():
 
             # missing opening keyword
             if (not startKeyStack):
-                raise MissingKeyWord(keyWord.type, isStart = True)
+                raise MissingKeyWord(keyWord.type, isStart = True, file = self._file, lineInd = keyWord.lineInd)
 
             startKeyWord = startKeyStack.pop()
 
             # mismatch types of opening and ending keywords
             if (startKeyWord.type != keyWord.type):
-                raise InvalidKeyWordType(startKeyWord.type, keyWord.type)
+                raise InvalidKeyWordType(startKeyWord.type, keyWord.type, file = self._file, lineInd = keyWord.lineInd)
 
             sectionStartInd = startKeyWord.lineInd + 1
             sectionEndInd = keyWord.lineInd
@@ -154,4 +154,4 @@ class SourceFile():
         # missing closing keyword
         if (startKeyStack):
             keyWord = startKeyStack.pop()
-            raise MissingKeyWord(keyWord.type, isStart = False)
+            raise MissingKeyWord(keyWord.type, isStart = False, file = self._file, lineInd = keyWord.lineInd)

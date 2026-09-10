@@ -21,7 +21,8 @@ from ..path.PyPathTools import PyPathTools
 # ScriptBuilder: Class to build that transforms a library into a single script
 class ScriptBuilder():
     def __init__(self, scriptFolder: str, scriptBasePath: str, modules: Dict[str, ModuleType], rootModule: str,
-                 moduleFolder: str, scriptPreamble: str = "", scriptPostAmble: str = ""):
+                 moduleFolder: str, scriptPreamble: str = "", scriptPostAmble: str = "",
+                 replacements: Optional[Dict[str, str]] = None):
         self._scriptFolder = scriptFolder
         self._scriptBasePath = scriptBasePath
         self._scriptModule = ModulePathTools.currentPath(FilePathTools.toModulePath(self._scriptBasePath))
@@ -39,6 +40,11 @@ class ScriptBuilder():
         
         self._scriptPreamble = scriptPreamble
         self._scriptPostamble = scriptPostAmble
+
+        # the values filled into the compiled script. The script's source keeps these as
+        #   placeholders so that it stays valid python -- it has to be importable, since the order
+        #   its modules get written out in comes from importing it
+        self._replacements = {} if (replacements is None) else replacements
 
         self._extImport = Import()
         self._extFromImports = FromImportSet()
@@ -104,6 +110,10 @@ class ScriptBuilder():
         
         scriptStr += "\n\n\n".join(scriptStrParts)
         scriptStr += self._scriptPostamble
+
+        for placeHolder, value in self._replacements.items():
+            scriptStr = scriptStr.replace(placeHolder, value)
+
         return scriptStr
     
 

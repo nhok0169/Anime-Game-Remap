@@ -1,0 +1,5 @@
+# The script has no third party dependencies of its own -- it only needs the standard library and
+# pip, since its whole job is to reach the API and hand over the command line.
+#
+# The API brings its own dependencies with it, either through the path reference (dev) or through
+# the pypi download (prod).

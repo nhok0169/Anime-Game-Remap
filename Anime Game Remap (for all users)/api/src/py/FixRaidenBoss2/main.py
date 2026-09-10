@@ -13,6 +13,7 @@
 
 ##### ExtImports
 import os
+from typing import Any, Callable, Optional
 ##### EndExtImports
 
 ##### LocalImports
@@ -23,10 +24,27 @@ from .remapServiceCLI import RemapServiceCLI
 ##### EndLocalImports
 
 ##### Script
-def remapMain():
+def remapMain(commandSetup: Optional[Callable[[CommandBuilder], Any]] = None):
+    """
+    Runs the CLI
+
+    Parameters
+    ----------
+    commandSetup: Optional[Callable[[:class:`CommandBuilder`], Any]]
+        A function run against the command *before* the command line is parsed, for a caller that
+        needs options of its own alongside this CLI's :raw-html:`<br />` :raw-html:`<br />`
+
+        The script build uses this to add its package options, so they appear in the same
+        ``--help`` as the options below :raw-html:`<br />` :raw-html:`<br />`
+
+        **Default**: ``None``
+    """
 
     command = CommandBuilder()
     command.addEpilogs([ModTypes.getHelpStr(), GameTypes.getHelpStr()])
+
+    if (commandSetup is not None):
+        commandSetup(command)
 
     args = command.parse()
     readAllInis = args.all

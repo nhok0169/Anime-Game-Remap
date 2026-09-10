@@ -139,6 +139,26 @@ https://anime-game-remap.readthedocs.io/en/latest/commandOpts.html#download-mode
 """)
         self._argParser.add_argument(ShortCommandOpts.Proxy.value, CommandOpts.Proxy.value, action='store', type=str, help="The link to the proxy server for those whose internet access must go through a proxy. The software will make all internet network requests through this proxy")
 
+    def addArgument(self, *args, **kwargs):
+        """
+        Adds a new option to the command
+
+        :raw-html:`<br />`
+
+        Takes the same arguments as `argparse's add_argument`_
+
+        :raw-html:`<br />`
+
+        .. note::
+            This exists for the software that *wraps* this CLI -- the script build has options of its
+            own (whether to update the API's package, whether to accept prereleases) that only make
+            sense there. Registering them here rather than parsing them separately is what puts them
+            into the same ``--help`` as every option below, instead of leaving them undiscoverable.
+        """
+
+        self._argParser.add_argument(*args, **kwargs)
+
+
     def addEpilog(self, epilog: str):
         self._argParser.epilog = epilog
 

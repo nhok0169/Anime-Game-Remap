@@ -21,6 +21,7 @@ build/test/doc pipelines from scratch when they're already written down.
 | Ini Graph Editing | [`AI Agent Help/IniGraphEditing/CLAUDE.md`](AI%20Agent%20Help/IniGraphEditing/CLAUDE.md) | working on `IniSectionGraph`, `GraphTools`, `CallGraph`, or a `graphEdits/`/`graphGroupEdits/`/`regEdits/` strategy (`RegSurroundedAdd`-style .ini graph edits, `run =` call/cycle handling, dataflow analysis over the graph, or completing a simpler `GraphInherit`-style stub). **`regEdits/` is C++/pybind11 now** — pair this with **Architecture** for anything in that family |
 | Texture Editing | [`AI Agent Help/TextureEditing/CLAUDE.md`](AI%20Agent%20Help/TextureEditing/CLAUDE.md) | working on `TextureFile`, `TexEditor`, `TexCreator`, or a `texFilters/`/`pixelTransforms/` strategy (the Compressonator/Pillow dual-engine `.dds` pipeline, the `readPillowImg` buffer-native-vs-`.img` design, or save-format/gamma behavior) — **also read its first section if you just want to *look at* a `.dds`**, which the Read tool cannot open directly |
 | Buf Files | [`AI Agent Help/BufFiles/CLAUDE.md`](AI%20Agent%20Help/BufFiles/CLAUDE.md) | working on `BufFile`, `BlendFile`, `PositionFile`, `IbFile`, `VbFile`, the `BufDataType`/`BufElementType` family, `BufTools` or `bufEditors/` — and **mandatory before touching the 3dmigoto dump text format** (`getDumpStr`/`readDumpStr`), where this repo's own notebooks are a reverse-engineering rather than the spec, and the obvious sample folders will validate you in a circle |
+| Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
 
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
@@ -201,6 +202,17 @@ kept -- a kink, logged nowhere. Every such gap in `VGRemapData.cpp` was then fil
 directions), and the rule is now explicit: **every source vertex group maps to something**. When
 a model deforms in game, `Importer/GIMI/Mods/overrideVgRemap.py --dump`'s `unmapped source groups`
 line is the first thing to read. See [Vertex Group Remaps](AI%20Agent%20Help/VGRemaps/CLAUDE.md).
+
+**THE SCRIPT NO LONGER CONTAINS THE API (2026-09-10), AND NEITHER DID THREE OTHER TOOLS STILL
+WORK.** `script build/`'s `AGRemap.py` used to be the whole pure-Python API flattened into one file
+by the `ScriptBuilder`. That is impossible now --- a single `.py` cannot carry a compiled extension
+module --- so the script *references* the API instead (a path in a `dev` build, a pypi download in a
+`prod` one) and went from **31732 lines to 490**. Its source is its own tool at `Tools/Script`, and
+the `ScriptBuilder` topologically compiles *that*. The same session found `ScriptBuilder`,
+`APIMirrorBuilder` and the script build's own output path all broken by the API's package having
+moved to `src/py/` during the C++ migration, none of which anything reported.
+**Read [Tools](AI%20Agent%20Help/Tools/CLAUDE.md) before touching anything under `Tools/`, and run
+the tool before you change it.**
 
 **Seven repo-mechanics traps that have each cost a full edit-diagnose-repair cycle, none of them
 visible from the code:** (1) nearly every tracked text file is **CRLF** (`core.autocrlf=true`), so an

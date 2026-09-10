@@ -661,6 +661,12 @@ The lesson generalises past that one bug: **the C++ tests build their `.ini` fix
 synthetic strings**, so any defect that needs realistic content, or two operations in sequence, or a
 file on disk that some earlier step already rewrote, is invisible to them.
 
+> **Do not trim a native command's output with `Select-Object -First N`.** It stops the pipeline,
+> which kills the process being read: the command reports **exit 255 / -1** with truncated output,
+> which is indistinguishable from the program crashing. Confirmed 2026-09-10 --- a script that
+> "failed" under `| Select-Object -First 16` exited 0 through `| Out-String`. Capture the whole
+> output into a variable and inspect that instead.
+
 ### The check
 
 Real sample mods are already in the repo --- use them rather than writing a fixture:

@@ -37,6 +37,13 @@ native-code change.
   illustrative of the *shape* of the filename, not of the version you will actually see. Nothing
   is committed for any version (see Overview); the only thing that matters is that the interpreter
   running the tests matches the one the `.pyd` was built for. Ask before changing it.
+- **`python` and `py -3` are not necessarily the same interpreter here.** Measured 2026-09-10:
+  bare `python` on `PATH` is **3.9.13** (a WindowsApps entry ahead of it in `PATH` resolves there),
+  while `py -3` is **3.9.3** at `AppData\Local\Programs\Python\Python39\python.exe` --- which is
+  the one `cbuild` was configured against. They share the `cp39` ABI so a `.pyd` loads under either,
+  which is exactly why the difference goes unnoticed. When something spawns python, have it spawn
+  `sys.executable` rather than a bare name; `Utils/pipeline/Stage.py` used to get this wrong and ran
+  every CI pipeline stage under the other interpreter.
 - Visual Studio (MSVC) with the C++ toolchain, CMake, Ninja.
 - The MSVC dev environment must be initialized in-shell first:
   ```bash
@@ -88,6 +95,14 @@ native-code change.
     and a one-line change to a single `core/src/*.cpp` is about **8 seconds**. Both were far worse
     before (137.9s and 57.2s); if you are seeing the old figures, check which options `cbuild` was
     configured with -- see "Build speed" below.
+
+### The CIPipeline builds the API now, with `-d`
+
+`Tools/CIPipeline`'s first stage runs `APIBuilder -d` (added 2026-09-10), so a pipeline run needs
+everything a build needs --- `cmake`, `ninja` and `doxygen` on `PATH`, and the MSVC environment
+initialized in the same shell --- and **regenerates the tracked `core/xml` and `core.pyi` every
+time**, around 966 files. The rules below about which of those to keep apply unchanged; for a
+tooling change the answer is neither. See [Tools](../Tools/CLAUDE.md).
 
 ## `api/extern/*` are git submodules — empty in a fresh `git worktree`
 

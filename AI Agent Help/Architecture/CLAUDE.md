@@ -1461,8 +1461,8 @@ needed.
 `Old`-suffixed `IniClassifierOld`/`BaseIniClassifierOld`/`IniClassifierBuilderOld`/
 `BaseIniClassifierBuilderOld`/`IniClassifyStatsOld` plus the un-suffixed `states/IniCls*.py` DFA
 plumbing they alone depended on, and the live `constants/GlobalIniClassifiers.py` module that still
-imported them) has been **deleted outright** — there was no live call site left ([`Mod.py`](../../Anime%20Game%20Remap%20%28for%20all%20users%29/api/src/py/FixRaidenBoss2/model/Mod.py)
-constructs `IniFile` with no `iniClassifier` argument, which already defaults to the C++
+imported them) has been **deleted outright** — there was no live call site left (`Mod.py`, itself
+deleted two days later, constructed `IniFile` with no `iniClassifier` argument, which already defaults to the C++
 `GlobalIniClassifiers::classifier()` singleton). With the pure-Python originals gone, the three
 `Cpp`-prefixed names in this section have **graduated to their bare names** per the "Two different
 outcomes for porting a class" rule below: `CppBaseIniClassifier` → `BaseIniClassifier`,

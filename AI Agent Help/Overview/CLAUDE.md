@@ -49,7 +49,9 @@ Tools/
   VGRemapFinder/                <- proposes a vertex-group remap (a Data/RemapDrafts workbook) from two
                                    characters' dumps; its benchmark.py scores any change against every
                                    hand-made draft at once -- see its README before tuning it
-  Utilities/                    <- shared helper package used by the test runners
+  Utilities/                    <- shared helper package (AGRemapUtils) used by the test runners
+                                   and by every tool here -- it is published to PyPI, so keep its
+                                   dependencies light. See Tools
   ModToDumpConverter/GI/        <- Jupyter notebooks that CONSUME the API -- see the note below,
   DumpToModConverter/GI/           they go stale when you change it
   ScriptBuilder/, CIPipeline/, ModAnalyzer/, ...  <- maintainer tooling, not usually needed for
@@ -147,6 +149,13 @@ single fix into its own directory when you want to look at fixed output.
 observation a lie. See [Building](../Building/CLAUDE.md) for the build-batch hygiene and the
 mtime check; and note a run parked at `== Press ENTER to exit ==` holds the `.pyd` open and makes
 the next build's copy step fail.
+
+**9b. Under `Tools/`, run the tool before you change it -- expecting it to be broken.** Nothing
+tests that layer, so a tool can sit broken for months because the only person who would notice is
+whoever next runs it. One session that set out to add a single flag found **three** tools that could
+not run at all, all broken by the same event: the API's package moving to `api/src/py/` during the
+C++ migration. The worst of the three was not a crash but a *silently relocated output*. See
+[Tools](../Tools/CLAUDE.md).
 
 **10. A FAILING check is a claim too -- validate it before you report it.** Habit 1 says a success
 can be fake. The inverse bites just as hard and is easier to believe, because a failure feels like

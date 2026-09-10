@@ -48,20 +48,28 @@ Three things that will cost you an hour each if you learn them the hard way:
 
 ## Start here: adding a character, in order
 
-Thirteen characters are done, in four *shapes*. **Work out which one you have first, because
-several decisions follow from it** (see "Two shapes of remap" below, and "A character with TWO
-targets" for the third):
+Eighteen characters are done, in five *shapes*. **Work out which one you have first, because
+several decisions follow from it** (see "Two shapes of remap" below, "A character with TWO
+targets" for the third, and "The merge" for the one that writes more than one .ini file):
 
-| | Source and target share geometry | Target is a different model | Target draws different objects | Stresses the fix libraries |
-| --- | --- | --- | --- | --- |
-| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN**, Mona, Rosaria, Ningguang | **Jean -> JeanSea** (`jean6_1ToJeanSea`) | **GanyuTwilight -> Ganyu** |
-| Hashes | kept | replaced | replaced | replaced |
-| Originals | **hidden** | left alone | left alone | left alone |
-| Objects | one-to-one | one-to-one | **split** via `objSplits` | one-to-one |
+| | Share geometry | Different model | Target draws MORE objects | Target draws FEWER objects | Stresses the fix libraries |
+| --- | --- | --- | --- | --- | --- |
+| Worked example | **Raiden -> RaidenBoss** (`raiden6_1`) | **Amber -> AmberCN**, Mona, Rosaria, Ningguang | **Jean -> JeanSea** (`jean6_1ToJeanSea`) | **Keqing -> KeqingOpulent** (`keqing6_1`) | **GanyuTwilight -> Ganyu** |
+| Hashes | kept | replaced | replaced | replaced | replaced |
+| Originals | **hidden** | left alone | left alone | left alone | left alone |
+| Objects | one-to-one | one-to-one | **split** via `objSplits` | **merge** via `objSplits` | one-to-one |
+| `.ini` files out | one | one | one | **more than one** | one |
 
-The fourth is the one to read if your character re-issues anything: GanyuTwilight has a
-`$swapvar`-branching `CommandList`, a moved `drawindexed`, `ORFix`, and the only re-issued
-`TexFx` so far --- whose placement rule is genuinely different from `NNFix`/`ORFix`'s.
+The split and the merge are the same field read in opposite directions, and every pair here has
+both halves: Keqing merges onto KeqingOpulent and KeqingOpulent splits back, Shenhe splits onto
+ShenheFrostFlower and ShenheFrostFlower merges back. **ShenheFrostFlower -> Shenhe is the widest
+one** -- three of the skin's objects through Shenhe's single `body` draw call, so three `.ini`
+files.
+
+The last column is the one to read if your character re-issues anything: the Ganyu pair has a
+`$swapvar`-branching `CommandList`, a moved `drawindexed`, `ORFix`, the only re-issued
+`TexFx` so far --- whose placement rule is genuinely different from `NNFix`/`ORFix`'s --- and, in
+the Ganyu direction, the only fix that **invents** a texture instead of dropping or editing one.
 
 A character may need **more than one fixer** -- one row per target in `IniFixBuilderData`, not a
 `MultiModFixer`. Jean is the worked example: she remaps onto JeanCN (ordinary) and JeanSea (split).
@@ -113,8 +121,10 @@ in game.
 
 ## Most characters are two short files, not two long ones
 
-Seven characters are done. Six of them (Amber, AmberCN, Mona, MonaCN, Rosaria, RosariaCN) share the
-**standard GIMI shape** and are written against a template rather than copied:
+Eighteen characters are done, and SEVENTEEN of them go through the same template rather than being
+copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) to the three-way merge
+(ShenheFrostFlower). Only Raiden, whose remap keeps the source geometry and hides the originals,
+is written by hand:
 
 - `data/IniParseData/GIMICharParser.h` — `makeGIMICharParser(GIMICharParserConfig)`
 - `data/IniFixData/GIMICharFixer.h` — `makeGIMICharFixer(GIMICharFixerConfig)`
@@ -1043,6 +1053,22 @@ counting a file as fixed is not evidence that it exists.**
 
 And do not test that guard with the summary's `Removed N old ...` line: `addRemoved` is recorded
 even when the file was never on disk, so a phantom removal makes the line appear either way.
+
+**Run the dangling check on the OLD tree too -- sometimes the old side is the wrong one
+(2026-09-10).** ShenheFrostFlower -> Shenhe produced fifteen files the old script did not, which
+reads like a divergence to explain away until you check: the old output carries **33 dangling
+references**, writing `RemapDL` sections and downloading nothing, while the new one fetches all
+of them and has zero. The old script is the reference for what the fix should *say*, not a
+ceiling on what it should *do*.
+
+**And the pure-Python row is a reference for the FIX, not for the downloads.** KeqingOpulent's
+`keqingOpulent4_0` parse row wires no `bufDownloads` or `objFileDownloads` at all, though her
+assets have been sitting in `Data/Mod Downloads/GI/KeqingOpulent/4_0/` the whole time. Wiring
+them -- which every compiled character does -- changes the **section naming**: the position and
+texcoord are then classified as the buf objects they are and come out
+`...KeqingRemapPosition` rather than the generic `...PositionKeqingRemapFix`. In the A/B that is
+four renamed sections out of nowhere, and it is an improvement rather than a regression -- but
+only if you know why it happened.
 
 ### Getting a genuinely unfixed baseline — two traps
 

@@ -482,6 +482,18 @@ of the install step until the link finished. Two consequences: run it in the bac
 for the notification, and **run nothing that imports the API meanwhile** -- a test, the finder's
 benchmark, a notebook cell -- or it either fails to import or holds the file the copy needs.
 
+**So batch every edit into ONE pass before rebuilding -- comment-only header tidy-ups included
+(2026-09-10).** The note above is the general case rather than a quirk of `VGRemapData.cpp`: the
+`.pyd` relink dominates, so a one-line change to a single `core/src/*.cpp` costs about the same
+here (~15 minutes measured) as a change to a widely-included header. The 8-second figure in "Build
+speed" is `ninja AGRemapCore` -- the static library on its own -- and stops applying the moment the
+build has to produce something Python can import.
+
+Landing four characters cost three of those rebuilds, and one was avoidable: a missing blank line
+and a stale `Stub for ...` doc sentence, both spotted while the first build was already running.
+Read your own diff **before** starting a build rather than while waiting for it, and write the
+tidy-ups into the same patch script as the real change.
+
 ## Verifying a build/binding change in Python directly
 Don't just trust that it compiled — a pybind11 registration typo (wrong base class, wrong
 holder, wrong constructor signature) fails at import/runtime, not compile time. This applies

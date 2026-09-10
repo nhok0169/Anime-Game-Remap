@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="59" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1aeaa5614bdbeb392cd3cb635fabc05523" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
@@ -75,7 +75,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="64" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1ac8f42fef4393193341e50b49e5f3a7ae" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
@@ -90,7 +90,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_rename_1af918f754397b24e6c609db1d2b2a87b7" prot="public" static="no">
         <type>std::function&lt; std::string(const std::string &amp;)&gt;</type>
@@ -108,7 +108,7 @@ and returns the new name for the `section`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="65" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="65" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="78" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="78" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -128,7 +128,7 @@ and returns the new name for the `section`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="74" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="87" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="87" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -160,7 +160,7 @@ and returns the new name for the `section`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="81" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="94" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_rename_1a77f81656a881bfa064c5d9b114bbc1cc" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_rename_1ab0d2e297fe3d81a352f6d2ac57941568" kindref="member">Graph</ref> &amp;</type>
@@ -261,7 +261,7 @@ An empty ``renameFunc`` is a no-op -- &apos;graph&apos; is handed straight back
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="101" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="114" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -361,7 +361,7 @@ Renames the `sections`_ of some caller/callee graph of :cpp:class:`IniSectionGra
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="35" bodyend="104"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/GraphRename.h" bodystart="48" bodyend="117"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_graph_rename_1abd2135a819ad55bc92052378d1699530" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphRename</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::GraphRename</scope><name>clear</name></member>

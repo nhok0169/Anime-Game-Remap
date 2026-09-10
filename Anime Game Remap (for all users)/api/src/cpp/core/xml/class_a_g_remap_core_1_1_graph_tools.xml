@@ -91,7 +91,7 @@ Computes every node reachable from &apos;rootNodes&apos;, via plain forward grap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/GraphTools.h" line="52" column="39"/>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="65" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1a337f97d2b3f3cb89e72436694f626175" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -183,7 +183,7 @@ Forces every fact about a node not in &apos;reachableNodes&apos; down to ``false
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/GraphTools.h" line="80" column="39"/>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="93" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1ada921cb712bea2e6b09a14512a2b87d5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -316,7 +316,7 @@ whatever was true entering it)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/GraphTools.h" line="128" column="39"/>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="141" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_tools_1abb48a4f14513b6115f1c2fc49e6db876" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -429,7 +429,7 @@ being tracked (a plain existential check, eg. &quot;does this node&apos;s own co
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/GraphTools.h" line="169" column="39"/>
+        <location file="include/AGRemapCore/tools/GraphTools.h" line="182" column="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -447,7 +447,7 @@ have no notion of what a node &quot;is&quot; (a `section`_, an :cpp:class:`IfCon
 gets built out of an actual `.ini`_ file&apos;s `sections`_
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/GraphTools.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/GraphTools.h" bodystart="27" bodyend="172"/>
+    <location file="include/AGRemapCore/tools/GraphTools.h" line="40" column="5" bodyfile="include/AGRemapCore/tools/GraphTools.h" bodystart="40" bodyend="185"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_graph_tools_1a337f97d2b3f3cb89e72436694f626175" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>clampFactsToReachable</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_tools_1a0c30bc8406397d6eb28956b615dadd18" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphTools</scope><name>getReachableNodes</name></member>

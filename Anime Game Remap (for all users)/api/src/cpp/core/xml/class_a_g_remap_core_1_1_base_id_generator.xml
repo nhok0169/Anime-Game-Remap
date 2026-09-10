@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="20" column="21"/>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="33" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="25" column="26"/>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="38" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -73,7 +73,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="34" column="26"/>
+        <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="47" column="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -103,7 +103,7 @@
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="14" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" bodystart="14" bodyend="35"/>
+    <location file="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/BaseIdGenerator.h" bodystart="27" bodyend="48"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_id_generator_1a6900ad18cd6201d3984b0ddd45418fe3" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseIdGenerator</scope><name>getId</name></member>
       <member refid="class_a_g_remap_core_1_1_base_id_generator_1a31903b5ed0a15cbd9e77597a89cfee67" prot="public" virt="pure-virtual"><scope>AGRemapCore::BaseIdGenerator</scope><name>reset</name></member>

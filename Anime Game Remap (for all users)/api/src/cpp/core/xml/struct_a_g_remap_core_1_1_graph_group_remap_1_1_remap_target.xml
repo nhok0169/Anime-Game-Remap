@@ -23,7 +23,7 @@ Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="84" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="97" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1add2aad55990621585ddd232205010483" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_remap_1a60254cc64fc8c1b11f300c989cadc12c" kindref="member">RenameFunc</ref></type>
@@ -38,7 +38,7 @@ Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="89" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="102" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="102" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -54,7 +54,7 @@ Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="91" column="17"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="104" column="17"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a4feee0897dc8b9116e2e825b09559a74" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -96,7 +96,7 @@ Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="99" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="99" bodyend="99"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="112" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="112" bodyend="112"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -116,7 +116,7 @@ Where the remapped graph goes :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="73" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="73" bodyend="100"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupRemap.h" bodystart="86" bodyend="113"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1a01d49a20f877fd566421631e0a1eb5df" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>id</name></member>
       <member refid="struct_a_g_remap_core_1_1_graph_group_remap_1_1_remap_target_1ac881b5f33350a52cc2c41a1edc393bed" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupRemap::RemapTarget</scope><name>RemapTarget</name></member>

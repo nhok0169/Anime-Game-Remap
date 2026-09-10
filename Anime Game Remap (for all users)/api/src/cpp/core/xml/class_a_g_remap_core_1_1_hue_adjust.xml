@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="33" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="33" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="46" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="46" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="40" column="22" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="73" bodyend="73"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="53" column="22" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="86" bodyend="86"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hue_adjust_1a04440289d5ad98b7490ef2efdfc1ce64" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -84,7 +84,7 @@ the original&apos;s own byte/degree-scale mismatch rather than a &quot;correct&q
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="53" column="17" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="75" bodyend="83"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="66" column="17" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="88" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hue_adjust_1a48311d89b828991fc3740f448c555d91" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -115,7 +115,7 @@ the original&apos;s own byte/degree-scale mismatch rather than a &quot;correct&q
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="55" column="18" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="85" bodyend="107"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="68" column="18" bodyfile="src/model/strategies/texEditors/texFilters/HueAdjust.cpp" bodystart="98" bodyend="120"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -162,7 +162,7 @@ converting back to RGBA :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="27" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="27" bodyend="56"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" line="40" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/HueAdjust.h" bodystart="40" bodyend="69"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_hue_adjust_1a04440289d5ad98b7490ef2efdfc1ce64" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>adjustedHue</name></member>
       <member refid="class_a_g_remap_core_1_1_hue_adjust_1aa71e4aa874471d5437c806c63f5d5009" prot="public" virt="non-virtual"><scope>AGRemapCore::HueAdjust</scope><name>hue</name></member>

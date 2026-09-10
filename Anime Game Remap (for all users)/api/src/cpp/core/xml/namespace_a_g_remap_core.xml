@@ -70,6 +70,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_game_type" prot="public">AGRemapCore::GameType</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_game_type_id_tools" prot="public">AGRemapCore::GameTypeIdTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_gamma_filter" prot="public">AGRemapCore::GammaFilter</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_ganyu_fixer" prot="public">AGRemapCore::GanyuFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ganyu_parser" prot="public">AGRemapCore::GanyuParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_fixer" prot="public">AGRemapCore::GanyuTwilightFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_ganyu_twilight_parser" prot="public">AGRemapCore::GanyuTwilightParser</innerclass>
@@ -175,6 +176,10 @@
     <innerclass refid="class_a_g_remap_core_1_1_jean_sea_fixer" prot="public">AGRemapCore::JeanSeaFixer</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_sea_parser" prot="public">AGRemapCore::JeanSeaParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_jean_shading" prot="public">AGRemapCore::JeanShading</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_fixer" prot="public">AGRemapCore::KeqingFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_opulent_fixer" prot="public">AGRemapCore::KeqingOpulentFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_opulent_parser" prot="public">AGRemapCore::KeqingOpulentParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_keqing_parser" prot="public">AGRemapCore::KeqingParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_key_remap_data" prot="public">AGRemapCore::KeyRemapData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_list_tools" prot="public">AGRemapCore::ListTools</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_logger" prot="public">AGRemapCore::Logger</innerclass>
@@ -243,6 +248,10 @@
     <innerclass refid="struct_a_g_remap_core_1_1_row" prot="public">AGRemapCore::Row</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_data" prot="public">AGRemapCore::SectionIterData</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_section_iter_query_data" prot="public">AGRemapCore::SectionIterQueryData</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_fixer" prot="public">AGRemapCore::ShenheFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" prot="public">AGRemapCore::ShenheFrostFlowerFixer</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" prot="public">AGRemapCore::ShenheFrostFlowerParser</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_shenhe_parser" prot="public">AGRemapCore::ShenheParser</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_strategy_overrides" prot="public">AGRemapCore::StrategyOverrides</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_string_tools" prot="public">AGRemapCore::StringTools</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_string_view_hash" prot="public">AGRemapCore::StringViewHash</innerclass>
@@ -252,6 +261,7 @@
     <innerclass refid="class_a_g_remap_core_1_1_temp_control" prot="public">AGRemapCore::TempControl</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_create" prot="public">AGRemapCore::TexCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_creator" prot="public">AGRemapCore::TexCreator</innerclass>
+    <innerclass refid="class_a_g_remap_core_1_1_tex_creator_create" prot="public">AGRemapCore::TexCreatorCreate</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor" prot="public">AGRemapCore::TexEditor</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_editor_replace" prot="public">AGRemapCore::TexEditorReplace</innerclass>
     <innerclass refid="class_a_g_remap_core_1_1_tex_replace" prot="public">AGRemapCore::TexReplace</innerclass>
@@ -324,7 +334,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/DownloadMode.h" line="24" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="24" bodyend="43"/>
+        <location file="include/AGRemapCore/constants/DownloadMode.h" line="37" column="5" bodyfile="include/AGRemapCore/constants/DownloadMode.h" bodystart="37" bodyend="56"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" prot="public" static="no" strong="yes">
         <type></type>
@@ -353,7 +363,7 @@ The download mode of how the software handles file downloads :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="15" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="15" bodyend="25"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="28" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="28" bodyend="38"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a7b462f1045f83560785ee073e39415e1" prot="public" static="no" strong="yes">
         <type></type>
@@ -402,7 +412,7 @@ Mirrors the pure-Python ``IfPredPartType`` enum (``constants/IfPredPartType.py``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="18" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="18" bodyend="38"/>
+        <location file="include/AGRemapCore/constants/IfPredPartType.h" line="31" column="5" bodyfile="include/AGRemapCore/constants/IfPredPartType.h" bodystart="31" bodyend="51"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a2dbbc8df1edce0183c7a4da440897236" prot="public" static="no" strong="yes">
         <type></type>
@@ -448,7 +458,7 @@ Different replacement modes for when the :cpp:class:`IniSectionGraph` already ex
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="20" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="20" bodyend="35"/>
+        <location file="include/AGRemapCore/constants/IniGraphReplaceMode.h" line="33" column="5" bodyfile="include/AGRemapCore/constants/IniGraphReplaceMode.h" bodystart="33" bodyend="48"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" prot="public" static="no" strong="yes">
         <type></type>
@@ -825,7 +835,7 @@ Mirrors the keys of the pure-Python ``ModTypeNames`` enum (``constants/ModTypeNa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/ModTypeId.h" line="25" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="25" bodyend="250"/>
+        <location file="include/AGRemapCore/constants/ModTypeId.h" line="38" column="5" bodyfile="include/AGRemapCore/constants/ModTypeId.h" bodystart="38" bodyend="263"/>
       </memberdef>
       <memberdef kind="enum" id="namespace_a_g_remap_core_1a043889bb7d2a0c441b50eb826acc6106" prot="public" static="no" strong="yes">
         <type></type>
@@ -871,7 +881,7 @@ Different modes for handling :cpp:class:`IfContentPart`\s with missing registers
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="21" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="21" bodyend="40"/>
+        <location file="include/AGRemapCore/constants/RegFillMissingMode.h" line="34" column="5" bodyfile="include/AGRemapCore/constants/RegFillMissingMode.h" bodystart="34" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
@@ -901,7 +911,7 @@ The shape the whole classification path takes its game filter in --
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="44" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="44" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="57" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" prot="public" static="no">
         <type>std::variant&lt; long long, unsigned long long, double &gt;</type>
@@ -928,7 +938,7 @@ A single decoded value for one elementary data type within a ``.buf`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="29" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="29" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="42" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="42" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" prot="public" static="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; <ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref> &gt; &gt;</type>
@@ -948,7 +958,7 @@ suffixed with an occurrence count if the same name repeats) and the values are t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="40" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="40" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="53" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" prot="public" static="no">
         <type>std::vector&lt; std::uint8_t &gt;</type>
@@ -963,7 +973,7 @@ suffixed with an occurrence count if the same name repeats) and the values are t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="46" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufValue.h" line="59" column="5" bodyfile="include/AGRemapCore/model/buffers/BufValue.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" prot="public" static="no">
         <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
@@ -981,7 +991,7 @@ analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="19" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="19" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="32" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="32" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" prot="public" static="no">
         <type>std::variant&lt; <ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>, <ref refid="class_a_g_remap_core_1_1_colour_range" kindref="compound">ColourRange</ref> &gt;</type>
@@ -996,7 +1006,7 @@ analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="67" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="80" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="80" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" prot="public" static="no">
         <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a36227a8c689f83010b8c0ef64524144d" kindref="member">ColourOrRange</ref> &gt;</type>
@@ -1011,7 +1021,7 @@ analogue of the pure-Python original&apos;s ``Union[str, bytes]`` :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="72" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="72" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="85" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="85" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" prot="public" static="no">
         <templateparamlist>
@@ -1057,7 +1067,7 @@ repositioned). Shared by :cpp:class:`KeyRemapData` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="118" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="118" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="131" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="131" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1aa4d9539817b8611a57255429fd7fcb90" prot="public" static="no">
         <templateparamlist>
@@ -1091,7 +1101,7 @@ Shorthand for wrapping this project&apos;s own list-backed :cpp:class:`OrderedMu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="239" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="239" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="252" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="252" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1a954745954738c7a7642dcfd20196e796" prot="public" static="no">
         <templateparamlist>
@@ -1125,7 +1135,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="249" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="249" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" line="262" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapAdapter.h" bodystart="262" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="var">
@@ -1142,7 +1152,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="27" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="27" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="40" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespace_a_g_remap_core_1adddf2f253947024ce6490784143a6bd8" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -1157,7 +1167,7 @@ in an :cpp:class:`OrderedMultiMapAdapter`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="28" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="28" bodyend="-1"/>
+        <location file="src/model/strategies/iniClassifiers/IniClassifier.cpp" line="41" column="30" bodyfile="src/model/strategies/iniClassifiers/IniClassifier.cpp" bodystart="41" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -1211,7 +1221,7 @@ character):
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="995" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="995" bodyend="999" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="303" declcolumn="28"/>
+        <location file="src/data/IniFixData/GIMICharFixer.cpp" line="1049" column="28" bodyfile="src/data/IniFixData/GIMICharFixer.cpp" bodystart="1049" bodyend="1053" declfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" declline="370" declcolumn="28"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a938d3c6bc885d2a0d0f811dccbc91d6e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -1262,7 +1272,7 @@ half makes sense alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IniParseData/GIMICharParser.cpp" line="188" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="188" bodyend="245" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="130" declcolumn="30"/>
+        <location file="src/data/IniParseData/GIMICharParser.cpp" line="201" column="30" bodyfile="src/data/IniParseData/GIMICharParser.cpp" bodystart="201" bodyend="258" declfile="include/AGRemapCore/data/IniParseData/GIMICharParser.h" declline="143" declcolumn="30"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a691d142e23d6f610f8f9831ce21bce5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1309,7 +1319,7 @@ in true positional order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="10" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="10" bodyend="29" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="24" declcolumn="17"/>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="23" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="23" bodyend="42" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="37" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a8c4d94255932b5ce14e08272853059fb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1384,7 +1394,7 @@ opening ``if``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="32" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="32" bodyend="89" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="56" declcolumn="17"/>
+        <location file="src/model/iftemplate/IfTemplateRender.cpp" line="45" column="17" bodyfile="src/model/iftemplate/IfTemplateRender.cpp" bodystart="45" bodyend="102" declfile="include/AGRemapCore/model/iftemplate/IfTemplateRender.h" declline="69" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1acfa9613659a36bc4765c5f2fca7f218f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1425,7 +1435,7 @@ opening ``if``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/textures/ColourRange.cpp" line="22" column="10" bodyfile="src/model/textures/ColourRange.cpp" bodystart="22" bodyend="27" declfile="include/AGRemapCore/model/textures/ColourRange.h" declline="81" declcolumn="10"/>
+        <location file="src/model/textures/ColourRange.cpp" line="35" column="10" bodyfile="src/model/textures/ColourRange.cpp" bodystart="35" bodyend="40" declfile="include/AGRemapCore/model/textures/ColourRange.h" declline="94" declcolumn="10"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a256e3ebef644e38a45c16d4f9b8876f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -1496,7 +1506,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="507" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="507" bodyend="511"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="520" column="10" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="520" bodyend="524"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a0ec4dc0deddc5ddac478dbffc0c9b927" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1510,7 +1520,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="87" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="87" bodyend="121"/>
+        <location file="src/tools/IntTools.cpp" line="100" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="100" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a14d658428852bf6ddb848d3f6280f030" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1524,7 +1534,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="123" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="123" bodyend="137"/>
+        <location file="src/tools/IntTools.cpp" line="136" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="136" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aace382958ef0df880b378c4cb4c5f9ce" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1538,7 +1548,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="139" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="139" bodyend="153"/>
+        <location file="src/tools/IntTools.cpp" line="152" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="152" bodyend="166"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a581bf633d73c25bcafbed2114415677d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1552,7 +1562,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="155" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="155" bodyend="164"/>
+        <location file="src/tools/IntTools.cpp" line="168" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="168" bodyend="177"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a5c6396508ceb6d71a03ad54fe3ee7fcc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1566,7 +1576,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="166" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="166" bodyend="172"/>
+        <location file="src/tools/IntTools.cpp" line="179" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="179" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1aa6e5418f03174b1d22a058fedc62271c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1580,7 +1590,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/IntTools.cpp" line="174" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="174" bodyend="250"/>
+        <location file="src/tools/IntTools.cpp" line="187" column="17" bodyfile="src/tools/IntTools.cpp" bodystart="187" bodyend="263"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a1637273fe1b7edf5229713a10ead6a30" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -1598,7 +1608,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="77" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="77" bodyend="79"/>
+        <location file="src/tools/z3/Z3Internal.h" line="90" column="24" bodyfile="src/tools/z3/Z3Internal.h" bodystart="90" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1ac4d9a901b0ff67e882e65c83b61a92c8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context_1_1_impl" kindref="compound">Z3Context::Impl</ref> &amp;</type>
@@ -1616,7 +1626,7 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="83" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="83" bodyend="85"/>
+        <location file="src/tools/z3/Z3Internal.h" line="96" column="28" bodyfile="src/tools/z3/Z3Internal.h" bodystart="96" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1a18dc822e5cb6e69908f85249f8c6588d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_z3_predicate_1_1_impl" kindref="compound">Z3Predicate::Impl</ref> &amp;</type>
@@ -1634,13 +1644,13 @@ user-supplied implementation, including one implemented from `Python`_.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="87" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="87" bodyend="89"/>
+        <location file="src/tools/z3/Z3Internal.h" line="100" column="36" bodyfile="src/tools/z3/Z3Internal.h" bodystart="100" bodyend="102"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/DownloadMode.h" line="8" column="1"/>
+    <location file="include/AGRemapCore/constants/DownloadMode.h" line="21" column="1"/>
   </compounddef>
 </doxygen>

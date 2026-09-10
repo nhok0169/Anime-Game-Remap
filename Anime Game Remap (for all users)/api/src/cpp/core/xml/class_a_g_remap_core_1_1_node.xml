@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/nodes/Node.h" line="49" column="16" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="49" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="62" column="16" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/nodes/Node.h" line="35" column="22"/>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="48" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1ad51906e8f8e03528176d2b5a29d5710b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/nodes/Node.h" line="37" column="21"/>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="50" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Id &amp;</type>
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/nodes/Node.h" line="42" column="22"/>
+        <location file="include/AGRemapCore/tools/nodes/Node.h" line="55" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -124,7 +124,7 @@ Class for a node in a `graph`_ :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/tools/nodes/Node.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="27" bodyend="50"/>
+    <location file="include/AGRemapCore/tools/nodes/Node.h" line="40" column="5" bodyfile="include/AGRemapCore/tools/nodes/Node.h" bodystart="40" bodyend="63"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_node_1a2a464defbed1a4eb2be7a4831965b6f4" prot="public" virt="non-virtual"><scope>AGRemapCore::Node</scope><name>id</name></member>
       <member refid="class_a_g_remap_core_1_1_node_1af20e1bc375c6a2701fdcf936bb331e14" prot="protected" virt="non-virtual"><scope>AGRemapCore::Node</scope><name>id_</name></member>

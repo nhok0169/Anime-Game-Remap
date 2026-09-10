@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="19" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="32" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">BufFile::FixResult</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="30" column="40" bodyfile="src/model/strategies/bufEditors/BaseBufEditor.cpp" bodystart="5" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="43" column="40" bodyfile="src/model/strategies/bufEditors/BaseBufEditor.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -85,7 +85,7 @@ Base class to edit some ``.buf`` file
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="17" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" bodystart="17" bodyend="31"/>
+    <location file="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BaseBufEditor.h" bodystart="30" bodyend="44"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a9b33060648e428d1af764cd6f5c11db7" prot="public" virt="virtual"><scope>AGRemapCore::BaseBufEditor</scope><name>fix</name></member>
       <member refid="class_a_g_remap_core_1_1_base_buf_editor_1a2eff5819b0456887a4a5767ceb8c179d" prot="public" virt="virtual"><scope>AGRemapCore::BaseBufEditor</scope><name>~BaseBufEditor</name></member>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="25" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="25" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="38" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="38" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_range_1ac84b800c4f978c9eefbc24cf66fcefad" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="30" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="30" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="43" column="20" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="43" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -75,7 +75,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="38" column="13" bodyfile="src/model/textures/ColourRange.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="51" column="13" bodyfile="src/model/textures/ColourRange.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1aa4941ddd74b8920aa6d08c18c0d5dabb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -90,7 +90,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="43" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="7" bodyend="9"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="56" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -110,7 +110,7 @@ A unique id for the colour range :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="54" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="11" bodyend="13"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="67" column="25" bodyfile="src/model/textures/ColourRange.cpp" bodystart="24" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_range_1a7c8a7a680cb181cb7004cdd31545b0f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -139,7 +139,7 @@ A unique id for the colour range :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="61" column="18" bodyfile="src/model/textures/ColourRange.cpp" bodystart="15" bodyend="20"/>
+        <location file="include/AGRemapCore/model/textures/ColourRange.h" line="74" column="18" bodyfile="src/model/textures/ColourRange.cpp" bodystart="28" bodyend="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -163,7 +163,7 @@ Class to store a range for a colour
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/textures/ColourRange.h" line="19" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="19" bodyend="62"/>
+    <location file="include/AGRemapCore/model/textures/ColourRange.h" line="32" column="5" bodyfile="include/AGRemapCore/model/textures/ColourRange.h" bodystart="32" bodyend="75"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_colour_range_1a4c75a515ee722e031bf76a5f4124e128" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>ColourRange</name></member>
       <member refid="class_a_g_remap_core_1_1_colour_range_1a105bd14438697cca773e330a4997691b" prot="public" virt="non-virtual"><scope>AGRemapCore::ColourRange</scope><name>getId</name></member>

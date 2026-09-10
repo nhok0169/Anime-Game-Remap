@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ShenheFrostFlowerFixer</compoundname>
+    <includes refid="_shenhe_frost_flower_fixer_8h" local="no">ShenheFrostFlowerFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1a334126dfb999b5202ac2fb4c5e9d4b6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ShenheFrostFlowerFixer::ShenheFrostFlowerFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ShenheFrostFlowerFixer</name>
+        <qualifiedname>AGRemapCore::ShenheFrostFlowerFixer::ShenheFrostFlowerFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1ae147a4a52375b2a16f0c04fe85ab2dab" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ShenheFrostFlowerFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::ShenheFrostFlowerFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era ShenheFrostFlower ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::shenheFrostFlower6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp" bodystart="82" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+ShenheFrostFlower&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`ShenheFrostFlowerParser`, and read it next to
+:cpp:class:`ShenheFixer`. This is the **widest merge** in the repo: three of the skin&apos;s
+objects land on Shenhe&apos;s one ``body``, so the fix writes THREE ``.ini`` files
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1a334126dfb999b5202ac2fb4c5e9d4b6c" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheFrostFlowerFixer</scope><name>ShenheFrostFlowerFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1ae147a4a52375b2a16f0c04fe85ab2dab" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheFrostFlowerFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

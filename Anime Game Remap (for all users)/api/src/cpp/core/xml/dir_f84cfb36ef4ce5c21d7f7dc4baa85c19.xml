@@ -9,6 +9,8 @@
     <innerdir refid="dir_9db41a4702b612b576078bf78be7f79d">include/AGRemapCore/data/IniParseData/Jean</innerdir>
     <innerdir refid="dir_697e9e3e62000ebab761ab0c13cbdc0c">include/AGRemapCore/data/IniParseData/JeanCN</innerdir>
     <innerdir refid="dir_b906138f5ab7278d37d810f2f6a48fa4">include/AGRemapCore/data/IniParseData/JeanSea</innerdir>
+    <innerdir refid="dir_db10eafae5773a6709380b4a3c2ef61e">include/AGRemapCore/data/IniParseData/Keqing</innerdir>
+    <innerdir refid="dir_f86034e639ff3c96c2de0603d3c83a91">include/AGRemapCore/data/IniParseData/KeqingOpulent</innerdir>
     <innerdir refid="dir_504b10f3dae4b02b15cf78dfaec4fd46">include/AGRemapCore/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_2970c4f8f58992fe03449489402f452e">include/AGRemapCore/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_4dd32f71b959b765c42a6e80a512d85a">include/AGRemapCore/data/IniParseData/Ningguang</innerdir>
@@ -16,6 +18,8 @@
     <innerdir refid="dir_94ba6e7066ec85135a97e7354f5d89a1">include/AGRemapCore/data/IniParseData/Raiden</innerdir>
     <innerdir refid="dir_7d1c53dc97e8538dd018cdb2ca3e072d">include/AGRemapCore/data/IniParseData/Rosaria</innerdir>
     <innerdir refid="dir_7a35054c216e84c39600e9f3c201a29e">include/AGRemapCore/data/IniParseData/RosariaCN</innerdir>
+    <innerdir refid="dir_3302f69cfb14f119b57631ddc275a7f3">include/AGRemapCore/data/IniParseData/Shenhe</innerdir>
+    <innerdir refid="dir_57b0b5a0fc1c85491b674b851ba81b9c">include/AGRemapCore/data/IniParseData/ShenheFrostFlower</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8h">GIMICharParser.h</innerfile>
     <briefdescription>
     </briefdescription>

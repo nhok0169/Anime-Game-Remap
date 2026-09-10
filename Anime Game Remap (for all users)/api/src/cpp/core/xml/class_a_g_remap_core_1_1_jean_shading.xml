@@ -22,7 +22,7 @@ one constant serving as both, exactly as the pure-Python
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="32" column="30" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="32" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="45" column="30" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="45" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -38,7 +38,7 @@ one constant serving as both, exactly as the pure-Python
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="35" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -83,7 +83,7 @@ original has it and a future caller may pass a larger constant
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="54" column="25" bodyfile="src/data/IniFixData/JeanShading.cpp" bodystart="15" bodyend="33"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="67" column="25" bodyfile="src/data/IniFixData/JeanShading.cpp" bodystart="28" bodyend="46"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -97,7 +97,7 @@ Its own translation unit because both characters use it and neither owns it -- t
 :cpp:func:`makeGIMICharFixer` is shared rather than copied per character
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="19" bodyend="55"/>
+    <location file="include/AGRemapCore/data/IniFixData/JeanShading.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanShading.h" bodystart="32" bodyend="68"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_shading_1af805d28805ee98508b9119be89fda2e6" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanShading</scope><name>JeanShading</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanShading</scope><name>liftLowAlpha</name></member>

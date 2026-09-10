@@ -25,7 +25,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="107" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="56" bodyend="58"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="120" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="69" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="112" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="60" bodyend="62"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="125" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="73" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -99,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="105" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="9" bodyend="10"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="118" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -160,7 +160,7 @@ mirrors the pure-Python ``RemapIniResource`` class (``model/iniresources/RemapIn
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="103" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="103" bodyend="113"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="116" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="116" bodyend="126"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>fixEncounteredError</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_1a490ee356d15c7c5b896d949d90e91153" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniResource</scope><name>fixExists</name></member>

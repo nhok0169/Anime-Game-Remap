@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="38" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="38" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="51" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="43" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="43" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="56" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aa65d3863db63688afde505adeacb8275" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="48" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="48" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="61" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1aec6ee4628aaa735f83efff8dde436f53" prot="public" static="no" mutable="no">
         <type>std::optional&lt; std::string &gt;</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="53" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="66" column="31" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="66" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -70,7 +70,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="34" column="13" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="34" bodyend="54"/>
+    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="47" column="13" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="47" bodyend="67"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a204229d0acbf797ef55409251c28355c" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fixedPath</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry_1a451eb177000bd26f8b930f4e9dc50633" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel::Entry</scope><name>fullPath</name></member>

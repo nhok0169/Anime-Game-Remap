@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="120" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="133" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_remap_ini_remover_1a3d3953761cfc4923d1bc194ca0f412e2" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part" kindref="compound">IfContentPart</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -65,7 +65,7 @@ The `KVP`_-holding kind of :cpp:class:`IfTemplatePart` -- what a ``hash`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="129" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="129" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="142" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="142" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_remap_ini_remover_1ab735902004ee9d71ff2f752cc971e20c" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -80,7 +80,7 @@ The `KVP`_-holding kind of :cpp:class:`IfTemplatePart` -- what a ``hash`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="134" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="134" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="147" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="147" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_context" kindref="compound">IniRemoveContext</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -95,7 +95,7 @@ The `KVP`_-holding kind of :cpp:class:`IfTemplatePart` -- what a ``hash`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="139" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="139" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="152" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="152" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_remap_ini_remover_1ae60528035f2bb62dcbb7551374d3724f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_remove_context_1a7ad19c6c3790253dfb0050663c4ef76e" kindref="member">Context::Assets</ref></type>
@@ -110,7 +110,7 @@ The `KVP`_-holding kind of :cpp:class:`IfTemplatePart` -- what a ``hash`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="144" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="144" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="157" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="157" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -129,7 +129,7 @@ The `KVP`_-holding kind of :cpp:class:`IfTemplatePart` -- what a ``hash`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="347" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="347" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="360" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="360" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a11d652415754df8f90cc1476d9574b3c" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -150,7 +150,7 @@ The substring that makes an *outside-the-boilerplate* `section`_ a candidate
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="358" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="358" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="371" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="371" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1afebcf6dddfd5199b34cb99036a7e636b" prot="public" static="no" mutable="no">
         <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
@@ -183,7 +183,7 @@ mod type&apos;s hash table knows it at all :raw-html:`&lt;br /&gt;` :raw-html:`&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="382" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="382" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="395" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="395" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1aaac2446dcd779df969c107887d055ee3" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -204,7 +204,7 @@ else, and without looking at the file path at all :raw-html:`&lt;br /&gt;` :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="393" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="393" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="406" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="406" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1abbf3607068d351fcafdd2cc54dc61643" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -234,7 +234,7 @@ The `section`_-name substring that tells a *created* texture from an *edited* on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="413" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="413" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="426" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="426" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a35a16656552387b8d71c98eb9b3694d4" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -253,7 +253,7 @@ same string :cpp:func:`IniNamingTools::getRemapBlendName` builds
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="422" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="422" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="435" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="435" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1ab14996e723fdd2befefe58f32e685e19" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -273,7 +273,7 @@ builds
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="432" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="432" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="445" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="445" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1adab992ac9d86c87b1dfdca40b4899fbd" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -297,7 +297,7 @@ real output rather than literally as specified, per the maintainer&apos;s call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="446" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="446" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="459" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="459" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1afa9e3b283168330ca8ed187119b75cde" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -326,7 +326,7 @@ every surviving line :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="465" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="465" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="478" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="478" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a76aea5cd78833958a743cc372c7b96f7" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -345,7 +345,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::DDS`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="474" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="474" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="487" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="487" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a909ad09a64a538e038c40d1f60208db2" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -364,7 +364,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="483" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="483" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="496" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="496" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -380,7 +380,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="807" column="27" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="807" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="820" column="27" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="820" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a7b6241eaaeff857986895862dfcc8ebb" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref> *</type>
@@ -395,7 +395,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="810" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="810" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="823" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="823" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1aa4450acb77f2d691118ad4628b622de3" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref> &gt;</type>
@@ -409,7 +409,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="813" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="813" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="826" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="826" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1af770a88de4609276c082fc941f74a0ae" prot="protected" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -423,7 +423,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="815" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="815" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="828" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="828" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1aa781b1315d5ec45e44ff7074223bb5f3" prot="protected" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -437,7 +437,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="816" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="816" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="829" column="25" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="829" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1aa17ba1b213a8cc104c78cf9a6b8ed8b7" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &gt;</type>
@@ -451,7 +451,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="817" column="32" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="817" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="830" column="32" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="830" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_remover_1a8d0a5da8f42e1892f24dc3f07e0d2a7e" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ab735902004ee9d71ff2f752cc971e20c" kindref="member">Graph</ref> &gt;</type>
@@ -465,7 +465,7 @@ case-insensitively. **Default**: :cpp:member:`FileExt::Buf`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="818" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="818" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="831" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="831" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -491,7 +491,7 @@ The default #RemoverConfig for a plain, ``std::string``-keyed C++ caller
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="195" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="208" column="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a1617c42fbea6de8c423c80cec6fc9342" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading" kindref="compound">BoilerPlateHeading</ref> &gt; &amp;</type>
@@ -510,7 +510,7 @@ pure-Python original&apos;s ``_fixRemovalPattern``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="308" column="38"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="321" column="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a1214017982696a4960029d043f559364" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::function&lt; std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_remover" kindref="compound">BaseIniRemover</ref>&lt;&gt; &gt;(<ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
@@ -535,7 +535,7 @@ turned into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="324" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="337" column="36"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -589,7 +589,7 @@ must outlive this remover :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="342" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="355" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ae2285abe5d70c36b754fa03e76f4aaff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config" kindref="compound">RemoverConfig</ref> &amp;</type>
@@ -604,7 +604,7 @@ must outlive this remover :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="488" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="501" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1adf33e22b5cdc9c321d290c385f252668" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1a78fdef3884eb5396d00c1d4f556fe345" kindref="member">Context</ref> *</type>
@@ -622,7 +622,7 @@ unbound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="497" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="510" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a83f16ce6262a8d8989eb3e684e12a618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -654,7 +654,7 @@ unbound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="504" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="517" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a60a4ac2ffa40a4853550294f0435563e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -691,7 +691,7 @@ replaced by this
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="520" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="533" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a226ff2210e089438080fe0c9345bf096" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -709,7 +709,7 @@ in the order the ``.ini`` file declared them. Empty before the first #remove
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="529" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="542" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a32cbed4409f3f5c7bc87989583cdc1f2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -728,7 +728,7 @@ references them -- in the order the ``.ini`` file declared them. Empty before th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="539" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="552" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a0636fdb15166793275d1ce6ee21cda51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_remap_ini_remover_1ab735902004ee9d71ff2f752cc971e20c" kindref="member">Graph</ref> *</type>
@@ -758,7 +758,7 @@ first #remove :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="560" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="573" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ab726e02c0f01a7ad24bab8b99801923b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> &gt; &gt; &gt; &amp;</type>
@@ -800,7 +800,7 @@ than mapped to an empty vector :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="593" column="38"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="606" column="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ade77d5b79520e4b3f7c7821d34c5c4d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -832,7 +832,7 @@ Whether some :cpp:class:`ModType` of the bound ``.ini`` file knows &apos;hashVal
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="604" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="617" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a9b1ca9df57151bbde2a06c9b075c11cb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -895,7 +895,7 @@ The decision, in order -- the first match wins:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="635" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="648" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ac67760c8cc974b893e9ede9ba88229f3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -989,7 +989,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="685" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="698" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -1009,7 +1009,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="734" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="747" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a6005484dfed7b15449e1ef2271ec6ed2" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match" kindref="compound">OpenMatch</ref> &gt;</type>
@@ -1027,7 +1027,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="737" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="750" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a9df52cce076d65d3fee2ee57591cdfce" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1045,7 +1045,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="745" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="758" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1aa9f02ed83dc8cec0f22997c222518418" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -1076,7 +1076,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="759" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="772" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a57c8318827087188fd8285a567ebd07c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1102,7 +1102,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="766" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="779" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1aa40ef812c368a8e377d5bd1afffdf06c" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
@@ -1120,7 +1120,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="789" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="802" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1add3facdaa1e72f89ef258ba9d030767e" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1138,7 +1138,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="802" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="815" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -1162,7 +1162,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="740" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="753" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ac605ca2256c862c02122f670292e4221" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1184,7 +1184,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="770" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="783" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a92b508e84c2465dcef79902190933b4d" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -1206,7 +1206,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="793" column="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="806" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1ab756ebe7c5c45c6b4907d2c668af4836" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
@@ -1224,7 +1224,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="797" column="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="810" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_remover_1a110fc8ff6c734f6c93f829039d87cf66" prot="protected" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -1246,7 +1246,7 @@ The per-call options for this removal -- see :cpp:class:`IniRemovalContext`, who
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="805" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="818" column="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1405,7 +1405,7 @@ the binding has to fake :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         <label>BaseIniRemover&lt;std::string, std::string, std::hash&lt;std::string&gt;, std::equal_to&lt;std::string&gt;&gt;</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="114" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="114" bodyend="819"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="127" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="127" bodyend="832"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1ae60528035f2bb62dcbb7551374d3724f" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover</scope><name>Assets</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_remover_1a35a16656552387b8d71c98eb9b3694d4" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover</scope><name>blendKeyword</name></member>

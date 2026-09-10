@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/view/BaseLogger.cpp" line="19" column="5"/>
+    <location file="src/view/BaseLogger.cpp" line="32" column="5"/>
   </compounddef>
 </doxygen>

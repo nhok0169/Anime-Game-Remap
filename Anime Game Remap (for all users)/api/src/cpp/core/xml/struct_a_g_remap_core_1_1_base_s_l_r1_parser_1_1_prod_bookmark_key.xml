@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="508" column="20" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="508" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="521" column="20" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="521" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="509" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="509" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="522" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="522" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="515" column="22"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="528" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -57,7 +57,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="507" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="507" bodyend="516"/>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="520" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="520" bodyend="529"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a8d731a6daefd194eceae9eed81299dc6" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</scope><name>bookmark</name></member>
       <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_key_1a9623bc9066431af61f8b959b4fd019f1" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkKey</scope><name>operator==</name></member>

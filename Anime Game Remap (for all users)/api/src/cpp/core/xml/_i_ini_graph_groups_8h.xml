@@ -756,7 +756,7 @@
         </childnode>
         <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="23" relation="include">
+        <childnode refid="24" relation="include">
         </childnode>
       </node>
       <node id="11">
@@ -806,9 +806,9 @@
         </childnode>
         <childnode refid="10" relation="include">
         </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
         <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
         </childnode>
       </node>
       <node id="14">
@@ -843,13 +843,21 @@
         <childnode refid="21" relation="include">
         </childnode>
       </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
+        <link refid="_tex_creator_edit_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
       <node id="21">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEdit.h</label>
         <link refid="_tex_edit_8h"/>
         <childnode refid="22" relation="include">
         </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
       </node>
-      <node id="22">
+      <node id="23">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
         <childnode refid="3" relation="include">
@@ -863,70 +871,70 @@
         <childnode refid="4" relation="include">
         </childnode>
       </node>
-      <node id="23">
+      <node id="24">
         <label>include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h</label>
         <link refid="_g_i_m_i_parser_8h"/>
-        <childnode refid="24" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="5" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="32">
-        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
-        <link refid="_g_i_m_i_section_classifier_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-      </node>
-      <node id="30">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
-        <link refid="_ini_file_parse_context_8h"/>
-        <childnode refid="25" relation="include">
-        </childnode>
-        <childnode refid="27" relation="include">
-        </childnode>
-        <childnode refid="28" relation="include">
-        </childnode>
-        <childnode refid="29" relation="include">
-        </childnode>
-      </node>
-      <node id="31">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
-        <link refid="_ini_parse_context_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="32" relation="include">
-        </childnode>
-        <childnode refid="30" relation="include">
-        </childnode>
-        <childnode refid="33" relation="include">
-        </childnode>
-      </node>
-      <node id="33">
-        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
-        <link refid="_ini_parse_download_data_8h"/>
-        <childnode refid="23" relation="include">
-        </childnode>
-        <childnode refid="24" relation="include">
-        </childnode>
-      </node>
-      <node id="24">
-        <label>include/AGRemapCore/tools/DownloadTools.h</label>
-        <link refid="_download_tools_8h"/>
         <childnode refid="25" relation="include">
         </childnode>
         <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="33">
+        <label>include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h</label>
+        <link refid="_g_i_m_i_section_classifier_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="31">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniFileParseContext.h</label>
+        <link refid="_ini_file_parse_context_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseContext.h</label>
+        <link refid="_ini_parse_context_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+      </node>
+      <node id="34">
+        <label>include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h</label>
+        <link refid="_ini_parse_download_data_8h"/>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="25">
+        <label>include/AGRemapCore/tools/DownloadTools.h</label>
+        <link refid="_download_tools_8h"/>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
         </childnode>
       </node>
       <node id="3">
@@ -937,11 +945,11 @@
         <label>src/data/IniFixData/Raiden/RaidenFixer.cpp</label>
         <link refid="_raiden_fixer_8cpp"/>
       </node>
-      <node id="25">
+      <node id="26">
         <label>src/data/IniParseData/GIMICharParser.cpp</label>
         <link refid="_g_i_m_i_char_parser_8cpp"/>
       </node>
-      <node id="27">
+      <node id="28">
         <label>src/data/IniParseData/Raiden/RaidenParser.cpp</label>
         <link refid="_raiden_parser_8cpp"/>
       </node>
@@ -953,15 +961,15 @@
         <label>src/model/strategies/iniFixers/IniFixBuilder.cpp</label>
         <link refid="_ini_fix_builder_8cpp"/>
       </node>
-      <node id="28">
+      <node id="29">
         <label>src/model/strategies/iniParsers/IniFileParseContext.cpp</label>
         <link refid="_ini_file_parse_context_8cpp"/>
       </node>
-      <node id="29">
+      <node id="30">
         <label>src/model/strategies/iniParsers/IniParseBuilder.cpp</label>
         <link refid="_ini_parse_builder_8cpp"/>
       </node>
-      <node id="26">
+      <node id="27">
         <label>src/tools/DownloadTools.cpp</label>
         <link refid="_download_tools_8cpp"/>
       </node>
@@ -977,95 +985,108 @@
 <codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_IIniGraphGroups_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_IIniGraphGroups_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_graph_group_8h" kindref="compound">AGRemapCore/model/IniGraphGroup.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_section_graph_8h" kindref="compound">AGRemapCore/model/IniSectionGraph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_if_template_8h" kindref="compound">AGRemapCore/model/iftemplate/IfTemplate.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_z3_context_8h" kindref="compound">AGRemapCore/tools/z3/Z3Context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
-<codeline lineno="65" refid="class_a_g_remap_core_1_1_i_ini_graph_groups" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref><sp/>{</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="67"><highlight class="normal"></highlight></codeline>
-<codeline lineno="71" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
-<codeline lineno="72"><highlight class="normal"></highlight></codeline>
-<codeline lineno="76" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Section</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
-<codeline lineno="77"><highlight class="normal"></highlight></codeline>
-<codeline lineno="81" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref><sp/>=<sp/>std::pair&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight></codeline>
-<codeline lineno="83" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d4335ca0671c1a5d2bf7a27771cf49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d4335ca0671c1a5d2bf7a27771cf49e" kindref="member">~IIniGraphGroups</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="84"><highlight class="normal"></highlight></codeline>
-<codeline lineno="88" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a56d503e9d07bcabc6a68ab738767d0d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a56d503e9d07bcabc6a68ab738767d0d0" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="89"><highlight class="normal"></highlight></codeline>
-<codeline lineno="98" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a6304ad772d42381eef99a33eac614df8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a6304ad772d42381eef99a33eac614df8" kindref="member">insertGroup</ref>(std::size_t<sp/>groupInd)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="99"><highlight class="normal"></highlight></codeline>
-<codeline lineno="105" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5f99eedbf65a800945646a0ea7c547e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5f99eedbf65a800945646a0ea7c547e8" kindref="member">removeGroup</ref>(std::size_t<sp/>groupInd)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="106"><highlight class="normal"></highlight></codeline>
-<codeline lineno="116" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ab3037316083f240b13b90785d90147cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ModObj&gt;<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ab3037316083f240b13b90785d90147cc" kindref="member">modObjs</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="117"><highlight class="normal"></highlight></codeline>
-<codeline lineno="123" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a60f5c3aaf70d3f98a55945d40bb5892b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a60f5c3aaf70d3f98a55945d40bb5892b" kindref="member">graphCount</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="124"><highlight class="normal"></highlight></codeline>
-<codeline lineno="131" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a366ee34d86b9c3377cf2ac6c42084ad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a366ee34d86b9c3377cf2ac6c42084ad9" kindref="member">getGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="132"><highlight class="normal"></highlight></codeline>
-<codeline lineno="148" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d05f614b07e5cd154df39bc5b657ccb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d05f614b07e5cd154df39bc5b657ccb" kindref="member">addGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj,<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/>graph)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="149"><highlight class="normal"></highlight></codeline>
-<codeline lineno="162" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a579eef330fb3b4af939534b2d6c87569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a579eef330fb3b4af939534b2d6c87569" kindref="member">removeGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="163"><highlight class="normal"></highlight></codeline>
-<codeline lineno="173" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a889e6da1433c81267055f4603a6ccbad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a889e6da1433c81267055f4603a6ccbad" kindref="member">deepcopyGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>&amp;<sp/>src,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>minimal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>newPartIds<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="174"><highlight class="normal"></highlight></codeline>
-<codeline lineno="185" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ae96b68799f53fee2e8052b283fe65881" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ae96b68799f53fee2e8052b283fe65881" kindref="member">createGraph</ref>(std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>sections,<sp/>std::vector&lt;std::string&gt;<sp/>targetSectionNames,</highlight></codeline>
-<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>copySections<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>z3Ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
-<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="188"><highlight class="normal"></highlight></codeline>
-<codeline lineno="189"><highlight class="normal"></highlight></codeline>
-<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
-<codeline lineno="207" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" kindref="member">IniGraphGroupsVec</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
-<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="209" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
-<codeline lineno="210" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Base::Graph</ref>;</highlight></codeline>
-<codeline lineno="211" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" kindref="member">Section</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Base::Section</ref>;</highlight></codeline>
-<codeline lineno="212" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">Base::ModObj</ref>;</highlight></codeline>
-<codeline lineno="213"><highlight class="normal"></highlight></codeline>
-<codeline lineno="217" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" kindref="member">Group</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
-<codeline lineno="218"><highlight class="normal"></highlight></codeline>
-<codeline lineno="225" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" kindref="member">IniGraphGroupsVec</ref>(std::vector&lt;Group&gt;&amp;<sp/>groups,<sp/><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig&lt;K, V&gt;</ref><sp/>runConfig);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstddef&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_graph_group_8h" kindref="compound">AGRemapCore/model/IniGraphGroup.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_section_graph_8h" kindref="compound">AGRemapCore/model/IniSectionGraph.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_if_template_8h" kindref="compound">AGRemapCore/model/iftemplate/IfTemplate.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_z3_context_8h" kindref="compound">AGRemapCore/tools/z3/Z3Context.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="78" refid="class_a_g_remap_core_1_1_i_ini_graph_groups" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref><sp/>{</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_section_graph" kindref="compound">IniSectionGraph&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Section</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref><sp/>=<sp/>std::pair&lt;std::string,<sp/>std::string&gt;;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d4335ca0671c1a5d2bf7a27771cf49e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d4335ca0671c1a5d2bf7a27771cf49e" kindref="member">~IIniGraphGroups</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a56d503e9d07bcabc6a68ab738767d0d0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a56d503e9d07bcabc6a68ab738767d0d0" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a6304ad772d42381eef99a33eac614df8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a6304ad772d42381eef99a33eac614df8" kindref="member">insertGroup</ref>(std::size_t<sp/>groupInd)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5f99eedbf65a800945646a0ea7c547e8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5f99eedbf65a800945646a0ea7c547e8" kindref="member">removeGroup</ref>(std::size_t<sp/>groupInd)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ab3037316083f240b13b90785d90147cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::vector&lt;ModObj&gt;<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ab3037316083f240b13b90785d90147cc" kindref="member">modObjs</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a60f5c3aaf70d3f98a55945d40bb5892b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a60f5c3aaf70d3f98a55945d40bb5892b" kindref="member">graphCount</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a366ee34d86b9c3377cf2ac6c42084ad9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a366ee34d86b9c3377cf2ac6c42084ad9" kindref="member">getGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d05f614b07e5cd154df39bc5b657ccb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a5d05f614b07e5cd154df39bc5b657ccb" kindref="member">addGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj,<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/>graph)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a579eef330fb3b4af939534b2d6c87569" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a579eef330fb3b4af939534b2d6c87569" kindref="member">removeGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a889e6da1433c81267055f4603a6ccbad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a889e6da1433c81267055f4603a6ccbad" kindref="member">deepcopyGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>&amp;<sp/>src,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>minimal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>newPartIds<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198" refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ae96b68799f53fee2e8052b283fe65881" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1ae96b68799f53fee2e8052b283fe65881" kindref="member">createGraph</ref>(std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>sections,<sp/>std::vector&lt;std::string&gt;<sp/>targetSectionNames,</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>copySections<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>z3Ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">template</highlight><highlight class="normal"><sp/>&lt;</highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>K<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>V<sp/>=<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyHash<sp/>=<sp/>std::hash&lt;K&gt;,<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/>KeyEqual<sp/>=<sp/>std::equal_to&lt;K&gt;&gt;</highlight></codeline>
+<codeline lineno="220" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" kindref="member">IniGraphGroupsVec</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups</ref>&lt;K,<sp/>V,<sp/>KeyHash,<sp/>KeyEqual&gt;<sp/>{</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="222" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" kindref="member">Base</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups" kindref="compound">IIniGraphGroups&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="223" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Base::Graph</ref>;</highlight></codeline>
+<codeline lineno="224" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" kindref="member">Section</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Base::Section</ref>;</highlight></codeline>
+<codeline lineno="225" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref><sp/>=<sp/></highlight><highlight class="keyword">typename</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">Base::ModObj</ref>;</highlight></codeline>
 <codeline lineno="226"><highlight class="normal"></highlight></codeline>
-<codeline lineno="227" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="228" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" kindref="member">insertGroup</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="229" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" kindref="member">removeGroup</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="230" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ModObj&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" kindref="member">modObjs</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="231" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" kindref="member">graphCount</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="232" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" kindref="member">getGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="233" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" kindref="member">addGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj,<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/>graph)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="234" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" kindref="member">removeGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="235" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" kindref="member">deepcopyGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>&amp;<sp/>src,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>minimal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>newPartIds<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="236" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" kindref="member">createGraph</ref>(std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>sections,<sp/>std::vector&lt;std::string&gt;<sp/>targetSectionNames,</highlight></codeline>
-<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>copySections<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>z3Ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="238"><highlight class="normal"></highlight></codeline>
-<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="240" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Group&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" kindref="member">groups_</ref>;</highlight></codeline>
-<codeline lineno="241" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig&lt;K, V&gt;</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" kindref="member">runConfig_</ref>;</highlight></codeline>
-<codeline lineno="242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graphs<sp/>this<sp/>view<sp/>produced<sp/>(#deepcopyGraph/#createGraph)<sp/>or<sp/>removed<sp/>from<sp/>a<sp/>group,</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kept<sp/>alive<sp/>here<sp/>for<sp/>as<sp/>long<sp/>as<sp/>this<sp/>view<sp/>lives<sp/>--<sp/>see<sp/>IIniGraphGroups&apos;s<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>contract<sp/>and<sp/>its<sp/>note<sp/>on<sp/>removeGraph.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="246" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;Graph&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" kindref="member">owned_</ref>;</highlight></codeline>
-<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="249"><highlight class="normal"></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;IIniGraphGroups.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" kindref="member">Group</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup&lt;K, V, KeyHash, KeyEqual&gt;</ref>;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a54a99ef2d360dd6c582d4b2325e62079" kindref="member">IniGraphGroupsVec</ref>(std::vector&lt;Group&gt;&amp;<sp/>groups,<sp/><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig&lt;K, V&gt;</ref><sp/>runConfig);</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight></codeline>
+<codeline lineno="240" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" kindref="member">size</ref>()<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="241" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" kindref="member">insertGroup</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="242" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" kindref="member">removeGroup</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;ModObj&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" kindref="member">modObjs</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" kindref="member">graphCount</ref>(std::size_t<sp/>groupInd)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="245" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" kindref="member">getGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">const<sp/>override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="246" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" kindref="member">addGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj,<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/>graph)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="247" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" kindref="member">removeGraph</ref>(std::size_t<sp/>groupInd,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref>&amp;<sp/>modObj)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" kindref="member">deepcopyGraph</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>&amp;<sp/>src,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>minimal<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>newPartIds<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="249" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref>*<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" kindref="member">createGraph</ref>(std::unordered_map&lt;std::string,<sp/>Section*&gt;<sp/>sections,<sp/>std::vector&lt;std::string&gt;<sp/>targetSectionNames,</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>copySections<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,<sp/><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref>*<sp/>z3Ctx<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
 <codeline lineno="251"><highlight class="normal"></highlight></codeline>
-<codeline lineno="252"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="253" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;Group&gt;&amp;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a30561fad586293ef003b52ad9c005530" kindref="member">groups_</ref>;</highlight></codeline>
+<codeline lineno="254" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig&lt;K, V&gt;</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" kindref="member">runConfig_</ref>;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Graphs<sp/>this<sp/>view<sp/>produced<sp/>(#deepcopyGraph/#createGraph)<sp/>or<sp/>removed<sp/>from<sp/>a<sp/>group,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>kept<sp/>alive<sp/>here<sp/>for<sp/>as<sp/>long<sp/>as<sp/>this<sp/>view<sp/>lives<sp/>--<sp/>see<sp/>IIniGraphGroups&apos;s<sp/>ownership</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>contract<sp/>and<sp/>its<sp/>note<sp/>on<sp/>removeGraph.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259" refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::unique_ptr&lt;Graph&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" kindref="member">owned_</ref>;</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="261"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;IIniGraphGroups.tpp&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h"/>
   </compounddef>

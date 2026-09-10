@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="37" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Ningguang ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="33" column="45" bodyfile="src/data/IniParseData/Ningguang/NingguangParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="46" column="45" bodyfile="src/data/IniParseData/Ningguang/NingguangParser.cpp" bodystart="38" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -52,7 +52,7 @@ neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 Ningguang and NingguangOrchid are a base/skin pair and remap onto each other
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" bodystart="21" bodyend="35"/>
+    <location file="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Ningguang/NingguangParser.h" bodystart="34" bodyend="48"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ningguang_parser_1aa354a0e4a31fb9c1a9e477e13e7e01dc" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangParser</scope><name>NingguangParser</name></member>
       <member refid="class_a_g_remap_core_1_1_ningguang_parser_1a3a0e8e75937a0b216e874bd23b50a92e" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangParser</scope><name>v4_0</name></member>

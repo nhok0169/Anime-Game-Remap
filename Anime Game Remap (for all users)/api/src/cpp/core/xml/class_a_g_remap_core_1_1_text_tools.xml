@@ -51,7 +51,7 @@ matches Python&apos;s ``txt[0].upper() + txt[1:]`` :raw-html:`&lt;br /&gt;` :raw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/TextTools.h" line="43" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="9" bodyend="31"/>
+        <location file="include/AGRemapCore/tools/TextTools.h" line="56" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="22" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_text_tools_1aaf5544d63548563f42a3d2f63d118b0b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -95,7 +95,7 @@ Python&apos;s ``txt[::-1]``, including that it can break apart a multi-codepoint
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/TextTools.h" line="59" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="33" bodyend="66"/>
+        <location file="include/AGRemapCore/tools/TextTools.h" line="72" column="32" bodyfile="src/tools/TextTools.cpp" bodystart="46" bodyend="79"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -110,7 +110,7 @@ Tools for handling text :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    methods as later-ported subsystems need them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/TextTools.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/TextTools.h" bodystart="21" bodyend="60"/>
+    <location file="include/AGRemapCore/tools/TextTools.h" line="34" column="5" bodyfile="include/AGRemapCore/tools/TextTools.h" bodystart="34" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_text_tools_1ae94b6a2511b69453cd4c2b11d79c3e98" prot="public" virt="non-virtual"><scope>AGRemapCore::TextTools</scope><name>capitalize</name></member>
       <member refid="class_a_g_remap_core_1_1_text_tools_1aaf5544d63548563f42a3d2f63d118b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::TextTools</scope><name>reverse</name></member>

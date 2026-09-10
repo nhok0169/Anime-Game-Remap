@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="250" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="250" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="263" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="263" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref> &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="255" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="255" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="268" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="268" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -40,7 +40,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="246" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="246" bodyend="256"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="259" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="259" bodyend="269"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1a6ece9c11db14bbc2e1e8bbf6a0955fde" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResCall</scope><name>query</name></member>
       <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_call_1ad41b0ac476830eebf4bf90341d24c581" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResCall</scope><name>val</name></member>

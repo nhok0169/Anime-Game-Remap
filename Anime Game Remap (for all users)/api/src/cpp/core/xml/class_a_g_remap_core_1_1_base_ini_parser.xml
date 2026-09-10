@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="62" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="62" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="75" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="75" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -54,7 +54,7 @@ The ``.ini`` file that will be parsed -- non-owning, see the constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="148" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="161" column="21" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="161" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -111,7 +111,7 @@ call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="95" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="108" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a0890fda804a2162b0007b5077fe0eadb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -125,7 +125,7 @@ call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="97" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="110" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a61c5a1156ab3cef7f77825d601a3eb2c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -140,7 +140,7 @@ call #setIniFile before #parse in that case :raw-html:`&lt;br /&gt;` :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="102" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="115" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1afc4a92ca3acd3c6c9a9c22f973f15d95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -172,7 +172,7 @@ constructor
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="113" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="126" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -190,7 +190,7 @@ nothing here to clear, unlike the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="122" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="135" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_parser_1aa65efe10ef097960514ad0627b6bb800" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_parser_1ae527acf2192ce8bfbd6447a8138d2b7f" kindref="member">GraphGroup</ref> &gt;</type>
@@ -216,7 +216,7 @@ original&apos;s ``pass`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="138" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="151" column="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -316,7 +316,7 @@ Base class to parse a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="56" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="56" bodyend="149"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" line="69" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/BaseIniParser.h" bodystart="69" bodyend="162"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a4a65000b8c167b823576c7ccbd16c481" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniParser</scope><name>BaseIniParser</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_parser_1a15c3c143f6a07d6ac41217f689106768" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniParser</scope><name>clear</name></member>

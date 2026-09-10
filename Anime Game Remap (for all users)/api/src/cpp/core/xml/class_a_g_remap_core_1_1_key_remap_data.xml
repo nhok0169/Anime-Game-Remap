@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="167" column="23" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="167" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="180" column="23" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="180" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_key_remap_data_1aa85609d97e5bb0bb6f87bebf7e851592" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -38,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="168" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="181" column="18" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="181" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -90,7 +90,7 @@ being removed. Evaluated per occurrence. Defaults to ``false``, matching a bare
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="150" column="22"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="163" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_key_remap_data_1a129a9231a5330ba87c578c168fb9680e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a201bfae3c8a80329c6408df7d3244e6c" kindref="member">RemapList</ref>&lt; K, V &gt; &amp;</type>
@@ -108,7 +108,7 @@ being removed. Evaluated per occurrence. Defaults to ``false``, matching a bare
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="157" column="29"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="170" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_key_remap_data_1ae44a30012a45f419c56274b917e59fdd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -126,7 +126,7 @@ being removed. Evaluated per occurrence. Defaults to ``false``, matching a bare
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="164" column="18"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="177" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -156,7 +156,7 @@ when none of its rules fire.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="132" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="132" bodyend="169"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="145" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="145" bodyend="182"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_key_remap_data_1ae44a30012a45f419c56274b917e59fdd" prot="public" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>keepKeyWithoutRemap</name></member>
       <member refid="class_a_g_remap_core_1_1_key_remap_data_1aa85609d97e5bb0bb6f87bebf7e851592" prot="private" virt="non-virtual"><scope>AGRemapCore::KeyRemapData</scope><name>keepKeyWithoutRemap_</name></member>

@@ -44,7 +44,7 @@ order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="76" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="89" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="89" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -60,7 +60,7 @@ order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="186" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="186" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="199" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="199" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1a135b1d57e2d9a27c301db57b1dac8b09" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -74,7 +74,7 @@ order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="187" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="187" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="200" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="200" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1ae2d3c9a25cd070f92d98f953fbb44838" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_dict_assets_1aa36d85876181ee20aa94f7378304de58" kindref="member">VersionParser</ref></type>
@@ -88,7 +88,7 @@ order
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="188" column="27" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="188" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="201" column="27" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="201" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_dict_assets_1adda2c6d4dbac4491ccedefa76be4ebc5" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; std::vector&lt; K &gt;, std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry" kindref="compound">VersionedEntry</ref> &gt;, <ref refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_hash" kindref="compound">KeyVecHash</ref>, <ref refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_equal" kindref="compound">KeyVecEqual</ref> &gt;</type>
@@ -107,7 +107,7 @@ class-level note
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="198" column="32" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="198" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="211" column="32" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="211" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -184,7 +184,7 @@ class-level note
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="91" column="13"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="104" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -227,7 +227,7 @@ replaces old data&quot; for an identical full key path :raw-html:`&lt;br /&gt;` 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="108" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="121" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1aa08492c8ad3c26232cfb85a4340bdfac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; T &gt;</type>
@@ -307,7 +307,7 @@ the class-level note on this being the corrected, inclusive-floor version resolu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="134" column="27"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="147" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1abca865935356f421bd715bcad6f95a0e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -322,7 +322,7 @@ the class-level note on this being the corrected, inclusive-floor version resolu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="139" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="152" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a6df0e840a5a0578cd77eedfc28cf20c2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -337,7 +337,7 @@ the class-level note on this being the corrected, inclusive-floor version resolu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="144" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="157" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a1d1df820a6d411d221d806cf787d25d7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -352,7 +352,7 @@ the class-level note on this being the corrected, inclusive-floor version resolu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="150" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="163" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_mod_dict_assets_1a73b325b0d73d24b0bcd11593a654fd97" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -401,7 +401,7 @@ note for why that matters)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="170" column="18"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="183" column="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -421,7 +421,7 @@ note for why that matters)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="200" column="25"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="213" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -497,7 +497,7 @@ one of the keys refers to some versioning -- the C++ counterpart to the pure-Pyt
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="61" column="5" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="61" bodyend="201"/>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="74" column="5" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="74" bodyend="214"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets</scope><name>addRows</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" virt="non-virtual"><scope>AGRemapCore::ModDictAssets</scope><name>extractNonVersionVals</name></member>

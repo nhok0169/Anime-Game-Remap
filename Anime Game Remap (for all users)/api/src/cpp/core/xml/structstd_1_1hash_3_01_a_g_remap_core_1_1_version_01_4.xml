@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/Version.h" line="265" column="21" bodyfile="src/model/Version.cpp" bodystart="666" bodyend="668"/>
+        <location file="include/AGRemapCore/model/Version.h" line="278" column="21" bodyfile="src/model/Version.cpp" bodystart="679" bodyend="681"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -40,7 +40,7 @@ trailing-zero-stripped release, not the raw one), so two versions comparing equa
 :cpp:func:`AGRemapCore::Version::operator==` always hash equal too
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/Version.h" line="264" column="5" bodyfile="include/AGRemapCore/model/Version.h" bodystart="264" bodyend="266"/>
+    <location file="include/AGRemapCore/model/Version.h" line="277" column="5" bodyfile="include/AGRemapCore/model/Version.h" bodystart="277" bodyend="279"/>
     <listofallmembers>
       <member refid="structstd_1_1hash_3_01_a_g_remap_core_1_1_version_01_4_1a416b39c39bf0fcbc7f2d4f8bbcb6f222" prot="public" virt="non-virtual"><scope>std::hash&lt; AGRemapCore::Version &gt;</scope><name>operator()</name></member>
     </listofallmembers>

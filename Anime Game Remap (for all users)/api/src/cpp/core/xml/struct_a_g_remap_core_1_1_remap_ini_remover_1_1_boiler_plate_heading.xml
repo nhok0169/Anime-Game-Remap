@@ -21,7 +21,7 @@ What an opening line&apos;s title has to end with -- ``&quot;Remap&quot;`` for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="228" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="228" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="241" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="241" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1adde8e0134635f9f97d84826d475877cf" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -37,7 +37,7 @@ What an opening line&apos;s title has to end with -- ``&quot;Remap&quot;`` for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="233" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="233" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="246" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="246" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a8351b23d7eecffc3e3efa7ed47c11398" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -53,7 +53,7 @@ What an opening line&apos;s title has to end with -- ``&quot;Remap&quot;`` for
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="238" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="238" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="251" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="251" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -79,7 +79,7 @@ same lower bound the original&apos;s ``close()[:-2] + &quot;(-)*&quot;`` imposes
    border and 17 on its right; a whole-line match would reject it
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="219" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="219" bodyend="239"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="232" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="232" bodyend="252"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1a8351b23d7eecffc3e3efa7ed47c11398" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::BoilerPlateHeading</scope><name>sideChar</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_boiler_plate_heading_1adde8e0134635f9f97d84826d475877cf" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::BoilerPlateHeading</scope><name>sideLen</name></member>

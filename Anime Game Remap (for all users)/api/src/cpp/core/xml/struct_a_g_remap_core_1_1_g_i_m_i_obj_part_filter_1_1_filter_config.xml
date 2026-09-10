@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="126" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="139" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a5449b9bf89f1ad435f323170be2d774e" prot="public" static="no" mutable="no">
         <type>K</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="131" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="131" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="144" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="144" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -45,7 +45,7 @@ The ``.ini``-domain customization points this class needs, for the same reason
 literals here
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="122" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="122" bodyend="132"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="135" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="135" bodyend="145"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a1550f9a75bb8f206765c778193c9b118" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter::FilterConfig</scope><name>hashKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config_1a5449b9bf89f1ad435f323170be2d774e" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter::FilterConfig</scope><name>matchFirstIndexKey</name></member>

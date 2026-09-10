@@ -32,7 +32,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="251" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="251" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="264" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="264" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a519ce8c4f0ea7fc1cc015006227b80fb" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; std::uint64_t &gt; &gt;</type>
@@ -47,7 +47,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="256" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="256" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="269" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="269" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a42d2490e2086e540771b0c806b88cd07" prot="protected" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; std::uint64_t &gt; &gt;</type>
@@ -62,7 +62,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="261" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="261" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="274" column="29" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="274" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a14e082d876e0946a5ed15025fc4271c5" prot="protected" static="no" mutable="no">
         <type>std::uint64_t</type>
@@ -78,7 +78,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="266" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="266" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="279" column="27" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="279" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a31e8e6b534d0699c91d096da67fbb55b" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map" kindref="compound">BiMap</ref>&lt; std::uint64_t, std::string, std::hash&lt; std::uint64_t &gt;, std::equal_to&lt; std::uint64_t &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; void &gt; &gt;</type>
@@ -93,7 +93,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="378" column="19" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="378" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="391" column="19" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="391" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a00711ec83cf2553e5f66a415ac94579d" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; std::uint64_t, TrieVal &gt;</type>
@@ -108,7 +108,7 @@ The function takes in the following parameters:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="383" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="383" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="396" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="396" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1ad32f21b43c7b0d33366f6af4e73f7352" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; std::uint64_t, std::unordered_map&lt; std::string, std::uint64_t, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; void &gt; &gt; &gt;</type>
@@ -134,7 +134,7 @@ This is the `adjacency list`_ for the trie
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="400" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="400" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="413" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="413" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1ad0d83115c15ec88853c382e5a3325548" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; std::uint64_t, std::vector&lt; std::uint64_t &gt; &gt;</type>
@@ -153,7 +153,7 @@ The keys are the ids for the nodes and the values are the ids for the found keyw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="410" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="410" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="423" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="423" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" static="no" mutable="no">
         <type>std::unordered_set&lt; std::uint64_t &gt;</type>
@@ -168,7 +168,7 @@ The keys are the ids for the nodes and the values are the ids for the found keyw
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="415" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="415" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="428" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="428" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -231,7 +231,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="84" column="13"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="97" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ab44297ff09308758c817cad369cf2291" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -246,7 +246,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="89" column="21"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="102" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a275ff12ce09a93171a3ac9c518280ba2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::function&lt; TrieVal(std::string_view, const TrieVal &amp;, const TrieVal &amp;)&gt; &amp;</type>
@@ -264,7 +264,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="96" column="33"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="109" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a42eed4780f51d9c58f84cc869eccf5a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::function&lt; TrieVal(const std::string &amp;, const TrieVal &amp;, const TrieVal &amp;)&gt;</type>
@@ -284,7 +284,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="105" column="33"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="118" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a6b30896648f77dc04b53bd6205232903" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -313,7 +313,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="112" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="125" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3606cb2d710d9db2f49d3a92b9a279f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -344,7 +344,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="121" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="134" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a190448d162e51a7fb7f0b00556091851" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -363,7 +363,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="126" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="139" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a5e23701810161887705364b1ae5a044f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>size_t</type>
@@ -378,7 +378,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="131" column="28"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="144" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae1b66e2f28a80425d61215ccad964971" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -419,7 +419,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="148" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="161" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -465,7 +465,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="159" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="172" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1aafcf5863eb6fa348d34b4b65467c83f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -509,7 +509,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="164" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="177" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1af5343dd77ec0d9332e008263856dbd7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -544,7 +544,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="173" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="186" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3f3348b69cfa181873dba3ddbf0a021d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -575,7 +575,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="178" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="191" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a56be88abbde70b49da212b6ed6eaea53" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const TrieVal *</type>
@@ -606,7 +606,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="187" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="200" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a0a75b1324f440c7129272b3bc9dc26de" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const TrieVal *</type>
@@ -637,7 +637,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="192" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="205" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a349a423605eac13144564d8f5ddb8232" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; TrieVal &gt;</type>
@@ -668,7 +668,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="201" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="214" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a7f58b370f17d077c26f5642d8793cb80" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; TrieVal &gt;</type>
@@ -699,7 +699,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="206" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="219" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae3207aa8549f559e78f6bb2e9f7e1b86" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const TrieVal *</type>
@@ -730,7 +730,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="215" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="228" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a3c49eab0f506703e8adabb7c731392b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const TrieVal *</type>
@@ -761,7 +761,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="220" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="233" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a37d3f889efcceb1d072fb277b5688a4d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; TrieVal &gt;</type>
@@ -792,7 +792,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="229" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="242" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a8462a3c1b8e5f986d615d2a2648f5d5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::optional&lt; TrieVal &gt;</type>
@@ -823,7 +823,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="234" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="247" column="35"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -840,7 +840,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="271" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="284" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a929b66228c00dab8fbb114f674f9612a" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -855,7 +855,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="276" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="289" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a774eb8d567287c8af61dac9fb864b00d" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::int8_t</type>
@@ -908,7 +908,7 @@ The comparison result of a `compare function`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="326" column="33"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="339" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae2682d833dc4138e5804c2a439387634" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -955,7 +955,7 @@ Whether the keyword has not already been inserted into the `trie`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="343" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="356" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ab4343d19f9d6361b9145b9ffb7b3a474" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -1002,7 +1002,7 @@ Whether the keyword has not already been inserted into the `trie`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="348" column="26"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="361" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1ae9ce52e2ad854b9f950265cc9e61ceb4" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::uint64_t</type>
@@ -1052,7 +1052,7 @@ determined based off the :attr:`handleDuplicate` function
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="368" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="381" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_trie_1a6b572e52dce96e530a4ebabff6823371" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::uint64_t</type>
@@ -1102,7 +1102,7 @@ determined based off the :attr:`handleDuplicate` function
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="373" column="35"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="386" column="35"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -1169,7 +1169,7 @@ The value of the new `KVP`_ to insert
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="303" column="28"/>
+        <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="316" column="28"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1232,7 +1232,7 @@ Cons
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="47" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="47" bodyend="416"/>
+    <location file="include/AGRemapCore/tools/tries/BaseTrie.h" line="60" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseTrie.h" bodystart="60" bodyend="429"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseTrie</scope><name>acceptNodeIds</name></member>
       <member refid="class_a_g_remap_core_1_1_base_trie_1a09b6fce38eccc1071ec270a3809c70c6" prot="public" virt="virtual"><scope>AGRemapCore::BaseTrie</scope><name>add</name></member>

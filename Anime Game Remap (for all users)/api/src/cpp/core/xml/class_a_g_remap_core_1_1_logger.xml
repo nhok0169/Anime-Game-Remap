@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="69" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="82" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_logger_1a2d01c988d94329f6bdddeffc841606bb" prot="private" static="no" mutable="no">
         <type>std::istream *</type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="70" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="70" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="83" column="26" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="83" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="40" column="22" bodyfile="src/view/Logger.cpp" bodystart="8" bodyend="11"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="53" column="22" bodyfile="src/view/Logger.cpp" bodystart="21" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1af5c354ea43e80648039deea3a7945d2a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -145,7 +145,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="47" column="18" bodyfile="src/view/Logger.cpp" bodystart="14" bodyend="18"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="60" column="18" bodyfile="src/view/Logger.cpp" bodystart="27" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aabc67ea873cd00e73f92eb3e157e2a08" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -177,7 +177,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="56" column="25" bodyfile="src/view/Logger.cpp" bodystart="21" bodyend="34"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="69" column="25" bodyfile="src/view/Logger.cpp" bodystart="34" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aefa8acc3f2dfb0372ec9ef6ba075c116" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::ostream &amp;</type>
@@ -192,7 +192,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="61" column="26" bodyfile="src/view/Logger.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="74" column="26" bodyfile="src/view/Logger.cpp" bodystart="50" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_logger_1aba814f907c64de11156e712af36bde63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::istream &amp;</type>
@@ -207,7 +207,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/Logger.h" line="66" column="26" bodyfile="src/view/Logger.cpp" bodystart="42" bodyend="44"/>
+        <location file="include/AGRemapCore/view/Logger.h" line="79" column="26" bodyfile="src/view/Logger.cpp" bodystart="55" bodyend="57"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -251,7 +251,7 @@ input from a ``std::istream`` -- the console by default :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/view/Logger.h" line="28" column="5" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="28" bodyend="71"/>
+    <location file="include/AGRemapCore/view/Logger.h" line="41" column="5" bodyfile="include/AGRemapCore/view/Logger.h" bodystart="41" bodyend="84"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_headings</name></member>
       <member refid="class_a_g_remap_core_1_1_logger_1a2d01c988d94329f6bdddeffc841606bb" prot="private" virt="non-virtual"><scope>AGRemapCore::Logger</scope><name>_in</name></member>

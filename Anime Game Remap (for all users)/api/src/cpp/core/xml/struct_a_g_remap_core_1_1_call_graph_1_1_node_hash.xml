@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/CallGraph.h" line="69" column="24"/>
+        <location file="include/AGRemapCore/model/CallGraph.h" line="82" column="24"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -28,7 +28,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/CallGraph.h" line="68" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="68" bodyend="70"/>
+    <location file="include/AGRemapCore/model/CallGraph.h" line="81" column="13" bodyfile="include/AGRemapCore/model/CallGraph.h" bodystart="81" bodyend="83"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_call_graph_1_1_node_hash_1ac027df0b0c0138c70ea7eb0b6f0ecf26" prot="public" virt="non-virtual"><scope>AGRemapCore::CallGraph::NodeHash</scope><name>operator()</name></member>
     </listofallmembers>

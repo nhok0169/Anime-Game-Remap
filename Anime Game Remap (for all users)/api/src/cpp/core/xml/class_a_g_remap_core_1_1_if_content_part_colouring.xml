@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="142" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="142" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="155" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="155" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a55b781bd920f27850fee07f29f33ec93" prot="public" static="no">
         <type>std::pair&lt; long long, V &gt;</type>
@@ -56,7 +56,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="147" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="147" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="160" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="160" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colouring_1ad929e8ac79c8f1dfabf810ba9e04bd01" prot="public" static="no">
         <type>std::variant&lt; V, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a55b781bd920f27850fee07f29f33ec93" kindref="member">IndexedValue</ref> &gt; &gt;</type>
@@ -77,7 +77,7 @@ The state stored for a key within an :cpp:class:`IfContentPartColouring` -- eith
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="152" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="152" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="165" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="165" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a122d2141ff0bcba4ce2ee93e2371ab25" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change" kindref="compound">IfContentPartColourChange</ref>&lt; V &gt;</type>
@@ -92,7 +92,7 @@ The state stored for a key within an :cpp:class:`IfContentPartColouring` -- eith
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="157" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="157" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="170" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="170" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colouring_1abd067f4fc3a6c9c484d7ed618b331cf7" prot="public" static="no">
         <type>std::function&lt; bool(std::optional&lt; long long &gt;, const V &amp;)&gt;</type>
@@ -110,7 +110,7 @@ over from a previous part) and value
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="166" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="166" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="179" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="179" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -126,7 +126,7 @@ over from a previous part) and value
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="410" column="30" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="410" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="423" column="30" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="423" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -142,7 +142,7 @@ over from a previous part) and value
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="168" column="13"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="181" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1aeb206c9e0c7ff9eb5d648222480ce8d2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ae4a6d2ac286cc103284b691603616757" kindref="member">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, ValueHash, ValueEqual &gt; &gt;</type>
@@ -164,7 +164,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="180" column="29"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="193" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a5c83436a79ec4e205528f2912d72b125" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -183,7 +183,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="185" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="198" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a5b5dd9b76dbe013c7ca19a52e78becf4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -198,7 +198,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="190" column="20"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="203" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a939ab223abcec7d0c31e6f510248887b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -213,7 +213,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="195" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="208" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a0954245c562d1a3021e8533e8581f0a0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ad929e8ac79c8f1dfabf810ba9e04bd01" kindref="member">StateValue</ref> &gt;</type>
@@ -244,7 +244,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="204" column="27"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="217" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a9e57ceb056f2c13afe6ea96c0b3b89eb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ad929e8ac79c8f1dfabf810ba9e04bd01" kindref="member">StateValue</ref> &amp;</type>
@@ -284,7 +284,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="215" column="30"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="228" column="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1affaedfd9137d992e1c4c35f209c2f404" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -307,7 +307,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="220" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="233" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a33d9e82286886308205c821f7dad7479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -329,7 +329,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="227" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="240" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a46b3b3b2e0ab0b908406d02c06386855" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -344,7 +344,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="232" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="245" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1aa9b067d797bcf8b64b6da1ca8538be9e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; K &gt;</type>
@@ -359,7 +359,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="237" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="250" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1acb6ef9cf5de0636cd752c925aca2cea3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; K, <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1ad929e8ac79c8f1dfabf810ba9e04bd01" kindref="member">StateValue</ref> &gt; &gt;</type>
@@ -374,7 +374,7 @@ deep-copied), matching :cpp:func:`IfContentPart::clone`&apos;s own shallow-clone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="242" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="255" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a7f2ccbc6f5003bf2a4e4ce14cef182bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a122d2141ff0bcba4ce2ee93e2371ab25" kindref="member">Change</ref>, KeyHash, KeyEqual &gt;</type>
@@ -444,7 +444,7 @@ the state each one had before this call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="270" column="32"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="283" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1affce87247a356c1daf8241352d4aba11" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -473,7 +473,7 @@ the state each one had before this call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="280" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="293" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1ae696b76ef8e13fc10d2fa70f1f9b6773" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::optional&lt; long long &gt;, V &gt; &gt;</type>
@@ -534,7 +534,7 @@ isn&apos;t tracked.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="310" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="323" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a3cf87e0d740837c4abc272a2117de9af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; V &gt;</type>
@@ -582,7 +582,7 @@ A predicate to filter certain values returned :raw-html:`&lt;br /&gt;` :raw-html
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="325" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="338" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a864376017a6d29cd4d92c8ff71b87147" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; V, ValueHash, ValueEqual &gt;</type>
@@ -633,7 +633,7 @@ A predicate to filter certain values returned :raw-html:`&lt;br /&gt;` :raw-html
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="344" column="32"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="357" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colouring_1a2fe7f2ae19d5c8346fbafedcdeb7464e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -761,7 +761,7 @@ or ``keyFilters`` are being (re)defined :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="396" column="20"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="409" column="20"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -781,7 +781,7 @@ or ``keyFilters`` are being (re)defined :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="408" column="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="421" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -855,7 +855,7 @@ returning a union type C++ can&apos;t express directly.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="137" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="137" bodyend="411"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="150" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="150" bodyend="424"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a9e57ceb056f2c13afe6ea96c0b3b89eb" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColouring</scope><name>at</name></member>
       <member refid="class_a_g_remap_core_1_1_if_content_part_colouring_1a122d2141ff0bcba4ce2ee93e2371ab25" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColouring</scope><name>Change</name></member>

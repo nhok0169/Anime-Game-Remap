@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="55" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="55" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="68" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="68" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -91,7 +91,7 @@ inner values are the different texture editors used on the ``.dds`` files
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="47" column="13" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="7" bodyend="12"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="60" column="13" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="20" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -107,7 +107,7 @@ inner values are the different texture editors used on the ``.dds`` files
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="57" column="18" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="14" bodyend="17"/>
+        <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="70" column="18" bodyfile="src/model/iniresources/IniTexModel.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -160,7 +160,7 @@ polymorphic type (matches how it&apos;s used elsewhere in this codebase, eg.
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="30" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="30" bodyend="58"/>
+    <location file="include/AGRemapCore/model/iniresources/IniTexModel.h" line="43" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniTexModel.h" bodystart="43" bodyend="71"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_tex_model_1ae0c4590a70880fdc68397564ea7ae31f" prot="public" virt="virtual"><scope>AGRemapCore::IniTexModel</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniTexModel</scope><name>fixedPaths</name></member>

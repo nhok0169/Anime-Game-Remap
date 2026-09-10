@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="30" column="32" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="30" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="43" column="32" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="43" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="32" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="5" bodyend="8"/>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="45" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="18" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a7df2a360c7b928bd41967e9b164cba41" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="39" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="10" bodyend="12"/>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="52" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="23" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a8bf5909233dc600e6aae362a858de29b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="46" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="14" bodyend="16"/>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="59" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="27" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cached_file_stats_1a8252aa184355f7c1fab64b18c4516cbe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -157,7 +157,7 @@ Same as :cpp:func:`FileStats::update`, with an additional &apos;newHit&apos; arg
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="57" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="18" bodyend="29"/>
+        <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="70" column="18" bodyfile="src/model/stats/CachedFileStats.cpp" bodystart="31" bodyend="42"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -194,7 +194,7 @@ already tracks -- mirrors the pure-Python ``CachedFileStats`` class (``model/sta
         <link refid="class_a_g_remap_core_1_1_file_stats"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="24" column="5" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="24" bodyend="64"/>
+    <location file="include/AGRemapCore/model/stats/CachedFileStats.h" line="37" column="5" bodyfile="include/AGRemapCore/model/stats/CachedFileStats.h" bodystart="37" bodyend="77"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_stats_1a84854abb77ead0772ff01a87329296a0" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addFixed</name></member>
       <member refid="class_a_g_remap_core_1_1_cached_file_stats_1a8bf5909233dc600e6aae362a858de29b" prot="public" virt="non-virtual"><scope>AGRemapCore::CachedFileStats</scope><name>addHit</name></member>

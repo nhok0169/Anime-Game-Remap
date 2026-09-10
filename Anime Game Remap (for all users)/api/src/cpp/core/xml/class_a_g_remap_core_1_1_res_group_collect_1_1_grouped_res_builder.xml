@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="169" column="29"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="182" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_grouped_resource" kindref="compound">IniGroupedResource</ref> *</type>
@@ -37,7 +37,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="181" column="48"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="194" column="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a29ab622c29be739e620ecc3118a3463e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -66,7 +66,7 @@ the edit finishes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="188" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="201" column="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -128,7 +128,7 @@ the implementation&apos;s business
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="207" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="220" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -143,7 +143,7 @@ interface, the same holds for a plain C++ caller, and the `pybind11`_ layer&apos
 implementation simply calls the caller&apos;s own `Python`_ builder
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="167" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="167" bodyend="208"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="180" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="180" bodyend="221"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a826316b4f5b2e90beff9381ac9c884e9" prot="public" virt="pure-virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>addResource</name></member>
       <member refid="class_a_g_remap_core_1_1_res_group_collect_1_1_grouped_res_builder_1a39ab0721dbc274ae70e51ee9bca589c5" prot="public" virt="pure-virtual"><scope>AGRemapCore::ResGroupCollect::GroupedResBuilder</scope><name>build</name></member>

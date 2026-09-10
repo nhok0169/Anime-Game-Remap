@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="119" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="119" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="132" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="132" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" prot="public" static="no">
         <type>typename std::unordered_map&lt; K, V, KHash, KEqual &gt;::const_iterator</type>
@@ -54,7 +54,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="120" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="133" column="13" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="133" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -73,7 +73,7 @@ The `injective`_ map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="45" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="58" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; V, K, VHash, VEqual &gt;</type>
@@ -90,7 +90,7 @@ The `surjective`_ map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="53" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="66" column="32" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="66" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -107,7 +107,7 @@ The `surjective`_ map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="59" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="72" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a207dffef841cc2edcb384dcf8aefd35c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -125,7 +125,7 @@ The `surjective`_ map
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="66" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="79" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -153,7 +153,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="76" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="89" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a3ab3600d855b6bd77b1bd19a5d1e4870" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -188,7 +188,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="86" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="99" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a63661a2974f0528deb98612cc3faa2b8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -233,7 +233,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="98" column="21"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="111" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a59d9c2ebe0fb2ce8e97f8365b10a6cca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -278,7 +278,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="110" column="21"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="123" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0d7b1f901c2cc976fb5080cdbcad362c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -296,7 +296,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="117" column="20"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="130" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0dd049201351d5808dc5f703b5bc0734" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref></type>
@@ -310,7 +310,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="122" column="22"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="135" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9ceb30c7f94c96b7563781950a93be73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1ab115df9ba9739739b4dd5ed7e78a32bb" kindref="member">iterator</ref></type>
@@ -324,7 +324,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="123" column="22"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="136" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a906c78a5fe6aac3f96295351b665875a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
@@ -338,7 +338,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="124" column="28"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="137" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0af976a671ad8ff4c7d656d7196461c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
@@ -352,7 +352,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="125" column="28"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="138" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ab09e62040c3d41abd9c59d98dcc8a861" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
@@ -366,7 +366,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="126" column="28"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="139" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a4d5096cf83b755e6016b7a07510a02b6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_bi_map_1a338d2606b4e8a1a6d6b02b114ae7bff9" kindref="member">const_iterator</ref></type>
@@ -380,7 +380,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="127" column="28"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="140" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a710f2e8929e09beac3ec6de146df6b1c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -416,7 +416,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="137" column="21"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="150" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ab670c3689272fe811e5f0b9469674d40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -452,7 +452,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="147" column="24"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="160" column="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1ae0c6b133149f4b2bde938e09de6b9df6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -488,7 +488,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="157" column="27"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="170" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a29b77625c1513802ed6d4178a995da04" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -524,7 +524,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="167" column="21"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="180" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a0d56b98c76f634e32383e9580212d8c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -560,7 +560,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="177" column="24"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="190" column="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a460c78fde2e7b126bf0bcb36a22e65c4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -596,7 +596,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="187" column="27"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="200" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9379ef086c090b33c939a9240a0766c0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -632,7 +632,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="197" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="210" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bi_map_1a9e9974b2b9f93a8f1a1bc821118241c8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -668,7 +668,7 @@ Adds a new `KVP`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/BiMap.h" line="207" column="18"/>
+        <location file="include/AGRemapCore/tools/BiMap.h" line="220" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -728,7 +728,7 @@ A simple `one-to-one`_ map
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/BiMap.h" line="37" column="5" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="37" bodyend="209"/>
+    <location file="include/AGRemapCore/tools/BiMap.h" line="50" column="5" bodyfile="include/AGRemapCore/tools/BiMap.h" bodystart="50" bodyend="222"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_bi_map_1a60f2297d20330c93526a7e7e25d0b328" prot="public" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_bi_map_1a4b29cd6885552df60b010826626fd6a4" prot="protected" virt="non-virtual"><scope>AGRemapCore::BiMap</scope><name>backward</name></member>

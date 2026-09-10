@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="43" column="13" bodyfile="src/model/files/VbFile.cpp" bodystart="43" bodyend="44"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="56" column="13" bodyfile="src/model/files/VbFile.cpp" bodystart="56" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a37f410faf58ab1c2db47ba5b75114be8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="48" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="46" bodyend="53"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="61" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="59" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a7f2ebd5e53857f5178c9b742282e6232" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -83,7 +83,7 @@ which is how 3dmigoto tells several same-named elements apart
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="62" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="55" bodyend="89"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="75" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="68" bodyend="102"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a2c74a6558cc95631c3626c500048ef2f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -124,7 +124,7 @@ The full text for converting this ``.vb`` file into a dumped *vb.txt* file --
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="81" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="91" bodyend="96"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="94" column="25" bodyfile="src/model/files/VbFile.cpp" bodystart="104" bodyend="109"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1a18a10cc98d900636326d48c1138e4b9c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -170,7 +170,7 @@ being told its layout. A header-less text falls through to the current elements
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="99" column="18" bodyfile="src/model/files/VbFile.cpp" bodystart="98" bodyend="105"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="112" column="18" bodyfile="src/model/files/VbFile.cpp" bodystart="111" bodyend="118"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -211,7 +211,7 @@ suffix decides what kind they are -- so ``R32G32B32_FLOAT`` is 3 four-byte float
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="118" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="107" bodyend="170"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="131" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="120" bodyend="183"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_vb_file_1ae6f10c050865926e4dbd124a1329db8f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
@@ -249,7 +249,7 @@ its layout was
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/VbFile.h" line="136" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="172" bodyend="198"/>
+        <location file="include/AGRemapCore/model/files/VbFile.h" line="149" column="32" bodyfile="src/model/files/VbFile.cpp" bodystart="185" bodyend="211"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -303,7 +303,7 @@ Used for handling ``.vb`` (vertex buffer) files :raw-html:`&lt;br /&gt;` :raw-ht
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/VbFile.h" line="31" column="5" bodyfile="include/AGRemapCore/model/files/VbFile.h" bodystart="31" bodyend="137"/>
+    <location file="include/AGRemapCore/model/files/VbFile.h" line="44" column="5" bodyfile="include/AGRemapCore/model/files/VbFile.h" bodystart="44" bodyend="150"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BinaryFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>BufColumn</name></member>
@@ -320,6 +320,7 @@ Used for handling ``.vb`` (vertex buffer) files :raw-html:`&lt;br /&gt;` :raw-ht
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>encodeLine</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>fileType_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>Filter</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aaa38226575e9cd1aaeb472c629804357" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>filter</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>fix</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>FixResult</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>getBytesPerLine</name></member>
@@ -337,6 +338,7 @@ Used for handling ``.vb`` (vertex buffer) files :raw-html:`&lt;br /&gt;` :raw-ht
       <member refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_vb_file_1ae6f10c050865926e4dbd124a1329db8f" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>parseDumpHeader</name></member>
       <member refid="class_a_g_remap_core_1_1_vb_file_1a10d610a996bd76686104e0ab20076d31" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>parseFormatName</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>Predicate</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" virt="virtual"><scope>AGRemapCore::VbFile</scope><name>read</name></member>
       <member refid="class_a_g_remap_core_1_1_vb_file_1a18a10cc98d900636326d48c1138e4b9c" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>readDumpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" virt="non-virtual"><scope>AGRemapCore::VbFile</scope><name>readFlatDumpStr</name></member>

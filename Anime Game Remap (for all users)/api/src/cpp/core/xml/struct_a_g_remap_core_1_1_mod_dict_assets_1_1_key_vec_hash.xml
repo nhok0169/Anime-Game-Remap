@@ -19,14 +19,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="179" column="29"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="192" column="29"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="178" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="178" bodyend="180"/>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="191" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="191" bodyend="193"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_hash_1a14f816a3841f81103fcfc543e585463c" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::KeyVecHash</scope><name>operator()</name></member>
     </listofallmembers>

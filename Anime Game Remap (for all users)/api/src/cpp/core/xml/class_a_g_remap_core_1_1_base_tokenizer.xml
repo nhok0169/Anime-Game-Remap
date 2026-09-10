@@ -22,7 +22,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="130" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="130" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="143" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="143" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_tokenizer_1a358b9bc7ebcc2ffafaea58ce969923f4" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; std::string, std::string, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref>, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref> &gt;</type>
@@ -37,7 +37,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="135" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="148" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="148" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_tokenizer_1a778d1db8780125dd11828440028882ec" prot="protected" static="no" mutable="no">
         <type>std::string</type>
@@ -53,7 +53,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="140" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="140" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="153" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="153" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -101,7 +101,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="35" column="22" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="9" bodyend="13"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="48" column="22" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="22" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a1ca51a942d690a701e2dbc61db1fbcd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -115,7 +115,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="37" column="21"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="50" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a15da80197e9fb1f2188c6e949658fbf2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -130,7 +130,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="42" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="15" bodyend="17"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="55" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a25b8dbffaef722c1b5fad11405f56a40" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -145,7 +145,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="47" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="19" bodyend="21"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="60" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aadf3410a9fb4b37025deb6229d9e24cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -163,7 +163,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="54" column="39" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="23" bodyend="26"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="67" column="39" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="36" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a2fe9b5fe79d758a60850e7a7a7db28d8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -194,7 +194,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="63" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="28" bodyend="51"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="76" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="41" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -262,7 +262,7 @@ Adds a group of transitions from one state to another according to a range of `A
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="77" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="53" bodyend="58"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="90" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="66" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aeb10cd11914f9c4b5649e0525223ffaf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -278,7 +278,7 @@ Adds a group of transitions from one state to another according to a range of `A
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="82" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="60" bodyend="64"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="95" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="73" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aa59f6f630b3c95bbf2fa5de466b97d16" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &gt;</type>
@@ -338,7 +338,7 @@ subclass having to reimplement the whole loop just to pass one extra value along
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="103" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="105" bodyend="195"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="116" column="33" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="118" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a46b7885b06c23959984cae8f6cb082f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, std::string &gt; &amp;</type>
@@ -357,7 +357,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="113" column="38" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="197" bodyend="199"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="126" column="38" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="210" bodyend="212"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aa6157173a603666912b2ec9223bd7e4b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -372,7 +372,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="118" column="31" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="201" bodyend="203"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="131" column="31" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="214" bodyend="216"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -391,7 +391,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="145" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="66" bodyend="68"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="158" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="79" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aad9cb909564f08729a937223b9c0d69c" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -408,7 +408,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="150" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="70" bodyend="72"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="163" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="83" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -517,7 +517,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="170" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="74" bodyend="89"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="183" column="26" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="87" bodyend="102"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tokenizer_1a37112a6fb0e731e7f52e4071a6a19906" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -558,7 +558,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="177" column="19" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="91" bodyend="103"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="190" column="19" bodyfile="src/tools/parsing/BaseTokenizer.cpp" bodystart="104" bodyend="116"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -610,7 +610,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="21" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="21" bodyend="178"/>
+    <location file="include/AGRemapCore/tools/parsing/BaseTokenizer.h" line="34" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseTokenizer.h" bodystart="34" bodyend="191"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1aeb5a3455bd666fe59e48adc21d10b690" prot="protected" virt="virtual"><scope>AGRemapCore::BaseTokenizer</scope><name>acceptToken</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::BaseTokenizer</scope><name>addASCIIRangeTransitions</name></member>

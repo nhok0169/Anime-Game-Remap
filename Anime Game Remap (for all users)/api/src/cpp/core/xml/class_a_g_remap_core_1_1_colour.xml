@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="22" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="22" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="35" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1a6eb00826b4c5857987b884d6e17a0ffb" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="27" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="27" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="40" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="32" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="32" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="45" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -65,7 +65,7 @@ The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = tran
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="41" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="54" column="17" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="54" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -136,7 +136,7 @@ The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = tran
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="51" column="22" bodyfile="src/model/textures/Colour.cpp" bodystart="5" bodyend="7"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="64" column="22" bodyfile="src/model/textures/Colour.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1af41e9bca032a826613c49aa930e43a32" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -151,7 +151,7 @@ The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = tran
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="78" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="22" bodyend="24"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="91" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="35" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1ac0fc62f947c10febde3c08878c456bde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -180,7 +180,7 @@ The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = tran
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="85" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="26" bodyend="31"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="98" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="39" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a74b90f9ae3d65eb5eba8014985f0b19b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::tuple&lt; int, int, int, int &gt;</type>
@@ -195,7 +195,7 @@ The transparency (alpha) channel for the colour, bounded to [0, 255] -- 0 = tran
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="90" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="33" bodyend="35"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="103" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="46" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a89dac6a9cc51d14be9589f4a799409aa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -215,7 +215,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="101" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="114" column="25" bodyfile="src/model/textures/Colour.cpp" bodystart="50" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1af33d932db9088867093ee3bd660ee7b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -257,7 +257,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="109" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="41" bodyend="49"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="122" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="54" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1ac9dc396d958450aadf7d9c0054e52dfc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -286,7 +286,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="116" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="51" bodyend="53"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="129" column="18" bodyfile="src/model/textures/Colour.cpp" bodystart="64" bodyend="66"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -345,7 +345,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="62" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="9" bodyend="16"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="75" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="22" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_colour_1a9dff8963775fab97bf25060e9bf99240" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>int</type>
@@ -402,7 +402,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/textures/Colour.h" line="73" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="18" bodyend="20"/>
+        <location file="include/AGRemapCore/model/textures/Colour.h" line="86" column="24" bodyfile="src/model/textures/Colour.cpp" bodystart="31" bodyend="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -412,7 +412,7 @@ A unique id for the colour :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 Class to store data for a colour
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/textures/Colour.h" line="16" column="5" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="16" bodyend="117"/>
+    <location file="include/AGRemapCore/model/textures/Colour.h" line="29" column="5" bodyfile="include/AGRemapCore/model/textures/Colour.h" bodystart="29" bodyend="130"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_colour_1a942390de12c6b0fe5615c3d5c8183370" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>alpha</name></member>
       <member refid="class_a_g_remap_core_1_1_colour_1adee5679b5c71c688ed8e08aaffbb351b" prot="public" virt="non-virtual"><scope>AGRemapCore::Colour</scope><name>blue</name></member>

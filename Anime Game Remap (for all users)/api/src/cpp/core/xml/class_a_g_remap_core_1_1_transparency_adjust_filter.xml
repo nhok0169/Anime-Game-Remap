@@ -24,7 +24,7 @@ How much to adjust the alpha channel of each pixel. Range from -255 to 255 :raw-
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="33" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="33" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="46" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1aba849ff045519728c1a552ce7d36a819" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1aa2fa8122090a5aca56ae0d2c6d5836bc" kindref="member">ColourOrRangeSet</ref> &gt;</type>
@@ -42,7 +42,7 @@ The specific colours to have their transparency adjusted. If this is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="42" column="27" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="55" column="27" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="55" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -86,7 +86,7 @@ The specific colours to have their transparency adjusted. If this is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="51" column="22" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="10" bodyend="11"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="64" column="22" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="23" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1a0d602b9d34a3fc1cd90cc4ffb073d618" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -115,7 +115,7 @@ The specific colours to have their transparency adjusted. If this is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="58" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="13" bodyend="25"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="71" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="26" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_adjust_filter_1a011e8521f6eccc5952f26fe5a9bbc636" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -146,7 +146,7 @@ The specific colours to have their transparency adjusted. If this is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="60" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="27" bodyend="55"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="73" column="18" bodyfile="src/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.cpp" bodystart="40" bodyend="68"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -183,7 +183,7 @@ underlying per-pixel adjustment
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="20" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="20" bodyend="61"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" line="33" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/TransparencyAdjustFilter.h" bodystart="33" bodyend="74"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1a0d602b9d34a3fc1cd90cc4ffb073d618" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>adjustTransparency</name></member>
       <member refid="class_a_g_remap_core_1_1_transparency_adjust_filter_1ab5fe73c35842cc8247b39fce60867e36" prot="public" virt="non-virtual"><scope>AGRemapCore::TransparencyAdjustFilter</scope><name>alphaChange</name></member>

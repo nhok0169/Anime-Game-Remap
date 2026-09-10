@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="53" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="67" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af963d46c201453abacb7a06dcd1e48d1" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="58" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="72" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -74,7 +74,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="89" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="103" column="29" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="103" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -129,7 +129,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="46" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="9" bodyend="10"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="60" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="22" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_1ab4dc362ba0c8f578c5ff9b753378cf87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -143,7 +143,7 @@ for exactly as long as this resource holds it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="48" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="62" column="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -216,7 +216,7 @@ Mirrors the pure-Python ``IniResource`` class (``model/iniresources/IniResource.
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="36" bodyend="90"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="50" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="50" bodyend="104"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1afc90663901f0b75b66b12b3ecef924ca" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>IniResource</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_1af3227dca50052425c7a215be3ab41e84" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResource</scope><name>logger</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="48" column="13"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="61" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ Stub for the amber4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="57" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="17" bodyend="17"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="70" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="30" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ Stub for the amberCN4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="66" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="18" bodyend="18"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="79" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="31" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8b11647a96d37898b148dc94dacc5f8c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -72,7 +72,7 @@ Stub for the ayaka4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="75" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="19" bodyend="19"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="88" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="32" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a54fc5e5f0b954609d6c31c56c6dc324f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -90,7 +90,7 @@ Stub for the ayakaSpringbloom4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="84" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="20" bodyend="20"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="97" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="33" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aefb2bca0e7a06668f3a3da8751902a25" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -108,7 +108,7 @@ Stub for the arlecchino4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="93" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="21" bodyend="21"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="106" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="34" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a7f5b65bc996797ba4cc23eb7f13cd9d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -126,7 +126,7 @@ Stub for the barbara4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="102" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="22" bodyend="22"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="115" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="35" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad8203cb907fa5fcd8e1ded1e1b647aa6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -144,7 +144,7 @@ Stub for the barbaraSummertime4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="111" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="23" bodyend="23"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="124" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="36" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad350e2f17f6f39142448128122eaafb" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -162,7 +162,7 @@ Stub for the cherryHuTao4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="120" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="24" bodyend="24"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="133" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="37" bodyend="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a524c3655e990aed9735aaab54b99112f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -180,7 +180,7 @@ Stub for the diluc4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="129" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="25" bodyend="25"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="142" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="38" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a88b794ee7e847a2169165022fb8d5ca6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -198,7 +198,7 @@ Stub for the dilucFlamme4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="138" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="26" bodyend="26"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="151" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="39" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a600060a49f497d435efd6b5e37aec89a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -216,7 +216,7 @@ Stub for the fischl4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="147" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="27" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="160" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="40" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5e4afba9014e976a1a33bbb1fbc0ae8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -234,7 +234,7 @@ Stub for the fischlHighness4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="156" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="28" bodyend="28"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="169" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="41" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a793fa102db036540085221adc493eeb8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -252,7 +252,7 @@ Stub for the ganyu4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="165" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="29" bodyend="29"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="178" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="42" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af945aa03e023299e203c341fe3d46ca0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -270,7 +270,7 @@ Stub for the ganyuTwilight4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="174" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="30" bodyend="30"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="187" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="43" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abaa6f8472f19657c0e5d1c6fcf4cdcc8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -288,7 +288,7 @@ Stub for the huTao4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="183" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="31" bodyend="31"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="196" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="44" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a3304956dcc97a003e79e33f7fe7afd74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -306,7 +306,7 @@ Stub for the jean4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="192" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="32" bodyend="32"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="205" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="45" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a35187ba956a0fa3f2e4d8a7f356e496b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -324,7 +324,7 @@ Stub for the jeanCN4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="201" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="33" bodyend="33"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="214" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="46" bodyend="46"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aeb7e777f4b7c1f4e1c6095e3639acaa6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -342,7 +342,7 @@ Stub for the jeanSea4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="210" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="34" bodyend="34"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="223" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="47" bodyend="47"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9a76c92f1cb0353069026767e62b12f8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -360,7 +360,7 @@ Stub for the kaeya4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="219" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="35" bodyend="35"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="232" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="48" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ad800413e7f6742b08a18a24be039592d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -378,7 +378,7 @@ Stub for the kaeyaSailwind4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="228" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="36" bodyend="36"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="241" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="49" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1afcd100301e918ada38a5e11591e3ad26" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -396,7 +396,7 @@ Stub for the keqing4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="237" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="37" bodyend="37"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="250" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="50" bodyend="50"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a673ee3d3e76833446f8ff605a14bd396" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -414,7 +414,7 @@ Stub for the keqingOpulent4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="246" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="38" bodyend="38"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="259" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="51" bodyend="51"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aad20b0f1c3cbed6bc2d94bb4325f296b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -432,7 +432,7 @@ Stub for the kirara4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="255" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="39" bodyend="39"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="268" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="52" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ab1c0024789ab045b1755f8bb47f8d109" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -450,7 +450,7 @@ Stub for the kiraraBoots4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="264" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="40" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="277" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="53" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6337236af56db4d5629f5c387eb1b9b9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -468,7 +468,7 @@ Stub for the klee4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="273" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="41" bodyend="41"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="286" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="54" bodyend="54"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a72461451006f432660d730f47d135dd0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -486,7 +486,7 @@ Stub for the kleeBlossomingStarlight4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="282" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="42" bodyend="42"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="295" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="55" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a8ea19971ce867e0f283b39054c252404" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -504,7 +504,7 @@ Stub for the lisa4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="291" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="43" bodyend="43"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="304" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="56" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aecab5024b85cd22473d2715218887222" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -522,7 +522,7 @@ Stub for the lisaStudent4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="300" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="44" bodyend="44"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="313" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="57" bodyend="57"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1af1338d2b4a75473c2a484612e0044d3b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -540,7 +540,7 @@ Stub for the mona4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="309" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="45" bodyend="45"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="322" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="58" bodyend="58"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a18a8df74d4349e7fe4831f904a120567" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -558,7 +558,7 @@ Stub for the monaCN4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="318" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="46" bodyend="46"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="331" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="59" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a543d925616bc3581773b7f3b0211d288" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -576,7 +576,7 @@ Stub for the nilou4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="327" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="47" bodyend="47"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="340" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="60" bodyend="60"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac583e51f1bb660c358999c74117df8d6" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -594,7 +594,7 @@ Stub for the nilouBreeze4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="336" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="48" bodyend="48"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="349" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="61" bodyend="61"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1aa7796ac489d444249210df054d405b7e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -612,7 +612,7 @@ Stub for the ningguang4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="345" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="49" bodyend="49"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="358" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="62" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a9bb6aa225ef2745b99c6fa3ad654b351" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -630,7 +630,7 @@ Stub for the ningguangOrchid4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="354" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="50" bodyend="50"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="367" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="63" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1affd1c73adf46e4960d12cd7534f9137e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -648,7 +648,7 @@ Stub for the raiden4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="363" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="51" bodyend="51"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="376" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="64" bodyend="64"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1abdb4e6d31dddc773b8d85693f1c8c1c0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -666,7 +666,7 @@ Stub for the rosaria4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="372" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="52" bodyend="52"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="385" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="65" bodyend="65"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a15fbb9c1417b632465ba391d52aa71ee" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -684,7 +684,7 @@ Stub for the rosariaCN4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="381" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="53" bodyend="53"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="394" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="66" bodyend="66"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1ac1f4cbbe69f345c477f13ed2139cbd3c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -702,7 +702,7 @@ Stub for the shenhe4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="390" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="54" bodyend="54"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="403" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="67" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a6ea5165ace774257dedf400bb0a02e6e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -720,7 +720,7 @@ Stub for the shenheFrostFlower4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="399" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="55" bodyend="55"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="412" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="68" bodyend="68"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1add6bf68b4315e33936b11786a2518ddd" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -738,7 +738,7 @@ Stub for the xiangling4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="408" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="56" bodyend="56"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="421" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="69" bodyend="69"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a159b123976db91ecc3887615fbb72b5f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -756,7 +756,7 @@ Stub for the xianglingCheer4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="417" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="57" bodyend="57"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="430" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="70" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ed8a17b00b91c0c0731fbcc866ac3dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -774,7 +774,7 @@ Stub for the xingqiu4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="426" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="58" bodyend="58"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="439" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="71" bodyend="71"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a0080f1d350cd17bdf32e8b791adc28de" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_remove_builder_1a51a386e289c8f9f294957421e6cd8a03" kindref="member">IniRemoveBuilder::Factory</ref></type>
@@ -792,7 +792,7 @@ Stub for the xingqiuBamboo4_0&apos;s remover -- returns
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="435" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="59" bodyend="59"/>
+        <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="448" column="46" bodyfile="src/data/IniRemoveBuilderData.cpp" bodystart="72" bodyend="72"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -830,7 +830,7 @@ One static method per mod, each returning the :cpp:type:`IniRemoveBuilder::Facto
    exactly as on the parse and fix sides
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="45" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="45" bodyend="437"/>
+    <location file="include/AGRemapCore/data/IniRemoveBuilderData.h" line="58" column="5" bodyfile="include/AGRemapCore/data/IniRemoveBuilderData.h" bodystart="58" bodyend="450"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a5ef672f3db322f17249216acb438d33f" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amber4_0</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_remove_builder_funcs_1a42f61a27e5b21150c5657ab64f059dfa" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemoveBuilderFuncs</scope><name>amberCN4_0</name></member>

@@ -9,6 +9,8 @@
     <innerdir refid="dir_87fb242d167096057e876e88c40baf04">src/data/IniParseData/Jean</innerdir>
     <innerdir refid="dir_69f495faac9173f16762bdb6c9e64df4">src/data/IniParseData/JeanCN</innerdir>
     <innerdir refid="dir_634cbc2cf3960cea55393c919c41fd4e">src/data/IniParseData/JeanSea</innerdir>
+    <innerdir refid="dir_051cf47f59257529ff82060018c7b784">src/data/IniParseData/Keqing</innerdir>
+    <innerdir refid="dir_275b458d757bb3633b3c9344062ab299">src/data/IniParseData/KeqingOpulent</innerdir>
     <innerdir refid="dir_8f5bf5a9e6f82f5ebb05da8e603ecbc8">src/data/IniParseData/Mona</innerdir>
     <innerdir refid="dir_7354bd2ec5e57e0ae2ee0931671ab40f">src/data/IniParseData/MonaCN</innerdir>
     <innerdir refid="dir_0adc358d87518781b54f054970880751">src/data/IniParseData/Ningguang</innerdir>
@@ -16,6 +18,8 @@
     <innerdir refid="dir_7f84deb5e2bd66c228fb7ce5b7c32fa6">src/data/IniParseData/Raiden</innerdir>
     <innerdir refid="dir_bb96075b8dcb2abe1eb63e775e9cdf73">src/data/IniParseData/Rosaria</innerdir>
     <innerdir refid="dir_2a7e1139a0e074c94ed8909e65eccfb9">src/data/IniParseData/RosariaCN</innerdir>
+    <innerdir refid="dir_084a89b1559e7238ff05fb14adfe88be">src/data/IniParseData/Shenhe</innerdir>
+    <innerdir refid="dir_601096fb9f5fdad2d849e89c78fa0437">src/data/IniParseData/ShenheFrostFlower</innerdir>
     <innerfile refid="_g_i_m_i_char_parser_8cpp">GIMICharParser.cpp</innerfile>
     <briefdescription>
     </briefdescription>

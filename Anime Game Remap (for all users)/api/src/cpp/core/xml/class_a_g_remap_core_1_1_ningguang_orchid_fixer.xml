@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="21" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="34" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era NingguangOrchid ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="29" bodyend="31"/>
+        <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp" bodystart="42" bodyend="44"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@ NingguangOrchid&apos;s own ``.ini`` fixers, one per game version she needed a ne
 Pair this with :cpp:class:`NingguangOrchidParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" bodystart="18" bodyend="31"/>
+    <location file="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.h" bodystart="31" bodyend="44"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1af4f3dab769c9da5c50fb93aa719b184c" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidFixer</scope><name>NingguangOrchidFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_ningguang_orchid_fixer_1a469362884c192ec530a90c49755d6991" prot="public" virt="non-virtual"><scope>AGRemapCore::NingguangOrchidFixer</scope><name>v6_1</name></member>

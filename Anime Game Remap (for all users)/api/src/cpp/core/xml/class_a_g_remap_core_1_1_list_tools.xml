@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/ListTools.h" line="24" column="32" bodyfile="src/tools/ListTools.cpp" bodystart="5" bodyend="20"/>
+        <location file="include/AGRemapCore/tools/ListTools.h" line="37" column="32" bodyfile="src/tools/ListTools.cpp" bodystart="18" bodyend="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -53,7 +53,7 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/ListTools.h" line="12" column="5" bodyfile="include/AGRemapCore/tools/ListTools.h" bodystart="12" bodyend="25"/>
+    <location file="include/AGRemapCore/tools/ListTools.h" line="25" column="5" bodyfile="include/AGRemapCore/tools/ListTools.h" bodystart="25" bodyend="38"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_list_tools_1ac7cb9bc4a98992a45737f681fd5fed73" prot="public" virt="non-virtual"><scope>AGRemapCore::ListTools</scope><name>getIndsAfterRemove</name></member>
     </listofallmembers>

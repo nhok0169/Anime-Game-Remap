@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kind="struct" language="C++" prot="public">
+    <compoundname>AGRemapCore::GIMICharFixerConfig::TexAdd</compoundname>
+    <includes refid="_g_i_m_i_char_fixer_8h" local="no">GIMICharFixer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexAdd::obj</definition>
+        <argsstring></argsstring>
+        <name>obj</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexAdd::obj</qualifiedname>
+        <briefdescription>
+<para>The <bold>target</bold> object whose graph holds the register. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="231" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="231" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexAdd::reg</definition>
+        <argsstring></argsstring>
+        <name>reg</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexAdd::reg</qualifiedname>
+        <briefdescription>
+<para>The register the created texture is bound to, eg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><computeroutput>"ps-t0"</computeroutput> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="236" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AGRemapCore::GIMICharFixerConfig::TexAdd::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexAdd::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The name the texture is filed under, eg. ``&quot;NormalMap&quot;`` --- it becomes the middle
+of both the ``[Resource...]`` `section`_ name and the ``.dds`` file name
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="245" column="25" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" prot="public" static="no" mutable="no">
+        <type><ref refid="class_a_g_remap_core_1_1_tex_creator" kindref="compound">TexCreator</ref></type>
+        <definition>TexCreator AGRemapCore::GIMICharFixerConfig::TexAdd::texCreator</definition>
+        <argsstring></argsstring>
+        <name>texCreator</name>
+        <qualifiedname>AGRemapCore::GIMICharFixerConfig::TexAdd::texCreator</qualifiedname>
+        <briefdescription>
+<para>What produces the texture <mdash/> size and fill colour. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="250" column="24" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>One texture the fix CREATES, and the register it binds the new file to. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>AGRemapCore::BaseTexEditor</label>
+        <link refid="class_a_g_remap_core_1_1_base_tex_editor"/>
+      </node>
+      <node id="4">
+        <label>AGRemapCore::Colour</label>
+        <link refid="class_a_g_remap_core_1_1_colour"/>
+      </node>
+      <node id="1">
+        <label>AGRemapCore::GIMICharFixerConfig::TexAdd</label>
+        <link refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>texCreator</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>AGRemapCore::TexCreator</label>
+        <link refid="class_a_g_remap_core_1_1_tex_creator"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>colour</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" line="227" column="9" bodyfile="include/AGRemapCore/data/IniFixData/GIMICharFixer.h" bodystart="227" bodyend="251"/>
+    <listofallmembers>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexAdd</scope><name>name</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexAdd</scope><name>obj</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexAdd</scope><name>reg</name></member>
+      <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMICharFixerConfig::TexAdd</scope><name>texCreator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="88" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="101" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="101" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -39,7 +39,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="137" column="20" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="137" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="150" column="20" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="150" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -70,7 +70,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="95" column="22"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="108" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ac757d35546dc66e7d996df1c72f459f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -87,7 +87,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="97" column="13"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="110" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1a00efdac6ad4f78aeedd482cd0111ff18" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="98" column="23"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="111" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ada831fd20e949bb8c41c4915e1a46ea4" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type></type>
@@ -133,7 +133,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="105" column="13"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="118" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1afed3cc9b59293281236319ff08839337" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" kindref="member">Generator</ref> &amp;</type>
@@ -164,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="113" column="23"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="126" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ad02edc7ea7ab9bbd811e1f2d34ca1697" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="115" column="13"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="128" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1ac73fffae2204601517afb9201f359d84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -208,7 +208,7 @@ very first call, up to its first ``co_yield``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="129" column="18"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="142" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_generator_1a0eb52d678b373db34b062b7bb2d0ff42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>T &amp;</type>
@@ -223,7 +223,7 @@ very first call, up to its first ``co_yield``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="134" column="15"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="147" column="15"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -253,7 +253,7 @@ translation of their especially intricate explore/clean-state stack logic. :raw-
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/Generator.h" line="31" column="5" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="31" bodyend="138"/>
+    <location file="include/AGRemapCore/tools/Generator.h" line="44" column="5" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="44" bodyend="151"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_generator_1a67b75990c190c2d2f8a4c12abac586b1" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Generator</name></member>
       <member refid="class_a_g_remap_core_1_1_generator_1ac757d35546dc66e7d996df1c72f459f7" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator</scope><name>Generator</name></member>

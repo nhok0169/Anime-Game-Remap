@@ -38,7 +38,7 @@ The initial `adjacency list`_ mapping the hashes to fix **from** to the hashes t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Hashes.h" line="56" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="42" bodyend="52"/>
+        <location file="include/AGRemapCore/model/assets/Hashes.h" line="69" column="22" bodyfile="src/model/assets/Hashes.cpp" bodystart="55" bodyend="65"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -102,7 +102,7 @@ is why :cpp:member:`ModType::hashes` can fall back to one and still be useful
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/Hashes.h" line="42" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="42" bodyend="57"/>
+    <location file="include/AGRemapCore/model/assets/Hashes.h" line="55" column="5" bodyfile="include/AGRemapCore/model/assets/Hashes.h" bodystart="55" bodyend="70"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::Hashes</scope><name>addRepoRows</name></member>

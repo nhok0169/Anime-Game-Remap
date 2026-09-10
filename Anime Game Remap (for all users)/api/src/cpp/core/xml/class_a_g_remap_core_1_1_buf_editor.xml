@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="28" column="25" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="28" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="41" column="25" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="41" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="35" column="22" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="7" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="48" column="22" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="20" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_editor_1ad8e1f46b65f176aa912b748a2b06628c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">BufFile::FixResult</ref></type>
@@ -97,7 +97,7 @@ Edits the ``.buf`` file, by calling :cpp:func:`BufFile::fix` with #filters
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="49" column="32" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="62" column="32" bodyfile="src/model/strategies/bufEditors/BufEditor.cpp" bodystart="22" bodyend="24"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -134,7 +134,7 @@ over it
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="22" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="22" bodyend="50"/>
+    <location file="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/bufEditors/BufEditor.h" bodystart="35" bodyend="63"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_editor_1ac9ddfdd09a1f21b2e69f50a4720d29a9" prot="public" virt="non-virtual"><scope>AGRemapCore::BufEditor</scope><name>BufEditor</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_editor_1afa5c0013eff4c21ac3d3a8524f94f225" prot="public" virt="non-virtual"><scope>AGRemapCore::BufEditor</scope><name>filters</name></member>

@@ -26,7 +26,7 @@ Constructs a new, fully-populated vertex group remap table :raw-html:`&lt;br /&g
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="65" column="13" bodyfile="src/model/assets/VGRemaps.cpp" bodystart="40" bodyend="40"/>
+        <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="78" column="13" bodyfile="src/model/assets/VGRemaps.cpp" bodystart="53" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -92,7 +92,7 @@ default-constructed ``VGRemaps`` is already fully populated :raw-html:`&lt;br /&
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="50" column="5" bodyfile="include/AGRemapCore/model/assets/VGRemaps.h" bodystart="50" bodyend="66"/>
+    <location file="include/AGRemapCore/model/assets/VGRemaps.h" line="63" column="5" bodyfile="include/AGRemapCore/model/assets/VGRemaps.h" bodystart="63" bodyend="79"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a2621a5c2e6a3a29e474e99ddaf5dcb9d" prot="private" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>addRow</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_assets_1a5d89e9cc54cd6b01f44891b647f2064d" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemaps</scope><name>addRows</name></member>

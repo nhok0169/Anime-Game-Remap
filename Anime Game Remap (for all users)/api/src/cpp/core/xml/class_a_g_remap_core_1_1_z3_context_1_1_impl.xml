@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="46" column="29" bodyfile="src/tools/z3/Z3Internal.h" bodystart="46" bodyend="-1"/>
+        <location file="src/tools/z3/Z3Internal.h" line="59" column="29" bodyfile="src/tools/z3/Z3Internal.h" bodystart="59" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -36,14 +36,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/tools/z3/Z3Internal.h" line="44" column="22" bodyfile="src/tools/z3/Z3Internal.h" bodystart="44" bodyend="44"/>
+        <location file="src/tools/z3/Z3Internal.h" line="57" column="22" bodyfile="src/tools/z3/Z3Internal.h" bodystart="57" bodyend="57"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/tools/z3/Z3Internal.h" line="42" column="5" bodyfile="src/tools/z3/Z3Internal.h" bodystart="42" bodyend="47"/>
+    <location file="src/tools/z3/Z3Internal.h" line="55" column="5" bodyfile="src/tools/z3/Z3Internal.h" bodystart="55" bodyend="60"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1a994c416a3e0cba850833778890f79730" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Context::Impl</scope><name>ctx</name></member>
       <member refid="class_a_g_remap_core_1_1_z3_context_1_1_impl_1ac29cb0e30a79507ea7f27c3ed77682fd" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3Context::Impl</scope><name>Impl</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="35" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era MonaCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="31" column="45" bodyfile="src/data/IniParseData/MonaCN/MonaCNParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="44" column="45" bodyfile="src/data/IniParseData/MonaCN/MonaCNParser.cpp" bodystart="38" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,7 +50,7 @@ Pair this with :cpp:class:`MonaCNFixer`: the fixer&apos;s mod objects are the on
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/MonaCN/MonaCNParser.h" bodystart="32" bodyend="45"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mona_c_n_parser_1aa9e1ec595192d32ec470c1430f3c9a2c" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaCNParser</scope><name>MonaCNParser</name></member>
       <member refid="class_a_g_remap_core_1_1_mona_c_n_parser_1a631a290b322295376df043de7bdf57e5" prot="public" virt="non-virtual"><scope>AGRemapCore::MonaCNParser</scope><name>v4_0</name></member>

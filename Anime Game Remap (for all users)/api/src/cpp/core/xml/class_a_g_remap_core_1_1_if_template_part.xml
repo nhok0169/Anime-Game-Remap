@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="59" column="20" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="72" column="20" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="72" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -55,7 +55,7 @@ The id for the part. If not provided, a new id is generated (see :cpp:func:`refr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="38" column="22" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="19" bodyend="21"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="51" column="22" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1abbc676258ffb94968ef1690bde3823c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -69,7 +69,7 @@ The id for the part. If not provided, a new id is generated (see :cpp:func:`refr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="39" column="21"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="52" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -84,7 +84,7 @@ The id for the part. If not provided, a new id is generated (see :cpp:func:`refr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="44" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="23" bodyend="25"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="57" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="36" bodyend="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_template_part_1a4dffeac05f68b6d3105d50fc56631376" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -102,7 +102,7 @@ The id for the part. If not provided, a new id is generated (see :cpp:func:`refr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="51" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="27" bodyend="30"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="64" column="20" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="40" bodyend="43"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -118,7 +118,7 @@ The id for the part. If not provided, a new id is generated (see :cpp:func:`refr
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="57" column="27" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="13" bodyend="17"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="70" column="27" bodyfile="src/model/iftemplate/IfTemplatePart.cpp" bodystart="26" bodyend="30"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -160,7 +160,7 @@ pointer even before anything actually does so.
         <link refid="class_a_g_remap_core_1_1_if_template_part"/>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="26" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="26" bodyend="60"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" line="39" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplatePart.h" bodystart="39" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_part_1a6e784136e2c8f43ea7fd0b410c8de043" prot="private" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>generateId</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_part_1a399a02089223bc5734a4f8a2c1df09c9" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplatePart</scope><name>id</name></member>

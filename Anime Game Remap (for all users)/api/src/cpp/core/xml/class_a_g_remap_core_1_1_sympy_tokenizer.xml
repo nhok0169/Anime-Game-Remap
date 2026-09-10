@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="27" column="22" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="60" bodyend="68"/>
+        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="40" column="22" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="73" bodyend="81"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="30" column="18" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="70" bodyend="82"/>
+        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="43" column="18" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="83" bodyend="95"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_sympy_tokenizer_1adf8f9f4e59b8446d3e5def5a18b906b2" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="31" column="18" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="84" bodyend="120"/>
+        <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="44" column="18" bodyfile="src/tools/parsing/SympyTokenizer.cpp" bodystart="97" bodyend="133"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -131,7 +131,7 @@ eg. ``~(($y$ | Ne($x$, $y$)) &amp; (($x$ &gt;= $y$) | ($x$ &lt;= $y$)) &amp; Eq(
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="19" column="5" bodyfile="include/AGRemapCore/tools/parsing/SympyTokenizer.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/tools/parsing/SympyTokenizer.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/parsing/SympyTokenizer.h" bodystart="32" bodyend="45"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" virt="virtual"><scope>AGRemapCore::SympyTokenizer</scope><name>acceptToken</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::SympyTokenizer</scope><name>addASCIIRangeTransitions</name></member>

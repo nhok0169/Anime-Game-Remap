@@ -23,14 +23,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="523" column="22"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="536" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="522" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="522" bodyend="524"/>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="535" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="535" bodyend="537"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_base_s_l_r1_parser_1_1_prod_bookmark_eq_1a036e9df88a25a0a23521acde839acfbb" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser::ProdBookmarkEq</scope><name>operator()</name></member>
     </listofallmembers>

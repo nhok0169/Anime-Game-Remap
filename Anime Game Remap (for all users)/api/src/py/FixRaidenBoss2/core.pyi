@@ -4,7 +4,7 @@ C++ internal core of AGRemap
 from __future__ import annotations
 import collections.abc
 import typing
-__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniParseBuilderArgs', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMIFixer', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegDelimitedAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap']
+__all__: list[str] = ['BaseBufEditor', 'BaseDFA', 'BaseIniClassifier', 'BaseIniFixer', 'BaseIniGraphEdit', 'BaseIniGraphGroupEdit', 'BaseIniGraphPartEdit', 'BaseIniParser', 'BaseIniPartEdit', 'BaseIniRemover', 'BaseLogger', 'BaseRegEdit', 'BaseResEdit', 'BaseSLR1Parser', 'BaseTokenizer', 'BiMap', 'BinaryFile', 'BlendFile', 'BufBaseFloat', 'BufBaseInt', 'BufDataType', 'BufEditor', 'BufElementType', 'BufFloat', 'BufFloat16', 'BufSignedInt', 'BufType', 'BufUnSignedInt', 'BufUnorm', 'CachedFileStats', 'CallGraph', 'CppAhoCorasickDFA', 'CppAlgo', 'CppBaseIniFixer', 'CppBaseIniParser', 'CppBaseIniRemover', 'CppBasePixelTransform', 'CppBaseTexEditor', 'CppBaseTexFilter', 'CppBufFile', 'CppColour', 'CppColourRange', 'CppColourReplace', 'CppColourReplaceFilter', 'CppCorrectGamma', 'CppGammaFilter', 'CppGlobalModTypes', 'CppHashTools', 'CppHighlightShadow', 'CppHueAdjust', 'CppIniFixBuilderArgs', 'CppIniFixFactory', 'CppIniNamingTools', 'CppIniParseBuilderArgs', 'CppIniParseFactory', 'CppIniRemoveBuilderArgs', 'CppIntTools', 'CppInvertAlpha', 'CppInvertAlphaFilter', 'CppListTools', 'CppPixelFilter', 'CppRemapServiceCLI', 'CppStrategyOverrides', 'CppTempControl', 'CppTexCreator', 'CppTexEditor', 'CppTextureFile', 'CppTintTransform', 'CppTransparency', 'CppTransparencyAdjustFilter', 'CppTrie', 'CppVersion', 'DFA', 'FileDownload', 'FileStats', 'FilteredTokenizer', 'GIBuilder', 'GIMICharFixerConfig', 'GIMICharParserConfig', 'GIMIFixer', 'GIMIObjPartFilter', 'GIMIParser', 'GIMISectionClassifier', 'GameTypeId', 'GameTypeIdTools', 'GlobalRemapIniRemover', 'GraphGroupEdit', 'GraphGroupRemap', 'GraphInherit', 'GraphRemove', 'GraphRename', 'GraphTools', 'Hash128', 'Hash64', 'Hashes', 'IOrderedMultiMap', 'IbFile', 'IfContentPart', 'IfContentPartColourChange', 'IfContentPartColouring', 'IfPredParser', 'IfPredPart', 'IfPredTokenizer', 'IfTemplate', 'IfTemplateNode', 'IfTemplatePart', 'IfTemplateTree', 'Indices', 'IniClassifier', 'IniClassifyStats', 'IniDownloadModel', 'IniFile', 'IniFixBuilder', 'IniFixResource', 'IniFixResourceModel', 'IniFixingContext', 'IniGraphGroup', 'IniGroupedResource', 'IniParseBuilder', 'IniRemovalContext', 'IniRemoveBuilder', 'IniResource', 'IniResourceModel', 'IniSectionGraph', 'IniSectionGraphSectionIterator', 'IniSrcResourceModel', 'IniTexModel', 'KeyRemapData', 'Logger', 'ModAssets', 'ModDictAssets', 'ModMappedAssets', 'ModType', 'ModTypeId', 'ModTypeIdData', 'ModTypeIdTools', 'MultiModFixer', 'OrderedMultiMap', 'OrderedMultiMapIterator', 'OrderedMultiMapSqrt', 'OrderedMultiMapSqrtIterator', 'ParseContext', 'ParseNode', 'ParseTree', 'PositionFile', 'Ranges', 'RangesInt', 'RegAdd', 'RegAssetRemap', 'RegDelimitedAdd', 'RegFillMissing', 'RegNewVals', 'RegRemap', 'RegRemove', 'RegSurroundedAdd', 'RemapBlendReplace', 'RemapBlendResource', 'RemapIniDownload', 'RemapIniFixResource', 'RemapIniGroupedResource', 'RemapIniRemover', 'RemapIniResource', 'RemapIniResourceMixin', 'RemapService', 'RemapStats', 'RemapTexAddResource', 'RemapTexEditResource', 'RemappedKeyData', 'ReplaceIf', 'ReplaceList', 'ResCreate', 'ResGroupCollect', 'ResIdentity', 'ResRegCollect', 'ResReplace', 'SectionIterData', 'SectionIterDataIterator', 'SectionIterQueryData', 'SectionIterQueryDataIterator', 'SympyParser', 'SympyTokenizer', 'TexCreate', 'TexReplace', 'Token', 'VGRemap', 'VGRemaps', 'VbFile', 'VertexCounts', 'Z3Context', 'Z3Predicate', 'appendAllToOrderedMultiMap', 'makeGIMICharFixer', 'makeGIMICharParser']
 class BaseBufEditor:
     """
     
@@ -481,7 +481,7 @@ class BaseIniParser(CppBaseIniParser):
         :class:`IniFile`: The .ini file that will be parsed
         """
     @_iniFile.setter
-    def _iniFile(self, arg0: typing.Any) -> None:
+    def _iniFile(self, arg1: typing.Any) -> None:
         ...
     @property
     def _modsToFix(self) -> typing.Any:
@@ -3916,6 +3916,148 @@ class CppIniFixBuilderArgs:
     every mod type from :meth:`GIBuilder.all` does -- can say so
         
     """
+class CppIniFixFactory:
+    """
+    
+    A built fixer factory, ready to hand to :meth:`CppStrategyOverrides.setFixer`
+    
+    Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharFixer`
+        
+    """
+class CppIniNamingTools:
+    """
+    
+    The naming conventions a fix follows, as the C++ core implements them
+    
+    .. warning::
+        Not the same as the pure-Python :class:`IniNamingTools`. That one's ``getModSuffixedName`` keeps
+        the first ``len(suffix)`` characters of a name that already ends in the suffix, where it means to
+        strip the suffix off the end -- a confirmed bug, contradicting its own docstring. This class
+        implements the documented behaviour, and it is what every compiled fix actually uses, so a fix
+        written in Python should use this one to match
+    
+    Every method is static.
+        
+    """
+    @staticmethod
+    def getFixedBlendFile(blendFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed ``Blend.buf`` file
+        """
+    @staticmethod
+    def getFixedElementFile(file: str, elementName: str, modName: str = '', fileExt: str | None = None) -> str:
+        """
+        The name of the fixed file for some element file
+        """
+    @staticmethod
+    def getFixedFile(file: str, modName: str = '', fileExt: str | None = None) -> str:
+        """
+        The name of the fixed file for some file
+        """
+    @staticmethod
+    def getFixedPositionFile(positionFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed ``Position.buf`` file
+        """
+    @staticmethod
+    def getFixedTexFile(texFile: str, modName: str = '') -> str:
+        """
+        The name of the fixed texture file
+        """
+    @staticmethod
+    def getModSuffixedName(name: str, suffix: str = '', modName: str = '') -> str:
+        """
+        Appends ``modName + suffix`` to 'name', replacing a trailing 'suffix' it already carries
+        
+        .. note::
+            This is the method the pure-Python :class:`IniNamingTools` gets wrong -- see this class's own
+            warning
+        """
+    @staticmethod
+    def getObjRemapFixName(name: str, modName: str, objName: typing.Any, newObjName: typing.Any) -> str:
+        """
+        The remapped name for a `section`_ whose mod object is being swapped for another
+        """
+    @staticmethod
+    def getRemapBlendName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Blend.buf`` `section`_
+        """
+    @staticmethod
+    def getRemapBlendResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Blend.buf`` resource `section`_
+        """
+    @staticmethod
+    def getRemapDLName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some downloaded resource `section`_
+        """
+    @staticmethod
+    def getRemapDLResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some downloaded resource `section`_
+        """
+    @staticmethod
+    def getRemapElementName(name: str, elementName: str, modName: str = '') -> str:
+        """
+        The remapped name for some element (Blend/Position/Texcoord/IB) `section`_
+        """
+    @staticmethod
+    def getRemapFixName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some fixed `section`_
+        """
+    @staticmethod
+    def getRemapFixResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some fixed resource `section`_
+        """
+    @staticmethod
+    def getRemapIbName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``.ib`` `section`_
+        """
+    @staticmethod
+    def getRemapPositionName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Position.buf`` `section`_
+        """
+    @staticmethod
+    def getRemapPositionResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Position.buf`` resource `section`_
+        """
+    @staticmethod
+    def getRemapTexName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some texture `section`_
+        """
+    @staticmethod
+    def getRemapTexResourceName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some texture resource `section`_
+        """
+    @staticmethod
+    def getRemapTexcoordName(name: str, modName: str = '') -> str:
+        """
+        The remapped name for some ``Texcoord.buf`` `section`_
+        """
+    @staticmethod
+    def getResourceName(name: str) -> str:
+        """
+        Retrieves the name of the resource `section`_ for some `section`_ name
+        """
+    @staticmethod
+    def getTextureOverrideRemapFix(component: str, obj: str, modName: str = '') -> str:
+        """
+        The name of the ``TextureOverride`` `section`_ a fix invents for some mod object
+        """
+    @staticmethod
+    def removeResourceName(name: str) -> str:
+        """
+        Removes the resource prefix from some `section`_ name
+        """
 class CppIniParseBuilderArgs:
     """
     
@@ -3923,6 +4065,14 @@ class CppIniParseBuilderArgs:
     
     Opaque: there is no way to build one from Python yet. It is exposed so a builder that *has* one --
     every mod type from :meth:`GIBuilder.all` does -- can say so
+        
+    """
+class CppIniParseFactory:
+    """
+    
+    A built parser factory, ready to hand to :meth:`CppStrategyOverrides.setParser`
+    
+    Opaque: there is nothing to read off one. Build it with :func:`makeGIMICharParser`
         
     """
 class CppIniRemoveBuilderArgs:
@@ -4312,6 +4462,99 @@ class CppRemapServiceCLI:
     @verbose.setter
     def verbose(self, arg1: bool) -> None:
         ...
+class CppStrategyOverrides:
+    """
+    
+    Overrides a mod's parser or fixer at runtime, without rebuilding the C++ core
+    
+    Every parser and fixer this library ships is compiled into ``AGRemapCore``, which is what makes a
+    run fast and what makes trying a new idea slow --- changing one character's fix is a rebuild.
+    Registering here takes precedence over the built-in row for a mod, so a new parse or fix can be
+    written in Python, run, and thrown away.
+    
+    It is a prototyping aid. A fix worth keeping belongs in the C++ tables.
+    
+    .. note::
+        Version matching mirrors the built-in tables (:class:`ModDictAssets`): a request carrying a
+        version takes the highest override at or below it, and a request carrying **no** version means
+        "the newest", taking the highest override registered. An override registered *without* a
+        version is the fallback, used only when no versioned one applied.
+    
+        Exact matching was tried first and is wrong for what this class is for: a run resolves a mod's
+        version off the .ini file and normally passes no version at all, so an override registered for
+        ``6.1`` --- the literal case "override Raiden 6.1" means --- fired zero times on an ordinary
+        run.
+    
+    .. warning::
+        Not synchronised. Register and clear **around** a run, never during one.
+    
+    :example:
+    
+    .. code-block:: python
+    
+        import FixRaidenBoss2 as FRB
+    
+        class MyParser(FRB.GIMIParser):
+            pass
+    
+        FRB.CppStrategyOverrides.setParser("Raiden", lambda iniFile, modTypeId: MyParser(iniFile), version = "6.1")
+        # ... run the fix ...
+        FRB.CppStrategyOverrides.clear()
+    """
+    @staticmethod
+    def clear() -> None:
+        """
+        Removes every registered override
+        """
+    @staticmethod
+    def empty() -> bool:
+        """
+        Whether nothing is registered
+        
+        :rtype: :class:`bool`
+        """
+    @staticmethod
+    def setFixer(fromModName: str, toModName: str, factory: typing.Any, version: typing.Any = None) -> None:
+        """
+        Registers a fixer factory for a ``fromModName`` -> ``toModName`` remap
+        
+        The target does not have to exist in the built-in table --- registering one the table has no row for
+        adds it, so a brand-new remap can be prototyped and not only an existing one replaced.
+        
+        :param fromModName: The mod being fixed
+        :type fromModName: :class:`str`
+        
+        :param toModName: The mod being fixed *to*
+        :type toModName: :class:`str`
+        
+        :param factory: Called as ``factory(parser, toModName, modTypeId)`` and must return a fixer
+        :type factory: Callable[[:class:`BaseIniParser`, :class:`str`, Optional[:class:`int`]], :class:`BaseIniFixer`]
+        
+        :param version:
+            The version of 'fromModName' to override from, or ``None`` for every version --- only the
+            *from* version is keyed on, since that is the one a run resolves off the ``.ini`` being fixed.
+            Floor-matched, like :meth:`setParser`'s. **Default**: ``None``
+        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        """
+    @staticmethod
+    def setParser(modName: str, factory: typing.Any, version: typing.Any = None) -> None:
+        """
+        Registers a parser factory for a mod
+        
+        :param modName: The mod type the override applies to, eg. ``"Raiden"``
+        :type modName: :class:`str`
+        
+        :param factory:
+            Either a :class:`CppIniParseFactory` from :func:`makeGIMICharParser`, or a callable invoked
+            as ``factory(iniFile, modTypeId)`` returning a parser
+        :type factory: Union[:class:`CppIniParseFactory`, Callable[[:class:`CppIniFile`, Optional[:class:`int`]], :class:`BaseIniParser`]]
+        
+        :param version:
+            The version to override from, or ``None`` for every version --- an override registered here
+            applies to that version **and every later one**, until a higher override supersedes it, exactly
+            as the built-in version tables resolve. **Default**: ``None``
+        :type version: Optional[Union[:class:`str`, :class:`float`, :class:`CppVersion`]]
+        """
 class CppTempControl(CppBasePixelTransform):
     """
     
@@ -5881,6 +6124,259 @@ class GIBuilder:
         """
         Creates the :class:`ModType` for XingqiuBamboo
         """
+class GIMICharFixerConfig:
+    """
+    
+    What one character's fix does differently, for the **standard GIMI character shape**
+    
+    Everything :func:`makeGIMICharFixer` needs that is not the same for every character. Every field has
+    a default that means "the ordinary thing", so a config assigns only what its character does
+    differently.
+        
+    """
+    class TexEdit:
+        """
+        
+        One texture the fix rewrites, and the register it repoints at the rewritten copy
+            
+        """
+        def __init__(self, obj: str, reg: str, name: str, filter: collections.abc.Callable[[...], None], compress: bool = True) -> None:
+            ...
+        @property
+        def compress(self) -> bool:
+            """
+            :class:`bool`: Whether the written ``.dds`` is compressed. **Default**: ``True``
+            """
+        @compress.setter
+        def compress(self, arg0: bool) -> None:
+            ...
+        @property
+        def name(self) -> str:
+            """
+            :class:`str`: The name the rewritten texture is filed under
+            """
+        @name.setter
+        def name(self, arg0: str) -> None:
+            ...
+        @property
+        def obj(self) -> str:
+            """
+            :class:`str`: The **target** object whose graph holds the register
+            """
+        @obj.setter
+        def obj(self, arg0: str) -> None:
+            ...
+        @property
+        def reg(self) -> str:
+            """
+            :class:`str`: The register the texture hangs off, eg. ``"ps-t1"``
+            """
+        @reg.setter
+        def reg(self, arg0: str) -> None:
+            ...
+    def __init__(self) -> None:
+        ...
+    @property
+    def copyPreamble(self) -> str:
+        """
+        :class:`str`: What the extra ``.ini`` file a **merge** produces says about itself
+        """
+    @copyPreamble.setter
+    def copyPreamble(self, arg0: str) -> None:
+        ...
+    @property
+    def drawnObjs(self) -> list[str]:
+        """
+        List[:class:`str`]: The objects that actually draw, lowercase --- **the SOURCE's**, not the
+        target's, and it must match the paired :attr:`GIMICharParserConfig.drawnObjs` exactly
+        
+        Where the target draws a different set, see :attr:`objSplits`
+        """
+    @drawnObjs.setter
+    def drawnObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def faceDiffuseReg(self) -> str:
+        """
+        :class:`str`: The register the face's diffuse hangs off. **Default**: ``"ps-t0"``
+        """
+    @faceDiffuseReg.setter
+    def faceDiffuseReg(self, arg0: str) -> None:
+        ...
+    @property
+    def faceLightMapReg(self) -> str:
+        """
+        :class:`str`: The register the face's lightmap hangs off. **Default**: ``"ps-t1"``
+        
+        The fix swaps this with :attr:`faceDiffuseReg`, which is what removes the white shiny cheek spots ---
+        GI 6.x swapped which register the shader reads the two out of
+        """
+    @faceLightMapReg.setter
+    def faceLightMapReg(self, arg0: str) -> None:
+        ...
+    @property
+    def moveDrawIndexed(self) -> bool:
+        """
+        :class:`bool`: Whether the shared ``drawindexed`` is taken off ``("", "ib")`` and re-issued per drawn
+        object
+        
+        **Default**: ``False``
+        """
+    @moveDrawIndexed.setter
+    def moveDrawIndexed(self, arg0: bool) -> None:
+        ...
+    @property
+    def objFixCalls(self) -> list[tuple[str, list[str]]]:
+        """
+        List[Tuple[:class:`str`, List[:class:`str`]]]: Which external library calls one target object
+        re-issues, in order
+        
+        An object not named here re-issues ``NNFix``, which is the common case. The mod's own calls to the
+        three libraries are stripped first, so this is a re-issue rather than an addition
+        """
+    @objFixCalls.setter
+    def objFixCalls(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[str]]]) -> None:
+        ...
+    @property
+    def objNewRegVals(self) -> list[tuple[str, list[tuple[str, str]]]]:
+        """
+        List[Tuple[:class:`str`, List[Tuple[:class:`str`, :class:`str`]]]]: Register values forced onto one
+        target object
+        
+        Replaces a value that is already there; a part with no such register does not grow one
+        """
+    @objNewRegVals.setter
+    def objNewRegVals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[tuple[str, str]]]]) -> None:
+        ...
+    @property
+    def objRegRemaps(self) -> list[tuple[str, list[tuple[str, list[str]]]]]:
+        """
+        List[Tuple[:class:`str`, List[Tuple[:class:`str`, List[:class:`str`]]]]]: Registers **renamed** on
+        one target object's parts --- ``[("head", [("ps-t1", ["ps-t0"]), ("ps-t2", ["ps-t1"])])]``
+        
+        All of an object's renames are applied in **one pass**, so a shift and a swap are both expressible
+        and neither re-reads its own output. Naming two targets duplicates the value into both
+        """
+    @objRegRemaps.setter
+    def objRegRemaps(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[tuple[str, collections.abc.Sequence[str]]]]]) -> None:
+        ...
+    @property
+    def objRegRemovals(self) -> list[tuple[str, list[str]]]:
+        """
+        List[Tuple[:class:`str`, List[:class:`str`]]]: Registers stripped from one **target** object's parts
+        entirely --- ``[("head", ["ps-t3"])]``
+        """
+    @objRegRemovals.setter
+    def objRegRemovals(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[str]]]) -> None:
+        ...
+    @property
+    def objSplits(self) -> list[tuple[str, list[str]]]:
+        """
+        List[Tuple[:class:`str`, List[:class:`str`]]]: Which of the target's drawn objects each of the
+        source's becomes --- **empty (the default) means one-to-one**
+        
+        A split is ``[("head", ["head"]), ("body", ["body", "dress"])]``; a merge names the same target
+        twice. A source object left out is dropped from the remap entirely
+        """
+    @objSplits.setter
+    def objSplits(self, arg0: collections.abc.Sequence[tuple[str, collections.abc.Sequence[str]]]) -> None:
+        ...
+    @property
+    def texEdits(self) -> list[GIMICharFixerConfig.TexEdit]:
+        """
+        List[:class:`GIMICharFixerConfig.TexEdit`]: The textures this fix rewrites
+        """
+    @texEdits.setter
+    def texEdits(self, arg0: collections.abc.Sequence[GIMICharFixerConfig.TexEdit]) -> None:
+        ...
+class GIMICharParserConfig:
+    """
+    
+    What one character's ``.ini`` file looks like, for the **standard GIMI character shape**
+    
+    Everything :func:`makeGIMICharParser` needs that is not the same for every character. Deliberately
+    small: if you find yourself wanting a field for something only one character does, that character
+    probably wants a parser of its own instead.
+    
+    Every field is writable, and all but :attr:`drawnObjs` and :attr:`texcoordStride` have a sensible
+    default, so the usual shape is to construct one and assign what differs.
+        
+    """
+    def __init__(self) -> None:
+        ...
+    @property
+    def blendStride(self) -> int:
+        """
+        :class:`int`: The byte size of one `blend`_ vertex. **Default**: ``32``
+        """
+    @blendStride.setter
+    def blendStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def downloadCharFolder(self) -> str:
+        """
+        :class:`str`: The character's folder under ``Data/Mod Downloads/GI/``, eg. ``"Amber"``
+        """
+    @downloadCharFolder.setter
+    def downloadCharFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadPrefix(self) -> str:
+        """
+        :class:`str`: The prefix every file in that folder carries, eg. ``"Amber"``
+        
+        .. note::
+            Not always the character's name --- ``Raiden/`` holds ``RaidenShogun``-prefixed files, and one
+            character's version subfolders can disagree with each other. Read it off the folder's contents
+        """
+    @downloadPrefix.setter
+    def downloadPrefix(self, arg0: str) -> None:
+        ...
+    @property
+    def downloadVersionFolder(self) -> str:
+        """
+        :class:`str`: The version subfolder within it, eg. ``"4_0"``
+        """
+    @downloadVersionFolder.setter
+    def downloadVersionFolder(self, arg0: str) -> None:
+        ...
+    @property
+    def drawnObjs(self) -> list[str]:
+        """
+        List[:class:`str`]: The objects that actually draw, lowercase and **in the order the game draws
+        them** --- eg. ``["head", "body", "dress"]``
+        
+        They all share one ``ib`` hash and are told apart by the ``match_first_index`` that follows it
+        """
+    @drawnObjs.setter
+    def drawnObjs(self, arg0: collections.abc.Sequence[str]) -> None:
+        ...
+    @property
+    def modTypeId(self) -> int:
+        """
+        :class:`int`: Which mod type this parses -- a :attr:`ModType.modTypeId`. Used for the vertex count
+        lookup the downloaded `blend`_ needs
+        """
+    @modTypeId.setter
+    def modTypeId(self, arg1: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def positionStride(self) -> int:
+        """
+        :class:`int`: The byte size of one position vertex. **Default**: ``40``
+        """
+    @positionStride.setter
+    def positionStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
+    @property
+    def texcoordStride(self) -> int:
+        """
+        :class:`int`: The byte size of one texcoord vertex --- **per character**, and worth checking rather
+        than copying: Amber and Mona are ``12`` where Rosaria is ``20``
+        """
+    @texcoordStride.setter
+    def texcoordStride(self, arg0: typing.SupportsInt | typing.SupportsIndex) -> None:
+        ...
 class GIMIFixer(BaseIniFixer):
     """
     
@@ -6053,6 +6549,79 @@ class GIMIFixer(BaseIniFixer):
         """
     @prevFixer.setter
     def prevFixer(self, arg0: typing.Any) -> None:
+        ...
+class GIMIObjPartFilter:
+    """
+    
+    Builds the `KVP`_ window belonging to one mod object, for a GIMI character whose drawn objects
+    **share a hash** and are told apart only by the ``match_first_index`` that follows it
+    
+    .. danger::
+        An edit that writes into that shared region without a window is not merely imprecise -- head and
+        body are distinguished by the very ``match_first_index`` such an edit overwrites, so a stray
+        write puts one object's vertex range onto another. Any edit reaching into a shared-hash region
+        needs one of these, and needs :meth:`keysToTrack` asked for rather than restated
+    
+    Parameters
+    ----------
+    hashes: Optional[:class:`ModMappedAssets`]
+        The ``hash`` asset table -- normally a :class:`ModType`'s ``hashes``. Held, so this filter
+        cannot outlive it
+    
+    indices: Optional[:class:`ModMappedAssets`]
+        The ``match_first_index`` asset table -- normally a :class:`ModType`'s ``indices``. Held for the
+        same reason
+    
+    indexHashKeys: Optional[Set[:class:`str`]]
+        The *types* of hash (the last index column of a hash row, eg. ``ib``) whose mod objects are
+        told apart by a ``match_first_index`` :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    version: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
+        The version of the .ini file, or ``None`` for the latest :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, hashes: typing.Any = None, indices: typing.Any = None, indexHashKeys: typing.Any = None, version: typing.Any = None) -> None:
+        ...
+    def filter(self, modObj: typing.Any) -> collections.abc.Callable:
+        """
+        Builds the window function for one mod object, ready to hand to a :class:`GraphGroupEdit`'s
+        ``keyFilters``
+        
+        Parameters
+        ----------
+        modObj: Tuple[:class:`str`, :class:`str`]
+            The component and object naming the mod object whose `KVPs`_ the window covers
+        
+        Returns
+        -------
+        Callable[[:class:`SectionIterData`, Optional[:class:`ModType`], Optional[:class:`IniFile`]], :class:`Ranges`]
+            The window function
+        """
+    def keysToTrack(self) -> set:
+        """
+        The `KVP`_ keys a :class:`GraphGroupEdit` has to be tracking for :meth:`filter` to see anything
+        
+        .. note::
+            Ask for this rather than restating it, so the two can never drift apart -- a filter reading a key
+            the edit was not tracking silently returns an empty window, and an empty window silently makes
+            the edit do nothing
+        
+        Returns
+        -------
+        Set[:class:`str`]
+            The keys to track
+        """
+    @property
+    def indexHashKeys(self) -> set[str]:
+        """
+        Set[:class:`str`]: The types of hash whose mod objects are told apart by a ``match_first_index``
+        """
+    @indexHashKeys.setter
+    def indexHashKeys(self, arg0: collections.abc.Set[str]) -> None:
         ...
 class GIMIParser(BaseIniParser):
     """
@@ -6288,7 +6857,7 @@ class GIMIParser(BaseIniParser):
         :class:`IniFile`: The .ini file that will be parsed
         """
     @_iniFile.setter
-    def _iniFile(self, arg0: typing.Any) -> None:
+    def _iniFile(self, arg1: typing.Any) -> None:
         ...
     @property
     def _modsToFix(self) -> typing.Any:
@@ -10198,6 +10767,22 @@ class IniFile:
         List[:class:`IniResource`]
             The file downloads
         """
+    def getGroupedResources(self) -> list:
+        """
+        Retrieves every grouped resource the .ini file references
+        
+        .. note::
+            A group built by a plain C++ caller is **not** listed -- only the Python-facing
+            :class:`IniGroupedResource` can cross this boundary. Nothing builds one today
+        
+        .. danger::
+            Same ownership caveat as :meth:`getResources`
+        
+        Returns
+        -------
+        List[:class:`IniGroupedResource`]
+            The grouped resources
+        """
     def getIfTemplates(self, flush: bool = False) -> dict:
         """
         Retrieves every parsed `section`_ of the .ini file, keyed by section name
@@ -10949,6 +11534,24 @@ class IniGroupedResource:
         -------
         :class:`bool`
             Whether this grouped resource is missing some resource from the specified subset
+        """
+    def memberResources(self) -> list[IniResource]:
+        """
+        Retrieves every :class:`IniResource` in :attr:`resources`
+        
+        .. note::
+            :attr:`resources` is general-purpose scratch storage, so anything in it that is not a
+            resource -- the placeholder tuples ``ResGroupCollect`` fills it with before the group is
+            built -- is simply not listed
+        
+        This is how the remap reads a group's members: they are **not** in the C++ class's own map,
+        and reading that map instead is why a grouped fix used to be credited to nothing and why
+        ``--compressTextures`` did not reach a texture inside a group
+        
+        Returns
+        -------
+        List[:class:`IniResource`]
+            The resources in the group
         """
     @property
     def fixFunc(self) -> collections.abc.Callable[[...], bool]:
@@ -15042,6 +15645,122 @@ class RegAdd(BaseRegEdit):
     @vals.setter
     def vals(self, arg1: typing.Any) -> None:
         ...
+class RegAssetRemap(BaseRegEdit):
+    """
+    
+    This class inherits from :class:`BaseRegEdit`
+    
+    Class for remapping the **asset values** on specific registers of some :class:`IfContentPart` -- a
+    hash naming the mod being fixed *from* becomes the equivalent hash naming the mod being fixed *to*
+    
+    .. note::
+        The lookup runs in two steps: the old value is reverse-looked-up to find which row owns it, and
+        that row's key is then forward-looked-up against :attr:`toModName`. So this edit does **not**
+        need to be told which kind of asset a register holds -- the old value says so
+    
+    .. warning::
+        Leave :attr:`fromModName` empty and the reverse lookup becomes non-deterministic wherever the
+        source and the target **share** a value, which every CN pair does for at least one asset. Landing
+        on the target's own row asks the remap graph for ``target -> target``, which is not an edge, and
+        the register is written as the not-found value instead. Fill it in
+    
+    .. warning::
+        Not for a ``match_first_index``. Reverse-looking-up ``0`` is ambiguous -- it is every character's
+        head index -- so the lookup fails and writes the not-found sentinel into a numeric field. Use a
+        :class:`RegNewVals` with a forward lookup per mod object instead
+    
+    Parameters
+    ----------
+    assets: Dict[:class:`str`, Union[:class:`ModMappedAssets`, Tuple[:class:`ModMappedAssets`, Optional[:class:`str`]]]]
+        Which registers are remapped, and against which asset table :raw-html:`<br />` :raw-html:`<br />`
+    
+        The keys are register names. A value may be the table on its own, or a
+        ``(table, notFoundVal)`` pair -- where ``notFoundVal`` is written when the old value has no
+        mapping, and ``None`` (the default) leaves such a value untouched
+    
+        :raw-html:`<br />`
+    
+        The table objects are held, so a table owned by a :class:`ModType` stays alive as long as this
+        edit does
+    
+    toModName: :class:`str`
+        The name of the mod being fixed to
+    
+    fromModName: :class:`str`
+        The name of the mod being fixed from, which is what makes the reverse lookup deterministic --
+        see the warning above :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``""``
+    
+    fromVersion: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
+        The version being fixed from :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+    
+    toVersion: Optional[Union[:class:`str`, :class:`float`, :class:`Version`]]
+        The version being fixed to :raw-html:`<br />` :raw-html:`<br />`
+    
+        **Default**: ``None``
+        
+    """
+    def __init__(self, assets: typing.Any, toModName: str, fromModName: str = '', fromVersion: typing.Any = None, toVersion: typing.Any = None) -> None:
+        ...
+    def edit(self, part: typing.Any, sectionName: str, modType: typing.Any, modName: str = '', partRanges: typing.Any = None) -> typing.Any:
+        """
+        Remaps every register named in :attr:`assets` onto :attr:`toModName`'s equivalent value
+        
+        Parameters
+        ----------
+        part: :class:`IfContentPart`
+            The part of the `IfTemplate` that is being editted
+        
+        sectionName: :class:`str`
+            The name of the `section`_ that is being editted. Unused by this edit
+        
+        modType: Optional[:class:`ModType`]
+            The type of mod to fix. Unused by this edit -- the asset tables come from :attr:`assets`
+        
+        modName: :class:`str`
+            The name of the mod to fix to. Unused by this edit, which uses :attr:`toModName` :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``""``
+        
+        partRanges: Optional[:class:`Ranges`]
+            The ranges that indicate the valid order indices to process for the argument 'part' :raw-html:`<br />` :raw-html:`<br />`
+        
+            **Default**: ``None``
+        
+        Returns
+        -------
+        :class:`IfContentPart`
+            The same part that was passed in, after editing
+        """
+    @property
+    def assets(self) -> typing.Any:
+        """
+        Dict[:class:`str`, Union[:class:`ModMappedAssets`, Tuple[:class:`ModMappedAssets`, Optional[:class:`str`]]]]: Which
+        registers are remapped, and against which asset table -- see this class's constructor
+        """
+    @assets.setter
+    def assets(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def fromModName(self) -> str:
+        """
+        :class:`str`: The name of the mod being fixed from -- see this class's warning on why leaving this
+        empty is a real hazard
+        """
+    @fromModName.setter
+    def fromModName(self, arg0: str) -> None:
+        ...
+    @property
+    def toModName(self) -> str:
+        """
+        :class:`str`: The name of the mod being fixed to
+        """
+    @toModName.setter
+    def toModName(self, arg0: str) -> None:
+        ...
 class RegDelimitedAdd(BaseIniGraphEdit):
     """
     
@@ -15108,7 +15827,7 @@ class RegDelimitedAdd(BaseIniGraphEdit):
         **Default**: ``None``
         
     """
-    def __init__(self, additions: typing.Any, delimiterRegs: typing.Any = None) -> None:
+    def __init__(self, additions: typing.Any, delimiterRegs: typing.Any = None, pathEndOnlyWhenUndelimited: bool = False) -> None:
         ...
     def edit(self, graph: typing.Any, modType: typing.Any, modName: str = '', partFilter: typing.Any = None, trackKeys: bool = False, keysToTrack: typing.Any = None) -> typing.Any:
         """
@@ -15173,6 +15892,24 @@ class RegDelimitedAdd(BaseIniGraphEdit):
         """
     @delimiterRegs.setter
     def delimiterRegs(self, arg1: typing.Any) -> None:
+        ...
+    @property
+    def pathEndOnlyWhenUndelimited(self) -> bool:
+        """
+        :class:`bool`: Whether a path that already contains a delimiter is left without a trailing
+        addition after its last one :raw-html:`<br />` :raw-html:`<br />`
+        
+        ``False`` (the default, and the older behaviour) adds once at the end of **every** path as well
+        as before each delimiter. ``True`` restricts that trailing addition to paths carrying no
+        delimiter at all -- which is what a mandatory fix call like ``NNFix`` wants: one immediately
+        before every ``drawindexed``, and a single one at the end only for a graph that never draws. The
+        surplus call the ``False`` behaviour leaves after a path's last draw is not harmless, since
+        ``ORFix`` swaps the diffuse and lightmap registers on every call
+        
+        **Default**: ``False``
+        """
+    @pathEndOnlyWhenUndelimited.setter
+    def pathEndOnlyWhenUndelimited(self, arg0: bool) -> None:
         ...
 class RegFillMissing(BaseIniGraphEdit):
     """
@@ -16834,6 +17571,20 @@ class RemapService:
     @readAllInis.setter
     def readAllInis(self, arg0: bool) -> None:
         ...
+    @property
+    def stats(self) -> RemapStats:
+        """
+        :class:`RemapStats`: What the run counted --- fixed, skipped, removed and undone files, per kind
+        
+        A **snapshot**, rebuilt on every access rather than a live view, because the Python-facing
+        :class:`RemapStats` is a standalone class rather than a binding of the core one. Read it *after*
+        :meth:`fix`; mutating it does not affect the service.
+        
+        This is the only way to learn that a file failed when no logger is attached. One bad ``.ini`` stops
+        that ``.ini`` rather than the whole walk, and the exception is recorded against
+        ``stats.ini.skipped[path]`` --- an exception raised from Python comes back as the original exception
+        object, and a C++ one as a :class:`RuntimeError` carrying its message.
+        """
     @property
     def toModTypeIds(self) -> set[int] | None:
         """
@@ -20169,4 +20920,45 @@ def appendAllToOrderedMultiMap(target: IOrderedMultiMap, items: collections.abc.
     
     items: List[Tuple[Any, Any]]
         The key-value pairs to append, in order
+    """
+def makeGIMICharFixer(config: GIMICharFixerConfig) -> CppIniFixFactory:
+    """
+    Builds the fixer for a character with the **standard GIMI shape**
+    
+    The counterpart of :func:`makeGIMICharParser`, and the same factory the compiled-in characters use.
+    It builds every graph and register edit the fix needs --- the renames per resource kind, the hash
+    remap, the ``match_first_index`` rewrite and its `KVP`_ window, the `blend`_ collector, the external
+    library re-issues and their placement, and the face's register swap --- from the config alone.
+    
+    Parameters
+    ----------
+    config: :class:`GIMICharFixerConfig`
+        What this character's fix does differently
+    
+    Returns
+    -------
+    :class:`CppIniFixFactory`
+        The factory, for :meth:`CppStrategyOverrides.setFixer`
+    """
+def makeGIMICharParser(config: GIMICharParserConfig) -> CppIniParseFactory:
+    """
+    Builds the parser for a character with the **standard GIMI shape**
+    
+    That shape is: drawn objects sharing one ``ib`` hash and separated by ``match_first_index``, plus
+    `blend`_/position/texcoord/ib named outright by their own hashes, plus ``("", "other")`` for the
+    ``VertexLimitRaise`` and ``("", "face")`` for the face diffuse. It also builds every default
+    download a modder may have left out.
+    
+    This is the same factory the compiled-in characters use, so a mod type overridden with it is parsed
+    exactly as one of them would be.
+    
+    Parameters
+    ----------
+    config: :class:`GIMICharParserConfig`
+        What this character does differently
+    
+    Returns
+    -------
+    :class:`CppIniParseFactory`
+        The factory, for :meth:`CppStrategyOverrides.setParser`
     """

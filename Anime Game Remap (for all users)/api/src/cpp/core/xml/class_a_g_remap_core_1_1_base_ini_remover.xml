@@ -37,7 +37,7 @@ The ``.ini`` file the fix will be removed from -- non-owning, see the constructo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="161" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="161" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="174" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="174" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -93,7 +93,7 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="91" column="22" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="91" bodyend="91"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="104" column="22" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="104" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a6661b34d79cbd359d51eb70ae609321f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -107,7 +107,7 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="93" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="106" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1ae01364afce9b51235717294dee8463b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -122,7 +122,7 @@ call #setIniFile before #remove in that case :raw-html:`&lt;br /&gt;` :raw-html:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="98" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="98" bodyend="100"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="111" column="21" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="111" bodyend="113"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a68a6023d3cfd210b8f35328c426b67e8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -159,7 +159,7 @@ factory handed back unbound
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="116" column="26" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="116" bodyend="118"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="129" column="26" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="129" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_remover_1a4b89d6402f51d48d562370fd92a5fc05" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>std::string</type>
@@ -231,7 +231,7 @@ that it is **not** the :cpp:class:`IniRemoveContext` a remover reads its file th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="146" column="33" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="146" bodyend="151"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="159" column="33" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="159" bodyend="164"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -334,7 +334,7 @@ Base class to remove fixes from a ``.ini`` file :raw-html:`&lt;br /&gt;` :raw-ht
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="58" bodyend="162"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" line="71" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/BaseIniRemover.h" bodystart="71" bodyend="175"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_remover_1a5beef96e5ea9a8e3bcf3b77e463cf3be" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>BaseIniRemover</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_remover_1ae01364afce9b51235717294dee8463b9" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseIniRemover</scope><name>getIniFile</name></member>

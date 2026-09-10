@@ -6,20 +6,26 @@
     <includes local="no">utility</includes>
     <includes local="no">vector</includes>
     <includes refid="_ini_fix_builder_8h" local="yes">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</includes>
+    <includes refid="_tex_creator_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexCreator.h</includes>
     <includes refid="_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/TexEditor.h</includes>
     <includedby refid="_amber_fixer_8cpp" local="yes">src/data/IniFixData/Amber/AmberFixer.cpp</includedby>
     <includedby refid="_amber_c_n_fixer_8cpp" local="yes">src/data/IniFixData/AmberCN/AmberCNFixer.cpp</includedby>
     <includedby refid="_g_i_m_i_char_fixer_8cpp" local="yes">src/data/IniFixData/GIMICharFixer.cpp</includedby>
+    <includedby refid="_ganyu_fixer_8cpp" local="yes">src/data/IniFixData/Ganyu/GanyuFixer.cpp</includedby>
     <includedby refid="_ganyu_twilight_fixer_8cpp" local="yes">src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</includedby>
     <includedby refid="_jean_fixer_8cpp" local="yes">src/data/IniFixData/Jean/JeanFixer.cpp</includedby>
     <includedby refid="_jean_c_n_fixer_8cpp" local="yes">src/data/IniFixData/JeanCN/JeanCNFixer.cpp</includedby>
     <includedby refid="_jean_sea_fixer_8cpp" local="yes">src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</includedby>
+    <includedby refid="_keqing_fixer_8cpp" local="yes">src/data/IniFixData/Keqing/KeqingFixer.cpp</includedby>
+    <includedby refid="_keqing_opulent_fixer_8cpp" local="yes">src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</includedby>
     <includedby refid="_mona_fixer_8cpp" local="yes">src/data/IniFixData/Mona/MonaFixer.cpp</includedby>
     <includedby refid="_mona_c_n_fixer_8cpp" local="yes">src/data/IniFixData/MonaCN/MonaCNFixer.cpp</includedby>
     <includedby refid="_ningguang_fixer_8cpp" local="yes">src/data/IniFixData/Ningguang/NingguangFixer.cpp</includedby>
     <includedby refid="_ningguang_orchid_fixer_8cpp" local="yes">src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</includedby>
     <includedby refid="_rosaria_fixer_8cpp" local="yes">src/data/IniFixData/Rosaria/RosariaFixer.cpp</includedby>
     <includedby refid="_rosaria_c_n_fixer_8cpp" local="yes">src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</includedby>
+    <includedby refid="_shenhe_fixer_8cpp" local="yes">src/data/IniFixData/Shenhe/ShenheFixer.cpp</includedby>
+    <includedby refid="_shenhe_frost_flower_fixer_8cpp" local="yes">src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</includedby>
     <incdepgraph>
       <node id="37">
         <label>Algo.tpp</label>
@@ -56,6 +62,8 @@
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="80" relation="include">
+        </childnode>
+        <childnode refid="83" relation="include">
         </childnode>
       </node>
       <node id="25">
@@ -465,6 +473,16 @@
         </childnode>
       </node>
       <node id="80">
+        <label>AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="81" relation="include">
+        </childnode>
+        <childnode refid="82" relation="include">
+        </childnode>
+      </node>
+      <node id="83">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="6" relation="include">
@@ -474,6 +492,16 @@
         <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="81" relation="include">
+        </childnode>
+      </node>
+      <node id="82">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
         </childnode>
       </node>
       <node id="35">
@@ -845,6 +873,16 @@
         </childnode>
         <childnode refid="14" relation="include">
         </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
@@ -859,48 +897,69 @@
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="5">
+        <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
+        <link refid="_ganyu_fixer_8cpp"/>
+      </node>
+      <node id="6">
         <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
         <link refid="_ganyu_twilight_fixer_8cpp"/>
       </node>
-      <node id="6">
+      <node id="7">
         <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
         <link refid="_jean_fixer_8cpp"/>
       </node>
-      <node id="7">
+      <node id="8">
         <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
         <link refid="_jean_c_n_fixer_8cpp"/>
       </node>
-      <node id="8">
+      <node id="9">
         <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
         <link refid="_jean_sea_fixer_8cpp"/>
       </node>
-      <node id="9">
+      <node id="10">
+        <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
+        <link refid="_keqing_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
+        <link refid="_keqing_opulent_fixer_8cpp"/>
+      </node>
+      <node id="12">
         <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
         <link refid="_mona_fixer_8cpp"/>
       </node>
-      <node id="10">
+      <node id="13">
         <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
         <link refid="_mona_c_n_fixer_8cpp"/>
       </node>
-      <node id="11">
+      <node id="14">
         <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
         <link refid="_ningguang_fixer_8cpp"/>
       </node>
-      <node id="12">
+      <node id="15">
         <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
         <link refid="_ningguang_orchid_fixer_8cpp"/>
       </node>
-      <node id="13">
+      <node id="16">
         <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
         <link refid="_rosaria_fixer_8cpp"/>
       </node>
-      <node id="14">
+      <node id="17">
         <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
         <link refid="_rosaria_c_n_fixer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
+        <link refid="_shenhe_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
+        <link refid="_shenhe_frost_flower_fixer_8cpp"/>
       </node>
     </invincdepgraph>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" prot="public">AGRemapCore::GIMICharFixerConfig</innerclass>
     <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" prot="public">AGRemapCore::GIMICharFixerConfig::TexEdit</innerclass>
+    <innerclass refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" prot="public">AGRemapCore::GIMICharFixerConfig::TexAdd</innerclass>
     <innernamespace refid="namespace_a_g_remap_core">AGRemapCore</innernamespace>
     <briefdescription>
     </briefdescription>
@@ -910,57 +969,83 @@
 <codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_GIMICharFixer_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_GIMICharFixer_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_editor_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/TexEditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>{</highlight></codeline>
-<codeline lineno="32" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" kindref="member">drawnObjs</ref>;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="75" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" kindref="member">objSplits</ref>;</highlight></codeline>
-<codeline lineno="76"><highlight class="normal"></highlight></codeline>
-<codeline lineno="97" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ab773bfca830dfe28298dd44d7f0eed7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ab773bfca830dfe28298dd44d7f0eed7c" kindref="member">objRegRemaps</ref>;</highlight></codeline>
-<codeline lineno="98"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" kindref="member">objFixCalls</ref>;</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="143" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a34152c69fba6f19852da8789af14ad73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a34152c69fba6f19852da8789af14ad73" kindref="member">objRegRemovals</ref>;</highlight></codeline>
-<codeline lineno="144"><highlight class="normal"></highlight></codeline>
-<codeline lineno="158" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" kindref="member">objNewRegVals</ref>;</highlight></codeline>
-<codeline lineno="159"><highlight class="normal"></highlight></codeline>
-<codeline lineno="163" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref><sp/>{</highlight></codeline>
-<codeline lineno="167" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" kindref="member">obj</ref>;</highlight></codeline>
-<codeline lineno="168"><highlight class="normal"></highlight></codeline>
-<codeline lineno="172" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" kindref="member">reg</ref>;</highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;utility&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_8h" kindref="compound">AGRemapCore/model/strategies/iniFixers/IniFixBuilder.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_creator_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/TexCreator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_tex_editor_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/TexEditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="46" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1aef915e33ebc3dd61c8d7e617bdfb51c7" kindref="member">drawnObjs</ref>;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a5164507cbe82b9474ab178437fb128c1" kindref="member">objSplits</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ab773bfca830dfe28298dd44d7f0eed7c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ab773bfca830dfe28298dd44d7f0eed7c" kindref="member">objRegRemaps</ref>;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1abb89448201b759d985a1373f8c3f9a76" kindref="member">objFixCalls</ref>;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a34152c69fba6f19852da8789af14ad73" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::string&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a34152c69fba6f19852da8789af14ad73" kindref="member">objRegRemovals</ref>;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::vector&lt;std::pair&lt;std::string,<sp/>std::string&gt;&gt;&gt;&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" kindref="member">objNewRegVals</ref>;</highlight></codeline>
 <codeline lineno="173"><highlight class="normal"></highlight></codeline>
-<codeline lineno="181" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="177" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kindref="compound">TexEdit</ref><sp/>{</highlight></codeline>
+<codeline lineno="181" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" kindref="member">obj</ref>;</highlight></codeline>
 <codeline lineno="182"><highlight class="normal"></highlight></codeline>
-<codeline lineno="186" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" kindref="member">filter</ref>;</highlight></codeline>
+<codeline lineno="186" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a39ca307a32996a7468170f1ae8b78ced" kindref="member">reg</ref>;</highlight></codeline>
 <codeline lineno="187"><highlight class="normal"></highlight></codeline>
-<codeline lineno="195" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="197"><highlight class="normal"></highlight></codeline>
-<codeline lineno="208" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexEdit&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" kindref="member">texEdits</ref>;</highlight></codeline>
-<codeline lineno="209"><highlight class="normal"></highlight></codeline>
-<codeline lineno="223" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" kindref="member">copyPreamble</ref>;</highlight></codeline>
-<codeline lineno="224"><highlight class="normal"></highlight></codeline>
-<codeline lineno="241" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" kindref="member">moveDrawIndexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="242"><highlight class="normal"></highlight></codeline>
-<codeline lineno="258" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" kindref="member">faceDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="259"><highlight class="normal"></highlight></codeline>
-<codeline lineno="270" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" kindref="member">faceLightMapReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="272"><highlight class="normal"></highlight></codeline>
-<codeline lineno="273"><highlight class="normal"></highlight></codeline>
-<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>config);</highlight></codeline>
-<codeline lineno="304"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="305"><highlight class="normal"></highlight></codeline>
-<codeline lineno="306"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="195" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a3c6eb56d8eabc8c3fcfca3d2a01b221b" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_editor_1a81755987b8dddf6b962bc89ede342f01" kindref="member">TexEditor::Filter</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1ac448394b3e69c0d5ab719c8d99602245" kindref="member">filter</ref>;</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a41b313846e2d65589cb2e31b08b27a3d" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexEdit&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" kindref="member">texEdits</ref>;</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kindref="compound">TexAdd</ref><sp/>{</highlight></codeline>
+<codeline lineno="231" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kindref="member">obj</ref>;</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="236" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" kindref="member">reg</ref>;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator" kindref="compound">TexCreator</ref><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" kindref="member">texCreator</ref>;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight></codeline>
+<codeline lineno="275" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;TexAdd&gt;<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" kindref="member">texAdds</ref>;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" kindref="member">copyPreamble</ref>;</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" kindref="member">moveDrawIndexed</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="325" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" kindref="member">faceDiffuseReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337" refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a1525397d9cbf3d0a7c4da2fdd697c2c2" kindref="member">faceLightMapReg</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(<ref refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config" kindref="compound">GIMICharFixerConfig</ref><sp/>config);</highlight></codeline>
+<codeline lineno="371"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/data/IniFixData/GIMICharFixer.h"/>
   </compounddef>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_keqing_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KeqingFixer</compoundname>
+    <includes refid="_keqing_fixer_8h" local="no">KeqingFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_fixer_1ac926b37e89f6b61ced8aad360f68a512" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KeqingFixer::KeqingFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KeqingFixer</name>
+        <qualifiedname>AGRemapCore::KeqingFixer::KeqingFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Keqing/KeqingFixer.h" line="38" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_fixer_1abc38b7f0e65cc97397247b212fad1fa4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::KeqingFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::KeqingFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Keqing ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::keqing6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Keqing/KeqingFixer.h" line="47" column="43" bodyfile="src/data/IniFixData/Keqing/KeqingFixer.cpp" bodystart="87" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Keqing&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KeqingParser`, and read it next to
+:cpp:class:`KeqingOpulentFixer` --- the two are exact mirrors, and the pair is the worked
+example of a **merge** and the **split** that undoes it. Keqing draws a ``dress``
+KeqingOpulent has no geometry for, so remapping onto the skin collapses two objects into one
+and remapping back expands one into two
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Keqing/KeqingFixer.h" line="35" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Keqing/KeqingFixer.h" bodystart="35" bodyend="48"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_keqing_fixer_1ac926b37e89f6b61ced8aad360f68a512" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingFixer</scope><name>KeqingFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_keqing_fixer_1abc38b7f0e65cc97397247b212fad1fa4" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

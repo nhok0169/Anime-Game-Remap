@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="47" column="24" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="47" bodyend="47"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="60" column="24" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="60" bodyend="60"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="53" column="25"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="66" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a13a3f1e2fba054fa5cf6ccca083de92d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="64" column="25"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="77" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a6ccaca161c740c575762e795b06a79c3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="66" column="18"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="79" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a81c21741421099aaa9d0c36e3a27ee6c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -101,7 +101,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="67" column="18"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="80" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1aaf51131498ecc11c54f37ee79febf9ad" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>bool</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="73" column="13"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="86" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::size_t</type>
@@ -142,7 +142,7 @@ is directly usable as a key in unordered containers (eg. ``std::unordered_map``,
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="85" column="25"/>
+        <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="98" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -181,7 +181,7 @@ project&apos;s other CRTP base, ``BaseOrderedMultiMap``, for the same rationale.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="42" bodyend="86"/>
+    <location file="include/AGRemapCore/tools/hashing/HashInt.h" line="55" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashInt.h" bodystart="55" bodyend="99"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>bytes_</name></member>
       <member refid="class_a_g_remap_core_1_1_hash_int_1a376f10839e2812528f2ee75040260e29" prot="public" virt="non-virtual"><scope>AGRemapCore::HashInt</scope><name>hashCode</name></member>

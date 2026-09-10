@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_ganyu_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::GanyuFixer</compoundname>
+    <includes refid="_ganyu_fixer_8h" local="no">GanyuFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ganyu_fixer_1a1a53e43e503c6a7a80065e6a141844f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::GanyuFixer::GanyuFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>GanyuFixer</name>
+        <qualifiedname>AGRemapCore::GanyuFixer::GanyuFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_ganyu_fixer_1a01c354f7d23f3a49250d5683cf223e74" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::GanyuFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::GanyuFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Ganyu ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::ganyu6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Ganyu/GanyuFixer.cpp" bodystart="88" bodyend="90"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Ganyu&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`GanyuParser`, and read it next to
+:cpp:class:`GanyuTwilightFixer` --- the two are exact mirrors, and the pair is the worked
+example of remapping **across** the normal-map boundary in both directions
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Ganyu/GanyuFixer.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_ganyu_fixer_1a1a53e43e503c6a7a80065e6a141844f5" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuFixer</scope><name>GanyuFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_ganyu_fixer_1a01c354f7d23f3a49250d5683cf223e74" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

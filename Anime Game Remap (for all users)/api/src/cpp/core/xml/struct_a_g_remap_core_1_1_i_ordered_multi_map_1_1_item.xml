@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="148" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="161" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ab2eb2e9c32ed0cd77029524462f87041" prot="public" static="no" mutable="no">
         <type>V</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="149" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="149" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="162" column="19" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="162" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad620204e400432fd828d1e5c9668de0a" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="150" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="150" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="163" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="163" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad4034ebb7c3d0b7ba644f801cbbcb213" prot="public" static="no" mutable="no">
         <type>size_t</type>
@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="151" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="151" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="164" column="24" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="164" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -72,7 +72,7 @@ expose, this holds owned copies -- appropriate for a virtual interface, where th
 concrete storage behind any given call is unknown.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="147" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="147" bodyend="152"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="160" column="13" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="160" bodyend="165"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1a37e177298c615d6716b6b9517d85a77b" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>key</name></member>
       <member refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item_1ad620204e400432fd828d1e5c9668de0a" prot="public" virt="non-virtual"><scope>AGRemapCore::IOrderedMultiMap::Item</scope><name>occurrenceIndex</name></member>

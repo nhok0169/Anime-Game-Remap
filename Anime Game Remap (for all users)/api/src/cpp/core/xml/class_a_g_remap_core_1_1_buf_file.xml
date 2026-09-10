@@ -37,7 +37,29 @@ and returns the (possibly modified) decoded data for the line
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="50" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="50" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="63" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" prot="public" static="no">
+        <type>std::function&lt; bool(const <ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref> &amp;)&gt;</type>
+        <definition>using AGRemapCore::BufFile::Predicate = std::function&lt;bool(const BufLineData&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>Predicate</name>
+        <qualifiedname>AGRemapCore::BufFile::Predicate</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+A function deciding whether one line (vertex) of a ``.buf`` file is kept, used by
+:cpp:func:`filter` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Takes in the decoded data for the line -- the same keyed map :cpp:func:`decodeLine`
+produces, and the same thing one row of ``BufTools.toDataFrame``&apos;s dataframe holds --
+and returns whether that line survives
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="76" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" static="no">
         <type>std::variant&lt; std::string, <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &gt;</type>
@@ -56,7 +78,7 @@ matching the pure-Python original&apos;s own return convention)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="60" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="60" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="86" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" static="no">
         <type>std::variant&lt; std::vector&lt; long long &gt;, std::vector&lt; unsigned long long &gt;, std::vector&lt; double &gt; &gt;</type>
@@ -81,7 +103,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="76" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="102" column="13" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="102" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -97,7 +119,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="365" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="365" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="428" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="428" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1adf1c0236185dd52140d2844ba1bcff9e" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt;</type>
@@ -111,7 +133,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="366" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="366" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="429" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="429" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1a90cc6195110d6415184e903263fceab5" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::string &gt;</type>
@@ -125,7 +147,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="367" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="367" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="430" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="430" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_buf_file_1ae472031fa1c8c311b573659f0dd6f86b" prot="private" static="no" mutable="no">
         <type>std::size_t</type>
@@ -140,7 +162,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="368" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="368" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="431" column="25" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="431" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -213,7 +235,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="114" column="13" bodyfile="src/model/files/BufFile.cpp" bodystart="17" bodyend="28"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="140" column="13" bodyfile="src/model/files/BufFile.cpp" bodystart="30" bodyend="41"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a47366cf42a59cadf7554c2360567e329" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -227,7 +249,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="116" column="21"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="142" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a6c826bd22020a9cbef086086b9985583" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -244,7 +266,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="120" column="13"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="146" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref> &amp;</type>
@@ -261,7 +283,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="121" column="21"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="147" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1afaa7e4eb2d165e4bf26d5f9a7962b212" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -278,7 +300,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="122" column="13"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="148" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_buf_file_1a2cf5225088541e98e4574bb6cfaeade2" kindref="member">BufFile</ref> &amp;</type>
@@ -295,7 +317,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="123" column="21"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="149" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7dc30accc968ab52b7b9c5fd95889a47" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -310,7 +332,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="128" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="30" bodyend="32"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="154" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="43" bodyend="45"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a5f48e74d673d26f075b768f9b170f3c7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -339,7 +361,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="135" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="34" bodyend="36"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="161" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="47" bodyend="49"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ad9bca5bb68fedc9a5c0da63fed143187" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_element_type" kindref="compound">BufElementType</ref> &gt; &gt; &amp;</type>
@@ -354,7 +376,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="140" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="38" bodyend="40"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="166" column="31" bodyfile="src/model/files/BufFile.cpp" bodystart="51" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a47a4a59c3d6023e28723c0f01e7b7bcf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -383,7 +405,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="148" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="42" bodyend="64"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="174" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="55" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -398,7 +420,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="153" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="66" bodyend="68"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="179" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="79" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a9eca1f6a567736f0875fc8a095e49b5b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -413,7 +435,7 @@ always yields ``long long``, an unsigned one ``unsigned long long`` and a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="158" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="70" bodyend="80"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="184" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="83" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -451,7 +473,7 @@ Reads the bytes in the ``.buf`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="172" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="82" bodyend="93"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="198" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="95" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1ac306cdc1e3702903f5c6f111b3c4ad8e" kindref="member">BufLineData</ref></type>
@@ -482,7 +504,7 @@ Reads the bytes in the ``.buf`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="181" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="95" bodyend="118"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="207" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="108" bodyend="131"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -513,7 +535,7 @@ Reads the bytes in the ``.buf`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="190" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="120" bodyend="134"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="216" column="21" bodyfile="src/model/files/BufFile.cpp" bodystart="133" bodyend="147"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kindref="member">FixResult</ref></type>
@@ -558,7 +580,69 @@ Reads the bytes in the ``.buf`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="201" column="23" bodyfile="src/model/files/BufFile.cpp" bodystart="136" bodyend="170"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="227" column="23" bodyfile="src/model/files/BufFile.cpp" bodystart="149" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1aaa38226575e9cd1aaeb472c629804357" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::size_t &gt;</type>
+        <definition>std::vector&lt; std::size_t &gt; AGRemapCore::BufFile::filter</definition>
+        <argsstring>(const Predicate &amp;predicate)</argsstring>
+        <name>filter</name>
+        <qualifiedname>AGRemapCore::BufFile::filter</qualifiedname>
+        <param>
+          <type>const <ref refid="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" kindref="member">Predicate</ref> &amp;</type>
+          <declname>predicate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+Keeps only the lines (vertices) whose decoded data satisfies &apos;predicate&apos;, dropping the
+rest :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Where :cpp:func:`fix` maps every line through its filters and keeps them all, this
+*selects* -- the lines it keeps come through byte for byte :raw-html:`&lt;br /&gt;`
+:raw-html:`&lt;br /&gt;`
+
+.. note::
+   A kept line&apos;s **original bytes are copied through untouched** rather than being
+   re-encoded from its decoded data, so a lossy data type (a :cpp:class:`BufUnorm`, a
+   :cpp:class:`BufFloat16`) cannot be perturbed by the decode a predicate needs. Only
+   which lines survive is up to the predicate, never their contents
+
+.. note::
+   A ``.buf`` file has no idea which of its lines is which vertex, so dropping lines
+   out of a ``.vb`` invalidates every index in the ``.ib`` that pointed past them. The
+   returned line indices are exactly what remapping those indices needs -- see
+   :cpp:class:`IbFile` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+If &apos;predicate&apos; throws, the file is left completely untouched -- nothing is written
+until every line has been decided
+</verbatim></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>predicate</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Decides whether one line is kept, given that line&apos;s decoded data</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The indices of the lines that were kept, in ascending order. Empty when nothing was kept, and also when the file has no elements to decode by</para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>BadBufData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if the kept bytes do not divide evenly into lines <ndash/> only reachable when this file&apos;s own data was not a whole number of lines to start with </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="264" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="185" bodyend="228"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_buf_file_1_1_buf_column_data" kindref="compound">BufColumnData</ref> &gt;</type>
@@ -590,7 +674,7 @@ sorts what it gets back
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="224" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="263" bodyend="330"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="287" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="321" bodyend="388"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -642,7 +726,7 @@ source is skipped
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="250" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="332" bodyend="380"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="313" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="390" bodyend="438"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a7932596085360312bfd789ca6084105a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -690,7 +774,7 @@ differs by the kind of buffer being dumped :raw-html:`&lt;br /&gt;` :raw-html:`&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="277" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="382" bodyend="450"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="340" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="440" bodyend="508"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a73af1870c0837ad41b65100886559056" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -729,7 +813,7 @@ opposed to the per-element form :cpp:func:`getDumpStr` produces for a vertex buf
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="294" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="452" bodyend="496"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="357" column="25" bodyfile="src/model/files/BufFile.cpp" bodystart="510" bodyend="554"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a60c94d25b1c7ad9b794635f09cbbe823" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -783,7 +867,7 @@ dropped, so every block always contributes exactly #getBytesPerLine bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="320" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="576" bodyend="659"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="383" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="634" bodyend="717"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -841,7 +925,7 @@ file works too: a header line is recognised by containing a ``:`` (every line of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="338" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="661" bodyend="733"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="401" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="719" bodyend="791"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_file_1ad4933bfa4601410cdbc01286655b5d31" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -892,7 +976,7 @@ and re-reads from it, so the usual :cpp:func:`read` validation applies
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFile.h" line="362" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="735" bodyend="783"/>
+        <location file="include/AGRemapCore/model/files/BufFile.h" line="425" column="18" bodyfile="src/model/files/BufFile.cpp" bodystart="793" bodyend="841"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -954,7 +1038,7 @@ no header or footer, just the lines themselves back-to-back
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/BufFile.h" line="29" column="5" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="29" bodyend="369"/>
+    <location file="include/AGRemapCore/model/files/BufFile.h" line="42" column="5" bodyfile="include/AGRemapCore/model/files/BufFile.h" bodystart="42" bodyend="432"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>BinaryFile</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>BufColumn</name></member>
@@ -971,6 +1055,7 @@ no header or footer, just the lines themselves back-to-back
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>encodeLine</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" prot="private" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>fileType_</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>Filter</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1aaa38226575e9cd1aaeb472c629804357" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>filter</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>fix</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>FixResult</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1ae241dd34e5b0f7458b49a593db5bceb2" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>getBytesPerLine</name></member>
@@ -984,6 +1069,7 @@ no header or footer, just the lines themselves back-to-back
       <member refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>merge</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a214645b05957609578ef21adadad7489" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a87265b8dcc9a9bd3f5af812fb95cddb4" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>operator=</name></member>
+      <member refid="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>Predicate</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a25f596e48fdb1a7dafa7cf6625ed60aa" prot="public" virt="virtual"><scope>AGRemapCore::BufFile</scope><name>read</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a60c94d25b1c7ad9b794635f09cbbe823" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>readDumpStr</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_file_1a8f19682d8f4323ec5b363c4ef073eb2d" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFile</scope><name>readFlatDumpStr</name></member>

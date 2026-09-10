@@ -59,7 +59,7 @@ synthetic #ContentPart elements into it. Owned by the caller (typically the owni
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="301" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="314" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -239,7 +239,7 @@ with the following parse subtree:
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="282" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="282" bodyend="303"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="295" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="295" bodyend="316"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_non_empty_node_tree_1a71f6b8d0f202dc73e9d06055c96795ad" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNonEmptyNodeTree</scope><name>construct</name></member>

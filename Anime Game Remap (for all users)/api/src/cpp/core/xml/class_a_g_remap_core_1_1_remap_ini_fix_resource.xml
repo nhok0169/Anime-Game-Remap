@@ -25,7 +25,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="128" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="64" bodyend="66"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="141" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="77" bodyend="79"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a9dd483f2278d47a391bed8f6ce9650db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="135" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="68" bodyend="71"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="148" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="81" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="126" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="12" bodyend="13"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="139" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="25" bodyend="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -193,7 +193,7 @@ mirrors the pure-Python ``RemapIniFixResource`` class (``model/iniresources/Rema
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="124" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="124" bodyend="136"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="137" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="137" bodyend="149"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniFixResource</scope><name>fixedPath</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin_1a9e2f42c3e3f4b4917097adb233ff4d49" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniFixResource</scope><name>fixEncounteredError</name></member>

@@ -22,7 +22,7 @@ attributes through this class would be duplication with nothing to gain
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="235" column="26" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="235" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="248" column="26" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="248" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7d6d9abdc25e50dc1d9f5412543d565d" prot="public" static="no" mutable="no">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -54,7 +54,7 @@ no log folder, nothing is accumulated at all rather than buffered and thrown awa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="258" column="29" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="258" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="271" column="29" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="271" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -70,7 +70,7 @@ no log folder, nothing is accumulated at all rather than buffered and thrown awa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="410" column="27" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="410" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="423" column="27" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="423" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a50b5872177b10fc2d153fbb203461533" prot="private" static="no" mutable="no">
         <type>std::exception_ptr</type>
@@ -84,7 +84,7 @@ no log folder, nothing is accumulated at all rather than buffered and thrown awa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="414" column="32" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="414" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="427" column="32" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="427" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -161,7 +161,7 @@ separate flags on :cpp:class:`BaseLogger` :raw-html:`&lt;br /&gt;` :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="80" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="20" bodyend="31"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="93" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="33" bodyend="44"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a1a65f66762144ae8eb1fb54cc8307a4a" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -493,7 +493,7 @@ convert and nothing that can fail -- it goes straight onto the model :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="203" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="33" bodyend="71"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="216" column="22" bodyfile="src/RemapServiceCLI.cpp" bodystart="46" bodyend="84"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a0d7222ab0ecf77e275c42b5698683ae0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -507,7 +507,7 @@ convert and nothing that can fail -- it goes straight onto the model :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="224" column="21"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="237" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac61953c89bd84dc93c4d65b766d62ebf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -541,7 +541,7 @@ dropped, so what surfaces is the first thing wrong rather than the last
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="286" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="73" bodyend="75"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="299" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="86" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a6e3eb9626d34357998af8b298aba0321" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -558,7 +558,7 @@ Rethrows the stored conversion failure, or does nothing when there was none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="294" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="77" bodyend="81"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="307" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="90" bodyend="94"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ae5b9925e8a7332fc92a1dc660a20998f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; std::string &gt; &amp;</type>
@@ -572,7 +572,7 @@ Rethrows the stored conversion failure, or does nothing when there was none
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="296" column="33" bodyfile="src/RemapServiceCLI.cpp" bodystart="258" bodyend="260"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="309" column="33" bodyfile="src/RemapServiceCLI.cpp" bodystart="271" bodyend="273"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1aa2ed83e32c4f5e61fd249040caf2ecfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -607,7 +607,7 @@ accumulating from that point rather than silently writing an empty file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="310" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="262" bodyend="268"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="323" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="275" bodyend="281"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a00ceeb6916f434eb2e185b834aa94f18" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -636,7 +636,7 @@ accumulates a full log
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="330" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="270" bodyend="274"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="343" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="283" bodyend="287"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a827b6e02cdc4c8a6ebedcf2f81e1a1b6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -665,7 +665,7 @@ accumulates a full log
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="338" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="276" bodyend="280"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="351" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="289" bodyend="293"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1afc4f86b824e35370f83664f4817e02df" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -686,7 +686,7 @@ failed is the one whose log is worth keeping. The exception still propagates
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="350" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="282" bodyend="332"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="363" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="295" bodyend="345"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1adba16332e1650e240ccad6cfd2c15644" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -707,7 +707,7 @@ the log file is itself in the log
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="362" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="407" bodyend="437"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="375" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="420" bodyend="450"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9664300e3253b5e3a3020904825d6888" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -735,7 +735,7 @@ the pure-Python original&apos;s own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="381" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="402" bodyend="405"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="394" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="415" bodyend="418"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a20179a5789876342c021b4f3e1347cbb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -770,7 +770,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="407" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="334" bodyend="377"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="420" column="26" bodyfile="src/RemapServiceCLI.cpp" bodystart="347" bodyend="390"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -790,7 +790,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="417" column="32" bodyfile="src/RemapServiceCLI.cpp" bodystart="380" bodyend="399"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="430" column="32" bodyfile="src/RemapServiceCLI.cpp" bodystart="393" bodyend="412"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -810,7 +810,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="421" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="439" bodyend="448"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="434" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="452" bodyend="461"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3d816e6b07d0f3b0eace2a7fe113861b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -828,7 +828,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="426" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="83" bodyend="90"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="439" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="96" bodyend="103"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a418865ef4f0485c435f2df29174b29c8" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; int &gt;</type>
@@ -846,7 +846,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="430" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="92" bodyend="101"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="443" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="105" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3dfe53432e86babf86b10035306ef053" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -864,7 +864,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="435" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="103" bodyend="126"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="448" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="116" bodyend="139"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a133aee96d1f97b2a1077705acdd365ee" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; int &gt;</type>
@@ -882,7 +882,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="440" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="128" bodyend="137"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="453" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="141" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ad599bf1accabe3a897c480a124ffbfb6" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; std::unordered_set&lt; int &gt; &gt;</type>
@@ -900,7 +900,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="441" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="139" bodyend="160"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="454" column="27" bodyfile="src/RemapServiceCLI.cpp" bodystart="152" bodyend="173"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1afd28d8b4677a3573eca895d344b730ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -918,7 +918,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="445" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="166" bodyend="175"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="458" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="179" bodyend="188"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a710e6e5a8c554ae4f4242e1146394002" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -940,7 +940,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="446" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="177" bodyend="198"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="459" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="190" bodyend="211"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9b3ce5ceaadeec88ab3dbd7d004a4f72" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -962,7 +962,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="447" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="200" bodyend="218"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="460" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="213" bodyend="231"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a7b35aa19ab1414461fcb53503f26c98c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -980,7 +980,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="448" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="220" bodyend="222"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="461" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="233" bodyend="235"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ace050e1813387bb2223b0c9b692c87ea" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -998,7 +998,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="449" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="224" bodyend="237"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="462" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="237" bodyend="250"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1ac5b51eb1ed41c762071e1f3a11e4d46e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1016,7 +1016,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="450" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="239" bodyend="256"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="463" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="252" bodyend="269"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_service_c_l_i_1a9dde6878c50ad836a4df01f19f8e1f92" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1034,7 +1034,7 @@ only one empty (a falsy list) and printed *All mods* for it :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLI.h" line="451" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="162" bodyend="164"/>
+        <location file="include/AGRemapCore/RemapServiceCLI.h" line="464" column="18" bodyfile="src/RemapServiceCLI.cpp" bodystart="175" bodyend="177"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1108,7 +1108,7 @@ attributes without this class forwarding them by hand :raw-html:`&lt;br /&gt;` :
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/RemapServiceCLI.h" line="45" column="5" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="45" bodyend="452"/>
+    <location file="include/AGRemapCore/RemapServiceCLI.h" line="58" column="5" bodyfile="include/AGRemapCore/RemapServiceCLI.h" bodystart="58" bodyend="465"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a891c6c13861843af83503ec3a5e9107d" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_modTypeName</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_service_c_l_i_1a3d816e6b07d0f3b0eace2a7fe113861b" prot="private" virt="non-virtual"><scope>AGRemapCore::RemapServiceCLI</scope><name>_recordError</name></member>

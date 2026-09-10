@@ -137,7 +137,7 @@ the rest (:cpp:class:`BaseIniGraphGroupEdit`, for instance, deliberately derives
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h" line="21" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h" bodystart="21" bodyend="22"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/BaseIniGraphPartEdit.h" bodystart="34" bodyend="35"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphPartEdit</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a6fe99a2a8c85c210afea84e182d00b44" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphPartEdit</scope><name>~BaseIniPartEdit</name></member>

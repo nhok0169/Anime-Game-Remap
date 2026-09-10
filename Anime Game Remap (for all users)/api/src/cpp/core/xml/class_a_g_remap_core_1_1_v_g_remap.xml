@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="44" column="32" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="44" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="57" column="32" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="57" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_v_g_remap_1a511d3cc4fe3f5ea7324f7b8915f732d5" prot="private" static="no" mutable="no">
         <type>std::optional&lt; long long &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="45" column="27" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="58" column="27" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="58" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="24" column="22" bodyfile="src/model/VGRemap.cpp" bodystart="8" bodyend="10"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="37" column="22" bodyfile="src/model/VGRemap.cpp" bodystart="21" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1a9cd68da10e9625f3e153e5a4dfad52ca" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; long long, long long &gt; &amp;</type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="29" column="38" bodyfile="src/model/VGRemap.cpp" bodystart="12" bodyend="14"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="42" column="38" bodyfile="src/model/VGRemap.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1a9c8db195541164937992fba1631ea38b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="36" column="18" bodyfile="src/model/VGRemap.cpp" bodystart="16" bodyend="29"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="49" column="18" bodyfile="src/model/VGRemap.cpp" bodystart="29" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_v_g_remap_1ae28e0e506a2d3ed77ed62b83677b6cff" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; long long &gt;</type>
@@ -121,7 +121,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VGRemap.h" line="41" column="27" bodyfile="src/model/VGRemap.cpp" bodystart="31" bodyend="33"/>
+        <location file="include/AGRemapCore/model/VGRemap.h" line="54" column="27" bodyfile="src/model/VGRemap.cpp" bodystart="44" bodyend="46"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -131,7 +131,7 @@
 Class for handling the vertex group remaps for mods
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/VGRemap.h" line="16" column="5" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="16" bodyend="46"/>
+    <location file="include/AGRemapCore/model/VGRemap.h" line="29" column="5" bodyfile="include/AGRemapCore/model/VGRemap.h" bodystart="29" bodyend="59"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_1ae28e0e506a2d3ed77ed62b83677b6cff" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>getMaxIndex</name></member>
       <member refid="class_a_g_remap_core_1_1_v_g_remap_1a9cd68da10e9625f3e153e5a4dfad52ca" prot="public" virt="non-virtual"><scope>AGRemapCore::VGRemap</scope><name>getRemap</name></member>

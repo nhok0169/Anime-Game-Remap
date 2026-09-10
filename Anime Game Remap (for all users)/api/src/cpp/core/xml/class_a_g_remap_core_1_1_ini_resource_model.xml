@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="33" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="33" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="46" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="46" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="26" column="22" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="26" bodyend="26"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="39" column="22" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="39" bodyend="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_resource_model_1ab5e6d03bc6d042120ce7238803de5bd1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="28" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="41" column="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -106,7 +106,7 @@ Mirrors the pure-Python ``IniResourceModel`` class (``model/iniresources/IniReso
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="18" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="18" bodyend="34"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResourceModel.h" line="31" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResourceModel.h" bodystart="31" bodyend="47"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResourceModel</scope><name>iniFolderPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a8a4a6ab4230585b33580e7185d8a026d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniResourceModel</scope><name>IniResourceModel</name></member>

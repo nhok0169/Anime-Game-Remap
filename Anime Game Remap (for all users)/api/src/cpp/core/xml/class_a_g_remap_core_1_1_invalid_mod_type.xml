@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="43" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="43" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="56" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="56" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="35" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="15" bodyend="16"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="48" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="28" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_mod_type_1aa8f6f37d486afdb377236118556ee413" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="40" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="18" bodyend="20"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="53" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="31" bodyend="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="45" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="11" bodyend="13"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="58" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="24" bodyend="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -126,7 +126,7 @@ message lives in one place -- the same pattern :cpp:class:`BadBufData` uses
         <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="27" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="27" bodyend="46"/>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="40" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="40" bodyend="59"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1a101d25c0caf0c06108601c99b69edbee" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>buildMessage</name></member>
       <member refid="class_a_g_remap_core_1_1_invalid_mod_type_1a222f5f8076b5fc2a8b9e37fcfd6fa21a" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidModType</scope><name>InvalidModType</name></member>

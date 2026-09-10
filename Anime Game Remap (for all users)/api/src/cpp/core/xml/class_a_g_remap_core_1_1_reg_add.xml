@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="36" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="36" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="49" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_add_1acb11ba31c9ce9ae16f63ee4f45ed57f9" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_add_1a2e951b20a7f41d6f5eef99fcf4328f3f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
@@ -69,7 +69,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="59" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="59" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -88,7 +88,7 @@ The `KVPs`_ to add, in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="54" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="67" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_add_1a1e98cf0e09ee9cca9d99569fcb56a878" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -107,7 +107,7 @@ the beginning
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="64" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="64" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="77" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="77" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -159,7 +159,7 @@ the beginning :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="81" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="94" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_add_1a387a8ff6fb5e2c135e9b07b895355c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_add_1acb11ba31c9ce9ae16f63ee4f45ed57f9" kindref="member">ContentPart</ref> &amp;</type>
@@ -251,7 +251,7 @@ untouched
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="104" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="117" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -345,7 +345,7 @@ Bulk adds some `KVPs`_ into some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="30" bodyend="106"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAdd.h" bodystart="43" bodyend="119"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_add_1a8d7ce1caed5b0d0f7e24238bd2dbc6e1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAdd</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegAdd</scope><name>clear</name></member>

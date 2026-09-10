@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="118" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="118" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="132" column="25" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="132" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -86,7 +86,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="113" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="12" bodyend="13"/>
+        <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="127" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="25" bodyend="26"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -142,7 +142,7 @@ own doc comment for why the generic ``fixFunc`` mechanism isn&apos;t carried ove
         <link refid="class_a_g_remap_core_1_1_ini_resource"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="102" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="102" bodyend="119"/>
+    <location file="include/AGRemapCore/model/iniresources/IniResource.h" line="116" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniResource.h" bodystart="116" bodyend="133"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a3ce7acb06c3113444317ead9d91e3ca8" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>fixedPath</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_1a937e1e64d43384b1ee81e234f0f0a035" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResource</scope><name>IniFixResource</name></member>

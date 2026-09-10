@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="153" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="153" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="166" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_data_1a0242a20186ff08c6b129f7d74bad96d7" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a75e08249fc0bcbf4671a5934df993583" kindref="member">Base::Section</ref></type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="154" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="154" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="167" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="167" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_data_1a0b9b8847034703940c6f1f97094ea7d1" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1a94689ece5a1af2f00c26c60ad1242d5e" kindref="member">Base::ContentPart</ref></type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="155" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="155" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="168" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="168" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_download_data_1a4620447fb72eb8d39d35f4836af3aced" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_parse_download_data_1abeed22bd9516cfcca0c0a1a50456930c" kindref="member">Base::Context</ref></type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="156" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="156" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="169" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="169" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -94,7 +94,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="209" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="209" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="222" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="222" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_data_1a253a14d5ce2a674c0e3e84b4fb2b5389" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> &gt;</type>
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="210" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="210" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="223" column="29" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="223" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_data_1ada247412e3dd0ed1a9d241724f007d0f" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config" kindref="compound">DownloadConfig</ref></type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="211" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="224" column="28" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_data_1ad9f826eb7f287284f726bc61d6021b6e" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="212" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="225" column="18" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="225" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_data_1a4a347eb68d742e3b62f10c6f45c3d003" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -150,7 +150,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="213" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="213" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="226" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="226" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_download_data_1a3626bb6dab1e27ae1976e95505b5cd83" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -164,7 +164,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="214" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="214" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="227" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="227" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -258,7 +258,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="193" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="206" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1ad29998d8b366e383fd942498b1687584" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -274,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="196" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="209" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1a2b178c5e91bc4b3128d9fcb22970d92d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -293,7 +293,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="197" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="210" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1ae24abf9c3979ced72b519315c7941ffa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -347,7 +347,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="198" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="211" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1aab797d5e71d09f3a47ad6f0b73af6cb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -401,7 +401,7 @@ or to every :cpp:class:`IfContentPart` of the `section`_ that needs it (``false`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="199" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="212" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1a3533b0b14a50c619ac3e6b721b8c9add" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_download_data_1a0242a20186ff08c6b129f7d74bad96d7" kindref="member">Section</ref> *</type>
@@ -448,7 +448,7 @@ Builds the `section`_ that holds this download&apos;s resource and registers it 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="200" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="213" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1a6b23498c8c7c9e9847b614f109ca0e16" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -494,7 +494,7 @@ pure-Python original&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="201" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="214" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_download_data_1a51766763770837cd26beac2aff68206a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_file_download" kindref="compound">FileDownload</ref> *</type>
@@ -509,7 +509,7 @@ pure-Python original&apos;s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="206" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="219" column="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -591,7 +591,7 @@ two
         <link refid="class_a_g_remap_core_1_1_ini_parse_download_data"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="151" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="151" bodyend="215"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="164" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="164" bodyend="228"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_download_data_1a6b23498c8c7c9e9847b614f109ca0e16" prot="public" virt="virtual"><scope>AGRemapCore::DownloadData</scope><name>addFileDownload</name></member>
       <member refid="class_a_g_remap_core_1_1_download_data_1ae24abf9c3979ced72b519315c7941ffa" prot="public" virt="virtual"><scope>AGRemapCore::DownloadData</scope><name>addToPart</name></member>

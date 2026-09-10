@@ -65,7 +65,7 @@ mutated in place
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="488" column="36"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="501" column="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -301,7 +301,7 @@ with the following parse subtree:
         <link refid="class_a_g_remap_core_1_1_node"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="460" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="460" bodyend="490"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" line="473" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfTemplateTree.h" bodystart="473" bodyend="503"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_template_tree_1a9a4e53bf54f0705ca2190927095f6832" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_if_template_norm_tree_1a36532aebb381096daa8309ec0faa47bc" prot="public" virt="non-virtual"><scope>AGRemapCore::IfTemplateNormTree</scope><name>construct</name></member>

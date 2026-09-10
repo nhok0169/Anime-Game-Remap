@@ -6,6 +6,6 @@
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/model/iftemplate/SympyParser.cpp" line="8" column="5"/>
+    <location file="src/model/iftemplate/SympyParser.cpp" line="21" column="5"/>
   </compounddef>
 </doxygen>

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="30" column="13"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="43" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a3dc779cde1210e4a3b9b7d0ffca986e9" prot="public" static="no" const="no" explicit="yes" inline="no" noexcept="yes" virt="non-virtual">
         <type></type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="37" column="22" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="7" bodyend="11"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="50" column="22" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="20" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a80e2902863a2ba398d3d75243ea9467b" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="61" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="21" bodyend="28"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="74" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="34" bodyend="41"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="47" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="60" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="26" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash64_1a59a5c93c5bb71d474912f47c70ad2a54" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_hash64_1a01f944eca3d46c149f3c5dad4eec089c" kindref="member">Hash64</ref></type>
@@ -138,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="56" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="17" bodyend="19"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="69" column="27" bodyfile="src/tools/hashing/Hash64.cpp" bodystart="30" bodyend="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -178,7 +178,7 @@ library can be swapped out later without breaking anything that consumes this cl
         <link refid="class_a_g_remap_core_1_1_hash_int"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="25" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash64.h" bodystart="25" bodyend="62"/>
+    <location file="include/AGRemapCore/tools/hashing/Hash64.h" line="38" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash64.h" bodystart="38" bodyend="75"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>bytes_</name></member>
       <member refid="class_a_g_remap_core_1_1_hash64_1a80e2902863a2ba398d3d75243ea9467b" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash64</scope><name>getValue</name></member>

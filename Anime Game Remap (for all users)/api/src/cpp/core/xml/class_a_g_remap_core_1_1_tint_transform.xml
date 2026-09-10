@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="22" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" bodystart="22" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="35" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" bodystart="35" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="29" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="42" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tint_transform_1aa55c4dab829e81b8748e5cdd4264b1e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -106,7 +106,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="31" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp" bodystart="7" bodyend="9"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="44" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/TintTransform.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -142,7 +142,7 @@ Controls the tint of a texture file using the `Simple Image Temperature/Tint Adj
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" bodystart="16" bodyend="32"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/TintTransform.h" bodystart="29" bodyend="45"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::TintTransform</scope><name>operator()</name></member>
       <member refid="class_a_g_remap_core_1_1_tint_transform_1a4df7139d5bf771cb9d2a6d95e026c040" prot="public" virt="non-virtual"><scope>AGRemapCore::TintTransform</scope><name>tint</name></member>

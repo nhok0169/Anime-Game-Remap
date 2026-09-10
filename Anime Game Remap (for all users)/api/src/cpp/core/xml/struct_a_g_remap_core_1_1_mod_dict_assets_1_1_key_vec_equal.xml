@@ -23,14 +23,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="183" column="22"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="196" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="182" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="182" bodyend="184"/>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="195" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="195" bodyend="197"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_key_vec_equal_1a0bb4eb0fc0eb0c9ac1b7cba1f3ef7fee" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::KeyVecEqual</scope><name>operator()</name></member>
     </listofallmembers>

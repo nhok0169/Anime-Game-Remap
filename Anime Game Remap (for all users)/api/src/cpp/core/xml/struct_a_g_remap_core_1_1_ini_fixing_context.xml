@@ -32,7 +32,7 @@ again on a later mod type would be backing up a file the first pass already move
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="54" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="67" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1af027ef4afdc0a99422529278d6a51eff" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -64,7 +64,7 @@ the original mod&apos;s `sections`_ is the whole file&apos;s business, not one m
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="76" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="89" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1ae16416147de15372dd79485ee7b3d934" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::string &gt; *</type>
@@ -100,7 +100,7 @@ last one to run produces the complete file and winning the overwrite is harmless
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="102" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="115" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a4bbe2424cbee397676033aaf545ec877" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -124,7 +124,7 @@ above it does not
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="116" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="116" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="129" column="14" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="129" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -140,7 +140,7 @@ above it does not
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="118" column="9"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="131" column="9"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type></type>
@@ -181,7 +181,7 @@ above it does not
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="129" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="129" bodyend="130"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="142" column="9" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="142" bodyend="143"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -210,7 +210,7 @@ asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    it once and hand the same type to every fixer instantiation
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="35" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="35" bodyend="131"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" line="48" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/IniFixingContext.h" bodystart="48" bodyend="144"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a5c6f94f70afb769b63eff888f8b5c259" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_fixing_context_1a90ce9f3f1855538287aec95a1a2d5b66" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixingContext</scope><name>IniFixingContext</name></member>

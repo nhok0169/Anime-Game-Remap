@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="53" column="32" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="206" bodyend="277"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="66" column="32" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="219" bodyend="290"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -86,7 +86,7 @@ eg.
     endif
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" bodystart="36" bodyend="54"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" line="49" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfPredZ3Generator.h" bodystart="49" bodyend="67"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_pred_z3_generator_1ac9b83875aa7302156bb42057d37a7dc1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfPredZ3Generator</scope><name>generate</name></member>
     </listofallmembers>

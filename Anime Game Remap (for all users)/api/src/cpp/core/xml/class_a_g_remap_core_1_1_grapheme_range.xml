@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="46" column="30" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="59" column="30" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="59" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="23" column="22" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="5" bodyend="7"/>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="36" column="22" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref></type>
@@ -69,7 +69,7 @@ The iterator pointing to the first `grapheme`_ of the string
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="36" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="49" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="22" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_grapheme_iterator" kindref="compound">GraphemeIterator</ref></type>
@@ -87,7 +87,7 @@ The iterator pointing to the first `grapheme`_ of the string
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="43" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="56" column="30" bodyfile="src/tools/grapheme/GraphemeRange.cpp" bodystart="26" bodyend="28"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -97,7 +97,7 @@ The iterator pointing to the first `grapheme`_ of the string
 used to iterate over a range of `graphemes`_ within a UTF-8 string
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="15" column="5" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="15" bodyend="47"/>
+    <location file="include/AGRemapCore/tools/grapheme/GraphemeRange.h" line="28" column="5" bodyfile="include/AGRemapCore/tools/grapheme/GraphemeRange.h" bodystart="28" bodyend="60"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_grapheme_range_1a80d72aa86d967350196993cf453160e2" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>begin</name></member>
       <member refid="class_a_g_remap_core_1_1_grapheme_range_1ab2256f993f7bdb4ee5e52241beea0001" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphemeRange</scope><name>end</name></member>

@@ -34,7 +34,7 @@ The keys are the ids of the node and the values are the nodes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="37" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="50" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" prot="public" static="no">
         <type>std::unordered_map&lt; Id, std::vector&lt; Id &gt;, IdHash, IdEq &gt;</type>
@@ -53,7 +53,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="47" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="60" column="13" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="60" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -74,7 +74,7 @@ The keys are the ids of the node and the values are the nodes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="68" column="19" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="81" column="19" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" kindref="member">Children</ref></type>
@@ -93,7 +93,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="78" column="22" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="91" column="22" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="91" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -109,7 +109,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="135" column="16" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="148" column="16" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="148" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -173,7 +173,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="58" column="13"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="71" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1a118a2f0b07204f6cbfc2ecd44af12e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const Id &amp;</type>
@@ -188,7 +188,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="83" column="22"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="96" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1a04507be93da9dc6dd06061b0fc7eb3a9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -226,7 +226,7 @@ The keys are the ids of the parent nodes and the values are the ids of the child
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="92" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="105" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1ab6d978cd72d922d1e97413f1e4606dd6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_parse_node" kindref="compound">ParseNode</ref>&lt; Id &gt; *</type>
@@ -286,7 +286,7 @@ default, and none of this codebase&apos;s real call sites ever pass a custom one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="114" column="29"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="127" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_parse_tree_1af5e3dbc39bfafdc9d4ee446d1c07e933" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -325,7 +325,7 @@ Determines whether the id of some node has no children of its own :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="132" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="145" column="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -345,7 +345,7 @@ Determines whether the id of some node has no children of its own :raw-html:`&lt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="137" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="150" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -381,7 +381,7 @@ The generated parse tree after parsing some text
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="26" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="26" bodyend="138"/>
+    <location file="include/AGRemapCore/tools/parsing/ParseTree.h" line="39" column="5" bodyfile="include/AGRemapCore/tools/parsing/ParseTree.h" bodystart="39" bodyend="151"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_parse_tree_1a31c31eedc0422ce84a82b04d2462b083" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>Children</name></member>
       <member refid="class_a_g_remap_core_1_1_parse_tree_1a33b2e5a2186b3a39aeb66f5bcd8e3d1b" prot="public" virt="non-virtual"><scope>AGRemapCore::ParseTree</scope><name>children</name></member>

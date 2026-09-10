@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="36" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="36" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="49" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="41" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a02ea9753d45355aa20e564e0d6da361e" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
@@ -69,7 +69,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="46" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="46" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="59" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="59" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remap_1a7801e24d9a78cecd117cc1712802ba56" prot="public" static="no">
         <type>typename ContentPart::KeyRemapValue</type>
@@ -88,7 +88,7 @@ The remap rules for one old key -- either a plain list of replacement keys/
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -110,7 +110,7 @@ evaluated for a given key&apos;s occurrences
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="67" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="80" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="80" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -142,7 +142,7 @@ evaluated for a given key&apos;s occurrences
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="74" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="87" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remap_1aa21905f7d9ce2b51fbed7cb125bd889d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_remap_1a01ee883edb8072b4d94eabaed3784870" kindref="member">ContentPart</ref> &amp;</type>
@@ -228,7 +228,7 @@ Applies \ref keyRemap to &apos;part&apos;, by forwarding straight to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="91" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="104" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -322,7 +322,7 @@ Bulk-renames the register keys for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="30" bodyend="93"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" line="43" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemap.h" bodystart="43" bodyend="106"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_remap_1a147bf1b1d7cbb98b5446bf87bed2d5aa" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemap</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRemap</scope><name>clear</name></member>

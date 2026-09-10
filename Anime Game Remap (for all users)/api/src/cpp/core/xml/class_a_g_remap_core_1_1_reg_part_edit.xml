@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="143" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="156" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a2e505ffc88815a7cb7e0c6b98fd47f16" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2" kindref="member">Owner::PartEditKind</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="148" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="161" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1ac5089d95ab71a17e6d1cc10135c3bf85" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Owner::Graph</ref></type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="153" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="153" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="166" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a1bc677365a83a4c7717a4a8f29d5a51f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a6676f22a6124f6d75c226d8c991b2cc8" kindref="member">Owner::ContentPart</ref></type>
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="158" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="158" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="171" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="171" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a1c53c2cd21f08e93bcdfee2dc4bced47" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">Owner::PartFilter</ref></type>
@@ -100,7 +100,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="163" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="163" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="176" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="176" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a7735eb12fdbd7a403aae66da11644036" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a7e68bb221a4b1f227105f71c00e10758" kindref="member">Owner::OrderRanges</ref></type>
@@ -115,7 +115,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="168" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="181" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="181" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a3b98a2f9c327508bdac30f25a3cbeeda" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" kindref="member">Owner::KeySet</ref></type>
@@ -130,7 +130,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="173" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="173" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="186" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="186" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_part_edit_1a8c176f0a7a559fd18a0764b7a5493ab8" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit" kindref="compound">BaseRegEdit</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -145,7 +145,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="178" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="178" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="191" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="191" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -161,7 +161,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="215" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="215" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="228" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="228" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -192,7 +192,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="185" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="185" bodyend="185"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="198" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="198" bodyend="198"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_part_edit_1a2105dcf057d72de777929d03a2845248" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_part_edit_1a8c176f0a7a559fd18a0764b7a5493ab8" kindref="member">Edit</ref> *</type>
@@ -207,7 +207,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="190" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="190" bodyend="190"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="203" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="203" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_part_edit_1a94e3ab37829e8aa188b2b9b7a1ed4805" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_part_edit_1a2e505ffc88815a7cb7e0c6b98fd47f16" kindref="member">PartEditKind</ref></type>
@@ -223,7 +223,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="192" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="192" bodyend="194"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="205" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="205" bodyend="207"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_part_edit_1aaa238b7ca9202d5c6d847a284dbebcc0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_part_edit_1ac5089d95ab71a17e6d1cc10135c3bf85" kindref="member">Graph</ref> *</type>
@@ -259,7 +259,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="196" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="196" bodyend="200"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="209" column="19" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="209" bodyend="213"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_part_edit_1a2f0bc8989797d54d1c97c2c1ac15e4f8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
         <type>void</type>
@@ -350,7 +350,7 @@ own ``Ranges.createFull()`` default filter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="202" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="202" bodyend="212"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="215" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="215" bodyend="225"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -439,7 +439,7 @@ counterpart of \\ref GraphPartEdit, and see that class for why both exist
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="137" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="137" bodyend="216"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" line="150" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupPartEdits.h" bodystart="150" bodyend="229"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_part_edit_1a1bc677365a83a4c7717a4a8f29d5a51f" prot="public" virt="non-virtual"><scope>AGRemapCore::RegPartEdit</scope><name>ContentPart</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_part_edit_1a8c176f0a7a559fd18a0764b7a5493ab8" prot="public" virt="non-virtual"><scope>AGRemapCore::RegPartEdit</scope><name>Edit</name></member>

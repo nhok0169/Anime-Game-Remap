@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="217" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="217" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="230" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="230" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a0ab76740c9fddf93a17a2b9ffbfb2a35" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_res_group_collect_1a56cf829362f00b2039e0607558104f60" kindref="member">GraphId</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="222" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="222" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="235" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="235" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a04a68db3ccf5604df349e988ab6f661c" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="227" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="227" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="240" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="240" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a9259b733269844bd177f034006edb5fd" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="232" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="232" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="245" column="29" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="245" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a28e0b2294862358e398a9d268f4fda5a" prot="public" static="no" mutable="no">
         <type>long long</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="237" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="237" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="250" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="250" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -99,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="239" column="17"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="252" column="17"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -117,7 +117,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="240" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="253" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -138,7 +138,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="213" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="213" bodyend="241"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" line="226" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/ResGroupCollect.h" bodystart="226" bodyend="254"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a38a6c88f720ce2d607361fb31cc34f30" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>operator&lt;</name></member>
       <member refid="struct_a_g_remap_core_1_1_res_group_collect_1_1_res_root_location_1a63f47d01addf0af4c67aaf4841f5e35a" prot="public" virt="non-virtual"><scope>AGRemapCore::ResGroupCollect::ResRootLocation</scope><name>operator==</name></member>

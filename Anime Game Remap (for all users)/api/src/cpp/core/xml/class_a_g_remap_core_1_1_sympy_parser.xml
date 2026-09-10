@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="38" column="22" bodyfile="src/model/iftemplate/SympyParser.cpp" bodystart="55" bodyend="66"/>
+        <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="51" column="22" bodyfile="src/model/iftemplate/SympyParser.cpp" bodystart="68" bodyend="79"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -130,7 +130,7 @@ eg.
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="27" column="5" bodyfile="include/AGRemapCore/model/iftemplate/SympyParser.h" bodystart="27" bodyend="40"/>
+    <location file="include/AGRemapCore/model/iftemplate/SympyParser.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iftemplate/SympyParser.h" bodystart="40" bodyend="53"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>addImpliedProductions</name></member>
       <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" prot="public" virt="non-virtual"><scope>AGRemapCore::SympyParser</scope><name>BaseSLR1Parser</name></member>

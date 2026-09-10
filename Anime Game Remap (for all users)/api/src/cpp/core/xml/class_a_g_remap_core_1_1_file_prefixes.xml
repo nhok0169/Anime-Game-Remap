@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="23" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="23" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -41,7 +41,7 @@ treat it as a mod&apos;s own ``.ini`` file
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="36" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="49" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="49" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_prefixes_1ad02b9c45bf54f99f697cd709c11cc485" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -60,7 +60,7 @@ recognized but never written, exactly as #OldBackupFilePrefixV3 is
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="45" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FilePrefixes.h" line="58" column="45" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="58" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -72,7 +72,7 @@ Prefixes this software puts on the files it renames :raw-html:`&lt;br /&gt;` :ra
 A complete port of the pure-Python ``FilePrefixes`` enum (``constants/FilePrefixes.py``)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="17" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="17" bodyend="46"/>
+    <location file="include/AGRemapCore/constants/FilePrefixes.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FilePrefixes.h" bodystart="30" bodyend="59"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_prefixes_1a4c0d8a4cee932769c60a822cac7e9ea1" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>BackupFilePrefix</name></member>
       <member refid="class_a_g_remap_core_1_1_file_prefixes_1ae45cd2272a266589ad2aac300697be0a" prot="public" virt="non-virtual"><scope>AGRemapCore::FilePrefixes</scope><name>OldBackupFilePrefixV3</name></member>

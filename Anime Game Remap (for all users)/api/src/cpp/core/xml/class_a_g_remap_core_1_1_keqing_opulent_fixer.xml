@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_keqing_opulent_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KeqingOpulentFixer</compoundname>
+    <includes refid="_keqing_opulent_fixer_8h" local="no">KeqingOpulentFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a06dd0e3a3fe28f933064bf724ecf8493" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KeqingOpulentFixer::KeqingOpulentFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KeqingOpulentFixer</name>
+        <qualifiedname>AGRemapCore::KeqingOpulentFixer::KeqingOpulentFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.h" line="35" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a6c4037a4010ad08aee95338a271b9e7c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::KeqingOpulentFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::KeqingOpulentFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era KeqingOpulent ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::keqingOpulent6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.h" line="44" column="43" bodyfile="src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp" bodystart="93" bodyend="95"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+KeqingOpulent&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KeqingOpulentParser`, and read it next to :cpp:class:`KeqingFixer`
+--- the two are exact mirrors, this one being the **split** that undoes the other&apos;s merge
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.h" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a06dd0e3a3fe28f933064bf724ecf8493" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingOpulentFixer</scope><name>KeqingOpulentFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a6c4037a4010ad08aee95338a271b9e7c" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingOpulentFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

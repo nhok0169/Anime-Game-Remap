@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="77" column="18" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="90" column="18" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="90" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="34" column="13" bodyfile="src/model/buffers/BufInt.cpp" bodystart="62" bodyend="63"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="47" column="13" bodyfile="src/model/buffers/BufInt.cpp" bodystart="75" bodyend="76"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a51935c0626d30e82e479b496d3d84d3d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="39" column="18" bodyfile="src/model/buffers/BufInt.cpp" bodystart="65" bodyend="67"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="52" column="18" bodyfile="src/model/buffers/BufInt.cpp" bodystart="78" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a22b7c10393a95af17fc4fcbe508e5a4e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a494a2d38355fd5e31d19b4727debe6ec" kindref="member">BufValue</ref></type>
@@ -142,7 +142,7 @@ Decode the raw bytes to an integer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="55" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="69" bodyend="76"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="68" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="82" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a82d9edcf781c171979405f90b50773e6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -180,7 +180,7 @@ Encodes an integer back to raw bytes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="72" column="21" bodyfile="src/model/buffers/BufInt.cpp" bodystart="78" bodyend="91"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="85" column="21" bodyfile="src/model/buffers/BufInt.cpp" bodystart="91" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_base_int_1a67a7dc84f795f9572aa39801e11dd1fa" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" kindref="member">BufDataType</ref> &gt;</type>
@@ -210,7 +210,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="74" column="29" bodyfile="src/model/buffers/BufInt.cpp" bodystart="93" bodyend="95"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="87" column="29" bodyfile="src/model/buffers/BufInt.cpp" bodystart="106" bodyend="108"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -277,7 +277,7 @@ The type definition for some generic integer type within a ``.buf`` file, at mos
         <link refid="class_a_g_remap_core_1_1_buf_type"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="23" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="23" bodyend="78"/>
+    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="36" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="36" bodyend="91"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>BufBaseInt</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufBaseInt</scope><name>BufDataType</name></member>

@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="23" column="18" bodyfile="src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp" bodystart="8" bodyend="19"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="36" column="18" bodyfile="src/model/strategies/texEditors/texFilters/InvertAlphaFilter.cpp" bodystart="21" bodyend="32"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -75,7 +75,7 @@ Inverts the alpha channel of an image (``255 - alpha`` for every pixel) :raw-htm
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="21" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" bodystart="21" bodyend="24"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/InvertAlphaFilter.h" bodystart="34" bodyend="37"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_tex_filter_1a7380f6c35e0b7641018c1b8e9b82ed1f" prot="public" virt="non-virtual"><scope>AGRemapCore::InvertAlphaFilter</scope><name>operator()</name></member>
       <member refid="class_a_g_remap_core_1_1_invert_alpha_filter_1ad2d5ccc17bdd3ebb56d3f3d44eda79ef" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlphaFilter</scope><name>transform</name></member>

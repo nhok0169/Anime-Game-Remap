@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="27" column="22" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="44" bodyend="56"/>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="40" column="22" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="57" bodyend="69"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="30" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="58" bodyend="69"/>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="43" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="71" bodyend="82"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_pred_tokenizer_1aa8de09a1e89a08c7972ef63fd6499e99" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -67,7 +67,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="31" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="71" bodyend="104"/>
+        <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="44" column="18" bodyfile="src/tools/parsing/IfPredTokenizer.cpp" bodystart="84" bodyend="117"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -131,7 +131,7 @@ eg. ``if pred1 ... else if pred2 ... endif``
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="19" column="5" bodyfile="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/parsing/IfPredTokenizer.h" bodystart="32" bodyend="45"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>acceptToken</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::IfPredTokenizer</scope><name>addASCIIRangeTransitions</name></member>

@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="198" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="198" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="211" column="29" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remap_ini_download_1a51f4013b1e88a8c456928cf3facad8fc" prot="public" static="no" mutable="no">
         <type>std::function&lt; bool(<ref refid="class_a_g_remap_core_1_1_remap_ini_download_1ac21ee68a2b59405636910259756f1686" kindref="member">RemapIniDownload</ref> &amp;, <ref refid="class_a_g_remap_core_1_1_cached_file_stats" kindref="compound">CachedFileStats</ref> &amp;)&gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="203" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="203" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="216" column="27" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="216" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -118,7 +118,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="192" column="13" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="73" bodyend="75"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="205" column="13" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="86" bodyend="88"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a4e870b7ef7ca10501fa59686022a392c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -150,7 +150,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="205" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="77" bodyend="79"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="218" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="90" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a756215d3b4c62354b41a0d9b4e97a6de" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -182,7 +182,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="206" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="81" bodyend="83"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="219" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="94" bodyend="96"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a640b59b131ca24ca2f822d5dc7d9b88b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -214,7 +214,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="207" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="85" bodyend="87"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="220" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="98" bodyend="100"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a472ec8c72649da923abfab155629b064" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -246,7 +246,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="208" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="89" bodyend="91"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="221" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="102" bodyend="104"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1af81aaf1fa980ad9d7ca1520093c6e8a9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -266,7 +266,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="213" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="93" bodyend="95"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="226" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="106" bodyend="108"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a29aed6745543fde48545ffc3cc73e0db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -310,7 +310,7 @@ occurred (as opposed to a cache hit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="223" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="115" bodyend="121"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="236" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="128" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_download_1a9783946ca97152054d9984f7a9be3053" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -384,7 +384,7 @@ once the download/cache-hit completes
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="240" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="123" bodyend="139"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="253" column="18" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="136" bodyend="152"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -432,7 +432,7 @@ there directly, and records the outcome in &apos;downloadStats&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="258" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="97" bodyend="113"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="271" column="26" bodyfile="src/model/iniresources/RemapIniResource.cpp" bodystart="110" bodyend="126"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -506,7 +506,7 @@ mirrors the pure-Python ``RemapIniDownload`` class (``model/iniresources/RemapIn
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="175" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="175" bodyend="259"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="188" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="188" bodyend="272"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1a1e1cb58368e12f4b6ed79bb173ab0813" prot="protected" virt="virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_remap_ini_download_1ad301de08ed891db2da94992b22ef9608" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniDownload</scope><name>download</name></member>

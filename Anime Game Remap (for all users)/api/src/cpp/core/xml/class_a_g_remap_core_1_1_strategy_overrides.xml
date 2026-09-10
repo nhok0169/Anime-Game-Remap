@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="47" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="60" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="52" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="52" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="65" column="13" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="65" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -92,7 +92,7 @@ The exact version to override, or ``std::nullopt`` for every version :raw-html:`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="67" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="78" bodyend="92"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="80" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="91" bodyend="105"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1ab963a419ff3fc1ed347cda66080cbf65" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -165,7 +165,7 @@ file being fixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="86" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="95" bodyend="107"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="99" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="108" bodyend="120"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a9ba63e74daf330ec0db000a6b899bf6d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_strategy_overrides_1a705b9215029367a963b4eb96deff2e70" kindref="member">ParseFactory</ref> &gt;</type>
@@ -188,7 +188,7 @@ file being fixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="92" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="110" bodyend="131"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="105" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="123" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a368cd6af7f9e94c41bb1928491b07165" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_strategy_overrides_1ad8d543bd33c87364e07cc7d0c75c40db" kindref="member">FixFactory</ref> &gt;</type>
@@ -215,7 +215,7 @@ file being fixed :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="98" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="134" bodyend="157"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="111" column="34" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="147" bodyend="170"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1aaaf625c4433ef1c971e8543e9df2217e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string &gt;</type>
@@ -240,7 +240,7 @@ an existing one replaced
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="112" column="32" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="160" bodyend="183"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="125" column="32" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="173" bodyend="196"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1aecc36c73d9316cd9fd3e6e1640cb6f96" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -255,7 +255,7 @@ an existing one replaced
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="117" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="186" bodyend="189"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="130" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="199" bodyend="202"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_strategy_overrides_1a554ab9d2d2dc2c67c8cf18867f609ab7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -275,7 +275,7 @@ than a lookup
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="128" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="192" bodyend="194"/>
+        <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="141" column="25" bodyfile="src/constants/StrategyOverrides.cpp" bodystart="205" bodyend="207"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -307,7 +307,7 @@ for ``6.1`` never fired on an ordinary run -- which is the case &quot;override R
    prototyping aid.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="42" column="5" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="42" bodyend="129"/>
+    <location file="include/AGRemapCore/constants/StrategyOverrides.h" line="55" column="5" bodyfile="include/AGRemapCore/constants/StrategyOverrides.h" bodystart="55" bodyend="142"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_strategy_overrides_1aecc36c73d9316cd9fd3e6e1640cb6f96" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_strategy_overrides_1a554ab9d2d2dc2c67c8cf18867f609ab7" prot="public" virt="non-virtual"><scope>AGRemapCore::StrategyOverrides</scope><name>empty</name></member>

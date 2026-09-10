@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="31" column="13"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="44" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a0b21326c557251ff12d3eb76affc5e4f" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type></type>
@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="39" column="13" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="7" bodyend="12"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="52" column="13" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="20" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -74,7 +74,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="63" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="23" bodyend="30"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="76" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="36" bodyend="43"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a39bb5bccd1d3021cd46e303db5a645a3" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::uint64_t</type>
@@ -89,7 +89,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="68" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="32" bodyend="39"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="81" column="27" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="45" bodyend="52"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -134,7 +134,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="49" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="14" bodyend="17"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="62" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="27" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash128_1a8a1ed1fb9799b585c51d2c8f5d5ab3c0" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_hash128_1a9efe7ed3839e773dc4715131ef1ec236" kindref="member">Hash128</ref></type>
@@ -165,7 +165,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="58" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="19" bodyend="21"/>
+        <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="71" column="28" bodyfile="src/tools/hashing/Hash128.cpp" bodystart="32" bodyend="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -206,7 +206,7 @@ class.
         <link refid="class_a_g_remap_core_1_1_hash_int"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="26" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash128.h" bodystart="26" bodyend="69"/>
+    <location file="include/AGRemapCore/tools/hashing/Hash128.h" line="39" column="5" bodyfile="include/AGRemapCore/tools/hashing/Hash128.h" bodystart="39" bodyend="82"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_hash_int_1aacc32df3545c4d5061cad4de357a8734" prot="protected" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>bytes_</name></member>
       <member refid="class_a_g_remap_core_1_1_hash128_1ab781557a8de815266611c66d6c82056c" prot="public" virt="non-virtual"><scope>AGRemapCore::Hash128</scope><name>getHigh</name></member>

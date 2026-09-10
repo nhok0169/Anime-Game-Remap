@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_shenhe_fixer" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::ShenheFixer</compoundname>
+    <includes refid="_shenhe_fixer_8h" local="no">ShenheFixer.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_fixer_1a92de8c41117f9353f3973614834cad93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::ShenheFixer::ShenheFixer</definition>
+        <argsstring>()=delete</argsstring>
+        <name>ShenheFixer</name>
+        <qualifiedname>AGRemapCore::ShenheFixer::ShenheFixer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Shenhe/ShenheFixer.h" line="36" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_shenhe_fixer_1a07bb63d1933fc0b253a4c4524b5ceb22" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
+        <definition>IniFixBuilder::Factory AGRemapCore::ShenheFixer::v6_1</definition>
+        <argsstring>()</argsstring>
+        <name>v6_1</name>
+        <qualifiedname>AGRemapCore::ShenheFixer::v6_1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The fixer for a 6.1-era Shenhe ``.ini`` file -- what
+:cpp:func:`IniFixBuilderFuncs::shenhe6_1` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniFixData/Shenhe/ShenheFixer.h" line="45" column="43" bodyfile="src/data/IniFixData/Shenhe/ShenheFixer.cpp" bodystart="65" bodyend="67"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+Shenhe&apos;s own ``.ini`` fixers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`ShenheParser`, and read it next to
+:cpp:class:`ShenheFrostFlowerFixer` --- the two are mirrors, this one splitting Shenhe&apos;s
+``dress`` across the skin&apos;s ``dress`` and ``extra``
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniFixData/Shenhe/ShenheFixer.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Shenhe/ShenheFixer.h" bodystart="33" bodyend="46"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_shenhe_fixer_1a92de8c41117f9353f3973614834cad93" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheFixer</scope><name>ShenheFixer</name></member>
+      <member refid="class_a_g_remap_core_1_1_shenhe_fixer_1a07bb63d1933fc0b253a4c4524b5ceb22" prot="public" virt="non-virtual"><scope>AGRemapCore::ShenheFixer</scope><name>v6_1</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="49" column="29" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="49" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="62" column="29" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="62" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="35" column="13" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="10" bodyend="14"/>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="48" column="13" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="23" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_uuid_id_generator_1a920d2dced27f614bf04f21fa0871f99c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -53,7 +53,7 @@ independently random
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="44" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="16" bodyend="18"/>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="57" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="29" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_uuid_id_generator_1a35f77f8235f3d568608e4b18bf24b49a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -85,7 +85,7 @@ independently random
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="46" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="20" bodyend="40"/>
+        <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="59" column="18" bodyfile="src/tools/idGenerator/UuidIdGenerator.cpp" bodystart="33" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -130,7 +130,7 @@ used as the default state/production-bookkeeping id generator for
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="29" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="29" bodyend="50"/>
+    <location file="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/UuidIdGenerator.h" bodystart="42" bodyend="63"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a6af4ef7f5f4249ce94ae2a81edfaa305" prot="private" virt="non-virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>engine_</name></member>
       <member refid="class_a_g_remap_core_1_1_uuid_id_generator_1a35f77f8235f3d568608e4b18bf24b49a" prot="public" virt="virtual"><scope>AGRemapCore::UuidIdGenerator</scope><name>getId</name></member>

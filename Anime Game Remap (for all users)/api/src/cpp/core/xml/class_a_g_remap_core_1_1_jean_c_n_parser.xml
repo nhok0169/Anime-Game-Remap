@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="37" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era JeanCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="33" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="38" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="46" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="51" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_c_n_parser_1a94182483308913571408257d5f8254a7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The parser for a 5.5-era JeanCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="42" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="43" bodyend="45"/>
+        <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="55" column="45" bodyfile="src/data/IniParseData/JeanCN/JeanCNParser.cpp" bodystart="56" bodyend="58"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -70,7 +70,7 @@ but the parser is shared between them, because what a JeanCN ``.ini`` file *cont
 depend on what it is being remapped to
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" bodystart="21" bodyend="43"/>
+    <location file="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/JeanCN/JeanCNParser.h" bodystart="34" bodyend="56"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_c_n_parser_1a4a239150c0033ba42e906225104fbe9c" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNParser</scope><name>JeanCNParser</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_c_n_parser_1a53681c6238785522f237e672a9351ba7" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNParser</scope><name>v4_0</name></member>

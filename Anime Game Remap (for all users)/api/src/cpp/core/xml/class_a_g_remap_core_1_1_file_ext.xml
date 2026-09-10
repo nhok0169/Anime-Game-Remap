@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileExt.h" line="23" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="23" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileExt.h" line="36" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="36" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_ext_1a4c50d241db6f424d1ef7bdcaf29407cd" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileExt.h" line="28" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="28" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileExt.h" line="41" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="41" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_ext_1a9a1d79657cbbf64e7e41e203c38098c3" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileExt.h" line="33" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="33" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileExt.h" line="46" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_ext_1aa2dd669e8886367443b023bb3dd440d5" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileExt.h" line="41" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileExt.h" line="54" column="45" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="54" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -80,7 +80,7 @@ Different file extensions for files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
 Mirrors the pure-Python ``FileExt`` enum (``constants/FileExt.py``)
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/FileExt.h" line="17" column="5" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="17" bodyend="42"/>
+    <location file="include/AGRemapCore/constants/FileExt.h" line="30" column="5" bodyfile="include/AGRemapCore/constants/FileExt.h" bodystart="30" bodyend="55"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_ext_1a9a1d79657cbbf64e7e41e203c38098c3" prot="public" virt="non-virtual"><scope>AGRemapCore::FileExt</scope><name>Buf</name></member>
       <member refid="class_a_g_remap_core_1_1_file_ext_1aa2dd669e8886367443b023bb3dd440d5" prot="public" virt="non-virtual"><scope>AGRemapCore::FileExt</scope><name>DDS</name></member>

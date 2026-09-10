@@ -44,7 +44,7 @@ did, and what :cpp:func:`IniFile::removeFix` asks for on its **last** mod type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="59" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="59" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="72" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="72" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ini_removal_context_1a33630e11ea39ec7445518a36584062b3" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -73,7 +73,7 @@ deletes it as well :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="78" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="91" column="14" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="91" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -89,7 +89,7 @@ deletes it as well :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="80" column="9"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="93" column="9"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_ini_removal_context_1a49b3069073f3d383ee567ee823d9c26d" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -131,7 +131,7 @@ deletes it as well :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="88" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="88" bodyend="89"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="101" column="18" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="101" bodyend="102"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -156,7 +156,7 @@ asking someone else :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
    it once and hand the same type to every remover instantiation
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="28" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="28" bodyend="90"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/IniRemovalContext.h" bodystart="41" bodyend="103"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a6fc11198725a635c6ca94bcaee73c4e0" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>ignoreModType</name></member>
       <member refid="struct_a_g_remap_core_1_1_ini_removal_context_1a27902a2a5e409888c4180af7d9f0f8f2" prot="public" virt="non-virtual"><scope>AGRemapCore::IniRemovalContext</scope><name>IniRemovalContext</name></member>

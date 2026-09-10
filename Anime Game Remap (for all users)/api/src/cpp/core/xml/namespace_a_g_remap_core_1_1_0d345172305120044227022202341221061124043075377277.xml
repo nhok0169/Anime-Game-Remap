@@ -27,13 +27,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="203" column="9" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="203" bodyend="203"/>
+        <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="216" column="9" bodyfile="src/model/iftemplate/IfPredZ3Generator.cpp" bodystart="216" bodyend="216"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="15" column="5"/>
+    <location file="src/model/iftemplate/IfPredZ3Generator.cpp" line="28" column="5"/>
   </compounddef>
 </doxygen>

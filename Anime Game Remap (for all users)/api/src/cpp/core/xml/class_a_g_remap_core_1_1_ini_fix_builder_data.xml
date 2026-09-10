@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="941" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1021" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -44,7 +44,7 @@ Held by ``shared_ptr`` because that is what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="957" column="42" bodyfile="src/data/IniFixBuilderData.cpp" bodystart="468" bodyend="479"/>
+        <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1037" column="42" bodyfile="src/data/IniFixBuilderData.cpp" bodystart="514" bodyend="525"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -72,7 +72,7 @@ to the pure-Python ``IniFixBuilderData`` dictionary (``data/IniFixBuilderData.py
    once, at 4.0
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="938" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="938" bodyend="958"/>
+    <location file="include/AGRemapCore/data/IniFixBuilderData.h" line="1018" column="5" bodyfile="include/AGRemapCore/data/IniFixBuilderData.h" bodystart="1018" bodyend="1038"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a1e204de7c3df0fabad7d32775493e0f6" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderData</scope><name>IniFixBuilderData</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_builder_data_1a74456d4ba9053093a3797db72cf4ca73" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixBuilderData</scope><name>repo</name></member>

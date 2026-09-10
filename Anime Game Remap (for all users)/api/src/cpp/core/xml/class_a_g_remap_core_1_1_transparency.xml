@@ -24,7 +24,7 @@ How much to adjust the alpha channel of the pixel. Range from -255 to 255 :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="29" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="29" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="42" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="42" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -55,7 +55,7 @@ How much to adjust the alpha channel of the pixel. Range from -255 to 255 :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="36" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="49" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_transparency_1a12d24018bc75fa041ee25e0312b882d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -110,7 +110,7 @@ How much to adjust the alpha channel of the pixel. Range from -255 to 255 :raw-h
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="38" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="7" bodyend="9"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="51" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/Transparency.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -146,7 +146,7 @@ Adjusts the transparency (alpha channel) of a pixel
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="16" bodyend="39"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/Transparency.h" bodystart="29" bodyend="52"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_transparency_1ac558acb2f0897e6ee46c9eefe463fbd0" prot="public" virt="non-virtual"><scope>AGRemapCore::Transparency</scope><name>alphaChange</name></member>
       <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::Transparency</scope><name>operator()</name></member>

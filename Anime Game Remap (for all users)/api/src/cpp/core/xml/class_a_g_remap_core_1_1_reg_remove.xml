@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="37" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="50" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remove_1ad61ad17f9f368996afe3e4c6a0c184c2" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="42" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remove_1a03f37e012769114aa9dc6c67eec56296" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
@@ -69,7 +69,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="47" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="60" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_remove_1a940113c3e0e7a90d53a8fcd4d2c0fcb4" prot="public" static="no">
         <type>typename ContentPart::RemoveKeyCheck</type>
@@ -87,7 +87,7 @@ The optional per-key check predicate -- the exact same shape
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -109,7 +109,7 @@ predicates decide which occurrences of a key actually get removed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="67" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="67" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="80" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="80" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -141,7 +141,7 @@ predicates decide which occurrences of a key actually get removed
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="74" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="87" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_remove_1aa6319b98eee53e3f0247a4a032da06ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_remove_1ad61ad17f9f368996afe3e4c6a0c184c2" kindref="member">ContentPart</ref> &amp;</type>
@@ -227,7 +227,7 @@ Removes every key in \ref removeKeys from &apos;part&apos;, by forwarding straig
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="91" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="104" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -321,7 +321,7 @@ Bulk-removes register keys for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="31" bodyend="93"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" line="44" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegRemove.h" bodystart="44" bodyend="106"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_remove_1ab7b97599da3e20875aee19685cc6defb" prot="public" virt="non-virtual"><scope>AGRemapCore::RegRemove</scope><name>Base</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::RegRemove</scope><name>clear</name></member>

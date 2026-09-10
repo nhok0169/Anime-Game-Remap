@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Ranges.h" line="486" column="23" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="486" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="499" column="23" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="499" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a1eec42aea3c48411d6a9623c2a18af03" prot="public" static="no" mutable="no">
         <type>T</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Ranges.h" line="487" column="15" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="487" bodyend="487"/>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="500" column="15" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="500" bodyend="500"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Ranges.h" line="489" column="13"/>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="502" column="13"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ade5b0907c761d29b00db91c2c3c762b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -68,7 +68,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Ranges.h" line="490" column="13"/>
+        <location file="include/AGRemapCore/tools/Ranges.h" line="503" column="13"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -84,7 +84,7 @@ wouldn&apos;t exist if ``T`` is already the widest integer type
 available. Supports a total order where ``NegInf &lt; Finite &lt; PosInf``
 </verbatim>    </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/Ranges.h" line="485" column="9" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="485" bodyend="491"/>
+    <location file="include/AGRemapCore/tools/Ranges.h" line="498" column="9" bodyfile="include/AGRemapCore/tools/Ranges.h" bodystart="498" bodyend="504"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1ac0edc1371e100d4a2b5a406f8cd602b3" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>kind</name></member>
       <member refid="struct_a_g_remap_core_1_1_ranges_1_1_bound_1a34fcbf86952b244047a7e028bae7f8db" prot="public" virt="non-virtual"><scope>AGRemapCore::Ranges::Bound</scope><name>operator&lt;</name></member>

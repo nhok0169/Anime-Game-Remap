@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="103" column="25" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="116" column="25" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1afe9c768eb8a08f6e212fd54eada964a4" prot="private" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -30,7 +30,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="104" column="27" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="117" column="27" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_lru_cache" kindref="compound">LruCache</ref>&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref>, <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -44,7 +44,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="105" column="22" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="118" column="22" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="118" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="35" column="22" bodyfile="src/model/VersionSet.cpp" bodystart="8" bodyend="8"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="48" column="22" bodyfile="src/model/VersionSet.cpp" bodystart="21" bodyend="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a7345274baf51de3158a3bd17bd65d669" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -116,7 +116,7 @@ deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="54" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="16" bodyend="29"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="67" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="29" bodyend="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1ad51050f4059f0d3b7f466fd5159e3c4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -131,7 +131,7 @@ deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="59" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="31" bodyend="35"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="72" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="44" bodyend="48"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1ac41209022f2805160c4044738c2140ac" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
@@ -149,7 +149,7 @@ deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="66" column="33" bodyfile="src/model/VersionSet.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="79" column="33" bodyfile="src/model/VersionSet.cpp" bodystart="50" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1a6280be3685ace3ddaeb93da93b63635e" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt; &amp;</type>
@@ -164,7 +164,7 @@ deduplicated :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="71" column="31" bodyfile="src/model/VersionSet.cpp" bodystart="41" bodyend="43"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="84" column="31" bodyfile="src/model/VersionSet.cpp" bodystart="54" bodyend="56"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_version_set_1aa8fb36c082069308b86cef53c04443f7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -216,7 +216,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="90" column="27" bodyfile="src/model/VersionSet.cpp" bodystart="57" bodyend="76"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="103" column="27" bodyfile="src/model/VersionSet.cpp" bodystart="70" bodyend="89"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -261,7 +261,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="100" column="28" bodyfile="src/model/VersionSet.cpp" bodystart="45" bodyend="55"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="113" column="28" bodyfile="src/model/VersionSet.cpp" bodystart="58" bodyend="68"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -281,7 +281,7 @@ available version is greater than &apos;version&apos;, the smallest available ve
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/VersionSet.h" line="107" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="10" bodyend="14"/>
+        <location file="include/AGRemapCore/model/VersionSet.h" line="120" column="18" bodyfile="src/model/VersionSet.cpp" bodystart="23" bodyend="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -316,7 +316,7 @@ the two concepts avoids that overload on the C++ side
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/VersionSet.h" line="26" column="5" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="26" bodyend="108"/>
+    <location file="include/AGRemapCore/model/VersionSet.h" line="39" column="5" bodyfile="include/AGRemapCore/model/VersionSet.h" bodystart="39" bodyend="121"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_version_set_1a7345274baf51de3158a3bd17bd65d669" prot="public" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>add</name></member>
       <member refid="class_a_g_remap_core_1_1_version_set_1abb0c6bd91ba2153a4a9449b38c86bdd4" prot="private" virt="non-virtual"><scope>AGRemapCore::VersionSet</scope><name>cache_</name></member>

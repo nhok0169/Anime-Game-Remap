@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="37" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Ganyu ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="33" column="45" bodyfile="src/data/IniParseData/Ganyu/GanyuParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="46" column="45" bodyfile="src/data/IniParseData/Ganyu/GanyuParser.cpp" bodystart="38" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -52,7 +52,7 @@ neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
 Ganyu and GanyuTwilight are a base/skin pair and remap onto each other
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" bodystart="21" bodyend="35"/>
+    <location file="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Ganyu/GanyuParser.h" bodystart="34" bodyend="48"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ganyu_parser_1a6f96e2f2828c37ec1bdb5b1bc28b14be" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuParser</scope><name>GanyuParser</name></member>
       <member refid="class_a_g_remap_core_1_1_ganyu_parser_1ab5f19972529542d3252d236e555dffec" prot="public" virt="non-virtual"><scope>AGRemapCore::GanyuParser</scope><name>v4_0</name></member>

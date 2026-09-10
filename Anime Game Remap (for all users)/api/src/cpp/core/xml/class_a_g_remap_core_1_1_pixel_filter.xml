@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="35" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="35" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="48" column="13" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="48" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="58" column="25" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="71" column="25" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="71" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="43" column="22" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="9" bodyend="9"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="56" column="22" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="22" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" kindref="member">Filter</ref> &gt; &amp;</type>
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="48" column="31" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="11" bodyend="13"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="61" column="31" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="24" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1a08c3414e673d90e04863d19cefb59d6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -100,7 +100,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="53" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="15" bodyend="17"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="66" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_pixel_filter_1a8766c7102808f2945375f8270baf6d1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="55" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="19" bodyend="38"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="68" column="18" bodyfile="src/model/strategies/texEditors/texFilters/PixelFilter.cpp" bodystart="32" bodyend="51"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -176,7 +176,7 @@ over every pixel of the texture :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="29" bodyend="59"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/PixelFilter.h" bodystart="42" bodyend="72"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_pixel_filter_1a90bdc0b83d5a4ac7644f1c8f514f5241" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>Filter</name></member>
       <member refid="class_a_g_remap_core_1_1_pixel_filter_1add5b595e0346689e888476e54485a279" prot="public" virt="non-virtual"><scope>AGRemapCore::PixelFilter</scope><name>getTransforms</name></member>

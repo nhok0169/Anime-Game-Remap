@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="40" column="25" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="40" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="53" column="25" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="53" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="32" column="22" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="11" bodyend="12"/>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="45" column="22" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="24" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_bad_buf_data_1a37559ca92860a303f5867ebbb161d282" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="37" column="31" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="14" bodyend="16"/>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="50" column="31" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="27" bodyend="29"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="42" column="32" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="7" bodyend="9"/>
+        <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="55" column="32" bodyfile="src/model/files/BufFileErrors.cpp" bodystart="20" bodyend="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -124,7 +124,7 @@ different exception)
         <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="24" column="5" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="24" bodyend="43"/>
+    <location file="include/AGRemapCore/model/files/BufFileErrors.h" line="37" column="5" bodyfile="include/AGRemapCore/model/files/BufFileErrors.h" bodystart="37" bodyend="56"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_bad_buf_data_1a5dbdbcd3e128a874a3d7e71208cc24dd" prot="public" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>BadBufData</name></member>
       <member refid="class_a_g_remap_core_1_1_bad_buf_data_1af4b014b8bb036b590906295663b25132" prot="private" virt="non-virtual"><scope>AGRemapCore::BadBufData</scope><name>buildMessage</name></member>

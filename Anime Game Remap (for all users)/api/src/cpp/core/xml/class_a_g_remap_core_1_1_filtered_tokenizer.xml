@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="60" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="60" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="73" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a37014b17d90b5195463d0f214e736532" prot="protected" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="61" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="61" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="74" column="32" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="74" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -105,7 +105,7 @@ The keys are the ids to the accepting states of the `DFA`_ and the values are th
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="41" column="13" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="5" bodyend="16"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="54" column="13" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="18" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1a879ff09f8637d321d8b421cffc6e295c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
@@ -122,7 +122,7 @@ The ids of the accepting states in the `DFA`_ such that their corresponding toke
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="49" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="47" bodyend="49"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="62" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="60" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1af7d82a465619dcdb3d009dd68a665ded" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
@@ -139,7 +139,7 @@ The ids of the accepting states in the `DFA`_ to not include their corresponding
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="57" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="51" bodyend="53"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="70" column="38" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="64" bodyend="66"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -157,7 +157,7 @@ The ids of the accepting states in the `DFA`_ to not include their corresponding
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="63" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="18" bodyend="27"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="76" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="31" bodyend="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -266,7 +266,7 @@ If accepted, appends the corresponding :cpp:class:`Token` to ``result`` and rese
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="65" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="29" bodyend="45"/>
+        <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="78" column="18" bodyfile="src/tools/parsing/FilteredTokenizer.cpp" bodystart="42" bodyend="58"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -329,7 +329,7 @@ tokenized result (unless explicitly asked to via ``includeFiltered``)
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="25" column="5" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="25" bodyend="66"/>
+    <location file="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" line="38" column="5" bodyfile="include/AGRemapCore/tools/parsing/FilteredTokenizer.h" bodystart="38" bodyend="79"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_filtered_tokenizer_1afd72ab5b688cad00c64eee3e9d404e18" prot="protected" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>acceptToken</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tokenizer_1a4d595189f7a64586a5f681892bee7ca4" prot="public" virt="virtual"><scope>AGRemapCore::FilteredTokenizer</scope><name>addASCIIRangeTransitions</name></member>

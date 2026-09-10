@@ -40,7 +40,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="40" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="40" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="53" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -55,7 +55,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="45" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -73,7 +73,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="54" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="54" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="67" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="67" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" prot="public" static="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
@@ -97,7 +97,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="69" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="82" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="82" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" prot="public" static="no">
         <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
@@ -112,7 +112,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="87" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -231,7 +231,7 @@ Edits the caller/callee graph with state info from &apos;ini&apos; :raw-html:`&l
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="99" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="112" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Graph</ref> &amp;</type>
@@ -351,7 +351,7 @@ meaning &quot;every key&quot;, matching
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="139" column="27"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="152" column="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -457,7 +457,7 @@ Base class for a filter that edits some caller/callee graph of :cpp:class:`IniSe
         <link refid="class_a_g_remap_core_1_1_base_ini_part_edit"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="34" bodyend="142"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" line="47" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/BaseIniGraphEdit.h" bodystart="47" bodyend="155"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ad62d6a67c4e3f2e6de43349d732a8fa9" prot="public" virt="virtual"><scope>AGRemapCore::BaseIniGraphEdit</scope><name>edit</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="22" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="35" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era AmberCN ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="31" column="45" bodyfile="src/data/IniParseData/AmberCN/AmberCNParser.cpp" bodystart="25" bodyend="27"/>
+        <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="44" column="45" bodyfile="src/data/IniParseData/AmberCN/AmberCNParser.cpp" bodystart="38" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -50,7 +50,7 @@ Pair this with :cpp:class:`AmberCNFixer`: the fixer&apos;s mod objects are the o
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="19" column="5" bodyfile="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" bodystart="19" bodyend="32"/>
+    <location file="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" line="32" column="5" bodyfile="include/AGRemapCore/data/IniParseData/AmberCN/AmberCNParser.h" bodystart="32" bodyend="45"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_amber_c_n_parser_1a28e3b9e31f5e14f613f97526cc07322f" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberCNParser</scope><name>AmberCNParser</name></member>
       <member refid="class_a_g_remap_core_1_1_amber_c_n_parser_1a89e1ba1089f8159673f3721031cd5d40" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberCNParser</scope><name>v4_0</name></member>

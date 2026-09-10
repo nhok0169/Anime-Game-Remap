@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="27" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="27" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="40" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="40" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="32" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="32" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="45" column="17" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="45" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref></type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="37" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="50" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -75,7 +75,7 @@ is :cpp:member:`TextureFile::DefaultFormat` rather than a remembered one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="55" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="55" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="68" column="18" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="68" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -144,7 +144,7 @@ is :cpp:member:`TextureFile::DefaultFormat` rather than a remembered one
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="65" column="13" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="12" bodyend="13"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="78" column="13" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="25" bodyend="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -190,7 +190,7 @@ No-op if a file already exists at ``texFile.getSrc()``. Otherwise, builds a new
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="78" column="18" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="15" bodyend="32"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="91" column="18" bodyfile="src/model/strategies/texEditors/TexCreator.cpp" bodystart="28" bodyend="45"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -233,7 +233,7 @@ Creates a brand new ``.dds`` file if the file does not already exist
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="21" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="21" bodyend="79"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" line="34" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/TexCreator.h" bodystart="34" bodyend="92"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>colour</name></member>
       <member refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" prot="public" virt="non-virtual"><scope>AGRemapCore::TexCreator</scope><name>compress</name></member>

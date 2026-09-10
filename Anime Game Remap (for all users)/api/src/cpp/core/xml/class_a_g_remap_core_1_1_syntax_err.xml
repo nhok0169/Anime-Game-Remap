@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="55" column="26" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="55" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="68" column="26" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="68" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_syntax_err_1a086f9be30b7a852a1ef785be17e93290" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref></type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="56" column="19" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="69" column="19" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_syntax_err_1a8c4dd67319be50a68441e5c067c4ce42" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -45,7 +45,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="57" column="25" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="57" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="70" column="25" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="70" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -101,7 +101,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="37" column="13" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="9" bodyend="12"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="50" column="13" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="22" bodyend="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_parse_context" kindref="compound">ParseContext</ref> &amp;</type>
@@ -116,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="42" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="14" bodyend="16"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="55" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="27" bodyend="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1a0d391fcf0679c2680cd00b79ea0b989d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_token" kindref="compound">Token</ref> &amp;</type>
@@ -131,7 +131,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="47" column="25" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="18" bodyend="20"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="60" column="25" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="31" bodyend="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_syntax_err_1aa72b5a1383f393a7d42a6c8345dcd50b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="52" column="31" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="22" bodyend="24"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="65" column="31" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="35" bodyend="37"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -170,7 +170,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="59" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="5" bodyend="7"/>
+        <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="72" column="32" bodyfile="src/tools/parsing/SyntaxErr.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -224,7 +224,7 @@ place (the pure-Python class) rather than being duplicated here
         <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="27" column="5" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="27" bodyend="60"/>
+    <location file="include/AGRemapCore/tools/parsing/SyntaxErr.h" line="40" column="5" bodyfile="include/AGRemapCore/tools/parsing/SyntaxErr.h" bodystart="40" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_syntax_err_1a2aed93517ee600aff3bd50a7c4630c27" prot="private" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>buildMessage</name></member>
       <member refid="class_a_g_remap_core_1_1_syntax_err_1a51e6b7bee3572a0f84716d07e700bb13" prot="public" virt="non-virtual"><scope>AGRemapCore::SyntaxErr</scope><name>ctx</name></member>

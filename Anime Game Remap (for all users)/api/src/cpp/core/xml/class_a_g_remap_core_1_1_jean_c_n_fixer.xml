@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="41" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="54" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The 6.1 fix remapping JeanCN onto **Jean** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="50" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="58" bodyend="60"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="63" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="71" bodyend="73"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_c_n_fixer_1aa5a804084f70dd1cc1ee7109487981ea" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The 6.1 fix remapping JeanCN onto **JeanSea** -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="59" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="63" bodyend="65"/>
+        <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="72" column="43" bodyfile="src/data/IniFixData/JeanCN/JeanCNFixer.cpp" bodystart="76" bodyend="78"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -87,7 +87,7 @@ Target            What the fix has to do
 Pair these with :cpp:class:`JeanCNParser`, which is shared between them
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="38" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" bodystart="38" bodyend="60"/>
+    <location file="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" line="51" column="5" bodyfile="include/AGRemapCore/data/IniFixData/JeanCN/JeanCNFixer.h" bodystart="51" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_c_n_fixer_1a1565e2ec9a904fd594d6250eb0f65f5a" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNFixer</scope><name>JeanCNFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_c_n_fixer_1af1edf32f37be89ffbe25f702492c1250" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanCNFixer</scope><name>v6_1ToJean</name></member>

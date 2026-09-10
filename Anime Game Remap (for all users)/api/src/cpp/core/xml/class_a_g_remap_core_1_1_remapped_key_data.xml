@@ -24,7 +24,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="100" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="113" column="15" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="113" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remapped_key_data_1aa3a182ccefad227b15e236188dcb60e4" prot="private" static="no" mutable="no">
         <type>std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt;</type>
@@ -38,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="101" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="114" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_remapped_key_data_1ad477f48082b7359b89b848e00b58de38" prot="private" static="no" mutable="no">
         <type>std::optional&lt; long long &gt;</type>
@@ -52,7 +52,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="102" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="115" column="27" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="115" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -122,7 +122,7 @@ places them (in place of the occurrence that produced them).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="74" column="22"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="87" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a20300c72bcaac6dce80c18e9702943b4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const K &amp;</type>
@@ -140,7 +140,7 @@ places them (in place of the occurrence that produced them).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="83" column="21"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="96" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a75d7009d7c3970c45c09865b26777012" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; std::function&lt; bool(const K &amp;, const V &amp;)&gt; &gt; &amp;</type>
@@ -158,7 +158,7 @@ places them (in place of the occurrence that produced them).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="90" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="103" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remapped_key_data_1a5e7cdf441a2472cda15193bb7e876ca4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::optional&lt; long long &gt; &amp;</type>
@@ -176,7 +176,7 @@ places them (in place of the occurrence that produced them).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="97" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="110" column="33"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -206,7 +206,7 @@ key, which always fires and stays in place).
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="37" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="37" bodyend="103"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" line="50" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/BaseOrderedMultiMap.h" bodystart="50" bodyend="116"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_remapped_key_data_1a75d7009d7c3970c45c09865b26777012" prot="public" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>check</name></member>
       <member refid="class_a_g_remap_core_1_1_remapped_key_data_1aa3a182ccefad227b15e236188dcb60e4" prot="private" virt="non-virtual"><scope>AGRemapCore::RemappedKeyData</scope><name>check_</name></member>

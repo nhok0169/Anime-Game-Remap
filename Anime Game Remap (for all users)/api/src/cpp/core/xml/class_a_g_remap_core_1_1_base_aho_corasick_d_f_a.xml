@@ -27,7 +27,7 @@ The keys are the ids to the sources node of the edges and the values are the ids
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="332" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="332" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="345" column="32" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="345" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -90,7 +90,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="47" column="13"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="60" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab6eb7fdf98166c4d78467cd1a7e9adfa" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -106,7 +106,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="49" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="62" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a82c43d4bed29426d8e91027ecd80b0e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -138,7 +138,7 @@ If this value is ``std::nullopt``, will return the value of the new `KVP`_ by de
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="50" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="63" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7ef7121553d9e7777502adf4c16f988d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -177,7 +177,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="52" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="65" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -221,7 +221,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="54" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="67" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a9dbc74e67c48197aee20fff03c847b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -265,7 +265,7 @@ The keys are the keywords to put into the trie and the values are the correspond
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="55" column="18"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="68" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1c57a9e343cc12d88c9ea3bd3a6bf86d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt;</type>
@@ -304,7 +304,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="74" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="87" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab27199a8c0f6c70e3cfb832b68e5a10c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, std::vector&lt; std::tuple&lt; size_t, size_t &gt; &gt; &gt;</type>
@@ -343,7 +343,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="79" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="92" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4a5be369175558c44d4588aae9891f0b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt;</type>
@@ -381,7 +381,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="97" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="110" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a545bc4ef0cc2107cf84d2903f8c0bf9b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, std::tuple&lt; size_t, size_t &gt; &gt;</type>
@@ -419,7 +419,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="102" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="115" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae16fb84c0eddf0ed70228df94a8a38b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -462,7 +462,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="112" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="125" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a2b6997a40209a546482453f439273b60" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -505,7 +505,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="117" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="130" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1acb7e1e029a9d16d72aa66731c01b5231" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -557,7 +557,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="124" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="137" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aa7f7c4a728b8c52b938c1b60e2074df1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -609,7 +609,7 @@ The indices for all the found keywords within the given text :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="129" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="142" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1af1c2626f99e0f512617917d689b4bbb7" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -671,7 +671,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="147" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="160" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a840d441f7329da00b6125c5babcc2550" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -733,7 +733,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="152" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="165" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5acc94fb0742c41567d61a22a8dc31ca" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -804,7 +804,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="159" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="172" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5f052278dec0a07616d5996fba8f951c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -875,7 +875,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="164" column="39"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="177" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ae22cc080c8b9a2aa5e8df0b72ac7c371" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt;</type>
@@ -938,7 +938,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="182" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="195" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5e2c04c652cde778b9973575ab54b519" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; size_t &gt; &gt;</type>
@@ -1001,7 +1001,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="187" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="200" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a4509f40e23756d226cd1b731a38abea1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1032,7 +1032,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="196" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="209" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1abe603d1fddb6c17a1c6173a161bbc2cb" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1063,7 +1063,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="201" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="214" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a59ff2d03f38ff592aa1763517e8824af" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1103,7 +1103,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="208" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="221" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1aaf17ffb56d16fe0a18e518e556564563" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1143,7 +1143,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="213" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="226" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a5ed40637fc4b7aca0effa425d6c58ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
@@ -1178,7 +1178,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="227" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="240" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab9c3d87291b754459fb22258e903b21c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::unordered_map&lt; std::string, const TrieVal * &gt;</type>
@@ -1213,7 +1213,7 @@ The keys are the keywords found and the values are the values to the keywords
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="232" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="245" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a6309577c4c7bd2218cd730de6b3e2b5d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1263,7 +1263,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="249" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="262" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ab202564b093462f97b526d819956cb95" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string *, const TrieVal * &gt;</type>
@@ -1313,7 +1313,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="254" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="267" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7336ff71c1988a5f5965513d4459bbc1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1372,7 +1372,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="261" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="274" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a83f8e13fafb7695f44619bd2db079e5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; const std::string &amp;, const TrieVal &amp; &gt;</type>
@@ -1431,7 +1431,7 @@ not necessarily the largest one overall :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="266" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="279" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a7c56a8583ce6e652aca9913c4b635fb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
@@ -1498,7 +1498,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="290" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="303" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1afdc47d8a0693d84a02dab139925d1c58" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::tuple&lt; std::vector&lt; std::string_view &gt;, std::vector&lt; const TrieVal * &gt; &gt;</type>
@@ -1565,7 +1565,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="295" column="32"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="308" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a91a6968402cfff3f0170c90ef184380e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -1596,7 +1596,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="304" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="317" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a60e5723cbd7d8664bdb8a25af88157c1" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string *</type>
@@ -1627,7 +1627,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="309" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="322" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1ac6f87112a5709ceff8a096f402e8d4c8" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -1667,7 +1667,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="316" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="329" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a13ef9702e32ffe42653932ad586a44e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>const std::string &amp;</type>
@@ -1707,7 +1707,7 @@ A tuple containing:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="321" column="40"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="334" column="40"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -1766,7 +1766,7 @@ Retrieves the next state for travel to in the `DFA`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="346" column="27"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="359" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1848495c4280ff76af7bc5ffc1393225" prot="protected" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string *</type>
@@ -1817,7 +1817,7 @@ skipping over any larger keyword(s) that don&apos;t
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="365" column="31"/>
+        <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="378" column="31"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1870,7 +1870,7 @@ The types for the values to store in the `DFA`_
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="23" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="23" bodyend="366"/>
+    <location file="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" line="36" column="5" bodyfile="include/AGRemapCore/tools/tries/BaseAhoCorasickDFA.h" bodystart="36" bodyend="379"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_trie_1a813836c40a232518d8e60bf20bf52792" prot="protected" virt="non-virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>acceptNodeIds</name></member>
       <member refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a_1a1ffb731c99b06c4e7c0cb30464a1e125" prot="public" virt="virtual"><scope>AGRemapCore::BaseAhoCorasickDFA</scope><name>add</name></member>

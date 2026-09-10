@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_a_g_remap_core_1_1_keqing_opulent_parser" kind="class" language="C++" prot="public">
+    <compoundname>AGRemapCore::KeqingOpulentParser</compoundname>
+    <includes refid="_keqing_opulent_parser_8h" local="no">KeqingOpulentParser.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_opulent_parser_1ae995366a687ae04c3afa76c4720047f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>AGRemapCore::KeqingOpulentParser::KeqingOpulentParser</definition>
+        <argsstring>()=delete</argsstring>
+        <name>KeqingOpulentParser</name>
+        <qualifiedname>AGRemapCore::KeqingOpulentParser::KeqingOpulentParser</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h" line="39" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="class_a_g_remap_core_1_1_keqing_opulent_parser_1a4f956ebc223dbe84ad3fef46d327ec67" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
+        <definition>IniParseBuilder::Factory AGRemapCore::KeqingOpulentParser::v4_0</definition>
+        <argsstring>()</argsstring>
+        <name>v4_0</name>
+        <qualifiedname>AGRemapCore::KeqingOpulentParser::v4_0</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><verbatim>embed:rst 
+The parser for a 4.0-era KeqingOpulent ``.ini`` file -- what
+:cpp:func:`IniParseBuilderFuncs::keqingOpulent4_0` returns, and documented there
+</verbatim> </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h" line="48" column="45" bodyfile="src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><verbatim>embed:rst 
+KeqingOpulent&apos;s own ``.ini`` parsers, one per game version she needed a new one at
+:raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+Pair this with :cpp:class:`KeqingOpulentFixer`; the two agree on the mod object names by hand, and
+neither half makes sense alone :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
+
+KeqingOpulent draws NO ``dress`` -- her outfit is one body mesh, which is exactly
+what makes remapping to and from Keqing a merge in one direction and a split in
+the other
+</verbatim> </para>
+    </detaileddescription>
+    <location file="include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h" line="36" column="5" bodyfile="include/AGRemapCore/data/IniParseData/KeqingOpulent/KeqingOpulentParser.h" bodystart="36" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_a_g_remap_core_1_1_keqing_opulent_parser_1ae995366a687ae04c3afa76c4720047f9" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingOpulentParser</scope><name>KeqingOpulentParser</name></member>
+      <member refid="class_a_g_remap_core_1_1_keqing_opulent_parser_1a4f956ebc223dbe84ad3fef46d327ec67" prot="public" virt="non-virtual"><scope>AGRemapCore::KeqingOpulentParser</scope><name>v4_0</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

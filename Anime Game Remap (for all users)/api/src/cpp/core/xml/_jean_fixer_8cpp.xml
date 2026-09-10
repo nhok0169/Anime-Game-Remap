@@ -61,6 +61,8 @@
         </childnode>
         <childnode refid="84" relation="include">
         </childnode>
+        <childnode refid="87" relation="include">
+        </childnode>
       </node>
       <node id="2">
         <label>AGRemapCore/data/IniFixData/Jean/JeanFixer.h</label>
@@ -68,7 +70,7 @@
         <childnode refid="3" relation="include">
         </childnode>
       </node>
-      <node id="86">
+      <node id="88">
         <label>AGRemapCore/data/IniFixData/JeanShading.h</label>
         <link refid="_jean_shading_8h"/>
       </node>
@@ -479,6 +481,16 @@
         </childnode>
       </node>
       <node id="84">
+        <label>AGRemapCore/model/strategies/texEditors/TexCreator.h</label>
+        <link refid="_tex_creator_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="85" relation="include">
+        </childnode>
+        <childnode refid="86" relation="include">
+        </childnode>
+      </node>
+      <node id="87">
         <label>AGRemapCore/model/strategies/texEditors/TexEditor.h</label>
         <link refid="_tex_editor_8h"/>
         <childnode refid="4" relation="include">
@@ -488,6 +500,16 @@
         <childnode refid="10" relation="include">
         </childnode>
         <childnode refid="85" relation="include">
+        </childnode>
+      </node>
+      <node id="86">
+        <label>AGRemapCore/model/textures/Colour.h</label>
+        <link refid="_colour_8h"/>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
         </childnode>
       </node>
       <node id="36">
@@ -725,7 +747,7 @@
         </childnode>
         <childnode refid="83" relation="include">
         </childnode>
-        <childnode refid="86" relation="include">
+        <childnode refid="88" relation="include">
         </childnode>
       </node>
       <node id="74">
@@ -855,72 +877,85 @@
     <detaileddescription>
     </detaileddescription>
     <programlisting>
-<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Jean/JeanFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="1"><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight></codeline>
-<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_data_8h" kindref="compound">AGRemapCore/data/IniFixBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_char_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/GIMICharFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_shading_8h" kindref="compound">AGRemapCore/data/IniFixData/JeanShading.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="11"><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="16"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>ordinary<sp/>CN-skin<sp/>remap<sp/>--<sp/>a<sp/>genuinely<sp/>different<sp/>model,<sp/>so<sp/>see<sp/>makeGIMICharFixer<sp/>for</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>what<sp/>that<sp/>shape<sp/>does.<sp/>Nothing<sp/>here<sp/>is<sp/>Jean-specific<sp/>beyond<sp/>her<sp/>drawn<sp/>objects.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
-<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>moveDrawIndexed<sp/>stays<sp/>false:<sp/>the<sp/>pure-Python<sp/>row<sp/>for<sp/>Jean<sp/>carries<sp/>none<sp/>of<sp/>the<sp/>Ib*</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries<sp/>Amber&apos;s<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/Jean/JeanFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_keywords_8h" kindref="compound">AGRemapCore/constants/IniKeywords.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_ini_fix_builder_data_8h" kindref="compound">AGRemapCore/data/IniFixBuilderData.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_g_i_m_i_char_fixer_8h" kindref="compound">AGRemapCore/data/IniFixData/GIMICharFixer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_jean_shading_8h" kindref="compound">AGRemapCore/data/IniFixData/JeanShading.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="27"><highlight class="normal"></highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanSea</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">};</highlight></codeline>
-<codeline lineno="31"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>SPLIT.<sp/>JeanSea&apos;s<sp/>cape<sp/>is<sp/>a<sp/>&apos;dress&apos;<sp/>object<sp/>Jean<sp/>has<sp/>no<sp/>geometry<sp/>for<sp/>at<sp/>all,<sp/>so<sp/>Jean&apos;s</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>graph<sp/>is<sp/>emitted<sp/>twice<sp/>--<sp/>once<sp/>carrying<sp/>JeanSea&apos;s<sp/>body<sp/>index<sp/>(7662)<sp/>and<sp/>once<sp/>her</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dress<sp/>index<sp/>(52542),<sp/>both<sp/>under<sp/>JeanSea&apos;s<sp/>own<sp/>ib<sp/>hash.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;head&apos;<sp/>is<sp/>listed<sp/>even<sp/>though<sp/>it<sp/>maps<sp/>to<sp/>itself:<sp/>objSplits<sp/>is<sp/>all-or-nothing,<sp/>and<sp/>an</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>object<sp/>left<sp/>out<sp/>of<sp/>it<sp/>is<sp/>dropped<sp/>from<sp/>the<sp/>remap<sp/>entirely.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objSplits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>ordinary<sp/>CN-skin<sp/>remap<sp/>--<sp/>a<sp/>genuinely<sp/>different<sp/>model,<sp/>so<sp/>see<sp/>makeGIMICharFixer<sp/>for</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>what<sp/>that<sp/>shape<sp/>does.<sp/>Nothing<sp/>here<sp/>is<sp/>Jean-specific<sp/>beyond<sp/>her<sp/>drawn<sp/>objects.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>moveDrawIndexed<sp/>stays<sp/>false:<sp/>the<sp/>pure-Python<sp/>row<sp/>for<sp/>Jean<sp/>carries<sp/>none<sp/>of<sp/>the<sp/>Ib*</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>entries<sp/>Amber&apos;s<sp/>does.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>dress<sp/>copy<sp/>inherited<sp/>Jean&apos;s<sp/>body<sp/>&apos;ib&apos;,<sp/>which<sp/>is<sp/>not<sp/>its<sp/>own.<sp/>The<sp/>pure-Python<sp/>row</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>writes<sp/>&quot;null&quot;<sp/>over<sp/>it<sp/>and<sp/>so<sp/>does<sp/>this.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objNewRegVals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" kindref="member">IniKeywords::Ib</ref>,<sp/></highlight><highlight class="stringliteral">&quot;null&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>body&apos;s<sp/>lightmap,<sp/>shaded<sp/>so<sp/>JeanSea&apos;s<sp/>cape<sp/>does<sp/>not<sp/>read<sp/>as<sp/>a<sp/>hard<sp/>edge<sp/>against<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>underneath<sp/>it.<sp/>Deliberately<sp/>NOT<sp/>applied<sp/>to<sp/>the<sp/>dress<sp/>copy:<sp/>the<sp/>pure-Python<sp/>original</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>declares<sp/>this<sp/>edit<sp/>against<sp/>the<sp/>mod&apos;s<sp/>own<sp/>&apos;body&apos;<sp/>and<sp/>its<sp/>RegTexEdit<sp/>fires<sp/>per<sp/>NEW<sp/>object,</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>the<sp/>dress<sp/>--<sp/>which<sp/>is<sp/>not<sp/>an<sp/>object<sp/>Jean<sp/>has<sp/>an<sp/>edit<sp/>for<sp/>--<sp/>keeps<sp/>the<sp/>untouched</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>lightmap.<sp/>The<sp/>integration<sp/>golden<sp/>pins<sp/>that<sp/>asymmetry</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Testing/Integration<sp/>Tester/.../expected_fullFix_someFix/multiFix/select/Jean/),<sp/>where</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>body<sp/>section<sp/>points<sp/>at<sp/>...ShadeLightMapJeanSeaRemapTex0<sp/>and<sp/>the<sp/>dress<sp/>section<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>...BodyLightMap.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.texEdits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ShadeLightMap&quot;</highlight><highlight class="normal">,<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" kindref="member">JeanShading::liftLowAlpha</ref>}};</highlight></codeline>
-<codeline lineno="53"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanSea</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>GIMICharFixerConfig<sp/>config{};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.drawnObjs<sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>THE<sp/>SPLIT.<sp/>JeanSea&apos;s<sp/>cape<sp/>is<sp/>a<sp/>&apos;dress&apos;<sp/>object<sp/>Jean<sp/>has<sp/>no<sp/>geometry<sp/>for<sp/>at<sp/>all,<sp/>so<sp/>Jean&apos;s</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>graph<sp/>is<sp/>emitted<sp/>twice<sp/>--<sp/>once<sp/>carrying<sp/>JeanSea&apos;s<sp/>body<sp/>index<sp/>(7662)<sp/>and<sp/>once<sp/>her</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>dress<sp/>index<sp/>(52542),<sp/>both<sp/>under<sp/>JeanSea&apos;s<sp/>own<sp/>ib<sp/>hash.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;head&apos;<sp/>is<sp/>listed<sp/>even<sp/>though<sp/>it<sp/>maps<sp/>to<sp/>itself:<sp/>objSplits<sp/>is<sp/>all-or-nothing,<sp/>and<sp/>an</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>object<sp/>left<sp/>out<sp/>of<sp/>it<sp/>is<sp/>dropped<sp/>from<sp/>the<sp/>remap<sp/>entirely.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objSplits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;head&quot;</highlight><highlight class="normal">}},<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/>{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">}}};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>dress<sp/>copy<sp/>inherited<sp/>Jean&apos;s<sp/>body<sp/>&apos;ib&apos;,<sp/>which<sp/>is<sp/>not<sp/>its<sp/>own.<sp/>The<sp/>pure-Python<sp/>row</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>writes<sp/>&quot;null&quot;<sp/>over<sp/>it<sp/>and<sp/>so<sp/>does<sp/>this.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.objNewRegVals<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;dress&quot;</highlight><highlight class="normal">,<sp/>{{<ref refid="class_a_g_remap_core_1_1_ini_keywords_1a8fe7de095b9841fb8a24b6f186134dcd" kindref="member">IniKeywords::Ib</ref>,<sp/></highlight><highlight class="stringliteral">&quot;null&quot;</highlight><highlight class="normal">}}}};</highlight></codeline>
 <codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="57"><highlight class="normal"></highlight></codeline>
-<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_jean_fixer_1ade08765a655c9503ea7ba52e3377ecb0" kindref="member">JeanFixer::v6_1ToJeanCN</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanCN</ref>();</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="61"><highlight class="normal"></highlight></codeline>
-<codeline lineno="62"><highlight class="normal"></highlight></codeline>
-<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_jean_fixer_1afadd5b88f14d11d3be1d27915f99bf57" kindref="member">JeanFixer::v6_1ToJeanSea</ref>()<sp/>{</highlight></codeline>
-<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanSea</ref>();</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
-<codeline lineno="66"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>body&apos;s<sp/>lightmap,<sp/>shaded<sp/>so<sp/>JeanSea&apos;s<sp/>cape<sp/>does<sp/>not<sp/>read<sp/>as<sp/>a<sp/>hard<sp/>edge<sp/>against<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>body<sp/>underneath<sp/>it.<sp/>Deliberately<sp/>NOT<sp/>applied<sp/>to<sp/>the<sp/>dress<sp/>copy:<sp/>the<sp/>pure-Python<sp/>original</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>declares<sp/>this<sp/>edit<sp/>against<sp/>the<sp/>mod&apos;s<sp/>own<sp/>&apos;body&apos;<sp/>and<sp/>its<sp/>RegTexEdit<sp/>fires<sp/>per<sp/>NEW<sp/>object,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>so<sp/>the<sp/>dress<sp/>--<sp/>which<sp/>is<sp/>not<sp/>an<sp/>object<sp/>Jean<sp/>has<sp/>an<sp/>edit<sp/>for<sp/>--<sp/>keeps<sp/>the<sp/>untouched</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>lightmap.<sp/>The<sp/>integration<sp/>golden<sp/>pins<sp/>that<sp/>asymmetry</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(Testing/Integration<sp/>Tester/.../expected_fullFix_someFix/multiFix/select/Jean/),<sp/>where</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>body<sp/>section<sp/>points<sp/>at<sp/>...ShadeLightMapJeanSeaRemapTex0<sp/>and<sp/>the<sp/>dress<sp/>section<sp/>at<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>original<sp/>...BodyLightMap.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config.texEdits<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;body&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ps-t1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;ShadeLightMap&quot;</highlight><highlight class="normal">,<sp/>&amp;<ref refid="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" kindref="member">JeanShading::liftLowAlpha</ref>}};</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1a03e4a44334e80ff84e9ad65a846dc8c5" kindref="member">makeGIMICharFixer</ref>(std::move(config));</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_jean_fixer_1ade08765a655c9503ea7ba52e3377ecb0" kindref="member">JeanFixer::v6_1ToJeanCN</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ac35a533ecb2f66985f79e9b93bc330c1" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanCN</ref>();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_1adca50bda5796b1908b419c6a25964e50" kindref="member">IniFixBuilder::Factory</ref><sp/><ref refid="class_a_g_remap_core_1_1_jean_fixer_1afadd5b88f14d11d3be1d27915f99bf57" kindref="member">JeanFixer::v6_1ToJeanSea</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1af5565464258b27878c912f72b6c8acf8" kindref="member">IniFixBuilderFuncs::jean6_1ToJeanSea</ref>();</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
     </programlisting>
     <location file="src/data/IniFixData/Jean/JeanFixer.cpp"/>
   </compounddef>

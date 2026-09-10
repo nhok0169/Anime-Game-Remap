@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="107" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="107" bodyend="-1"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="120" column="25" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="120" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="99" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="41" bodyend="42"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="112" column="22" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="54" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_invalid_game_type_1af800c76533adb19594f25e8eae86523c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="104" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="44" bodyend="46"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="117" column="31" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -83,7 +83,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="109" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="37" bodyend="39"/>
+        <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="122" column="32" bodyfile="src/RemapServiceCLIErrors.cpp" bodystart="50" bodyend="52"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -119,7 +119,7 @@ and for why the message is rebuilt on the `Python`_ side rather than crossing as
         <label>std::runtime_error</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="91" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="91" bodyend="110"/>
+    <location file="include/AGRemapCore/RemapServiceCLIErrors.h" line="104" column="5" bodyfile="include/AGRemapCore/RemapServiceCLIErrors.h" bodystart="104" bodyend="123"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_invalid_game_type_1a3a9b0d3fec74535686bed5005770752c" prot="private" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>buildMessage</name></member>
       <member refid="class_a_g_remap_core_1_1_invalid_game_type_1af800c76533adb19594f25e8eae86523c" prot="public" virt="non-virtual"><scope>AGRemapCore::InvalidGameType</scope><name>gameType</name></member>

@@ -41,7 +41,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="47" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="60" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="60" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -59,7 +59,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_reg_edit_1ae5d1c6a6be300c91788ed43aedae5481" prot="public" static="no">
         <type>typename ContentPart::RangeSpec</type>
@@ -78,7 +78,7 @@ The shape :cpp:class:`IfContentPart`&apos;s own range-restricted methods
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="66" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="79" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -201,7 +201,7 @@ original&apos;s ``partRanges = None`` :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="110" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="123" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_reg_edit_1a51e7f02678a8697b0268971bfed885a0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">ContentPart</ref> &amp;</type>
@@ -291,7 +291,7 @@ Edits the registers for the current :cpp:class:`IfContentPart`. No-op by default
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="129" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="142" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-static-func">
@@ -328,7 +328,7 @@ methods expect, with ``nullptr`` becoming ``std::nullopt`` (i.e. no restriction)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="146" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="159" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -449,7 +449,7 @@ Base class for a filter that edits some registers within an :cpp:class:`IfConten
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="41" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="41" bodyend="147"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" line="54" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/BaseRegEdit.h" bodystart="54" bodyend="160"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_part_edit_1a419698944996a3f19b7f9be96ae1e049" prot="public" virt="virtual"><scope>AGRemapCore::BaseRegEdit</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseRegEdit</scope><name>ContentPart</name></member>

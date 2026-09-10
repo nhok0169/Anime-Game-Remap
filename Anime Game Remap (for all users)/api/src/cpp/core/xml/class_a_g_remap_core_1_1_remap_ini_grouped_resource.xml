@@ -83,7 +83,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="150" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="15" bodyend="17"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13" bodyfile="src/model/iniresources/IniResource.cpp" bodystart="28" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a3ba7c1c9c108a81ded6b8a90f9693844" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -111,7 +111,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="150" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_remap_ini_grouped_resource_1a1e41492849be4dad06792e63bcd6bc8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -128,7 +128,7 @@ The group of resources, keyed by the type of the resource :raw-html:`&lt;br /&gt
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="150" column="13"/>
+        <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="163" column="13"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -178,7 +178,7 @@ process -- mirrors the pure-Python ``RemapIniGroupedResource`` class
         <link refid="class_a_g_remap_core_1_1_remap_ini_resource_mixin"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="148" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="148" bodyend="151"/>
+    <location file="include/AGRemapCore/model/iniresources/RemapIniResource.h" line="161" column="5" bodyfile="include/AGRemapCore/model/iniresources/RemapIniResource.h" bodystart="161" bodyend="164"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" prot="protected" virt="virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>_fix</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>addResource</name></member>
@@ -194,6 +194,7 @@ process -- mirrors the pure-Python ``RemapIniGroupedResource`` class
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad81a32c63df4b98a022b7760390bac43" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>isBuilt</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a120f751bdcbc61bb5a4250cf9af4d409" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>isMissing</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a67ed5fe1ecf770d7075014acfbade161" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>logger</name></member>
+      <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a197fd7cd70ea7f09515c735390d78fe4" prot="public" virt="virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>memberResources</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a428e831585c4e6a1d66c149631a230a9" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>name</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a8f3dbfc08d6e833588a7c7e12a90bfb6" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>operator=</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ac722aca40727fcbe1e6452dc79ad5313" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniGroupedResource</scope><name>operator=</name></member>

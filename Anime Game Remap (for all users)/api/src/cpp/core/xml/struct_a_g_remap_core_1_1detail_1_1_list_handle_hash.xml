@@ -28,14 +28,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="53" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="66" column="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="52" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="52" bodyend="54"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" line="65" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMap.h" bodystart="65" bodyend="67"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1detail_1_1_list_handle_hash_1a24e5f393e95fec682ab12b9f5a0e012c" prot="public" virt="non-virtual"><scope>AGRemapCore::detail::ListHandleHash</scope><name>operator()</name></member>
     </listofallmembers>

@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="159" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="159" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="172" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="172" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1aeb04a889350d9b0c20519f1cdd005e64" prot="public" static="no" mutable="no">
         <type>K</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="164" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="164" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="177" column="19" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="177" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1a8f78684f8e98125c533c54be1a3e5d13" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -56,7 +56,7 @@ and it saves carrying a second, identical converter
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="179" column="37" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="179" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="192" column="37" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="192" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -69,7 +69,7 @@ The ``.ini``-domain customization points this class needs, for the same reason
 cannot be spelled as literals here
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="155" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="155" bodyend="180"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="168" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="168" bodyend="193"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1aeb04a889350d9b0c20519f1cdd005e64" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::RemoverConfig</scope><name>filenameKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_remover_config_1ab1ffb6f43a87647072a727199b0279ae" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::RemoverConfig</scope><name>hashKey</name></member>

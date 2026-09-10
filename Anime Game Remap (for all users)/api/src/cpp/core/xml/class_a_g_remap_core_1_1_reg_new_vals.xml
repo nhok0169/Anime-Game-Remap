@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="37" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="50" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac0fa1fa96e151a499722cefda22f23d2" kindref="member">Base::ContentPart</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="42" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_new_vals_1a2d401c7ecdf49ce739b149b9df614cec" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_reg_edit_1ac47be87ca1b9a964e4234fa4dd37f1b6" kindref="member">Base::OrderRanges</ref></type>
@@ -69,7 +69,7 @@ The ranges of valid `KVP`_ order indices -- ``long long`` because that is the ty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="47" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="60" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="60" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -94,7 +94,7 @@ plain value
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="126" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="139" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -112,7 +112,7 @@ Whether to add new `KVPs`_ if the register keys do not exist in the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="135" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="148" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="148" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -162,7 +162,7 @@ Whether to add new `KVPs`_ if the register keys do not exist in the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="149" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="162" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_new_vals_1ad0c4b4fc3e91c025500cd1834da4075b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_new_vals_1af9c6435fabe9350f3b1739579e9b2c16" kindref="member">ContentPart</ref> &amp;</type>
@@ -254,7 +254,7 @@ own spec type instead of reusing :cpp:type:`IfContentPart::ReplaceSpec` directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="172" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="185" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -348,7 +348,7 @@ Assigns new values to specific registers for some :cpp:class:`IfContentPart`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="31" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="31" bodyend="174"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" line="44" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegNewVals.h" bodystart="44" bodyend="187"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a1c255c5497d8eb890fe3d9b6877f37d1" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>addNewKVPs</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_new_vals_1a92d584900e886b2fef91d6f7a18488f2" prot="public" virt="non-virtual"><scope>AGRemapCore::RegNewVals</scope><name>Base</name></member>

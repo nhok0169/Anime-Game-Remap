@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="32" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="32" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="45" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="45" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="39" column="22" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="11" bodyend="11"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="52" column="22" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="24" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="41" column="18" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="13" bodyend="25"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="54" column="18" bodyfile="src/model/strategies/texEditors/texFilters/GammaFilter.cpp" bodystart="26" bodyend="38"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -126,7 +126,7 @@ lower #gamma values make the image look darker and more saturated
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="26" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="26" bodyend="42"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" line="39" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h" bodystart="39" bodyend="55"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8b9aefd7d99155e46122962010258adc" prot="public" virt="non-virtual"><scope>AGRemapCore::GammaFilter</scope><name>gamma</name></member>
       <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8c8812ae3bce474b9d635462bb3218e6" prot="public" virt="non-virtual"><scope>AGRemapCore::GammaFilter</scope><name>GammaFilter</name></member>

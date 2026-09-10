@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="89" column="29" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="89" bodyend="93"/>
+        <location file="include/AGRemapCore/model/IniGraphGroup.h" line="102" column="29" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="102" bodyend="106"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -35,7 +35,7 @@ conventionally use -- nothing in this codebase needed a ``std::pair`` hash befor
 class, so there was no existing helper to reuse
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/IniGraphGroup.h" line="88" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="88" bodyend="94"/>
+    <location file="include/AGRemapCore/model/IniGraphGroup.h" line="101" column="13" bodyfile="include/AGRemapCore/model/IniGraphGroup.h" bodystart="101" bodyend="107"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_ini_graph_group_1_1_mod_obj_hash_1a7f6e279f2ec2bc1d7058687fd6838f15" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroup::ModObjHash</scope><name>operator()</name></member>
     </listofallmembers>

@@ -556,6 +556,7 @@
   </compound>
   <compound refid="class_a_g_remap_core_1_1_buf_file" kind="class"><name>AGRemapCore::BufFile</name>
     <member refid="class_a_g_remap_core_1_1_buf_file_1adbaba98ac1cd226a2f05090a64291afd" kind="typedef"><name>Filter</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_file_1ab3cdfe8ef496dd44e0882e4fb1a2a7a2" kind="typedef"><name>Predicate</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1aca11c4be23b51735a656669ad44da757" kind="typedef"><name>FixResult</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1aaf2af92e66c98e4c78c57642d42487ea" kind="typedef"><name>BufColumn</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1a7d3251c172b1646e39c73082762edf10" kind="variable"><name>fileType_</name></member>
@@ -578,6 +579,7 @@
     <member refid="class_a_g_remap_core_1_1_buf_file_1a2239d3c4b85012a406b295e5d05eafb2" kind="function"><name>decodeLine</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1a7d5816d7b34ae61edfad62a9e8517b51" kind="function"><name>encodeLine</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1ae9bbb16291d8d66fb2a539e7bdc91665" kind="function"><name>fix</name></member>
+    <member refid="class_a_g_remap_core_1_1_buf_file_1aaa38226575e9cd1aaeb472c629804357" kind="function"><name>filter</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1aa857f880bf4351c25d06b90c119e69da" kind="function"><name>decodeAll</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1ace8dc63cc1c9c8914be6c38a2488d47f" kind="function"><name>merge</name></member>
     <member refid="class_a_g_remap_core_1_1_buf_file_1a7932596085360312bfd789ca6084105a" kind="function"><name>getDumpStr</name></member>
@@ -901,6 +903,10 @@
     <member refid="class_a_g_remap_core_1_1_gamma_filter_1a8c8812ae3bce474b9d635462bb3218e6" kind="function"><name>GammaFilter</name></member>
     <member refid="class_a_g_remap_core_1_1_gamma_filter_1a547ef278ee31223b3e33f60de93d63d6" kind="function"><name>transform</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_ganyu_fixer" kind="class"><name>AGRemapCore::GanyuFixer</name>
+    <member refid="class_a_g_remap_core_1_1_ganyu_fixer_1a1a53e43e503c6a7a80065e6a141844f5" kind="function"><name>GanyuFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_ganyu_fixer_1a01c354f7d23f3a49250d5683cf223e74" kind="function"><name>v6_1</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_ganyu_parser" kind="class"><name>AGRemapCore::GanyuParser</name>
     <member refid="class_a_g_remap_core_1_1_ganyu_parser_1a6f96e2f2828c37ec1bdb5b1bc28b14be" kind="function"><name>GanyuParser</name></member>
     <member refid="class_a_g_remap_core_1_1_ganyu_parser_1ab5f19972529542d3252d236e555dffec" kind="function"><name>v4_0</name></member>
@@ -980,6 +986,7 @@
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a34152c69fba6f19852da8789af14ad73" kind="variable"><name>objRegRemovals</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f298e4aec53db7b9e606cb2db0fff34" kind="variable"><name>objNewRegVals</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ae6ef9aa9060e263ffdac73f65d8c8f8e" kind="variable"><name>texEdits</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1ac701795eba7b687bd192d75928adf2fc" kind="variable"><name>texAdds</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44615c9a418bc0599b3a500986a79f99" kind="variable"><name>copyPreamble</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a6f9e6f8f453f060b61620019636ba1bd" kind="variable"><name>moveDrawIndexed</name></member>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1a44e9448da23876953b4d8cf54b64aca7" kind="variable"><name>faceDiffuseReg</name></member>
@@ -1730,6 +1737,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1a235f0f8de78bb68b2a71207764265b7c" kind="variable"><name>modTypes</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a5ca24ed47a0c98f636cc0fdcfec99f8b" kind="variable"><name>resources_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a69d1f50a12d7614c2e55422948f31792" kind="variable"><name>fileDownloads_</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a2dd1344f33eb02f068f290691b19d3c2" kind="variable"><name>groupedResources_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a7d04782a380354a068a3a965f98af0a9" kind="variable"><name>isClassified_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1adeaeb08c104a3c7338e6a22f700c1710" kind="variable"><name>lineEnding_</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a59ae43bdee134656d668edd4a4f19476" kind="variable"><name>parseData_</name></member>
@@ -1779,6 +1787,8 @@
     <member refid="class_a_g_remap_core_1_1_ini_file_1ab4ca2d66e37c3bfc39a32f6852624fed" kind="function"><name>removeFix</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ae353b813d468b62ff13599a4a8fe2add" kind="function"><name>getResources</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1af0db703d52f7cfd68754dfe7ca608ada" kind="function"><name>getResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1a1e95e1d110e71571f8ef0613daab1813" kind="function"><name>getGroupedResources</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_file_1aad901a9563f2aad711e2a798124cfe6a" kind="function"><name>getGroupedResources</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a126bcdcfbd7497bceca4a63ed0077382" kind="function"><name>clearModels</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1ad55591af3675c6af8da143a51cabba4a" kind="function"><name>getReferencedFolders</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_file_1a83ee0b101c7ffa527cb5fb6665661c72" kind="function"><name>getZ3Ctx</name></member>
@@ -1998,6 +2008,11 @@
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1aaef6ad6485abd2e10d0ef71995cc1b61" kind="function"><name>jeanSea6_1ToJeanCN</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ad079e157a42e14e740a12c895956e517" kind="function"><name>ningguang6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a87fe735eaa66a6c3bd0809a6176286e3" kind="function"><name>ningguangOrchid6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a117dd88dbf2c1bed4302a42bd5535bb1" kind="function"><name>ganyu6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae921150e751a2da9ddf5dd886d02a080" kind="function"><name>keqing6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1adc42fafd0ec85f87004a4e2819daad49" kind="function"><name>keqingOpulent6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a97ad3d2acf77e47e43ea622ab1784e93" kind="function"><name>shenhe6_1</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a03a66c29497cbde2ffb563ef829a9cec" kind="function"><name>shenheFrostFlower6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a28595767d856f1adb7ef7b92962a53b1" kind="function"><name>ganyuTwilight6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1a7efbb5fcdca598296116646ea2e8cfb0" kind="function"><name>monaCN6_1</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_fix_builder_funcs_1ae03d94ddd49d371eac3dd2be878a2512" kind="function"><name>rosaria6_1</name></member>
@@ -2101,6 +2116,7 @@
     <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1ad3682833e5e7e59892b1a9a0a0010b7b" kind="function"><name>fix</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a120f751bdcbc61bb5a4250cf9af4d409" kind="function"><name>isMissing</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1af7289275d3ea094ccf2b704821c036ac" kind="function"><name>addResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a197fd7cd70ea7f09515c735390d78fe4" kind="function"><name>memberResources</name></member>
     <member refid="class_a_g_remap_core_1_1_ini_grouped_resource_1a89d96bfc7e70ffecb8541843a53b10f2" kind="function"><name>_fix</name></member>
   </compound>
   <compound refid="class_a_g_remap_core_1_1_ini_keywords" kind="class"><name>AGRemapCore::IniKeywords</name>
@@ -2586,6 +2602,22 @@
     <member refid="class_a_g_remap_core_1_1_jean_shading_1a76b62850aac529c1964368a5af4a7cbe" kind="variable"><name>LowAlpha</name></member>
     <member refid="class_a_g_remap_core_1_1_jean_shading_1af805d28805ee98508b9119be89fda2e6" kind="function"><name>JeanShading</name></member>
     <member refid="class_a_g_remap_core_1_1_jean_shading_1a9b8ab794d54fd9bafd58bfdca3415f85" kind="function"><name>liftLowAlpha</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_keqing_fixer" kind="class"><name>AGRemapCore::KeqingFixer</name>
+    <member refid="class_a_g_remap_core_1_1_keqing_fixer_1ac926b37e89f6b61ced8aad360f68a512" kind="function"><name>KeqingFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_keqing_fixer_1abc38b7f0e65cc97397247b212fad1fa4" kind="function"><name>v6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_keqing_opulent_fixer" kind="class"><name>AGRemapCore::KeqingOpulentFixer</name>
+    <member refid="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a06dd0e3a3fe28f933064bf724ecf8493" kind="function"><name>KeqingOpulentFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_keqing_opulent_fixer_1a6c4037a4010ad08aee95338a271b9e7c" kind="function"><name>v6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_keqing_opulent_parser" kind="class"><name>AGRemapCore::KeqingOpulentParser</name>
+    <member refid="class_a_g_remap_core_1_1_keqing_opulent_parser_1ae995366a687ae04c3afa76c4720047f9" kind="function"><name>KeqingOpulentParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_keqing_opulent_parser_1a4f956ebc223dbe84ad3fef46d327ec67" kind="function"><name>v4_0</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_keqing_parser" kind="class"><name>AGRemapCore::KeqingParser</name>
+    <member refid="class_a_g_remap_core_1_1_keqing_parser_1a1821197de90da7a0f50d1dec74855e84" kind="function"><name>KeqingParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_keqing_parser_1ae9b52d8cd9f3c9871dc8d63525bfeafa" kind="function"><name>v4_0</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket" kind="struct"><name>AGRemapCore::BaseOrderedMultiMap::KeyBucket</name>
     <member refid="struct_a_g_remap_core_1_1_base_ordered_multi_map_1_1_key_bucket_1a78bd7f48d9651384016099db38743df8" kind="variable"><name>items</name></member>
@@ -3424,6 +3456,8 @@
     <member refid="class_a_g_remap_core_1_1_remap_service_1a1042619abc35356dc5025750ad6d931e" kind="function"><name>_origIniPath</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ac54f7c1ac7dd1849f380c652ba7c0a2b" kind="function"><name>_fix</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ab49fbf1d0af01aed6ed0f90ccf9fe65b" kind="function"><name>_fixResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a7805233f95ff856f8b40837c5d4b4b87" kind="function"><name>_fixGroupedResource</name></member>
+    <member refid="class_a_g_remap_core_1_1_remap_service_1a0b22c3f663607f4d5975c4a844f8f5d0" kind="function"><name>_recordGroupMembers</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a7b0a6ba942eda851d5f3ca552b1f635e" kind="function"><name>report</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1a4cf38e202cc3b043ffe2bb1e933b1011" kind="function"><name>_reportSkippedAsset</name></member>
     <member refid="class_a_g_remap_core_1_1_remap_service_1ab4ca53ac003aa883ab9f1ef5765032a1" kind="function"><name>_warnSkippedIniResource</name></member>
@@ -3754,6 +3788,22 @@
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_section_span_1a3eedb8cac1f6e9c5b4cd13a05682f2b5" kind="variable"><name>endInd</name></member>
     <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_section_span_1a63a243c3709531826364fc8c78474b06" kind="variable"><name>boilerPlateInd</name></member>
   </compound>
+  <compound refid="class_a_g_remap_core_1_1_shenhe_fixer" kind="class"><name>AGRemapCore::ShenheFixer</name>
+    <member refid="class_a_g_remap_core_1_1_shenhe_fixer_1a92de8c41117f9353f3973614834cad93" kind="function"><name>ShenheFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_shenhe_fixer_1a07bb63d1933fc0b253a4c4524b5ceb22" kind="function"><name>v6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer" kind="class"><name>AGRemapCore::ShenheFrostFlowerFixer</name>
+    <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1a334126dfb999b5202ac2fb4c5e9d4b6c" kind="function"><name>ShenheFrostFlowerFixer</name></member>
+    <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_fixer_1ae147a4a52375b2a16f0c04fe85ab2dab" kind="function"><name>v6_1</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser" kind="class"><name>AGRemapCore::ShenheFrostFlowerParser</name>
+    <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser_1a7b9720c06dc6b6b20dfea1344db0eb07" kind="function"><name>ShenheFrostFlowerParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_shenhe_frost_flower_parser_1abc11075e106b8d920d22cf4d71c9c70e" kind="function"><name>v4_4</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_shenhe_parser" kind="class"><name>AGRemapCore::ShenheParser</name>
+    <member refid="class_a_g_remap_core_1_1_shenhe_parser_1afbecfdece36a63ae357f94fd8d5271a4" kind="function"><name>ShenheParser</name></member>
+    <member refid="class_a_g_remap_core_1_1_shenhe_parser_1ad384cd0ccfb8e20a25bd55c4a522e7d2" kind="function"><name>v4_0</name></member>
+  </compound>
   <compound refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block" kind="struct"><name>AGRemapCore::sqrt_detail::SqrtBlock</name>
     <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_block_1ac1a39f3ba030d7a1e41024f26e547ec8" kind="variable"><name>items</name></member>
   </compound>
@@ -3831,6 +3881,12 @@
     <member refid="class_a_g_remap_core_1_1_temp_control_1aed559623cd08a424f8ee328aebcb2321" kind="function"><name>TempControl</name></member>
     <member refid="class_a_g_remap_core_1_1_temp_control_1a23783672c0120ba0c7a72bf1188c1f96" kind="function"><name>transform</name></member>
   </compound>
+  <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add" kind="struct"><name>AGRemapCore::GIMICharFixerConfig::TexAdd</name>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1ad1010b3024994dfac080e7f7cbf6b72d" kind="variable"><name>obj</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a6bac9bda5a8d41fa7d8b13ed3f96e2c0" kind="variable"><name>reg</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1a146708fbe49b139554662cb8d09204ad" kind="variable"><name>name</name></member>
+    <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_add_1afdb22a5c95d3141d8f174f8d64a8f46a" kind="variable"><name>texCreator</name></member>
+  </compound>
   <compound refid="class_a_g_remap_core_1_1_tex_create" kind="class"><name>AGRemapCore::TexCreate</name>
     <member refid="class_a_g_remap_core_1_1_tex_create_1a93e6ee385fa0d27caf0e127c8c44ce1e" kind="typedef"><name>Base</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_create_1a147cb46ed91d6a9f7657393657de7b4f" kind="typedef"><name>GraphId</name></member>
@@ -3850,6 +3906,19 @@
     <member refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kind="variable"><name>compress</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_1a4e42df42c1ee46e01673bcff9e90fe20" kind="function"><name>TexCreator</name></member>
     <member refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" kind="function"><name>fix</name></member>
+  </compound>
+  <compound refid="class_a_g_remap_core_1_1_tex_creator_create" kind="class"><name>AGRemapCore::TexCreatorCreate</name>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1aed8ce1c73415fda90406f3143d3e750f" kind="typedef"><name>Base</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a0cb4eaf7e051b5394d4a36b152bcd0c5" kind="typedef"><name>GraphId</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a3f2f94e65efe6ee245fdac5e0f3e350d" kind="typedef"><name>ResEditConfig</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1af122ad35c6d6a980c2a10de6e7366d58" kind="typedef"><name>Context</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a8314523c795192f216a234e4a23db6c0" kind="typedef"><name>Section</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a8df70ebc37cc1992d50e6a31966748c7" kind="variable"><name>texCreator</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a4182361bb00c06a85156a5219c490a8b" kind="variable"><name>sections_</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a1af9c3ddbf71674f9a66bed7fd58afa9" kind="function"><name>TexCreatorCreate</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1a75d5e51afd6bd2d97ccdb512c7a03eb1" kind="function"><name>buildSection</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1aefb6a3e913c7222d48002c45525fb188" kind="function"><name>buildResModel</name></member>
+    <member refid="class_a_g_remap_core_1_1_tex_creator_create_1ae848a76d2d0b95d929cab09f0e8061ea" kind="function"><name>clear</name></member>
   </compound>
   <compound refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit" kind="struct"><name>AGRemapCore::GIMICharFixerConfig::TexEdit</name>
     <member refid="struct_a_g_remap_core_1_1_g_i_m_i_char_fixer_config_1_1_tex_edit_1a9735a54d56164aae8282dadda180e75b" kind="variable"><name>obj</name></member>
@@ -4205,11 +4274,17 @@
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d061123222366216110213163302235155103224134323046" kind="namespace"><name>AGRemapCore::@061123222366216110213163302235155103224134323046</name>
   </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d075222215134203315344231262366267274164203204002" kind="namespace"><name>AGRemapCore::@075222215134203315344231262366267274164203204002</name>
+  </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d077115235026220323271224205272111034263251147261" kind="namespace"><name>AGRemapCore::@077115235026220323271224205272111034263251147261</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d100353337346301101304354020363171275214276102263" kind="namespace"><name>AGRemapCore::@100353337346301101304354020363171275214276102263</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d101064163031271152134213345046243331322147174250" kind="namespace"><name>AGRemapCore::@101064163031271152134213345046243331322147174250</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d107314331035143376274177256052141345243337202222" kind="namespace"><name>AGRemapCore::@107314331035143376274177256052141345243337202222</name>
+  </compound>
+  <compound refid="namespace_a_g_remap_core_1_1_0d116307024135202021301327236014217256211074135135" kind="namespace"><name>AGRemapCore::@116307024135202021301327236014217256211074135135</name>
   </compound>
   <compound refid="namespace_a_g_remap_core_1_1_0d121312056117220011153060024037357231161010210364" kind="namespace"><name>AGRemapCore::@121312056117220011153060024037357231161010210364</name>
   </compound>
@@ -4374,6 +4449,8 @@
   </compound>
   <compound refid="_dark_diffuse_8h" kind="file"><name>DarkDiffuse.h</name>
   </compound>
+  <compound refid="_ganyu_fixer_8h" kind="file"><name>GanyuFixer.h</name>
+  </compound>
   <compound refid="_ganyu_twilight_fixer_8h" kind="file"><name>GanyuTwilightFixer.h</name>
   </compound>
   <compound refid="_g_i_m_i_char_fixer_8h" kind="file"><name>GIMICharFixer.h</name>
@@ -4385,6 +4462,10 @@
   <compound refid="_jean_sea_fixer_8h" kind="file"><name>JeanSeaFixer.h</name>
   </compound>
   <compound refid="_jean_shading_8h" kind="file"><name>JeanShading.h</name>
+  </compound>
+  <compound refid="_keqing_fixer_8h" kind="file"><name>KeqingFixer.h</name>
+  </compound>
+  <compound refid="_keqing_opulent_fixer_8h" kind="file"><name>KeqingOpulentFixer.h</name>
   </compound>
   <compound refid="_mona_fixer_8h" kind="file"><name>MonaFixer.h</name>
   </compound>
@@ -4399,6 +4480,10 @@
   <compound refid="_rosaria_fixer_8h" kind="file"><name>RosariaFixer.h</name>
   </compound>
   <compound refid="_rosaria_c_n_fixer_8h" kind="file"><name>RosariaCNFixer.h</name>
+  </compound>
+  <compound refid="_shenhe_fixer_8h" kind="file"><name>ShenheFixer.h</name>
+  </compound>
+  <compound refid="_shenhe_frost_flower_fixer_8h" kind="file"><name>ShenheFrostFlowerFixer.h</name>
   </compound>
   <compound refid="_ini_parse_builder_data_8h" kind="file"><name>IniParseBuilderData.h</name>
   </compound>
@@ -4418,6 +4503,10 @@
   </compound>
   <compound refid="_jean_sea_parser_8h" kind="file"><name>JeanSeaParser.h</name>
   </compound>
+  <compound refid="_keqing_parser_8h" kind="file"><name>KeqingParser.h</name>
+  </compound>
+  <compound refid="_keqing_opulent_parser_8h" kind="file"><name>KeqingOpulentParser.h</name>
+  </compound>
   <compound refid="_mona_parser_8h" kind="file"><name>MonaParser.h</name>
   </compound>
   <compound refid="_mona_c_n_parser_8h" kind="file"><name>MonaCNParser.h</name>
@@ -4431,6 +4520,10 @@
   <compound refid="_rosaria_parser_8h" kind="file"><name>RosariaParser.h</name>
   </compound>
   <compound refid="_rosaria_c_n_parser_8h" kind="file"><name>RosariaCNParser.h</name>
+  </compound>
+  <compound refid="_shenhe_parser_8h" kind="file"><name>ShenheParser.h</name>
+  </compound>
+  <compound refid="_shenhe_frost_flower_parser_8h" kind="file"><name>ShenheFrostFlowerParser.h</name>
   </compound>
   <compound refid="_ini_remove_builder_data_8h" kind="file"><name>IniRemoveBuilderData.h</name>
   </compound>
@@ -4604,6 +4697,8 @@
   <compound refid="_blend_edit_8h" kind="file"><name>BlendEdit.h</name>
   </compound>
   <compound refid="_res_edit_8h" kind="file"><name>ResEdit.h</name>
+  </compound>
+  <compound refid="_tex_creator_edit_8h" kind="file"><name>TexCreatorEdit.h</name>
   </compound>
   <compound refid="_tex_edit_8h" kind="file"><name>TexEdit.h</name>
   </compound>
@@ -4886,6 +4981,8 @@
   </compound>
   <compound refid="_dark_diffuse_8cpp" kind="file"><name>DarkDiffuse.cpp</name>
   </compound>
+  <compound refid="_ganyu_fixer_8cpp" kind="file"><name>GanyuFixer.cpp</name>
+  </compound>
   <compound refid="_ganyu_twilight_fixer_8cpp" kind="file"><name>GanyuTwilightFixer.cpp</name>
   </compound>
   <compound refid="_g_i_m_i_char_fixer_8cpp" kind="file"><name>GIMICharFixer.cpp</name>
@@ -4897,6 +4994,10 @@
   <compound refid="_jean_sea_fixer_8cpp" kind="file"><name>JeanSeaFixer.cpp</name>
   </compound>
   <compound refid="_jean_shading_8cpp" kind="file"><name>JeanShading.cpp</name>
+  </compound>
+  <compound refid="_keqing_fixer_8cpp" kind="file"><name>KeqingFixer.cpp</name>
+  </compound>
+  <compound refid="_keqing_opulent_fixer_8cpp" kind="file"><name>KeqingOpulentFixer.cpp</name>
   </compound>
   <compound refid="_mona_fixer_8cpp" kind="file"><name>MonaFixer.cpp</name>
   </compound>
@@ -4911,6 +5012,10 @@
   <compound refid="_rosaria_fixer_8cpp" kind="file"><name>RosariaFixer.cpp</name>
   </compound>
   <compound refid="_rosaria_c_n_fixer_8cpp" kind="file"><name>RosariaCNFixer.cpp</name>
+  </compound>
+  <compound refid="_shenhe_fixer_8cpp" kind="file"><name>ShenheFixer.cpp</name>
+  </compound>
+  <compound refid="_shenhe_frost_flower_fixer_8cpp" kind="file"><name>ShenheFrostFlowerFixer.cpp</name>
   </compound>
   <compound refid="_ini_parse_builder_data_8cpp" kind="file"><name>IniParseBuilderData.cpp</name>
   </compound>
@@ -4930,6 +5035,10 @@
   </compound>
   <compound refid="_jean_sea_parser_8cpp" kind="file"><name>JeanSeaParser.cpp</name>
   </compound>
+  <compound refid="_keqing_parser_8cpp" kind="file"><name>KeqingParser.cpp</name>
+  </compound>
+  <compound refid="_keqing_opulent_parser_8cpp" kind="file"><name>KeqingOpulentParser.cpp</name>
+  </compound>
   <compound refid="_mona_parser_8cpp" kind="file"><name>MonaParser.cpp</name>
   </compound>
   <compound refid="_mona_c_n_parser_8cpp" kind="file"><name>MonaCNParser.cpp</name>
@@ -4943,6 +5052,10 @@
   <compound refid="_rosaria_parser_8cpp" kind="file"><name>RosariaParser.cpp</name>
   </compound>
   <compound refid="_rosaria_c_n_parser_8cpp" kind="file"><name>RosariaCNParser.cpp</name>
+  </compound>
+  <compound refid="_shenhe_parser_8cpp" kind="file"><name>ShenheParser.cpp</name>
+  </compound>
+  <compound refid="_shenhe_frost_flower_parser_8cpp" kind="file"><name>ShenheFrostFlowerParser.cpp</name>
   </compound>
   <compound refid="_ini_remove_builder_data_8cpp" kind="file"><name>IniRemoveBuilderData.cpp</name>
   </compound>
@@ -5218,7 +5331,11 @@
   </compound>
   <compound refid="dir_3f835771507c37f35e4e56db703868a1" kind="dir"><name>src/tools/files</name>
   </compound>
+  <compound refid="dir_dd227d0c7091ddb972c5107b4c261efe" kind="dir"><name>include/AGRemapCore/data/IniFixData/Ganyu</name>
+  </compound>
   <compound refid="dir_8c017fcfcb851fa920b7a282154e289f" kind="dir"><name>include/AGRemapCore/data/IniParseData/Ganyu</name>
+  </compound>
+  <compound refid="dir_7309564dc9d02b0fd18710be48bac541" kind="dir"><name>src/data/IniFixData/Ganyu</name>
   </compound>
   <compound refid="dir_4c07bae995c5cc50642edcdf79d1fc4d" kind="dir"><name>src/data/IniParseData/Ganyu</name>
   </compound>
@@ -5306,6 +5423,22 @@
   </compound>
   <compound refid="dir_634cbc2cf3960cea55393c919c41fd4e" kind="dir"><name>src/data/IniParseData/JeanSea</name>
   </compound>
+  <compound refid="dir_af224d4ea180b8ffe0311d87e0fdb2a0" kind="dir"><name>include/AGRemapCore/data/IniFixData/Keqing</name>
+  </compound>
+  <compound refid="dir_db10eafae5773a6709380b4a3c2ef61e" kind="dir"><name>include/AGRemapCore/data/IniParseData/Keqing</name>
+  </compound>
+  <compound refid="dir_fa2b931b33a016de924fa64cf91d77ad" kind="dir"><name>src/data/IniFixData/Keqing</name>
+  </compound>
+  <compound refid="dir_051cf47f59257529ff82060018c7b784" kind="dir"><name>src/data/IniParseData/Keqing</name>
+  </compound>
+  <compound refid="dir_044e003d26bf8dfd38538b32f7cce1d9" kind="dir"><name>include/AGRemapCore/data/IniFixData/KeqingOpulent</name>
+  </compound>
+  <compound refid="dir_f86034e639ff3c96c2de0603d3c83a91" kind="dir"><name>include/AGRemapCore/data/IniParseData/KeqingOpulent</name>
+  </compound>
+  <compound refid="dir_b3a9e4468c36c44f3629eacacb8d0508" kind="dir"><name>src/data/IniFixData/KeqingOpulent</name>
+  </compound>
+  <compound refid="dir_275b458d757bb3633b3c9344062ab299" kind="dir"><name>src/data/IniParseData/KeqingOpulent</name>
+  </compound>
   <compound refid="dir_e253fc737fd26520fa518b4295da2866" kind="dir"><name>include/AGRemapCore/model</name>
   </compound>
   <compound refid="dir_5dd65160827af56e6353642206b80129" kind="dir"><name>src/model</name>
@@ -5381,6 +5514,22 @@
   <compound refid="dir_c33d5cf41e8ec8882fe4c67fe582f5ae" kind="dir"><name>src/data/IniFixData/RosariaCN</name>
   </compound>
   <compound refid="dir_2a7e1139a0e074c94ed8909e65eccfb9" kind="dir"><name>src/data/IniParseData/RosariaCN</name>
+  </compound>
+  <compound refid="dir_244ba1f005a76af8d67f555e142b7cf6" kind="dir"><name>include/AGRemapCore/data/IniFixData/Shenhe</name>
+  </compound>
+  <compound refid="dir_3302f69cfb14f119b57631ddc275a7f3" kind="dir"><name>include/AGRemapCore/data/IniParseData/Shenhe</name>
+  </compound>
+  <compound refid="dir_687e89e440e185377acd1d5ffec708a2" kind="dir"><name>src/data/IniFixData/Shenhe</name>
+  </compound>
+  <compound refid="dir_084a89b1559e7238ff05fb14adfe88be" kind="dir"><name>src/data/IniParseData/Shenhe</name>
+  </compound>
+  <compound refid="dir_d424eeff78e7690622520953bba2483f" kind="dir"><name>include/AGRemapCore/data/IniFixData/ShenheFrostFlower</name>
+  </compound>
+  <compound refid="dir_57b0b5a0fc1c85491b674b851ba81b9c" kind="dir"><name>include/AGRemapCore/data/IniParseData/ShenheFrostFlower</name>
+  </compound>
+  <compound refid="dir_8fce15001df50b163403cf4a2468f78c" kind="dir"><name>src/data/IniFixData/ShenheFrostFlower</name>
+  </compound>
+  <compound refid="dir_601096fb9f5fdad2d849e89c78fa0437" kind="dir"><name>src/data/IniParseData/ShenheFrostFlower</name>
   </compound>
   <compound refid="dir_68267d1309a1af8e8297ef4c3efbcdba" kind="dir"><name>src</name>
   </compound>

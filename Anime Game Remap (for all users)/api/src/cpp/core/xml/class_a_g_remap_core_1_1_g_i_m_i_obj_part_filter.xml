@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="75" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="75" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="88" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="88" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad5ee6cb48afd2fbb416ac10c34fd5b24" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="80" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="80" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="93" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="93" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a32362ba442ac7b6fbb17dbc0a24247eb" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="85" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="85" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="98" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="98" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a23c1e03b801efbfd7106481f3adebee2" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -81,7 +81,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="90" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="90" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="103" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="103" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a955089b66a5d2dcf4040ee7cfaf18341" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="95" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="95" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="108" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="108" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a4a979f36fa36f0000e6d02da20b4dbae" prot="public" static="no">
         <type>std::unordered_set&lt; K, KeyHash, KeyEqual &gt;</type>
@@ -111,7 +111,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="100" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="113" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="113" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a49d66dc814cb18e79fdc9aea22229689" prot="public" static="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a955089b66a5d2dcf4040ee7cfaf18341" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a23c1e03b801efbfd7106481f3adebee2" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
@@ -131,7 +131,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="111" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="124" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="124" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -148,7 +148,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="165" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="165" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="178" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="178" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a929db72c8a7c0864f219900b9583749e" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -163,7 +163,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="170" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="170" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="183" column="27" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="183" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -179,7 +179,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="248" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="248" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="261" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="261" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a7359608f120ce96cce55dbc189c5676b" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad5ee6cb48afd2fbb416ac10c34fd5b24" kindref="member">Assets</ref> *</type>
@@ -193,7 +193,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="249" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="249" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="262" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="262" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ae9ed46b56275b608174dd9029f2673b0" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config" kindref="compound">FilterConfig</ref></type>
@@ -207,7 +207,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="250" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="250" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="263" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="263" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -224,7 +224,7 @@ describe its own return type
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="137" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="150" column="33"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -315,7 +315,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="158" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="171" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad2e48ff088d7c36fb2572266ae3c4bc4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad5ee6cb48afd2fbb416ac10c34fd5b24" kindref="member">Assets</ref> *</type>
@@ -330,7 +330,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="175" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="188" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a9042179a0175455c49f6d1df877ca8ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -349,7 +349,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="180" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="193" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a09683e9de1accc2625007338b51aea45" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad5ee6cb48afd2fbb416ac10c34fd5b24" kindref="member">Assets</ref> *</type>
@@ -364,7 +364,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="185" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="198" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a88d6dda9e76eaf5cfb4326c36118399f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -383,7 +383,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="190" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="203" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a7ce8d69e8b638bc3ad5fad5ae3eba242" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1_1_filter_config" kindref="compound">FilterConfig</ref> &amp;</type>
@@ -398,7 +398,7 @@ an edit to a *window*, and a hash with no index has no window to speak of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="195" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="208" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a4b42cb02ebf0ce7a70d2a8d96d5d79ed" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a4a979f36fa36f0000e6d02da20b4dbae" kindref="member">KeySet</ref></type>
@@ -419,7 +419,7 @@ restating it; see this class&apos;s own note on what a wrong set silently does
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="207" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="220" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a74259db1860fe732ff5277c74a22228a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a955089b66a5d2dcf4040ee7cfaf18341" kindref="member">OrderRanges</ref></type>
@@ -471,7 +471,7 @@ resolves to &apos;modObj&apos;\\&apos;s own :cpp:class:`Indices` row -- the same
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="227" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="240" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a295d40e2bc8a7ed474ee7f9860e6ded4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a49d66dc814cb18e79fdc9aea22229689" kindref="member">PartFilter</ref></type>
@@ -510,7 +510,7 @@ guess
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="245" column="24"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="258" column="24"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -608,7 +608,7 @@ Typical use, one entry per edit in the graph&apos;s own edit list:
         <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="69" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="69" bodyend="251"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" line="82" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/GIMIObjPartFilter.h" bodystart="82" bodyend="264"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1ad5ee6cb48afd2fbb416ac10c34fd5b24" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter</scope><name>Assets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_obj_part_filter_1a32362ba442ac7b6fbb17dbc0a24247eb" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIObjPartFilter</scope><name>Colouring</name></member>

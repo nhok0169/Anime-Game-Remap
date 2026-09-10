@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="60" column="42" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="60" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="73" column="42" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="73" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1afe23c880917633c0cfa56a978bb7c6b9" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="65" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="65" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="78" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="78" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a8a89fdc5fc1562e4476ee64023283fec" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="70" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="70" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="83" column="38" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="83" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="86" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="86" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="99" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1aa54398f0d3467cf94ced77007787000b" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -84,7 +84,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="91" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="104" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1af692d2c0357d72e92c1aa35412236e23" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -99,7 +99,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="96" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="96" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="109" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="109" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -115,7 +115,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="297" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="297" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="310" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="310" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1aa1ba74eb043ffb26b043ede011586200" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -129,7 +129,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="298" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="298" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="311" column="25" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="311" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" static="no" mutable="no">
         <type>std::deque&lt; <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref> &gt;</type>
@@ -143,7 +143,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="299" column="24" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="299" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="312" column="24" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="312" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_logger_1a0ebbd23d632bf5c2413fec92b25007b2" prot="private" static="no" mutable="no">
         <type>bool</type>
@@ -158,7 +158,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="305" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="305" bodyend="-1"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="318" column="18" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="318" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -216,7 +216,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="79" column="22" bodyfile="src/view/BaseLogger.cpp" bodystart="53" bodyend="54"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="92" column="22" bodyfile="src/view/BaseLogger.cpp" bodystart="66" bodyend="67"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a0003eaf39d37a4e12e1d4b4cc37e4010" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -230,7 +230,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="81" column="21"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="94" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a867956a3e771086e3ec33db47a20e925" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -245,7 +245,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="101" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="57" bodyend="59"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="114" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="70" bodyend="72"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aaddfbd50946d9c5273e18fb686fd025b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -274,7 +274,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="108" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="61" bodyend="64"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="121" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="74" bodyend="77"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aefa53de399de570ade3a53ec595e728a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -289,7 +289,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="113" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="66" bodyend="68"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="126" column="31" bodyfile="src/view/BaseLogger.cpp" bodystart="79" bodyend="81"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a227432ef9d28133fea2fb646fb364f40" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::deque&lt; <ref refid="class_a_g_remap_core_1_1_heading" kindref="compound">Heading</ref> &gt; &amp;</type>
@@ -304,7 +304,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="118" column="30" bodyfile="src/view/BaseLogger.cpp" bodystart="70" bodyend="72"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="131" column="30" bodyfile="src/view/BaseLogger.cpp" bodystart="83" bodyend="85"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1abc277613167054f98604d7285f34376e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -319,7 +319,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="123" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="74" bodyend="76"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="136" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="87" bodyend="89"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a83b7183da8e0b6fd87282957cdcdaf0a" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -355,7 +355,7 @@ line ending it needs (matching `Python`_&apos;s ``print``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="137" column="26"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="150" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a613c25d8f498440993d8c1b90d817a91" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -392,7 +392,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="152" column="33"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="165" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a104b882a6c51e2c334bcb02f6fc19ddc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -423,7 +423,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="161" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="87" bodyend="89"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="174" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="100" bodyend="102"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a758c10931325acf63493b7f6b785b849" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -452,7 +452,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="168" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="92" bodyend="101"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="181" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="105" bodyend="114"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a98d6646679c902abbf657c7969462341" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -467,7 +467,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="173" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="104" bodyend="108"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="186" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="117" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a243ca868509230168c5f2d5471fd2059" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -482,7 +482,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="178" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="111" bodyend="113"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="191" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="124" bodyend="126"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1aa421eedeff65f30992a8af1c39fb7722" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -537,7 +537,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="187" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="116" bodyend="120"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="200" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="129" bodyend="133"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a35079b6c68716ef8a2c7d58716b1991c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -552,7 +552,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="192" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="123" bodyend="131"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="205" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="136" bodyend="144"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1ab2811df5354e3ca59f53715507a32b96" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -581,7 +581,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="218" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="144" bodyend="146"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="231" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="157" bodyend="159"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a01b31d80495290390638adffbdf90a41" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -623,7 +623,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="226" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="149" bodyend="155"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="239" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="162" bodyend="168"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a5302af5d9a9eebb0c4c7c0c09e9e5a24" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -664,7 +664,7 @@ The raw source ``input`` ends up in, matching `Python`_&apos;s builtin ``input(d
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="234" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="158" bodyend="176"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="247" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="171" bodyend="189"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1adfe91c409cc6c1779341a67d77dc7a81" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -699,7 +699,7 @@ respected and the error only ends up in the transcript
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="248" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="179" bodyend="190"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="261" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="192" bodyend="203"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1acd27d9e88991b09da1f82742ee36f3bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -760,7 +760,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="265" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="193" bodyend="195"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="278" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="206" bodyend="208"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a4aa6d846b2e6e85838ccb6a7b4a0b429" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -789,7 +789,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="272" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="198" bodyend="200"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="285" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="211" bodyend="213"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a1d0c1ce9cecc6f2a908b026e00c74203" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>std::string</type>
@@ -820,7 +820,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="281" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="203" bodyend="211"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="294" column="33" bodyfile="src/view/BaseLogger.cpp" bodystart="216" bodyend="224"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1a025c6350b42695bb9aa3de8f9358bcfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -835,7 +835,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="286" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="214" bodyend="219"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="299" column="26" bodyfile="src/view/BaseLogger.cpp" bodystart="227" bodyend="232"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -868,7 +868,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="201" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="134" bodyend="136"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="214" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="147" bodyend="149"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_logger_1ad07b684f34daa2e9ef9c9c8858cc61dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -911,7 +911,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="211" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="139" bodyend="141"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="224" column="32" bodyfile="src/view/BaseLogger.cpp" bodystart="152" bodyend="154"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-func">
@@ -942,7 +942,7 @@ specially overrides ``error``, which every error path funnels through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/view/BaseLogger.h" line="294" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="79" bodyend="84"/>
+        <location file="include/AGRemapCore/view/BaseLogger.h" line="307" column="18" bodyfile="src/view/BaseLogger.cpp" bodystart="92" bodyend="97"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -987,7 +987,7 @@ through ``log``, so overriding just ``write`` is enough for any plain text sink.
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/view/BaseLogger.h" line="45" column="5" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="45" bodyend="306"/>
+    <location file="include/AGRemapCore/view/BaseLogger.h" line="58" column="5" bodyfile="include/AGRemapCore/view/BaseLogger.h" bodystart="58" bodyend="319"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_logger_1a40d0efe01a2f7e9cc9d15b12863305f6" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_headings</name></member>
       <member refid="class_a_g_remap_core_1_1_base_logger_1a0ebbd23d632bf5c2413fec92b25007b2" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseLogger</scope><name>_loggedSincePrefixSet</name></member>

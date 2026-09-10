@@ -31,7 +31,7 @@ An empty ``std::function`` accepts every part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="135" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="135" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="148" column="28" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="148" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1affea2f9a24a13f38a208abc96df8a875" prot="public" static="no" mutable="no">
         <type>const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *</type>
@@ -48,7 +48,7 @@ An empty ``std::function`` accepts every part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="140" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="140" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="153" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="153" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a5e472da53d410cca0841b90fce4d46cd" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *</type>
@@ -65,7 +65,7 @@ An empty ``std::function`` accepts every part
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="145" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="145" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="158" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="158" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a4c533fe87e844a72052b44136b632642" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -88,7 +88,7 @@ the part/`section`_ itself
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="158" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="158" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="171" column="22" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="171" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a547221aaa72964b786b66be4ef723593" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_reg_fill_missing_1a749689b663250fe1058ed6bb10d496a6" kindref="member">KeySet</ref> &gt;</type>
@@ -107,7 +107,7 @@ the same convention :cpp:func:`IfContentPartColouring::updateColouring` and
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="168" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="168" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="181" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="181" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -157,7 +157,7 @@ entirely
         <link refid="class_a_g_remap_core_1_1_z3_context"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="116" bodyend="169"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" line="129" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegFillMissing.h" bodystart="129" bodyend="182"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a5e472da53d410cca0841b90fce4d46cd" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>ini</name></member>
       <member refid="struct_a_g_remap_core_1_1_reg_fill_missing_1_1_part_selection_1a547221aaa72964b786b66be4ef723593" prot="public" virt="non-virtual"><scope>AGRemapCore::RegFillMissing::PartSelection</scope><name>keysToTrack</name></member>

@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="21" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="34" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era Amber ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="30" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="23" bodyend="25"/>
+        <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="43" column="43" bodyfile="src/data/IniFixData/Amber/AmberFixer.cpp" bodystart="36" bodyend="38"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -49,7 +49,7 @@ Amber&apos;s own ``.ini`` fixers, one per game version she needed a new one at
 Pair this with :cpp:class:`AmberParser`
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="18" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" bodystart="18" bodyend="31"/>
+    <location file="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" line="31" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Amber/AmberFixer.h" bodystart="31" bodyend="44"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_amber_fixer_1ac72d8fb1abf416453dddcdc06119e651" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberFixer</scope><name>AmberFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_amber_fixer_1a5942355884b7bcf8891381b940d2c0f9" prot="public" virt="non-virtual"><scope>AGRemapCore::AmberFixer</scope><name>v6_1</name></member>

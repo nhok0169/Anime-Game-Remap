@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="93" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="93" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="106" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="106" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" prot="protected" static="no">
         <type>std::list&lt; <ref refid="class_a_g_remap_core_1_1_cache_1a7393363839a65bf315c23ddf759b649f" kindref="member">Entry</ref> &gt;</type>
@@ -48,7 +48,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="94" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="94" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="107" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" prot="protected" static="no">
         <type>typename EntryList::iterator</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="95" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="95" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="108" column="13" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="108" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-attrib">
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="39" column="42" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="39" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="52" column="42" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="52" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="protected-attrib">
@@ -96,7 +96,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="97" column="25" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="97" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="110" column="25" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="110" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1a64c0ecff245886b949a26b5910252761" prot="protected" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_cache_1a71eef7814bc267b90cf2fbb69e8a952a" kindref="member">EntryList</ref></type>
@@ -115,7 +115,7 @@ member rather than keeping a separate structure of its own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="107" column="23" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="107" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="120" column="23" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="120" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_cache_1a683ed02bb3e78dd7dd41e7552f9f2bb8" prot="protected" static="no" mutable="no">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_cache_1a8bdd8f30424aca740043549c46ce0ed7" kindref="member">ListIt</ref>, KeyHash, KeyEqual &gt;</type>
@@ -130,7 +130,7 @@ member rather than keeping a separate structure of its own
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="112" column="32" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="112" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="125" column="32" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="125" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -165,7 +165,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="50" column="22"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="63" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a4bbf0404041ecba456fd42a3b1a2e545" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -180,7 +180,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="55" column="25"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="68" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a97735ea2945a2490be5e0a085003a77b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -209,7 +209,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="62" column="18"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="75" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1afe4d96bf396546039f3a7bcb1f6c719a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; V &gt;</type>
@@ -240,7 +240,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="71" column="27"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="84" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1afc94dfa7a2c0f03c61c7adb44f28c1eb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -282,7 +282,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="80" column="18"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="93" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a593353c6ff97fbb39313e46dea5ff474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -297,7 +297,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="85" column="18"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="98" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_cache_1a52357be264c55d6e81ab8156f84422bf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::size_t</type>
@@ -312,7 +312,7 @@ enforced by a subclass (see the class-level note)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/Cache.h" line="90" column="25"/>
+        <location file="include/AGRemapCore/tools/caches/Cache.h" line="103" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -380,7 +380,7 @@ enforces it)
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/tools/caches/Cache.h" line="32" column="5" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="32" bodyend="113"/>
+    <location file="include/AGRemapCore/tools/caches/Cache.h" line="45" column="5" bodyfile="include/AGRemapCore/tools/caches/Cache.h" bodystart="45" bodyend="126"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_cache_1a1023dd45307294f705de649c777f2278" prot="public" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>Cache</name></member>
       <member refid="class_a_g_remap_core_1_1_cache_1a9dd66a3d344bb18165027a366a57f34f" prot="protected" virt="non-virtual"><scope>AGRemapCore::Cache</scope><name>capacity_</name></member>

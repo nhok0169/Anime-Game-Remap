@@ -38,7 +38,7 @@ The initial `adjacency list`_ mapping the indices to fix **from** to the indices
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/Indices.h" line="47" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="38" bodyend="42"/>
+        <location file="include/AGRemapCore/model/assets/Indices.h" line="60" column="22" bodyfile="src/model/assets/Indices.cpp" bodystart="51" bodyend="55"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -93,7 +93,7 @@ sharing only the underlying data (:cpp:func:`Data::getIndexDataRows`) :raw-html:
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/Indices.h" line="33" column="5" bodyfile="include/AGRemapCore/model/assets/Indices.h" bodystart="33" bodyend="48"/>
+    <location file="include/AGRemapCore/model/assets/Indices.h" line="46" column="5" bodyfile="include/AGRemapCore/model/assets/Indices.h" bodystart="46" bodyend="61"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1af01ebd5fb65cfaa3e967c46d84aa450e" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>addMap</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_mapped_assets_1a6e95cdb3162613cf5bb5530cea603d1a" prot="public" virt="non-virtual"><scope>AGRemapCore::Indices</scope><name>addRepoRows</name></member>

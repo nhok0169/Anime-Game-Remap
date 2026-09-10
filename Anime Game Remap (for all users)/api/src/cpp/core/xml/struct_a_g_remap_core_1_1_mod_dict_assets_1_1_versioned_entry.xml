@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="174" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="174" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="187" column="25" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="187" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a980d81d5ad047e51434ba7cd3a8defdc" prot="public" static="no" mutable="no">
         <type>T</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="175" column="19" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="175" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="188" column="19" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="188" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -58,7 +58,7 @@
         <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="173" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="173" bodyend="176"/>
+    <location file="include/AGRemapCore/model/assets/ModDictAssets.h" line="186" column="13" bodyfile="include/AGRemapCore/model/assets/ModDictAssets.h" bodystart="186" bodyend="189"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a980d81d5ad047e51434ba7cd3a8defdc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::VersionedEntry</scope><name>value</name></member>
       <member refid="struct_a_g_remap_core_1_1_mod_dict_assets_1_1_versioned_entry_1a4e192199aa86d163dbe0efb307513e07" prot="public" virt="non-virtual"><scope>AGRemapCore::ModDictAssets::VersionedEntry</scope><name>version</name></member>

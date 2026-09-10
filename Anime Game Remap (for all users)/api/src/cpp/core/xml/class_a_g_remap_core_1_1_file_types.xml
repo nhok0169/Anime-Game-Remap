@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="28" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="28" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="41" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="41" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6c32e2abc04e82f9c69e5b2cca622d7b" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="33" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="33" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="46" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="46" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6ba76d9155821c8bea72266b39d7b309" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="38" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="38" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="51" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="51" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a617dada4d7028e1591252a04cd931894" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -66,7 +66,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="43" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="43" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="56" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="56" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a48b7f0367f986d1c2a4154c087c9620e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -82,7 +82,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="48" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="48" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="61" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a62bfcd1b6e957e9edb7c5d65b7533a3d" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -98,7 +98,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="53" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="66" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a6453382c55f336446d8cceeb99ed163c" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -114,7 +114,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="58" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="71" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a8d736082b577a9e1e6dd9c8214bf3d31" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -130,7 +130,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="63" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="63" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="76" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1afbee5862889d8944a392f564d78fabfb" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -146,7 +146,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="68" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="81" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a7ea05ba9712350eab8c434fd15c16825" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -162,7 +162,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="73" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="73" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="86" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="86" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1aeaf4c48186c0a298dfd320be029f50af" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -178,7 +178,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="78" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="78" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="91" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="91" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1ae3bb46c82dae8ae8786f5379bcad7575" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -194,7 +194,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="83" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="83" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="96" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="96" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1ad99dfbaeb36b13de504c635e269538a4" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -213,7 +213,7 @@ Any other ``.buf`` file created by this fix -- the catch-all for the ``.buf`` ha
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="92" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="92" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="105" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="105" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_file_types_1a17f9ba0293ee70e296f1e83813e2718e" prot="public" static="yes" mutable="no">
         <type>const std::string</type>
@@ -232,7 +232,7 @@ A file of no recognized kind created by this fix -- the final catch-all of
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/FileTypes.h" line="101" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/FileTypes.h" line="114" column="45" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="114" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -249,7 +249,7 @@ carries a ``*`` that no file name ever does. Anything deciding what a file *is* 
 :cpp:class:`FileExt`/:cpp:class:`FilePrefixes`/:cpp:class:`FileSuffixes` instead
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/FileTypes.h" line="22" column="5" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="22" bodyend="102"/>
+    <location file="include/AGRemapCore/constants/FileTypes.h" line="35" column="5" bodyfile="include/AGRemapCore/constants/FileTypes.h" bodystart="35" bodyend="115"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_file_types_1a6ba76d9155821c8bea72266b39d7b309" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Blend</name></member>
       <member refid="class_a_g_remap_core_1_1_file_types_1a31fb1de6992834d30277377bacecf133" prot="public" virt="non-virtual"><scope>AGRemapCore::FileTypes</scope><name>Default</name></member>

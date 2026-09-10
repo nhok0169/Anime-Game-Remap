@@ -41,7 +41,7 @@ equivalent of the pure-Python original&apos;s ``Tuple[str, str]``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="74" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="87" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="87" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a9484359a209c788e7072c541f799a063" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash</type>
@@ -63,7 +63,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="79" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="92" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="92" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a7f7076bd1da783f55cb8c1db98f2d902" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -78,7 +78,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="97" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad043756f777e91431fc2ea3cbb128053" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -93,7 +93,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="89" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="102" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="102" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_mod_mapped_assets" kindref="compound">ModMappedAssets</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -108,7 +108,7 @@ class, so there was no existing helper to reuse
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="94" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="94" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="107" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" prot="public" static="no">
         <type>std::pair&lt; K, K &gt;</type>
@@ -126,7 +126,7 @@ two index columns of an :cpp:class:`Indices` row, as a pair
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="103" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="116" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="116" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" prot="public" static="no">
         <type>std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af8c9fa63ba0f843e5cad4e06403f6379" kindref="member">IndexKey</ref>, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref>, <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_hash" kindref="compound">IndexKeyHash</ref>, <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_index_key_equal" kindref="compound">IndexKeyEqual</ref> &gt;</type>
@@ -144,7 +144,7 @@ that picks between them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="132" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="132" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="145" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="145" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a83b02065e9ad8f1e621f0d18eb8d615e" prot="public" static="no">
         <type>std::function&lt; K(const std::string &amp;)&gt;</type>
@@ -163,7 +163,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="272" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="272" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="285" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="285" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -180,7 +180,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="189" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="189" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="202" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="202" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad69547d9c69f2693d84673ff48317dcb" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" kindref="member">IndexModObjs</ref>, KeyHash, KeyEqual &gt;</type>
@@ -195,7 +195,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="194" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="194" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="207" column="32" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="207" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a28d81f252cffd8049cbbd39f75bd4785" prot="public" static="no" mutable="no">
         <type>std::optional&lt; <ref refid="class_a_g_remap_core_1_1_version" kindref="compound">Version</ref> &gt;</type>
@@ -210,7 +210,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="199" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="199" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="212" column="27" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="212" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -226,7 +226,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="336" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="336" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="349" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="349" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a23970d616cfd7bfa1ba5d09f13fc98fa" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
@@ -240,7 +240,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="337" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="337" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="350" column="20" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="350" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af05e85730385f11cc9c82ee1540a75e9" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
@@ -254,7 +254,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="338" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="338" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="351" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="351" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aadbf0a2c6066cbfa5d3a52f06ccca954" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::optional&lt; K &gt; &gt;</type>
@@ -268,7 +268,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="339" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="339" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="352" column="25" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="352" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a2589263d7a7e425c5434c367c043d867" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref></type>
@@ -282,7 +282,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="340" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="340" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="353" column="30" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="353" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -299,7 +299,7 @@ thing #buildDefaultHashKeyOnlyToModObj can&apos;t do for itself, since ``K`` is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="158" column="37"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="171" column="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a19265321d333d4c15320b6a084b9029c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref>, KeyHash, KeyEqual &gt;</type>
@@ -331,7 +331,7 @@ keys run through &apos;makeKey&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="283" column="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="296" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aaeb5425d59dc23cc0a1b3286ef7088f0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a8364eb1b4c35b71889e6dbf6a50a5ea9" kindref="member">IndexModObjs</ref>, KeyHash, KeyEqual &gt;</type>
@@ -363,7 +363,7 @@ keys and its inner #IndexKey\\s run through &apos;makeKey&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="294" column="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="307" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a94b7cbfa32e2ff54c9f3c3ed0ce43ec3" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" kindref="member">GIMISectionClassifier</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
@@ -447,7 +447,7 @@ reached
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="322" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="335" column="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a81c12542ed0e94390fc60597b24ea9af" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a6aa747225c042bc4e18dc9a59b74a3ad" kindref="member">GIMISectionClassifier</ref>&lt; K, V, KeyHash, KeyEqual &gt; &gt;</type>
@@ -489,7 +489,7 @@ reached
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="332" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="345" column="36"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -591,7 +591,7 @@ columns of the matched :cpp:class:`Indices` row. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="179" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="192" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad235116d6c967694348428583c9d1ed9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
@@ -606,7 +606,7 @@ columns of the matched :cpp:class:`Indices` row. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="204" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="217" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af61541267bf64850ae316e15b893a13a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -625,7 +625,7 @@ columns of the matched :cpp:class:`Indices` row. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="209" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="222" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1af73ce98189b429419e3571279019ebe3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" kindref="member">Assets</ref> *</type>
@@ -640,7 +640,7 @@ columns of the matched :cpp:class:`Indices` row. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="214" column="20"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="227" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abe927abfa7ed48e8846ad45b4a02e91c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -659,7 +659,7 @@ columns of the matched :cpp:class:`Indices` row. **Default**: empty
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="219" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="232" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ab8f5b205590fc586d68d67a9eda07188" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;</type>
@@ -677,7 +677,7 @@ class&apos;s own note on how this differs from the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="228" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="241" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1abc10bff6190ce2a66b25d3d3a24c1a6c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -699,7 +699,7 @@ class&apos;s own note on how this differs from the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="233" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="246" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aebaadb2c517dfb74bdc8e4298ab6ad3c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::optional&lt; K &gt; &gt; &amp;</type>
@@ -714,7 +714,7 @@ class&apos;s own note on how this differs from the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="238" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="251" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a3e0dfb70cde5189b36dd110e283e17db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -733,7 +733,7 @@ class&apos;s own note on how this differs from the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="243" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="256" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a0a3fa2fcd98df801decb194f541d0bcd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="struct_a_g_remap_core_1_1_g_i_m_i_section_classifier_1_1_classifier_config" kindref="compound">ClassifierConfig</ref> &amp;</type>
@@ -748,7 +748,7 @@ class&apos;s own note on how this differs from the pure-Python original
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="248" column="36"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="261" column="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1aa13410ad4523f06872bf54e310038558" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a5730106425639f52e9c7a56e591ec940" kindref="member">ModObj</ref> &gt;</type>
@@ -805,7 +805,7 @@ Classifies which mod objects a particular :cpp:class:`IfContentPart` belongs to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="262" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="275" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -833,7 +833,7 @@ Classifies which mod objects a particular :cpp:class:`IfContentPart` belongs to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="346" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="359" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -929,7 +929,7 @@ the `section`_ is *called*&quot;) is the fallback used when there&apos;s nothing
         <link refid="class_a_g_remap_core_1_1_mod_mapped_assets"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="68" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="68" bodyend="348"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" line="81" column="5" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMISectionClassifier.h" bodystart="81" bodyend="361"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1ad8658ff72622ddedbc872e294308980f" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>Assets</name></member>
       <member refid="class_a_g_remap_core_1_1_g_i_m_i_section_classifier_1a94b7cbfa32e2ff54c9f3c3ed0ce43ec3" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMISectionClassifier</scope><name>buildDefaultClassifier</name></member>

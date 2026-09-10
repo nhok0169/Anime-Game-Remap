@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="22" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="22" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="35" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="35" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_highlight_shadow_1a95564abc3f8ba28ad40ae71986d45d24" prot="public" static="no" mutable="no">
         <type>double</type>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="27" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="27" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="40" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="40" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -80,7 +80,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="35" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="7" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="48" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="20" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_highlight_shadow_1ae1bcf6291156bd9c6b3bb73deb9d9c49" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -135,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="37" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="9" bodyend="26"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="50" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/HighlightShadow.cpp" bodystart="22" bodyend="39"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -171,7 +171,7 @@ A filter that approximates the adjustment of the shadow/highlight of an image
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="16" bodyend="38"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/HighlightShadow.h" bodystart="29" bodyend="51"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_highlight_shadow_1a6d22ff4eb640fdf09a3081bb185cf2ff" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>highlight</name></member>
       <member refid="class_a_g_remap_core_1_1_highlight_shadow_1af5dd9c5407e37d3b022a5c65fd5f3260" prot="public" virt="non-virtual"><scope>AGRemapCore::HighlightShadow</scope><name>HighlightShadow</name></member>

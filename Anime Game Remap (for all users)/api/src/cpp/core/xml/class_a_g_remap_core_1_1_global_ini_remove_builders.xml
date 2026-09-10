@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="49" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="62" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -39,7 +39,7 @@ and reused for every later call
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="60" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="10" bodyend="17"/>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="73" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="23" bodyend="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_global_ini_remove_builders_1a889963a7d7a5527eb05bca4ee6b744d8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_remove_builder" kindref="compound">IniRemoveBuilder</ref> &gt; &amp;</type>
@@ -73,7 +73,7 @@ for it :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="84" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="19" bodyend="27"/>
+        <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="97" column="42" bodyfile="src/constants/GlobalIniRemoveBuilders.cpp" bodystart="32" bodyend="40"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -112,7 +112,7 @@ own, matching the pure-Python ``ModType``&apos;s own
    rather than ported
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="46" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" bodystart="46" bodyend="85"/>
+    <location file="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" line="59" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniRemoveBuilders.h" bodystart="59" bodyend="98"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a583b5b3e6b46f38744083dcc22a2f365" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>GlobalIniRemoveBuilders</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_remove_builders_1a889963a7d7a5527eb05bca4ee6b744d8" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniRemoveBuilders</scope><name>globalRemoveBuilder</name></member>

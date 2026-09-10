@@ -42,7 +42,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="46" column="32" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="368" bodyend="370"/>
+        <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="59" column="32" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="381" bodyend="383"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -66,7 +66,7 @@ eg. (produced from ``And(Eq($x$, $y$), Not($z$))``-shaped predicate)
     $x == $y &amp;&amp; !$z
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="31" column="5" bodyfile="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" bodystart="31" bodyend="47"/>
+    <location file="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" line="44" column="5" bodyfile="include/AGRemapCore/model/iftemplate/Z3IfPredGenerator.h" bodystart="44" bodyend="60"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_z3_if_pred_generator_1ab57e0ea55cb2369428e12fdd094df3f1" prot="public" virt="non-virtual"><scope>AGRemapCore::Z3IfPredGenerator</scope><name>generate</name></member>
     </listofallmembers>

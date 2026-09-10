@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="16" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="29" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="25" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="5" bodyend="7"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="38" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="18" bodyend="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="34" column="26" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="9" bodyend="9"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="47" column="26" bodyfile="src/model/strategies/texEditors/pixelTransforms/BasePixelTransform.cpp" bodystart="22" bodyend="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -195,7 +195,7 @@ Base class for transforming a pixel in a texture file
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="14" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" bodystart="14" bodyend="35"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" line="27" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/BasePixelTransform.h" bodystart="27" bodyend="48"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::BasePixelTransform</scope><name>operator()</name></member>
       <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1a0ec686823eab2fd380e53dfbf6726782" prot="public" virt="virtual"><scope>AGRemapCore::BasePixelTransform</scope><name>transform</name></member>

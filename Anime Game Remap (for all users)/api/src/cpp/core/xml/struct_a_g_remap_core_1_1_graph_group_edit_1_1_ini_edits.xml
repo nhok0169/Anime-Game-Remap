@@ -20,7 +20,7 @@ in the order given
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="220" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="220" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="233" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="233" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a3589833d2df200e7789e232880a36b67" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a319e5f6132b5c59462fb767505d44f97" kindref="member">PartFilter</ref> &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
@@ -38,7 +38,7 @@ list -- any edit past the end is unfiltered
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="229" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="229" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="242" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="242" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a6620201ae812ec0c2476f884978a5221" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, std::optional&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1aeb03f2c516d1d0b338d83693d0cd880f" kindref="member">KeySet</ref> &gt;, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
@@ -56,7 +56,7 @@ encountered, matching the pure-Python original&apos;s ``None``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="238" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="238" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="251" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="251" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ad3a4cc389b580d5aacf8d3336fad8cdf" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; <ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a726308577f1bf14d2e89ad7bbeba9596" kindref="member">ModObj</ref>, bool, typename <ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;::ModObjHash &gt;</type>
@@ -74,7 +74,7 @@ GraphGroupEdit::trackKeysIsGlobal is ``false``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="247" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="247" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="260" column="35" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="260" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -82,7 +82,7 @@ GraphGroupEdit::trackKeysIsGlobal is ``false``
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="212" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="212" bodyend="248"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="225" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="225" bodyend="261"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1ae4858501805a3b6f9a92ac3799122832" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>edits</name></member>
       <member refid="struct_a_g_remap_core_1_1_graph_group_edit_1_1_ini_edits_1a3589833d2df200e7789e232880a36b67" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphGroupEdit::IniEdits</scope><name>keyFilters</name></member>

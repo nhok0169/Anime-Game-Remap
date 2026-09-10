@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="256" column="55" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="256" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="269" column="55" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="269" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="261" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="261" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="274" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="274" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a783ac96e85f596cd3e96d33fcca4050a" prot="public" static="no" mutable="no">
         <type>std::function&lt; V(const std::string &amp;)&gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="266" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="266" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="279" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="279" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -71,7 +71,7 @@ literal here
         <label>AGRemapCore::GIMISectionClassifier&lt; K, V, KeyHash, KeyEqual &gt;::ClassifierConfig</label>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="252" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="252" bodyend="267"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" line="265" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/GIMIParser.h" bodystart="265" bodyend="280"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1ae549e37bc6608691558c43ff3911d9b1" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>classifier</name></member>
       <member refid="struct_a_g_remap_core_1_1_g_i_m_i_parser_1_1_parser_config_1a8c60fc434cdae20b9e383ae8f65b083b" prot="public" virt="non-virtual"><scope>AGRemapCore::GIMIParser::ParserConfig</scope><name>runConfig</name></member>

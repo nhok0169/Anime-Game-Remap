@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="27" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="40" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The fixer for a 6.1-era Raiden ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="36" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="417" bodyend="419"/>
+        <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="49" column="43" bodyfile="src/data/IniFixData/Raiden/RaidenFixer.cpp" bodystart="430" bodyend="432"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -55,7 +55,7 @@ Pair this with :cpp:class:`RaidenParser`: the fixer&apos;s mod objects are the o
 classifies, and neither half makes sense alone
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="24" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" bodystart="24" bodyend="37"/>
+    <location file="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" line="37" column="5" bodyfile="include/AGRemapCore/data/IniFixData/Raiden/RaidenFixer.h" bodystart="37" bodyend="50"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_raiden_fixer_1aa96d59cda5fdf3a9727b3e70ec46ea30" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenFixer</scope><name>RaidenFixer</name></member>
       <member refid="class_a_g_remap_core_1_1_raiden_fixer_1af4596660e3a270a9948f5555f33002e1" prot="public" virt="non-virtual"><scope>AGRemapCore::RaidenFixer</scope><name>v6_1</name></member>

@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="101" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="114" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_template" kindref="compound">IfTemplate</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -46,7 +46,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="102" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="102" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="115" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="115" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_if_content_part_colouring" kindref="compound">IfContentPartColouring</ref>&lt; K, V, KeyHash, KeyEqual, KeyHash, KeyEqual &gt;</type>
@@ -60,7 +60,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="103" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="103" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="116" column="13" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="116" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="128" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="128" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="141" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="141" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1af6c7aa1594d3636926e979076f7bd49b" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_z3_predicate" kindref="compound">Z3Predicate</ref></type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="133" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="133" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="146" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="146" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a480e844312a0e02308fd792be3c23b2d" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -107,7 +107,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="138" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="138" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="151" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="151" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1aa496bd63c971a12a2271ce9ffdfbaff7" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="143" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="143" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="156" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="156" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1afcc098c89dd59a6ad14050e320dcce5b" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -137,7 +137,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="148" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="148" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="161" column="25" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="161" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a927b4b094f26554a4e74a0825a96fd9a" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1aa177876b684af3619e9a2d61f88dbf0e" kindref="member">Section</ref> *</type>
@@ -152,7 +152,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="153" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="153" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="166" column="21" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="166" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a255819e4496dcf86063bb0aa7ccc6d57" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -167,7 +167,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="158" column="17" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="158" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="171" column="17" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="171" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_section_iter_query_data_1a3ea61dca162e9203dea249a6cec03cc0" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" kindref="member">Colouring</ref> *</type>
@@ -182,7 +182,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="163" column="23" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="163" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="176" column="23" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="176" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -302,7 +302,7 @@ The corresponding logical query that the part resides in -- always a real
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/SectionIterData.h" line="122" column="22"/>
+        <location file="include/AGRemapCore/model/SectionIterData.h" line="135" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -392,7 +392,7 @@ A class that contains the needed data for each iteration after calling
         <link refid="class_a_g_remap_core_1_1_z3_predicate"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/SectionIterData.h" line="99" column="5" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="99" bodyend="164"/>
+    <location file="include/AGRemapCore/model/SectionIterData.h" line="112" column="5" bodyfile="include/AGRemapCore/model/SectionIterData.h" bodystart="112" bodyend="177"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a28c41ba4ad898264fa7a8a3910686264" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>Colouring</name></member>
       <member refid="class_a_g_remap_core_1_1_section_iter_query_data_1a3ea61dca162e9203dea249a6cec03cc0" prot="public" virt="non-virtual"><scope>AGRemapCore::SectionIterQueryData</scope><name>colouring</name></member>

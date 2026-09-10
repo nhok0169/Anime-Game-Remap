@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="55" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="55" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="68" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="57" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="70" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a2550dd46c02f9f13785edc8eb5a20993" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::string</type>
@@ -70,7 +70,7 @@ The folder the ``.ini`` file lives in (the equivalent of the pure-Python origina
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="66" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="79" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a3640fbc5bcbbca2b72bd4d0eabdc694d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::shared_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_logger" kindref="compound">BaseLogger</ref> &gt;</type>
@@ -98,7 +98,7 @@ that file&apos;s own :cpp:member:`IniFile::logger`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="84" column="37"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="97" column="37"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1aeb9383ea7f4afa6193f1bf5cb44ce329" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -146,7 +146,7 @@ and a resource edit itself never reads a built model back
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="99" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="112" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a6d920b63b4d8a6e36288617741e9370b" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -170,7 +170,7 @@ file. Everything captured stays owned by the implementation
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="113" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="126" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a65c54790ea774d8ba1e9a75ca629ba28" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_resource" kindref="compound">IniResource</ref> * &gt; &gt;</type>
@@ -189,7 +189,7 @@ the order they were built, and clears the capture buffer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="122" column="33"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="135" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a359816a4ec9c09e9d8a517f9a0c2b410" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -205,7 +205,7 @@ the order they were built, and clears the capture buffer
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="127" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="140" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a4f96412d6586c920382e145b7be4008a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -227,7 +227,7 @@ resource-edit paths check before doing anything at all
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="139" column="26"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="152" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a77dd46f408138e7471ff9f90a7c4d3af" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::unordered_map&lt; std::string, <ref refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a0899dacf5d640c6457df25ed7dc2610c" kindref="member">Section</ref> * &gt;</type>
@@ -246,7 +246,7 @@ the pure-Python original&apos;s ``ini.sectionIfTemplates``. Borrowed, not owned
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="148" column="40"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="161" column="40"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_res_edit_context_1a140635d8506871a648607357f4efb10a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_z3_context" kindref="compound">Z3Context</ref> *</type>
@@ -268,7 +268,7 @@ There is deliberately one context per ``.ini`` file, not one per
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="160" column="31"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="173" column="31"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -329,7 +329,7 @@ the narrowest thing that makes them work against either implementation.
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="49" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="49" bodyend="161"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" line="62" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IniResEditContext.h" bodystart="62" bodyend="174"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a6d920b63b4d8a6e36288617741e9370b" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>beginCollectingResources</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_res_edit_context_1a359816a4ec9c09e9d8a517f9a0c2b410" prot="public" virt="pure-virtual"><scope>AGRemapCore::IniResEditContext</scope><name>endCollectingResources</name></member>

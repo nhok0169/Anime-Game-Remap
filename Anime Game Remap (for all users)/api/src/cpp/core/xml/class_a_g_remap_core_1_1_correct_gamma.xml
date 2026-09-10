@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="32" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="32" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="45" column="20" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="45" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="39" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="9" bodyend="9"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="52" column="22" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="22" bodyend="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_correct_gamma_1a2f974182b2a826e0e8b0a9ee569dfd68" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -104,7 +104,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="51" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="17" bodyend="21"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="64" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="30" bodyend="34"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -149,7 +149,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="49" column="24" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="11" bodyend="15"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="62" column="24" bodyfile="src/model/strategies/texEditors/pixelTransforms/CorrectGamma.cpp" bodystart="24" bodyend="28"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -195,7 +195,7 @@ channel is left untouched
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="26" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="26" bodyend="52"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" line="39" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/CorrectGamma.h" bodystart="39" bodyend="65"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_correct_gamma_1aacb789a7f0708bb6e3ccddc1d8ae3980" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>CorrectGamma</name></member>
       <member refid="class_a_g_remap_core_1_1_correct_gamma_1a9b259591408dab5c3b16e3aa211cb45a" prot="public" virt="non-virtual"><scope>AGRemapCore::CorrectGamma</scope><name>correctGamma</name></member>

@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="43" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="46" bodyend="49"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="56" column="32" bodyfile="src/tools/StringTools.cpp" bodystart="59" bodyend="62"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>size_t</type>
@@ -78,7 +78,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="52" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="51" bodyend="62"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="65" column="27" bodyfile="src/tools/StringTools.cpp" bodystart="64" bodyend="75"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a9b3c50f415349916ea2d45c1531e29e5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -116,7 +116,7 @@ space (``U+3000``) and the line/paragraph separators (``U+2028``/``U+2029``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="69" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="64" bodyend="80"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="82" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="77" bodyend="93"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afdf4db7232319e516684662793a80665" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::string_view &gt;</type>
@@ -147,7 +147,7 @@ space (``U+3000``) and the line/paragraph separators (``U+2028``/``U+2029``)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="78" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="82" bodyend="108"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="91" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="95" bodyend="121"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a4e73dad6ee5689594d1b04452d29abba" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -184,7 +184,7 @@ space carrying a combining mark) is left alone
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="94" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="139" bodyend="141"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="107" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="152" bodyend="154"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a6cd686a93edd620ac7f44163ebad12b8" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -218,7 +218,7 @@ See :cpp:func:`strip` for what counts as whitespace
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="107" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="110" bodyend="121"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="120" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="123" bodyend="134"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a075b59ee14bdca80cbaedef14d0360e9" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -252,7 +252,7 @@ See :cpp:func:`strip` for what counts as whitespace
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="120" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="123" bodyend="137"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="133" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="136" bodyend="150"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a5b88bfbb46ba6dc0ee952d0bcc37d77f" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -293,7 +293,7 @@ Lowercases every codepoint of &apos;txt&apos;, similar to `Python&apos;s str.low
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="140" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="143" bodyend="172"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="153" column="33" bodyfile="src/tools/StringTools.cpp" bodystart="156" bodyend="185"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1abc11402ae792e8fd8c6a5aae0cd83873" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -338,7 +338,7 @@ Retrieves the first few `graphemes`_ of &apos;txt&apos;, similar to `Python`_&ap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="153" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="174" bodyend="187"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="166" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="187" bodyend="200"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1afa58138e01e3648847d238ce624e53dd" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string_view</type>
@@ -383,7 +383,7 @@ Retrieves the last few `graphemes`_ of &apos;txt&apos;, similar to `Python`_&apo
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="166" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="189" bodyend="208"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="179" column="38" bodyfile="src/tools/StringTools.cpp" bodystart="202" bodyend="221"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1af15183a589c39a0bb7dc678e7e7db1a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -431,7 +431,7 @@ a `grapheme`_: ``&quot;e&quot;`` is not a prefix of ``&quot;é&quot;`` written a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="182" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="210" bodyend="212"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="195" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="223" bodyend="225"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ab66a14cb70eea88081a9bc2f76512a2f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -477,7 +477,7 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="196" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="214" bodyend="216"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="209" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="227" bodyend="229"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a615fcb1a68846faf533d36d9d149a176" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -520,7 +520,7 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="206" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="218" bodyend="220"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="219" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="231" bodyend="233"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1a386314c4c89382a978e63c19eabf5c80" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -563,7 +563,7 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="216" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="222" bodyend="226"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="229" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="235" bodyend="239"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_string_tools_1ae9965a9a69cc4cf6a529be9df026f184" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -604,7 +604,7 @@ See :cpp:func:`startsWith` for how this differs from a byte-wise check
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/StringTools.h" line="224" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="228" bodyend="237"/>
+        <location file="include/AGRemapCore/tools/StringTools.h" line="237" column="25" bodyfile="src/tools/StringTools.cpp" bodystart="241" bodyend="250"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -625,7 +625,7 @@ Tools for handling with strings :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;
    methods never throw on malformed input
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/StringTools.h" line="29" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="29" bodyend="225"/>
+    <location file="include/AGRemapCore/tools/StringTools.h" line="42" column="5" bodyfile="include/AGRemapCore/tools/StringTools.h" bodystart="42" bodyend="238"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_string_tools_1a6b222148ff1b101737b4e9e1591758b3" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>compareStrPtrs</name></member>
       <member refid="class_a_g_remap_core_1_1_string_tools_1ac1038b37e63b7b266c13725193f60c99" prot="public" virt="non-virtual"><scope>AGRemapCore::StringTools</scope><name>countGrapheme</name></member>

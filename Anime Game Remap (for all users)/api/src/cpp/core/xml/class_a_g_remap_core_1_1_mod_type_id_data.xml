@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="42" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="42" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="55" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="55" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" prot="public" static="no" mutable="no">
         <type>int</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="47" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="47" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="60" column="17" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="60" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -84,7 +84,7 @@ registered in :cpp:enum:`ModTypeId` can still be represented
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="37" column="22" bodyfile="src/model/strategies/ModTypeIdData.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="50" column="22" bodyfile="src/model/strategies/ModTypeIdData.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -98,7 +98,7 @@ Not meant to be a full representation of a mod type on its own -- the Python-sid
 is meant to build its own richer representation from this data
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="17" column="5" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="17" bodyend="48"/>
+    <location file="include/AGRemapCore/model/strategies/ModTypeIdData.h" line="30" column="5" bodyfile="include/AGRemapCore/model/strategies/ModTypeIdData.h" bodystart="30" bodyend="61"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1a011f421a61bd0e37a038358dfaaafabc" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdData</scope><name>gameTypeId</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_type_id_data_1add0e2d9ae5be3d69af6776568c79f828" prot="public" virt="non-virtual"><scope>AGRemapCore::ModTypeIdData</scope><name>modTypeId</name></member>

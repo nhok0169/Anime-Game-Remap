@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="727" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="727" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="740" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="740" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1a1068d0e1ab1e02f24fd478f03cf2fa3d" prot="public" static="no" mutable="no">
         <type>std::size_t</type>
@@ -31,14 +31,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="730" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="730" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="743" column="29" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="743" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="724" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="724" bodyend="731"/>
+    <location file="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" line="737" column="13" bodyfile="include/AGRemapCore/model/strategies/iniRemovers/RemapIniRemover.h" bodystart="737" bodyend="744"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1a1068d0e1ab1e02f24fd478f03cf2fa3d" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::OpenMatch</scope><name>minSideChars</name></member>
       <member refid="struct_a_g_remap_core_1_1_remap_ini_remover_1_1_open_match_1aa60a949f198e69fd877cba994b7c98f3" prot="public" virt="non-virtual"><scope>AGRemapCore::RemapIniRemover::OpenMatch</scope><name>sideChar</name></member>

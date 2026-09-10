@@ -55,13 +55,13 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="40" column="9" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="40" bodyend="40"/>
+        <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="53" column="9" bodyfile="src/model/iftemplate/Z3IfPredGenerator.cpp" bodystart="53" bodyend="53"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="12" column="5"/>
+    <location file="src/model/iftemplate/Z3IfPredGenerator.cpp" line="25" column="5"/>
   </compounddef>
 </doxygen>

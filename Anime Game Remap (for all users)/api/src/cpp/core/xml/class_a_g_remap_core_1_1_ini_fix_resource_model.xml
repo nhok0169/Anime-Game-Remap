@@ -20,7 +20,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="84" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="84" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="97" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="97" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1aca3cb0eee36b86c1dbe64a6496dd393e" prot="public" static="no" mutable="no">
         <type>std::optional&lt; tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt; &gt;</type>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="89" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="89" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="102" column="27" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="102" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1ace0bde45cceb788165ece81c424d7cb4" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; int, tsl::ordered_map&lt; std::string, std::vector&lt; std::string &gt; &gt; &gt;</type>
@@ -50,7 +50,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="94" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="94" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="107" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="107" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a5787055672b02ab9d7ed27b14cc3ca71" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
@@ -65,7 +65,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="99" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="112" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="112" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -131,7 +131,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="75" column="13" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="9" bodyend="42"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="88" column="13" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="22" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a05094650def231acb345adeea3658f7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -145,7 +145,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="79" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="92" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1a618f538155b1fe2088bea5f25c124ee5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_ini_fix_resource_model_1_1_entry" kindref="compound">Entry</ref> &gt;</type>
@@ -168,7 +168,7 @@ why this is a plain flattened list rather than a lazy generator)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="112" column="25" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="44" bodyend="94"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="125" column="25" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="57" bodyend="107"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_fix_resource_model_1aebaea03692f0e44aaf7af7f8341521ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -184,7 +184,7 @@ why this is a plain flattened list rather than a lazy generator)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="117" column="26" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="96" bodyend="104"/>
+        <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="130" column="26" bodyfile="src/model/iniresources/IniFixResourceModel.cpp" bodystart="109" bodyend="117"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -230,7 +230,7 @@ doc comment for why ``tsl::ordered_map`` is used throughout instead of ``std::un
         <link refid="class_a_g_remap_core_1_1_ini_resource_model"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="27" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="27" bodyend="118"/>
+    <location file="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" line="40" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniFixResourceModel.h" bodystart="40" bodyend="131"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1aebaea03692f0e44aaf7af7f8341521ae" prot="public" virt="virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_fix_resource_model_1a6ddc3d5a4f1e557ae89a252bd81c8568" prot="public" virt="non-virtual"><scope>AGRemapCore::IniFixResourceModel</scope><name>fixedPaths</name></member>

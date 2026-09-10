@@ -15,7 +15,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="267" column="25" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="267" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="280" column="25" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="280" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1ace659ea4f3b230725b5f9173e3d9b12b" prot="public" static="no" mutable="no">
         <type>std::vector&lt; K &gt;</type>
@@ -29,7 +29,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="268" column="29" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="268" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="281" column="29" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="281" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -59,7 +59,7 @@
         <link refid="struct_a_g_remap_core_1_1_version_1_1_pre_post_dev_bound"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="266" column="13" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="266" bodyend="269"/>
+    <location file="include/AGRemapCore/model/assets/ModMappedAssets.h" line="279" column="13" bodyfile="include/AGRemapCore/model/assets/ModMappedAssets.h" bodystart="279" bodyend="282"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1ace659ea4f3b230725b5f9173e3d9b12b" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::InternalKeyResult</scope><name>nonVersionVals</name></member>
       <member refid="struct_a_g_remap_core_1_1_mod_mapped_assets_1_1_internal_key_result_1a8f4b816c22ddc74c04b5c396ebbd5b1a" prot="public" virt="non-virtual"><scope>AGRemapCore::ModMappedAssets::InternalKeyResult</scope><name>version</name></member>

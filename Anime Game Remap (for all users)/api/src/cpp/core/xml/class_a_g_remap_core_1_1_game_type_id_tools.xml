@@ -36,7 +36,7 @@ that the value actually corresponds to one of :cpp:enum:`GameTypeId`&apos;s decl
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="63" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="28" bodyend="39"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="76" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="41" bodyend="52"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a4fb3ba540683c2d56d47b52078c14885" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -71,7 +71,7 @@ Mirrors the pure-Python ``GameTypeNames`` enum&apos;s values (``constants/GameTy
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="77" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="41" bodyend="50"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="90" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="54" bodyend="63"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a3f1090b5bd1c91214a613af5a85d06c5" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::string &gt; &amp;</type>
@@ -108,7 +108,7 @@ Mirrors :cpp:member:`ModType::aliases` -- every one of these resolves through
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="93" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="52" bodyend="61"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="106" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="65" bodyend="74"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1ad6283b608379d3da1fe5a71741646ca0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt; &amp;</type>
@@ -132,7 +132,7 @@ The order is stable across runs, so anything listing the supported games (the CL
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="107" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="63" bodyend="65"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="120" column="38" bodyfile="src/constants/GameTypeId.cpp" bodystart="76" bodyend="78"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1a20301c046265757a9a6c4eb55d655b51" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
@@ -176,7 +176,7 @@ Case and surrounding whitespace are ignored, matching how a mod type&apos;s name
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="130" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="67" bodyend="79"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="143" column="34" bodyfile="src/constants/GameTypeId.cpp" bodystart="80" bodyend="92"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_game_type_id_tools_1ac7fb3681aaea46f8496034f18eab3f1b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -213,7 +213,7 @@ exactly like its list of supported mods
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameTypeId.h" line="146" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="81" bodyend="107"/>
+        <location file="include/AGRemapCore/constants/GameTypeId.h" line="159" column="32" bodyfile="src/constants/GameTypeId.cpp" bodystart="94" bodyend="120"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -221,7 +221,7 @@ exactly like its list of supported mods
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GameTypeId.h" line="49" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="49" bodyend="147"/>
+    <location file="include/AGRemapCore/constants/GameTypeId.h" line="62" column="5" bodyfile="include/AGRemapCore/constants/GameTypeId.h" bodystart="62" bodyend="160"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a20301c046265757a9a6c4eb55d655b51" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>findByName</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_id_tools_1a3f1090b5bd1c91214a613af5a85d06c5" prot="public" virt="non-virtual"><scope>AGRemapCore::GameTypeIdTools</scope><name>getAliases</name></member>

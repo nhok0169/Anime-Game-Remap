@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="24" column="13"/>
+        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="37" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -36,7 +36,7 @@ The parser for a 4.0-era Jean ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="33" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="38" bodyend="40"/>
+        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="46" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="51" bodyend="53"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_jean_parser_1ada91a2a1fd1759732228242cdf9b08db" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_parse_builder_1aa16d5125331092cce85d54a4a89ad8c9" kindref="member">IniParseBuilder::Factory</ref></type>
@@ -54,7 +54,7 @@ The parser for a 5.5-era Jean ``.ini`` file -- what
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="42" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="43" bodyend="45"/>
+        <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="55" column="45" bodyfile="src/data/IniParseData/Jean/JeanParser.cpp" bodystart="56" bodyend="58"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -70,7 +70,7 @@ but the parser is shared between them, because what a Jean ``.ini`` file *contai
 depend on what it is being remapped to
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="21" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" bodystart="21" bodyend="43"/>
+    <location file="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" line="34" column="5" bodyfile="include/AGRemapCore/data/IniParseData/Jean/JeanParser.h" bodystart="34" bodyend="56"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_jean_parser_1acc4ebc9c64a59049af53423a272e3494" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanParser</scope><name>JeanParser</name></member>
       <member refid="class_a_g_remap_core_1_1_jean_parser_1a3bc61b7d0a8ba9a260829fb69a119821" prot="public" virt="non-virtual"><scope>AGRemapCore::JeanParser</scope><name>v4_0</name></member>

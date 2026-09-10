@@ -22,7 +22,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="41" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="41" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="54" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="54" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8a027624a66841bfac0eb94701986ba6" prot="public" static="no">
         <type>std::variant&lt; V, std::vector&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a0039b1ec1572d47a02e4f0c9f6ffb855" kindref="member">IndexedValue</ref> &gt; &gt;</type>
@@ -43,7 +43,7 @@ The state stored for a key within an :cpp:class:`IfContentPartColouring` -- eith
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="53" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="66" column="13" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="66" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -60,7 +60,7 @@ The state stored for a key within an :cpp:class:`IfContentPartColouring` -- eith
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="105" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="118" column="27" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="118" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -97,7 +97,7 @@ exist beforehand :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="66" column="22"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="79" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1ad5e9269cd88ff5873ebf0c9d1d956cd1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" kindref="member">IfContentPartColourChange</ref>&lt; V &gt; &gt;</type>
@@ -120,7 +120,7 @@ shallow-clone convention.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="79" column="29"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="92" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_if_content_part_colour_change_1a046aba8411c3bc1e1c3970945542fc92" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <templateparamlist>
@@ -223,7 +223,7 @@ The key to restore -- if ``key`` isn&apos;t currently in ``colouring``, this has
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="100" column="18"/>
+        <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="113" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -244,7 +244,7 @@ Class to store the change in state of a particular key for an :cpp:class:`IfCont
 </parameterlist>
 </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="36" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="36" bodyend="106"/>
+    <location file="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" line="49" column="5" bodyfile="include/AGRemapCore/model/iftemplate/IfContentPartColour.h" bodystart="49" bodyend="119"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1ad5e9269cd88ff5873ebf0c9d1d956cd1" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_if_content_part_colour_change_1a8784601065210c6c338ad7bd9a949378" prot="public" virt="non-virtual"><scope>AGRemapCore::IfContentPartColourChange</scope><name>IfContentPartColourChange</name></member>

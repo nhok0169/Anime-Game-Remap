@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="37" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="50" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="50" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a11b834dc129b2bf72b94c2d8b2c837d7" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref>, std::vector&lt; std::string &gt; &gt;</type>
@@ -39,7 +39,7 @@ Every entry here is also in #dfa
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="50" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="50" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="63" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="63" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1ab1ece8ea33829ce2164844dc1154abb9" prot="public" static="no" mutable="no">
         <type>std::vector&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
@@ -61,7 +61,7 @@ every run
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="63" column="25" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="63" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="76" column="25" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA</ref>&lt; <ref refid="namespace_a_g_remap_core_1a3cec628c65b87e9eae2e12e5fd01768f" kindref="member">GameTypeId</ref> &gt;</type>
@@ -83,7 +83,7 @@ Holds both #names and #aliases, each **lowercased**, matching how
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="76" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="89" column="32" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="89" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -100,7 +100,7 @@ Holds both #names and #aliases, each **lowercased**, matching how
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GameType.h" line="32" column="13" bodyfile="src/constants/GameType.cpp" bodystart="27" bodyend="45"/>
+        <location file="include/AGRemapCore/constants/GameType.h" line="45" column="13" bodyfile="src/constants/GameType.cpp" bodystart="40" bodyend="58"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -142,7 +142,7 @@ which read a single process-wide instance of this class
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/constants/GameType.h" line="26" column="5" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="26" bodyend="77"/>
+    <location file="include/AGRemapCore/constants/GameType.h" line="39" column="5" bodyfile="include/AGRemapCore/constants/GameType.h" bodystart="39" bodyend="90"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_game_type_1a11b834dc129b2bf72b94c2d8b2c837d7" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>aliases</name></member>
       <member refid="class_a_g_remap_core_1_1_game_type_1a45efb6f6f3dc0aca4e89f3c00c07094c" prot="public" virt="non-virtual"><scope>AGRemapCore::GameType</scope><name>dfa</name></member>

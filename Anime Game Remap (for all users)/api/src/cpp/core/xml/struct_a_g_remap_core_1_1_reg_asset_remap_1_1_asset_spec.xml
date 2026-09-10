@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="113" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="113" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="126" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a029988e8600edf0797bc0b4ddec12a34" prot="public" static="no" mutable="no">
         <type>std::optional&lt; V &gt;</type>
@@ -36,7 +36,7 @@ value untouched. See this class&apos;s own note on why the sentinel is usually r
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="122" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="122" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="135" column="31" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="135" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -52,7 +52,7 @@ value untouched. See this class&apos;s own note on why the sentinel is usually r
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="124" column="17"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="137" column="17"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3179490a084164f865379b513a7f6100" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
         <type></type>
@@ -94,7 +94,7 @@ value untouched. See this class&apos;s own note on why the sentinel is usually r
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="132" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="132" bodyend="133"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="145" column="26" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="145" bodyend="146"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -115,7 +115,7 @@ value untouched. See this class&apos;s own note on why the sentinel is usually r
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="109" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="109" bodyend="134"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" line="122" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/regEdits/RegAssetRemap.h" bodystart="122" bodyend="147"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1ae3253727a7c19d0c3cc74aa659ac5564" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>assets</name></member>
       <member refid="struct_a_g_remap_core_1_1_reg_asset_remap_1_1_asset_spec_1a3a0ea90954524fd06ea3939ead80a1b4" prot="public" virt="non-virtual"><scope>AGRemapCore::RegAssetRemap::AssetSpec</scope><name>AssetSpec</name></member>

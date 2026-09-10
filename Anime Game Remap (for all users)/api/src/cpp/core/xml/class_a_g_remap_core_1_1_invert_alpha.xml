@@ -58,7 +58,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="26" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp" bodystart="5" bodyend="8"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="39" column="18" bodyfile="src/model/strategies/texEditors/pixelTransforms/InvertAlpha.cpp" bodystart="18" bodyend="21"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -102,7 +102,7 @@ Inverts the alpha channel of a pixel
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="24" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" bodystart="24" bodyend="27"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" line="37" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/pixelTransforms/InvertAlpha.h" bodystart="37" bodyend="40"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_pixel_transform_1ada1e4712b98b74fe2510220d3609d5c4" prot="public" virt="non-virtual"><scope>AGRemapCore::InvertAlpha</scope><name>operator()</name></member>
       <member refid="class_a_g_remap_core_1_1_invert_alpha_1aa2c3b66186a8a076883736f31ab732f1" prot="public" virt="virtual"><scope>AGRemapCore::InvertAlpha</scope><name>transform</name></member>

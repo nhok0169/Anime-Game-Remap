@@ -28,7 +28,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="154" column="21"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="167" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1aefa8d4b5b0bed1dab8c913aed88691f2" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -72,7 +72,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="159" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="172" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a198a87eb45aab11236de72dda1494e73" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -116,7 +116,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="164" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="177" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a243e0420d424bec684f5d367b89cfa92" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -182,7 +182,7 @@ are clamped rather than rejected:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="169" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="182" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a09dfdd75924f0c82376fa8334c37e0c4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -218,7 +218,7 @@ call.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="174" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="187" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4f5da5be58c4ab118b9c26249ce38d98" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -254,7 +254,7 @@ whatever was originally at the front.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="179" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="192" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1af43f9ef4db69be9c506896e77fc0269c" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -342,7 +342,7 @@ never affect tie-breaking among the entries that do get inserted.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="222" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="235" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9684a182de409a160e5389358d10c0c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -398,7 +398,7 @@ pinned is treated as unmentioned (floating) instead.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="245" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="258" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ac7cc571e9a5c0a0d30216436fa4a1bf6" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -448,7 +448,7 @@ otherwise this call is a no-op, same as an out-of-bounds ``pos``.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="251" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="264" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ae6e9f9d4985d1ab71b1036591bbee2cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -519,7 +519,7 @@ occurrence&apos;s true positional index and value.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="256" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="269" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a0c29ed602214c83e82e8c852f8cbbcba" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -599,7 +599,7 @@ were never mentioned in ``keyRemap`` at all -- a pure pass-through, not subject 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="263" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="276" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ab3c96b02f615a2cf5d0fca96f9a544a4" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -679,7 +679,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="298" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="311" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ada2e5b87f082623584caa09c0df839b0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -713,7 +713,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="304" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="317" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a78cfc66eff06369aa04df7fe079207e0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -747,7 +747,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="309" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="322" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1aaa84bb565f30fafbc5529d4de8a5dfba" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -781,7 +781,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="314" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="327" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9e77f1931d8440475be015c0a18dca4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -802,7 +802,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="319" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="332" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4eed96c5d229d8d83aa9c88a9c7bd2a3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -823,7 +823,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="324" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="337" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1af8d68e5c48fd6dd28d108ee313a73478" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>size_t</type>
@@ -844,7 +844,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="329" column="28"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="342" column="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a75e8a07597edadbcc51704ce5a83d114" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>bool</type>
@@ -865,7 +865,7 @@ ineligible entries and shift ``list[i]`` onto the next eligible one.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="334" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="347" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a9a66cfe53347f2d38224e1c7d2c60777" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; V &gt;</type>
@@ -934,7 +934,7 @@ default), every occurrence is included.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="357" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="370" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a69c1808dd75c6c8697029b81e201ea98" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::pair&lt; long long, V &gt; &gt;</type>
@@ -1004,7 +1004,7 @@ default), every occurrence is included.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="381" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="394" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6532fe4b4ee6bd17b646a3003ba9b85c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; K &gt;</type>
@@ -1032,7 +1032,7 @@ its own to build a hash-based set with, for an arbitrary ``K``.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="397" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="410" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a4ad3b9a51219617e52b5c6bf6904096d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::pair&lt; K, V &gt;</type>
@@ -1080,7 +1080,7 @@ concrete type.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="414" column="31"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="427" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a83caa455df050c908a48ad05f3fa95f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::pair&lt; long long, V &gt;</type>
@@ -1131,7 +1131,7 @@ range is ``[-size(), size()-1]`` (``-1`` = last entry, ``-size()`` = first).
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="434" column="31"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="447" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1ad9eae7740812c7eb42339e5f26358e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -1188,7 +1188,7 @@ convention as :cpp:func:`getByInd`.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="439" column="26"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="452" column="26"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a689329efc3ff1909fedffd86e462438c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -1209,7 +1209,7 @@ convention as :cpp:func:`getByInd`.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="446" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="459" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1af396e3a026127518a588f6444bc4acd4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; <ref refid="struct_a_g_remap_core_1_1_i_ordered_multi_map_1_1_item" kindref="compound">Item</ref> &gt;</type>
@@ -1234,7 +1234,7 @@ instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="458" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="471" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a6d8f713ffd8d96c9f8ced6b7205c169f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt; &gt;</type>
@@ -1316,7 +1316,7 @@ instance directly via :cpp:class:`BaseOrderedMultiMap::Iterator`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="472" column="33"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="485" column="33"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_i_ordered_multi_map" kindref="compound">IOrderedMultiMap</ref>&lt; K, V &gt; &gt;</type>
@@ -1341,7 +1341,7 @@ the ordinary way (the pointed-to type is abstract)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="488" column="37"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="501" column="37"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1425,7 +1425,7 @@ hierarchy. Implementing the small ``rawXxx`` primitive set instead (see
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="60" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="60" bodyend="489"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" line="73" column="5" bodyfile="include/AGRemapCore/tools/orderedMultiMap/IOrderedMultiMap.h" bodystart="73" bodyend="502"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1a72fe34ab7f09f6f39f00b3c12ddc2ef6" prot="public" virt="pure-virtual"><scope>AGRemapCore::IOrderedMultiMap</scope><name>clone</name></member>
       <member refid="class_a_g_remap_core_1_1_i_ordered_multi_map_1ada2e5b87f082623584caa09c0df839b0" prot="public" virt="pure-virtual"><scope>AGRemapCore::IOrderedMultiMap</scope><name>contains</name></member>

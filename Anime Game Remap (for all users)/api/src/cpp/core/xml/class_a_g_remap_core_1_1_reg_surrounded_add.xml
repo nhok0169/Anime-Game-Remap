@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="51" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="64" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a03f90593d05d5a04e7368ea9d0dbe9a9" kindref="member">Base::Graph</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="56" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="69" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="69" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ac57299697d7f5b469d0bdc0df1b024fe" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ab0649039e83478c63599c0fde5843b1c" kindref="member">Base::PartFilter</ref></type>
@@ -75,7 +75,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="61" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="61" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="74" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="74" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a65efe2a1688a693d3a516f654d18d3fb" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9fc446b1ec46854f86a9bc61d1eaf353" kindref="member">Base::IterData</ref></type>
@@ -90,7 +90,7 @@ for that original&apos;s ``partFilter = None``. Identical to
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="66" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="79" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="79" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1a9b2f7dc1c8c04fc11431777be50e5a76" kindref="member">Base::OrderRanges</ref></type>
@@ -108,7 +108,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="71" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="84" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="84" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1af4e57ab95ef0b7b7b972b43e01f153c5" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_edit_1ae924467fe4fb252b6f2299eee7d990c3" kindref="member">Base::KeySet</ref></type>
@@ -123,7 +123,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="89" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a3bc8f73e8af15298ad5c1f3cf4571939" prot="public" static="no">
         <type>typename Graph::ContentPart</type>
@@ -138,7 +138,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="81" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="94" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="94" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1afee7cfbbd0708997568fcb0696b9a81d" prot="public" static="no">
         <type>typename Graph::Colouring</type>
@@ -153,7 +153,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="86" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="86" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="99" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="99" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a6fb1af32a16b536b6db26366d4c178bf" prot="public" static="no">
         <type>typename Graph::CallGraphType</type>
@@ -168,7 +168,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="104" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="104" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a43cc40e63ee02da6ee8a74e93e92117c" prot="public" static="no">
         <type>typename CallGraphType::Node</type>
@@ -183,7 +183,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="96" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="96" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="109" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="109" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a625f8612e0fa0e50312da281034fdabb" prot="public" static="no">
         <type>typename CallGraphType::NodeHash</type>
@@ -198,7 +198,7 @@ that&apos;s the type :cpp:class:`IfContentPart` keys its order indices by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="101" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="101" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="114" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="114" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a1b5d104014efbef50d04ddbb82db0cfd" prot="public" static="no">
         <type>std::function&lt; bool(const V &amp;)&gt;</type>
@@ -217,7 +217,7 @@ pure-Python original&apos;s ``None`` meaning &quot;any occurence accepted&quot;)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="111" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="111" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="124" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="124" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a6d1dd34e185d171789051546daaca238" prot="public" static="no">
         <type>std::unordered_map&lt; K, <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a1b5d104014efbef50d04ddbb82db0cfd" kindref="member">Predicate</ref>, KeyHash, KeyEqual &gt;</type>
@@ -235,7 +235,7 @@ values are their \ref Predicate (empty accepts any value)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="120" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="120" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="133" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="133" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a075ea37943c4cb167126dbd4b0b4818e" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; K, V &gt; &gt;</type>
@@ -250,7 +250,7 @@ values are their \ref Predicate (empty accepts any value)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="125" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="125" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="138" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="138" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -270,7 +270,7 @@ consecutive lines in this order -- an empty list makes the edit a no-op
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="134" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="134" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="147" column="23" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="147" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1aac64a9e15c310c1666e94d73decef5b5" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a6d1dd34e185d171789051546daaca238" kindref="member">RegMap</ref></type>
@@ -291,7 +291,7 @@ for **every** key specified here
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="146" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="146" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="159" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="159" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1abd6a479c92632772cde4529fc62015db" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a6d1dd34e185d171789051546daaca238" kindref="member">RegMap</ref></type>
@@ -324,7 +324,7 @@ A register listed both here and in \ref beforeRegs takes its predicate from
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="170" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="170" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="183" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="183" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ab085313b31baf6cdf8d9e7c24d8145b5" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a6d1dd34e185d171789051546daaca238" kindref="member">RegMap</ref></type>
@@ -343,7 +343,7 @@ applies for coming after \ref additions instead of before it
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="180" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="180" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="193" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="193" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1aa5b880777af2ff1098d1984d7c0a0112" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a6d1dd34e185d171789051546daaca238" kindref="member">RegMap</ref></type>
@@ -370,7 +370,7 @@ cross-part facts
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="198" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="198" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="211" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="211" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1aaef82c86101a2a7f818971c332e346e6" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -391,7 +391,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="209" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="209" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="222" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="222" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -407,7 +407,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="264" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="264" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="277" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="277" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ac7a98b121bdc53cac019186c361ee42e" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; K, typename Colouring::Filter, KeyHash, KeyEqual &gt;</type>
@@ -421,7 +421,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="265" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="265" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="278" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="278" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a6542d13de68aa8c1b3cce1c3aa048e43" prot="private" static="no" mutable="no">
         <type>std::unordered_map&lt; K, typename Colouring::Filter, KeyHash, KeyEqual &gt;</type>
@@ -435,7 +435,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="266" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="266" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="279" column="32" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="279" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_reg_surrounded_add_1afedcdd3403a6ff6ca24f80ab386b0d1c" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1af4e57ab95ef0b7b7b972b43e01f153c5" kindref="member">KeySet</ref></type>
@@ -449,7 +449,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="267" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="267" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="280" column="20" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="280" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -546,7 +546,7 @@ window, instead of the earliest one :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="221" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="234" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ab4ded33966a5b623d2ac35dcede40246" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" kindref="member">Graph</ref> &amp;</type>
@@ -645,7 +645,7 @@ honouring \ref latest for which valid location within each window is chosen
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="258" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="271" column="19"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -697,7 +697,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="240" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="253" column="25"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -737,7 +737,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="272" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="285" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a815ae22c4898798b60712c1b62b86429" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>long long</type>
@@ -759,7 +759,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="292" column="23"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="305" column="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1ae5bf4e282bbc35f833ba795005d5e922" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -781,7 +781,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="296" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="309" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a050b7e4def1fc1edfc6db163092d79c9" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" kindref="member">OrderRanges</ref></type>
@@ -811,7 +811,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="298" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="311" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a3e6a4684804400e61edfb0fa5c572ebf" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" kindref="member">OrderRanges</ref></type>
@@ -841,7 +841,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="301" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="314" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1aa69e7431c3ead2b59f722e8e88abde18" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" kindref="member">OrderRanges</ref></type>
@@ -879,7 +879,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="304" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="317" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1aedd50a93570bcab817770701d731cf7d" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" kindref="member">OrderRanges</ref></type>
@@ -917,7 +917,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="309" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="322" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1af4ab4b09fc8e1601c2c230107e22fd00" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; std::unordered_map&lt; K, std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a43cc40e63ee02da6ee8a74e93e92117c" kindref="member">Node</ref>, bool, <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a625f8612e0fa0e50312da281034fdabb" kindref="member">NodeHash</ref> &gt;, KeyHash, KeyEqual &gt;, std::unordered_map&lt; K, std::unordered_map&lt; <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a43cc40e63ee02da6ee8a74e93e92117c" kindref="member">Node</ref>, bool, <ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a625f8612e0fa0e50312da281034fdabb" kindref="member">NodeHash</ref> &gt;, KeyHash, KeyEqual &gt; &gt;</type>
@@ -935,7 +935,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="319" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="332" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a139e3b915cf8fd6b1e6711a20534d08c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" kindref="member">Graph</ref> &amp;</type>
@@ -961,7 +961,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="321" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="334" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a8860f0a5bd0ed092dffb8d04bc10667c" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1ad96e7145d27738ef025df5cd7775a764" kindref="member">Graph</ref> &amp;</type>
@@ -987,7 +987,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="323" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="336" column="19"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -1027,7 +1027,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="281" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="294" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a958412f0abf3a7755f52d8cf8abe5a70" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; K, typename Colouring::Filter, KeyHash, KeyEqual &gt;</type>
@@ -1045,7 +1045,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="286" column="39"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="299" column="39"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a251eda70ecd42646ddc99f0599f336f1" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a4069117990690ab6ae7103e14314ca88" kindref="member">OrderRanges</ref></type>
@@ -1075,7 +1075,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="288" column="32"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="301" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a4ed3ad2fa80a45ee8e7a9462ab1b19de" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::pair&lt; bool, bool &gt;</type>
@@ -1101,7 +1101,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="313" column="30"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="326" column="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_reg_surrounded_add_1a23e43108fc6ef459efb3cdb7396ff254" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1127,7 +1127,7 @@ from &quot;not reached yet, but still will be&quot;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="315" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="328" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1231,7 +1231,7 @@ predicate) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="45" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="45" bodyend="324"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" line="58" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphEdits/RegSurroundedAdd.h" bodystart="58" bodyend="337"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a6542d13de68aa8c1b3cce1c3aa048e43" prot="private" virt="non-virtual"><scope>AGRemapCore::RegSurroundedAdd</scope><name>_afterFilters</name></member>
       <member refid="class_a_g_remap_core_1_1_reg_surrounded_add_1a46ee7dd657c8cd037c81fcce88fcd3ff" prot="private" virt="non-virtual"><scope>AGRemapCore::RegSurroundedAdd</scope><name>_beforeFilters</name></member>

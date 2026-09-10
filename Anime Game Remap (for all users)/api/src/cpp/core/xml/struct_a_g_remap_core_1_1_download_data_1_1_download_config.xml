@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="170" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="170" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="183" column="19" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="183" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a2770f4b64602e76e3d0bef3a36992cb1" prot="public" static="no" mutable="no">
         <type>std::function&lt; V(const std::string &amp;)&gt;</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="175" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="175" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="188" column="31" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="188" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a317527f4bd768c3fe8b10d0a68ab75f8" prot="public" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -47,7 +47,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="180" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="180" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="193" column="37" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="193" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -59,7 +59,7 @@ The ``.ini``-domain customization points this class needs, for the same reason
 instantiation, so the ``filename`` `KVP`_ key can&apos;t be spelled as a literal here
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="166" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="166" bodyend="181"/>
+    <location file="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" line="179" column="13" bodyfile="include/AGRemapCore/model/strategies/iniParsers/IniParseDownloadData.h" bodystart="179" bodyend="194"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1add845026e22b6055b46fae628fb294ec" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadData::DownloadConfig</scope><name>filenameKey</name></member>
       <member refid="struct_a_g_remap_core_1_1_download_data_1_1_download_config_1a317527f4bd768c3fe8b10d0a68ab75f8" prot="public" virt="non-virtual"><scope>AGRemapCore::DownloadData::DownloadConfig</scope><name>runConfig</name></member>

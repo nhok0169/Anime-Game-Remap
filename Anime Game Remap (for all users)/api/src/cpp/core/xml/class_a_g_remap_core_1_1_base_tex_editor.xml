@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="18" column="21"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="31" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="26" column="26" bodyfile="src/model/strategies/texEditors/BaseTexEditor.cpp" bodystart="5" bodyend="5"/>
+        <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="39" column="26" bodyfile="src/model/strategies/texEditors/BaseTexEditor.cpp" bodystart="18" bodyend="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -90,7 +90,7 @@ Base class to edit some ``.dds`` file
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="16" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" bodystart="16" bodyend="27"/>
+    <location file="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" line="29" column="5" bodyfile="include/AGRemapCore/model/strategies/texEditors/BaseTexEditor.h" bodystart="29" bodyend="40"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_tex_editor_1a4998e8531c8704b35f0dd90b9c58924e" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexEditor</scope><name>fix</name></member>
       <member refid="class_a_g_remap_core_1_1_base_tex_editor_1aacc8b86353427bd8ef23074a4745ba9f" prot="public" virt="virtual"><scope>AGRemapCore::BaseTexEditor</scope><name>~BaseTexEditor</name></member>

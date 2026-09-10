@@ -19,7 +19,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="51" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="51" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="64" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="64" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" static="no" mutable="no">
         <type>tsl::ordered_map&lt; int, std::vector&lt; std::string &gt; &gt;</type>
@@ -34,7 +34,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="56" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="56" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="69" column="30" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="69" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -82,7 +82,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="44" column="13" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="9" bodyend="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="57" column="13" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="22" bodyend="34"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1a67983c391b4ec64dab303faf83a5294f" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -96,7 +96,7 @@ for some resource, and the values are the file paths within that
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="46" column="21"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="59" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_src_resource_model_1abdf9d6143d246e2691aefe913d008f23" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
@@ -120,7 +120,7 @@ since the whole flattened sequence is small and already fully materialized in #p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="70" column="25" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="23" bodyend="36"/>
+        <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="83" column="25" bodyfile="src/model/iniresources/IniSrcResourceModel.cpp" bodystart="36" bodyend="49"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -168,7 +168,7 @@ the Python original&apos;s plain ``dict`` gives for free, since these keys are t
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="29" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="29" bodyend="71"/>
+    <location file="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" line="42" column="5" bodyfile="include/AGRemapCore/model/iniresources/IniSrcResourceModel.h" bodystart="42" bodyend="84"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_src_resource_model_1a8c3800b5451671177badbc6ab62c2f3d" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>fullPaths</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_resource_model_1a959167f582a35343aa8cf5d5c9ede411" prot="public" virt="non-virtual"><scope>AGRemapCore::IniSrcResourceModel</scope><name>iniFolderPath</name></member>

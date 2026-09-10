@@ -26,7 +26,7 @@ Constructs a new, fully-populated vertex count lookup table :raw-html:`&lt;br /&
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="64" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="37" bodyend="37"/>
+        <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="77" column="13" bodyfile="src/model/assets/VertexCounts.cpp" bodystart="50" bodyend="50"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -92,7 +92,7 @@ and still be useful :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="49" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="49" bodyend="65"/>
+    <location file="include/AGRemapCore/model/assets/VertexCounts.h" line="62" column="5" bodyfile="include/AGRemapCore/model/assets/VertexCounts.h" bodystart="62" bodyend="78"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1ac0d53e7104e712f211239ac745f5ccbb" prot="public" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>addRows</name></member>
       <member refid="class_a_g_remap_core_1_1_mod_dict_assets_1af9700cf4807db87f8d47afe67932cc20" prot="private" virt="non-virtual"><scope>AGRemapCore::VertexCounts</scope><name>extractNonVersionVals</name></member>

@@ -33,7 +33,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="84" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="144" bodyend="144"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="97" column="22" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="157" bodyend="157"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_float_1a4f6f3423f21a3ee5540c1281527b1c26" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt;</type>
@@ -60,7 +60,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="86" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="146" bodyend="148"/>
+        <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="99" column="29" bodyfile="src/model/buffers/BufFloat.cpp" bodystart="159" bodyend="161"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -120,7 +120,7 @@ The type definition for a 32-bit `floating point`_ number within a ``.buf`` file
         <link refid="class_a_g_remap_core_1_1_buf_type"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="76" column="5" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="76" bodyend="87"/>
+    <location file="include/AGRemapCore/model/buffers/BufFloat.h" line="89" column="5" bodyfile="include/AGRemapCore/model/buffers/BufFloat.h" bodystart="89" bodyend="100"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_float_1a47f4edad94eeb07c934f25ec725b3e9b" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufBaseFloat</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufFloat</scope><name>BufDataType</name></member>

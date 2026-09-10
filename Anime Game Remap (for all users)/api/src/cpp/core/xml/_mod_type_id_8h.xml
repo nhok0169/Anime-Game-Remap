@@ -25,12 +25,16 @@
     <includedby refid="_jean_parser_8cpp" local="yes">src/data/IniParseData/Jean/JeanParser.cpp</includedby>
     <includedby refid="_jean_c_n_parser_8cpp" local="yes">src/data/IniParseData/JeanCN/JeanCNParser.cpp</includedby>
     <includedby refid="_jean_sea_parser_8cpp" local="yes">src/data/IniParseData/JeanSea/JeanSeaParser.cpp</includedby>
+    <includedby refid="_keqing_parser_8cpp" local="yes">src/data/IniParseData/Keqing/KeqingParser.cpp</includedby>
+    <includedby refid="_keqing_opulent_parser_8cpp" local="yes">src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp</includedby>
     <includedby refid="_mona_parser_8cpp" local="yes">src/data/IniParseData/Mona/MonaParser.cpp</includedby>
     <includedby refid="_mona_c_n_parser_8cpp" local="yes">src/data/IniParseData/MonaCN/MonaCNParser.cpp</includedby>
     <includedby refid="_ningguang_parser_8cpp" local="yes">src/data/IniParseData/Ningguang/NingguangParser.cpp</includedby>
     <includedby refid="_ningguang_orchid_parser_8cpp" local="yes">src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</includedby>
     <includedby refid="_rosaria_parser_8cpp" local="yes">src/data/IniParseData/Rosaria/RosariaParser.cpp</includedby>
     <includedby refid="_rosaria_c_n_parser_8cpp" local="yes">src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</includedby>
+    <includedby refid="_shenhe_parser_8cpp" local="yes">src/data/IniParseData/Shenhe/ShenheParser.cpp</includedby>
+    <includedby refid="_shenhe_frost_flower_parser_8cpp" local="yes">src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</includedby>
     <includedby refid="_ini_remove_builder_data_8cpp" local="yes">src/data/IniRemoveBuilderData.cpp</includedby>
     <includedby refid="_v_g_remap_data_8cpp" local="yes">src/data/VGRemapData.cpp</includedby>
     <includedby refid="_vertex_count_data_8cpp" local="yes">src/data/VertexCountData.cpp</includedby>
@@ -1108,19 +1112,19 @@
         <link refid="_mod_type_id_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="17" relation="include">
-        </childnode>
-        <childnode refid="18" relation="include">
-        </childnode>
-        <childnode refid="19" relation="include">
-        </childnode>
-        <childnode refid="20" relation="include">
-        </childnode>
         <childnode refid="21" relation="include">
         </childnode>
         <childnode refid="22" relation="include">
         </childnode>
         <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
         </childnode>
         <childnode refid="3" relation="include">
         </childnode>
@@ -1148,13 +1152,21 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
-        <childnode refid="24" relation="include">
+        <childnode refid="17" relation="include">
         </childnode>
-        <childnode refid="25" relation="include">
+        <childnode refid="18" relation="include">
         </childnode>
-        <childnode refid="26" relation="include">
+        <childnode refid="19" relation="include">
         </childnode>
-        <childnode refid="27" relation="include">
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
         </childnode>
       </node>
       <node id="2">
@@ -1188,32 +1200,40 @@
         </childnode>
         <childnode refid="16" relation="include">
         </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
-      <node id="17">
+      <node id="21">
         <label>src/RemapServiceCLI.cpp</label>
         <link refid="_remap_service_c_l_i_8cpp"/>
       </node>
-      <node id="18">
+      <node id="22">
         <label>src/constants/GIBuilder.cpp</label>
         <link refid="_g_i_builder_8cpp"/>
       </node>
-      <node id="19">
+      <node id="23">
         <label>src/constants/GlobalIniClassifiers.cpp</label>
         <link refid="_global_ini_classifiers_8cpp"/>
       </node>
-      <node id="20">
+      <node id="24">
         <label>src/constants/GlobalModTypes.cpp</label>
         <link refid="_global_mod_types_8cpp"/>
       </node>
-      <node id="21">
+      <node id="25">
         <label>src/constants/ModTypeId.cpp</label>
         <link refid="_mod_type_id_8cpp"/>
       </node>
-      <node id="22">
+      <node id="26">
         <label>src/data/IniFixBuilderData.cpp</label>
         <link refid="_ini_fix_builder_data_8cpp"/>
       </node>
-      <node id="23">
+      <node id="27">
         <label>src/data/IniParseBuilderData.cpp</label>
         <link refid="_ini_parse_builder_data_8cpp"/>
       </node>
@@ -1250,42 +1270,58 @@
         <link refid="_jean_sea_parser_8cpp"/>
       </node>
       <node id="11">
+        <label>src/data/IniParseData/Keqing/KeqingParser.cpp</label>
+        <link refid="_keqing_parser_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniParseData/KeqingOpulent/KeqingOpulentParser.cpp</label>
+        <link refid="_keqing_opulent_parser_8cpp"/>
+      </node>
+      <node id="13">
         <label>src/data/IniParseData/Mona/MonaParser.cpp</label>
         <link refid="_mona_parser_8cpp"/>
       </node>
-      <node id="12">
+      <node id="14">
         <label>src/data/IniParseData/MonaCN/MonaCNParser.cpp</label>
         <link refid="_mona_c_n_parser_8cpp"/>
       </node>
-      <node id="13">
+      <node id="15">
         <label>src/data/IniParseData/Ningguang/NingguangParser.cpp</label>
         <link refid="_ningguang_parser_8cpp"/>
       </node>
-      <node id="14">
+      <node id="16">
         <label>src/data/IniParseData/NingguangOrchid/NingguangOrchidParser.cpp</label>
         <link refid="_ningguang_orchid_parser_8cpp"/>
       </node>
-      <node id="15">
+      <node id="17">
         <label>src/data/IniParseData/Rosaria/RosariaParser.cpp</label>
         <link refid="_rosaria_parser_8cpp"/>
       </node>
-      <node id="16">
+      <node id="18">
         <label>src/data/IniParseData/RosariaCN/RosariaCNParser.cpp</label>
         <link refid="_rosaria_c_n_parser_8cpp"/>
       </node>
-      <node id="24">
+      <node id="19">
+        <label>src/data/IniParseData/Shenhe/ShenheParser.cpp</label>
+        <link refid="_shenhe_parser_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/data/IniParseData/ShenheFrostFlower/ShenheFrostFlowerParser.cpp</label>
+        <link refid="_shenhe_frost_flower_parser_8cpp"/>
+      </node>
+      <node id="28">
         <label>src/data/IniRemoveBuilderData.cpp</label>
         <link refid="_ini_remove_builder_data_8cpp"/>
       </node>
-      <node id="25">
+      <node id="29">
         <label>src/data/VGRemapData.cpp</label>
         <link refid="_v_g_remap_data_8cpp"/>
       </node>
-      <node id="26">
+      <node id="30">
         <label>src/data/VertexCountData.cpp</label>
         <link refid="_vertex_count_data_8cpp"/>
       </node>
-      <node id="27">
+      <node id="31">
         <label>src/model/files/IniFile.cpp</label>
         <link refid="_ini_file_8cpp"/>
       </node>
@@ -1300,161 +1336,174 @@
 <codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_ModTypeId_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_ModTypeId_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_game_type_id_8h" kindref="compound">AGRemapCore/constants/GameTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_aho_corasick_d_f_a_8h" kindref="compound">AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
-<codeline lineno="25" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>{</highlight></codeline>
-<codeline lineno="29" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">Amber</ref>,</highlight></codeline>
-<codeline lineno="30"><highlight class="normal"></highlight></codeline>
-<codeline lineno="34" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">AmberCN</ref>,</highlight></codeline>
-<codeline lineno="35"><highlight class="normal"></highlight></codeline>
-<codeline lineno="39" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">Ayaka</ref>,</highlight></codeline>
-<codeline lineno="40"><highlight class="normal"></highlight></codeline>
-<codeline lineno="44" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">AyakaSpringbloom</ref>,</highlight></codeline>
-<codeline lineno="45"><highlight class="normal"></highlight></codeline>
-<codeline lineno="49" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">Arlecchino</ref>,</highlight></codeline>
-<codeline lineno="50"><highlight class="normal"></highlight></codeline>
-<codeline lineno="54" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0168d9b6752f47b77ff8a95c85af4448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0168d9b6752f47b77ff8a95c85af4448" kindref="member">ArlecchinoBoss</ref>,</highlight></codeline>
-<codeline lineno="55"><highlight class="normal"></highlight></codeline>
-<codeline lineno="59" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">Barbara</ref>,</highlight></codeline>
-<codeline lineno="60"><highlight class="normal"></highlight></codeline>
-<codeline lineno="64" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">BarbaraSummertime</ref>,</highlight></codeline>
-<codeline lineno="65"><highlight class="normal"></highlight></codeline>
-<codeline lineno="69" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">CherryHuTao</ref>,</highlight></codeline>
-<codeline lineno="70"><highlight class="normal"></highlight></codeline>
-<codeline lineno="74" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">Diluc</ref>,</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"></highlight></codeline>
-<codeline lineno="79" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">DilucFlamme</ref>,</highlight></codeline>
-<codeline lineno="80"><highlight class="normal"></highlight></codeline>
-<codeline lineno="84" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">Fischl</ref>,</highlight></codeline>
-<codeline lineno="85"><highlight class="normal"></highlight></codeline>
-<codeline lineno="89" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">FischlHighness</ref>,</highlight></codeline>
-<codeline lineno="90"><highlight class="normal"></highlight></codeline>
-<codeline lineno="94" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">Ganyu</ref>,</highlight></codeline>
-<codeline lineno="95"><highlight class="normal"></highlight></codeline>
-<codeline lineno="99" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">GanyuTwilight</ref>,</highlight></codeline>
-<codeline lineno="100"><highlight class="normal"></highlight></codeline>
-<codeline lineno="104" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">HuTao</ref>,</highlight></codeline>
-<codeline lineno="105"><highlight class="normal"></highlight></codeline>
-<codeline lineno="109" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">Jean</ref>,</highlight></codeline>
-<codeline lineno="110"><highlight class="normal"></highlight></codeline>
-<codeline lineno="114" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">JeanCN</ref>,</highlight></codeline>
-<codeline lineno="115"><highlight class="normal"></highlight></codeline>
-<codeline lineno="119" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">JeanSea</ref>,</highlight></codeline>
-<codeline lineno="120"><highlight class="normal"></highlight></codeline>
-<codeline lineno="124" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">Kaeya</ref>,</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"></highlight></codeline>
-<codeline lineno="129" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">KaeyaSailwind</ref>,</highlight></codeline>
-<codeline lineno="130"><highlight class="normal"></highlight></codeline>
-<codeline lineno="134" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">Keqing</ref>,</highlight></codeline>
-<codeline lineno="135"><highlight class="normal"></highlight></codeline>
-<codeline lineno="139" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">KeqingOpulent</ref>,</highlight></codeline>
-<codeline lineno="140"><highlight class="normal"></highlight></codeline>
-<codeline lineno="144" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">Kirara</ref>,</highlight></codeline>
-<codeline lineno="145"><highlight class="normal"></highlight></codeline>
-<codeline lineno="149" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">KiraraBoots</ref>,</highlight></codeline>
-<codeline lineno="150"><highlight class="normal"></highlight></codeline>
-<codeline lineno="154" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">Klee</ref>,</highlight></codeline>
-<codeline lineno="155"><highlight class="normal"></highlight></codeline>
-<codeline lineno="159" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">KleeBlossomingStarlight</ref>,</highlight></codeline>
-<codeline lineno="160"><highlight class="normal"></highlight></codeline>
-<codeline lineno="164" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">Lisa</ref>,</highlight></codeline>
-<codeline lineno="165"><highlight class="normal"></highlight></codeline>
-<codeline lineno="169" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">LisaStudent</ref>,</highlight></codeline>
-<codeline lineno="170"><highlight class="normal"></highlight></codeline>
-<codeline lineno="174" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">Mona</ref>,</highlight></codeline>
-<codeline lineno="175"><highlight class="normal"></highlight></codeline>
-<codeline lineno="179" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">MonaCN</ref>,</highlight></codeline>
-<codeline lineno="180"><highlight class="normal"></highlight></codeline>
-<codeline lineno="184" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">Nilou</ref>,</highlight></codeline>
-<codeline lineno="185"><highlight class="normal"></highlight></codeline>
-<codeline lineno="189" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">NilouBreeze</ref>,</highlight></codeline>
-<codeline lineno="190"><highlight class="normal"></highlight></codeline>
-<codeline lineno="194" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">Ningguang</ref>,</highlight></codeline>
-<codeline lineno="195"><highlight class="normal"></highlight></codeline>
-<codeline lineno="199" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">NingguangOrchid</ref>,</highlight></codeline>
-<codeline lineno="200"><highlight class="normal"></highlight></codeline>
-<codeline lineno="204" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">Raiden</ref>,</highlight></codeline>
-<codeline lineno="205"><highlight class="normal"></highlight></codeline>
-<codeline lineno="209" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4679529b90a8b9de219e8c9afb58aa59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4679529b90a8b9de219e8c9afb58aa59" kindref="member">RaidenBoss</ref>,</highlight></codeline>
-<codeline lineno="210"><highlight class="normal"></highlight></codeline>
-<codeline lineno="214" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">Rosaria</ref>,</highlight></codeline>
-<codeline lineno="215"><highlight class="normal"></highlight></codeline>
-<codeline lineno="219" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">RosariaCN</ref>,</highlight></codeline>
-<codeline lineno="220"><highlight class="normal"></highlight></codeline>
-<codeline lineno="224" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">Shenhe</ref>,</highlight></codeline>
-<codeline lineno="225"><highlight class="normal"></highlight></codeline>
-<codeline lineno="229" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ShenheFrostFlower</ref>,</highlight></codeline>
-<codeline lineno="230"><highlight class="normal"></highlight></codeline>
-<codeline lineno="234" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">Xiangling</ref>,</highlight></codeline>
-<codeline lineno="235"><highlight class="normal"></highlight></codeline>
-<codeline lineno="239" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">XianglingCheer</ref>,</highlight></codeline>
-<codeline lineno="240"><highlight class="normal"></highlight></codeline>
-<codeline lineno="244" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">Xingqiu</ref>,</highlight></codeline>
-<codeline lineno="245"><highlight class="normal"></highlight></codeline>
-<codeline lineno="249" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">XingqiuBamboo</ref></highlight></codeline>
-<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="251"><highlight class="normal"></highlight></codeline>
-<codeline lineno="255" refid="class_a_g_remap_core_1_1_mod_type_id_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools" kindref="compound">ModTypeIdTools</ref><sp/>{</highlight></codeline>
-<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="257"><highlight class="normal"></highlight></codeline>
-<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" kindref="member">getEnum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_mod_type_8h" kindref="compound">AGRemapCore/model/strategies/ModType.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_game_type_id_8h" kindref="compound">AGRemapCore/constants/GameTypeId.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_aho_corasick_d_f_a_8h" kindref="compound">AGRemapCore/tools/tries/BaseAhoCorasickDFA.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>{</highlight></codeline>
+<codeline lineno="42" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa88068e33c78eb72f1b371c7110846085" kindref="member">Amber</ref>,</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c6864cba67f721294d9fcf55569ec7e" kindref="member">AmberCN</ref>,</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa7dcac6e40988bcfa8407fc0744f6b64e" kindref="member">Ayaka</ref>,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa1e7f0474519c381cffc792716c10572b" kindref="member">AyakaSpringbloom</ref>,</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a1250058bbddad5373c7200930befef" kindref="member">Arlecchino</ref>,</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0168d9b6752f47b77ff8a95c85af4448" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0168d9b6752f47b77ff8a95c85af4448" kindref="member">ArlecchinoBoss</ref>,</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa5c39b18d77d5f297ff92e4942e5522b5" kindref="member">Barbara</ref>,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa3319b38550e4cbcd5a60e3888b78d737" kindref="member">BarbaraSummertime</ref>,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadf7f24a1a17f81e22fb50aed81e3f2ba" kindref="member">CherryHuTao</ref>,</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5320e78d8c8e41fb25604c659a6a40d" kindref="member">Diluc</ref>,</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="92" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab76603762eedec9d8ec5c5fdf50655bc" kindref="member">DilucFlamme</ref>,</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fac19c51a36ea5a93b2916f4a80ee8b20a" kindref="member">Fischl</ref>,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4aa63b16ef009dfa564c01885fa12a6f" kindref="member">FischlHighness</ref>,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6b3dca2282dc2bfa280358c523f03e" kindref="member">Ganyu</ref>,</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa41085c2bd6937ba192f729d714660581" kindref="member">GanyuTwilight</ref>,</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa26b653e77d14e3a3adc799d0eb31c689" kindref="member">HuTao</ref>,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa2a5ea26afb2c1fdbd0e7ab0941b9b9ab" kindref="member">Jean</ref>,</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa972f777398ac4d73ebed41ebf9e241c4" kindref="member">JeanCN</ref>,</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa989a6ca89cadd3fd9a5ea5776262d1a" kindref="member">JeanSea</ref>,</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa49d681b63e092b2769fa3db299e6219a" kindref="member">Kaeya</ref>,</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0fb964297bd7db3dce7f1d125cef4aa3" kindref="member">KaeyaSailwind</ref>,</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="147" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fab7a3b47beefd2e5f140d52a7d69cad59" kindref="member">Keqing</ref>,</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa77f54ae60190b025b2560be8030650a7" kindref="member">KeqingOpulent</ref>,</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa40a5c73405d1aba938ecefcb63811ec4" kindref="member">Kirara</ref>,</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fabef5f85c6bc339b9e607e7db06668995" kindref="member">KiraraBoots</ref>,</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa71bc16336f99b0fbd10156507d230f9c" kindref="member">Klee</ref>,</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa0361c17e0d59792b415e4caa20d3fa2" kindref="member">KleeBlossomingStarlight</ref>,</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"></highlight></codeline>
+<codeline lineno="177" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fadfeacdebdd52607b78a0eca093c2ed7a" kindref="member">Lisa</ref>,</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fababd23694a4888b6cc972411c9e61283" kindref="member">LisaStudent</ref>,</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa6e6954c0d8654e0391b51cf747ed6807" kindref="member">Mona</ref>,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fae74ca37b1374ae9211c717b0488d4dcd" kindref="member">MonaCN</ref>,</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa1b6f661542962e87332f40f9aa1965d" kindref="member">Nilou</ref>,</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa50877824f5b3765accbb467f8d29152d" kindref="member">NilouBreeze</ref>,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa00f6b3956912feb5944b9061fc723bc9" kindref="member">Ningguang</ref>,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa83a248a3890b3490a7702d9486b73ab6" kindref="member">NingguangOrchid</ref>,</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa370664d98f658f4ed4e620f378f73cd" kindref="member">Raiden</ref>,</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="222" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4679529b90a8b9de219e8c9afb58aa59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4679529b90a8b9de219e8c9afb58aa59" kindref="member">RaidenBoss</ref>,</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faaba9f02c6ddcb863bed06ba63c6af73c" kindref="member">Rosaria</ref>,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faed1f7dc40e531884424feda17cc99026" kindref="member">RosariaCN</ref>,</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="237" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa5958f4196ed7800bea49aac4f2d03a7" kindref="member">Shenhe</ref>,</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa21217135c6d3cb5e4df67ddc7595d86c" kindref="member">ShenheFrostFlower</ref>,</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa0b95de125a20e0e1f88d65a634628bf1" kindref="member">Xiangling</ref>,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="252" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa7d77eb8981f7a870f114a954053be45" kindref="member">XianglingCheer</ref>,</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2fa4c073e0c3f0b5762adedef900b334c27" kindref="member">Xingqiu</ref>,</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262" refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2faa256ab015385cf375b0e08394e67d35c" kindref="member">XingqiuBamboo</ref></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268" refid="class_a_g_remap_core_1_1_mod_type_id_tools" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools" kindref="compound">ModTypeIdTools</ref><sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
 <codeline lineno="270"><highlight class="normal"></highlight></codeline>
-<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="284"><highlight class="normal"></highlight></codeline>
-<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" kindref="member">getModType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>modTypeId);</highlight></codeline>
-<codeline lineno="310"><highlight class="normal"></highlight></codeline>
-<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">registerModType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/>&amp;modType);</highlight></codeline>
-<codeline lineno="324"><highlight class="normal"></highlight></codeline>
-<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" kindref="member">findByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;name,<sp/>std::optional&lt;GameTypeId&gt;<sp/>gameTypeId<sp/>=<sp/>std::nullopt);</highlight></codeline>
-<codeline lineno="352"><highlight class="normal"></highlight></codeline>
-<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aa244d22d15566f03f3e63192dfaeb159" kindref="member">getEnum</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value);</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a73b87515b9acfb3b19234f8b4ebe9c9b" kindref="member">getName</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aee7d56b1c696efdaea722164b19eda9d" kindref="member">getModType</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>modTypeId);</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7161ca8d4908f7c9aa0d1a6c7c5a8e5" kindref="member">registerModType</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref><sp/>&amp;modType);</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::optional&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ac1b5b4a67cb332ba516679975ce45443" kindref="member">findByName</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;name,<sp/>std::optional&lt;GameTypeId&gt;<sp/>gameTypeId<sp/>=<sp/>std::nullopt);</highlight></codeline>
 <codeline lineno="365"><highlight class="normal"></highlight></codeline>
-<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aab992f9ff6f0ec37367e622f98acde20" kindref="member">generation</ref>();</highlight></codeline>
-<codeline lineno="389"><highlight class="normal"></highlight></codeline>
-<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4fb8ba441068345ac9208e45dd5a9bb2" kindref="member">getHashRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="412"><highlight class="normal"></highlight></codeline>
-<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a662e30ad3ff2f90e88ca7b8a800afb64" kindref="member">getIndexRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="428"><highlight class="normal"></highlight></codeline>
-<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a0b33ca653c4cf909d7ff8141a89ce4b3" kindref="member">getSectionKeywords</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
-<codeline lineno="456"><highlight class="normal"></highlight></codeline>
-<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
-<codeline lineno="458" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;int,<sp/>ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" kindref="member">_modTypes</ref>;</highlight></codeline>
-<codeline lineno="459"><highlight class="normal"></highlight></codeline>
-<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bumped<sp/>by<sp/>clear().<sp/>See<sp/>generation()&apos;s<sp/>own<sp/>note<sp/>for<sp/>what<sp/>reads<sp/>it<sp/>and<sp/>why.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="461" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" kindref="member">_generation</ref>;</highlight></codeline>
-<codeline lineno="462"><highlight class="normal"></highlight></codeline>
-<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>ModTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact<sp/>name/alias</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(game-agnostic;<sp/>narrowed<sp/>down<sp/>to<sp/>a<sp/>specific<sp/>GameTypeId,<sp/>when<sp/>requested,<sp/>by</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="465"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cross-referencing<sp/>each<sp/>candidate&apos;s<sp/>own<sp/>entry<sp/>in<sp/>&apos;_modTypes&apos;)</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="466" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA&lt;std::unordered_set&lt;int&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" kindref="member">_nameDFA</ref>;</highlight></codeline>
-<codeline lineno="467"><highlight class="normal"></highlight></codeline>
-<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>GameTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>--<sp/>mirrors<sp/>IniClassifier&apos;s<sp/>&apos;keywordGameTypeIds&apos;,<sp/>used<sp/>the<sp/>same<sp/>way<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>KeywordPredicate<sp/>for<sp/>&apos;_nameDFA&apos;s<sp/>maximal-match<sp/>search</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="471" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;int&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" kindref="member">_nameGameTypeIds</ref>;</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a52e631f033758e9dca14f1ad79e4731f" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"></highlight></codeline>
+<codeline lineno="401"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1aab992f9ff6f0ec37367e622f98acde20" kindref="member">generation</ref>();</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a4fb8ba441068345ac9208e45dd5a9bb2" kindref="member">getHashRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;ModTypeId&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a662e30ad3ff2f90e88ca7b8a800afb64" kindref="member">getIndexRemapTargets</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"></highlight></codeline>
+<codeline lineno="468"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a0b33ca653c4cf909d7ff8141a89ce4b3" kindref="member">getSectionKeywords</ref>(<ref refid="namespace_a_g_remap_core_1aa5ba53a4a6662429047abb6750bbbd2f" kindref="member">ModTypeId</ref><sp/>value);</highlight></codeline>
+<codeline lineno="469"><highlight class="normal"></highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="471" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;int,<sp/>ModType&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad7332d8ae69e363c97bef95d132f2ccd" kindref="member">_modTypes</ref>;</highlight></codeline>
 <codeline lineno="472"><highlight class="normal"></highlight></codeline>
-<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>&apos;_nameDFA&apos;s<sp/>duplicate-merging<sp/>behavior<sp/>exactly<sp/>once<sp/>(mirrors<sp/>what</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="474"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniClassifier&apos;s<sp/>constructor<sp/>does<sp/>for<sp/>its<sp/>own<sp/>&apos;sectionKeywordsDFA&apos;)<sp/>--<sp/>mutates</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;_nameDFA&apos;<sp/>in<sp/>place<sp/>via<sp/>&apos;setHandleDuplicate&apos;<sp/>rather<sp/>than<sp/>constructing-and-returning<sp/>a</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>whole<sp/>BaseAhoCorasickDFA<sp/>by<sp/>value,<sp/>since<sp/>that<sp/>type<sp/>holds<sp/>a<sp/>unique_ptr<sp/>member<sp/>and<sp/>so</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>has<sp/>no<sp/>copy/move<sp/>constructor<sp/>to<sp/>return<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kindref="member">_setupNameDFA</ref>();</highlight></codeline>
-<codeline lineno="479" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" kindref="member">_nameDFAInitialized</ref>;</highlight></codeline>
-<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="481"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="482"><highlight class="normal"></highlight></codeline>
-<codeline lineno="483"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Bumped<sp/>by<sp/>clear().<sp/>See<sp/>generation()&apos;s<sp/>own<sp/>note<sp/>for<sp/>what<sp/>reads<sp/>it<sp/>and<sp/>why.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="474" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">long</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1ad53bae7c5d75eb71e8a8162611d1310b" kindref="member">_generation</ref>;</highlight></codeline>
+<codeline lineno="475"><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>ModTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact<sp/>name/alias</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(game-agnostic;<sp/>narrowed<sp/>down<sp/>to<sp/>a<sp/>specific<sp/>GameTypeId,<sp/>when<sp/>requested,<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>cross-referencing<sp/>each<sp/>candidate&apos;s<sp/>own<sp/>entry<sp/>in<sp/>&apos;_modTypes&apos;)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="479" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_aho_corasick_d_f_a" kindref="compound">BaseAhoCorasickDFA&lt;std::unordered_set&lt;int&gt;</ref>&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a74b2d186127e34bbc8608cda906f4263" kindref="member">_nameDFA</ref>;</highlight></codeline>
+<codeline lineno="480"><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>-&gt;<sp/>the<sp/>GameTypeIds<sp/>of<sp/>every<sp/>registered<sp/>ModType<sp/>sharing<sp/>that<sp/>exact</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="482"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>name/alias<sp/>--<sp/>mirrors<sp/>IniClassifier&apos;s<sp/>&apos;keywordGameTypeIds&apos;,<sp/>used<sp/>the<sp/>same<sp/>way<sp/>to<sp/>build</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>a<sp/>KeywordPredicate<sp/>for<sp/>&apos;_nameDFA&apos;s<sp/>maximal-match<sp/>search</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unordered_map&lt;std::string,<sp/>std::unordered_set&lt;int&gt;&gt;<sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a9e560338915af03c8f3d4438b50a31cd" kindref="member">_nameGameTypeIds</ref>;</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sets<sp/>up<sp/>&apos;_nameDFA&apos;s<sp/>duplicate-merging<sp/>behavior<sp/>exactly<sp/>once<sp/>(mirrors<sp/>what</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IniClassifier&apos;s<sp/>constructor<sp/>does<sp/>for<sp/>its<sp/>own<sp/>&apos;sectionKeywordsDFA&apos;)<sp/>--<sp/>mutates</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>&apos;_nameDFA&apos;<sp/>in<sp/>place<sp/>via<sp/>&apos;setHandleDuplicate&apos;<sp/>rather<sp/>than<sp/>constructing-and-returning<sp/>a</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="489"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>whole<sp/>BaseAhoCorasickDFA<sp/>by<sp/>value,<sp/>since<sp/>that<sp/>type<sp/>holds<sp/>a<sp/>unique_ptr<sp/>member<sp/>and<sp/>so</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="490"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>has<sp/>no<sp/>copy/move<sp/>constructor<sp/>to<sp/>return<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a722dfa957f3eee3d2730d017f7f2e539" kindref="member">_setupNameDFA</ref>();</highlight></codeline>
+<codeline lineno="492" refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_mod_type_id_tools_1a69e692f36072d7a30e87d9d929026a2c" kindref="member">_nameDFAInitialized</ref>;</highlight></codeline>
+<codeline lineno="493"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="494"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="495"><highlight class="normal"></highlight></codeline>
+<codeline lineno="496"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/constants/ModTypeId.h"/>
   </compounddef>

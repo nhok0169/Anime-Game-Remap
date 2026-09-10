@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="209" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="209" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="222" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="222" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a203fb61274c4d636d55c0bde00e96b36" kindref="member">Base::Graph</ref></type>
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="210" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="210" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="223" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="223" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aa73e246df1181f4bc9a32b9377ea58dd" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a8ed1d10ab2dd9960be5104e7186b9772" kindref="member">Base::Section</ref></type>
@@ -63,7 +63,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="211" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="211" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="224" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="224" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_i_ini_graph_groups_1a0bd843e3d08cecb791d5098afa1a787b" kindref="member">Base::ModObj</ref></type>
@@ -77,7 +77,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="212" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="212" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="225" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="225" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a18b6cfd6f21b8a36f7800d1cfa335812" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_group" kindref="compound">IniGraphGroup</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -92,7 +92,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="217" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="217" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="230" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="230" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="240" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="240" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="253" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="253" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a5e5d430e6c5d5b8562f4ab2a6e9d9f75" prot="private" static="no" mutable="no">
         <type><ref refid="struct_a_g_remap_core_1_1_if_template_run_config" kindref="compound">IfTemplateRunConfig</ref>&lt; K, V &gt;</type>
@@ -122,7 +122,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="241" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="241" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="254" column="33" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="254" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1390b79148108882e00c4e2add97c9a9" prot="private" static="no" mutable="no">
         <type>std::vector&lt; std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> &gt; &gt;</type>
@@ -136,7 +136,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="246" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="246" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="259" column="25" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="259" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -179,7 +179,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="225" column="22"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="238" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac7d58800df1941613b8aa5e832b82403" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -196,7 +196,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="227" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="240" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a367b8ae894632c56b1deab5ba1cab912" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -228,7 +228,7 @@ Inserts a fresh, empty group at &apos;groupInd&apos;, shifting every later group
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="228" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="241" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1af5babf827ee5cf5dd5ed463f714e94f6" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -258,7 +258,7 @@ Inserts a fresh, empty group at &apos;groupInd&apos;, shifting every later group
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="229" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="242" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a77f1163f6f652a6d6d7c4fddc2bc1f2d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::vector&lt; <ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a8702d3fdc5208998d448c68870faf3b8" kindref="member">ModObj</ref> &gt;</type>
@@ -291,7 +291,7 @@ The ``(component name, mod object name)`` key of every graph in the group at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="230" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="243" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a6c5f189d59e3ea9ef2efb156f97ccbb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::size_t</type>
@@ -321,7 +321,7 @@ The ``(component name, mod object name)`` key of every graph in the group at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="231" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="244" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aad87ba1f6c214de8aaf7605176d567d6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
@@ -363,7 +363,7 @@ The ``(component name, mod object name)`` key of every graph in the group at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="232" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="245" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -423,7 +423,7 @@ The graph to add. Must be one this object already owns (ie. came out of #getGrap
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="233" column="18"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="246" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a4f57569754bb5936f07e898465adb9d3" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
@@ -470,7 +470,7 @@ note) -- or ``nullptr`` if there was nothing to remove
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="234" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="247" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1ac02ec443ac5fd993a71dc6466f8a37db" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
@@ -528,7 +528,7 @@ note) -- or ``nullptr`` if there was nothing to remove
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="235" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="248" column="19"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a0d5d0e8b8b4e944c845cff47f0e13f0c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a1923db400e685e159526e79b915ec964" kindref="member">Graph</ref> *</type>
@@ -598,7 +598,7 @@ note) -- or ``nullptr`` if there was nothing to remove
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="236" column="19"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="249" column="19"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -678,7 +678,7 @@ why there are two
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="207" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="207" bodyend="247"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" line="220" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/IIniGraphGroups.h" bodystart="220" bodyend="260"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1a73ba1e735f97c25349df54c5a427cf4a" prot="public" virt="virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_ini_graph_groups_vec_1aedeb9cb27ad58f83fded206d8bf19e25" prot="public" virt="non-virtual"><scope>AGRemapCore::IniGraphGroupsVec</scope><name>Base</name></member>

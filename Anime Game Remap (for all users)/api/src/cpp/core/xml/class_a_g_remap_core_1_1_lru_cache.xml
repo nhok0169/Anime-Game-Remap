@@ -54,7 +54,7 @@ A capacity of ``0`` disables caching entirely -- :cpp:func:`put` becomes a no-op
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="49" column="22"/>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="62" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lru_cache_1ad6fb34d32291a48cd8218bb95d50edb4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::optional&lt; V &gt;</type>
@@ -85,7 +85,7 @@ A capacity of ``0`` disables caching entirely -- :cpp:func:`put` becomes a no-op
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="58" column="27"/>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="71" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_lru_cache_1abf39349a32f87c4e688f25af98dda1f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -130,7 +130,7 @@ least-recently-used entry first if the cache is already at capacity -- unlike
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="71" column="18"/>
+        <location file="include/AGRemapCore/tools/caches/LruCache.h" line="84" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -206,7 +206,7 @@ pure-Python ``LruCache`` does (and doesn&apos;t) override on ``Cache``
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/caches/LruCache.h" line="34" column="5" bodyfile="include/AGRemapCore/tools/caches/LruCache.h" bodystart="34" bodyend="72"/>
+    <location file="include/AGRemapCore/tools/caches/LruCache.h" line="47" column="5" bodyfile="include/AGRemapCore/tools/caches/LruCache.h" bodystart="47" bodyend="85"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_cache_1a1023dd45307294f705de649c777f2278" prot="public" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>Cache</name></member>
       <member refid="class_a_g_remap_core_1_1_cache_1a9dd66a3d344bb18165027a366a57f34f" prot="protected" virt="non-virtual"><scope>AGRemapCore::LruCache</scope><name>capacity_</name></member>

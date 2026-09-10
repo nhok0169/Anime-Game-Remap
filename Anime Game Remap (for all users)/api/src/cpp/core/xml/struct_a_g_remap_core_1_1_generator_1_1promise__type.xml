@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="45" column="31" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="45" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="58" column="31" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="58" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" prot="public" static="no" mutable="no">
         <type>std::exception_ptr</type>
@@ -32,7 +32,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="50" column="36" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="50" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="63" column="36" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="63" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -49,7 +49,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="55" column="27"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="68" column="27"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a96724b3a63657251daff8e7b6f3df34b" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::suspend_always</type>
@@ -64,7 +64,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="60" column="37"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="73" column="37"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a345e67d6e575635bac80bd46e065ce86" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type>std::suspend_always</type>
@@ -79,7 +79,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="65" column="37"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="78" column="37"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ae7fe51007df40ab4be7e7e4c3b26e47f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::suspend_always</type>
@@ -108,7 +108,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="72" column="37"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="85" column="37"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a40728ff6d8ca737d20de1b95e8b45168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -123,7 +123,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="77" column="22"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="90" column="22"/>
       </memberdef>
       <memberdef kind="function" id="struct_a_g_remap_core_1_1_generator_1_1promise__type_1af23b7baf3ab20a0a2d0ec04f7d727613" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -138,7 +138,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/Generator.h" line="82" column="22"/>
+        <location file="include/AGRemapCore/tools/Generator.h" line="95" column="22"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -150,7 +150,7 @@ directly by any caller of #Generator itself; ``co_yield``/``co_return`` inside a
 coroutine body compile down to calls against this type.
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/Generator.h" line="41" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="41" bodyend="83"/>
+    <location file="include/AGRemapCore/tools/Generator.h" line="54" column="13" bodyfile="include/AGRemapCore/tools/Generator.h" bodystart="54" bodyend="96"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1ab0387236b5be93ea823532a24de01cea" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>currentException</name></member>
       <member refid="struct_a_g_remap_core_1_1_generator_1_1promise__type_1a567ff700f237bfeab524d470eb7e71e1" prot="public" virt="non-virtual"><scope>AGRemapCore::Generator::promise_type</scope><name>currentValue</name></member>

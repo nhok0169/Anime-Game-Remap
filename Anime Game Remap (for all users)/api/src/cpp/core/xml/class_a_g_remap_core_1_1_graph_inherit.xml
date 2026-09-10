@@ -36,7 +36,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="48" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="48" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="61" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="61" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a7d77d61110a9b5be4ec9b1a4ff800c7a" kindref="member">Base::GraphGroups</ref></type>
@@ -51,7 +51,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="53" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="53" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="66" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="66" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" prot="public" static="no">
         <type>typename Base::GraphId</type>
@@ -73,7 +73,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="58" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="58" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="71" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="71" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a041961f8c9f132b1880000706144ee3f" prot="public" static="no">
         <type>typename <ref refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1a30be5f49718b8a5146e3441f32d7dac5" kindref="member">Base::Graph</ref></type>
@@ -88,7 +88,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="63" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="63" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="76" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="76" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_section_iter_data" kindref="compound">SectionIterData</ref>&lt; K, V, KeyHash, KeyEqual &gt;</type>
@@ -103,7 +103,7 @@ fields rather than restating them
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="68" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="81" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_ranges" kindref="compound">Ranges</ref>&lt; long long &gt;</type>
@@ -121,7 +121,7 @@ because that&apos;s the type :cpp:class:`IfContentPart` keys its order indices b
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="77" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="90" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="90" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" prot="public" static="no">
         <type>std::function&lt; <ref refid="class_a_g_remap_core_1_1_graph_inherit_1ad7390d4e4e849430ff2d1594b1659f05" kindref="member">OrderRanges</ref>(const <ref refid="class_a_g_remap_core_1_1_graph_inherit_1a4f854455afac3f3b3df1d4e63eced71c" kindref="member">IterData</ref> &amp;, const <ref refid="class_a_g_remap_core_1_1_mod_type" kindref="compound">ModType</ref> *, <ref refid="class_a_g_remap_core_1_1_ini_file" kindref="compound">IniFile</ref> *)&gt;</type>
@@ -144,7 +144,7 @@ instead (see \ref edit)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="91" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="91" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="104" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="104" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -163,7 +163,7 @@ The id of the source graph to insert the reference `KVPs`_ into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="99" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="99" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="112" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="112" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a1bf71bfe24dd2aea1c3d429ba9a10103" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a01cf84b4f22c504bf4a1104682963f5b" kindref="member">GraphId</ref></type>
@@ -178,7 +178,7 @@ The id of the source graph to insert the reference `KVPs`_ into
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="104" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="104" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="117" column="21" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="117" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a952f37375e5015ba2b861c81f527d7f6" prot="public" static="no" mutable="no">
         <type>K</type>
@@ -196,7 +196,7 @@ The name of the register used to reference the root `sections`_ of the graph at
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="113" column="15" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="113" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="126" column="15" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="126" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1aa48c630c95759056c036d9ed81284eef" prot="public" static="no" mutable="no">
         <type>bool</type>
@@ -214,7 +214,7 @@ front
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="122" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="122" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="135" column="18" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="135" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_graph_inherit_1a2be93882177ebbd60607b432a1f5b8ec" prot="public" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a3cf6041fcddc42bb1be2c639bd4dd5c8" kindref="member">PartFilter</ref></type>
@@ -232,7 +232,7 @@ graph at \ref src are valid to insert the `KVPs`_ -- empty for &quot;no filter&q
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="131" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="131" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="144" column="24" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="144" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -313,7 +313,7 @@ graph at \ref src are valid to insert the `KVPs`_ -- empty for &quot;no filter&q
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="142" column="13"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="155" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_inherit_1a7dee68f4166fcc35813e215871413ecf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_inherit_1a8da1177cd9c6b5da24d467add35881ce" kindref="member">GraphGroups</ref> &amp;</type>
@@ -378,7 +378,7 @@ accepts
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="162" column="25"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="175" column="25"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -478,7 +478,7 @@ Merges the graph at &apos;dst&apos; into the graph at &apos;src&apos;, by insert
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="42" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="42" bodyend="163"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" line="55" column="5" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphInherit.h" bodystart="55" bodyend="176"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_ini_graph_group_edit_1aa875496a448b2eecf445f3b2ddd61a76" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>addGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_inherit_1aca0a61df570100303beb522f0ab5910c" prot="public" virt="non-virtual"><scope>AGRemapCore::GraphInherit</scope><name>Base</name></member>

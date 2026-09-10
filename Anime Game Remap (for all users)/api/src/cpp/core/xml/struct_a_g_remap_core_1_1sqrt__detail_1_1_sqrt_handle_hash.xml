@@ -28,14 +28,14 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="55" column="20"/>
+        <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="68" column="20"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="54" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="54" bodyend="56"/>
+    <location file="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" line="67" column="9" bodyfile="include/AGRemapCore/tools/orderedMultiMap/OrderedMultiMapSqrt.h" bodystart="67" bodyend="69"/>
     <listofallmembers>
       <member refid="struct_a_g_remap_core_1_1sqrt__detail_1_1_sqrt_handle_hash_1a9dfd9dc54078aec03b57db848e8ba405" prot="public" virt="non-virtual"><scope>AGRemapCore::sqrt_detail::SqrtHandleHash</scope><name>operator()</name></member>
     </listofallmembers>

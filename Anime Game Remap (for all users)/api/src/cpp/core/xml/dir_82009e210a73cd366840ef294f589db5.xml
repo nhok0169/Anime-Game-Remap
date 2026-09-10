@@ -4,10 +4,13 @@
     <compoundname>src/data/IniFixData</compoundname>
     <innerdir refid="dir_4e0b7218ed81deea9cdc7b28445599fc">src/data/IniFixData/Amber</innerdir>
     <innerdir refid="dir_7cb018ff43e15735ffbf547e8839c0e2">src/data/IniFixData/AmberCN</innerdir>
+    <innerdir refid="dir_7309564dc9d02b0fd18710be48bac541">src/data/IniFixData/Ganyu</innerdir>
     <innerdir refid="dir_560b1f0e760a689b57b2e152947fe43f">src/data/IniFixData/GanyuTwilight</innerdir>
     <innerdir refid="dir_3660df427fda42f2f46b018932ca46f4">src/data/IniFixData/Jean</innerdir>
     <innerdir refid="dir_616cdd4918254823149926bf467552b0">src/data/IniFixData/JeanCN</innerdir>
     <innerdir refid="dir_8fb47c6eef11ec1b7d36037b7e8efbb7">src/data/IniFixData/JeanSea</innerdir>
+    <innerdir refid="dir_fa2b931b33a016de924fa64cf91d77ad">src/data/IniFixData/Keqing</innerdir>
+    <innerdir refid="dir_b3a9e4468c36c44f3629eacacb8d0508">src/data/IniFixData/KeqingOpulent</innerdir>
     <innerdir refid="dir_0f276ca38dafcc3dcc40a33a1cdb7007">src/data/IniFixData/Mona</innerdir>
     <innerdir refid="dir_605b4137314663323ca47a3cc7379050">src/data/IniFixData/MonaCN</innerdir>
     <innerdir refid="dir_8c4417f973481dd42ac0a0273bc1a8e6">src/data/IniFixData/Ningguang</innerdir>
@@ -15,6 +18,8 @@
     <innerdir refid="dir_b0dfb60aa61a00d5339e94e116f1657a">src/data/IniFixData/Raiden</innerdir>
     <innerdir refid="dir_ac530672aff6b0fa50c56afbb6386140">src/data/IniFixData/Rosaria</innerdir>
     <innerdir refid="dir_c33d5cf41e8ec8882fe4c67fe582f5ae">src/data/IniFixData/RosariaCN</innerdir>
+    <innerdir refid="dir_687e89e440e185377acd1d5ffec708a2">src/data/IniFixData/Shenhe</innerdir>
+    <innerdir refid="dir_8fce15001df50b163403cf4a2468f78c">src/data/IniFixData/ShenheFrostFlower</innerdir>
     <innerfile refid="_dark_diffuse_8cpp">DarkDiffuse.cpp</innerfile>
     <innerfile refid="_g_i_m_i_char_fixer_8cpp">GIMICharFixer.cpp</innerfile>
     <innerfile refid="_jean_shading_8cpp">JeanShading.cpp</innerfile>

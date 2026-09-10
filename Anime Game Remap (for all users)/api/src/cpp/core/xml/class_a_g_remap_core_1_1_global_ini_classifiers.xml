@@ -16,7 +16,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="64" column="13"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="77" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -39,7 +39,7 @@ belongs to some mod, lazily constructed on first access and reused for every lat
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="75" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="44" bodyend="82"/>
+        <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="88" column="34" bodyfile="src/constants/GlobalIniClassifiers.cpp" bodystart="57" bodyend="95"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -95,7 +95,7 @@ thread-safe, exactly-once initialization) :raw-html:`&lt;br /&gt;` :raw-html:`&l
    classifier never comes through here and keeps full control of the registry
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="61" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="61" bodyend="76"/>
+    <location file="include/AGRemapCore/constants/GlobalIniClassifiers.h" line="74" column="5" bodyfile="include/AGRemapCore/constants/GlobalIniClassifiers.h" bodystart="74" bodyend="89"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1a0e369ef6f6d6f237879a653a908c8b0b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>classifier</name></member>
       <member refid="class_a_g_remap_core_1_1_global_ini_classifiers_1aede4d6e2c894d69404cd871692cdd17b" prot="public" virt="non-virtual"><scope>AGRemapCore::GlobalIniClassifiers</scope><name>GlobalIniClassifiers</name></member>

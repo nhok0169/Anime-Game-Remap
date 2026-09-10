@@ -59,7 +59,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="121" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="104" bodyend="105"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="134" column="22" bodyfile="src/model/buffers/BufInt.cpp" bodystart="117" bodyend="118"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_buf_un_signed_int_1af9c981d7225c26a1e171a5dd0eb577ab" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_buf_data_type" kindref="compound">BufDataType</ref> &gt;</type>
@@ -86,7 +86,7 @@ than one :cpp:class:`BufElementType` without being consumed by the first use
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="123" column="29" bodyfile="src/model/buffers/BufInt.cpp" bodystart="107" bodyend="109"/>
+        <location file="include/AGRemapCore/model/buffers/BufInt.h" line="136" column="29" bodyfile="src/model/buffers/BufInt.cpp" bodystart="120" bodyend="122"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -146,7 +146,7 @@ The type definition for some unsigned integer type within a ``.buf`` file
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="111" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="111" bodyend="124"/>
+    <location file="include/AGRemapCore/model/buffers/BufInt.h" line="124" column="5" bodyfile="include/AGRemapCore/model/buffers/BufInt.h" bodystart="124" bodyend="137"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_buf_base_int_1abb9c2cd7ad79fe0d5d1447e30c25eb1a" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufBaseInt</name></member>
       <member refid="class_a_g_remap_core_1_1_buf_data_type_1aae29c3a1d3d59139f5b476a8906f8628" prot="public" virt="non-virtual"><scope>AGRemapCore::BufUnSignedInt</scope><name>BufDataType</name></member>

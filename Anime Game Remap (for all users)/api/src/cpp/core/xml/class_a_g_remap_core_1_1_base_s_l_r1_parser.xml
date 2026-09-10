@@ -40,7 +40,7 @@ Contains:
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="68" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="68" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="81" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="81" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" prot="public" static="no">
         <type>tsl::ordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a541a96cb6c0e618505f90c0ff2732558" kindref="member">Production</ref>, IdHash, IdEq &gt;</type>
@@ -69,7 +69,7 @@ production rule :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="88" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="88" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="101" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="101" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" prot="public" static="no">
         <type>std::vector&lt; std::pair&lt; Id, Id &gt; &gt;</type>
@@ -90,7 +90,7 @@ position, independently of any other occurrence of the same production rule)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="100" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="100" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="113" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="113" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" prot="public" static="no">
         <type>std::unordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a9cf7ce934f93b900e1b36fb6d755dc62" kindref="member">Items</ref>, IdHash, IdEq &gt;</type>
@@ -105,7 +105,7 @@ position, independently of any other occurrence of the same production rule)
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="105" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="118" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="118" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" prot="public" static="no">
         <type>std::variant&lt; std::unordered_map&lt; std::string, Id &gt;, Id &gt;</type>
@@ -130,7 +130,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="121" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="121" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="134" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="134" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" prot="public" static="no">
         <type>std::unordered_map&lt; Id, <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a87e518461c4e935bfd67c4bb4ffa9090" kindref="member">Reduction</ref>, IdHash, IdEq &gt;</type>
@@ -145,7 +145,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="126" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="126" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="139" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="139" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" prot="public" static="no">
         <type><ref refid="class_a_g_remap_core_1_1_parse_tree" kindref="compound">ParseTree</ref>&lt; Id, IdHash, IdEq &gt;</type>
@@ -160,7 +160,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="131" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="131" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="144" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="144" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-type">
@@ -176,7 +176,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="526" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="526" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="539" column="13" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="539" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-attrib">
@@ -193,7 +193,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="221" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="221" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="234" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="234" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa278e15f482af8ca2d2ccc6cafee341e" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -208,7 +208,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="226" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="226" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="239" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="239" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a28e4f2b10e720d162f60732cd72962ad" prot="public" static="no" mutable="no">
         <type>std::string</type>
@@ -223,7 +223,7 @@ item) :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="231" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="231" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="244" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="244" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e088cc4d2d5621a3cf799046697e06b" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, bool &gt;</type>
@@ -242,7 +242,7 @@ The keys are the non-terminal symbols and the values are whether each symbol is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="241" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="241" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="254" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="254" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0a1dcb372ff56316ebae3de126a827ab" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
@@ -262,7 +262,7 @@ appear in front of the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="252" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="252" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="265" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="265" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a52f3c2c83904a4334923bba9d28445b4" prot="public" static="no" mutable="no">
         <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
@@ -282,7 +282,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="263" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="263" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="276" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="276" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-attrib">
@@ -299,7 +299,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="481" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="481" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="494" column="21" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="494" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3881f4b4b90101e3bcb51a2902f49188" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref></type>
@@ -313,7 +313,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="483" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="483" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="496" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="496" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a5067c23d16c2dc457b0382e455867bf1" prot="private" static="no" mutable="no">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -327,7 +327,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="484" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="484" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="497" column="32" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="497" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3de1aa8f2429ccc4498efa8c07d35e0d" prot="private" static="no" mutable="no">
         <type>std::string</type>
@@ -341,7 +341,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="485" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="485" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="498" column="25" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="498" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2a32ff6283e4b88f04296a3012bd7c7c" prot="private" static="no" mutable="no">
         <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref></type>
@@ -355,7 +355,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="486" column="24" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="486" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="499" column="24" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="499" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a962076adacde0164a43ea33c7000b884" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
@@ -370,7 +370,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="491" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="491" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="504" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="504" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a3d22adaf2bb4614c280cec076f50731b" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
@@ -385,7 +385,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="496" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="496" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="509" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="509" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0e3356f242b3de79a1f6cd73fe5aee7f" prot="private" static="no" mutable="no">
         <type>std::unique_ptr&lt; <ref refid="class_a_g_remap_core_1_1_base_id_generator" kindref="compound">BaseIdGenerator</ref>&lt; Id &gt; &gt;</type>
@@ -400,7 +400,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="501" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="501" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="514" column="29" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="514" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -571,7 +571,7 @@ Same lazy default behavior as &apos;stateIdGenerator&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="181" column="22"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="194" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae60d7d1e8a1a50b9e7a64f5db3f3db3d" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
         <type></type>
@@ -715,7 +715,7 @@ position within &apos;productions&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="209" column="22"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="222" column="22"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abc354fc82f1da0856e470651edb8d9bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -729,7 +729,7 @@ position within &apos;productions&apos; :raw-html:`&lt;br /&gt;` :raw-html:`&lt;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="216" column="21"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="229" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ac30741e5c74d86ce6d8b775f12fe5af4" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a85afd9ca771001134c4c19d8f445dc7c" kindref="member">Productions</ref> &amp;</type>
@@ -749,7 +749,7 @@ The production rules of the `CFG (Context Free Grammer)`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="273" column="31"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="286" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1396eba78203d738d8244d8f43ad367b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -787,7 +787,7 @@ The production rules of the `CFG (Context Free Grammer)`_
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="283" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="296" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0c9e00a50d06cac201609999b537a037" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -828,7 +828,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="297" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="310" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2ce93d69748dec2f73fa30841344ddf5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_set&lt; std::string &gt; &amp;</type>
@@ -843,7 +843,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="302" column="38"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="315" column="38"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a25f081ec2c4938c28dce5707fa4ddba3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const std::string &amp;</type>
@@ -858,7 +858,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="307" column="31"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="320" column="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a98738eccc02c3f8c07840c6ff59a8a3d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -896,7 +896,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="316" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="329" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a1d5b70e6d8f081fbf11b72bffe7c7ccd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -911,7 +911,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="321" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="334" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a6721285265db5eaed037ee1c4c493fc8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -929,7 +929,7 @@ position within &apos;newProductions&apos;
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="328" column="32"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="341" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1abf902ac27726283b274ea1ef38ef02f7" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, bool &gt;</type>
@@ -953,7 +953,7 @@ The keys are the non-terminal symbols and the values are whether each symbol is 
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="343" column="32"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="356" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a92a38e6f5988a021e5430043ed580cc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
@@ -992,7 +992,7 @@ appear first for the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="361" column="32"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="374" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a221cb8da089e0de64f6cc1dfcc67203d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_set&lt; std::string &gt;</type>
@@ -1056,7 +1056,7 @@ empty set :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="383" column="32"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="396" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a17e82a1dcc9c55425605133e48d18935" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::unordered_map&lt; std::string, std::unordered_set&lt; std::string &gt; &gt;</type>
@@ -1106,7 +1106,7 @@ appear after the particular non-terminal symbol
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="402" column="32"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="415" column="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af62196be18fb5a03d9e7ed6a86ba7e36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1ae4d9da4496475c5af16fc48abc35a12b" kindref="member">States</ref></type>
@@ -1166,7 +1166,7 @@ Constructs the `DFA`_ to determine whether to shift/reduce when reading the inpu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="417" column="20"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="430" column="20"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1afa94927a6e3176d0d127cb0bb9003e38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1181,7 +1181,7 @@ Constructs the `DFA`_ to determine whether to shift/reduce when reading the inpu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="423" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="436" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabafb1a0c3b00a05350491a588912155" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_base_d_f_a" kindref="compound">BaseDFA</ref>&lt; Id, std::string, IdEq, IdHash, std::equal_to&lt; std::string &gt;, <ref refid="struct_a_g_remap_core_1_1_string_view_hash" kindref="compound">StringViewHash</ref> &gt; &amp;</type>
@@ -1196,7 +1196,7 @@ Constructs the `DFA`_ to determine whether to shift/reduce when reading the inpu
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="428" column="27"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="441" column="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aabe00ccfe41e0a30c3c6dfbffbb13fef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4294ee5f382955e1b1f4e2630f72633b" kindref="member">Reductions</ref> &amp;</type>
@@ -1219,7 +1219,7 @@ The reduce actions of the `DFA`_, keyed by the id of each state -- populated by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="442" column="30"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="455" column="30"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a0004635f374e51d1ac0da7c712350fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a7200421b6247e7fb30ae5d7b310448f4" kindref="member">Tree</ref></type>
@@ -1290,7 +1290,7 @@ If ``nullptr``, a context is constructed from the concatenation of every token&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="474" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="487" column="18"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-func">
@@ -1311,7 +1311,7 @@ If ``nullptr``, a context is constructed from the concatenation of every token&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="532" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="545" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a36dc8be8f7f00eab833c091dd4287c82" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1336,7 +1336,7 @@ If ``nullptr``, a context is constructed from the concatenation of every token&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="540" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="553" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a49033570f19074fecffa19795c27d331" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Id</type>
@@ -1350,7 +1350,7 @@ If ``nullptr``, a context is constructed from the concatenation of every token&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="544" column="16"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="557" column="16"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1aa703996c4aa00f1090a001018dbad790" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Id</type>
@@ -1364,7 +1364,7 @@ If ``nullptr``, a context is constructed from the concatenation of every token&a
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="545" column="16"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="558" column="16"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1440,7 +1440,7 @@ original for why every other call site leaves this ``std::nullopt`` and updates
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="568" column="18"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="581" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a8e161754839b7cee65a8c28c556b7286" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>Id</type>
@@ -1454,7 +1454,7 @@ original for why every other call site leaves this ``std::nullopt`` and updates
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="571" column="16"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="584" column="16"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a260a3d4603d0b69e130f30f529d14c84" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -1487,7 +1487,7 @@ original for why every other call site leaves this ``std::nullopt`` and updates
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="598" column="19"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="611" column="19"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -1503,7 +1503,7 @@ original for why every other call site leaves this ``std::nullopt`` and updates
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="542" column="36"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="555" column="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1add48897bb9b24a835d4b328fe979c44e" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -1560,7 +1560,7 @@ token type -- the C++ counterpart to the pure-Python original&apos;s own classme
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="585" column="25"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="598" column="25"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a4c052dc4b294b0760b78c01f2d87ddc2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const Id &amp;</type>
@@ -1583,7 +1583,7 @@ token type -- the C++ counterpart to the pure-Python original&apos;s own classme
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="591" column="29"/>
+        <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="604" column="29"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -1649,7 +1649,7 @@ The base class used for bottom-up `SLR(1)`_ parsing :raw-html:`&lt;br /&gt;` :ra
         <link refid="class_a_g_remap_core_1_1_bi_map"/>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="54" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="54" bodyend="599"/>
+    <location file="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" line="67" column="5" bodyfile="include/AGRemapCore/tools/parsing/BaseSLR1Parser.h" bodystart="67" bodyend="612"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1a2617fce43bdf1b9168f110a2f36a51a9" prot="private" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>addImpliedProductions</name></member>
       <member refid="class_a_g_remap_core_1_1_base_s_l_r1_parser_1af352e70aff92868eae4fa1bbf6c18a7f" prot="public" virt="non-virtual"><scope>AGRemapCore::BaseSLR1Parser</scope><name>BaseSLR1Parser</name></member>

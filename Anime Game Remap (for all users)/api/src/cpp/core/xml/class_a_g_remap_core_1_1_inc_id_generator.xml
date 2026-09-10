@@ -23,7 +23,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="39" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="39" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="52" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="52" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_inc_id_generator_1a8a7ab0fd0d86490621fc6c749e16d5c2" prot="protected" static="no" mutable="no">
         <type>Id</type>
@@ -38,7 +38,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="44" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="44" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="57" column="16" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="57" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="30" column="13"/>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="43" column="13"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_inc_id_generator_1a52800dfbb1edad1bce3f4142d67b4834" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>void</type>
@@ -85,7 +85,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="32" column="18"/>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="45" column="18"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_inc_id_generator_1a31ddcb9e9e7aba84613a34b54db21d87" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type>bool</type>
@@ -117,7 +117,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="33" column="18"/>
+        <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="46" column="18"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -162,7 +162,7 @@
         </childnode>
       </node>
     </collaborationgraph>
-    <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="22" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="22" bodyend="45"/>
+    <location file="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" line="35" column="5" bodyfile="include/AGRemapCore/tools/idGenerator/IncIdGenerator.h" bodystart="35" bodyend="58"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_inc_id_generator_1abded37ee66836ee3e31e7fce809bf627" prot="protected" virt="non-virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>currentId</name></member>
       <member refid="class_a_g_remap_core_1_1_inc_id_generator_1a8a7ab0fd0d86490621fc6c749e16d5c2" prot="protected" virt="non-virtual"><scope>AGRemapCore::IncIdGenerator</scope><name>defaultId</name></member>

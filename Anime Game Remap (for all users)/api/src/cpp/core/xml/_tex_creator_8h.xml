@@ -5,7 +5,10 @@
     <includes local="no">string</includes>
     <includes refid="_base_tex_editor_8h" local="yes">AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</includes>
     <includes refid="_colour_8h" local="yes">AGRemapCore/model/textures/Colour.h</includes>
+    <includedby refid="_g_i_m_i_char_fixer_8h" local="yes">include/AGRemapCore/data/IniFixData/GIMICharFixer.h</includedby>
     <includedby refid="_remap_tex_resource_8h" local="yes">include/AGRemapCore/model/iniresources/RemapTexResource.h</includedby>
+    <includedby refid="_tex_creator_edit_8h" local="yes">include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</includedby>
+    <includedby refid="_ganyu_fixer_8cpp" local="yes">src/data/IniFixData/Ganyu/GanyuFixer.cpp</includedby>
     <includedby refid="_tex_creator_8cpp" local="yes">src/model/strategies/texEditors/TexCreator.cpp</includedby>
     <incdepgraph>
       <node id="3">
@@ -46,19 +49,67 @@
     </incdepgraph>
     <invincdepgraph>
       <node id="2">
-        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
-        <link refid="_remap_tex_resource_8h"/>
+        <label>include/AGRemapCore/data/IniFixData/GIMICharFixer.h</label>
+        <link refid="_g_i_m_i_char_fixer_8h"/>
         <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
         </childnode>
         <childnode refid="5" relation="include">
         </childnode>
         <childnode refid="6" relation="include">
         </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
       </node>
-      <node id="3">
+      <node id="21">
+        <label>include/AGRemapCore/model/iniresources/RemapTexResource.h</label>
+        <link refid="_remap_tex_resource_8h"/>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+      </node>
+      <node id="22">
+        <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexCreatorEdit.h</label>
+        <link refid="_tex_creator_edit_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="23">
         <label>include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/resEdits/TexEditorEdit.h</label>
         <link refid="_tex_editor_edit_8h"/>
-        <childnode refid="4" relation="include">
+        <childnode refid="5" relation="include">
         </childnode>
       </node>
       <node id="1">
@@ -66,22 +117,96 @@
         <link refid="_tex_creator_8h"/>
         <childnode refid="2" relation="include">
         </childnode>
-        <childnode refid="7" relation="include">
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
         </childnode>
       </node>
-      <node id="5">
+      <node id="24">
         <label>src/RemapService.cpp</label>
         <link refid="_remap_service_8cpp"/>
       </node>
+      <node id="3">
+        <label>src/data/IniFixData/Amber/AmberFixer.cpp</label>
+        <link refid="_amber_fixer_8cpp"/>
+      </node>
       <node id="4">
+        <label>src/data/IniFixData/AmberCN/AmberCNFixer.cpp</label>
+        <link refid="_amber_c_n_fixer_8cpp"/>
+      </node>
+      <node id="5">
         <label>src/data/IniFixData/GIMICharFixer.cpp</label>
         <link refid="_g_i_m_i_char_fixer_8cpp"/>
       </node>
       <node id="6">
+        <label>src/data/IniFixData/Ganyu/GanyuFixer.cpp</label>
+        <link refid="_ganyu_fixer_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp</label>
+        <link refid="_ganyu_twilight_fixer_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/data/IniFixData/Jean/JeanFixer.cpp</label>
+        <link refid="_jean_fixer_8cpp"/>
+      </node>
+      <node id="9">
+        <label>src/data/IniFixData/JeanCN/JeanCNFixer.cpp</label>
+        <link refid="_jean_c_n_fixer_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/data/IniFixData/JeanSea/JeanSeaFixer.cpp</label>
+        <link refid="_jean_sea_fixer_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/data/IniFixData/Keqing/KeqingFixer.cpp</label>
+        <link refid="_keqing_fixer_8cpp"/>
+      </node>
+      <node id="12">
+        <label>src/data/IniFixData/KeqingOpulent/KeqingOpulentFixer.cpp</label>
+        <link refid="_keqing_opulent_fixer_8cpp"/>
+      </node>
+      <node id="13">
+        <label>src/data/IniFixData/Mona/MonaFixer.cpp</label>
+        <link refid="_mona_fixer_8cpp"/>
+      </node>
+      <node id="14">
+        <label>src/data/IniFixData/MonaCN/MonaCNFixer.cpp</label>
+        <link refid="_mona_c_n_fixer_8cpp"/>
+      </node>
+      <node id="15">
+        <label>src/data/IniFixData/Ningguang/NingguangFixer.cpp</label>
+        <link refid="_ningguang_fixer_8cpp"/>
+      </node>
+      <node id="16">
+        <label>src/data/IniFixData/NingguangOrchid/NingguangOrchidFixer.cpp</label>
+        <link refid="_ningguang_orchid_fixer_8cpp"/>
+      </node>
+      <node id="17">
+        <label>src/data/IniFixData/Rosaria/RosariaFixer.cpp</label>
+        <link refid="_rosaria_fixer_8cpp"/>
+      </node>
+      <node id="18">
+        <label>src/data/IniFixData/RosariaCN/RosariaCNFixer.cpp</label>
+        <link refid="_rosaria_c_n_fixer_8cpp"/>
+      </node>
+      <node id="19">
+        <label>src/data/IniFixData/Shenhe/ShenheFixer.cpp</label>
+        <link refid="_shenhe_fixer_8cpp"/>
+      </node>
+      <node id="20">
+        <label>src/data/IniFixData/ShenheFrostFlower/ShenheFrostFlowerFixer.cpp</label>
+        <link refid="_shenhe_frost_flower_fixer_8cpp"/>
+      </node>
+      <node id="25">
         <label>src/model/iniresources/RemapTexResource.cpp</label>
         <link refid="_remap_tex_resource_8cpp"/>
       </node>
-      <node id="7">
+      <node id="26">
         <label>src/model/strategies/texEditors/TexCreator.cpp</label>
         <link refid="_tex_creator_8cpp"/>
       </node>
@@ -96,33 +221,46 @@
 <codeline lineno="1"><highlight class="preprocessor">#ifndef<sp/>AGRemapCore_TexCreator_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>AGRemapCore_TexCreator_H</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="3"><highlight class="normal"></highlight></codeline>
-<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>Credits</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="5"><highlight class="normal"></highlight></codeline>
-<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_tex_editor_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_colour_8h" kindref="compound">AGRemapCore/model/textures/Colour.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="8"><highlight class="normal"></highlight></codeline>
-<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
-<codeline lineno="10"><highlight class="normal"></highlight></codeline>
-<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref>;</highlight></codeline>
-<codeline lineno="12"><highlight class="normal"></highlight></codeline>
-<codeline lineno="21" refid="class_a_g_remap_core_1_1_tex_creator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_tex_creator_1a4e42df42c1ee46e01673bcff9e90fe20" kindref="member">TexCreator</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref><sp/>{</highlight></codeline>
-<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=====<sp/>Anime<sp/>Game<sp/>Remap<sp/>(AG<sp/>Remap)<sp/>=====</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Authors:<sp/>Albert<sp/>Gold#2696,<sp/>NK#1321</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="comment">//<sp/>if<sp/>you<sp/>used<sp/>it<sp/>to<sp/>remap<sp/>your<sp/>mods<sp/>pls<sp/>give<sp/>credit<sp/>for<sp/>&quot;Albert<sp/>Gold#2696&quot;<sp/>and<sp/>&quot;Nhok0169&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Special<sp/>Thanks:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>nguen#2011<sp/>(for<sp/>support)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>SilentNightSound#7430<sp/>(for<sp/>internal<sp/>knowdege<sp/>so<sp/>wrote<sp/>the<sp/>blendCorrection<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>HazrateGolabi#1364<sp/>(for<sp/>being<sp/>awesome,<sp/>and<sp/>improving<sp/>the<sp/>code)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>#####<sp/>EndCredits</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_base_tex_editor_8h" kindref="compound">AGRemapCore/model/strategies/texEditors/BaseTexEditor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="_colour_8h" kindref="compound">AGRemapCore/model/textures/Colour.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespace_a_g_remap_core" kindref="compound">AGRemapCore</ref><sp/>{</highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="27" refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" kindref="member">width</ref>;</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"></highlight></codeline>
-<codeline lineno="32" refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" kindref="member">height</ref>;</highlight></codeline>
-<codeline lineno="33"><highlight class="normal"></highlight></codeline>
-<codeline lineno="37" refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" kindref="member">colour</ref>;</highlight></codeline>
-<codeline lineno="38"><highlight class="normal"></highlight></codeline>
-<codeline lineno="55" refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kindref="member">compress</ref>;</highlight></codeline>
-<codeline lineno="56"><highlight class="normal"></highlight></codeline>
-<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a4e42df42c1ee46e01673bcff9e90fe20" kindref="member">TexCreator</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" kindref="member">width</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" kindref="member">height</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" kindref="member">colour</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>(),<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="66"><highlight class="normal"></highlight></codeline>
-<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" kindref="member">fix</ref>(<ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref><sp/>&amp;texFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;fixedTexFile)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
-<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
-<codeline lineno="80"><highlight class="normal">}</highlight></codeline>
-<codeline lineno="81"><highlight class="normal"></highlight></codeline>
-<codeline lineno="82"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref>;</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34" refid="class_a_g_remap_core_1_1_tex_creator" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_a_g_remap_core_1_1_tex_creator_1a4e42df42c1ee46e01673bcff9e90fe20" kindref="member">TexCreator</ref>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_base_tex_editor" kindref="compound">BaseTexEditor</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" kindref="member">width</ref>;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45" refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" kindref="member">height</ref>;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" kindref="member">colour</ref>;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kindref="member">compress</ref>;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a4e42df42c1ee46e01673bcff9e90fe20" kindref="member">TexCreator</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1abe2252562890e05e91e4948a79eb230f" kindref="member">width</ref>,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a463ecef32181e84856c8459025f4972b" kindref="member">height</ref>,<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1a2847b159925d14e3c583e9ab05620cc7" kindref="member">colour</ref><sp/>=<sp/><ref refid="class_a_g_remap_core_1_1_colour" kindref="compound">Colour</ref>(),<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1aede5501158683ed58030ea99e7792c5a" kindref="member">compress</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_a_g_remap_core_1_1_tex_creator_1acc36b44cd394cbca8e6f2a01ad5d83b0" kindref="member">fix</ref>(<ref refid="class_a_g_remap_core_1_1_texture_file" kindref="compound">TextureFile</ref><sp/>&amp;texFile,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>&amp;fixedTexFile)<sp/></highlight><highlight class="keyword">override</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
     </programlisting>
     <location file="include/AGRemapCore/model/strategies/texEditors/TexCreator.h"/>
   </compounddef>

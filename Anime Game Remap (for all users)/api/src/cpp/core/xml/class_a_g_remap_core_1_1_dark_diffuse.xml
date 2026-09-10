@@ -26,7 +26,7 @@ for the ``.dds``/BCn sRGB round trip
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="37" column="33" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="37" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="50" column="33" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="50" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -42,7 +42,7 @@ for the ``.dds``/BCn sRGB round trip
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="23" column="13"/>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="36" column="13"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -87,7 +87,7 @@ A direct port of the pure-Python pair
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="59" column="25" bodyfile="src/data/IniFixData/DarkDiffuse.cpp" bodystart="14" bodyend="23"/>
+        <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="72" column="25" bodyfile="src/data/IniFixData/DarkDiffuse.cpp" bodystart="27" bodyend="36"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -102,7 +102,7 @@ Ningguang and Ganyu both declare it, with identical filters, in the pure-Python
 ``IniParseBuilderFuncs._ningguangEditHeadDiffuse`` / ``_ganyuEditHeadDiffuse``
 </verbatim> </para>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="20" column="5" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="20" bodyend="60"/>
+    <location file="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" line="33" column="5" bodyfile="include/AGRemapCore/data/IniFixData/DarkDiffuse.h" bodystart="33" bodyend="73"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_dark_diffuse_1a2bf24086da38dda4caf7122680f73681" prot="public" virt="non-virtual"><scope>AGRemapCore::DarkDiffuse</scope><name>DarkDiffuse</name></member>
       <member refid="class_a_g_remap_core_1_1_dark_diffuse_1aa6959e76275de2e33fca7d16de8150cf" prot="public" virt="non-virtual"><scope>AGRemapCore::DarkDiffuse</scope><name>edit</name></member>

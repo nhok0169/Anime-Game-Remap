@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="146" column="29"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="159" column="29"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1aaa8b58ff271447547456430446de500d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1ad70556047757df684bc20e0c489d8bc2" kindref="member">PartEditKind</ref></type>
@@ -35,7 +35,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="151" column="42"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="164" column="42"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1ad1ceace82c57b3811b1e8f1c9d501a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_graph_group_edit_1a5430877519d5654aa1cddfa78402b65d" kindref="member">Graph</ref> *</type>
@@ -160,7 +160,7 @@ The resulting graph. Normally &apos;graph&apos; itself; an edit that genuinely p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="191" column="35"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="204" column="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1a27fc5766af8ba9a084eb955a9e861fce" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
         <type>void</type>
@@ -252,7 +252,7 @@ The resulting graph. Normally &apos;graph&apos; itself; an edit that genuinely p
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="205" column="34"/>
+        <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="218" column="34"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -294,7 +294,7 @@ One edit in a graph&apos;s edit list :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br 
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="144" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="144" bodyend="207"/>
+    <location file="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" line="157" column="13" bodyfile="include/AGRemapCore/model/strategies/iniFixers/graphGroupEdits/GraphGroupEdit.h" bodystart="157" bodyend="220"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1ad1ceace82c57b3811b1e8f1c9d501a37" prot="public" virt="pure-virtual"><scope>AGRemapCore::GraphGroupEdit::PartEdit</scope><name>editGraph</name></member>
       <member refid="class_a_g_remap_core_1_1_graph_group_edit_1_1_part_edit_1a27fc5766af8ba9a084eb955a9e861fce" prot="public" virt="pure-virtual"><scope>AGRemapCore::GraphGroupEdit::PartEdit</scope><name>editPart</name></member>

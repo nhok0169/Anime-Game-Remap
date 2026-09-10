@@ -17,7 +17,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="76" column="23" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="76" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="89" column="23" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="89" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" static="no" mutable="no">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -31,7 +31,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="77" column="21" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="77" bodyend="-1"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="90" column="21" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="90" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-func">
@@ -62,7 +62,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="41" column="22" bodyfile="src/model/files/BinaryFile.cpp" bodystart="10" bodyend="10"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="54" column="22" bodyfile="src/model/files/BinaryFile.cpp" bodystart="23" bodyend="23"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a403d1d7ed483dd886a78b36ee109dd6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type></type>
@@ -76,7 +76,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="43" column="21"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="56" column="21"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a5a11fc978b1651a88646a252d122fdd8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a3bb9610be39e6ccb1137d7935538a5a7" kindref="member">BinarySrc</ref> &amp;</type>
@@ -91,7 +91,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="48" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="12" bodyend="14"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="61" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="25" bodyend="27"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1aa02ddd15f95514374873a5fa2a41cca2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -120,7 +120,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="55" column="18" bodyfile="src/model/files/BinaryFile.cpp" bodystart="16" bodyend="18"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="68" column="18" bodyfile="src/model/files/BinaryFile.cpp" bodystart="29" bodyend="31"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a3a80217f9979453c697a4d1c4b709926" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
         <type>const <ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref> &amp;</type>
@@ -135,7 +135,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="60" column="27" bodyfile="src/model/files/BinaryFile.cpp" bodystart="20" bodyend="22"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="73" column="27" bodyfile="src/model/files/BinaryFile.cpp" bodystart="33" bodyend="35"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_binary_file_1a516ededfe804043f2a93cc35d43d7f53" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
         <type><ref refid="namespace_a_g_remap_core_1a0c15e09be0f01e81c14b311179ab4b53" kindref="member">ByteVec</ref></type>
@@ -166,7 +166,7 @@ if it already holds raw bytes, those bytes are used directly
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="73" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="24" bodyend="44"/>
+        <location file="include/AGRemapCore/model/files/BinaryFile.h" line="86" column="29" bodyfile="src/model/files/BinaryFile.cpp" bodystart="37" bodyend="57"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -218,7 +218,7 @@ A class to handle binary files :raw-html:`&lt;br /&gt;` :raw-html:`&lt;br /&gt;`
         </childnode>
       </node>
     </inheritancegraph>
-    <location file="include/AGRemapCore/model/files/BinaryFile.h" line="33" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="33" bodyend="78"/>
+    <location file="include/AGRemapCore/model/files/BinaryFile.h" line="46" column="5" bodyfile="include/AGRemapCore/model/files/BinaryFile.h" bodystart="46" bodyend="91"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a2bd5a0dea0d3721e3924febb7e916ed9" prot="public" virt="non-virtual"><scope>AGRemapCore::BinaryFile</scope><name>BinaryFile</name></member>
       <member refid="class_a_g_remap_core_1_1_binary_file_1a70d6840d6ff225a4fd844cc23ca595f5" prot="protected" virt="non-virtual"><scope>AGRemapCore::BinaryFile</scope><name>data_</name></member>

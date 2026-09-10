@@ -18,7 +18,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="105" column="44" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="105" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="118" column="44" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="118" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="class_a_g_remap_core_1_1_hash_tools_1a12b610db4327e341b3ea5f15e99a10f7" prot="private" static="yes" mutable="no">
         <type>std::unordered_map&lt; std::uint64_t, std::uint64_t &gt;</type>
@@ -39,7 +39,7 @@ Not encountering a key yet implies a frequency of 0 (relies on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="117" column="39" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="117" bodyend="-1"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="130" column="39" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="130" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="public-static-func">
@@ -84,7 +84,7 @@ Not encountering a key yet implies a frequency of 0 (relies on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="27" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="9" bodyend="11"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="40" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="22" bodyend="24"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a419bb26a6591972fa57d1bc17c5ef1a2" prot="public" static="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
         <type><ref refid="class_a_g_remap_core_1_1_hash128" kindref="compound">Hash128</ref></type>
@@ -115,7 +115,7 @@ Not encountering a key yet implies a frequency of 0 (relies on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="36" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="13" bodyend="15"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="49" column="28" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="26" bodyend="28"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a00469e12dc411586733c561779e26169" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -158,7 +158,7 @@ Not encountering a key yet implies a frequency of 0 (relies on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="46" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="17" bodyend="19"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="59" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="30" bodyend="32"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1ae220e1dec520ff2b96f1db70f47016ae" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -189,7 +189,7 @@ Not encountering a key yet implies a frequency of 0 (relies on
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="55" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="21" bodyend="23"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="68" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="34" bodyend="36"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a69b5f65a621fdf896c036edb522e91f4" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -240,7 +240,7 @@ counts how many times that short hash value has already been produced by this me
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="74" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="39" bodyend="42"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="87" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="52" bodyend="55"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1a32fdeac52d2ff4b6dcbdf50895951cdc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -275,7 +275,7 @@ the collision-disambiguation behaviour.
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="88" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="44" bodyend="46"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="101" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="57" bodyend="59"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>void</type>
@@ -294,7 +294,7 @@ Clears any saved internal state this class accumulates across calls (currently j
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="98" column="25" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="48" bodyend="52"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="111" column="25" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="61" bodyend="65"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="private-static-func">
@@ -327,7 +327,7 @@ Clears any saved internal state this class accumulates across calls (currently j
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="128" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="25" bodyend="37"/>
+        <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="141" column="32" bodyfile="src/tools/hashing/HashTools.cpp" bodystart="38" bodyend="50"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -335,7 +335,7 @@ Clears any saved internal state this class accumulates across calls (currently j
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="17" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="17" bodyend="129"/>
+    <location file="include/AGRemapCore/tools/hashing/HashTools.h" line="30" column="5" bodyfile="include/AGRemapCore/tools/hashing/HashTools.h" bodystart="30" bodyend="142"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_hash_tools_1ad8ae63234a0156fd779ddb058d9f2320" prot="public" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>clear</name></member>
       <member refid="class_a_g_remap_core_1_1_hash_tools_1a192853f55e7e14b257c9b641e191b786" prot="private" virt="non-virtual"><scope>AGRemapCore::HashTools</scope><name>disambiguateShortHash</name></member>

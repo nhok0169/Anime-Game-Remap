@@ -19,7 +19,7 @@ codebase is identified by
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/HashToModObjData.h" line="20" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="20" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/HashToModObjData.h" line="33" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="33" bodyend="-1"/>
       </memberdef>
       <memberdef kind="typedef" id="namespace_a_g_remap_core_1_1_data_1a374c7430224aaa1a2d0a4b208cd4fc22" prot="public" static="no">
         <type>std::map&lt; <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref>, <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref> &gt;</type>
@@ -37,7 +37,7 @@ columns of the :cpp:class:`Indices` row a ``match_first_index`` value matched
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/data/HashToModObjData.h" line="29" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="29" bodyend="-1"/>
+        <location file="include/AGRemapCore/data/HashToModObjData.h" line="42" column="9" bodyfile="include/AGRemapCore/data/HashToModObjData.h" bodystart="42" bodyend="-1"/>
       </memberdef>
     </sectiondef>
     <sectiondef kind="func">
@@ -71,7 +71,7 @@ Rows are ``({version, name, type}, hash)`` -- the exact ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashData.cpp" line="11" column="19" bodyfile="src/data/HashData.cpp" bodystart="11" bodyend="1035" declfile="include/AGRemapCore/data/HashData.h" declline="33" declcolumn="27"/>
+        <location file="src/data/HashData.cpp" line="24" column="19" bodyfile="src/data/HashData.cpp" bodystart="24" bodyend="1048" declfile="include/AGRemapCore/data/HashData.h" declline="46" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a3317564d38bd694ce4c148659cb87521" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type><ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref></type>
@@ -110,7 +110,7 @@ the WuWa mods), and becomes ``(compName, objName)``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashToModObjData.cpp" line="33" column="11" bodyfile="src/data/HashToModObjData.cpp" bodystart="33" bodyend="41" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="47" declcolumn="19"/>
+        <location file="src/data/HashToModObjData.cpp" line="46" column="11" bodyfile="src/data/HashToModObjData.cpp" bodystart="46" bodyend="54" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="60" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a6760ba6de957b61ad5bf0e062fbd6a80" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, <ref refid="namespace_a_g_remap_core_1_1_data_1a36f33a05ca8095284c5576ee6607837c" kindref="member">ModObjKey</ref> &gt; &amp;</type>
@@ -142,7 +142,7 @@ Keys are the innermost keys of the hash data table (``blend_vb``, ``tex_head_dif
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashToModObjData.cpp" line="44" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="44" bodyend="67" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="70" declcolumn="34"/>
+        <location file="src/data/HashToModObjData.cpp" line="57" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="57" bodyend="80" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="83" declcolumn="34"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a4dd538eb445ecfc53cda296f9e22c40e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::unordered_map&lt; std::string, <ref refid="namespace_a_g_remap_core_1_1_data_1a374c7430224aaa1a2d0a4b208cd4fc22" kindref="member">IndexKeyToModObj</ref> &gt; &amp;</type>
@@ -172,7 +172,7 @@ This is the default :cpp:member:`GIMISectionClassifier::indexKeyToModObj`
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/HashToModObjData.cpp" line="70" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="70" bodyend="106" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="91" declcolumn="34"/>
+        <location file="src/data/HashToModObjData.cpp" line="83" column="26" bodyfile="src/data/HashToModObjData.cpp" bodystart="83" bodyend="119" declfile="include/AGRemapCore/data/HashToModObjData.h" declline="104" declcolumn="34"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1a77be158216c0ca3c6907e38d4f8c7ba4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, std::string &gt; &gt; &amp;</type>
@@ -204,7 +204,7 @@ shape :cpp:func:`convertRows` already expects, so building a :cpp:class:`PyModDi
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/IndexData.cpp" line="12" column="19" bodyfile="src/data/IndexData.cpp" bodystart="12" bodyend="193" declfile="include/AGRemapCore/data/IndexData.h" declline="33" declcolumn="27"/>
+        <location file="src/data/IndexData.cpp" line="25" column="19" bodyfile="src/data/IndexData.cpp" bodystart="25" bodyend="206" declfile="include/AGRemapCore/data/IndexData.h" declline="46" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1ae7a673359e8b593af164a336741f2214" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, int &gt; &gt; &amp;</type>
@@ -255,7 +255,7 @@ Rows are ``({version, name, component}, count)`` -- the ``(indexVals, value)`` s
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VertexCountData.cpp" line="19" column="19" bodyfile="src/data/VertexCountData.cpp" bodystart="19" bodyend="76" declfile="include/AGRemapCore/data/VertexCountData.h" declline="52" declcolumn="27"/>
+        <location file="src/data/VertexCountData.cpp" line="32" column="19" bodyfile="src/data/VertexCountData.cpp" bodystart="32" bodyend="89" declfile="include/AGRemapCore/data/VertexCountData.h" declline="65" declcolumn="27"/>
       </memberdef>
       <memberdef kind="function" id="namespace_a_g_remap_core_1_1_data_1afc306755f2c9fc44cbb37caa7fc1098f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>const std::vector&lt; std::pair&lt; std::vector&lt; std::string &gt;, <ref refid="class_a_g_remap_core_1_1_v_g_remap" kindref="compound">VGRemap</ref> &gt; &gt; &amp;</type>
@@ -302,13 +302,13 @@ index columns, of which **two** (``fromVersion`` at position 0 and ``toVersion``
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/data/VGRemapData.cpp" line="14" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="14" bodyend="907" declfile="include/AGRemapCore/data/VGRemapData.h" declline="50" declcolumn="27"/>
+        <location file="src/data/VGRemapData.cpp" line="27" column="19" bodyfile="src/data/VGRemapData.cpp" bodystart="27" bodyend="928" declfile="include/AGRemapCore/data/VGRemapData.h" declline="63" declcolumn="27"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/data/HashData.h" line="10" column="5"/>
+    <location file="include/AGRemapCore/data/HashData.h" line="23" column="5"/>
   </compounddef>
 </doxygen>

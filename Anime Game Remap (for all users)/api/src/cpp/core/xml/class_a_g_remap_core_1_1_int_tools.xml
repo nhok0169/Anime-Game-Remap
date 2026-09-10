@@ -69,7 +69,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="30" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="25" bodyend="57"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="43" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="38" bodyend="70"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1aba78dd1f7575f7d1290fc356b13da36f" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -148,7 +148,7 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="45" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="59" bodyend="85"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="58" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="72" bodyend="98"/>
       </memberdef>
       <memberdef kind="function" id="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>std::string</type>
@@ -226,7 +226,7 @@ This is the same digit representation as the `standard base 64`_ except that the
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/AGRemapCore/tools/IntTools.h" line="67" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="252" bodyend="260"/>
+        <location file="include/AGRemapCore/tools/IntTools.h" line="80" column="32" bodyfile="src/tools/IntTools.cpp" bodystart="265" bodyend="273"/>
       </memberdef>
     </sectiondef>
     <briefdescription>
@@ -234,7 +234,7 @@ This is the same digit representation as the `standard base 64`_ except that the
     </briefdescription>
     <detaileddescription>
     </detaileddescription>
-    <location file="include/AGRemapCore/tools/IntTools.h" line="17" column="5" bodyfile="include/AGRemapCore/tools/IntTools.h" bodystart="17" bodyend="68"/>
+    <location file="include/AGRemapCore/tools/IntTools.h" line="30" column="5" bodyfile="include/AGRemapCore/tools/IntTools.h" bodystart="30" bodyend="81"/>
     <listofallmembers>
       <member refid="class_a_g_remap_core_1_1_int_tools_1aa45e58079c6e76f0d1b9c232f6e9aa6e" prot="public" virt="non-virtual"><scope>AGRemapCore::IntTools</scope><name>toBase</name></member>
       <member refid="class_a_g_remap_core_1_1_int_tools_1a63e2bf6bb7136297bfaca4ff949a9d3e" prot="public" virt="non-virtual"><scope>AGRemapCore::IntTools</scope><name>toBase64</name></member>

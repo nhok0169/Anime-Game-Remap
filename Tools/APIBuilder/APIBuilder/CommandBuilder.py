@@ -12,6 +12,7 @@ from .exceptions.InvaildRemoveFolder import InvalidRemoveFolder
 
 sys.path.insert(1, UtilitiesPath)
 from Utils.commands.BaseCommandBuilder import BaseCommandBuilder
+from Utils.constants.script.ScriptKeyWords import CreditsStartKeyWord, CreditsEndKeyWord
 
 
 # ConfigBuilder: Handles the configurations
@@ -53,6 +54,10 @@ By default, will use the {BuildEnv.Dev} environment mode""")
         self._argParser.add_argument(ShortCommandOpts.InstallKeep.value, CommandOpts.InstallKeep.value, action='store_true', help="Whether to keep the previous installed binaries")
         self._argParser.add_argument(ShortCommandOpts.SkipBuild.value, CommandOpts.SkipBuild.value, action='store_true', help="Whether to skip the compiliation and installation of the binaries")
         self._argParser.add_argument(ShortCommandOpts.AddDocs.value, CommandOpts.AddDocs.value, action='store_true', help=f"Whether to add documentations related files to the installed binaries. If the {CommandOpts.Env} argument is set to {BuildEnv.Core}, then this option will be set to false.")
+        self._argParser.add_argument(ShortCommandOpts.AddCredits.value, CommandOpts.AddCredits.value, action='store_true', help=f"""Whether to update the credits boiler plate of the API's source files, over all of the API's layers (pure python, Cython, pybind11 and the C++ core)
+
+Only the text between the '{CreditsStartKeyWord}' and the '{CreditsEndKeyWord}' comments of a source file gets updated. Source files without those comments are left alone.
+""")
         self._argParser.add_argument(ShortCommandOpts.InstallFolder.value, CommandOpts.InstallFolder.value, action='store', type=str, help=f"The folder location of where to store the installed binaries. By default, the folder is set to {APIPyFolderPath}")
         self._argParser.add_argument(ShortCommandOpts.MakePreBuild.value, CommandOpts.MakePreBuild.value, action='store_true', help=f"Whether to generate the required files needed to prebuild the external libraries")
         self._argParser.add_argument(ShortCommandOpts.MakePreInstall.value, CommandOpts.MakePreInstall.value, action='store_true', help=f"Whether to install the external libraries")

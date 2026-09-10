@@ -6,15 +6,18 @@ from pathlib import Path
 from typing import List, Optional
 from types import SimpleNamespace
 
-from .constants.Paths import APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath
+from .constants.Paths import UtilitiesPath, APIPyFolderPath, APITopBuildFolderPath, APIPath, BuildFolder, APICoreXMLFolderPath, APICoreFolderPath, BuildFolder, PathToProject, RemoveAllFolder, PreBuildFolder, PreInstallFolder, APITopPreBuildFolderPath, APIExternFolderPath, APITopPreInstallFolderPath, APISrcFolderPaths
 from .constants.BuildEnv import BuildEnv
+
+sys.path.insert(1, UtilitiesPath)
+from Utils.credits.CreditsUpdater import CreditsUpdater
 
 
 class APIBuilder():
     _PackageName = "FixRaidenBoss2"
 
     def __init__(self, env: BuildEnv = BuildEnv.Dev, installPath: str = APIPyFolderPath, cleanPreBuild: Optional[str] = None, cleanPreInstall: Optional[str] = None, cleanBuild: Optional[str] = None, 
-                 cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False, makePreBuild: bool = False, makePreInstall: bool = False, buildSuffix: str = "", preBuildSuffix: str = "", preInstallSuffix: str = ""):
+                 cleanInstall: bool = True, makeBuild: bool = True, addDocs: bool = False, addCredits: bool = False, makePreBuild: bool = False, makePreInstall: bool = False, buildSuffix: str = "", preBuildSuffix: str = "", preInstallSuffix: str = ""):
         self.env = env
         self.installPath = installPath
         self.cleanPreBuild = cleanPreBuild
@@ -23,6 +26,7 @@ class APIBuilder():
         self.cleanInstall = cleanInstall
         self.makeBuild = makeBuild
         self.addDocs = addDocs
+        self.addCredits = addCredits
         self.buildSuffix = buildSuffix
         self.preBuildSuffix = preBuildSuffix
         self.preInstallSuffix = preInstallSuffix
@@ -40,6 +44,9 @@ class APIBuilder():
         self.run()
 
     def run(self):
+        if (self.addCredits):
+            self.updateCredits()
+
         if (self.cleanPreBuild is not None):
             self.removePrefixedFolder(PathToProject, PreBuildFolder, self.cleanPreBuild)
 
@@ -63,6 +70,12 @@ class APIBuilder():
 
         if (self.addDocs):
             self.buildDocs()
+
+    # updateCredits(): Updates the credits boiler plate within the source files of the API
+    def updateCredits(self):
+        print("Updating the credits for the API's source files...")
+        creditsUpdater = CreditsUpdater(APISrcFolderPaths)
+        creditsUpdater.update()
 
     def removePrefixedFolder(self, srcFolder: str, folderPrefix: str, folderSuffix: str):
         if (folderSuffix == RemoveAllFolder):

@@ -48,3 +48,15 @@ class EndKeyWords(StrEnum):
             return KeyWordTypes.Script
         elif (keyWord == cls.Credits):
             return KeyWordTypes.Credits
+
+
+# KeyWordPrefix: The extra prefix added onto the keywords, as they are actually written within
+#   the source files of this project
+#
+# note: the keywords themselves are only ever matched as a substring of a line, such that the same
+#   keywords also work for the source files of the languages that write their single line comments
+#   with a different prefix (eg. '// ##### Credits' for C++)
+KeyWordPrefix = "####"
+
+CreditsStartKeyWord = f"{KeyWordPrefix}{StartKeyWords.Credits.value}"
+CreditsEndKeyWord = f"{KeyWordPrefix}{EndKeyWords.Credits.value}"

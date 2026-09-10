@@ -4,7 +4,7 @@ import sys
 UtilitiesPath = os.path.join("..", "Utilities", "src", "AGRemapUtils")
 
 sys.path.insert(1, UtilitiesPath)
-from Utils.constants.Paths import APIFolder, APIPyFolder, APICyFolder, APIPyBindFolder, APICoreFolder, APIExternFolder
+from Utils.constants.Paths import APIFolder, APIPyFolder, APICyFolder, APIPyBindFolder, APICoreFolder, APIExternFolder, APIPySrcFolder, APICySrcFolder, APIPyBindSrcFolder, APICoreSrcFolder, APICoreIncludeFolder, APICoreTestsFolder
 
 
 PathToProject = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "..", ".."))
@@ -16,6 +16,17 @@ APIPyBindFolderPath = os.path.join(PathToProject, APIPyBindFolder)
 APICoreFolderPath = os.path.join(PathToProject, APICoreFolder)
 
 APIExternFolderPath = os.path.join(PathToProject, APIExternFolder)
+
+# the folders containing all the source code for the API, over all of its layers
+#   (pure python, Cython, pybind11 and the C++ core)
+APISrcFolderPaths = [
+    os.path.join(PathToProject, APIPySrcFolder),
+    os.path.join(PathToProject, APICySrcFolder),
+    os.path.join(PathToProject, APIPyBindSrcFolder),
+    os.path.join(PathToProject, APICoreIncludeFolder),
+    os.path.join(PathToProject, APICoreSrcFolder),
+    os.path.join(PathToProject, APICoreTestsFolder)
+]
 
 RemoveAllFolder = "*"
 BuildFolder = "cbuild"

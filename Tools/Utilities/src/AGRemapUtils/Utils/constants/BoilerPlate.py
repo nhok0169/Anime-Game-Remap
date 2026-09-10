@@ -1,5 +1,8 @@
+from typing import List
+
 from .StrReplacements import VersionReplace, RanDateTimeReplace, BuildHashReplace, RanHashReplace, BuiltDateTimeReplace, AuthorReplace
 from ..TextTools import TextTools
+from ..enums.CommentPrefixes import CommentPrefixes
 from .toolStats import ScriptBuilderStats, ScriptStats, APIStats, APIMirrorStats, APIMirrorBuilderStats
 
 
@@ -48,17 +51,39 @@ MirrorPreamble = f"""
 #
 """
 
-Credits = f"""
-# ===== {APIStats.title} ({APIStats.shortTitle}) =====
-# Authors: Albert Gold#2696, NK#1321
-#
-# if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
-# Special Thanks:
-#   nguen#2011 (for support)
-#   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
-#   HazrateGolabi#1364 (for being awesome, and improving the code)
+# CreditLines: The lines of the credits, without any of the comment prefixes for a particular language
+CreditLines = [
+    f"===== {APIStats.title} ({APIStats.shortTitle}) =====",
+    f"Authors: {APIStats.getOldDiscNames()}",
+    "",
+    'if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"',
+    "Special Thanks:",
+    "  nguen#2011 (for support)",
+    "  SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)",
+    "  HazrateGolabi#1364 (for being awesome, and improving the code)"
+]
 
-"""
+
+# getCredits(commentPrefix): Retrieves the credits, commented out for a language that uses 'commentPrefix'
+#   to write a single line comment
+def getCredits(commentPrefix: str = CommentPrefixes.Py.value) -> str:
+    commentedLines = map(lambda line: f"{commentPrefix} {line}" if (line) else commentPrefix, CreditLines)
+    return "\n{0}\n\n".format("\n".join(commentedLines))
+
+
+# getCreditsFileLines(commentPrefix): Retrieves the lines, as read by python's 'readlines' function, of the
+#   credits for a language that uses 'commentPrefix' to write a single line comment
+def getCreditsFileLines(commentPrefix: str = CommentPrefixes.Py.value) -> List[str]:
+    result = TextTools.getTextLines(getCredits(commentPrefix))
+
+    # remove the trailing text that comes after the last newline, since the credits always ends with a newline
+    if (result and not result[-1]):
+        result.pop()
+
+    return result
+
+
+Credits = getCredits()
 
 
 ScriptPreambleScriptStats = f"""
@@ -98,4 +123,4 @@ if __name__ == "__main__":
 
 ScriptPostamble = """########### END OF AUTO-GENERATED SCRIPT ###########"""
 
-CreditsFileLines = TextTools.getTextLines(Credits)
+CreditsFileLines = getCreditsFileLines()

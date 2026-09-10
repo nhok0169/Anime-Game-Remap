@@ -22,6 +22,8 @@ APIPySrcFolder = os.path.join(APIFolder, ModuleRelFolder)
 APICySrcFolder = os.path.join(APICyFolder, "src")
 APIPyBindSrcFolder = os.path.join(APIPyBindFolder, "src")
 APICoreSrcFolder = os.path.join(APICoreFolder, "src")
+APICoreIncludeFolder = os.path.join(APICoreFolder, "include")
+APICoreTestsFolder = os.path.join(APICoreFolder, "tests")
 
 ScriptSrcFolder = os.path.join(ScriptFolder, ModuleRelFolder)
 MirrorSrcFolder = os.path.join(MirrorFolder, "src", "AnimeGameRemap")

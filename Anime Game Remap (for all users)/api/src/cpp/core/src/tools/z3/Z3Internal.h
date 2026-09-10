@@ -1,6 +1,19 @@
 #ifndef AGRemapCore_Z3Internal_H
 #define AGRemapCore_Z3Internal_H
 
+// ##### Credits
+
+// ===== Anime Game Remap (AG Remap) =====
+// Authors: Albert Gold#2696, NK#1321
+//
+// if you used it to remap your mods pls give credit for "Albert Gold#2696" and "Nhok0169"
+// Special Thanks:
+//   nguen#2011 (for support)
+//   SilentNightSound#7430 (for internal knowdege so wrote the blendCorrection code)
+//   HazrateGolabi#1364 (for being awesome, and improving the code)
+
+// ##### EndCredits
+
 // -----------------------------------------------------------------------------
 // Private, uninstalled header -- lives under core/src (not core/include), so it never ships as
 // part of AGRemapCore's public SDK and is never on a consumer's include path. This is the ONE

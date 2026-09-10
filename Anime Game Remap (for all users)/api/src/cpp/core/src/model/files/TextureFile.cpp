@@ -48,17 +48,28 @@ namespace AGRemapCore {
         constexpr std::uint32_t DxgiBGRA8Unorm = 87;
         constexpr std::uint32_t DxgiBGRA8UnormSrgb = 91;
 
+        // The COMPRESSED sRGB formats. Compressonator maps these itself, so they never need a
+        // format naming -- but they are still sRGB, and that is what decides the gamma below.
+        constexpr std::uint32_t DxgiBC1UnormSrgb = 72;
+        constexpr std::uint32_t DxgiBC2UnormSrgb = 75;
+        constexpr std::uint32_t DxgiBC3UnormSrgb = 78;
+        constexpr std::uint32_t DxgiBC7UnormSrgb = 99;
+
         // The sRGB pre-correction, spelled as the division so it reads as the exponent it is
         // -- the same value, and the same reason, as DarkDiffuse::Gamma.
         constexpr double SrgbGamma = 1.0 / 2.2;
 
         /**
-         * What a DX10 header says the texture is: the CMP format to read it as, and whether
-         * its values are sRGB-encoded.
+         * What a DX10 header says the texture is.
+         *
+         * The two facts are INDEPENDENT and are used independently. 'format' is only set for the
+         * uncompressed formats Compressonator cannot map on its own; 'srgb' is set for every sRGB
+         * format, compressed or not, because that one decides the gamma and a BCn texture needs it
+         * just as much as an uncompressed one does.
          */
         struct DX10Format {
-            CMP_FORMAT format;
-            bool srgb;
+            CMP_FORMAT format = CMP_FORMAT_Unknown;
+            bool srgb = false;
         };
 
         std::uint32_t readLE32(const std::vector<char>& header, std::size_t at) {
@@ -69,11 +80,10 @@ namespace AGRemapCore {
         }
 
         /**
-         * The CMP format an uncompressed DX10 .dds is really in, or nullopt for anything this
-         * does not recognise (including a file with no DX10 header at all -- those already load
-         * with a usable format).
+         * What the DX10 header says, or nullopt for a file that has no DX10 header at all --
+         * a legacy header carries no sRGB bit and no DXGI format, so there is nothing to read.
          */
-        std::optional<DX10Format> dx10UncompressedFormat(const std::string& src) {
+        std::optional<DX10Format> dx10Format(const std::string& src) {
             std::ifstream file(FileService::strToPath(src), std::ios::binary);
             if (!file) {
                 return std::nullopt;
@@ -103,10 +113,18 @@ namespace AGRemapCore {
                 case DxgiBGRA8UnormSrgb:
                     return DX10Format{CMP_FORMAT_BGRA_8888, true};
 
+                // Compressed and sRGB: no format to supply, but the gamma still applies.
+                case DxgiBC1UnormSrgb:
+                case DxgiBC2UnormSrgb:
+                case DxgiBC3UnormSrgb:
+                case DxgiBC7UnormSrgb:
+                    return DX10Format{CMP_FORMAT_Unknown, true};
+
                 default:
-                    return std::nullopt;
+                    return DX10Format{};
             }
         }
+
         void ensureFrameworkInit() {
             static std::once_flag flag;
             std::call_once(flag, []() {
@@ -194,37 +212,65 @@ namespace AGRemapCore {
             height_ = 0;
             return;
         }
-        // AN UNCOMPRESSED DX10 TEXTURE ARRIVES HERE AS CMP_FORMAT_Unknown with its pixels
-        // already loaded -- see dx10UncompressedFormat above for why, and note that this has
-        // to happen BEFORE format_ is taken, since save() uses format_ as the format to write
-        // back out and Unknown is not one.
-        if (mipSetIn.m_format == CMP_FORMAT_Unknown) {
-            const std::optional<DX10Format> headerFormat = dx10UncompressedFormat(src_);
-            if (headerFormat.has_value()) {
-                mipSetIn.m_format = headerFormat->format;
 
-                // AND THE sRGB PRE-CORRECTION, which is the half a reader is most likely to
-                // think is somebody else's job.
-                //
-                // save() writes the edited texture back UNTAGGED -- plain 32-bit unorm, no
-                // DX10 header -- so the shader samples the new file WITHOUT the sRGB-to-linear
-                // transform the source was written to be read through, and the remapped
-                // character renders visibly brighter than the mod does on its own model.
-                // Baking the transform into the values is what keeps the two looking the same,
-                // and it is what the pure-Python script does here (measured on Keqing's dress
-                // diffuse: every distinct source value maps to round(255 * (v/255) ** 2.2),
-                // with zero disagreements over the whole texture).
-                //
-                // As METADATA rather than a pixel pass, for the reason DarkDiffuse gives: it
-                // belongs immediately before the encode, not before the fix's own filters, so
-                // a filter matching on colour still sees the values the texture actually holds.
-                //
-                // BCn sRGB (DXGI 98/99) never reaches this branch -- Compressonator maps those
-                // itself and hands the values back raw, and the one fix that edits such a
-                // texture (Ganyu's DarkDiffuse) declares the same gamma by hand.
-                if (headerFormat->srgb) {
-                    gamma_ = SrgbGamma;
-                }
+        // THE DX10 HEADER IS READ FOR EVERY TEXTURE, not only the ones that failed to map, and
+        // that is the fix for a bug this file shipped with: the two facts it carries are
+        // independent. The FORMAT is only needed when Compressonator could not work it out
+        // (CMP_FORMAT_Unknown); the sRGB BIT matters just as much for a BCn texture it mapped
+        // perfectly well.
+        const std::optional<DX10Format> headerFormat = dx10Format(src_);
+
+        if (headerFormat.has_value()) {
+            // Naming the format has to happen BEFORE format_ is taken, since save() uses format_
+            // as the format to write back out and Unknown is not one.
+            if (mipSetIn.m_format == CMP_FORMAT_Unknown && headerFormat->format != CMP_FORMAT_Unknown) {
+                mipSetIn.m_format = headerFormat->format;
+            }
+
+            // AND THE sRGB PRE-CORRECTION, which is the half a reader is most likely to
+            // think is somebody else's job.
+            //
+            // save() writes the edited texture back UNTAGGED -- plain 32-bit unorm, no
+            // DX10 header -- so the shader samples the new file WITHOUT the sRGB-to-linear
+            // transform the source was written to be read through, and the remapped
+            // character renders visibly brighter than the mod does on its own model.
+            // Baking the transform into the values is what keeps the two looking the same,
+            // and it is what the pure-Python script does here (measured on Keqing's dress
+            // diffuse: every distinct source value maps to round(255 * (v/255) ** 2.2),
+            // with zero disagreements over the whole texture).
+            //
+            // As METADATA rather than a pixel pass, for the reason DarkDiffuse gives: it
+            // belongs immediately before the encode, not before the fix's own filters, so
+            // a filter matching on colour still sees the values the texture actually holds.
+            //
+            // WHATEVER THE COMPRESSION. This used to be inside the format branch above, on
+            // the inference that BCn sRGB was already handled because Ganyu's DarkDiffuse
+            // A/B'd byte-identical -- but that edit DECLARES setGamma(1 / 2.2) by hand, so it
+            // matched for a different reason. Xiangling's and HuTao's head diffuse edits
+            // declare no gamma, their diffuses are BC7_UNORM_SRGB, and the old script corrects
+            // them anyway: 52/66/102 comes out 8/13/34. In game the difference is pale hair
+            // (Images/Xiangling/XianglingCheerPaleHair.jpg).
+            //
+            // A fix that declares its own gamma still wins, since setGamma overwrites -- which
+            // is what keeps Ganyu unchanged and lets CherryHuTao's deliberate setGamma(1) go on
+            // disabling the correction for her lightmap.
+            //
+            // WHY THIS IS NOT A PILLOW WORKAROUND, though the pure-Python script is where it comes
+            // from (nhok0169/Anime-Game-Remap#102). Pillow could not write an sRGB .dds, so the
+            // script baked the transform into the values instead -- and Compressonator cannot
+            // either. Its format enum has sRGB entries for ETC2 alone: one CMP_FORMAT_BC7 covers
+            // both DXGI 98 and 99, so the bit is lost on load and save() has no sRGB format to ask
+            // for. Measured on a BC7_UNORM_SRGB source: save(compress = true) writes DXGI 98 and
+            // save(compress = false) writes a legacy header, both LINEAR. So --compressTextures
+            // changes the size of the output, not its colour space, and does not remove the need
+            // for this.
+            //
+            // The real fix would be to write the DX10 header ourselves for these formats -- the
+            // reader above already knows which DXGI format the source was. That stops a 2.2 power
+            // being baked into 8-bit values, which costs most of the low end (52 -> 8). It also
+            // diverges from the old script byte for byte, so it wants its own in-game check.
+            if (headerFormat->srgb) {
+                gamma_ = SrgbGamma;
             }
         }
 

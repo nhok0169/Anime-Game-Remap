@@ -11,8 +11,13 @@ one character's skin each bone index of the other's corresponds to --- from the 
 [`Data/RemapDrafts/`](../../Data/RemapDrafts/README.md), which is what used to be filled in by hand.
 
 Runs on the API's own `VbFile`/`IbFile` dump readers, so **the API must be built first** (see
-[`AI Agent Help/Setup/CLAUDE.md`](../../AI%20Agent%20Help/Setup/CLAUDE.md)). It also needs
-`numpy`, and `openpyxl` for the workbook.
+[`AI Agent Help/Setup/CLAUDE.md`](../../AI%20Agent%20Help/Setup/CLAUDE.md)). Its own
+dependencies (`numpy`, `openpyxl` for the workbook, `pandas` for the notebook's tables, `scipy` for
+a fast nearest-vertex search) are in [`requirements.txt`](requirements.txt):
+
+```bash
+pip install -r requirements.txt
+```
 
 <br>
 
@@ -216,6 +221,7 @@ front-dress tips onto Orchid). The draft rows carry the reasoning in their comme
 VGRemapFinder/
   main.py                    <- the CLI
   benchmark.py               <- scores the finder against every draft with dumps available
+  requirements.txt           <- the finder's own Python dependencies (the API is separate)
   GI/
     GIVGRemapFinder.ipynb    <- the notebook, in the same shape as the other notebook tools
   src/VGRemapFinder/

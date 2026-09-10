@@ -38,6 +38,18 @@ namespace AGRemapCore {
         void makeHeadTransparent(TextureFile& texFile) {
             TexEditor::setTransparency(texFile, NearlyTransparent);
         }
+
+
+        /**
+         * The same treatment for the FACE diffuse, which needs it for the same reason the head
+         * does -- CherryHuTao's shader reads the alpha as a mask that HuTao's does not have.
+         *
+         * Separate from makeHeadTransparent only so the two edits carry different names, and so
+         * a later change to one does not silently move the other.
+         */
+        void makeFaceTransparent(TextureFile& texFile) {
+            TexEditor::setTransparency(texFile, NearlyTransparent);
+        }
     }
 
 
@@ -74,10 +86,12 @@ namespace AGRemapCore {
         config.objRegRemaps = {{"head", {{"ps-t0", {"ps-t0", "ps-t2"}}}},
                                {"dress", {{"ps-t0", {"ps-t0", "ps-t1"}}, {"ps-t1", {"ps-t2"}}}}};
 
-        // Declared against ps-t0, which is where the diffuse sits when the collectors run -- they go
-        // before the register edits, so this names the register BEFORE the duplication, not the
-        // ps-t2 it ends up on.
-        config.texEdits = {{"head", "ps-t0", "TransparentHeadDiffuse", &makeHeadTransparent}};
+        // BOTH declared against ps-t0, which is where each diffuse sits when the collectors run --
+        // they go before the register edits, so these name the register BEFORE the head's
+        // duplication into ps-t2 and before the face's own ps-t0 <-> ps-t1 swap, not the slots the
+        // two end up on.
+        config.texEdits = {{"head", "ps-t0", "TransparentHeadDiffuse", &makeHeadTransparent},
+                           {"face", "ps-t0", "TransparentFaceDiffuse", &makeFaceTransparent}};
 
         // ...and the normal map the dress copy needs, which nothing in a HuTao mod carries.
         config.texAdds = {{"dress", "ps-t0", "NormMap",
@@ -88,16 +102,24 @@ namespace AGRemapCore {
                                 {"dress", {{IniKeywords::Ib, "null"}}},
                                 {"extra", {{IniKeywords::Ib, "null"}}}};
 
-        // NO NNFix AND NO ORFix, on any object -- an empty list is how that is asked for, since the
-        // default is NNFix. CherryHuTao is a 5.3-era Natlan model whose registers already sit where
-        // GI 6.1 expects them, so there is nothing for NNFix to put back.
+        // ---- which library each object re-issues ----
         //
-        // TexFx IS re-issued on the two objects that carry a diffuse, naming ps-t1 as its home
-        // (TN.1). It is opt-in: the sub-command is added only where the mod bound ps-t69 or ps-t70,
-        // so a mod that never heard of TexFx is untouched.
+        // NNFix on the body and ORFix on the dress, which is the maintainer's call from seeing it
+        // in game rather than anything derivable from the pure-Python row -- that row re-issues
+        // neither. The split is the usual one: ORFix is the normal-map library, and the DRESS is
+        // the object this fix invents a normal map for (see texAdds below), while the body has
+        // none and takes the general case.
+        //
+        // head and extra stay as they were. 'extra' is bound to nothing at all, so a fix call
+        // would have nothing to run against -- an empty list is how "no call" is asked for, since
+        // the default is NNFix.
+        //
+        // TexFx is re-issued on the two objects that carry a diffuse, naming ps-t1 as its home
+        // (TN.1). It is opt-in: the sub-command is added only where the mod bound ps-t69 or
+        // ps-t70, so a mod that never heard of TexFx is untouched.
         config.objFixCalls = {{"head", {IniKeywords::TexFxTransparency1}},
-                              {"dress", {IniKeywords::TexFxTransparency1}},
-                              {"body", {}},
+                              {"body", {IniKeywords::NNFixPath}},
+                              {"dress", {IniKeywords::ORFixPath, IniKeywords::TexFxTransparency1}},
                               {"extra", {}}};
 
         // The pure-Python row's IbRemapData / IbDrawIndexedRename / IbTempToDrawIndexed plus its

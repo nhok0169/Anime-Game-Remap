@@ -395,7 +395,17 @@ namespace AGRemapCore {
                             // A DISTINCT mod object from the source graph, exactly as the blend
                             // needs: pointing it at srcGraph would have the resource overwrite the
                             // graph it was collected from.
-                            const GraphId resGraph(group, "", texEdit.obj + "RemapTex");
+                            // THE EDIT'S NAME IS PART OF THE GRAPH, not just the object's.
+                            // Named for the object alone, two edits on the SAME object share
+                            // one resource graph and the second loses: CherryHuTao edits her
+                            // body's diffuse AND its lightmap, and only the diffuse survived --
+                            // the .ini referenced the lightmap's resource and never defined it,
+                            // so the body drew with no lightmap at all and looked flat.
+                            //
+                            // Nothing about the OUTPUT naming changes: a resource section is
+                            // named from the source resource plus the target and the edit name
+                            // (getFixResourceName), never from this graph's mod object.
+                            const GraphId resGraph(group, "", texEdit.obj + "RemapTex" + texEdit.name);
 
                             auto replace = std::make_unique<TexEditorReplace<>>(
                                 resGraph, TexEditor({texEdit.filter}, texEdit.compress), makeCharResEditConfig(),

@@ -264,13 +264,31 @@ namespace AGRemapCore {
         }
 
         bool first = true;
+
+        // ONE definition per section name across the whole group. A texture edit gets a resource
+        // graph of its own (see buildTexEdits), and on a merge the same source texture is edited
+        // once per target it lands on -- so two graphs in this loop can carry a section of the same
+        // name, and both used to be written into the file:
+        //
+        //     [ResourceAyakaSpringBloomBodyLightMap...RemapTex]
+        //     filename = AyakaBodyRemapTexHfW MQC.dds
+        //
+        //     [ResourceAyakaSpringBloomBodyLightMap...RemapTex]
+        //     filename = AyakaBodyRemapTexHfW MQC.dds
+        //
+        // A section defined twice is one definition and one dead one, whichever 3dmigoto keeps, and
+        // no check here can see it: both sections exist and both name a file that exists. Note this
+        // only skips an EXACT repeat -- see IniSectionGraph::toStr on why a disagreeing one is left
+        // alone rather than silently resolved.
+        std::unordered_map<std::string, std::string> emitted;
+
         for (const ModObj& modObj : graphGroups_->modObjs(groupInd)) {
             Graph* graph = graphGroups_->getGraph(groupInd, modObj);
             if (graph == nullptr) {
                 continue;
             }
 
-            std::string current = graph->toStr(config_.sectionToStr, true);
+            std::string current = graph->toStr(config_.sectionToStr, true, &emitted);
             if (current.empty()) {
                 continue;
             }

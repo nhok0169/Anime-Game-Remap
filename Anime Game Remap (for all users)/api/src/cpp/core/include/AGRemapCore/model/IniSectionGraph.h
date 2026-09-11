@@ -344,9 +344,25 @@ namespace AGRemapCore {
                                                   bool colour = false, std::optional<std::unordered_set<K, KeyHash, KeyEqual>> colourKeys = std::nullopt) const;
 
             /**
-             * @brief Converts all `sections`_ to a string, using a caller-supplied per-part renderer (see :cpp:class:`IfTemplate`'s own note on why this needs one)
+             * @brief
+             @rst
+             Converts all `sections`_ to a string, using a caller-supplied per-part renderer (see
+             :cpp:class:`IfTemplate`'s own note on why this needs one) :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             ``emitted`` lets a CALLER rendering several graphs into one file avoid writing the same
+             section twice. Pass the same map to each graph in turn and a section whose name has
+             already been written with IDENTICAL text is skipped; the default ``nullptr`` renders
+             every section, which is what a lone graph wants :raw-html:`<br />` :raw-html:`<br />`
+
+             .. note::
+                A repeat whose text DIFFERS is still written. Two same-named sections that disagree
+                are a real conflict rather than a duplicate, and silently dropping one would pick a
+                winner where the old behaviour at least leaves the evidence in the file
+             @endrst
              */
-            std::string toStr(const std::function<std::string(Section&, const std::string&, bool)>& sectionToStr, bool autoindent = true) const;
+            std::string toStr(const std::function<std::string(Section&, const std::string&, bool)>& sectionToStr, bool autoindent = true,
+                               std::unordered_map<std::string, std::string>* emitted = nullptr) const;
 
         private:
             std::unordered_map<std::string, Section*> sections_;

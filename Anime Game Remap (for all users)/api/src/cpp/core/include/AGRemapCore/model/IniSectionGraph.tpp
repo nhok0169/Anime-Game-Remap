@@ -1239,7 +1239,8 @@ namespace AGRemapCore {
     }
 
     template <typename K, typename V, typename KeyHash, typename KeyEqual>
-    std::string IniSectionGraph<K, V, KeyHash, KeyEqual>::toStr(const std::function<std::string(Section&, const std::string&, bool)>& sectionToStr, bool autoindent) const {
+    std::string IniSectionGraph<K, V, KeyHash, KeyEqual>::toStr(const std::function<std::string(Section&, const std::string&, bool)>& sectionToStr, bool autoindent,
+                                                                 std::unordered_map<std::string, std::string>* emitted) const {
         std::vector<std::string> result;
         std::deque<std::string> stack;
         std::unordered_set<std::string> visited;
@@ -1255,7 +1256,31 @@ namespace AGRemapCore {
             Section* section = getSection(sectionName);
             visited.insert(sectionName);
 
-            result.push_back(sectionToStr(*section, "", autoindent));
+            // Rendered before the duplicate test rather than after, because two graphs holding a
+            // section of the same NAME is not by itself a duplicate -- only identical TEXT is. See
+            // the header's note on why a disagreeing repeat is still written out.
+            std::string rendered = sectionToStr(*section, "", autoindent);
+
+            if (emitted != nullptr) {
+                auto emittedIt = emitted->find(sectionName);
+                if (emittedIt != emitted->end()) {
+                    if (emittedIt->second == rendered) {
+                        // Still walk this section's neighbours: the section is a duplicate, the graph
+                        // hanging off it is not necessarily one.
+                        auto dupNeighbours = neighbours_.find(sectionName);
+                        if (dupNeighbours != neighbours_.end()) {
+                            for (auto it = dupNeighbours->second.rbegin(); it != dupNeighbours->second.rend(); ++it) {
+                                stack.push_back(*it);
+                            }
+                        }
+                        continue;
+                    }
+                } else {
+                    emitted->emplace(sectionName, rendered);
+                }
+            }
+
+            result.push_back(std::move(rendered));
 
             auto neighboursIt = neighbours_.find(sectionName);
             if (neighboursIt != neighbours_.end()) {

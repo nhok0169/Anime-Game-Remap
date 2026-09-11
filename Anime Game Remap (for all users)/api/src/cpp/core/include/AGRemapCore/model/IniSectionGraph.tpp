@@ -1253,8 +1253,29 @@ namespace AGRemapCore {
             std::string sectionName = stack.back();
             stack.pop_back();
 
+            // THE SET WAS BUILT AND NEVER READ. A depth-first walk that records where it has
+            // been and then does not check has two failure modes, and this had both:
+            //
+            //   * a section reachable from two places is rendered TWICE -- the same duplicate
+            //     definition the group-level `emitted` map guards against, except within a single
+            //     graph, where `emitted` would not have caught it unless a caller passed one;
+            //   * a CYCLE never terminates. `run = ` makes a section graph a graph rather than a
+            //     tree, and cycles are real in this codebase rather than theoretical: GraphTools
+            //     reaches a fixpoint by Kildall's algorithm specifically to handle them,
+            //     RegSurroundedAdd documents a section reaching itself "through a cycle of several
+            //     sections", and RegDelimitedAdd notes that it handles a call cycle without
+            //     special-casing it. So this was a hang waiting for the right mod.
+            //
+            // insert().second is false when the name was already there, so this is the check and
+            // the record in one lookup. Skipping is total -- no render, no neighbours -- because
+            // within ONE graph a second visit reaches exactly the same subtree as the first.
+            if (!visited.insert(sectionName).second) {
+                continue;
+            }
+
+            // Throws rather than returning nullptr for a name that is not in this graph
+            // (getSection's raiseException defaults to true), so there is nothing to null-check.
             Section* section = getSection(sectionName);
-            visited.insert(sectionName);
 
             // Rendered before the duplicate test rather than after, because two graphs holding a
             // section of the same NAME is not by itself a duplicate -- only identical TEXT is. See

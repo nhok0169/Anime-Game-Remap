@@ -178,13 +178,12 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         // the fix left it alone and instead emitted a [Resource...FaceDiffuseRemapDL] download --
         // which 404s, because no such file was ever uploaded. One dangling reference per mod.
         //
-        // NilouBreeze and KiraraBoots had the same gap. KiraraBoots is now filled in below, on
-        // evidence of a different kind -- a real mod DECLARING the hash rather than an asset dump.
-        // NILOUBREEZE IS STILL NOT FIXED, and should not be guessed: there is no asset folder for
-        // her, the maintainer's own pure-Python table has no row either, and the one NilouBreeze mod
-        // on hand has no face section at all to read one off. Seven of the eight base/skin pairs
-        // that carry both rows DO share a face diffuse -- but Keqing/KeqingOpulent do not
-        // (d8c9c399 vs c2b17f84), so the pattern is a hint and not a source.
+        // NilouBreeze and KiraraBoots had the same gap. Both are now filled in, on evidence of
+        // two different strengths, and the difference is recorded at each row rather than here:
+        // KiraraBoots has a real mod DECLARING her hash, while NilouBreeze's value rests on the
+        // base/skin pattern alone. What made the weaker one acceptable is that its value turns
+        // out not to reach the output in the direction that can be tested -- see her row for the
+        // probe that showed it.
         {{"4.0", "AyakaSpringBloom", "tex_face_diffuse"}, "146097c4"},
         // Barbara
         {{"4.0", "Barbara", "blend_vb"}, "22a31278"},
@@ -1082,6 +1081,31 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.8", "NilouBreeze", "tex_dress_lightmap"}, "e3e73b29"},
         {{"4.8", "NilouBreeze", "tex_dress_metalmap"}, "b0e08915"},
         {{"4.8", "NilouBreeze", "tex_dress_shadowramp"}, "58d2635b"},
+
+        // HER FACE DIFFUSE, and the one row in this table whose value is NOT evidenced (added
+        // 2026-09-11). There is no GI-Model-Importer-Assets folder for NilouBreeze, the
+        // pure-Python table has no row, and the NilouBreeze mod on hand has no face section to
+        // read one off. 0957b10f is Nilou's own, on the pattern that seven of the eight base/skin
+        // pairs carrying both rows share a face diffuse -- a hint, not a source, and
+        // Keqing/KeqingOpulent (d8c9c399 vs c2b17f84) are the eighth.
+        //
+        // HOW MUCH THAT UNCERTAINTY COSTS IS ASYMMETRIC, and it was measured rather than
+        // reasoned. Setting this row to "deadbeef" and running NilouBreeze -> Nilou emits
+        //
+        //     [TextureOverrideNilouBreezeFaceNilouRemapFix]
+        //     hash = 0957b10f
+        //
+        // -- Nilou's real hash, not the nonsense. The source row is only a SEED: the invented
+        // section is given the source's value so RegAssetRemap has something to replace, and what
+        // reaches the .ini is always the target's. So in this direction the row only has to
+        // EXIST, and without one there was nothing to seed, nothing to replace, and a face
+        // section with a register and no hash that matched no draw call at all.
+        //
+        // The value itself only reaches output in the OTHER direction, Nilou -> NilouBreeze, where
+        // it is the target. That direction is unconfirmed -- no NilouBreeze mod here to test it,
+        // and no dump to check it against. If her face ever renders wrong that way round, this
+        // row is the first thing to doubt.
+        {{"4.8", "NilouBreeze", "tex_face_diffuse"}, "0957b10f"},
         // KiraraBoots
         {{"4.8", "KiraraBoots", "draw_vb"}, "4955fc99"},
         {{"4.8", "KiraraBoots", "position_vb"}, "f8013ba9"},

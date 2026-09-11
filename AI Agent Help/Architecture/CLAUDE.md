@@ -2224,6 +2224,34 @@ been *nothing*, because every log line and every count came out identical.
 If you add a resource kind, add the branch, and then run the real entry point over a mod that
 uses it and look for the FILE.
 
+### A section the PARSER invents has to carry its own identity
+
+`GIMIParser::addDownloads` has a branch for a mod object whose command graph came back empty --
+the mod does not have that object at all, so the parser INVENTS a ``TextureOverride`` to hang the
+download off. It used to build that section from an empty parts vector plus the download's
+register, and nothing else.
+
+**A ``TextureOverride`` with no ``hash`` matches no draw call.** The file is fetched, written,
+referenced from a section the game never runs, and every check passes. Reported from in game on
+a Kirara mod with no face diffuse (2026-09-11). A DRAWN object needs more than the hash, too:
+head, body and dress all share the one ``ib`` hash and are told apart by ``match_first_index``
+alone, so a hash by itself would make all three sections identical.
+
+Two things about the fix are worth copying if you ever invent a section elsewhere:
+
+* **It seeds the SOURCE mod's values, not the target's.** ``RegAssetRemap`` REPLACES a value it
+  finds; it never adds one, so a section with no ``hash`` is invisible to it. Writing the
+  source's puts the invented section on the same path as every real one, and the ordinary remap
+  rewrites it to the target's -- no special case anywhere in the fixer.
+* **The values are seeded AFTER the first register and to the FRONT.** ``addToSection`` prepends
+  (``addKVPToFront``) while the later registers of the same object append (``addToPart`` ->
+  ``addKVP``), so seeding first buries the hash under the first register.
+
+It reaches the parser through ``GIMIParser::objIdentityKVPs``, which ``makeGIMICharParser`` fills
+from the very maps its classifier uses to RECOGNISE a real section -- so the two cannot drift:
+whatever identifies an object on the way in is what an invented section says about itself on the
+way out.
+
 ### `_fixResource` is also where a resource is handed what the parser could not give it
 
 Two things reach a resource here rather than at construction, and both for the same reason:

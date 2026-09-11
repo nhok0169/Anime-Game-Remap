@@ -196,7 +196,7 @@ filters, so a filter matching on colour still sees the values the texture actual
 this section said otherwise, which shipped a bug (corrected 2026-09-10).** It claimed BCn
 "never reaches the branch" because Compressonator maps BCn itself, so the correction was gated
 on *uncompressed* DX10 textures only. Then Xiangling's and HuTao's head diffuses came out
-visibly pale in game (`../CreatingRemaps/Images/Xiangling/XianglingCheerPaleHair.jpg`): they are
+visibly pale in game (`../CreatingRemaps/Images/Xiangling/6_1/XianglingCheerPaleHair.jpg`): they are
 `BC7_UNORM_SRGB`, and they were not being corrected.
 
 **Compressonator has no sRGB BCn format at all.** Only ETC2 has sRGB entries in its table, so

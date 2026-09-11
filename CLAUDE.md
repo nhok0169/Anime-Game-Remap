@@ -113,7 +113,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**TWENTY-FOUR characters are real now, in five DIFFERENT shapes, and which one you have decides
+**THIRTY characters are real now, in five DIFFERENT shapes, and which one you have decides
 almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
 (hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
 Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
@@ -138,8 +138,17 @@ source-keyed fields for it -- `srcObjRegRemovals`, `srcObjRegRemaps`, and `TexEd
 because everything else in that config is keyed by the TARGET, which is right for a split (one
 source per target) and wrong for a merge (several). It also brought the first `positionEdit`:
 XianglingCheer's model sits at a different height, so her `Position.buf` is shifted as it is
-copied. All twenty-four are verified against the old pure-Python script; every pair through
-Xiangling/HuTao is confirmed in game (2026-09-10).
+copied. All thirty are verified against the old pure-Python script; every pair through
+             Xiangling/HuTao is confirmed in game (2026-09-10).
+
+**Ayaka/AyakaSpringbloom, Nilou/NilouBreeze and Kirara/KiraraBoots (2026-09-11) added no new
+shape either, and every one of them needed the TEMPLATE extended rather than a row transcribed.**
+Four config fields came out of it -- register-value predicates (`RegRef`, `RegValChecks`),
+per-object download registers, a texture edit that COPIES instead of moving (`TexEdit::toReg`),
+and value-gated texture edits -- plus two real bugs in shared code: a section the parser INVENTS
+for a missing object carried no `hash` or `match_first_index`, and two texture edits of one
+source wrote to one FILE. AyakaSpringbloom -> Ayaka is the second merge, and the one that swaps
+head and body.
 
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
@@ -167,7 +176,7 @@ specification for the character (several have full Integration Tester goldens), 
 silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All twenty-four characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+All thirty characters also carry the **face diffuse register swap** (white shiny cheek spots), which
 has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
@@ -175,19 +184,19 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR TWENTY-FOUR CHARACTERS (verified end-to-end 2026-09-10). Earlier revisions of this
+**THE FIX IS LIVE FOR THIRTY CHARACTERS (verified end-to-end 2026-09-11). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, CherryHuTao, Ganyu, GanyuTwilight,
-HuTao, Jean, JeanCN, JeanSea, Keqing, KeqingOpulent, Mona, MonaCN, Ningguang, NingguangOrchid,
-Raiden, Rosaria, RosariaCN, Shenhe, ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu,
-XingqiuBamboo**
+has.** Real fixers and parsers exist for **Amber, AmberCN, Ayaka, AyakaSpringbloom, CherryHuTao,
+Ganyu, GanyuTwilight, HuTao, Jean, JeanCN, JeanSea, Keqing, KeqingOpulent, Kirara, KiraraBoots,
+Mona, MonaCN, Nilou, NilouBreeze, Ningguang, NingguangOrchid, Raiden, Rosaria, RosariaCN, Shenhe,
+ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu, XingqiuBamboo**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these twenty-four.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these thirty.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check
@@ -252,9 +261,15 @@ mangles the same things in two more ways**: it rewrites a CRLF file as **LF** (s
 line-ending churn in your diff) and it eats the doubled backslash in this codebase's RST plurals
 (`:cpp:enum:`X`\\s` arrives as `X`s`, which is broken RST). Prefer a Python patch script for any
 file with CRLF or doc comments; if you do use `sed -i`, normalise the file back to CRLF afterwards
-and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree);
-(3) the dev Python and the VS install root have both MOVED since much of this documentation was
-written, and that pair has now flipped **four** times -- as of 2026-09-09 `py -0p` lists **3.9.3**
+and check with `git diff --stat` against `git diff --stat --ignore-cr-at-eol` (the two must agree).
+**And a swallowed `\r` keeps costing after it is committed**: git's CRLF normalisation refuses to
+touch a file containing a LONE carriage return, so that file's working copy is compared raw and
+**every diff of it is a whole-file rewrite** -- 419 changed lines where 14 were real, which reads
+exactly like the line-ending churn of trap (1) and is not. If `--ignore-cr-at-eol` shrinks a file's
+diff to almost nothing, grep it for a carriage return that is not followed by a newline: `TexEdit.h`
+carried one inside `\ref resSubType` (a broken Doxygen reference) from an older heredoc until
+2026-09-11; (3) the dev Python and the VS install root have both MOVED since much of this
+documentation was written, and that pair has now flipped **four** times -- as of 2026-09-09 `py -0p` lists **3.9.3**
 (so `py -3` is 3.9 and the built module is `core.cp39-win_amd64.pyd`) and `vcvarsall.bat` lives
 under `Program Files\Microsoft Visual Studio\18\Community`, with no
 `Program Files (x86)\...\18\BuildTools` existing at all -- the exact reverse of what this line said
@@ -273,7 +288,19 @@ working directory to the repo root before switching and **never `git add -A` the
 shatters into pieces -- `for f in $(git diff --name-only ...); do git checkout -- $f; done` reports
 `error: pathspec 'Anime' did not match any file(s)` and **changes nothing while looking like it
 ran**. Quote every expansion (`"$f"`), or do path-list work in a Python script with a real argument
-list (`subprocess.run(["git", "checkout", "--", *paths])`) instead of the shell.
+list (`subprocess.run(["git", "checkout", "--", *paths])`) instead of the shell;
+(7) **`open(f, "wb").write(open(f, "rb").read().replace(...))` DELETES THE FILE.** Python evaluates
+the call's owner before its arguments, so the `"wb"` open truncates `f` to zero bytes and the read
+that was supposed to supply the new contents then returns `b""`. It exits 0 and prints whatever you
+told it to print. Three headers were emptied this way in one line on 2026-09-11 --- in a *cleanup*
+script, normalising line endings, run after the real work was finished and verified. **Read into a
+variable first, then open for writing**, and note that an emptied file is not obviously wrong in
+`git status` (it reports "modified") or in `git diff --stat` (it reports deletions, which a big
+refactor also does): what gives it away is a file whose stat line has **insertions of zero**.
+Recovery, if it happens: the working tree is the only copy, so restore the file from the last commit
+that had it and replay the session's edits --- every patch script's exact text is in the session
+transcript under `~/.claude/projects/<slug>/<session>.jsonl`, and a full build is what proves the
+reconstruction complete.
 
 **The build is no longer the ten-minute wall this file's older advice was written around
 (2026-09-08), and the tuning is already done --- do not re-derive it.** A one-line change to a

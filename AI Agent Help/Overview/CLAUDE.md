@@ -114,6 +114,38 @@ A cousin of the same mistake, in a check written that same day: counting log lin
 each write their own `NingguangOrchidNingguangRemapBlend.buf` --- six files, not one file six
 times. Key by the thing that is actually unique (here, folder + name) before believing a count.
 
+**This has now happened THREE times, and the third one cost the most (2026-09-11), so treat the
+pattern as the rule rather than the exception.** An AyakaSpringbloom texture edit was reading the
+wrong object's texture and rendering her neck pale in game, through several rounds of "0 differ,
+0 undefined, 0 dangling". Every check was honest and every one was blind:
+
+* `cmp_binaries.py` selected files whose names END in `remaptex.dds` --- but an edited texture's
+  name ends in a HASH (`AyakaBodyRemapTexMzY IMY.dds`), so it had never compared a single one.
+* the baseline the comparison ran against was not pristine: `--undo` leaves generated BINARIES
+  behind, so files written by an earlier run of the NEW script sat on the OLD side, being diffed
+  against themselves.
+* and the defect itself is invisible to a ``.ini``-level check by construction --- the file is
+  internally consistent whichever texture the edit reads.
+
+**Before trusting a green check, state what it is physically looking at and confirm the thing you
+changed is in that set.** "It passed" and "it looked" are different claims, and this repo
+punishes conflating them.
+
+**1d. An upstream data source can be wrong, and can CORRECT itself later -- check its history
+before you correct it yourself (2026-09-11).** Kirara's face rows in `HashData.cpp` had her face
+diffuse filed as a `tex_face_normalmap` with the shared face LIGHTMAP hash sitting in the
+diffuse's place, which read like a transcription slip. It was not: the 4.3/4.4 dumps of
+`GI-Model-Importer-Assets` really do say that, and the repo fixed itself later in a "Characters
+re-dump" commit that also stripped phantom face entries off **54** characters. `git log -p` on
+the asset file settled in one command what reading the table could not.
+
+**And the maintainer's standing policy is to FOLLOW that repo even where it is known to be
+wrong**, recording the doubt rather than diverging --- see the pre-migration `HashData.py`'s own
+notes on LisaStudent's ps-t0 ("in actuality, this a normal map"), ShenheFrostFlower's invented
+normal maps ("Im just going to follow what GIMI assets has even though I know it is wrong") and a
+`tex_dress_shadowramp` whose value is the string `000050-ps-t3`. Following the assets to a NEWER
+state of the same file is within that policy; overruling them from your own reasoning is not.
+
 **2. "Recorded" is not "consumed" -- grep the getter.** Several features were fully built, wired
 into a model, and then read by nobody. The whole download feature was inert because
 `RemapService::fixResources` walked `getResources()` and never `getFileDownloads()`. When you add

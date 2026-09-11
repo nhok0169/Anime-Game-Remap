@@ -48,7 +48,7 @@ Three things that will cost you an hour each if you learn them the hard way:
 
 ## Start here: adding a character, in order
 
-Twenty-four characters are done, in five *shapes*. **Work out which one you have first, because
+Thirty characters are done, in five *shapes*. **Work out which one you have first, because
 several decisions follow from it** (see "Two shapes of remap" below, "A character with TWO
 targets" for the third, and "The merge" for the one that writes more than one .ini file):
 
@@ -145,11 +145,11 @@ rather than reasoning from the picture.
 
 ## Most characters are two short files, not two long ones
 
-Twenty-four characters are done, and TWENTY-THREE of them go through the same template rather than
-being copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way
-merge (ShenheFrostFlower) to the ones that edit textures and shift a `Position.buf`
-(CherryHuTao, XianglingCheer). Only Raiden, whose remap keeps the source geometry and hides the
-originals, is written by hand:
+Thirty characters are done, and TWENTY-NINE of them go through the same template rather than being
+copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way merge
+(ShenheFrostFlower) to the ones that edit textures conditionally and shift a `Position.buf`
+(AyakaSpringbloom, CherryHuTao, XianglingCheer). Only Raiden, whose remap keeps the source
+geometry and hides the originals, is written by hand:
 
 - `data/IniParseData/GIMICharParser.h` — `makeGIMICharParser(GIMICharParserConfig)`
 - `data/IniFixData/GIMICharFixer.h` — `makeGIMICharFixer(GIMICharFixerConfig)`
@@ -706,7 +706,7 @@ would land on the wrong register.
 
 ### Editing a texture
 
-**ELEVEN of the twenty-four fixers carry a `texEdits` now** -- CherryHuTao, Ganyu, HuTao, Jean,
+**THIRTEEN of the thirty fixers carry a `texEdits` now** -- Ayaka, AyakaSpringbloom, CherryHuTao, Ganyu, HuTao, Jean,
 JeanCN, JeanSea, Keqing, KeqingOpulent, Ningguang, NingguangOrchid, Xiangling -- so the config route
 below is the one to reach for; the hand-built collector after it is for a fix the config cannot
 express. Three of them also `texAdds` a texture the mod does not have at all (Ganyu, HuTao,
@@ -736,6 +736,42 @@ Four things about that line, each of which was a bug first:
   registers.
 - **The edit runs on the SOURCE's texture and writes a new file**; it never modifies the mod's own.
 
+#### `obj` is the TARGET, and on a merge that is almost certainly not what you mean
+
+**The single most expensive mistake of the 2026-09-11 batch, and it looks right in every check.**
+
+A `TexEdit`'s `obj` names the object the edited copy ENDS UP on. The edit *names*, though, come
+from the pure-Python **parser** row, where they are declared against the object the texture
+BELONGS to -- before any merge has happened. On a one-to-one remap or a split those are the same
+object and nothing goes wrong. On a merge they can be different objects entirely:
+
+```
+AyakaSpringbloom -> Ayaka   objSplits = {{"head", {"body"}}, {"body", {"head","head","body"}}, ...}
+```
+
+-- the skin's head is drawn through Ayaka's BODY, and its body through her HEAD. So
+`{"head", "ps-t2", "HeadShadeLightMap", ...}` reads perfectly and collects the wrong texture:
+the head's shade lightmap edit lands on the BODY's shadow map. In game her neck rendered pale
+and flat (`Images/AyakaSpringBloom/6_1/AyakaNeckPale.jpg`), because that lightmap is what shades
+it.
+
+**So on a merge, name both: `obj` for where the copy goes, `srcObj` for whose texture it is** --
+and expect more entries than the pure-Python row has, because one source landing on two targets
+needs one entry per target:
+
+```cpp
+// the skin's HEAD -> Ayaka's body
+{"body", "ps-t2", "HeadShadeLightMap", &editHeadShadeLightMap, true, "head", "", &RegValChecks::isShadow},
+// the skin's BODY -> Ayaka's head AND her body
+{"head", "ps-t1", "BodyTransparentDiffuse", &makeTransparent, true, "body", "", &RegValChecks::isLightMap},
+{"body", "ps-t1", "BodyTransparentDiffuse", &makeTransparent, true, "body", "", &RegValChecks::isLightMap},
+```
+
+**Nothing catches this.** The `.ini` file is internally consistent either way -- every register
+resolves, every resource section is defined, every file exists -- so `check_sections`,
+`check_dangling` and the section diff all pass. What catches it is comparing the edited TEXTURES
+against the old script's, which needs the two harness repairs described under "Verifying".
+
 #### sRGB: the pale-hair bug, and why it is not about compression
 
 **A texture whose DX10 header says sRGB must be pre-corrected on the way out, whatever its
@@ -752,7 +788,7 @@ This was got wrong once in the obvious way: the first version gated the correcti
 edited textures A/B'd identical. They did -- because Ganyu's `DarkDiffuse` **declares
 `setGamma(1/2.2)` by hand**. Xiangling's and HuTao's head diffuses are `BC7_UNORM_SRGB` with no
 such declaration, and came out visibly pale in game
-(`Images/Xiangling/XianglingCheerPaleHair.jpg`). **An A/B that passes because of a per-character
+(`Images/Xiangling/6_1/XianglingCheerPaleHair.jpg`). **An A/B that passes because of a per-character
 override is not evidence about the general path.**
 
 **`--compressTextures` is not the answer to this, and it does not do what its name suggests.**
@@ -763,6 +799,62 @@ character asking for it in its `TexEdit` does not get it unless the run does too
 
 Flagged and not done: writing the sRGB header ourselves instead of baking a 2.2 power into 8-bit
 values, which currently crushes the low end (52 -> 8). It needs its own in-game check.
+
+#### Asking what a register is bound TO (2026-09-11)
+
+`RegRef` and `TexEdit::check` both take a `RegValCheck` -- a test over the register's VALUE --
+and `RegValChecks` supplies the five ready-made ones (`isDiffuse`, `isLightMap`, `isNormalMap`,
+`isMetalMap`, `isShadow`).
+
+**What they are actually for is not what it looks like.** They are not disambiguating a mod that
+binds different things to one slot; they are a guard for a mod that has ALREADY been fixed by
+hand. GI swapped which registers the shader reads the diffuse and lightmap out of, and a mod
+author can answer that either by re-issuing NNFix/ORFix (better -- the library carries the
+correction forward) or by swapping the registers themselves, which is the same thing these
+`regEdits` do. A mod that took the second route arrives with its registers already where the fix
+was going to move them, and shifting again undoes the author's work. Hence
+`RegRemapRule::keepIfNoneMatch`: an occurrence no rule matched has already been moved, so leaving
+it alone is the ANSWER rather than a fallback.
+
+**It is a heuristic on purpose and cannot be made exact.** Nothing in a `.dds` says whether it is
+a lightmap or a diffuse, so the test is a substring of the resource NAME, mirroring the
+pure-Python `_isLightMap` family. Reading the texture's CONTENT instead was considered and
+rejected: it would misjudge any mod that recolours a character deliberately -- paint someone in
+green goo and their diffuse starts looking like a lightmap. A name is weaker evidence than
+pixels, but it is the author's own statement of intent. Someone naming a lightmap "diffuse" is
+breaking their own fix, and no heuristic survives an author working against it.
+
+#### A texture edit that COPIES rather than moves: `TexEdit::toReg`
+
+A plain texture edit is a MOVE -- `ResRegCollect` rewrites the register it collected from, so the
+original file ends up referenced by nothing. Naming a `toReg` makes it a copy instead: the edited
+result is bound to that register and the source register keeps the original.
+
+**`toReg` is a PRE-edit register, exactly like `reg`, and for the face that inverts what you
+write.** The face's edit chain ends in the diffuse <-> lightmap swap, and texture edits run
+before the register edits -- so a copy that should finish on `ps-t0` is written as `ps-t1`:
+
+```cpp
+// Kirara: read the diffuse from ps-t0, put an alpha-1 copy on ps-t1...
+// ...which the face swap then lands on ps-t0, with the original on ps-t1.
+config.texEdits = {{"face", "ps-t0", "OpaqueFaceDiffuse", &makeFaceOpaque, true, "", "ps-t1"}};
+```
+
+#### Where a downloaded texture hangs off: `objDownloadRegs`
+
+`makeGIMICharParser` puts a downloaded diffuse on `ps-t0` and a lightmap on `ps-t1`, which is the
+modern layout and right for most characters. **A 4.0-era character reads its diffuse from
+`ps-t1` and its lightmap from `ps-t2`, leaving `ps-t0` for a normal map** -- and it varies per
+OBJECT as well as per version. Kirara at 4.0 has three different layouts at once (head and body
+carry a normal map and sit a slot higher, the dress sits a slot higher without one), and by 5.7
+her body and dress have moved down while her head has not. KiraraBoots is the exact mirror. Put
+a download on the wrong slot and the shader samples a lightmap as a diffuse; nothing reports it.
+
+`faceDownloadVersionFolder` / `faceDownloadPrefix` are the same idea for the face, and exist
+because THREE characters file their face diffuse away from the rest of their assets
+(AyakaSpringbloom, Nilou, LisaStudent all keep it under `5_4`), and one of them spells it
+differently too -- `AyakaSpringBloomBodyDiffuse.dds` but `AyakaSpringbloomFaceDiffuse.dds`. A raw
+GitHub URL is case-sensitive, so that is a 404 rather than a near miss.
 
 #### Shifting the model: `positionEdit`
 
@@ -1197,7 +1289,7 @@ texcoord are then classified as the buf objects they are and come out
 four renamed sections out of nowhere, and it is an improvement rather than a regression -- but
 only if you know why it happened.
 
-### Getting a genuinely unfixed baseline — three traps
+### Getting a genuinely unfixed baseline — four traps
 
 1. **A `RemapBKUP*.txt` backup is not necessarily pristine.** The ones in the test mod were
    themselves taken from an already-fixed `.ini`. Restore from them and the old script correctly
@@ -1208,13 +1300,52 @@ only if you know why it happened.
    the old script looks clean because it regenerates those textures under the same names it used
    last time, while the new one shows dangling references to files that were never its to write.
    `find <baseline> -iname "*RemapFix[0-9]*.ini" -delete` after the undo.
-3. So instead: copy the folder, run `FixRaidenBoss6.py -s <copy> -u`, delete leftover `RemapBKUP*`
-   **and the generated `RemapFix<N>.ini` files**, and **verify** `grep -c "RemapBlend\|RemapFix"`
-   returns **0** before branching into `old/`/`new/`.
+3. **`--undo` does not delete the generated BINARIES either** -- every `RemapTex`, `RemapBlend`,
+   `RemapDL` and `RemapPosition` file a previous run wrote is still sitting there. The maintainer
+   runs the fix on the folders in `Mods/` directly, so a copy taken from there arrives carrying
+   the last run's output, which is then copied into **both** sides and compared against itself.
+   The failure is genuinely confusing: files written by an earlier run of the NEW script turn up
+   on the OLD side, looking exactly like the reference you are diffing against. Cost an afternoon
+   on 2026-09-11. `find <baseline> \( -iname "*RemapTex*" -o -iname "*RemapBlend*" -o -iname
+   "*RemapDL*" -o -iname "*RemapPosition*" \) -delete` after the undo.
+4. So instead: copy the folder, run `FixRaidenBoss6.py -s <copy> -u`, delete leftover `RemapBKUP*`,
+   the generated `RemapFix<N>.ini` files **and every generated binary**, and **verify**
+   `grep -c "RemapBlend\|RemapFix"` returns **0** before branching into `old/`/`new/`.
 
 The `EOFError: EOF when reading a line` ending every run is `logger.waitExit()` with no stdin.
 Harmless. A run left sitting at `== Press ENTER to exit ==` **holds the `core.*.pyd` open**, which
 makes the next build's install step fail — see [Building](../Building/CLAUDE.md).
+
+### The edited TEXTURES need their own comparison, by CONTENT
+
+**A texture edit's output file is named with two hashes, so a name-based diff cannot pair the
+two sides at all** -- and one written as an `endswith` test will not even see the files:
+
+```
+AyakaBodyRemapTexMzY IMY.dds      <- old script
+AyakaBodyRemapTexIV8 LEY.dds      <- ours, same content, different hash function
+```
+
+`cmp_binaries.py` used to match names ENDING in `remaptex.dds`; an edited texture ends in its
+hash, so every one of them was skipped silently. Several "0 differ" runs were reported over a
+live texture bug because of it. It now matches the marker anywhere in the name -- but even so,
+**names cannot be paired across the two scripts**, so compare by content instead: read every
+`*RemapTex*.dds` on each side, reduce each to a signature (alpha range plus mean R and G is
+enough to tell these edits apart), and check that every signature the OLD script produced is
+also produced by the new one.
+
+That is what finally distinguished "the same edits, renamed" from "the wrong texture edited" on
+AyakaSpringbloom: three of three old signatures reproduced, versus two of five while the bug was
+live. Extra copies on the new side are usually harmless -- our file name keys on the TARGET
+object where the old script keys on the SOURCE, so one edit can land under two names with
+identical bytes.
+
+**The two hashes are not redundant.** The pure-Python name is
+`<target><Obj>RemapTex<hash of the source file> <hash of the edit name>.dds`: the first
+separates edits of different sources, the second separates DIFFERENT EDITS OF THE SAME SOURCE.
+Ours had neither, so CherryHuTao-style double edits wrote to one path and the second landed on
+top of the first -- a lightmap given both a colour replacement and an alpha of 1, which the
+pixels show plainly (`18a100ff -> 015d0001`) and no `.ini` check can.
 
 ### What to check
 

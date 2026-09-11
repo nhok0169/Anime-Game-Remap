@@ -14,14 +14,104 @@
 #include "AGRemapCore/tools/files/FileService.h"
 #include "AGRemapCore/model/files/TextureFile.h"
 
+#include <atomic>
 #include <cstring>
 #include <filesystem>
 #include <fstream>
 #include <mutex>
+#include <optional>
 #include <utility>
 
 #include "AGRemapCore/model/strategies/texEditors/texFilters/GammaFilter.h"
 #include "AGRemapCore/tools/StringTools.h"
+
+
+namespace {
+    // ===== COMPRESSONATOR CANNOT BE HANDED A NON-ASCII PATH =====
+    //
+    // CMP_LoadTexture and CMP_SaveTexture take a narrow const char*, and Windows decodes that in
+    // the ACTIVE CODE PAGE. Every path in this codebase is UTF-8, so a mod folder named in Korean
+    // reaches the library as mojibake naming nothing: CMP_SaveTexture returns non-OK and writes no
+    // file. FileService::strToPath cannot help -- there is no wide overload to give the path to.
+    //
+    // So the path never goes to Compressonator at all when it is not pure ASCII. The library reads
+    // and writes a temporary file with an ASCII name, and std::filesystem -- which IS unicode-safe
+    // -- moves the bytes the rest of the way. An ASCII path (very nearly every real one) takes the
+    // direct route exactly as before, so this costs nothing in the common case.
+
+    bool isAsciiPath(const std::string& path) {
+        for (unsigned char c : path) {
+            if (c >= 0x80) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // An ASCII scratch path next to the system temp folder. Returns nullopt when even THAT is not
+    // ASCII (a user profile named in a non-Latin script), in which case the caller falls back to
+    // the direct call -- no worse than the old behaviour, and still honest about failing.
+    std::optional<std::filesystem::path> asciiTempPath(const std::string& modelPath) {
+        std::error_code ec;
+        std::filesystem::path tempDir = std::filesystem::temp_directory_path(ec);
+        if (ec) {
+            return std::nullopt;
+        }
+
+        const std::string tempDirStr = AGRemapCore::FileService::pathToStr(tempDir);
+        if (!isAsciiPath(tempDirStr)) {
+            return std::nullopt;
+        }
+
+        // The EXTENSION is load-bearing: Compressonator picks its reader and its writer off the
+        // file extension, so the scratch file has to keep the real one or a .dds would be written
+        // as something else entirely.
+        std::string ext = AGRemapCore::FileService::pathToStr(
+            std::filesystem::path(AGRemapCore::FileService::strToPath(modelPath)).extension());
+        if (!isAsciiPath(ext)) {
+            ext = ".dds";
+        }
+
+        static std::atomic<unsigned long long> counter{0};
+        const std::string name = "AGRemapTex" + std::to_string(counter++) + ext;
+        return tempDir / AGRemapCore::FileService::strToPath(name);
+    }
+
+    // Write via that scratch file, then move the result into place. std::filesystem::rename is
+    // the fast path but fails across volumes (the temp folder is often on another drive), so a
+    // copy-and-remove stands behind it.
+    bool saveThroughAscii(const std::string& dest, CMP_MipSet* mipSet) {
+        if (isAsciiPath(dest)) {
+            return CMP_SaveTexture(dest.c_str(), mipSet) == CMP_OK;
+        }
+
+        const std::optional<std::filesystem::path> scratch = asciiTempPath(dest);
+        if (!scratch.has_value()) {
+            return CMP_SaveTexture(dest.c_str(), mipSet) == CMP_OK;
+        }
+
+        const std::string scratchStr = AGRemapCore::FileService::pathToStr(*scratch);
+        if (CMP_SaveTexture(scratchStr.c_str(), mipSet) != CMP_OK) {
+            std::error_code rmEc;
+            std::filesystem::remove(*scratch, rmEc);
+            return false;
+        }
+
+        const std::filesystem::path destPath = AGRemapCore::FileService::strToPath(dest);
+        std::error_code ec;
+        std::filesystem::rename(*scratch, destPath, ec);
+        if (ec) {
+            ec.clear();
+            std::filesystem::copy_file(*scratch, destPath,
+                                        std::filesystem::copy_options::overwrite_existing, ec);
+            std::error_code rmEc;
+            std::filesystem::remove(*scratch, rmEc);
+        }
+
+        return !ec;
+    }
+}
+
 
 namespace AGRemapCore {
 
@@ -204,8 +294,35 @@ namespace AGRemapCore {
 
         ensureFrameworkInit();
 
+        // Read through an ASCII scratch copy when this path is not one Compressonator can
+        // take -- see the note by isAsciiPath. std::filesystem::copy_file is unicode-safe, so
+        // the non-ASCII half of the journey is made by the standard library rather than by a
+        // narrow C API.
+        std::string loadPath = src_;
+        std::optional<std::filesystem::path> loadScratch;
+        if (!isAsciiPath(src_)) {
+            loadScratch = asciiTempPath(src_);
+            if (loadScratch.has_value()) {
+                std::error_code copyEc;
+                std::filesystem::copy_file(FileService::strToPath(src_), *loadScratch,
+                                            std::filesystem::copy_options::overwrite_existing, copyEc);
+                if (copyEc) {
+                    loadScratch.reset();
+                } else {
+                    loadPath = FileService::pathToStr(*loadScratch);
+                }
+            }
+        }
+
         CMP_MipSet mipSetIn{};
-        if (CMP_LoadTexture(src_.c_str(), &mipSetIn) != CMP_OK) {
+        const CMP_ERROR loadStatus = CMP_LoadTexture(loadPath.c_str(), &mipSetIn);
+
+        if (loadScratch.has_value()) {
+            std::error_code rmEc;
+            std::filesystem::remove(*loadScratch, rmEc);
+        }
+
+        if (loadStatus != CMP_OK) {
             hasImage_ = false;
             pixels_.clear();
             width_ = 0;
@@ -345,7 +462,14 @@ namespace AGRemapCore {
         // compress = false still writes a .dds; it just writes the RGBA8 buffer straight through
         // Compressonator's DDS plugin as 32-bit uncompressed, skipping the BCn encode that
         // dominates the runtime. See the header for the measured trade.
-        writeTo(src_, compress);
+        // NOT a discarded bool. This used to be `writeTo(src_, compress);`, so a failed write
+        // was invisible: a run over a mod folder with a non-ASCII name reported "editted 18
+        // *.dds files and skipped 0" having written none of them. A texture that cannot be
+        // written is a fix that did not happen, and the caller already has somewhere to put
+        // that -- the .ini file is recorded as skipped, with this message.
+        if (!writeTo(src_, compress)) {
+            throw std::runtime_error("Unable to write the edited texture: " + src_);
+        }
     }
 
     bool TextureFile::saveAs(const std::string &dest) const {
@@ -380,7 +504,7 @@ namespace AGRemapCore {
         if (!compress) {
             // CMP_SaveTexture's stb fallback reads MipSetIn->pData/m_nWidth/m_nHeight, all of
             // which CMP_CreateMipSet already pointed at this same mip-0 buffer for us.
-            saved = (CMP_SaveTexture(dest.c_str(), &mipSetSrc) == CMP_OK);
+            saved = saveThroughAscii(dest, &mipSetSrc);
             CMP_FreeMipSet(&mipSetSrc);
             return saved;
         }
@@ -404,7 +528,7 @@ namespace AGRemapCore {
         CMP_FreeMipSet(&mipSetSrc);
 
         if (status == CMP_OK) {
-            saved = (CMP_SaveTexture(dest.c_str(), &mipSetOut) == CMP_OK);
+            saved = saveThroughAscii(dest, &mipSetOut);
             CMP_FreeMipSet(&mipSetOut);
         }
 

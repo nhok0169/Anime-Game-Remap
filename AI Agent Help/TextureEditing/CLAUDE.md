@@ -192,16 +192,45 @@ gamma metadata when the header says sRGB, as **metadata rather than a pixel pass
 reason `DarkDiffuse` gives: it belongs immediately before the encode, not before the fix's own
 filters, so a filter matching on colour still sees the values the texture actually holds.
 
-Three cases, and the third is why this cannot live in each fix:
+**THE CORRECTION IS KEYED ON THE sRGB BIT, WHATEVER THE COMPRESSION -- and the first version of
+this section said otherwise, which shipped a bug (corrected 2026-09-10).** It claimed BCn
+"never reaches the branch" because Compressonator maps BCn itself, so the correction was gated
+on *uncompressed* DX10 textures only. Then Xiangling's and HuTao's head diffuses came out
+visibly pale in game (`../CreatingRemaps/Images/Xiangling/XianglingCheerPaleHair.jpg`): they are
+`BC7_UNORM_SRGB`, and they were not being corrected.
+
+**Compressonator has no sRGB BCn format at all.** Only ETC2 has sRGB entries in its table, so
+one `CMP_FORMAT_BC7` covers DXGI 98 *and* 99 and the sRGB bit is gone the moment the file
+loads -- exactly the same loss as the uncompressed case, just invisible because the format is
+still named correctly. `dx10Format()` (renamed from `dx10UncompressedFormat`) therefore reads
+the DX10 header for **every** texture and returns `{format, srgb}`; the format is only *used*
+when Compressonator came back `Unknown`, but `gamma_` is set whenever the sRGB bit is on:
+`BC1/2/3/7_UNORM_SRGB` (72/75/78/99) and `R8G8B8A8`/`B8G8R8A8_UNORM_SRGB` (29/91) alike.
 
 | source format | what happens |
 | --- | --- |
-| `R8G8B8A8_UNORM_SRGB` (Keqing's diffuses) | the new branch: format named **and** gamma set |
-| `BC7_UNORM_SRGB` (Ganyu's diffuse) | never reaches the branch -- Compressonator maps BCn itself and hands the values back **raw**; `DarkDiffuse` declares the same gamma by hand |
+| `R8G8B8A8_UNORM_SRGB` (Keqing's diffuses) | format named **and** gamma set |
+| `BC7_UNORM_SRGB` (Xiangling's, HuTao's head diffuses) | format left to Compressonator, **gamma set** |
 | `BC7_UNORM` (KeqingOpulent's lightmap) | not sRGB, no correction |
 
-All three A/B byte-identical against the old script. If you touch this, re-run Ganyu as well as
-whatever you are working on -- she is the one that proves the BCn path was left alone.
+**WHY THE WRONG VERSION LOOKED VERIFIED, which is the part to carry away.** Ganyu's edited
+textures A/B'd byte-identical under the gated version, and that was read as "the BCn path is
+fine". It was not evidence of anything: Ganyu's `DarkDiffuse` **declares `setGamma(1/2.2)` by
+hand**, so she gets the correction from her own fix and would look identical either way. **An
+A/B that passes because of a per-character override says nothing about the general path.** Pick
+a character that does *not* declare it -- Xiangling and HuTao are the ones that do not.
+
+Five textures were re-A/B'd byte-identical after the correction, Ganyu's among them. If you
+touch this, run a character from each row of that table.
+
+**`--compressTextures` is not related to any of this, despite sounding like it.** Measured:
+`save(compress=true)` writes DXGI 98 and `save(compress=false)` writes a legacy header, and
+**both are linear**. The flag changes the file's size, not its colour space. (And it only
+*permits* compression -- `RemapService::_applyCompressTextures` forces it **off** when the flag
+is absent, so a `TexEdit` asking for it does not get it unless the run asks too.)
+
+Flagged and not done: writing the sRGB DX10 header ourselves instead of baking a 2.2 power into
+8-bit values, which currently crushes the low end (52 -> 8). It would want its own in-game check.
 
 <br>
 ## Two engines, on purpose

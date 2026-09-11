@@ -48,7 +48,7 @@ Three things that will cost you an hour each if you learn them the hard way:
 
 ## Start here: adding a character, in order
 
-Eighteen characters are done, in five *shapes*. **Work out which one you have first, because
+Twenty-four characters are done, in five *shapes*. **Work out which one you have first, because
 several decisions follow from it** (see "Two shapes of remap" below, "A character with TWO
 targets" for the third, and "The merge" for the one that writes more than one .ini file):
 
@@ -65,6 +65,14 @@ both halves: Keqing merges onto KeqingOpulent and KeqingOpulent splits back, She
 ShenheFrostFlower and ShenheFrostFlower merges back. **ShenheFrostFlower -> Shenhe is the widest
 one** -- three of the skin's objects through Shenhe's single `body` draw call, so three `.ini`
 files.
+
+**A sixth column would be "edits textures", and it cuts across the others rather than being a
+shape of its own.** The lantern-rite pairs are where to look for it: HuTao -> CherryHuTao is a
+two-into-four split that also invents a normal map and makes a diffuse transparent;
+CherryHuTao -> HuTao is a four-into-two merge that edits three textures and needs two of them
+keyed by SOURCE rather than by target; Xiangling -> XianglingCheer darkens a diffuse and shifts
+the whole model with a `positionEdit`. See "Editing a texture" below -- it is no longer the
+hypothetical section it used to be.
 
 The last column is the one to read if your character re-issues anything: the Ganyu pair has a
 `$swapvar`-branching `CommandList`, a moved `drawindexed`, `ORFix`, the only re-issued
@@ -112,19 +120,36 @@ silent: the game version(s), the `CommandList` path of any external library the 
 `NNFix` lives under `CommandList\global\ORFix\`, *not* an `NNFix` folder), and which `ps-tN` a
 given texture hangs off.
 
+**A PART THAT ALREADY CALLED `ORFix` NEEDS NO 6.1 ROW, and this is the maintainer's rule rather
+than anything readable from the tables (2026-09-10).** GI 6.1 swapped the registers many
+characters read their diffuse and lightmap out of -- the same swap behind the white cheek spots
+below. `NNFix` was written to answer it, but its authors also **baked the swap into `ORFix`**, so
+a mod part that was already re-issuing `ORFix` before 6.1 gets the correction for free. Xiangling
+is the worked example: her `4_0` row is registered at `toVersion` 4.0 with **no 6.1 row at all**,
+because every part of her fix already calls `ORFix`. Do not add one "for completeness" -- ask.
+
 **And know what "done" means here.** A remap is not done when the run is clean, nor when the tests
 pass. It is done when the A/B diff against the old script is explained line by line -- every
 remaining difference either intended or a bug you have named -- and the maintainer has confirmed it
 in game.
 
+**A SCREENSHOT IS EVIDENCE ABOUT THE GAME'S STATE, AND THE GAME'S STATE INCLUDES ITS CACHES
+(2026-09-10).** 3dmigoto serves a texture it has already loaded, so a fix that writes a new `.dds`
+can be looked at in game and judged on the *previous* run's output. HuTao's face diffuse got an
+alpha edit on the strength of one such look, and the edit came back out a day later once it was
+clear what had been seen. When a screenshot disagrees with the file on disk, the file on disk is
+the one to check first -- open the written `.dds` (see [Texture Editing](../TextureEditing/CLAUDE.md))
+rather than reasoning from the picture.
+
 <br>
 
 ## Most characters are two short files, not two long ones
 
-Eighteen characters are done, and SEVENTEEN of them go through the same template rather than being
-copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) to the three-way merge
-(ShenheFrostFlower). Only Raiden, whose remap keeps the source geometry and hides the originals,
-is written by hand:
+Twenty-four characters are done, and TWENTY-THREE of them go through the same template rather than
+being copied -- everything from the plainest CN skin (Amber, Mona, Rosaria) through the three-way
+merge (ShenheFrostFlower) to the ones that edit textures and shift a `Position.buf`
+(CherryHuTao, XianglingCheer). Only Raiden, whose remap keeps the source geometry and hides the
+originals, is written by hand:
 
 - `data/IniParseData/GIMICharParser.h` — `makeGIMICharParser(GIMICharParserConfig)`
 - `data/IniFixData/GIMICharFixer.h` — `makeGIMICharFixer(GIMICharFixerConfig)`
@@ -679,11 +704,84 @@ during *parsing* (`GIMIParser::addDownloads`), so the fixer's swap moves it to `
 everything else. The ordering works out only because of that -- a download applied after the fix
 would land on the wrong register.
 
-### Editing a texture, if you ever do need to
+### Editing a texture
 
-Nothing needs this today -- the face fix above used to and no longer does -- but the machinery is
-built, tested and the pure-Python `_hutaoEditHeadDiffuse` row does exactly this, so the next
-character that wants it should not have to rediscover the traps.
+**ELEVEN of the twenty-four fixers carry a `texEdits` now** -- CherryHuTao, Ganyu, HuTao, Jean,
+JeanCN, JeanSea, Keqing, KeqingOpulent, Ningguang, NingguangOrchid, Xiangling -- so the config route
+below is the one to reach for; the hand-built collector after it is for a fix the config cannot
+express. Three of them also `texAdds` a texture the mod does not have at all (Ganyu, HuTao,
+Xiangling), and two carry a `positionEdit` (Xiangling, XianglingCheer).
+
+```cpp
+// {target object, register, edit name, the edit, [compress], [source object]}
+config.texEdits = {{"head", "ps-t0", "TransparentHeadDiffuse", &makeHeadTransparent}};
+```
+
+Four things about that line, each of which was a bug first:
+
+- **THE REGISTER IS THE ONE THE COLLECTORS SEE, NOT THE ONE THE TEXTURE ENDS UP ON.** Texture
+  edits run before the register edits, so a diffuse that this fix later duplicates into `ps-t2`
+  or swaps with `ps-t1` is still named `ps-t0` here. Naming the final register collects nothing
+  and writes no file.
+- **THE EDIT NAME IS PART OF THE RESOURCE GRAPH'S IDENTITY.** Two edits on one object used to
+  share a graph named after the object alone, so only the first survived and the `.ini` came out
+  with `ps-t1 = Resource...OpaqueBodyLightMap...RemapTex` **referenced and never defined**. In
+  game CherryHuTao's body drew with no lightmap, which reads as washed out -- and was reported as
+  the sRGB bug below, which it was not. See "the A/B diff cannot see a missing file".
+- **`srcObj` (the sixth field) is for a MERGE.** Everything else in this config is keyed by the
+  TARGET object, which is exactly right when one source becomes one target and wrong when several
+  sources land on one. CherryHuTao -> HuTao edits her body diffuse, her body lightmap and her
+  *dress* diffuse, and all three targets are HuTao's `body`; without `srcObj` all three edits fire
+  over all three sources. `srcObjRegRemovals` and `srcObjRegRemaps` are the same idea for
+  registers.
+- **The edit runs on the SOURCE's texture and writes a new file**; it never modifies the mod's own.
+
+#### sRGB: the pale-hair bug, and why it is not about compression
+
+**A texture whose DX10 header says sRGB must be pre-corrected on the way out, whatever its
+compression (2026-09-10).** `TextureFile::open` reads the DXGI format for every texture and sets
+`gamma_ = 1/2.2` whenever the sRGB bit is set -- `BC1/2/3/7_UNORM_SRGB` and
+`R8G8B8A8/B8G8R8A8_UNORM_SRGB` alike.
+
+The reason is a Compressonator limitation, not a choice: **it has no sRGB BCn format**. Only ETC2
+has sRGB entries in its table, so one `CMP_FORMAT_BC7` covers DXGI 98 *and* 99 and the sRGB bit is
+lost the moment the file is loaded. Writing the value back untouched therefore brightens it.
+
+This was got wrong once in the obvious way: the first version gated the correction on
+*uncompressed* DX10 textures, on the inference that BCn was already handled because Ganyu's
+edited textures A/B'd identical. They did -- because Ganyu's `DarkDiffuse` **declares
+`setGamma(1/2.2)` by hand**. Xiangling's and HuTao's head diffuses are `BC7_UNORM_SRGB` with no
+such declaration, and came out visibly pale in game
+(`Images/Xiangling/XianglingCheerPaleHair.jpg`). **An A/B that passes because of a per-character
+override is not evidence about the general path.**
+
+**`--compressTextures` is not the answer to this, and it does not do what its name suggests.**
+Measured: `save(compress=true)` writes DXGI 98 and `save(compress=false)` writes a legacy header,
+and **both are linear** -- the flag changes the file's size, not its colour space. (It also only
+*permits* compression: `_applyCompressTextures` forces it **off** when the flag is absent, so a
+character asking for it in its `TexEdit` does not get it unless the run does too.)
+
+Flagged and not done: writing the sRGB header ourselves instead of baking a 2.2 power into 8-bit
+values, which currently crushes the low end (52 -> 8). It needs its own in-game check.
+
+#### Shifting the model: `positionEdit`
+
+XianglingCheer stands at a different height from Xiangling, so the fix adds an offset to every
+vertex as the `Position.buf` is copied:
+
+```cpp
+config.positionEdit = [OffsetY, OffsetZ](const BufLineData& line, long long, double, long long) {...};
+```
+
+This is one `BufFile::Filter`, and it is rare -- **46 of the 47 pairs in the pure-Python
+`PositionEditorData` are `None`**. It brought a whole subsystem with it
+(`RemapPositionResource`, `resEdits/PositionEdit.h`), and one trap worth carrying into any other
+new resource kind: see [Architecture](../Architecture/CLAUDE.md)'s note on
+`RemapService::_fixResource`, which dispatches on the concrete type and therefore **cannot see a
+resource kind nobody added a branch for**. The `.ini` named the file, the summary counted it, and
+nothing was ever written.
+
+#### Hand-built, for what the config cannot express
 
 A `ResRegCollect` over the graph, collecting the register, with a **`TexEditorReplace`**
 (`resEdits/TexEditorEdit.h`):
@@ -803,12 +901,29 @@ object. An object that must not draw in the copies gets
 index range drawing the skin's head mesh a second time, on top of the copy the body call already
 put there.
 
-**`texEdits` name the TARGET object, so a merge collapses per-source edits into one.** The pure-
-Python Keqing row has two -- `OpaqueDressDiffuse` and `OpaqueHeadDiffuse` -- and after the merge
-both graphs sit under the target's `head`, so an entry per source is not expressible. It costs
-nothing here because the two classmethods have byte-identical bodies, and the collectors are
-built **per group**, so one entry still fires once over each source. It would cost something if
-the two edits genuinely differed, and there is no way to ask for that today.
+**`texEdits` name the TARGET object, and a merge gives one target several sources -- so a
+per-source edit needs `srcObj` (2026-09-10).** Keqing was the easy case: her pure-Python row has
+two edits (`OpaqueDressDiffuse`, `OpaqueHeadDiffuse`) whose bodies are byte-identical, so one
+entry firing once over each source is the same answer. CherryHuTao is not: she edits her body
+diffuse, her body lightmap and her **dress** diffuse, all three landing on HuTao's `body`, and
+the three edits genuinely differ.
+
+So `TexEdit` carries an optional sixth field naming the SOURCE object, and there are two more
+source-keyed fields beside it:
+
+```cpp
+config.srcObjRegRemovals = {{"head", {"ps-t0"}}, {"dress", {"ps-t0"}}};
+config.srcObjRegRemaps   = {{"head", shift}, {"dress", shift}};
+config.texEdits = {{"body", "ps-t0", "TransparentBodyDiffuse", &invertAlpha, true, "body"},
+                   {"body", "ps-t1", "OpaqueBodyLightMap", &flattenEmission, true, "body"},
+                   {"body", "ps-t1", "TransparentyDressDiffuse", &invertAlpha, true, "dress"}};
+```
+
+**The target-keyed field is the one to reach for by default** -- it is right for every one-to-one
+remap and every split. Reach for the source-keyed one only when a merge makes the answer differ
+per source, and remember that the two are not alternatives: a fix can use both, and
+`groupHasSrc(group, targetObj, srcObj)` in `GIMICharFixer.cpp` is what decides whether a given
+group carries a given source at all.
 
 <br>
 
@@ -1032,7 +1147,19 @@ verification:
 ```bash
 # every "filename = ..." in a fixed .ini must exist on disk
 python check_dangling.py <fixed mod folder>
+
+# ...and every "<register> = Resource..." must name a section the folder DEFINES
+python check_sections.py <fixed mod folder>
 ```
+
+**The second check exists because the first one cannot see its own blind spot (2026-09-10).**
+`check_dangling` follows a `filename =` to the disk; a register naming a resource section
+*nobody declares* has no filename to follow, so it passes with nothing to say. CherryHuTao
+shipped exactly that -- `ps-t1 = ResourceHuTaoCherryBodyLightMap...RemapTex`, referenced and
+never defined, so the body drew with no lightmap and looked flat. It was reported in game as
+the same paleness as the sRGB bug and was a completely different defect. Pool the defined names
+**per folder, not per file**: a merge splits its resources across `<name>.ini` and
+`<name>RemapFix1.ini` and the importer loads both together.
 
 **And run it on a tree that was NOT undone first.** This is the trap that cost a full in-game
 debugging round: undoing to get a pristine baseline is exactly what hides the bug, because the bug
@@ -1070,13 +1197,20 @@ texcoord are then classified as the buf objects they are and come out
 four renamed sections out of nowhere, and it is an improvement rather than a regression -- but
 only if you know why it happened.
 
-### Getting a genuinely unfixed baseline — two traps
+### Getting a genuinely unfixed baseline — three traps
 
 1. **A `RemapBKUP*.txt` backup is not necessarily pristine.** The ones in the test mod were
    themselves taken from an already-fixed `.ini`. Restore from them and the old script correctly
    no-ops, which looks like the old script doing nothing.
-2. So instead: copy the folder, run `FixRaidenBoss6.py -s <copy> -u`, delete leftover `RemapBKUP*`,
-   and **verify** `grep -c "RemapBlend\|RemapFix"` returns **0** before branching into `old/`/`new/`.
+2. **`--undo` does not delete the `.ini` files a previous fix WROTE.** It strips the fix out of
+   the mod's own `.ini` and leaves every generated `<name>RemapFix<N>.ini` sitting there, still
+   naming textures from that older run. Left in place they fool an A/B in **both** directions:
+   the old script looks clean because it regenerates those textures under the same names it used
+   last time, while the new one shows dangling references to files that were never its to write.
+   `find <baseline> -iname "*RemapFix[0-9]*.ini" -delete` after the undo.
+3. So instead: copy the folder, run `FixRaidenBoss6.py -s <copy> -u`, delete leftover `RemapBKUP*`
+   **and the generated `RemapFix<N>.ini` files**, and **verify** `grep -c "RemapBlend\|RemapFix"`
+   returns **0** before branching into `old/`/`new/`.
 
 The `EOFError: EOF when reading a line` ending every run is `logger.waitExit()` with no stdin.
 Harmless. A run left sitting at `== Press ENTER to exit ==` **holds the `core.*.pyd` open**, which

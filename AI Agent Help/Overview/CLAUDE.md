@@ -92,6 +92,28 @@ texture edit that logged `Editting texture for X.dds` and produced no file; down
 the `.ini` and never fetched; a `.buf` copied without being remapped. **So "the run succeeded" is
 never evidence.** Check the artifact -- the file exists, its bytes changed, the count went up.
 
+**1b. The same shape wearing a number: a counter that CANNOT be wrong reads exactly like a
+counter that happens to be right (2026-09-10).** Two of this program's own summary lines were
+saying nothing for weeks. *Out of 40 download requests ... copied **0** files from existing
+downloads* reads as "this mod had no repeats" and actually meant the download cache had been
+unreachable since the strategy builders were de-flyweighted --- one texture fetched from github
+36 times in a run. *fixed **1** Blend.buf files* was a `std::set` keyed by path, so it could not
+distinguish one file from one file remapped twice --- which a merge does by construction. Both
+were found by **counting the log lines and comparing**, never by reading the summary. When a
+number looks right, ask what range it is even capable of taking.
+
+**1c. And a check only sees what its own shape lets it see.** `check_dangling.py` follows a
+`filename =` to the disk, so a register naming a resource section *nobody defines* passes it
+silently --- there is no filename to follow. That shipped a CherryHuTao body with no lightmap,
+reported in game as a completely different defect. The answer was a second check with a
+different shape (`check_sections.py`), not a better version of the first. **When a check passes
+on something you know is broken, ask what it is structurally unable to look at.**
+
+A cousin of the same mistake, in a check written that same day: counting log lines by file
+**basename** reported four mods as doing duplicate work, because six NingguangOrchid subfolders
+each write their own `NingguangOrchidNingguangRemapBlend.buf` --- six files, not one file six
+times. Key by the thing that is actually unique (here, folder + name) before believing a count.
+
 **2. "Recorded" is not "consumed" -- grep the getter.** Several features were fully built, wired
 into a model, and then read by nobody. The whole download feature was inert because
 `RemapService::fixResources` walked `getResources()` and never `getFileDownloads()`. When you add

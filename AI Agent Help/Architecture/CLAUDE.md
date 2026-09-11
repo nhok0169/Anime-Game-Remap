@@ -2203,6 +2203,55 @@ Things that will otherwise cost you a cycle:
   set means on `RemapService::fromModTypeIds`, and the constructor is where the ambiguity is
   resolved. Don't "fix" the asymmetry.
 
+### A new KIND of resource is invisible until `_fixResource` is told about it
+
+`RemapService::_fixResource` dispatches on the **concrete type**, a chain of `dynamic_cast`s:
+
+```cpp
+if (RemapIniDownload* download = dynamic_cast<RemapIniDownload*>(&resource)) { ... }
+if (RemapBlendResource* blend  = dynamic_cast<RemapBlendResource*>(&resource)) { ... }
+if (RemapPositionResource* pos = dynamic_cast<RemapPositionResource*>(&resource)) { ... }
+```
+
+There is deliberately **no virtual `fix()`** to call instead --- every leaf needs a differently
+typed one (a download takes the download stats and the proxy; a blend takes nothing), so a
+generic signature would fit none of them. The cost is paid in this one place, and the cost is
+real: **a resource kind with no branch here is built, named, written into the `.ini` file, and
+never fixed.** `RemapPositionResource` shipped that way on 2026-09-10 --- the `.ini` named a
+`Position.buf` that was never written, and the user-visible symptom of the omission would have
+been *nothing*, because every log line and every count came out identical.
+
+If you add a resource kind, add the branch, and then run the real entry point over a mod that
+uses it and look for the FILE.
+
+### `_fixResource` is also where a resource is handed what the parser could not give it
+
+Two things reach a resource here rather than at construction, and both for the same reason:
+
+```cpp
+if (download->logger == nullptr) { download->logger = logger; }
+download->downloadCache = &downloadCache_;
+```
+
+A blend or a texture gets its logger from the resource edit that builds it
+(`IniResEditContext::logger`). **A download is built by the PARSER, which has no view** --- so a
+log line added to `RemapIniDownload::fix` printed nothing at all until `RemapService` handed the
+logger over: 40 downloads, 0 lines, and a change that looked exactly like it was working.
+
+The download cache is the same seam for a different reason, and the reason is worth keeping
+because it is a cost of a deliberate decision made months earlier. `FileDownload` caches on
+itself (`prevPath_`), which was enough in the pure-Python original because `IniParseBuilder` was
+a **flyweight**: every `.ini` file of a mod type shared one parser, one `DownloadData` and
+therefore one `FileDownload`. The builders were de-flyweighted at the maintainer's request
+(2026-09-01) and a parser is now built per `IniFile`, so every download reached its resource with
+an empty cache and the feature was silently dead --- one XingqiuBamboo texture fetched from
+github **36 times** in a run, under a summary line that said *copied 0 files from existing
+downloads* and read like an ordinary zero. **"Have we already fetched this url?" is a property of
+the RUN**, so `DownloadCache` lives on `RemapService` and is handed over here.
+
+The general shape: when a collaborator is built by a layer that does not have the thing it
+needs, the fix is a seam at the layer that has both --- not a new dependency for the builder.
+
 ## Adding a new command-line option: the eleven places, in order
 
 Done twice on 2026-09-07 (`--game`, `--compressTextures`). It is mechanical, but missing any one

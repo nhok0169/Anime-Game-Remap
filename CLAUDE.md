@@ -24,6 +24,17 @@ build/test/doc pipelines from scratch when they're already written down.
 | Tools | [`AI Agent Help/Tools/CLAUDE.md`](AI%20Agent%20Help/Tools/CLAUDE.md) | touching anything under `Tools/` — the builders, the `CIPipeline`, the script, or the shared `AGRemapUtils` library. **Nothing tests this layer and it rots silently: run the tool before you change it.** One session found three tools that could not run at all, each broken by the API's package moving during the C++ migration. Also covers the `##### Script` keyword sections and the substring trap in them, and where an option goes now that the script no longer contains the API |
 | Vertex Group Remaps | [`AI Agent Help/VGRemaps/CLAUDE.md`](AI%20Agent%20Help/VGRemaps/CLAUDE.md) | touching `data/VGRemapData.cpp`, `Data/RemapDrafts/`, `Tools/VGRemapFinder`, or a **"the model is warped / kinked in game"** bug -- where the blend-weight table sits in the maintainer's 8-step remap process, the rule that **every source vertex group must map somewhere** (an unmapped one becomes a *negative* bone index, not nothing), which geometry copy matches the library's versions, and the two recipes: a new character's remap end to end, and diagnosing a deformed model in minutes |
 
+**A COUNTER THAT CAN ONLY EVER BE ZERO READS EXACTLY LIKE A ZERO THAT MEANS SOMETHING
+(2026-09-10).** Two of this repo's own summary lines were saying nothing, for weeks, and both
+looked like ordinary results. The run reported *copied 0 files from existing downloads* on every
+mod --- which reads as "this one had no repeats" and actually meant the download cache had been
+unreachable since the strategy builders were de-flyweighted, so one XingqiuBamboo texture was
+fetched from github **36 times** in a run. And *fixed 1 Blend.buf files* was a set keyed by path,
+so it could not distinguish one file from one file remapped twice --- which a merge does by
+construction. **When a number looks right, check that it is capable of being wrong**; both of
+these were found by counting the log lines rather than reading the summary. See
+[Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "Verifying".
+
 **Whatever your task is, read [Overview](AI%20Agent%20Help/Overview/CLAUDE.md)'s "Working a
 feature or bug request here: the habits that pay" first.** It is nine short habits, none of them
 about the domain, all of them about how *this* codebase fails --- and the failure mode it opens with
@@ -102,7 +113,7 @@ out are grapheme indices, and a byte cursor and a grapheme cursor must be separa
 **Architecture**'s "Text handling in core is grapheme-aware" section for the full rule set, what was
 deliberately left byte-wise, and the hand-built test that covers it.
 
-**EIGHTEEN characters are real now, in five DIFFERENT shapes, and which one you have decides
+**TWENTY-FOUR characters are real now, in five DIFFERENT shapes, and which one you have decides
 almost everything else.** `raiden6_1` remaps onto a boss that **shares the source's geometry**
 (hashes kept, originals hidden). Amber/AmberCN, Mona/MonaCN, Rosaria/RosariaCN and
 Ningguang/NingguangOrchid remap onto a **different model** -- a CN skin or another outfit (hashes
@@ -118,9 +129,17 @@ rather than drop or edit one.
 draws objects the target has nowhere to put. Two sources landing on one target collide, so the
 fix writes **more than one `.ini` file** and the game overlaps them -- two for Keqing, and three
 for ShenheFrostFlower, whose head, body and extra all come through Shenhe's single `body` draw
-call. It is the same `objSplits` field as the split, read the other way round. All eighteen are
-verified against the old pure-Python script and in game (the Keqing and Shenhe pairs on
-2026-09-10).
+call. It is the same `objSplits` field as the split, read the other way round.
+
+**The lantern-rite batch (Xiangling/XianglingCheer, HuTao/CherryHuTao, Xingqiu/XingqiuBamboo)
+adds no sixth shape but stresses one thing none of the others did: EDITING TEXTURES, and a
+merge that has to edit them DIFFERENTLY per source.** `GIMICharFixerConfig` grew three
+source-keyed fields for it -- `srcObjRegRemovals`, `srcObjRegRemaps`, and `TexEdit::srcObj` --
+because everything else in that config is keyed by the TARGET, which is right for a split (one
+source per target) and wrong for a merge (several). It also brought the first `positionEdit`:
+XianglingCheer's model sits at a different height, so her `Position.buf` is shifted as it is
+copied. All twenty-four are verified against the old pure-Python script; every pair through
+Xiangling/HuTao is confirmed in game (2026-09-10).
 
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
@@ -148,7 +167,7 @@ specification for the character (several have full Integration Tester goldens), 
 silent ways a remap can be wrong while every log line still says it worked.
 **Everything below about the fix being stubbed still holds for every OTHER character.**
 
-All eighteen characters also carry the **face diffuse register swap** (white shiny cheek spots), which
+All twenty-four characters also carry the **face diffuse register swap** (white shiny cheek spots), which
 has no pure-Python equivalent. **The obvious diagnosis is the wrong one and was built and thrown
 away once already:** the spots are not an opaque blush mask needing a transparent alpha, they are GI
 6.x having swapped which register the shader reads the face diffuse and the face lightmap out of, so
@@ -156,18 +175,19 @@ a section still binding its diffuse to `ps-t0` hands it to the lightmap slot. Th
 `RegRemap` (`ps-t0` <-> `ps-t1`) over the face graph --- one of the things NNFix does under the
 hood. See [Creating Remaps](AI%20Agent%20Help/CreatingRemaps/CLAUDE.md)'s "The face diffuse".
 
-**THE FIX IS LIVE FOR EIGHTEEN CHARACTERS (verified end-to-end 2026-09-10). Earlier revisions of this
+**THE FIX IS LIVE FOR TWENTY-FOUR CHARACTERS (verified end-to-end 2026-09-10). Earlier revisions of this
 file said every `IniFixer`/`IniParser` was stubbed and that `IniFile::getResources()` comes back
 empty --- that is NO LONGER TRUE, and believing it will cost you the best verification tool the repo
-has.** Real fixers and parsers exist for **Amber, AmberCN, Ganyu, GanyuTwilight, Jean, JeanCN,
-JeanSea, Keqing, KeqingOpulent, Mona, MonaCN, Ningguang, NingguangOrchid, Raiden, Rosaria,
-RosariaCN, Shenhe, ShenheFrostFlower**
+has.** Real fixers and parsers exist for **Amber, AmberCN, CherryHuTao, Ganyu, GanyuTwilight,
+HuTao, Jean, JeanCN, JeanSea, Keqing, KeqingOpulent, Mona, MonaCN, Ningguang, NingguangOrchid,
+Raiden, Rosaria, RosariaCN, Shenhe, ShenheFrostFlower, Xiangling, XianglingCheer, Xingqiu,
+XingqiuBamboo**
 (`core/src/data/Ini{Fix,Parse}Data/`), a real run generates remapped sections,
 and `fixResources` really does correct `Blend.buf` files and really does write textures. Confirmed by
 running the CLI over the in-repo Jean fixture and watching two `.dds` files appear.
 
 Two consequences, both the opposite of what this file used to say:
-- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these eighteen.
+- **"The fix produces correct output" IS a usable acceptance criterion now** --- for these twenty-four.
   Prefer it over any unit test when the change could possibly affect a fix.
 - **Characters outside that list still have no fixer**, so a run over one of *those* still writes
   only the credit header. That is the stub, not a bug. Check

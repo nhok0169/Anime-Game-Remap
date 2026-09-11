@@ -732,6 +732,22 @@ problem and still list a source set that no longer links — `IniFile_classify_t
 `IniFile`'s destructor alone now reaches `Z3Context::~Z3Context`. Treat a test file's header recipe
 as a hint, not a contract, and fall back to the static-lib line above.
 
+### Rebuild `AGRemapCore.lib` BEFORE the test, or a header change crashes it with no output
+
+The line above compiles the test against `core/include` and links the **already-built** static
+library. So if you changed a header — added a member to a class, changed a struct — and did not
+run `ninja` first, the test's idea of that type and the library's disagree, and nothing warns you:
+the compile succeeds, the link succeeds, and the `.exe` dies with
+
+```
+RUN_EXIT=-1073741819        # 0xC0000005, an access violation
+```
+
+**and prints not one line first**, so it does not even look like a test failure. Adding three
+members to `FileDownload` produced exactly this on 2026-09-10. The rule is simply: `ninja` first,
+every time, and treat a no-output access violation from a standalone test as a stale-library
+mismatch until proven otherwise rather than as a bug in the test.
+
 ## Migrating a class's associated literal *project data* (not its algorithmic code) into C++
 
 Distinct from porting a class's logic (covered throughout
@@ -916,6 +932,21 @@ sitting at `== Press ENTER to exit ==`**, which keeps the module loaded indefini
 `echo COPY_EXIT=%errorlevel%` + `if errorlevel 1 exit /b 1` after the copy, and verify by the
 destination `.pyd`'s mtime before trusting a suite result. Ask the user to close the run rather than
 killing their process.
+
+**And if you need the build NOW: Windows will not let you overwrite a loaded DLL, but it will let
+you RENAME one.** So rename the locked file aside and copy the fresh one into its place — the
+process that has it open keeps its handle to the renamed file and is undisturbed:
+
+```powershell
+Rename-Item $live ("core.cp39-win_amd64.pyd.locked-" + (Get-Date -Format "HHmmss"))
+Copy-Item "<cbuild>\src\cpp\py\core.cp39-win_amd64.pyd" $live
+```
+
+Delete the renamed leftover once the user's run exits (it is untracked but NOT gitignored, so it
+shows up in `git status` until you do). Check `Get-CimInstance Win32_Process` for the command line
+before assuming a lock is yours — the one that cost a build on 2026-09-10 was the maintainer's own
+`FixRaidenBoss7.py -s CherryHutao1` window, and killing it would have thrown away what they were
+looking at.
 
 **3. A partially-written `.pyd` looks like a real one.** A link that is still running (or was killed
 mid-way) leaves a file at the destination — one session found a 2,097,152-byte `core.pyd` next to

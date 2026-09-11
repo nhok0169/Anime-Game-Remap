@@ -53,6 +53,18 @@ add_library(AGRemapCore STATIC
     src/data/IniFixData/JeanCN/JeanCNFixer.cpp
     src/data/IniFixData/DarkDiffuse.cpp
     src/data/IniFixData/RegValChecks.cpp
+    src/data/IniFixData/Nilou/NilouFixer.cpp
+    src/data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp
+    src/data/IniParseData/Nilou/NilouParser.cpp
+    src/data/IniParseData/NilouBreeze/NilouBreezeParser.cpp
+    src/data/IniFixData/Kirara/KiraraFixer.cpp
+    src/data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp
+    src/data/IniParseData/Kirara/KiraraParser.cpp
+    src/data/IniParseData/KiraraBoots/KiraraBootsParser.cpp
+    src/data/IniFixData/Ayaka/AyakaFixer.cpp
+    src/data/IniParseData/Ayaka/AyakaParser.cpp
+    src/data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp
+    src/data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp
     src/data/IniFixData/JeanSea/JeanSeaFixer.cpp
     src/data/IniFixData/Ganyu/GanyuFixer.cpp
     src/data/IniFixData/GanyuTwilight/GanyuTwilightFixer.cpp

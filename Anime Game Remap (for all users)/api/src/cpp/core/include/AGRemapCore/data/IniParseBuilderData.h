@@ -79,8 +79,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ayaka4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Ayaka** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Alone in her batch she needs no register overrides: her own downloads are already on the
+             modern ``ps-t0``/``ps-t1``, and it is her SKIN that sits a slot higher. See
+             ``data/IniParseData/Ayaka/AyakaParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ayaka4_0();
@@ -88,8 +92,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Her head and body sit a slot higher; only the dress is on the modern layout. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ayakaSpringbloom4_0();
@@ -244,8 +251,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kirara4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Kirara** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             THREE different download layouts in one character: her head and body carry a normal map
+             on ``ps-t0`` and sit a slot higher, her dress sits a slot higher with no normal map. See
+             ``data/IniParseData/Kirara/KiraraParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kirara4_0();
@@ -307,8 +318,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.nilou4_0`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.0-era **Nilou** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The standard GIMI shape, with one thing spelled out: a 4.0-era shader reads its diffuse
+             from ``ps-t1`` and its lightmap from ``ps-t2``, so her downloads say so. See
+             ``data/IniParseData/Nilou/NilouParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory nilou4_0();
@@ -432,8 +447,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kiraraBoots4_8`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.8-era **KiraraBoots** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The same three-layout split her base has. See
+             ``data/IniParseData/KiraraBoots/KiraraBootsParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kiraraBoots4_8();
@@ -441,8 +459,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.nilouBreeze4_8`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 4.8-era **NilouBreeze** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The standard GIMI shape with nothing added: the skin shipped after GI moved the diffuse
+             and lightmap down, so the defaults are already right. See
+             ``data/IniParseData/NilouBreeze/NilouBreezeParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory nilouBreeze4_8();
@@ -501,8 +523,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom5_6`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.6-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Same downloads as 4.0 -- the version exists because her TEXTURE EDITS changed. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ayakaSpringbloom5_6();
@@ -510,8 +535,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.ayakaSpringbloom5_7`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.7-era **AyakaSpringbloom** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             By 5.7 her head and body have moved down to ``ps-t0``/``ps-t1``, the default. See
+             ``data/IniParseData/AyakaSpringbloom/AyakaSpringbloomParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory ayakaSpringbloom5_7();
@@ -528,8 +556,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kirara5_7`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.7-era **Kirara** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Her body and dress have moved to the modern ``ps-t0``/``ps-t1`` by 5.7; her HEAD has
+             not. See ``data/IniParseData/Kirara/KiraraParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kirara5_7();
@@ -537,8 +568,12 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.kiraraBoots5_7`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.7-era **KiraraBoots** ``.ini`` file -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             The MIRROR of :cpp:func:`kirara5_7`: here the head and body have moved to
+             ``ps-t0``/``ps-t1`` and the DRESS is the one left behind. See
+             ``data/IniParseData/KiraraBoots/KiraraBootsParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory kiraraBoots5_7();
@@ -555,8 +590,11 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniParseBuilderFuncs.nilou5_7`` -- returns
-             :cpp:func:`IniParseBuilder::defaultFactory`, see this class's own warning
+             The parser for a 5.7-era **Nilou** ``.ini`` file -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Identical to :cpp:func:`nilou4_0` except that GI has moved the diffuse and lightmap down
+             to ``ps-t0``/``ps-t1``, which is the default. See ``data/IniParseData/Nilou/NilouParser.cpp``
              @endrst
              */
             static IniParseBuilder::Factory nilou5_7();

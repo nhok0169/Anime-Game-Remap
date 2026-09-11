@@ -94,7 +94,6 @@ namespace AGRemapCore {
     IniFixBuilder::Factory IniFixBuilderFuncs::kirara5_7() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::kiraraBoots5_7() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::lisa5_7() { return IniFixBuilder::defaultFactory(); }
-    IniFixBuilder::Factory IniFixBuilderFuncs::nilou5_7() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::nilouBreeze5_7() { return IniFixBuilder::defaultFactory(); }
     IniFixBuilder::Factory IniFixBuilderFuncs::shenheFrostFlower5_7() { return IniFixBuilder::defaultFactory(); }
 
@@ -230,6 +229,29 @@ namespace AGRemapCore {
                 // ===== Raiden @ toVersion 4.0 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Raiden),
                   "4.0", ModTypeIdTools::getName(ModTypeId::RaidenBoss)}, IniFixBuilderFuncs::giDefault()},
+
+                // ===== NilouBreeze @ toVersion 6.1 =====
+                //
+                // Her base has no 6.1 row on purpose -- Nilou -> NilouBreeze re-issues ORFix, which
+                // already carries the 6.1 register swap, so nilou5_7 serves 6.1 too.
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::NilouBreeze),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Nilou)}, IniFixBuilderFuncs::nilouBreeze6_1()},
+
+                // ===== Kirara @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Kirara),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::KiraraBoots)}, IniFixBuilderFuncs::kirara6_1()},
+
+                // ===== KiraraBoots @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::KiraraBoots),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Kirara)}, IniFixBuilderFuncs::kiraraBoots6_1()},
+
+                // ===== Ayaka @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::Ayaka),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom)}, IniFixBuilderFuncs::ayaka6_1()},
+
+                // ===== AyakaSpringbloom @ toVersion 6.1 =====
+                {{"1.0", ModTypeIdTools::getName(ModTypeId::AyakaSpringbloom),
+                  "6.1", ModTypeIdTools::getName(ModTypeId::Ayaka)}, IniFixBuilderFuncs::ayakaSpringbloom6_1()},
 
                 // ===== Amber @ toVersion 6.1 =====
                 {{"1.0", ModTypeIdTools::getName(ModTypeId::Amber),

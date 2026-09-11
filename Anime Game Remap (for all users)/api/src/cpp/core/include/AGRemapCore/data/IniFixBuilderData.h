@@ -567,11 +567,38 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **Ayaka onto AyakaSpringbloom** -- **not** a stub
+             :raw-html:`<br />` :raw-html:`<br />`
+
+             Three objects one-to-one, and the busiest of its batch: every object shifts up a slot to
+             meet the skin, three textures are edited, and the normal map the skin reads is INVENTED
+             -- a muted purple, not the flat blue. See ``data/IniFixData/Ayaka/AyakaFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory ayaka6_1();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.ayakaSpringbloom5_7`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst
              */
             static IniFixBuilder::Factory ayakaSpringbloom5_7();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **AyakaSpringbloom onto Ayaka** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             A **merge**, and the only one of its batch: two of the skin's objects land on one of
+             Ayaka's, so the fix writes TWO ``.ini`` files. It also SWAPS head and body -- Ayaka's
+             head is drawn from the skin's body -- and carries six texture edits, every one gated on
+             what the register is bound to. See ``data/IniFixData/AyakaSpringbloom/AyakaSpringbloomFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory ayakaSpringbloom6_1();
 
             /**
              * @brief
@@ -675,6 +702,34 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
+             The 6.1 fix remapping **Kirara onto KiraraBoots** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Three objects one-to-one, and the first fix to use a CONDITIONAL register shift: her
+             dress moves down a slot, but only where what is bound there still looks like the
+             texture being moved, so a mod whose author already hand-fixed it is left alone. See
+             ``data/IniFixData/Kirara/KiraraFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory kirara6_1();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **KiraraBoots onto Kirara** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The mirror of :cpp:func:`kirara6_1`: her HEAD shifts up rather than her dress down, and
+             the fix INVENTS the normal map Kirara reads and this skin never had -- a yellow one, not
+             the flat blue every other character here creates. See
+             ``data/IniFixData/KiraraBoots/KiraraBootsFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory kiraraBoots6_1();
+
+            /**
+             * @brief
+             @rst
              Stub for the pure-Python ``IniFixBuilderFuncs.lisa5_7`` -- returns
              :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
              @endrst
@@ -684,8 +739,14 @@ namespace AGRemapCore {
             /**
              * @brief
              @rst
-             Stub for the pure-Python ``IniFixBuilderFuncs.nilou5_7`` -- returns
-             :cpp:func:`IniFixBuilder::defaultFactory`, see this class's own warning
+             The 5.7 fix remapping **Nilou onto NilouBreeze** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             Three objects one-to-one, and registered at 5.7 with **no 6.1 row** for the same reason
+             :cpp:func:`xiangling4_0` has none: every object re-issues ``ORFix``, which carries the GI
+             6.1 register swap. Its normal-map removal is conditional on the register's VALUE, so a mod
+             whose author already hand-fixed it is left alone. See
+             ``data/IniFixData/Nilou/NilouFixer.cpp``
              @endrst
              */
             static IniFixBuilder::Factory nilou5_7();
@@ -698,6 +759,19 @@ namespace AGRemapCore {
              @endrst
              */
             static IniFixBuilder::Factory nilouBreeze5_7();
+
+            /**
+             * @brief
+             @rst
+             The 6.1 fix remapping **NilouBreeze onto Nilou** -- **not** a stub :raw-html:`<br />`
+             :raw-html:`<br />`
+
+             The plainest fix of its batch: three objects one-to-one, one unread register dropped from
+             each, and ``NNFix`` re-issued everywhere (the template's default, so the fix does not even
+             name it). See ``data/IniFixData/NilouBreeze/NilouBreezeFixer.cpp``
+             @endrst
+             */
+            static IniFixBuilder::Factory nilouBreeze6_1();
 
             /**
              * @brief

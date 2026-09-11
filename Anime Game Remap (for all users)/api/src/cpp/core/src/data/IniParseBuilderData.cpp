@@ -28,8 +28,6 @@ namespace AGRemapCore {
     // written out one-per-method rather than collapsed into a single shared stub so that each
     // can be filled in independently, and so the table below reads exactly like the
     // pure-Python original's.
-    IniParseBuilder::Factory IniParseBuilderFuncs::ayaka4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::barbara4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::barbaraSummertime4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::diluc4_0() { return IniParseBuilder::defaultFactory(); }
@@ -38,22 +36,13 @@ namespace AGRemapCore {
     IniParseBuilder::Factory IniParseBuilderFuncs::fischlHighness4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeya4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kaeyaSailwind4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::kirara4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::klee4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::kleeBlossomingStarlight4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisa4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent4_0() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::nilou4_0() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::giDefault() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::kiraraBoots4_8() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::nilouBreeze4_8() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::arlecchino5_4() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_6() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::ayakaSpringbloom5_7() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::kirara5_7() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::kiraraBoots5_7() { return IniParseBuilder::defaultFactory(); }
     IniParseBuilder::Factory IniParseBuilderFuncs::lisaStudent5_7() { return IniParseBuilder::defaultFactory(); }
-    IniParseBuilder::Factory IniParseBuilderFuncs::nilou5_7() { return IniParseBuilder::defaultFactory(); }
 
     namespace {
         // The version index sits at position 0 and the mod name at position 1, matching the

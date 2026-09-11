@@ -28,6 +28,70 @@
 #include "AGRemapCore/constants/ModTypeId.h"
 #include "AGRemapCore/model/Version.h"
 
+#ifdef _WIN32
+    #ifndef WIN32_LEAN_AND_MEAN
+        #define WIN32_LEAN_AND_MEAN
+    #endif
+    #ifndef NOMINMAX
+        #define NOMINMAX
+    #endif
+    #include <windows.h>
+#endif
+
+
+namespace {
+    // ===== THE CONSOLE HAS TO BE TOLD THAT THIS OUTPUT IS UTF-8 =====
+    //
+    // Logger::write puts UTF-8 bytes on std::cout, which is correct and stays correct. What a
+    // Windows console does with them is decided by its OUTPUT CODE PAGE, and the default on a US
+    // install is CP437 -- so a mod folder named in Korean is drawn one byte at a time as box
+    // characters: `Ayaka<hangul>v2` arrives as `Ayaka` followed by the CP437 glyphs for EC 95 84.
+    //
+    // Nothing is wrong with the bytes, and this fixes no bug: the .ini files, the textures and the
+    // log file were all correct even while the console was unreadable. It is purely so the user
+    // can READ the path the run is talking about.
+    //
+    // The two look nearly alike and are worth telling apart when one is reported. SINGLE-encoded
+    // mojibake -- `Ayaka<CP437 glyphs>` -- is this, a display setting. DOUBLE-encoded mojibake,
+    // where the result is longer and full of `├` and `ΓÇ`, is a real active-code-page round trip in
+    // the data, which is a bug (see the FileService conversions in IniFileFixContext and friends).
+    //
+    // RESTORED on the way out, by every path including an exception, because the code page belongs
+    // to the console and outlives this process -- leaving it changed would alter how unrelated
+    // commands render in the same window afterwards.
+    class ConsoleUtf8Scope {
+        public:
+            ConsoleUtf8Scope() {
+#ifdef _WIN32
+                // 0 means there is no console attached (output redirected to a file or a pipe, or
+                // a GUI host). Nothing to set and nothing to restore -- the bytes are already UTF-8
+                // for whatever is reading them.
+                previous_ = ::GetConsoleOutputCP();
+                if (previous_ != 0 && previous_ != CP_UTF8) {
+                    changed_ = (::SetConsoleOutputCP(CP_UTF8) != 0);
+                }
+#endif
+            }
+
+            ~ConsoleUtf8Scope() {
+#ifdef _WIN32
+                if (changed_) {
+                    ::SetConsoleOutputCP(previous_);
+                }
+#endif
+            }
+
+            ConsoleUtf8Scope(const ConsoleUtf8Scope&) = delete;
+            ConsoleUtf8Scope& operator=(const ConsoleUtf8Scope&) = delete;
+
+        private:
+#ifdef _WIN32
+            unsigned int previous_ = 0;
+            bool changed_ = false;
+#endif
+    };
+}
+
 
 namespace AGRemapCore {
     RemapServiceCLI::RemapServiceCLI(RemapService service, std::optional<std::string> log, bool verbose):
@@ -293,6 +357,10 @@ namespace AGRemapCore {
     }
 
     void RemapServiceCLI::fix() {
+        // Every path out of this method restores the console, including the two that throw --
+        // see ConsoleUtf8Scope above for what it is for and why it is not a bug fix.
+        const ConsoleUtf8Scope consoleUtf8;
+
         // Before everything, including the banner: a run whose options could not be understood is
         // not going to happen, and a banner listing the mod types that DID resolve would be a
         // half-truth. The pure-Python original skipped it for the same reason, by not printing it

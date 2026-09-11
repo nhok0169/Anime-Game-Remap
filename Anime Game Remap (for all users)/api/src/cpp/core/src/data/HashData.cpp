@@ -15,6 +15,27 @@
 
 // See HashData.h's class-level note: mechanically generated from the real, live pure-Python
 // HashData dict, verified row-for-row identical before being committed -- not hand-transcribed.
+//
+// ===== THE POLICY FOR THIS TABLE: FOLLOW THE ASSETS REPO, EVEN WHERE IT IS WRONG =====
+//
+// Carried over by hand (2026-09-11) because the mechanical generation brought the VALUES across
+// and left the reasoning behind, in a pre-migration file that now survives only inside a git
+// worktree. The maintainer's own notes on three rows, verbatim:
+//
+//   LisaStudent's ib row:
+//     "Which mf classified ps-t0 as diffuse, in actuality, this a normal map"
+//
+//   ShenheFrostFlower's head/dress normal maps:
+//     "Seriously, which son of a gun added normal maps for ShenheFrostFlower. She has no normal
+//      maps. Im just going to follow what GIMI assets has even though I know it is wrong"
+//
+//   ShenheFrostFlower's tex_dress_shadowramp, whose value is the STRING "000050-ps-t3":
+//     "is the hash for tex_dress_shadowramp even valid?", linking
+//     github.com/SilentNightSound/GI-Model-Importer-Assets/commit/79d40a4d4708500f44035ade5a6be6c5d6cb0285
+//
+// So: do NOT 'correct' a row that looks wrong. It is probably wrong on purpose, matching an
+// upstream dump. What IS in bounds is following that repo to a NEWER state of the same file --
+// see Kirara's face rows below, where the assets themselves were later re-dumped.
 // Grouped/commented by version, then by mod name, mirroring the pre-migration Python dict's own
 // visual structure. Future hash updates edit the literal below directly.
 
@@ -138,6 +159,20 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.0", "AyakaSpringBloom", "tex_dress_lightmap"}, "f2f67036"},
         {{"4.0", "AyakaSpringBloom", "tex_dress_shadowramp"}, "7eb5b84e"},
         {{"4.0", "AyakaSpringBloom", "tex_dress_metalmap"}, "b0e08915"},
+
+        // HER FACE DIFFUSE, which this table did not have (added 2026-09-11). Confirmed against
+        // GI-Model-Importer-Assets/PlayerCharacterData/AyakaSpringbloom, whose Face component reads
+        // Diffuse = 146097c4 -- the SAME value Ayaka carries, which is the ordinary thing for a
+        // base/skin pair (Amber/AmberCN share 1d064079, Mona/MonaCN share 8e116301).
+        //
+        // What its absence did: a mod's own face section did not classify as the face at all, so
+        // the fix left it alone and instead emitted a [Resource...FaceDiffuseRemapDL] download --
+        // which 404s, because no such file was ever uploaded. One dangling reference per mod.
+        //
+        // NilouBreeze and KiraraBoots have the same gap and are NOT fixed here: there is no asset
+        // folder for either to confirm against, and inferring a hash from the base character would
+        // be exactly the kind of guess this table's own policy says not to make.
+        {{"4.0", "AyakaSpringBloom", "tex_face_diffuse"}, "146097c4"},
         // Barbara
         {{"4.0", "Barbara", "blend_vb"}, "22a31278"},
         // BarbaraSummertime
@@ -429,9 +464,43 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.0", "Kirara", "tex_dress_diffuse"}, "9feba8b9"},
         {{"4.0", "Kirara", "tex_dress_lightmap"}, "2fadf527"},
         {{"4.0", "Kirara", "tex_dress_metalmap"}, "b0e08915"},
-        {{"4.0", "Kirara", "tex_face_normalmap"}, "6eb20522"},
-        {{"4.0", "Kirara", "tex_face_diffuse"}, "4e3376db"},
-        {{"4.0", "Kirara", "tex_face_lightmap"}, "30180763"},
+        // KIRARA'S FACE: ONE TEXTURE, AND IT IS THE DIFFUSE (corrected 2026-09-11).
+        //
+        // This used to read
+        //
+        //     tex_face_normalmap  6eb20522
+        //     tex_face_diffuse    4e3376db
+        //     tex_face_lightmap   30180763
+        //
+        // which was a FAITHFUL copy of what GI-Model-Importer-Assets said at the time -- its 4.3
+        // and 4.4 dumps really do list all three under Kirara's Face component. The assets repo
+        // then corrected itself in its "Characters re-dump" commit, and has said this ever since:
+        //
+        //     Face -> [["Diffuse", ".dds", "6eb20522"]]
+        //
+        // One texture. The NormalMap and LightMap entries were phantoms, and 6eb20522 -- the hash
+        // that never changed -- was simply MISLABELLED. So this is a label correction rather than a
+        // hash update, which is why the 4.0 row moves too: the game's texture did not change, only
+        // the dump's opinion of what it was.
+        //
+        // Two reasons the two dropped rows are dropped rather than left alone. tex_face_normalmap
+        // was the ONLY such row in this entire table -- no other character has one, because faces
+        // do not carry a normal map -- and keeping it alongside the corrected diffuse would give
+        // Kirara two rows with the same hash, which is the shared-hash reverse-lookup trap where
+        // RegAssetRemap is free to land on either.
+        //
+        // The symptom while it was wrong: a Kirara mod's real face section (hash 6eb20522) did not
+        // classify as the face at all, so the fix left it alone and separately downloaded a face
+        // diffuse the mod already had.
+        //
+        // NOTE ON POLICY, because this looks like it contradicts one and does not. The maintainer's
+        // rule for this table is to FOLLOW the assets repo even where it is known to be wrong and
+        // record the doubt -- see the pure-Python HashData.py's own notes on LisaStudent's
+        // ps-t0 ("in actuality, this a normal map"), ShenheFrostFlower's invented normal maps ("Im
+        // just going to follow what GIMI assets has even though I know it is wrong") and a
+        // tex_dress_shadowramp whose value is the string "000050-ps-t3". This change does not
+        // depart from that rule; it follows the assets repo to a NEWER state of the same file.
+        {{"4.0", "Kirara", "tex_face_diffuse"}, "6eb20522"},
         // Klee
         {{"4.0", "Klee", "draw_vb"}, "52469e36"},
         {{"4.0", "Klee", "position_vb"}, "dcd74904"},

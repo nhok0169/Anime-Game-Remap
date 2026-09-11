@@ -522,7 +522,7 @@ namespace AGRemapCore {
             return std::nullopt;
         }
 
-        std::filesystem::path path(*file_);
+        std::filesystem::path path = FileService::strToPath(*file_);
         std::error_code err;
 
         if (!std::filesystem::exists(path, err) || err) {

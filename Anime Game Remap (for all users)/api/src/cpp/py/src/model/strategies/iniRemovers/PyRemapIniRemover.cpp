@@ -27,6 +27,7 @@
 #include "AGRemapCore/constants/FileExt.h"
 #include "AGRemapCore/constants/FilePrefixes.h"
 #include "AGRemapCore/constants/IniKeywords.h"
+#include "AGRemapCore/tools/files/FileService.h"
 
 
 namespace {
@@ -192,9 +193,10 @@ void PyIniRemoveContext::removeBackup() {
         return;
     }
 
-    std::filesystem::path path(py::str(file).cast<std::string>());
+    std::filesystem::path path = AGRC::FileService::strToPath(py::str(file).cast<std::string>());
     std::filesystem::path backup = path.parent_path() /
-        (AGRC::FilePrefixes::BackupFilePrefix + path.stem().string() + AGRC::FileExt::Txt);
+        AGRC::FileService::strToPath(AGRC::FilePrefixes::BackupFilePrefix
+                                     + AGRC::FileService::pathToStr(path.stem()) + AGRC::FileExt::Txt);
 
     std::error_code err;
     std::filesystem::remove(backup, err);

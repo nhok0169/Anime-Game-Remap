@@ -144,7 +144,7 @@ namespace AGRemapCore {
         // rather than .ini. Spelled out here rather than shared, because the two are opposites --
         // one of them changing without the other is exactly the bug worth having a compile-visible
         // second copy for.
-        std::filesystem::path path(*iniFile_->getFile());
+        std::filesystem::path path = FileService::strToPath(*iniFile_->getFile());
         std::filesystem::path backup = path.parent_path() /
             (FilePrefixes::BackupFilePrefix + FileService::pathToStr(path.stem()) + FileExt::Txt);
 

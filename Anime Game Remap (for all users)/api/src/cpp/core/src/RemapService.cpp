@@ -539,7 +539,7 @@ namespace AGRemapCore {
 
 
     std::string RemapService::_origIniPath(const std::string& remapCopyPath) {
-        const std::filesystem::path path(remapCopyPath);
+        const std::filesystem::path path = FileService::strToPath(remapCopyPath);
         const std::string baseName = FileService::pathToStr(path.filename());
 
         // Split on the LAST occurrence: a mod's own .ini file is free to have "RemapFix" in its

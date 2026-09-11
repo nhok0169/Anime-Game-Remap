@@ -17,6 +17,8 @@
 
 #include <pybind11/stl.h>
 
+#include "AGRemapCore/tools/files/FileService.h"
+
 namespace py = pybind11;
 namespace AGRC = AGRemapCore;
 
@@ -28,7 +30,9 @@ void PyFileStats::clear() {
 }
 
 void PyFileStats::addSkipped(const std::string& filePath, py::object error, std::optional<std::string> modFolder) {
-    std::string resolvedModFolder = modFolder.has_value() ? *modFolder : std::filesystem::path(filePath).parent_path().string();
+    std::string resolvedModFolder = modFolder.has_value()
+        ? *modFolder
+        : AGRC::FileService::pathToStr(AGRC::FileService::strToPath(filePath).parent_path());
 
     skipped[filePath] = error;
     skippedByMods[resolvedModFolder][filePath] = error;

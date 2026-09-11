@@ -139,7 +139,7 @@ namespace AGRemapCore {
             return std::nullopt;
         }
 
-        std::filesystem::path path(*iniFile_->getFile());
+        std::filesystem::path path = FileService::strToPath(*iniFile_->getFile());
         if (groupInd == 0) {
             return FileService::pathToStr(path);
         }
@@ -215,7 +215,11 @@ namespace AGRemapCore {
         // preserved it -- the undo that came afterwards then faithfully preserved the LF it was
         // handed. A generated copy takes its ending from the file it was generated from, which is
         // the only sensible answer for a file that has no prior ending of its own.
-        std::ofstream out(path, std::ios::binary | std::ios::trunc);
+        // strToPath, NOT the raw std::string. Handing a narrow string to std::ofstream makes
+        // Windows decode it in the ACTIVE CODE PAGE, while every path in this codebase is UTF-8 --
+        // so a mod folder named in Korean resolved to a path that does not exist and every .ini
+        // file under it was skipped. Reported from a real AyakaSpringBloom mod (2026-09-11).
+        std::ofstream out(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
         if (!out) {
             throw std::runtime_error("Unable to open file for writing: " + path);
         }

@@ -435,7 +435,7 @@ namespace AGRemapCore {
 
         // The folder may not exist yet -- the user is free to name one the fix never walked into.
         std::error_code err;
-        std::filesystem::path path(*log_);
+        std::filesystem::path path = FileService::strToPath(*log_);
         std::filesystem::create_directories(path.parent_path(), err);
 
         // Binary mode and an explicit truncate, matching IniFile::write's own: the text this holds

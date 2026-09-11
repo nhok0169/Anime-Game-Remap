@@ -165,7 +165,9 @@ namespace AGRemapCore {
                                          const std::optional<std::string>& proxy) {
             DownloadAttempt attempt;
 
-            std::ofstream out(path, std::ios::binary | std::ios::trunc);
+            // strToPath rather than the raw string -- see IniFileFixContext::writeFixedFile.
+            // A download into a mod folder with a non-ASCII name failed here for the same reason.
+            std::ofstream out(FileService::strToPath(path), std::ios::binary | std::ios::trunc);
             if (!out) {
                 // A local problem. Asking the server again would not create the folder.
                 attempt.error = "unable to open destination file for writing: " + path;

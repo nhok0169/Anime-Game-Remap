@@ -302,6 +302,21 @@ because the A/B rewarded it at every step. **When the reference and the mechanis
 what the output has to DO, and be ready for the answer that the old script is wrong.** The A/B is
 still the best tool here; it just answers "did I change anything" and not "is this right".
 
+**The cheapest possible instance of that, found 2026-09-11: two hash values in `HashData.cpp` had
+SPACES inside them** --- `"29cf09   14"` for Nilou's dress lightmap, `"b0e089    15"` for
+GanyuTwilight's. A hash is eight hex digits, so neither matched anything and both dress lightmaps
+were silently never remapped. They are **not** a migration error: the identical typos sit in
+`FixRaidenBoss6.py` (lines 4992 and 5122), and the generated table carried them faithfully --- which
+is precisely why **no A/B could ever have reported it. Both scripts agreed, and both did nothing.**
+
+Two things follow. First, `HashData.cpp` now documents a narrow carve-out from its own
+follow-the-assets-repo policy: a value that could not have come from any dump at all (a typo, not a
+wrong hash) is ours to repair, and each repair names its evidence. Second, the check that finds this
+class of defect is not an A/B but a SHAPE SWEEP over the data --- every value should match
+`^[0-9a-f]{8}$`, with ShenheFrostFlower's two `000050-ps-t3` shadow ramps as the only intended
+exceptions. Thirty seconds, 873 rows, and it is the only thing that would have caught it. Run one
+after any bulk edit to a data table, and ask what shape the values in it are supposed to have.
+
 **17. Sample the rows that belong to your subject, or you will confirm the wrong mechanism.** The
 sharpest self-inflicted wound of the session: a diagnostic printed one line per classifier decision,
 `Select-Object -First 4` showed four saying `count=0`, and that became "the key is absent from the

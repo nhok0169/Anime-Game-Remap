@@ -36,6 +36,15 @@
 // So: do NOT 'correct' a row that looks wrong. It is probably wrong on purpose, matching an
 // upstream dump. What IS in bounds is following that repo to a NEWER state of the same file --
 // see Kirara's face rows below, where the assets themselves were later re-dumped.
+//
+// ONE CARVE-OUT, and it is narrow: a value that could not have come from any dump at all.
+// A hash is eight hex digits; `29cf09   14` is not a hash that happens to be wrong, it is a
+// TYPO, and it matches nothing whatsoever. Two of those were found and repaired on
+// 2026-09-11 (Nilou and GanyuTwilight, both `tex_dress_lightmap`) -- see the notes at those
+// rows for why each replacement value is evidenced rather than guessed. Everything else in
+// this table stays as upstream has it. The sweep that found them is worth repeating after
+// any bulk edit: every value should match ^[0-9a-f]{8}$, and today the only intended
+// exceptions are ShenheFrostFlower's two `000050-ps-t3` shadow ramps above.
 // Grouped/commented by version, then by mod name, mirroring the pre-migration Python dict's own
 // visual structure. Future hash updates edit the literal below directly.
 
@@ -610,7 +619,17 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.0", "Nilou", "tex_body_metalmap"}, "b0e08915"},
         {{"4.0", "Nilou", "tex_dress_normalmap"}, "a87ce1c0"},
         {{"4.0", "Nilou", "tex_dress_diffuse"}, "91cb97a8"},
-        {{"4.0", "Nilou", "tex_dress_lightmap"}, "29cf09   14"},
+
+        // WAS "29cf09   14" -- three spaces inside the hex, so it matched no resource and Nilou's
+        // dress lightmap was silently never remapped (repaired 2026-09-11). The same typo is in the
+        // pure-Python source this table was generated from (FixRaidenBoss6.py line 4992), so we
+        // carried it faithfully, which is exactly why an A/B could never report it: both scripts
+        // agreed, and both did nothing.
+        //
+        // The replacement is not a guess. GI-Model-Importer-Assets/PlayerCharacterData/Nilou's
+        // hash.json gives the Dress component LightMap = 29cf0914, and Nilou's own tex_body_lightmap
+        // two lines up is already 29cf0914 -- her body and dress share every other texture too.
+        {{"4.0", "Nilou", "tex_dress_lightmap"}, "29cf0914"},
         {{"4.0", "Nilou", "tex_dress_metalmap"}, "b0e08915"},
         {{"4.0", "Nilou", "tex_face_diffuse"}, "0957b10f"},
         {{"4.0", "Nilou", "tex_face_lightmap"}, "4e3376db"},
@@ -997,7 +1016,17 @@ const std::vector<std::pair<std::vector<std::string>, std::string>>& getHashData
         {{"4.4", "GanyuTwilight", "tex_body_shadowramp"}, "58d2635b"},
         {{"4.4", "GanyuTwilight", "tex_dress_normalmap"}, "e304bdcf"},
         {{"4.4", "GanyuTwilight", "tex_dress_diffuse"}, "13fa0b53"},
-        {{"4.4", "GanyuTwilight", "tex_dress_lightmap"}, "b0e089    15"},
+
+        // WAS "b0e089    15" -- the same class of typo as Nilou's above, four spaces this time,
+        // and likewise present in the pure-Python original (FixRaidenBoss6.py line 5122).
+        //
+        // The value looks wrong even repaired, because b0e08915 is the metalmap hash half this table
+        // shares. It is not ours to argue with: GI-Model-Importer-Assets/PlayerCharacterData/
+        // GanyuTwilight's hash.json really does list LightMap = b0e08915 for BOTH her body and her
+        // dress, and her tex_body_lightmap four lines up already carries it. This is precisely the
+        // "follow the assets repo even where it is known to be wrong" case from the header -- the
+        // typo is ours to fix, the oddity is not.
+        {{"4.4", "GanyuTwilight", "tex_dress_lightmap"}, "b0e08915"},
         {{"4.4", "GanyuTwilight", "tex_dress_shadowramp"}, "58d2635b"},
         // Kirara
         {{"4.4", "Kirara", "position_vb"}, "b57d7fe2"},

@@ -1347,6 +1347,31 @@ Ours had neither, so CherryHuTao-style double edits wrote to one path and the se
 top of the first -- a lightmap given both a colour replacement and an alpha of 1, which the
 pixels show plainly (`18a100ff -> 015d0001`) and no `.ini` check can.
 
+### What an A/B structurally CANNOT see: the data both scripts share
+
+The A/B compares this library against `FixRaidenBoss6.py`. Where the two **share a defect**, it
+reports agreement, which reads as a pass. That is not hypothetical --- it hid two dead hash rows
+for the whole life of the C++ table (see Overview's habit 16): `"29cf09   14"` and
+`"b0e089    15"`, spaces and all, matching nothing in either script.
+
+**So for anything that comes out of a DATA table, add a check on the data's own shape**, separate
+from any comparison:
+
+```bash
+# every hash must be 8 lowercase hex digits; the only intended exceptions are
+# ShenheFrostFlower's two '000050-ps-t3' shadow ramps
+py -3 -c "import io,re; t=io.open('src/data/HashData.cpp',encoding='utf-8').read(); \
+  rows=re.findall(r'\{\{\"([^\"]*)\",\s*\"([^\"]*)\",\s*\"([^\"]*)\"\},\s*\"([^\"]*)\"\}',t); \
+  print([r for r in rows if not re.fullmatch(r'[0-9a-f]{8}', r[3])])"
+```
+
+**And note what the repair did NOT prove.** No mod in `Importer/GIMI/Mods/` binds either hash, so
+re-running the A/Bs afterwards showed no change at all --- Nilou and Ganyu both came back 0 differ,
+0 undefined, 0 dangling, exactly as before. The rows are correct now and currently unexercised;
+they take effect for a mod that binds a dress lightmap by hash. Saying "verified by A/B" of a
+latent repair like this one would be false, and the distinction is worth keeping: a green A/B after
+a data fix means *nothing regressed*, not *the fix works*.
+
 ### What to check
 
 ```bash

@@ -371,6 +371,45 @@ re-parses its own output and asserts the row count and every row's pair count be
 the file was restored with `git checkout --`. Then rebuild and read the table back through the
 bound API (`getVGRemap`), because the compiler accepting it proves the syntax, not the data.
 
+**24. ONE mod per character is overfitting, and the maintainer will tell you so.** Every remap in
+the 2026-09-11 batch was built and proven against a single mod folder per character, which is how a
+texture-naming change came to look finished when it was not. Pointed at four different
+AyakaSpringbloom mods from `Importer/GIMI/` instead of the one it was written against,
+`AyakaSpringBloom3` immediately showed a case the other three do not have: two DIFFERENT edit names
+over one source texture, producing identical bytes under different file names. **The wider library
+at `Importer/GIMI/` holds several mods for most characters** -- `ls | grep -i <character>` -- and
+they cost nothing extra to run. Use them, especially before believing a fix to something structural
+is complete.
+
+A second reason, learned the same day: **the maintainer rotates mod folders in and out of `Mods/`**,
+because 3dmigoto tolerates only one mod per character there. A path that worked an hour ago can
+simply be gone, and `ab_any.sh`'s `FATAL: source mod folder does not exist` guard exists for exactly
+that -- without it the whole harness runs over empty directories and reports "(identical), 0
+dangling", which reads as a pass.
+
+**25. When a value cannot be evidenced, measure what it AFFECTS instead -- the answer is often
+"nothing here".** `NilouBreeze`'s face diffuse hash was deferred twice because no asset dump, no
+pure-Python row and no mod declared it, and a wrong hash fails as silently as a missing one. What
+broke the deadlock was not more searching: setting the row to `deadbeef` and running the fix emitted
+`hash = 0957b10f` -- the TARGET's real value. The source row is only a SEED for `RegAssetRemap` to
+replace, so in that direction it merely has to EXIST. **A deliberately wrong value is a cheap
+instrument**: if the output does not change, you have learned the input does not matter, and a
+question you could not answer stops blocking you.
+
+**26. An observer that can only sample intermittently reports false negatives.** Verifying that the
+CLI sets the console code page meant watching `GetConsoleOutputCP` from a second thread while `fix()`
+ran. The first run reported `[437]` -- the guard never fired -- and that was **wrong**: the sampler
+was starved of the GIL while `fix()` held it, so it never sampled the window at all. Later runs
+showed `[437, 65001]`, every time. **A sampling check that sees nothing has two explanations, and
+"it never happened" is the less likely one.** Repeat it before believing a negative, and prefer an
+observer that cannot miss (a log line, a recorded value) over one that polls.
+
+**27. "Did it restore?" cannot distinguish a working guard from a no-op.** Same task, subtler
+error. Forcing the console to CP437, running, and finding 437 afterwards proves nothing on its own
+-- code that never touched the setting passes that check identically. **A test of a save/restore
+pair has to observe the CHANGED state in the middle**, or it is only testing that nothing happened.
+The same shape applies to any scoped mutation: a lock, a temp file, a working-directory change.
+
 <br>
 
 ## Operating norms

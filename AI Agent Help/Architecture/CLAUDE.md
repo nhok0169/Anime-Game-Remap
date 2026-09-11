@@ -34,6 +34,49 @@ page") the moment a path holds a character that page cannot represent. Construct
 narrow string is the same bug pointing the other way: the bytes are read as the active code page, so
 a UTF-8 name silently becomes a *different* path — usually surfacing much later as "file not found".
 
+**That "all ~96 sites" sweep below missed TEN, and they surfaced 2026-09-11 as a mod folder named
+in Korean having every one of its 7 `.ini` files skipped.** A one-time pass over a codebase is not a
+guarantee; what makes this rule enforceable is that violations are greppable, so check rather than
+trust:
+
+```bash
+# any stream built from a narrow string, and any path built from one
+grep -rn "std::ofstream\|std::ifstream\|std::fstream" --include=*.cpp --include=*.h --include=*.tpp \
+  core/src core/include py/src | grep -v strToPath
+grep -rn "\.string()\|filesystem::path(" --include=*.cpp --include=*.h --include=*.tpp \
+  core/src core/include py/src | grep -v "strToPath\|pathToStr"
+```
+
+**Both greps report false positives, and one of them is permanent** -- they cannot tell a
+`std::filesystem::path` variable from a `std::string` one, so `std::ofstream out(path, ...)` looks
+identical whether `path` came from `strToPath` (correct) or is a raw narrow string (a bug). Today
+`RemapServiceCLI::createLog` is exactly that: flagged, and correct. Glance at the declaration of the
+variable before changing anything, and expect `FileService.cpp` itself plus its doc comments in the
+second grep's output -- that file IS the conversion.
+
+The ten were `IniFileFixContext::writeFixedFile` (the reported one), `FileDownload::attemptDownload`,
+the `RemapServiceCLI` log file, `IniFile`, `IniFileRemoveContext`, `RemapService::_origIniPath`, and
+two in `py/` that had never included `FileService.h` at all. **`py/` is as much part of this rule as
+`core/` is** and is easy to leave out of a sweep.
+
+### Reading the mojibake tells you WHICH bug you have, before you read any code
+
+The reported log carried the same path twice, in two different shapes, and only one was a defect:
+
+```
+Ayaka∞òä∞ò╝∞╣┤φò£δ│╡v2          in the mod prefix    -- SINGLE encoded
+Ayaka├¼ΓÇóΓÇ₧├¼ΓÇó┬╝├¼┬╣┬┤...    in the error message -- DOUBLE encoded
+```
+
+* **Single** is correct UTF-8 drawn by a console whose output code page is not UTF-8. The bytes are
+  fine; only the display is wrong. `"아".encode()` is `EC 95 84`, and `bytes.decode('cp437')` of that
+  is exactly `∞òä` — reproducing the glyphs in one line is how this gets settled rather than guessed.
+* **Double** is longer, and full of `├` and `ΓÇ`: UTF-8 read as CP1252 and re-encoded. That is a real
+  active-code-page round trip in the DATA, and it is a bug.
+
+One path printed both ways in one log means the two printers disagree, which localises the defect to
+whichever one is doubled.
+
 This is not theoretical. A real Mona CN mod ships a file called `命令.txt`, and it took down the
 **entire run** — the folder walk threw before a single `.ini` file was fixed. Measured on that exact
 path: `string()` throws, `u8string()` returns 17 correct bytes. All ~96 conversion sites in `core/`
@@ -44,9 +87,16 @@ Two things worth knowing if you touch this again:
 - **`setlocale(LC_ALL, ".UTF-8")` genuinely fixes all of it in one line** — measured, `string()`
   then returns proper UTF-8. It was rejected on purpose: this ships as a Python extension module,
   and a library has no business mutating its host process's global locale.
-- **Compressonator's C API is still a narrow-`char` interface** (`CMP_LoadTexture(src.c_str())`), so
-  a texture whose *path* contains non-ASCII may still fail to load. Out of reach without patching
-  the vendored library; the `.ini` layer above it is now correct.
+- **Compressonator's C API is a narrow-`char` interface** (`CMP_LoadTexture(src.c_str())`), and this
+  file used to call that out of reach without patching the vendored library. It is not, and it was
+  closed on 2026-09-11 without touching Compressonator at all: **when the path is not pure ASCII,
+  the library never sees it.** It reads and writes a scratch file with an ASCII name in the temp
+  folder, and `std::filesystem` — which IS unicode-safe — carries the bytes the rest of the way
+  (`rename`, falling back to copy-and-remove across volumes). An ASCII path takes the direct route,
+  so the common case costs nothing. See **Texture Editing** for the shape and its one limit.
+
+  **The pattern generalises to any narrow-`char` third-party API**: don't convert the path, avoid
+  giving it one. The standard library can move bytes into places a C interface cannot name.
 
 <br>
 

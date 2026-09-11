@@ -800,6 +800,45 @@ character asking for it in its `TexEdit` does not get it unless the run does too
 Flagged and not done: writing the sRGB header ourselves instead of baking a 2.2 power into 8-bit
 values, which currently crushes the low end (52 -> 8). It needs its own in-game check.
 
+#### Where a hash row's authority comes from, in order
+
+Three face-diffuse rows were added in one batch, on three different strengths of evidence, and the
+difference is worth keeping straight because this table's standing policy is to FOLLOW the assets
+repo rather than reason a value into existence:
+
+1. **An asset dump says so.** `AyakaSpringbloom`'s `146097c4` is in
+   `GI-Model-Importer-Assets/PlayerCharacterData/AyakaSpringbloom/hash.json`. Strongest, and the
+   only kind that needs no argument. Note the repo carries only ~10 skins -- `NilouBreeze`,
+   `KiraraBoots`, `JeanSea`, `XianglingCheer` and `CherryHuTao` are not among them.
+2. **A real mod DECLARES it.** `KiraraBoots` has no asset folder, but a shipped mod binds
+   `[TextureOverrideKiraraBootsFaceHeadNormalMap] / hash = 6eb20522` itself. That is an author
+   stating the hash, not us inferring it -- a source, not a pattern.
+3. **The base/skin pattern.** Seven of the eight pairs that carry both rows share a face diffuse.
+   **This is a hint and not a source**: `Keqing`/`KeqingOpulent` do not (`d8c9c399` vs `c2b17f84`).
+
+Only `NilouBreeze` rests on (3), and it was allowed only after measuring that her value does not
+reach the output in the direction that can be tested -- see the probe in her row's comment, and
+**Overview**'s habit 25. **A hash that is wrong fails exactly as silently as a hash that is
+missing**, so when you cannot get to (1) or (2), find out what the value actually affects before
+guessing it.
+
+#### A missing row is not a missing feature: it silently disables the section built for it
+
+Worth knowing what the absence costs, because nothing reports it. When a mod lacks an object, the
+parser INVENTS a `TextureOverride` to hang the download off, and seeds it with the SOURCE's hash so
+the ordinary `RegAssetRemap` can rewrite it to the target's. With no source row there is nothing to
+seed and nothing to replace, so the section goes out carrying a register and **no hash** --
+
+```
+[TextureOverrideNilouBreezeFaceNilouRemapFix]
+ps-t1 = ResourceNilouBreezeFaceDiffuseRemapDL
+```
+
+-- which matches no draw call. The file is downloaded, written, referenced, and never sampled.
+`check_sections` and `check_dangling` both pass, because every reference resolves. **Grep the
+generated `.ini` for a `RemapFix` section with no `hash =` line** after adding any character whose
+fix can download.
+
 #### Asking what a register is bound TO (2026-09-11)
 
 `RegRef` and `TexEdit::check` both take a `RegValCheck` -- a test over the register's VALUE --
@@ -823,6 +862,46 @@ rejected: it would misjudge any mod that recolours a character deliberately -- p
 green goo and their diffuse starts looking like a lightmap. A name is weaker evidence than
 pixels, but it is the author's own statement of intent. Someone naming a lightmap "diffuse" is
 breaking their own fix, and no heuristic survives an author working against it.
+
+#### One texture FILE per edit, not one per target object
+
+On a merge the same source texture is edited once per target it lands on -- AyakaSpringbloom's body
+reaches Ayaka's head AND her body -- and those are two collections of two different registers, so
+each ran its own edit and asked for its own file name. That produced 7 `.dds` holding 3 distinct
+textures (32 MB for 16 MB of content), and, worse:
+
+```ini
+[ResourceAyakaSpringBloomBodyLightMapAyakaBodyAltTransparentDiffuseRemapTex]
+filename = AyakaHeadRemapTexHfW_B MQC_B.dds
+
+[ResourceAyakaSpringBloomBodyLightMapAyakaBodyAltTransparentDiffuseRemapTex]
+filename = AyakaBodyRemapTexHfW_C MQC_C.dds
+```
+
+**The same section defined twice, naming two different files.** The section name is built from the
+source resource plus the edit, so it was already identical while the file names were not -- and it
+only worked because the two files happened to hold the same bytes. No `.ini`-level check sees this:
+both sections exist and both files exist.
+
+Two changes fix it. `GIMICharFixer` names the file after the **source** object when the edit has
+one (`texEdit.srcObj.empty() ? texEdit.obj : texEdit.srcObj`), which is also what the pure-Python
+original does; and `HashTools::getStableShortHashStr` is used for the name's two hashes.
+
+**That second one matters more than it looks.** `getShortDeterministicHashStr` hands out a FRESH
+token on every call -- ask it three times for the same string and you get `HfW`, `HfW_B`, `HfW_C` --
+because its job is naming a series of distinct things that might collide. It is the wrong function
+for "what is the name for THIS texture", which has one answer. The stable variant memoises by input
+while still disambiguating genuinely different strings.
+
+**What is left, deliberately.** `AyakaSpringBloom3` still writes 6 `.dds` for 3 distinct textures in
+one folder: two DIFFERENT edit names over one source that happen to produce identical bytes. The old
+script writes 6 there too, so we match it file for file; collapsing that would need content
+addressing and would DIVERGE. Check the old side before assuming a remaining duplicate is your gap.
+
+And count duplication **per folder**. Across folders it is not duplication at all -- each mod
+subfolder is self-contained and needs its own copy, which is why one mod legitimately writes the
+same 3 textures 6 times. (This is the third time that distinction has cost this repo time; see
+**Overview**'s habit 1c.)
 
 #### A texture edit that COPIES rather than moves: `TexEdit::toReg`
 

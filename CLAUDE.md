@@ -150,6 +150,23 @@ for a missing object carried no `hash` or `match_first_index`, and two texture e
 source wrote to one FILE. AyakaSpringbloom -> Ayaka is the second merge, and the one that swaps
 head and body.
 
+**A MOD FOLDER NAMED IN A NON-LATIN SCRIPT WORKS END TO END NOW (2026-09-11), AND DID NOT
+BEFORE.** A Korean-named AyakaSpringbloom mod had all 7 of its `.ini` files skipped, and then --
+once those were fixed -- reported `editted 18 *.dds files and skipped 0` having written **none** of
+them. Two separate causes, both worth knowing because the rule they break is already written down:
+**(1)** ten `std::ofstream(str)` / `std::filesystem::path(str)` sites that the "all ~96 conversion
+sites" sweep of 2026-09-07 missed, two of them in `py/` (see **Architecture**'s path section, which
+now carries a re-runnable grep -- check it rather than trusting a past sweep); **(2)**
+Compressonator's narrow-`char` C API, which that same section used to call out of reach. It is not:
+when the path is not pure ASCII the library never sees it, and `std::filesystem` stages the bytes
+through an ASCII scratch file. `TextureFile::save` also stopped DISCARDING its write result, which
+is what hid the whole thing. See **Texture Editing**.
+
+**And the console rendering it wrong is a DIFFERENT thing from the data being wrong** -- single-
+encoded mojibake (`Ayaka∞òä...`) is correct UTF-8 drawn in CP437 and cosmetic; double-encoded
+(`Ayaka├¼ΓÇó...`) is a real active-code-page round trip and a bug. The CLI now sets the console code
+page to UTF-8 for the duration of a run and restores it afterwards.
+
 **Placement of the re-issued draw call and of the three external libraries was substantially
 reworked on 2026-09-08, and the old script is NOT the reference for it** -- matching its topology
 reproduced a real bug that silently disabled a mod's transparency. Read

@@ -233,6 +233,54 @@ Flagged and not done: writing the sRGB DX10 header ourselves instead of baking a
 8-bit values, which currently crushes the low end (52 -> 8). It would want its own in-game check.
 
 <br>
+## Compressonator cannot be handed a non-ASCII path, so it is never given one
+
+`CMP_LoadTexture` and `CMP_SaveTexture` take a narrow `const char*`, which Windows decodes in the
+**active code page**. Every path in this codebase is UTF-8, so a mod folder named in Korean reaches
+the library as bytes naming nothing. `FileService::strToPath` cannot help here the way it does
+everywhere else -- there is no wide overload to hand a path to.
+
+**So the path never reaches Compressonator when it is not pure ASCII.** `TextureFile` reads and
+writes a scratch file with an ASCII name under `temp_directory_path()`, and `std::filesystem` --
+which IS unicode-safe -- moves the bytes the rest of the way: `rename` where it can, copy-and-remove
+across volumes. An ASCII path takes the direct call exactly as before, so the common case is
+unchanged. Two details are load-bearing:
+
+* **the scratch file keeps the real extension**, because Compressonator picks both its reader and
+  its writer off it -- a `.dds` written through a scratch file named `.tmp` comes out as something
+  else entirely;
+* **it is bounded by the temp folder being ASCII too.** A Windows profile named in a non-Latin
+  script leaves nowhere to stage, and the code falls back to the direct call, which still fails. It
+  fails *honestly* now (see below) rather than silently, but it fails. If this is ever reported from
+  a Korean or Japanese install, that is the reason.
+
+## `save()` used to discard `writeTo()`'s bool, and that is how the above stayed invisible
+
+**The run reported `editted 18 *.dds files and skipped 0` having written NONE of them.** Not a
+rounding error or a partial failure -- zero files on disk, full marks in the summary. This is the
+failure mode **Overview** opens with, in its purest form.
+
+`TextureFile::save` called `writeTo(src_, compress);` and dropped the result. Both of its callers
+(`TexCreator`, `TexEditor`) treat `save` as `void`, so a failed write had nowhere to go. It now
+throws, which the layer above already knows how to handle: the `.ini` is recorded as skipped, with
+a message naming the file.
+
+**A texture that cannot be written is a fix that did not happen**, and anything in this pipeline
+that returns a `bool` nobody reads is the same bug waiting. `grep` for bare-statement calls to
+functions returning `bool` if you touch this file.
+
+### How this was diagnosed, which took one probe rather than a code read
+
+```python
+tf = FRB.TextureFile(ascii_src); tf.open()
+tf.saveAs(ascii_dest)   # -> True,  file written
+tf.saveAs(korean_dest)  # -> False, nothing written
+```
+
+Six lines, no rebuild, and it separates "the path is wrong" from "the encode failed" from "the
+caller never asked" in one shot. Reach for that before reading Compressonator's source -- see
+**Overview**'s habit about measuring a third-party failure rather than inferring it.
+
 ## Two engines, on purpose
 
 `TextureFile` can read/write a `.dds` through either of two backends, selected per-instance via
